@@ -1,0 +1,26 @@
+language: c
+sudo: true
+before_install:
+    - brew update || sudo apt-get update -yqq
+matrix:
+    include:
+        - os: osx
+          compiler: gcc
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          env: CXX=clang
+        - os: linux
+          compiler: gcc
+          env: CXX=gcc
+        - os: linux
+          compiler: clang
+          env: CXX=clang
+    allow_failures:
+        - os: linux
+          compiler: gcc
+          env: CXX=gcc
+        - os: linux
+          compiler: clang
+          env: CXX=clang
+script: make CC=$CXX && make tests
