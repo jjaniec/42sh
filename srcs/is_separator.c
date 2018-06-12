@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   is_separator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/12 18:50:51 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/06/12 17:12:02 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/06/12 17:13:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-int	main(int ac, char **av)
+int		is_separator(char c)
 {
-	(void)ac;
-	lexer(ft_strdup(av[1]));
+	if (ft_strchr(IFS, c))
+		return (1);
 	return (0);
 }

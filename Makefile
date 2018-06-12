@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/11 18:15:48 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/12 17:45:45 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,12 @@ NAME = 42sh
 
 UNAME_S := $(shell uname -s)
 
-SRC_NAME = 	main.c
+SRC_NAME = 	is_separator.c \
+			lexer/lexer.c \
+			main.c
 
-INCLUDES_NAME = forty_two_sh.h
+INCLUDES_NAME = lexer.h \
+				forty_two_sh.h
 
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
@@ -54,7 +57,7 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(addprefix $(INCLUDES_DIR), $(INCLUDES_NAME))
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) $(addprefix $(OBJ_DIR), "lexer")
 	@gcc $(CFLAGS) -c $(IFLAGS) $< -o $@ && $(call ui_line, $@, $(NAME))
 
 $(FT_PRINTF_DIR):
