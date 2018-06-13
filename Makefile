@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/12 17:45:45 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/13 16:11:42 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ UNAME_S := $(shell uname -s)
 
 SRC_NAME = 	is_separator.c \
 			lexer/lexer.c \
+			lexer/lexeme_type.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
@@ -24,6 +25,7 @@ INCLUDES_NAME = lexer.h \
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 OBJ_DIR = ./objs/
+OBJ_SUBDIRS = lexer/
 FT_PRINTF_DIR = ./ft_printf
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
@@ -57,7 +59,7 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(addprefix $(INCLUDES_DIR), $(INCLUDES_NAME))
-	@mkdir -p $(OBJ_DIR) $(addprefix $(OBJ_DIR), "lexer")
+	@mkdir -p $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ_SUBDIRS))
 	@gcc $(CFLAGS) -c $(IFLAGS) $< -o $@ && $(call ui_line, $@, $(NAME))
 
 $(FT_PRINTF_DIR):
@@ -71,7 +73,6 @@ clean:
 	@make clean -C $(FT_PRINTF_DIR)
 
 fclean: clean
-	@make fclean -C $(FT_PRINTF_DIR)
 	@rm -f $(NAME)
 
 re: fclean all

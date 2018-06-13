@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/12 18:43:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/13 16:09:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@
 /* Control operators:
 ** &
 ** &&
-** (
-** )
+** // (
+** // )
 ** ;
-** ;;
+** ;; // only used for case statements, not mandatory
 ** '\n'
 ** |
 ** ||
 */
 
-# define T_REDIRECT_OPT		4
+# define T_REDIR_OPT		4
 
 /*
 ** Redirect operators:
@@ -70,5 +70,8 @@ typedef struct			s_lexeme
 t_lexeme				*lexer(char *exp);
 
 int						is_separator(char c);
+
+size_t					get_lexeme_type(char *s, int lexemes_count);
+
 
 #endif
