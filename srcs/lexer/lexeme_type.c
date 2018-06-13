@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 19:37:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/13 19:53:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,44 @@
 
 static int	lexeme_type_ctrlopt(char *s, int *pos, char **data)
 {
-	int		tmp;
+	int		data_len;
 
 	if (*s == '&' || *s == '|' || *s == ';')
 	{
 
-		if (*s != ';' && (s[1] == '|' || s[1] == '&'))
-			tmp = 2;
+		if (*s != ';' && (s[1] == '|' || s[1] == '&') && *s == s[1])
+			data_len = 2;
 		else
-			tmp = 1;
-		*data = ft_strsub(s, 0, tmp);
-		*pos += tmp;
+			data_len = 1;
+		*data = ft_strsub(s, 0, data_len);
+		*pos += data_len;
 		return (T_CTRL_OPT);
 	}
 	return (0);
 }
-/*
-static int	lexeme_type_rediropt(char *s, int *pos)
+
+static int	lexeme_type_rediropt(char *s, int *pos, char **data)
 {
-	if ((*s == '<' && (!s[1] || \
-			(s[1] == '<' && (!s[2] != '<') || \
-				(s[2] == '<' || s[2] == '-') && !s[3]))) || \
-		((*s == '<' || *s == '>') && s[1] == '&' && !s[2]) || \
-		(*s == '>' && (!s[1] || \
-			((s[1] == '|' || s[1] == '>') && !s[2]))) || \
-		((*s == '<') && s[1] == '>'))
-		return (T_CTRL_OPT);
+	int		data_len;
+
+	if (*s == '<' || *s == '>')
+	{
+		if (s[1] == '&' || s[1] == '>' || \
+			(*s == '>' && s[1] == '|') || (s[1] == *s))
+		{
+			if (*s == '<' && s[1] == *s && s[2] == '-')
+				data_len = 3;
+			else
+				data_len = 2;
+		}
+		else
+			data_len = 1;
+		*data = ft_strsub(s, 0, data_len);
+		*pos += data_len;
+		return (T_REDIR_OPT);
+	}
 	return (0);
 }
-*/
 
 static int	lexeme_type_word(char *s, int *pos, char **data)
 {
@@ -66,6 +75,8 @@ size_t		get_lexeme_type(char *s, int *pos, char **data)
 	{
 		if (lexeme_type_ctrlopt(s + *pos, pos, data))
 			return (T_CTRL_OPT);
+		if (lexeme_type_rediropt(s + *pos, pos, data))
+			return (T_REDIR_OPT);
 	}
 	return (lexeme_type_word(s, pos, data));
 }
