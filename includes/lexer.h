@@ -6,21 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 19:27:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/13 20:20:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <forty_two_sh.h>
-
-/*
-** Struct in ast to store type of lexeme and data pointer
-** type: type of lexeme
-** data: pointer to char * from input to data of element
-** left: left element in ast
-** right: right element in ast
-*/
 
 # define T_ENV_ASSIGN		1
 
@@ -59,6 +51,13 @@
 
 # define T_IO_NUMBER		5
 
+/*
+** Struct in linked list to store type of lexeme and data pointer
+** type: type of lexeme
+** data: pointer to char * from input to data of element
+** left: left element in ast
+** right: right element in ast
+*/
 
 typedef struct			s_lexeme
 {

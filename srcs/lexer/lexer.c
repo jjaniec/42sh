@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 19:17:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/13 20:04:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static size_t		get_lexeme(char *str, int *pos, char **evaluated_str)
 ** or init linked list with created elem if $ll == NULL
 */
 
-static t_lexeme		*add_lexeme_to_list(t_lexeme *e, t_lexeme **ll, t_lexeme **last_elem)
+static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
+						t_lexeme **ll, t_lexeme **last_elem)
 {
 	if (!(*ll))
 	{
@@ -76,6 +77,11 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 	return (NULL);
 }
 
+/*
+** Returns a linked list of parsed 'lexemes' depending on shell syntax
+** line: input received from user
+*/
+
 t_lexeme			*lexer(char *line)
 {
 	t_lexeme	*lexemes;
@@ -83,7 +89,6 @@ t_lexeme			*lexer(char *line)
 	int			i;
 	int			lexemes_count;
 
-	printf("input: %s\n", line);
 	i = 0;
 	lexemes = NULL;
 	lexemes_count = 0;

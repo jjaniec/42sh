@@ -6,11 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 19:53:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/13 20:51:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+** Parse control operators (see lexer.h) and create a substring of it in *data
+*/
 
 static int	lexeme_type_ctrlopt(char *s, int *pos, char **data)
 {
@@ -29,6 +33,11 @@ static int	lexeme_type_ctrlopt(char *s, int *pos, char **data)
 	}
 	return (0);
 }
+
+/*
+** Parse redirection operators (see lexer.h)
+** and create a substring of it in *data
+*/
 
 static int	lexeme_type_rediropt(char *s, int *pos, char **data)
 {
@@ -53,7 +62,12 @@ static int	lexeme_type_rediropt(char *s, int *pos, char **data)
 	return (0);
 }
 
-static int	lexeme_type_word(char *s, int *pos, char **data)
+/*
+** Parse word operators (default type)
+*/
+
+static int	lexeme_type_word(char *s, int *pos, char **data, \
+				int *env_assigns_passed)
 {
 	int		start;
 
@@ -64,11 +78,16 @@ static int	lexeme_type_word(char *s, int *pos, char **data)
 		*data = ft_strsub(s, start, *pos - start);
 	else
 		*data = NULL;
+	if (!(*env_assigns_passed) && ft_strchr(*data, '='))
+		return (T_ENV_ASSIGN);
+	*env_assigns_passed = 1;
 	return (T_WORD);
 }
 
 size_t		get_lexeme_type(char *s, int *pos, char **data)
 {
+	static int	env_assigns_passed = 0;
+
 	if (!s)
 		return (0);
 	if (is_operator(s[*pos]))
@@ -78,5 +97,9 @@ size_t		get_lexeme_type(char *s, int *pos, char **data)
 		if (lexeme_type_rediropt(s + *pos, pos, data))
 			return (T_REDIR_OPT);
 	}
-	return (lexeme_type_word(s, pos, data));
+	return lexeme_type_word(s, pos, data, &env_assigns_passed);/*
+	if (!env_assigns_passed && ft_strchr(*data, '='))
+		return (T_ENV_ASSIGN);
+	env_assigns_passed = 1;
+	return (T_WORD);*/
 }
