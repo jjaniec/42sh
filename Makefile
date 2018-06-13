@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/13 16:11:42 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/13 19:27:09 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ UNAME_S := $(shell uname -s)
 SRC_NAME = 	is_separator.c \
 			lexer/lexer.c \
 			lexer/lexeme_type.c \
+			lexer/create_lexeme.c \
+			lexer/is_operator.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \

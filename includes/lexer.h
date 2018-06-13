@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 16:09:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/13 19:27:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ t_lexeme				*lexer(char *exp);
 
 int						is_separator(char c);
 
-size_t					get_lexeme_type(char *s, int lexemes_count);
+int						is_operator(char c);
+
+t_lexeme				*create_lexeme(size_t type, char *data);
+
+size_t					get_lexeme_type(char *s, int *pos, char **data);
 
 
 #endif
