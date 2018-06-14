@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexeme_type.c                                      :+:      :+:    :+:   */
+/*   get_lexeme_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 14:48:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 19:24:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ size_t		get_lexeme_type(char *s, int *pos, char **data)
 		if (lexeme_type_rediropt(s + *pos, pos, data))
 			return (T_REDIR_OPT);
 	}
-	return lexeme_type_word(s, pos, data, &env_assigns_passed);
+	return (lexeme_type_word(s, pos, data, &env_assigns_passed));
 }

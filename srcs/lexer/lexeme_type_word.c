@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 18:04:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 19:06:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	clean_word_lexeme(char **data)
 			new_data[j++] = (*data)[i];
 	free(*data);
 	*data = new_data;
-	*data[j] = '\0';
+	new_data[j] = '\0';
 	log_debug("Replaced old data w/ |%s|", *data);
 }
 

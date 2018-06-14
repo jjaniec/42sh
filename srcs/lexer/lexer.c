@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 13:32:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 19:24:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
 		*ll = e;
 		*last_elem = e;
 	}
-	else
+	else if (*last_elem)
 	{
 		(*last_elem)->next = e;
 		*last_elem = (*last_elem)->next;
@@ -59,7 +59,7 @@ static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
 */
 
 static t_lexeme		*make_next_lexeme(char *line, int *pos, \
-						t_lexeme **ast, t_lexeme **cur_ast_elem)
+						t_lexeme **lexemes, t_lexeme **cur_lexeme)
 {
 	size_t		type;
 	char		*data;
@@ -71,10 +71,8 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 	{
 		if (!(type = get_lexeme(line, pos, &data)))
 			return (NULL);
-		if (type == T_WORD && ft_strchr(data, '='))
-			type = T_ENV_ASSIGN;
 		e = create_lexeme(type, data);
-		return (add_lexeme_to_list(e, ast, cur_ast_elem));
+		return (add_lexeme_to_list(e, lexemes, cur_lexeme));
 	}
 	return (NULL);
 }
@@ -95,7 +93,10 @@ t_lexeme			*lexer(char *line)
 	lexemes = NULL;
 	lexemes_count = 0;
 	if (line)
-		while (make_next_lexeme(line, &i, &lexemes, &cur_elem) && line[i])
+		while (line[i])
+		{
+			make_next_lexeme(line, &i, &lexemes, &cur_elem);
 			lexemes_count += 1;
+		}
 	return (lexemes);
 }

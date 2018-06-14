@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:48:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 14:30:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 19:21:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@ t_lexeme		*create_lexeme(size_t type, char *data)
 {
 	t_lexeme	*e;
 
-	e = malloc(sizeof(t_lexeme));
-	e->type = type;
-	e->data = data;
-	e->next = NULL;
-	log_info("Created elem w/ data |%s| - type : %zu", data, type);
+	e = NULL;
+	if (data && *data)
+	{
+		e = malloc(sizeof(t_lexeme));
+		e->type = type;
+		e->data = data;
+		e->next = NULL;
+		log_info("Created elem w/ data |%s| - type : %zu", data, type);
+	}
+	else
+		log_warn("Skipping creation of empty data element");
 	return (e);
 }
