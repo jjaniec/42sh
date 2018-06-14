@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 14:16:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 14:46:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ int						is_operator(char c);
 t_lexeme				*create_lexeme(size_t type, char *data);
 
 size_t					get_lexeme_type(char *s, int *pos, char **data);
+
+int						lexeme_type_word(char *s, int *pos, char **data, \
+							int *env_assigns_passed);
 
 
 #endif
