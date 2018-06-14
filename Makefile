@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/14 14:48:15 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/14 21:39:39 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,15 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
-DEBUG?=1
+DEBUG?=0
 DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I./$(INCLUDES_DIR)
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf
+
+LIBTAP_DIR = libtap
+LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap
+TEST_EXEC = 42sh_tests
 
 CFLAGS += $(DEV_FLAGS)
 LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),"/libftprintf.a")
@@ -59,6 +63,9 @@ CFLAGS += $(DEBUG_FLAGS)
 
 all : $(NAME)
 
+verbose: DEBUG=1
+verbose: $(NAME)
+
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
 ifeq ($(UNAME_S),Linux)
 	@$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME)
@@ -69,13 +76,23 @@ endif
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(addprefix $(INCLUDES_DIR), $(INCLUDES_NAME))
 	@mkdir -p $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ_SUBDIRS))
-	@gcc $(CFLAGS) -c $(IFLAGS) $< -o $@ && $(call ui_line, $@, $(NAME))
+	@$(CC) $(CFLAGS) -c $(IFLAGS) $< -o $@ && $(call ui_line, $@, $(NAME))
 
 $(FT_PRINTF_DIR):
 	git clone https://github.com/jjaniec/ft_printf $(FT_PRINTF_DIR) || true
 
 $(LIBFTPRINTF): $(FT_PRINTF_DIR)
 	@make -C $(FT_PRINTF_DIR)
+
+$(LIBTAP_DIR):
+	git clone https://github.com/zorgnax/libtap.git $(LIBTAP_DIR) || true
+
+$(TEST_EXEC): $(LIBFTPRINTF) $(OBJ)
+	@$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
+	@$(CC) -c $(IFLAGS) tests/main.c -o tests/main.o
+	@$(CC) $(CFLAGS) $(LFLAGS) $(subst ./objs/main.o,,$(OBJ)) tests/main.o $(addprefix $(LIBTAP_DIR),"/tap.o") -o $(TEST_EXEC)
+
+tests: $(LIBTAP_DIR) $(TEST_EXEC)
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -86,7 +103,4 @@ fclean: clean
 
 re: fclean all
 
-tests: $(NAME)
-	@echo "Todo"
-
-.PHONY: fclean re tests all
+.PHONY: fclean re tests all verbose
