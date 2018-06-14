@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 15:54:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 18:04:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ static int	lexeme_type_word_quotes(char *s, int *pos, int start)
 	return (1);
 }
 
+static char	*has_matching_quote(char *s, int pos)
+{
+	log_debug("Searching %c in |%s| - pos %d - len %d", *s, s, pos, ft_strlen(s));
+	return (ft_strchr(s + sizeof(char), *s));
+}
+
 /*
 ** Removes ' and " characters from given string
 */
@@ -40,24 +46,43 @@ static int	lexeme_type_word_quotes(char *s, int *pos, int start)
 static void	clean_word_lexeme(char **data)
 {
 	int		i;
-	int		j; // Used for counting quotes count in old *data and rewrite new string
+	int		j; // Used for counting quotes count to remove in old *data and rewrite new string
 	char	*new_data;
+	char	*jump_ptr;
+	char	*s;
+	char	c;
 
+	s = *data;
+	i = 0;
+	j = 0;
+	log_debug("Cleaning |%s|", s);
+	while (s[i])
+		if ((s[i] == '\'' || s[i] == '"') && \
+			(jump_ptr = has_matching_quote(s + i, i)))
+		{
+			s = jump_ptr + sizeof(char);
+			i = 0;
+			j += 2;
+		}
+		else
+			i += 1;
+	new_data = malloc(sizeof(char) * (ft_strlen(*data) - j) + 1);
 	i = -1;
 	j = 0;
-	log_debug("Cleaning |%s|", *data);
 	while ((*data)[++i])
-		if ((*data)[i] == '\'' || (*data)[i] == '"')
-			j += 1;
-	new_data = malloc(sizeof(char) * (ft_strlen(*data) - j));
-	i = -1;
-	j = 0;
-	while ((*data)[++i])
-		if ((*data)[i] != '\'' && (*data)[i] != '"')
+		if (((*data)[i] == '\'' || (*data)[i] == '"') && has_matching_quote(*data + i, i))
+		{
+			c = (*data)[i++];
+			while ((*data)[i] != c)
+				new_data[j++] = (*data)[i++];
+			log_debug("Stop corresponding c %c str |%s|", c, (*data) + i);
+		}
+		else
 			new_data[j++] = (*data)[i];
 	free(*data);
 	*data = new_data;
-	log_debug("Replaced old data w/ |%s|", new_data);
+	*data[j] = '\0';
+	log_debug("Replaced old data w/ |%s|", *data);
 }
 
 /*
