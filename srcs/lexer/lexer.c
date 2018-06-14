@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 20:04:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 13:32:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 	{
 		if (!(type = get_lexeme(line, pos, &data)))
 			return (NULL);
+		if (type == T_WORD && ft_strchr(data, '='))
+			type = T_ENV_ASSIGN;
 		e = create_lexeme(type, data);
 		return (add_lexeme_to_list(e, ast, cur_ast_elem));
 	}

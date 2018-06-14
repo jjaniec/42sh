@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/12 18:50:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 13:49:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	main(int ac, char **av)
 {
 	(void)ac;
+	if (!DEBUG)
+		log_set_quiet(1);
 	lexer(ft_strdup(av[1]));
 	return (0);
 }

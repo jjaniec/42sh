@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/12 16:01:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 13:34:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <ft_printf.h>
 # include "lexer.h"
+# include "log.h"
 
 # define IFS		"\t\n "
 

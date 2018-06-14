@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/13 19:27:09 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/14 13:38:26 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,12 @@ SRC_NAME = 	is_separator.c \
 			lexer/lexeme_type.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
+			log.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
-				forty_two_sh.h
+				forty_two_sh.h \
+				log.h
 
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
@@ -35,6 +37,8 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
+DEBUG?=1
+DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I./$(INCLUDES_DIR)
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf
@@ -49,6 +53,8 @@ UNAME_S := $(shell uname -s)
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true
 endef
+
+CFLAGS += $(DEBUG_FLAGS)
 
 all : $(NAME)
 
