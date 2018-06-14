@@ -6,14 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 15:06:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 15:54:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-** Parse word operators (default type)
+** Search for next (double)quote in string $s
+** instead stopping to next $IFS separator
 */
 
 static int	lexeme_type_word_quotes(char *s, int *pos, int start)
@@ -32,6 +33,41 @@ static int	lexeme_type_word_quotes(char *s, int *pos, int start)
 	return (1);
 }
 
+/*
+** Removes ' and " characters from given string
+*/
+
+static void	clean_word_lexeme(char **data)
+{
+	int		i;
+	int		j; // Used for counting quotes count in old *data and rewrite new string
+	char	*new_data;
+
+	i = -1;
+	j = 0;
+	log_debug("Cleaning |%s|", *data);
+	while ((*data)[++i])
+		if ((*data)[i] == '\'' || (*data)[i] == '"')
+			j += 1;
+	new_data = malloc(sizeof(char) * (ft_strlen(*data) - j));
+	i = -1;
+	j = 0;
+	while ((*data)[++i])
+		if ((*data)[i] != '\'' && (*data)[i] != '"')
+			new_data[j++] = (*data)[i];
+	free(*data);
+	*data = new_data;
+	log_debug("Replaced old data w/ |%s|", new_data);
+}
+
+/*
+** Parse word operators (default type),
+** if string $s do not contains quotes,
+** a substring will be made to the next $IFS separator,
+** if ' or " characters are found, apply lexeme_type_word_quotes
+** to skip $IFS separators until corresponding quote
+*/
+
 int			lexeme_type_word(char *s, int *pos, char **data, \
 				int *env_assigns_passed)
 {
@@ -49,9 +85,11 @@ int			lexeme_type_word(char *s, int *pos, char **data, \
 			*pos += 1;
 	}
 	if (start != *pos)
-		*data = ft_strsub(s, \
-			start, \
-			*pos - start);
+	{
+		*data = ft_strsub(s, start, *pos - start);
+		if (*data && (ft_strchr(*data, '\'') || ft_strchr(*data, '"')))
+			clean_word_lexeme(data);
+	}
 	else
 		*data = NULL;
 	if (!(*env_assigns_passed) && ft_strchr(*data, '='))
