@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/13 20:20:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/14 14:46:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@
 ** <> http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_07
 */
 
-# define T_IO_NUMBER		5
-
 /*
 ** Struct in linked list to store type of lexeme and data pointer
 ** type: type of lexeme
@@ -75,6 +73,9 @@ int						is_operator(char c);
 t_lexeme				*create_lexeme(size_t type, char *data);
 
 size_t					get_lexeme_type(char *s, int *pos, char **data);
+
+int						lexeme_type_word(char *s, int *pos, char **data, \
+							int *env_assigns_passed);
 
 
 #endif
