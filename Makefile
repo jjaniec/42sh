@@ -6,11 +6,11 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/15 15:13:58 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/15 16:50:07 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 42sh
+NAME = 21sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 UNAME_S := $(shell uname -s)
@@ -25,7 +25,7 @@ SRC_NAME = 	is_separator.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
-				forty_two_sh.h \
+				twenty_one_sh.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \

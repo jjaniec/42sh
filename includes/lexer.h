@@ -6,13 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 14:46:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/15 16:48:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-# include <forty_two_sh.h>
+# include <twenty_one_sh.h>
 
 # define T_ENV_ASSIGN		1
 
