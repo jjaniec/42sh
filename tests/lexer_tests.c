@@ -6,11 +6,37 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 14:59:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/15 15:40:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
+
+static void	test_ll(char *test_name, char *input, ...)
+{
+	va_list		va_ptr;
+	t_lexeme	*result;
+	char		*data_cmp;
+	size_t		type_cmp;
+	int			i;
+	char		*new_test_name;
+
+	i = 1;
+	result = lexer(input);
+	va_start(va_ptr, input);
+	while (result)
+	{
+		data_cmp = va_arg(va_ptr, char *);
+		type_cmp = va_arg(va_ptr, size_t);
+		new_test_name = malloc(sizeof(char) * 100);
+		sprintf(new_test_name, "%s - %d", test_name, i);
+		is(result->data, data_cmp, new_test_name);
+		ok(result->type == type_cmp, new_test_name);
+		result = result->next;
+		i += 1;
+	}
+	va_end(va_ptr);
+}
 
 void	lexer_tests(void)
 {
@@ -44,5 +70,5 @@ void	lexer_tests(void)
 	is(lexer("ls-la;ls -la&&-la2>&1>test.txt;aaaa;bbbbbbbbbbb'bbbbbbbbbbb'")->next->next->next->next->next->next->next->next->next->next->next->next->data, ";", "Hard 1.12");
 	is(lexer("ls-la;ls -la&&-la2>&1>test.txt;aaaa;bbbbbbbbbbb'bbbbbbbbbbb'")->next->next->next->next->next->next->next->next->next->next->next->next->next->data, "bbbbbbbbbbbbbbbbbbbbbb", "Hard 1.13");
 	ok(lexer("ls-la;ls -la&&-la2>&1>test.txt;aaaa;bbbbbbbbbbb'bbbbbbbbbbb'")->next->next->next->next->next->next->next->next->next->next->next->next->next->next == NULL, "Hard 1.14");
-
+	test_ll("test 1", "ls -la", "ls", T_WORD, "-la", T_WORD);
 }
