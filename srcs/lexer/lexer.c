@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/14 19:24:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/15 13:57:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static size_t		get_lexeme(char *str, int *pos, char **evaluated_str)
 	size_t	r;
 	int		lexeme_start;
 
+	(void)lexeme_start;
 	r = 0;
 	while (str[*pos] && is_separator(str[*pos]))
 		*pos += 1;

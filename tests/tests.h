@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tests.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 14:03:07 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/06/15 13:54:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tests.h"
+#ifndef TESTS_H
+# define TESTS_H
 
-int	main(void)
-{
-	plan(30);
-	lexer_tests();
-	done_testing();
-}
+# include <forty_two_sh.h>
+# include "../libtap/tap.h"
+
+void	lexer_tests(void);
+
+#endif
