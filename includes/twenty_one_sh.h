@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:47:51 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/06/14 13:34:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#ifndef FORTY_TWO_SH_H
+# define FORTY_TWO_SH_H
 
-int	main(int ac, char **av)
-{
-	(void)ac;
-	if (!DEBUG)
-		log_set_quiet(1);
-	lexer(ft_strdup(av[1]));
-	return (0);
-}
+# include <ft_printf.h>
+# include "lexer.h"
+# include "log.h"
+
+# define IFS		"\t\n "
+
+#endif

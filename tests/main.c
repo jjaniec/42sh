@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.h                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/11 16:25:04 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/06/15 16:05:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORTY_TWO_SH_H
-# define FORTY_TWO_SH_H
+#include "tests.h"
 
-# include <ft_printf.h>
-
-
-
-#endif
+int	main(void)
+{
+	//plan(66);
+	lexer_tests();
+	done_testing();
+}
