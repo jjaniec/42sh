@@ -23,4 +23,4 @@ matrix:
         - os: linux
           compiler: clang
           env: CXX=clang
-script: make CC=$CXX && make tests && ./42sh_tests
+script: make CC=$CXX && make tests && ./21sh_tests
