@@ -6,11 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 17:12:02 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/12 17:13:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/15 16:47:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 int		is_separator(char c)
 {
