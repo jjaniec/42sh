@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:47:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/18 19:26:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 ** Parse control operators (see lexer.h) and create a substring of it in *data
 */
 
-static int	lexeme_type_ctrlopt(char *s, int *pos, char **data)
+static int	lexeme_type_ctrlopt(char *s, int *pos, \
+				char **data, size_t *type_details)
 {
 	int		data_len;
 
+	(void)type_details;
 	if (*s == '&' || *s == '|' || *s == ';')
 	{
-
 		if (*s != ';' && (s[1] == '|' || s[1] == '&') && *s == s[1])
 			data_len = 2;
 		else
@@ -39,10 +40,12 @@ static int	lexeme_type_ctrlopt(char *s, int *pos, char **data)
 ** and create a substring of it in *data
 */
 
-static int	lexeme_type_rediropt(char *s, int *pos, char **data)
+static int	lexeme_type_rediropt(char *s, int *pos, \
+				char **data, size_t *type_details)
 {
 	int		data_len;
 
+	(void)type_details;
 	if (*s == '<' || *s == '>')
 	{
 		if (s[1] == '&' || s[1] == '>' || \
@@ -62,7 +65,8 @@ static int	lexeme_type_rediropt(char *s, int *pos, char **data)
 	return (0);
 }
 
-size_t		get_lexeme_type(char *s, int *pos, char **data)
+size_t		get_lexeme_type(char *s, int *pos, \
+				char **data, size_t *type_details)
 {
 	static int	env_assigns_passed = 0;
 
@@ -70,9 +74,9 @@ size_t		get_lexeme_type(char *s, int *pos, char **data)
 		return (0);
 	if (is_operator(s[*pos]))
 	{
-		if (lexeme_type_ctrlopt(s + *pos, pos, data))
+		if (lexeme_type_ctrlopt(s + *pos, pos, data, type_details))
 			return (T_CTRL_OPT);
-		if (lexeme_type_rediropt(s + *pos, pos, data))
+		if (lexeme_type_rediropt(s + *pos, pos, data, type_details))
 			return (T_REDIR_OPT);
 	}
 	return (lexeme_type_word(s, pos, data, &env_assigns_passed));

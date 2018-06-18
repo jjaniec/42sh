@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:48:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:47:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/18 19:24:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Creates a lexeme struct with type and data
 */
 
-t_lexeme		*create_lexeme(size_t type, char *data)
+t_lexeme		*create_lexeme(size_t type, char *data, size_t type_details)
 {
 	t_lexeme	*e;
 
@@ -26,6 +26,7 @@ t_lexeme		*create_lexeme(size_t type, char *data)
 		e = malloc(sizeof(t_lexeme));
 		e->type = type;
 		e->data = data;
+		e->type_details = type_details;
 		e->next = NULL;
 		log_info("Created elem w/ data |%s| - type : %zu", data, type);
 	}

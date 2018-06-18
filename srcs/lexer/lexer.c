@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:47:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/18 19:25:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 ** if something other than separators is found
 */
 
-static size_t		get_lexeme(char *str, int *pos, char **evaluated_str)
+static size_t		get_lexeme(char *str, int *pos, \
+						char **evaluated_str, size_t *type_details)
 {
 	size_t	r;
 	int		lexeme_start;
@@ -29,7 +30,7 @@ static size_t		get_lexeme(char *str, int *pos, char **evaluated_str)
 	if (str[*pos])
 	{
 		lexeme_start = *pos;
-		r = get_lexeme_type(str, pos, evaluated_str);
+		r = get_lexeme_type(str, pos, evaluated_str, type_details);
 	}
 	return (r);
 }
@@ -63,16 +64,18 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 						t_lexeme **lexemes, t_lexeme **cur_lexeme)
 {
 	size_t		type;
+	size_t		type_details;
 	char		*data;
 	t_lexeme	*e;
 
+	type_details = 0;
 	while (line[*pos] && is_separator(line[*pos]))
 		*pos += 1;
 	if (line[*pos])
 	{
-		if (!(type = get_lexeme(line, pos, &data)))
+		if (!(type = get_lexeme(line, pos, &data, &type_details)))
 			return (NULL);
-		e = create_lexeme(type, data);
+		e = create_lexeme(type, data, type_details);
 		return (add_lexeme_to_list(e, lexemes, cur_lexeme));
 	}
 	return (NULL);
