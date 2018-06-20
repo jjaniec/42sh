@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:48:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:07:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 
 # define T_CTRL_OPT			3
 
+# define TK_AND				31
+# define TK_DAND			32
+# define TK_SEMICOLON		33
+# define TK_NEWLINE			34
+# define TK_PIPE			35
+# define TK_OR				36
+
 /* Control operators:
 ** &
 ** &&
@@ -38,6 +45,16 @@
 
 # define T_REDIR_OPT		4
 
+# define TK_LESS			41
+# define TK_GREAT			42
+# define TK_CLOBBER			43
+# define TK_DGREAT			44
+# define TK_DLESS			45
+# define TK_DLESSDASH		46
+# define TK_LESSAND			47
+# define TK_GREATAND		48
+# define TK_LESSGREAT		49
+
 /*
 ** Redirect operators:
 ** <
@@ -49,17 +66,24 @@
 ** <> http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_07
 */
 
+# define TK_DEFAULT			0
+
+/*
+** Default token for type_details if not applied (word lexemes)
+*/
+
 /*
 ** Struct in linked list to store type of lexeme and data pointer
-** type: type of lexeme
+** type: type of lexeme (T_(WORD/CTRL_OPT/REDIR_OPT))
+** type_details: token associated with data (TK_(LESS/GREAT/...))
 ** data: pointer to char * from input to data of element
-** left: left element in ast
-** right: right element in ast
+** next: ptr to next lexeme
 */
 
 typedef struct			s_lexeme
 {
 	size_t				type;
+	size_t				type_details;
 	char				*data;
 	struct s_lexeme		*next;
 }						t_lexeme;
@@ -70,12 +94,13 @@ int						is_separator(char c);
 
 int						is_operator(char c);
 
-t_lexeme				*create_lexeme(size_t type, char *data);
+t_lexeme				*create_lexeme(size_t type, char *data, \
+							size_t type_details);
 
-size_t					get_lexeme_type(char *s, int *pos, char **data);
+size_t					get_lexeme_type(char *s, int *pos, \
+							char **data, size_t *type_details);
 
 int						lexeme_type_word(char *s, int *pos, char **data, \
 							int *env_assigns_passed);
-
 
 #endif
