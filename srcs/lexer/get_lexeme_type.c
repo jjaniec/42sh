@@ -6,14 +6,14 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 15:18:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:39:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 static size_t	store_optlexeme(char *s, int data_len, \
-				int *pos, char **data, size_t type);
+				int *pos, char **data, size_t type)
 {
 	*data = ft_strsub(s, 0, data_len);
 	*pos += data_len;
@@ -35,7 +35,7 @@ static int		lexeme_type_ctrlopt(char *s, int *pos, \
 		{
 			if (*s == '&')
 				*type_details = TK_DAND;
-			else if (*s == '||')
+			else if (*s == '|')
 				*type_details = TK_OR;
 			data_len = 2;
 		}
@@ -89,11 +89,11 @@ static int		lexeme_type_rediropt(char *s, int *pos, \
 						*type_details = TK_DGREAT;
 					else if (*s == '<')
 						*type_details = TK_LESSGREAT;
-					else if (*s == '|')
-						*type_details = TK_CLOBBER;
 				}
 				else if (s[1] == '<')
 					*type_details = TK_DLESS;
+				else if (s[1] == '|' && *s == '>')
+					*type_details = TK_CLOBBER;
 				data_len = 2;
 			}
 		}

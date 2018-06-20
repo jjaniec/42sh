@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:10:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:44:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	test_ll(char *test_name, char *input, ...)
 	t_lexeme	*result;
 	char		*data_cmp;
 	size_t		type_cmp;
+	size_t		type_details_cmp;
 	int			i;
 	char		*new_test_name;
 
@@ -28,11 +29,14 @@ static void	test_ll(char *test_name, char *input, ...)
 	{
 		data_cmp = va_arg(va_ptr, char *);
 		type_cmp = va_arg(va_ptr, size_t);
+		type_details_cmp = va_arg(va_ptr, size_t);
 		new_test_name = malloc(sizeof(char) * 100);
 		sprintf(new_test_name, "%s - Elem: %d - ", test_name, i);
 		is(result->data, data_cmp, ft_strcat(new_test_name, "data"));
 		ft_strcpy(new_test_name + (ft_strlen(new_test_name) - 4), "type");
 		ok(result->type == type_cmp, new_test_name);
+		ft_strcpy(new_test_name + (ft_strlen(new_test_name) - 4), "type_details");
+		ok(result->type_details == type_details_cmp, new_test_name);
 		free(new_test_name);
 		result = result->next;
 		i += 1;
@@ -45,14 +49,21 @@ void	lexer_tests(void)
 
 	ok(lexer("") == NULL, "Empty string");
 	ok(lexer("''") == NULL, "Empty string quotes");
-	test_ll("Basic 1", "ls", "ls", T_WORD);
-	test_ll("Basic 2", "ls -la", "ls", T_WORD, "-la", T_WORD);
-	test_ll("Basic 3", "ls-la;ls -la", "ls-la", T_WORD, ";", T_CTRL_OPT, "ls", T_WORD, "-la", T_WORD);
+	test_ll("Basic 1", "ls", "ls", T_WORD, TK_DEFAULT);
+	test_ll("Basic 2", "ls -la", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
+	test_ll("Basic 3", "ls-la;ls -la", "ls-la", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
+	test_ll("Basic 4", "ls2>&1", "ls2", T_WORD, TK_DEFAULT, ">&", T_REDIR_OPT, TK_GREATAND, "1", T_WORD, TK_DEFAULT);
+	test_ll("Basic 5", "ls2><lol.txt", "ls2", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "<", T_REDIR_OPT, TK_LESS, "lol.txt", T_WORD, TK_DEFAULT);
 	test_ll("Medium - Mixed 1", "ls -la&&ls -la;ls -la|ls -la||ls -la>ls -la>&ls -la2>&ls -la2>'&lol.txtls -la2>&lol.txt '\"ls -la\"", \
-		"ls", T_WORD, "-la", T_WORD, "&&", T_CTRL_OPT, "ls", T_WORD, "-la", T_WORD, ";", T_CTRL_OPT, "ls", T_WORD, "-la", T_WORD, "|", T_CTRL_OPT, \
-		"ls", T_WORD, "-la", T_WORD, "||", T_CTRL_OPT, "ls", T_WORD, "-la", T_WORD, ">", T_REDIR_OPT, "ls", T_WORD, "-la", T_WORD, ">&", T_REDIR_OPT, \
-		"ls", T_WORD, "-la2", T_WORD, ">&", T_REDIR_OPT, "ls", T_WORD, "-la2", T_WORD, ">", T_REDIR_OPT, "&lol.txtls -la2>&lol.txt ls -la", T_WORD);
-	test_ll("Medium - Mixed 2", "ls-la;ls -la&&-la2>&1>test.txt;aaaa;bbb|>bbbbb>|bbb'bbbbbbbbbbb'", "ls-la", T_WORD, ";", T_CTRL_OPT, "ls", T_WORD, "-la", T_WORD, "&&", T_CTRL_OPT, \
-		"-la2", T_WORD, ">&", T_REDIR_OPT, "1", T_WORD, ">", T_REDIR_OPT, "test.txt", T_WORD, ";", T_CTRL_OPT, "aaaa", T_WORD, ";", T_CTRL_OPT, "bbb", T_WORD, \
-		"|", T_CTRL_OPT, ">", T_REDIR_OPT, "bbbbb", T_WORD, ">|", T_REDIR_OPT, "bbbbbbbbbbbbbb", T_WORD);
+		"ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "&&", T_CTRL_OPT, TK_DAND, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, \
+		";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE , "ls", T_WORD, TK_DEFAULT, \
+		"-la", T_WORD, TK_DEFAULT, "||", T_CTRL_OPT, TK_OR, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, \
+		"ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, ">&", T_REDIR_OPT, TK_GREATAND, "ls", T_WORD, TK_DEFAULT, "-la2", T_WORD, TK_DEFAULT, \
+		">&", T_REDIR_OPT, TK_GREATAND, "ls", T_WORD, TK_DEFAULT, "-la2", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, \
+		"&lol.txtls -la2>&lol.txt ls -la", T_WORD, TK_DEFAULT);
+	test_ll("Medium - Mixed 2", "ls-la;ls -la&&-la2>&1>test.txt;aaaa;bbb|>bbbbb>|bbb'bbbbbbbbbbb'", "ls-la", T_WORD, TK_DEFAULT, \
+		";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "&&", T_CTRL_OPT, TK_DAND, "-la2", T_WORD, TK_DEFAULT, \
+		">&", T_REDIR_OPT, TK_GREATAND, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "test.txt", T_WORD, TK_DEFAULT, \
+		";", T_CTRL_OPT, TK_SEMICOLON, "aaaa", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "bbb", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, \
+		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
 }
