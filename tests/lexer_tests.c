@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 15:44:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/20 18:56:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,10 @@ void	lexer_tests(void)
 		">&", T_REDIR_OPT, TK_GREATAND, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "test.txt", T_WORD, TK_DEFAULT, \
 		";", T_CTRL_OPT, TK_SEMICOLON, "aaaa", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "bbb", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, \
 		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 1", "ls \"\\\"\"", "ls", T_WORD, TK_DEFAULT, "\"", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 2", "ls -la\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 3", "ls -la\"\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 4", "ls -la\"    lol\\\"   \"", "ls", T_WORD, TK_DEFAULT, "-la    lol\\\"   \"", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 5", "ls -la\"    \"     \"", "ls", T_WORD, TK_DEFAULT, "-la\"    \"     \"", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 6", "ls -la\"    \\\\\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"    \\\\\\\"", T_WORD, TK_DEFAULT);
 }

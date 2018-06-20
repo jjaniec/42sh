@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:47:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/20 19:10:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,45 @@
 ** instead stopping to next $IFS separator
 */
 
-static int	lexeme_type_word_quotes(char *s, int *pos, int start)
-{
-	*pos += 1;
-	log_debug("start: |%s|", s + start);
-	while (s[*pos] && s[*pos] != s[start])
-		*pos += 1;
-	if (s[*pos] == s[start])
-	{
-		*pos += 1;
-		log_debug("end: |%s|", s + *pos);
-		return (0);
-	}
-	ft_printf("42sh: Error: Unmatched %c\n", s[start]);
-	return (1);
-}
-
 static char	*has_matching_quote(char *s, int pos)
 {
-	log_debug("Searching %c in |%s| - pos %d - len %d", *s, s, pos, ft_strlen(s));
-	return (ft_strchr(s + sizeof(char), *s));
+	char	*next_quote;
+	char	quote;
+	char	*ptr;
+
+	ptr = s;
+	quote = *ptr;
+	next_quote = NULL;
+	log_debug("Searching %c in |%s| - pos %d - len %d", quote, ptr + sizeof(char), pos, ft_strlen(s));
+	while (ptr && *ptr && (next_quote = (ft_strchr(ptr + sizeof(char), quote))))
+	{
+		if ((*(next_quote - sizeof(char)) != '\\') || (*(next_quote - (sizeof(char) * 2)) == '\\'))
+		{
+			log_debug("return |%s|", next_quote);
+			return (next_quote);
+		}
+		ptr = next_quote;
+		log_debug("Searching %c in |%s| + 1 - pos %d - len %d", quote, ptr, pos, ft_strlen(s));
+	}
+	log_debug("No matching quote found");
+	return (NULL);
+}
+
+static int	skip_quotes_substring(char *s, int *pos, int start)
+{
+	char	*quote_pos;
+
+	*pos += 1;
+	log_debug("start: |%s|", s + start);
+	quote_pos = has_matching_quote(s + ((*pos) - 1) * sizeof(char), *pos);
+	if (!(quote_pos))
+	{
+		ft_printf("42sh: Error: Unmatched %c\n", s[start]);
+		return (1);
+	}
+	*pos = ((quote_pos - s) / sizeof(char) + sizeof(char));
+	log_debug("end: |%s| - %d", s + *pos, *pos);
+	return (0);
 }
 
 /*
@@ -89,11 +108,11 @@ static void	clean_word_lexeme(char **data)
 ** Parse word operators (default type),
 ** if string $s do not contains quotes,
 ** a substring will be made to the next $IFS separator,
-** if ' or " characters are found, apply lexeme_type_word_quotes
+** if ' or " characters are found, apply skip_quotes_substring
 ** to skip $IFS separators until corresponding quote
 */
 
-int			lexeme_type_word(char *s, int *pos, char **data, \
+size_t		lexeme_type_word(char *s, int *pos, char **data, \
 				int *env_assigns_passed)
 {
 	int		start;
@@ -101,9 +120,9 @@ int			lexeme_type_word(char *s, int *pos, char **data, \
 	start = *pos;
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]))
 	{
-		if (s[*pos] == '\'' || s[*pos] == '"')
+		if ((s[*pos] == '\'' || s[*pos] == '"') && *pos > 0 && s[(*pos) - 1] != '\\')
 		{
-			if (lexeme_type_word_quotes(s, pos, *pos))
+			if (skip_quotes_substring(s, pos, *pos))
 				exit(1); // TODO: exit function that frees linked list
 		}
 		else
