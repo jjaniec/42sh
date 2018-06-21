@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 17:41:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/21 18:26:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 /*
 ** Returns 1 if *s character should be removed or not
+** $s: data string
+** $i: pos in string
+** $jump_ptr: set to ptr to position of corresponding quote if passed argument
+**            != NULL
 */
 
-static int	is_removable(char **s, int *i, char **jump_ptr)
+static int		is_removable(char **s, int *i, char **jump_ptr)
 {
 	char	*tmp;
 
@@ -33,10 +37,10 @@ static int	is_removable(char **s, int *i, char **jump_ptr)
 }
 
 /*
-** Counts characters to remove count and creates new string
+** Counts characters to remove count and creates new data string
 */
 
-static char	*get_new_data_str(char *s)
+static char		*get_new_data_str(char *s)
 {
 	int		i;
 	int		quotes_to_remove_count;
@@ -64,29 +68,48 @@ static char	*get_new_data_str(char *s)
 }
 
 /*
-** Removes ' and " characters from given string
+** Fills new created data string
+** $s: old data string
+** $new_data: ptr to new data string
 */
 
-void		clean_word_lexeme(char **data)
+static void		fill_new_data_str(char *s, char *new_data)
 {
 	int		i;
-	int		j; // Used for counting quotes count to remove in old *data and rewrite new string
+	int		j;
+	char	*jump_ptr;
+	j = 0;
+	i = 0;
+
+	while (s[i])
+		if (is_removable(&s, &i, &jump_ptr))
+		{
+			i++;
+			while ((s + i) != jump_ptr)
+			{
+				if (s[i] == '\\')
+					i++;
+				new_data[j++] = s[i++];
+			}
+			i++;
+		}
+		else
+			new_data[j++] = s[i++];
+}
+
+/*
+** Removes ' and " characters from given string by calculating
+** count of characters to remove, creating a new string and filling it
+** without escaping characters '\' and quotes pairs
+*/
+
+void			clean_word_lexeme(char **data)
+{
 	char	*new_data;
-	char	c;
 
 	log_debug("Cleaning |%s|", *data);
 	new_data = get_new_data_str(*data);
-	i = -1;
-	j = 0;
-	while ((*data)[++i])
-		if (((*data)[i] == '\'' || (*data)[i] == '"') && has_matching_quote(*data + i, i))
-		{
-			c = (*data)[i++];
-			while ((*data)[i] != c)
-				new_data[j++] = (*data)[i++];
-		}
-		else if ((*data)[i] != '\\')
-			new_data[j++] = (*data)[i];
+	fill_new_data_str(*data, new_data);
 	free(*data);
 	*data = new_data;
 	log_debug("Replaced old data w/ |%s|", *data);

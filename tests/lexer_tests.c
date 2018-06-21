@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 15:17:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/21 17:57:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,5 @@ void	lexer_tests(void)
 	test_ll("Escapes 5", "ls -la\"    \"     \"", "ls", T_WORD, TK_DEFAULT, "-la\"    \"     \"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 6", "ls -la\"    \\\\\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"    \\\\\\\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 7", "ls\\\"ls", "ls\"ls", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 8", "ls\"     \\\"      \"", "ls     \"      ", T_WORD, TK_DEFAULT);
 }
