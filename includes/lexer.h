@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 17:05:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/21 15:21:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,9 @@ size_t					get_lexeme_type(char *s, int *pos, \
 
 size_t					lexeme_type_word(char *s, int *pos, char **data, \
 							int *env_assigns_passed);
+
+void					clean_word_lexeme(char **data);
+
+char					*has_matching_quote(char *s, int pos);
 
 #endif
