@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 18:26:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/21 19:45:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int		is_removable(char **s, int *i, char **jump_ptr)
 	{
 		if (jump_ptr && tmp)
 			*jump_ptr = tmp;
+		log_debug("Found removable char @ |%s|", tmp);
 		return (1);
 	}
 	return (0);
@@ -78,18 +79,29 @@ static void		fill_new_data_str(char *s, char *new_data)
 	int		i;
 	int		j;
 	char	*jump_ptr;
+
 	j = 0;
 	i = 0;
-
+	jump_ptr = s;
 	while (s[i])
 		if (is_removable(&s, &i, &jump_ptr))
 		{
-			i++;
-			while ((s + i) != jump_ptr)
+			if (jump_ptr)
 			{
-				if (s[i] == '\\')
-					i++;
-				new_data[j++] = s[i++];
+				i++;
+				while (s[i] && (s + i) != jump_ptr)
+				{
+					if (s[i] == '\\')
+						i++;
+					new_data[j++] = s[i++];
+				}
+				if (!s[i])
+					break ;
+			}
+			else
+			{
+				log_warn("Code rouge: |%s| %d", s + i, i);
+				new_data[j++] = s[++i];
 			}
 			i++;
 		}
@@ -108,7 +120,9 @@ void			clean_word_lexeme(char **data)
 	char	*new_data;
 
 	log_debug("Cleaning |%s|", *data);
+	log_trace("Make new str");
 	new_data = get_new_data_str(*data);
+	log_trace("Filling new str");
 	fill_new_data_str(*data, new_data);
 	free(*data);
 	*data = new_data;

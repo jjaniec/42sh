@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 17:57:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/21 19:50:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,19 @@ void	lexer_tests(void)
 		">&", T_REDIR_OPT, TK_GREATAND, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "test.txt", T_WORD, TK_DEFAULT, \
 		";", T_CTRL_OPT, TK_SEMICOLON, "aaaa", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "bbb", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, \
 		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
+	test_ll("Medium - Other 1", "ls > \"2>&1\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2>&1", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 1", "ls \"\\\"\"", "ls", T_WORD, TK_DEFAULT, "\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 2", "ls -la\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 3", "ls -la\"\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
-	test_ll("Escapes 4", "ls -la\"    lol\\\"   \"", "ls", T_WORD, TK_DEFAULT, "-la    lol\\\"   \"", T_WORD, TK_DEFAULT);
-	test_ll("Escapes 5", "ls -la\"    \"     \"", "ls", T_WORD, TK_DEFAULT, "-la\"    \"     \"", T_WORD, TK_DEFAULT);
-	test_ll("Escapes 6", "ls -la\"    \\\\\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"    \\\\\\\"", T_WORD, TK_DEFAULT);
-	test_ll("Escapes 7", "ls\\\"ls", "ls\"ls", T_WORD, TK_DEFAULT);
-	test_ll("Escapes 8", "ls\"     \\\"      \"", "ls     \"      ", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 4", "ls -la\"    lol\\\"   \"", "ls", T_WORD, TK_DEFAULT, "-la    lol\\\"   ", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 5", "ls -la\"    \"     \\\"", "ls", T_WORD, TK_DEFAULT, "-la    ", T_WORD, TK_DEFAULT, "\\\"", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 6 - Backslashes", "ls -la\"    \\\\\\\"", "ls", T_WORD, TK_DEFAULT, "-la    \\\\\\", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 7 - Backslashes", "ls\\\"ls", "ls\"ls", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 8 - Backslashes", "ls\\\\\\\"ls", "ls\\\"ls", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 9 - Backslashes", "ls\"     \\\"      \"", "ls     \\\"      ", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 1", "\\", "\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 2", "\\\\", "\\\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 3", "\\\\\\", "\\\\\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 4", "\\\\\\\\", "\\\\\\\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 5", "\\\"\\\\", "\\\"\\\\", T_WORD, TK_DEFAULT);
 }
