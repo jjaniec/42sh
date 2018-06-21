@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 18:33:59 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/06/21 15:27:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-int	main(int ac, char **av)
+t_ast	*ast(t_lexeme *lex)
 {
-	t_lexeme	*lex;
+	t_ast	*root;
 
-	(void)ac;
-	if (!DEBUG)
-		log_set_quiet(1);
-	lex = lexer(ft_strdup(av[1]));
-	ast(lex);
-	return (0);
+	root = NULL;
+	if (!check_parsing(lex))
+		return (NULL);
+	return (root);
 }

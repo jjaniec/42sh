@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/15 16:05:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/21 17:10:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@ int	main(void)
 {
 	//plan(66);
 	lexer_tests();
+	ast_check();
 	done_testing();
 }

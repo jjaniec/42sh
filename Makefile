@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/15 16:50:07 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/21 18:10:30 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,21 +21,26 @@ SRC_NAME = 	is_separator.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
 			lexer/lexeme_type_word.c \
+			ast/ast.c \
+			ast/check_parsing.c \
+			ast/ast_utils.c \
 			log.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
+				ast.h \
 				twenty_one_sh.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
+					ast_tests.c \
 					main.c
 
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/
+OBJ_SUBDIRS = lexer/ ast/
 FT_PRINTF_DIR = ./ft_printf/
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
