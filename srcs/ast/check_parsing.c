@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/21 18:32:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/21 19:14:42 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			check_parsing(t_lexeme *lex)
 		return (0);
 	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && !is_op3(lex))
 	{
-		log_info("Parsing error just after |%s|", lex->data);
+		ft_printf("Parsing error just after |%s|", lex->data);
 		return (0);
 	}
 	lex = lex->next;
@@ -36,7 +36,7 @@ int			check_parsing(t_lexeme *lex)
 	{
 		if (!check_lexeme(lex, lex->next))
 		{
-			log_info("Parsing error just after |%s|", lex->data);
+			ft_printf("Parsing error just after |%s|", lex->data);
 			return (0);
 		}
 		lex = lex->next;

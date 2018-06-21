@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/21 18:10:30 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/21 20:04:52 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast.c \
 			ast/check_parsing.c \
 			ast/ast_utils.c \
+			ast/ast_debug.c \
 			log.c \
 			main.c
 
