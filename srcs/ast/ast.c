@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/21 20:08:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 15:00:05 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,8 @@ t_ast	*ast(t_lexeme *lex)
 	root = NULL;
 	if (!check_parsing(lex))
 		return (NULL);
-	root = create_node(0, 0, NULL);
-	root->left = create_node(0, 0, NULL);
-	root->right = create_node(0, 0, NULL);
-	root->right->left = create_node(0, 0, NULL);
+	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
+	root = construct_ast(lex, root);
 	ast_debug(root);
 	return (root);
 }

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/21 20:04:52 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/22 12:07:01 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,10 @@ SRC_NAME = 	is_separator.c \
 			lexer/is_operator.c \
 			lexer/lexeme_type_word.c \
 			ast/ast.c \
+			ast/ast_construct.c \
 			ast/check_parsing.c \
 			ast/ast_utils.c \
+			ast/ast_utils_node.c \
 			ast/ast_debug.c \
 			log.c \
 			main.c

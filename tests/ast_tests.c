@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/21 18:13:05 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 16:00:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,34 @@ void ast_check(void)
 	"<< a", 1,
 	"ls ; << a", 1,
 	"PWD=nope > a.txt", 1);
+}
+
+static void	ast_tree_diff(int test_nbr, char *str)
+{
+	char	*cmd;
+	int		ret;
+	int		save_stdout;
+
+	asprintf(&cmd, "diff tests/ast_tree/A.txt tests/ast_tree/%d.txt", test_nbr);
+	save_stdout = dup(1);
+	close(1);
+	open("tests/ast_tree/A.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	ast(lexer(ft_strdup(str)));
+	close(1);
+	dup2(save_stdout, 1);
+	close(save_stdout);
+	ret = system(cmd);
+	ok(!ret, "AST tree construction");
+	free (cmd);
+}
+
+void	ast_tree(void)
+{
+	ast_tree_diff(1, "1 ; 2 | 3 && 4 || 5 > 6 > 7 < 8 ;");
+}
+
+void ast_tests(void)
+{
+	ast_check();
+	ast_tree();
 }
