@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 15:44:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 15:55:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void	test_ll(char *test_name, char *input, ...)
 void	lexer_tests(void)
 {
 
-	//ok(lexer("") == NULL, "Empty string");
-	//ok(lexer("''") == NULL, "Empty string quotes");
+	ok(lexer("") == NULL, "Empty string");
+	ok(lexer("''") == NULL, "Empty string quotes");
 	test_ll("Basic 1", "ls", "ls", T_WORD, TK_DEFAULT);
 	test_ll("Basic 2", "ls -la", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
 	test_ll("Basic 3", "ls-la;ls -la", "ls-la", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
@@ -67,18 +67,21 @@ void	lexer_tests(void)
 		";", T_CTRL_OPT, TK_SEMICOLON, "aaaa", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "bbb", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, \
 		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
 	test_ll("Medium - Other 1", "ls > \"2>&1\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2>&1", T_WORD, TK_DEFAULT);
+	test_ll("Quotes merging 1", "ls\" lol \\\"   \\\"   \"' lol \\''", "ls lol \"   \"    lol '", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 1", "ls \"\\\"\"", "ls", T_WORD, TK_DEFAULT, "\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 2", "ls -la\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 3", "ls -la\"\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 4", "ls -la\"    lol\\\"   \"", "ls", T_WORD, TK_DEFAULT, "-la    lol\"   ", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 5", "ls -la\"    \"     \\\"", "ls", T_WORD, TK_DEFAULT, "-la    ", T_WORD, TK_DEFAULT, "\"", T_WORD, TK_DEFAULT);
-	test_ll("Escapes 6 - Backslashes", "ls -la\"    \\\\\\\"\"", "ls", T_WORD, TK_DEFAULT, "-la    \\\\\\\"", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 6 - Backslashes", "ls -la\"    \\\\\\\"\"", "ls", T_WORD, TK_DEFAULT, "-la    \\\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 7 - Backslashes", "ls\\\"ls", "ls\"ls", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 8 - Backslashes", "ls\\\\\\\"ls", "ls\\\"ls", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 9 - Backslashes", "ls\"     \\\\\\\"      \"", "ls     \\\"      ", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 1", "\\", "\\", T_WORD, TK_DEFAULT);
-	test_ll("Full Backslashes 2", "\\\\", "\\\\", T_WORD, TK_DEFAULT);
-	test_ll("Full Backslashes 3", "\\\\\\", "\\\\\\", T_WORD, TK_DEFAULT);
-	test_ll("Full Backslashes 4", "\\\\\\\\", "\\\\\\\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 2", "\\\\", "\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 3", "\\\\\\", "\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 4", "\\\\\\\\", "\\\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 5", "\\\"\\\\", "\"\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 5", "\\\"\\\t", "\"\t", T_WORD, TK_DEFAULT);
+	test_ll("Mixed Escapes 1", "ls\"'''\"", "ls'''", T_WORD, TK_DEFAULT);
 }
