@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:20:15 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 15:21:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 15:39:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 char		*has_matching_quote(char *s, int pos)
 {
-	char	*next_quote;
+	int		i;
 	char	quote;
-	char	*ptr;
 
-	ptr = s;
-	quote = *ptr;
-	next_quote = NULL;
-	log_debug("Searching %c in |%s| - pos %d - len %d", quote, ptr + sizeof(char), pos, ft_strlen(s));
-	while (ptr && *ptr && (next_quote = (ft_strchr(ptr + sizeof(char), quote))))
+	i = pos + 1;
+	quote = *(s + pos);
+	log_debug("Searching %c in |%s| - pos %d - len %d", quote, s + i, i, ft_strlen(s));
+	while (s[i])
 	{
-		if ((*(next_quote - sizeof(char)) != '\\') || (*(next_quote - (sizeof(char) * 2)) == '\\'))
+		if (s[i] == quote)
 		{
-			log_debug("return |%s|", next_quote);
-			return (next_quote);
+			log_debug("return |%s|", s + i);
+			return (s + i);
 		}
-		ptr = next_quote;
-		log_debug("Searching %c in |%s| + 1 - pos %d - len %d", quote, ptr, pos, ft_strlen(s));
+		else if (s[i] == '\\')
+		{
+			log_debug("Skipping |%s|", s + i + 1);
+			i += 1;
+		}
+		if (s[i])
+			i++;
 	}
 	log_debug("No matching quote found");
 	return (NULL);

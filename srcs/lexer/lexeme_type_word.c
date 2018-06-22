@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 15:21:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 15:06:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static int	skip_quotes_substring(char *s, int *pos, int start)
 {
 	char	*quote_pos;
 
-	*pos += 1;
 	log_debug("start: |%s|", s + start);
-	quote_pos = has_matching_quote(s + ((*pos) - 1) * sizeof(char), *pos);
+	quote_pos = has_matching_quote(s, start);
 	if (!(quote_pos))
 	{
 		ft_printf("42sh: Error: Unmatched %c\n", s[start]);
@@ -50,8 +49,9 @@ size_t		lexeme_type_word(char *s, int *pos, char **data, \
 	start = *pos;
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]))
 	{
-		if ((s[*pos] == '\'' || s[*pos] == '"') && \
-			((*pos == 0) || (*pos > 0 && s[(*pos) - 1] != '\\')))
+		if (s[*pos] == '\\')
+			*pos += (s[*pos + 1]) ? (2) : (1);
+		else if (s[*pos] == '\'' || s[*pos] == '"')
 		{
 			if (skip_quotes_substring(s, pos, *pos))
 				exit(1); // TODO: exit function that frees linked list
@@ -62,7 +62,8 @@ size_t		lexeme_type_word(char *s, int *pos, char **data, \
 	if (start != *pos)
 	{
 		*data = ft_strsub(s, start, *pos - start);
-		if (*data && (ft_strchr(*data, '\'') || ft_strchr(*data, '"')))
+		if (*data && (ft_strchr(*data, '\'') || ft_strchr(*data, '"') || \
+			ft_strchr(*data, '\\')))
 			clean_word_lexeme(data);
 	}
 	else

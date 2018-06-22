@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 19:45:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 15:47:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,16 @@
 **            != NULL
 */
 
-static int		is_removable(char **s, int *i, char **jump_ptr)
+static int		is_quote_removable(char **s, int *i, char **jump_ptr)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	if (((*s)[*i] == '\\' && (*i > 0 && (*s)[*i - 1] != '\\')) || \
-		(((*s)[*i] == '\'' || (*s)[*i] == '"') && \
-		(tmp = has_matching_quote((*s) + *i, *i))))
+	if ((tmp = has_matching_quote((*s), *i)))
 	{
-		if (jump_ptr && tmp)
+		if (jump_ptr)
 			*jump_ptr = tmp;
-		log_debug("Found removable char @ |%s|", tmp);
+		log_debug("Found removable quote @ tmp : |%s|", tmp);
 		return (1);
 	}
 	return (0);
@@ -44,7 +42,7 @@ static int		is_removable(char **s, int *i, char **jump_ptr)
 static char		*get_new_data_str(char *s)
 {
 	int		i;
-	int		quotes_to_remove_count;
+	int		chars_to_remove;
 	char	*new_data_str;
 	int		new_data_str_size;
 	char	*jump_ptr;
@@ -52,19 +50,25 @@ static char		*get_new_data_str(char *s)
 
 	s_len = ft_strlen(s);
 	i = 0;
-	quotes_to_remove_count = 0;
+	chars_to_remove = 0;
 	while (s[i])
-		if (is_removable(&s, &i, &jump_ptr))
+		if (s[i] == '\\')
 		{
-			quotes_to_remove_count += (s[i] == '"' || s[i] == '\'') ? (2) : (1);
+			chars_to_remove += 1;
+			log_debug("Skipping %s", s + i + 1);
+			i += 2;
+		}
+		else if (((s)[i] == '\'' || (s)[i] == '"') && \
+			is_quote_removable(&s, &i, &jump_ptr))
+		{
+			chars_to_remove += (s[i] == '"' || s[i] == '\'') ? (2) : (1);
 			s = jump_ptr + sizeof(char);
 			i = 0;
 		}
 		else
 			i += 1;
-	new_data_str_size = (sizeof(char) * ((s_len - quotes_to_remove_count) + 1));
+	new_data_str_size = (sizeof(char) * ((s_len - chars_to_remove) + 1));
 	new_data_str = malloc(new_data_str_size);
-	new_data_str[new_data_str_size - 1] = '\0';
 	return (new_data_str);
 }
 
@@ -84,7 +88,13 @@ static void		fill_new_data_str(char *s, char *new_data)
 	i = 0;
 	jump_ptr = s;
 	while (s[i])
-		if (is_removable(&s, &i, &jump_ptr))
+		if (s[i] == '\\')
+		{
+			new_data[j++] = s[i + 1];
+			i += 2;
+		}
+		else if (((s)[i] == '\'' || (s)[i] == '"') && \
+			is_quote_removable(&s, &i, &jump_ptr))
 		{
 			if (jump_ptr)
 			{
@@ -95,18 +105,15 @@ static void		fill_new_data_str(char *s, char *new_data)
 						i++;
 					new_data[j++] = s[i++];
 				}
-				if (!s[i])
-					break ;
 			}
 			else
-			{
-				log_warn("Code rouge: |%s| %d", s + i, i);
 				new_data[j++] = s[++i];
-			}
-			i++;
+			if (s[i])
+				i++;
 		}
 		else
 			new_data[j++] = s[i++];
+	new_data[j] = '\0';
 }
 
 /*
