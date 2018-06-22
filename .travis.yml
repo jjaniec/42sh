@@ -1,5 +1,7 @@
 language: c
 sudo: true
+notifications:
+  email: false
 before_install:
     - brew update || sudo apt-get update -yqq
 matrix:
