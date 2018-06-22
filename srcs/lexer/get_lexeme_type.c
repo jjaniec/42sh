@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 16:52:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 20:39:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,15 @@ static size_t	lexeme_type_rediropt(char *s, int *pos, \
 size_t			get_lexeme_type(char *s, int *pos, \
 					char **data, size_t *type_details)
 {
-	static int	env_assigns_passed = 0;
-
 	if (!s)
 		return (0);
 	if (is_operator(s[*pos]))
 	{
+		env_assigns_status(*"sets env_assigns_passed to 1", 1);
 		if (lexeme_type_ctrlopt(s + *pos, pos, data, type_details))
 			return (T_CTRL_OPT);
 		if (lexeme_type_rediropt(s + *pos, pos, data, type_details))
 			return (T_REDIR_OPT);
 	}
-	return (lexeme_type_word(s, pos, data, &env_assigns_passed));
+	return (lexeme_type_word(s, pos, data));
 }

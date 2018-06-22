@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 17:23:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 20:40:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ t_lexeme			*lexer(char *line)
 			make_next_lexeme(line, &i, &lexemes, &cur_elem);
 			lexemes_count += 1;
 		}
+	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
 	return (lexemes);
 }
