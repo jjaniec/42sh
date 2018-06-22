@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 15:00:05 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 17:30:43 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,17 @@ char	**prepare_argv(t_lexeme *lex)
 		size++;
 		lex = lex->next;
 	}
+	return (tab);
+}
+
+char	**prepare_argv_simple(t_lexeme *lex)
+{
+	char		**tab;
+
+	tab = (char **)ft_memalloc(sizeof(char *) * 2);
+	if (!tab)
+		exit(MALLOC_ERROR);
+	tab[0] = lex->data;
 	return (tab);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 12:06:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 17:30:57 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_ast	*ast(t_lexeme *lex);
 t_ast	*construct_ast(t_lexeme *lex, t_ast *root);
 t_ast	*create_node(size_t type, size_t type_details, char **data);
 char	**prepare_argv(t_lexeme *lex);
+char	**prepare_argv_simple(t_lexeme *lex);
 int		check_parsing(t_lexeme *lex);
 
 void	ast_debug(t_ast *root);

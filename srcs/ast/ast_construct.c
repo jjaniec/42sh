@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 14:52:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 17:33:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ t_ast	*construct_ast(t_lexeme *lex, t_ast *root)
 	{
 		if (lvl_lex(lex) == 4)
 		{
-			new = create_node(T_WORD, TK_DEFAULT, prepare_argv(lex));
-			while (lex->next && lex->next->type == T_WORD)
+			if (lex->type == T_WORD)
+				new = create_node(lex->type, lex->type_details, prepare_argv(lex));
+			else
+				new = create_node(lex->type, lex->type_details, prepare_argv_simple(lex));
+			while (lex->type == T_WORD && lex->next && lex->next->type == T_WORD)
 				lex = lex->next;
 		}
 		else
