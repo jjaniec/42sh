@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 15:55:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 19:10:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,15 @@ void	lexer_tests(void)
 		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
 	test_ll("Medium - Other 1", "ls > \"2>&1\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2>&1", T_WORD, TK_DEFAULT);
 	test_ll("Quotes merging 1", "ls\" lol \\\"   \\\"   \"' lol \\''", "ls lol \"   \"    lol '", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes merging 1", "lol\\ lol", "lol lol", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes merging 2", "\\ \\ \\ \\ ls", "    ls", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes merging 3", "ls \\ \\ \\ \\ ls", "ls", T_WORD, TK_DEFAULT, "    ls", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes merging 4 - Hard", "\\ \\ \"  ls \\\" \"", "    ls \" ", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes merging 5 - V Hard", "\\ \\ \"  ls \\\" \"' ls\\' '\\ \"aaa\"", "    ls \"  ls'  aaa", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes Operators 1", "\\; \\&&", ";", T_WORD, TK_DEFAULT, "&", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND);
+	test_ll("Backslashes Operators 2", "  ls \\>arg1>\\>file  ", "ls", T_WORD, TK_DEFAULT, ">arg1", T_WORD, TK_DEFAULT, \
+		">", T_REDIR_OPT, TK_GREAT, ">file", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes Operators 3", "");
 	test_ll("Escapes 1", "ls \"\\\"\"", "ls", T_WORD, TK_DEFAULT, "\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 2", "ls -la\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 3", "ls -la\"\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
@@ -77,11 +86,16 @@ void	lexer_tests(void)
 	test_ll("Escapes 7 - Backslashes", "ls\\\"ls", "ls\"ls", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 8 - Backslashes", "ls\\\\\\\"ls", "ls\\\"ls", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 9 - Backslashes", "ls\"     \\\\\\\"      \"", "ls     \\\"      ", T_WORD, TK_DEFAULT);
+	test_ll("Escapes 10", "ls\"'''\"", "ls'''", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 1", "\\", "\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 2", "\\\\", "\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 3", "\\\\\\", "\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 4", "\\\\\\\\", "\\\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 5", "\\\"\\\\", "\"\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 5", "\\\"\\\t", "\"\t", T_WORD, TK_DEFAULT);
-	test_ll("Mixed Escapes 1", "ls\"'''\"", "ls'''", T_WORD, TK_DEFAULT);
+	test_ll("Env assignements 1", "LS_COLORS=random", "LS_COLORS=random", T_ENV_ASSIGN, TK_DEFAULT);
+	test_ll("Env assignements 2", "A=b C=d E=f 1 > 2 && 3", "A=b", T_ENV_ASSIGN, TK_DEFAULT, "C=d", T_ENV_ASSIGN, TK_DEFAULT, \
+		"E=f", T_ENV_ASSIGN, TK_DEFAULT, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2", T_WORD, TK_DEFAULT, \
+		"&&", T_CTRL_OPT, TK_DAND, "3", T_WORD, TK_DEFAULT);
 }
+  
