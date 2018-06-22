@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 18:06:05 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 18:52:35 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ast_tree(void)
 	ast_tree_diff(1, "1 ; 2 | 3 && 4 || 5 > 6 > 7 < 8 ;");
 	ast_tree_diff(2, "1 ; 2 ; 3 > 4 > 5 | 6 || 7");
 	ast_tree_diff(3, "1");
+	system("rm tests/ast_tree/A.txt");
 }
 
 void ast_tests(void)
