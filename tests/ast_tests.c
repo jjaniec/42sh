@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 18:52:35 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 19:05:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	tests_multi_ok(char *test_name, int nbr_tests, ...)
 			ok(!check_parsing(lexer(ft_strdup(str))), test_name);
 		i++;
 	}
+	va_end(va_ptr);
 }
 
 void ast_check(void)

@@ -6,12 +6,16 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 11:52:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 11:54:14 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 19:19:10 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+** Set of functiun to look a the level of an operator of a *lexeme
+** 0 is high priority, 4 is low priority
+*/
 inline int	is_nodeop0(t_ast *ast)
 {
 	return (ast->type_details == TK_AND

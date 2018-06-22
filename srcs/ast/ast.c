@@ -6,12 +6,15 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 18:55:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 19:16:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+** Malloc and create an AST node
+*/
 t_ast	*create_node(size_t type, size_t type_details, char **data)
 {
 	t_ast	*node;
@@ -29,6 +32,7 @@ t_ast	*create_node(size_t type, size_t type_details, char **data)
 ** Get the first node of a linked list t_lexeme of type T_WORD
 ** Return the char** corresponding to all next T_WORD elements
 ** Useful for getting the argv correct for execve()
+** char** is NULL-terminated
 */
 char	**prepare_argv(t_lexeme *lex)
 {
@@ -56,6 +60,9 @@ char	**prepare_argv(t_lexeme *lex)
 	return (tab);
 }
 
+/*
+** Take a char * and tronsform it in a char** NULL-terminated
+*/
 char	**prepare_argv_simple(t_lexeme *lex)
 {
 	char		**tab;
@@ -67,6 +74,10 @@ char	**prepare_argv_simple(t_lexeme *lex)
 	return (tab);
 }
 
+/*
+** Main function of AST.
+** Return NULL if there is a problem during the check / construction
+*/
 t_ast	*ast(t_lexeme *lex)
 {
 	t_ast	*root;

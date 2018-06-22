@@ -6,12 +6,16 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 17:47:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/21 18:10:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 19:18:50 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+** Set of functiun to look a the level of an operator of a *lexeme
+** 0 is high priority, 4 is low priority
+*/
 inline int	is_op0(t_lexeme *lex)
 {
 	return (lex->type_details == TK_AND
