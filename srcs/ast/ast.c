@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 17:30:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 18:55:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ t_ast	*ast(t_lexeme *lex)
 {
 	t_ast	*root;
 
+	if (!lex)
+		return (NULL);
 	root = NULL;
 	if (!check_parsing(lex))
 		return (NULL);
