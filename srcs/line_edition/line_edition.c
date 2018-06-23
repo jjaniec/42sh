@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:43:27 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/22 20:27:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/06/23 19:32:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ FILE *tty_debug = NULL; // debug
 #include "../../includes/line_edition.h"
 #undef FOOLOL // debug
 
-void	read_key(char key[LE_KEY_SIZE])
+static void	read_key(char key[LE_KEY_SIZE])
 {
 	ssize_t read_ret;
 
@@ -31,7 +31,14 @@ void	read_key(char key[LE_KEY_SIZE])
 	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ... 
 }
 
-void	line_edition(void)
+static bool	is_end_of_line(const char *key)
+{
+	if (ft_strlen(key) == 1U && key[0] == '\n')
+		return (true);
+	return (false);
+}
+
+void		line_edition(void)
 {
 	char    final_line[LE_LINE_SIZE];
 	char    key[LE_KEY_SIZE];
@@ -43,10 +50,15 @@ void	line_edition(void)
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
 		read_key(key);
+		if (is_end_of_line(key))
+		{
+			set_term_attr(SET_OLD);
+			break ;
+			// need more things to do in the future when line is finished
+		} 
 
-		if (*key == 'q') le_exit("\nquit\n", __func__); // tmp debug
+		process_key(key);
 
-		fprintf(tty_debug, "test\n");
 	}
 }
 

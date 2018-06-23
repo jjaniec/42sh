@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 19:21:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/22 20:29:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/06/23 16:43:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		init_termcaps(void)
 	if ((term = getenv("TERM")) == NULL)
 		term = "xterm-256color";
 	if (tgetent(NULL, term) != 1)
-		le_exit("\nError while getting terminal attributes\n", __func__);
+		le_exit("Error while getting terminal attributes\n", "tgetent");
 }
 
 static void		init_termios_flags(struct termios *new)
@@ -45,16 +45,16 @@ void			set_term_attr(t_set_term mode)
 	if (mode == SET_NEW)
 	{
 		if (tcgetattr(STDIN_FILENO, &old) == -1)
-			le_exit("\nError while getting terminal attributes\n", __func__);
+			le_exit("Error while getting terminal attributes\n", "tcgetattr");
 		new = old;
 		init_termios_flags(&new);
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			le_exit("\nError while setting terminal attributes\n", __func__);
+			le_exit("Error while setting terminal attributes\n", "tcsetattr");
 		init_termcaps();
 	}
 	else if (mode == SET_OLD)
 	{
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &old) == -1)
-			le_exit("\nError while setting terminal attributes\n", __func__);
+			le_exit("Error while setting terminal attributes\n", "tcsetattr");
 	}
 }
