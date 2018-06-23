@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 15:39:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/20 16:52:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	store_optlexeme(char *s, int data_len, \
 ** Parse control operators (see lexer.h) and create a substring of it in *data
 */
 
-static int		lexeme_type_ctrlopt(char *s, int *pos, \
+static size_t	lexeme_type_ctrlopt(char *s, int *pos, \
 					char **data, size_t *type_details)
 {
 	int		data_len;
@@ -59,7 +59,7 @@ static int		lexeme_type_ctrlopt(char *s, int *pos, \
 ** and create a substring of it in *data
 */
 
-static int		lexeme_type_rediropt(char *s, int *pos, \
+static size_t	lexeme_type_rediropt(char *s, int *pos, \
 					char **data, size_t *type_details)
 {
 	int		data_len;

@@ -1,45 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   has_matching_quote.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 18:33:59 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/06/21 15:20:15 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/06/22 15:39:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static void lexer_loop(void)
+char		*has_matching_quote(char *s, int pos)
 {
-  t_lexeme	*lex;
-	char	*input;
+	int		i;
+	char	quote;
 
-	input = malloc(sizeof(char) * 200);
-	while (1)
+	i = pos + 1;
+	quote = *(s + pos);
+	log_debug("Searching %c in |%s| - pos %d - len %d", quote, s + i, i, ft_strlen(s));
+	while (s[i])
 	{
-		read(STDIN_FILENO, input, 200);
-		lex = lexer(input);
-    ast(lex);
-		ft_bzero(input, 200);
+		if (s[i] == quote)
+		{
+			log_debug("return |%s|", s + i);
+			return (s + i);
+		}
+		else if (s[i] == '\\')
+		{
+			log_debug("Skipping |%s|", s + i + 1);
+			i += 1;
+		}
+		if (s[i])
+			i++;
 	}
-	free(input);
-}
-
-int	main(int ac, char **av)
-{
-  t_lexeme	*lex;
-  
-  if (!DEBUG)
-		log_set_quiet(1);
-	if (ac > 1)
-  {
-		lex = lexer(ft_strdup(av[1]));
-	  ast(lex);
-  }
-	else
-		lexer_loop();
-	return (0);
+	log_debug("No matching quote found");
+	return (NULL);
 }

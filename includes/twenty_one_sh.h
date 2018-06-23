@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 19:24:35 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/22 19:24:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "log.h"
 # include "ast.h"
 
-# define IFS		"\t\n "
-# define MALLOC_ERROR 1
+# define IFS			"\t\n "
+# define MALLOC_ERROR 	1
 
 #endif
