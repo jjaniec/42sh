@@ -4,6 +4,8 @@ notifications:
   email: false
 before_install:
     - brew update || sudo apt-get update -yqq
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
 matrix:
     include:
         - os: osx
@@ -25,4 +27,4 @@ matrix:
         - os: linux
           compiler: clang
           env: CXX=clang
-script: make CC=$CXX && make tests && ./21sh_tests
+script: make tests && ./21sh_tests; r=$?; make coverage; return $r

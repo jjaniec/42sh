@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/21 15:20:50 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/23 11:43:03 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,16 +39,19 @@ TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/
 FT_PRINTF_DIR = ./ft_printf/
+LIBTAP_DIR = libtap
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
 TESTS_OBJ = $(addprefix $(TESTS_DIR),$(TESTS_SRC_NAME:.c=.o))
+TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $(LIBTAP_DIR),"/tap.o")
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 DEBUG?=0
 DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
+COVERAGE_FLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf
 
@@ -99,9 +102,13 @@ $(TESTS_DIR)%.o: $(TESTS_DIR)%.c $(addprefix $(TESTS_DIR),/tests.h)
 
 $(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
 	$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
-	$(CC) $(CFLAGS) $(LFLAGS) $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $(LIBTAP_DIR),"/tap.o") $(LIBFTPRINTF) -o $(TESTS_EXEC)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC)
 
+tests: CFLAGS += $(COVERAGE_FLAGS)
 tests: $(LIBTAP_DIR) $(TESTS_EXEC)
+
+coverage: tests
+	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME)) 2> /dev/null
 
 clean:
 	@rm -rf $(OBJ_DIR)
