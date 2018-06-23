@@ -6,11 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 20:39:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/23 17:42:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** Makes a substring of our operator to store it in lexeme->data
+*/
 
 static size_t	store_optlexeme(char *s, int data_len, \
 				int *pos, char **data, size_t type)
@@ -110,6 +114,12 @@ static size_t	lexeme_type_rediropt(char *s, int *pos, \
 	return (0);
 }
 
+/*
+** Determines type of lexeme (type list in lexer.h)
+** If an operator is found, call env_assign_status to toggle creation
+** of T_ENV_ASSIGN elements
+*/
+
 size_t			get_lexeme_type(char *s, int *pos, \
 					char **data, size_t *type_details)
 {
@@ -117,7 +127,7 @@ size_t			get_lexeme_type(char *s, int *pos, \
 		return (0);
 	if (is_operator(s[*pos]))
 	{
-		env_assigns_status(*"sets env_assigns_passed to 1", 1);
+		env_assigns_status(*"stop creating T_ENV_ASSIGN elements", 1);
 		if (lexeme_type_ctrlopt(s + *pos, pos, data, type_details))
 			return (T_CTRL_OPT);
 		if (lexeme_type_rediropt(s + *pos, pos, data, type_details))

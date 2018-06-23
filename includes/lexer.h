@@ -106,6 +106,6 @@ void					clean_word_lexeme(char **data);
 
 char					*has_matching_quote(char *s, int pos);
 
-int						env_assigns_status(int mode_set, int mode_set_value);
+int						env_assigns_status(int mode_set, int new_value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 19:10:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/23 17:45:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	lexer_tests(void)
 		">&", T_REDIR_OPT, TK_GREATAND, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "test.txt", T_WORD, TK_DEFAULT, \
 		";", T_CTRL_OPT, TK_SEMICOLON, "aaaa", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "bbb", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, \
 		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
+	test_ll("Medium - Mixed 3", "ls<<-&", "ls", T_WORD, TK_DEFAULT, "<<-", T_REDIR_OPT, TK_DLESSDASH, "&", T_CTRL_OPT, TK_AND);
 	test_ll("Medium - Other 1", "ls > \"2>&1\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2>&1", T_WORD, TK_DEFAULT);
 	test_ll("Quotes merging 1", "ls\" lol \\\"   \\\"   \"' lol \\''", "ls lol \"   \"    lol '", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes merging 1", "lol\\ lol", "lol lol", T_WORD, TK_DEFAULT);
