@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 14:20:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 18:52:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,22 @@
 **            != NULL
 */
 
-static int		is_quote_removable(char **s, int *i, char **jump_ptr)
+static int		is_quote_removable(char **s, int *i, char **jump_ptr, int *quote_type)
 {
 	char	*tmp;
+	char	c;
 
+	c = (*s)[*i];
 	tmp = NULL;
 	if ((tmp = has_matching_quote((*s), *i)))
 	{
 		if (jump_ptr)
 			*jump_ptr = tmp;
 		log_debug("Found removable quote @ tmp : |%s|", tmp);
+		if (c == '"')
+			*quote_type = IN_DQUOTES;
+		else if (c == '\'')
+			*quote_type = IN_SQUOTES;
 		return (1);
 	}
 	return (0);
@@ -45,6 +51,7 @@ static void		fill_new_data_str(char *s, char *new_data)
 {
 	int		i;
 	int		j;
+	int		in_quote_type;
 	char	*jump_ptr;
 
 	j = 0;
@@ -53,24 +60,19 @@ static void		fill_new_data_str(char *s, char *new_data)
 	while (s[i])
 		if (s[i] == '\\')
 		{
-			new_data[j++] = s[i + 1];
-			i += 2;
+			handle_backslash_escape(s, &i, 0);
+			new_data[j++] = s[i++];
 		}
 		else if (((s)[i] == '\'' || (s)[i] == '"') && \
-			is_quote_removable(&s, &i, &jump_ptr))
+			is_quote_removable(&s, &i, &jump_ptr, &in_quote_type))
 		{
-			if (jump_ptr)
+			i++;
+			while (s[i] && (s + i) != jump_ptr)
 			{
-				i++;
-				while (s[i] && (s + i) != jump_ptr)
-				{
-					if (s[i] == '\\')
-						i++;
-					new_data[j++] = s[i++];
-				}
+				if (s[i] == '\\')
+					handle_backslash_escape(s, &i, in_quote_type);
+				new_data[j++] = s[i++];
 			}
-			else
-				new_data[j++] = s[++i];
 			if (s[i])
 				i++;
 		}

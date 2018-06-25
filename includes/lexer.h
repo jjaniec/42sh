@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 14:31:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 14:45:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,17 @@
 
 # define UNMATCHED_QUOTE_ERR	-1
 
-# define T_SQUOTE			1
-# define T_DQUOTE			2
+/*
+** Backslashes rules for handle_backslash_escape()
+*/
+
+# define NOT_IN_QUOTES		0
+# define IN_SQUOTES			1
+# define IN_DQUOTES			2
+
+/*
+** Lexeme types and TOKENS
+*/
 
 # define T_ENV_ASSIGN		1
 
@@ -114,6 +123,5 @@ char					*has_matching_quote(char *s, int pos);
 int						env_assigns_status(int mode_set, int new_value);
 
 void					handle_backslash_escape(char *s, int *pos, int in_quote_type);
-
 
 #endif

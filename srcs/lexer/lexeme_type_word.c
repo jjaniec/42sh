@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 14:30:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 16:21:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	skip_quotes_substring(char *s, int *pos, int start)
 		ft_printf("42sh: Error: Unmatched %c\n", s[start]);
 		return (1);
 	}
-	*pos = ((quote_pos - s) / sizeof(char) + sizeof(char));
+	*pos = ((quote_pos - s) / sizeof(char) /*+ sizeof(char)*/);
 	log_debug("end: |%s| - %d", s + *pos, *pos);
 	return (0);
 }
@@ -49,20 +49,19 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]))
 	{
 		if (s[*pos] == '\\')
-			handle_backslash_escape(s, pos, 0);
+			handle_backslash_escape(s, pos, NOT_IN_QUOTES);
 		else if (s[*pos] == '\'' || s[*pos] == '"')
 		{
 			if (skip_quotes_substring(s, pos, *pos))
 				return (UNMATCHED_QUOTE_ERR);
 		}
-		else
-			*pos += 1;
+		*pos += 1;
 	}
 	if (start != *pos)
 	{
 		*data = ft_strsub(s, start, *pos - start);
-		if (*data && (ft_strchr(*data, '\'') || ft_strchr(*data, '"') || \
-			ft_strchr(*data, '\\')))
+		if (*data && (ft_strchr(*data, '\'') || \
+			ft_strchr(*data, '"') || ft_strchr(*data, '\\')))
 			clean_word_lexeme(data);
 	}
 	else
