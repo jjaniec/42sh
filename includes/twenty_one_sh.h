@@ -16,6 +16,7 @@
 # include <ft_printf.h>
 # include "lexer.h"
 # include "log.h"
+# include "ast.h"
 
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	1

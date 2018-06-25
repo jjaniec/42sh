@@ -23,22 +23,30 @@ SRC_NAME = 	is_separator.c \
 			lexer/lexeme_type_word.c \
 			lexer/clean_word_lexeme.c \
 			lexer/has_matching_quote.c \
-			lexer/env_assigns_status.c \
+      lexer/env_assigns_status.c \
+      ast/ast.c \
+			ast/ast_construct.c \
+			ast/check_parsing.c \
+			ast/ast_utils.c \
+			ast/ast_utils_node.c \
+			ast/ast_debug.c \
 			log.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
+				ast.h \
 				twenty_one_sh.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
+					ast_tests.c \
 					main.c
 
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/
+OBJ_SUBDIRS = lexer/ ast/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = libtap
 
