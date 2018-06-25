@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/23 17:45:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 13:31:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,13 @@ void	lexer_tests(void)
 	test_ll("Env assignements 2", "A=b C=d E=f 1 > 2 && 3", "A=b", T_ENV_ASSIGN, TK_DEFAULT, "C=d", T_ENV_ASSIGN, TK_DEFAULT, \
 		"E=f", T_ENV_ASSIGN, TK_DEFAULT, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2", T_WORD, TK_DEFAULT, \
 		"&&", T_CTRL_OPT, TK_DAND, "3", T_WORD, TK_DEFAULT);
+	test_ll("Quotes 1", "ls -la '\\ $PATH'", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "\\ $PATH");
+	test_ll("Quotes 2", "ls'aaaa$$'", "lsaaaa$$", T_WORD, TK_DEFAULT);
+	test_ll("Quotes 3", "ls>|ls '>'", "ls", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "ls", T_WORD, TK_DEFAULT, ">", T_WORD, TK_DEFAULT);
+	test_ll("Quotes 4", "ls |'|' \\' \\'aaa", "ls", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, "|", T_WORD, TK_DEFAULT, \
+		"'", T_WORD, TK_DEFAULT, "'aaa", T_WORD, TK_DEFAULT);
+	test_ll("Quotes 5", "'\\\\\\\\\\$$$'", "'\\\\\\\\\\$$$'", T_WORD, TK_DEFAULT);
+	test_ll("Quotes 6", "ls -la \"\\ $PATH\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "\\ $PATH");
+	test_ll("Quotes 7", "ls -la \"\\\\ $PATH\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "\\ $PATH");
+
 }
-  
