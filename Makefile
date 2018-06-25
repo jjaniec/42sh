@@ -23,6 +23,7 @@ SRC_NAME = 	is_separator.c \
 			lexer/lexeme_type_word.c \
 			lexer/clean_word_lexeme.c \
 			lexer/has_matching_quote.c \
+      lexer/env_assigns_status.c \
       ast/ast.c \
 			ast/ast_construct.c \
 			ast/check_parsing.c \
