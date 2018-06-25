@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 15:47:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 19:26:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static char		*get_new_data_str(char *s)
 		else
 			i += 1;
 	new_data_str_size = (sizeof(char) * ((s_len - chars_to_remove) + 1));
-	new_data_str = malloc(new_data_str_size);
+	if (!(new_data_str = malloc(new_data_str_size)))
+		exit(MALLOC_ERROR);
 	return (new_data_str);
 }
 
