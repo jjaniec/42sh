@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 15:27:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 20:53:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,10 @@ static size_t		get_lexeme(char *str, int *pos, \
 						char **evaluated_str, size_t *type_details)
 {
 	size_t	r;
-	int		lexeme_start;
 
-	(void)lexeme_start;
 	r = 0;
-	while (str[*pos] && is_separator(str[*pos]))
-		*pos += 1;
 	if (str[*pos])
-	{
-		lexeme_start = *pos;
 		r = get_lexeme_type(str, pos, evaluated_str, type_details);
-	}
 	return (r);
 }
 
@@ -69,7 +62,7 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 	t_lexeme	*e;
 
 	type_details = TK_DEFAULT;
-	while (line[*pos] && is_separator(line[*pos]))
+	while (line[*pos] && line[*pos] != '\\' && is_separator(line[*pos]))
 		*pos += 1;
 	if (line[*pos])
 	{
@@ -102,5 +95,6 @@ t_lexeme			*lexer(char *line)
 			make_next_lexeme(line, &i, &lexemes, &cur_elem);
 			lexemes_count += 1;
 		}
+	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
 	return (lexemes);
 }

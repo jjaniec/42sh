@@ -1,3 +1,11 @@
+/objs/
+/.vscode/
+/libtap/
+/ft_printf/
+
+21sh
+21sh_tests
+
 # Prerequisites
 *.d
 

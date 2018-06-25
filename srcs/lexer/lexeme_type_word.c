@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 15:06:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/22 20:38:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static int	skip_quotes_substring(char *s, int *pos, int start)
 ** to skip $IFS separators until corresponding quote
 */
 
-size_t		lexeme_type_word(char *s, int *pos, char **data, \
-				int *env_assigns_passed)
+size_t		lexeme_type_word(char *s, int *pos, char **data)
 {
 	int		start;
 
@@ -68,8 +67,8 @@ size_t		lexeme_type_word(char *s, int *pos, char **data, \
 	}
 	else
 		*data = NULL;
-	if (!(*env_assigns_passed) && ft_strchr(*data, '='))
+	if (!(env_assigns_status(0, 0)) && ft_strchr(*data, '='))
 		return (T_ENV_ASSIGN);
-	*env_assigns_passed = 1;
+	env_assigns_status(1, 1);
 	return (T_WORD);
 }
