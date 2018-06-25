@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 16:21:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 19:22:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 			if (skip_quotes_substring(s, pos, *pos))
 				return (UNMATCHED_QUOTE_ERR);
 		}
-		*pos += 1;
+		if (s[*pos])
+			*pos += 1;
 	}
 	if (start != *pos)
 	{
