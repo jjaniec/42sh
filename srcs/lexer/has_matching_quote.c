@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:20:15 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 16:28:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 20:41:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ char		*has_matching_quote(char *s, int pos)
 			log_debug("return |%s|", s + i);
 			return (s + i);
 		}
-		else if (quote == '"' && s[i] == '\\')
+		else if (s[i] == '\\')
 		{
-			handle_backslash_escape(s, &i, IN_DQUOTES);
 			log_debug("Skipping |%s|", s + i + 1);
-			//i += 1;
+			handle_backslash_escape(s, &i, \
+				(quote == '"') ? (IN_DQUOTES) : (IN_SQUOTES));
 		}
 		if (s[i])
 			i++;

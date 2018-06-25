@@ -74,7 +74,7 @@ void	lexer_tests(void)
 	test_ll("Backslashes merging 2", "\\ \\ \\ \\ ls", "    ls", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes merging 3", "ls \\ \\ \\ \\ ls", "ls", T_WORD, TK_DEFAULT, "    ls", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes merging 4 - Hard", "\\ \\ \"  ls \\\" \"", "    ls \" ", T_WORD, TK_DEFAULT);
-	test_ll("Backslashes merging 5 - V Hard", "\\ \\ \"  ls \\\" \"' ls\\ '\\ \"aaa\"", "    ls \"  ls\\ aaa", T_WORD, TK_DEFAULT);
+	test_ll("Backslashes merging 5 - V Hard", "\\ \\ \"  ls \\\" \"' ls\\ '\\ \"aaa\"", "    ls \"  ls\\  aaa", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes Operators 1", "\\; \\&&", ";", T_WORD, TK_DEFAULT, "&", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND);
 	test_ll("Backslashes Operators 2", "  ls \\>arg1>\\>file  ", "ls", T_WORD, TK_DEFAULT, ">arg1", T_WORD, TK_DEFAULT, \
 		">", T_REDIR_OPT, TK_GREAT, ">file", T_WORD, TK_DEFAULT);
@@ -92,12 +92,11 @@ void	lexer_tests(void)
 	test_ll("Escapes 11", "ls\"'''\"", "ls'''", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 1", "\\", "\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 2", "\\\\", "\\", T_WORD, TK_DEFAULT);
-	test_ll("Full Backslashes 3", "\\\\\\", "\\", T_WORD, TK_DEFAULT);
+	//test_ll("Full Backslashes 3", "\\\\\\", "\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 4", "\\\\\\\\", "\\\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 5", "\\\"\\\\", "\"\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 6", "\\\"\\t", "\"t", T_WORD, TK_DEFAULT);
-	test_ll("Full Backslashes 7", "\\\"\\\t", "\"\\t", T_WORD, TK_DEFAULT);
-	test_ll("Full Backslashes 8", "\\\"\\\\t", "\"\\t", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 7", "\\\"\\\\t", "\"\\t", T_WORD, TK_DEFAULT);
 	test_ll("Env assignements 1", "LS_COLORS=random", "LS_COLORS=random", T_ENV_ASSIGN, TK_DEFAULT);
 	test_ll("Env assignements 2", "A=b C=d E=f 1 > 2 && 3", "A=b", T_ENV_ASSIGN, TK_DEFAULT, "C=d", T_ENV_ASSIGN, TK_DEFAULT, \
 		"E=f", T_ENV_ASSIGN, TK_DEFAULT, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2", T_WORD, TK_DEFAULT, \
