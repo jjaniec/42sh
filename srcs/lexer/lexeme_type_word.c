@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 20:38:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 13:58:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,25 @@ static int	skip_quotes_substring(char *s, int *pos, int start)
 }
 
 /*
+** Skip characters to remove in string
+*/
+
+static void	backslash_escape(char *s, int *pos, int in_quote_type)
+{
+	if (in_quote_type != T_SQUOTE)
+	{
+		if (in_quote_type == T_DQUOTE)
+		{
+
+		}
+		else
+			*pos += (s[*pos + 1]) ? (2) : (1);
+	}
+	else
+		*pos += 1;
+}
+
+/*
 ** Parse word operators (default type),
 ** if string $s do not contains quotes,
 ** a substring will be made to the next $IFS separator,
@@ -49,11 +68,11 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]))
 	{
 		if (s[*pos] == '\\')
-			*pos += (s[*pos + 1]) ? (2) : (1);
+			backslash_escape(s, pos, 0);
 		else if (s[*pos] == '\'' || s[*pos] == '"')
 		{
 			if (skip_quotes_substring(s, pos, *pos))
-				exit(1); // TODO: exit function that frees linked list
+				return (UNMATCHED_QUOTE_ERR);
 		}
 		else
 			*pos += 1;

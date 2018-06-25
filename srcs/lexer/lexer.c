@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 20:53:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 13:59:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 		*pos += 1;
 	if (line[*pos])
 	{
-		if (!(type = get_lexeme(line, pos, &data, &type_details)))
+		type = get_lexeme(line, pos, &data, &type_details);
+		if ((int)type == UNMATCHED_QUOTE_ERR || type == 0)
 			return (NULL);
 		e = create_lexeme(type, data, type_details);
 		return (add_lexeme_to_list(e, lexemes, cur_lexeme));
@@ -92,7 +93,8 @@ t_lexeme			*lexer(char *line)
 	if (line)
 		while (line[i])
 		{
-			make_next_lexeme(line, &i, &lexemes, &cur_elem);
+			if (!(make_next_lexeme(line, &i, &lexemes, &cur_elem)))
+				return (NULL);
 			lexemes_count += 1;
 		}
 	env_assigns_status(*"resets env_assigns_passed value to 0", 0);

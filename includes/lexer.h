@@ -6,13 +6,18 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/22 20:38:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 13:55:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <twenty_one_sh.h>
+
+# define UNMATCHED_QUOTE_ERR	-1
+
+# define T_SQUOTE			1
+# define T_DQUOTE			2
 
 # define T_ENV_ASSIGN		1
 

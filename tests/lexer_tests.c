@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 13:31:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 14:04:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	lexer_tests(void)
 	test_ll("Medium - Mixed 3", "ls<<-&", "ls", T_WORD, TK_DEFAULT, "<<-", T_REDIR_OPT, TK_DLESSDASH, "&", T_CTRL_OPT, TK_AND);
 	test_ll("Medium - Other 1", "ls > \"2>&1\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2>&1", T_WORD, TK_DEFAULT);
 	test_ll("Quotes merging 1", "ls\" lol \\\"   \\\"   \"' lol \\''", "ls lol \"   \"    lol '", T_WORD, TK_DEFAULT);
+	test_ll("Quotes merging 2", "echo \"    test test t\"\"\"\"\"\"est\"", "echo", T_WORD, TK_DEFAULT, "    test test test", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes merging 1", "lol\\ lol", "lol lol", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes merging 2", "\\ \\ \\ \\ ls", "    ls", T_WORD, TK_DEFAULT);
 	test_ll("Backslashes merging 3", "ls \\ \\ \\ \\ ls", "ls", T_WORD, TK_DEFAULT, "    ls", T_WORD, TK_DEFAULT);
@@ -106,5 +107,12 @@ void	lexer_tests(void)
 	test_ll("Quotes 5", "'\\\\\\\\\\$$$'", "'\\\\\\\\\\$$$'", T_WORD, TK_DEFAULT);
 	test_ll("Quotes 6", "ls -la \"\\ $PATH\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "\\ $PATH");
 	test_ll("Quotes 7", "ls -la \"\\\\ $PATH\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "\\ $PATH");
-
+	test_ll("Quotes 8", "echo \"     \\' \"", "echo", T_WORD, TK_DEFAULT, "     \\' ", T_WORD, TK_DEFAULT);
+	ok(lexer("echo '") == NULL, "Unmatched quotes 1");
+	ok(lexer("echo \"") == NULL, "Unmatched quotes 2");
+	ok(lexer("echo '''") == NULL, "Unmatched quotes 3");
+	ok(lexer("echo \"\"\"") == NULL, "Unmatched quotes 4");
+	ok(lexer("echo '      daw da dwd wda''") == NULL, "Unmatched quotes 5");
+	ok(lexer("echo \"     test test tes\"\"t") == NULL, "Unmatched quotes 6");
+	ok(lexer("echo \"    test test t\"\"\"\"\"\"est") == NULL, "Unmatched quotes 7");
 }
