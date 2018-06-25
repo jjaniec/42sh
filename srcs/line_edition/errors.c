@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 19:42:22 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/23 16:43:54 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/06/25 17:10:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	le_exit(const char *msg, const char *func_name)
 	if (msg[ft_strlen(msg) - 1] != '\n')
 		write(STDERR_FILENO, "\n", 1);
 	perror("errno report");
-	exit(FATAL_ERROR);
+	exit(LE_FATAL_ERROR);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/22 15:43:27 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/23 19:32:44 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/06/25 20:26:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ FILE *tty_debug = NULL; // debug
 #include "../../includes/line_edition.h"
 #undef FOOLOL // debug
 
-static void	read_key(char key[LE_KEY_SIZE])
+static void		read_key(char key[LE_KEY_SIZE])
 {
 	ssize_t read_ret;
 
@@ -31,46 +31,64 @@ static void	read_key(char key[LE_KEY_SIZE])
 	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ... 
 }
 
-static bool	is_end_of_line(const char *key)
+static t_kno	get_key_number(const char *key)
 {
-	if (ft_strlen(key) == 1U && key[0] == '\n')
-		return (true);
-	return (false);
+	t_kno	key_no;
+	t_kno	i;
+
+	key_no = 0;
+	i = 0;
+	while (i < LE_KEY_SIZE)
+	{
+		key_no += ((t_kno)key[i]) << i;
+		++i;
+	}
+	return (key_no);
 }
 
-void		line_edition(void)
+char			*line_edition(void)
 {
-	char    final_line[LE_LINE_SIZE];
-	char    key[LE_KEY_SIZE];
+	char			*final_line;
+	char			key[LE_KEY_SIZE];
+	struct s_line	le;
+	t_kno			key_no;
 
-	ft_memset(final_line, '\0', LE_LINE_SIZE);
 	set_term_attr(SET_NEW);
+	init_line_edition_attributes(&le);
 
 	while ("INFINITY")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
 		read_key(key);
-		if (is_end_of_line(key))
+		key_no = get_key_number(key);
+
+		fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
+
+		if (key_no == '\n')
 		{
 			set_term_attr(SET_OLD);
 			break ;
 			// need more things to do in the future when line is finished
 		} 
 
-		process_key(key);
+		process_key(key_no, &le);
 
 	}
+
+	if ((final_line = ft_strdup(le.line)) == NULL)
+		le_exit("Memory allocation failed\n", "malloc");
+	return (final_line);
 }
 
 
 ////////////////////////////////////////////////////////////// for tests
-void    prompt(void)
+void	prompt(void)
 {
 	printf("JJANIEC $> ");
 	fflush(stdout);
 }
 
-void    prepare_test(void)
+void	prepare_test(void)
 {
 	tty_debug = fopen(TTY_DEBUG, "w");
 	if (tty_debug == NULL)
@@ -80,11 +98,11 @@ void    prepare_test(void)
 	}
 }
 
-int     main(void)
+int	 main(void)
 {
 	prepare_test();
 	prompt();
-	line_edition();
+	free( line_edition() );
 
 	return 0;
 }
