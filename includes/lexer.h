@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/20 15:07:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 10:31:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,6 @@
 ** data: pointer to char * from input to data of element
 ** next: ptr to next lexeme
 */
-
-typedef struct			s_lexeme
-{
-	size_t				type;
-	size_t				type_details;
-	char				*data;
-	struct s_lexeme		*next;
-}						t_lexeme;
 
 t_lexeme				*lexer(char *exp);
 

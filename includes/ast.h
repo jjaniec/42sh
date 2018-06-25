@@ -6,23 +6,14 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/23 12:57:38 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/25 13:39:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
-# include <twenty_one_sh.h>
 
-typedef struct	s_ast
-{
-	size_t			type;
-	size_t			type_details;
-	char			**data;
-	struct s_ast	*left;
-	struct s_ast	*right;
-	struct s_ast	*parent;
-}				t_ast;
+# include <twenty_one_sh.h>
 
 t_ast	*ast(t_lexeme *lex);
 t_ast	*construct_ast(t_lexeme *lex, t_ast *root);
@@ -31,8 +22,7 @@ char	**prepare_argv(t_lexeme *lex);
 char	**prepare_argv_simple(t_lexeme *lex);
 int		check_parsing(t_lexeme *lex);
 
-void	ast_explore(t_ast *ast, void (*pre_func)(t_ast *),
-		void (*in_func)(t_ast *), void (*post_func)(t_ast *));
+t_exec	*ast_explore(t_ast *ast, t_exec *exe);
 
 void	ast_debug(t_ast *root);
 

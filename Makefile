@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/23 13:07:45 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/25 11:18:19 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,16 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
 			exec/exec.c \
+			exec/exec_thread.c \
+			exec/manage_env.c \
+			exec/manage_path.c \
 			log.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
 				exec.h \
+				struct.h \
 				twenty_one_sh.h \
 				log.h
 
