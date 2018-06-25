@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 13:59:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/25 22:14:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
 ** Returns created lexeme or NULL if no lexeme are found
 */
 
-static t_lexeme		*make_next_lexeme(char *line, int *pos, \
+static int			make_next_lexeme(char *line, int *pos, \
 						t_lexeme **lexemes, t_lexeme **cur_lexeme)
 {
 	size_t		type;
@@ -67,12 +67,14 @@ static t_lexeme		*make_next_lexeme(char *line, int *pos, \
 	if (line[*pos])
 	{
 		type = get_lexeme(line, pos, &data, &type_details);
-		if ((int)type == UNMATCHED_QUOTE_ERR || type == 0)
-			return (NULL);
+		if ((int)type == UNMATCHED_QUOTE_ERR)
+			return (UNMATCHED_QUOTE_ERR);
 		e = create_lexeme(type, data, type_details);
-		return (add_lexeme_to_list(e, lexemes, cur_lexeme));
+		if (add_lexeme_to_list(e, lexemes, cur_lexeme))
+			return (1);
+		return (0);
 	}
-	return (NULL);
+	return (0);
 }
 
 /*
@@ -85,17 +87,18 @@ t_lexeme			*lexer(char *line)
 	t_lexeme	*lexemes;
 	t_lexeme	*cur_elem;
 	int			i;
-	int			lexemes_count;
+	int			r;
 
 	i = 0;
 	lexemes = NULL;
-	lexemes_count = 0;
 	if (line)
 		while (line[i])
 		{
-			if (!(make_next_lexeme(line, &i, &lexemes, &cur_elem)))
+			r = make_next_lexeme(line, &i, &lexemes, &cur_elem);
+			if (r == UNMATCHED_QUOTE_ERR)
 				return (NULL);
-			lexemes_count += 1;
+			else if (r == 0)
+				break ;
 		}
 	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
 	return (lexemes);
