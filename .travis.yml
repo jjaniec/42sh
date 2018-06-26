@@ -11,9 +11,12 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - gcc-4.8
+    - gcc-8
     - gcc-7
+    - gcc-4.8
     - valgrind
+    # - clang-6.0
+    # - clang-5.0
 matrix:
     include:
         - os: osx
@@ -23,6 +26,9 @@ matrix:
           compiler: clang
           env: CXX=clang
         - os: linux
+          compiler: gcc-8
+          env: CXX=gcc-8
+        - os: linux
           compiler: gcc-7
           env: CXX=gcc-7
         - os: linux
@@ -31,6 +37,12 @@ matrix:
         - os: linux
           compiler: clang
           env: CXX=clang
+        # - os: linux
+        #   compiler: clang-6.0
+        #   env: CXX=clang-6.0
+        # - os: linux
+        #   compiler: clang-5.0
+        #   env: CXX=clang-5.0
     allow_failures:
         - os: linux
           compiler: gcc-7
@@ -41,4 +53,10 @@ matrix:
         - os: linux
           compiler: clang
           env: CXX=clang
+        # - os: linux
+        #   compiler: clang-6.0
+        #   env: CXX=clang-6.0
+        # - os: linux
+        #   compiler: clang-5.0
+        #   env: CXX=clang-5.0
 script: make CC=$CXX tests && ./21sh_tests; r=$?; make coverage; return $r
