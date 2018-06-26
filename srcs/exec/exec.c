@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/25 19:20:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 10:54:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_exec	*create_exec(char **envp)
 	return (exe);
 }
 
-static int	is_builtin(char *cmd)
+int		is_builtin(char *cmd)
 {
 	if (ft_strequ(cmd, "echo")
 	|| ft_strequ(cmd, "cd")
@@ -36,7 +36,7 @@ static int	is_builtin(char *cmd)
 		return (0);
 }
 
-static void	exec_local(char **argv, t_exec *exe)
+void	exec_local(char **argv, t_exec *exe)
 {
 	char	*cmd;
 
@@ -55,7 +55,7 @@ static void	exec_local(char **argv, t_exec *exe)
 		exec_thread(cmd, argv, exe);
 }
 
-static void	exec_builtin(char **argv, t_exec *exe)
+void	exec_builtin(char **argv, t_exec *exe)
 {
 	/*
 	char	*cmd;
@@ -78,7 +78,7 @@ static void	exec_builtin(char **argv, t_exec *exe)
 	(void)exe;
 }
 
-static void	exec_binary(char **argv, t_exec *exe)
+void	exec_binary(char **argv, t_exec *exe)
 {
 	char	*pth;
 	char	**paths;
@@ -89,34 +89,6 @@ static void	exec_binary(char **argv, t_exec *exe)
 	if (pth)
 		exe = exec_thread(pth, argv, exe);
 	ft_strdel(&pth);
-}
-
-t_exec	*pre_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
-	return (exe);
-}
-
-t_exec	*in_exec(t_ast *node, t_exec *exe)
-{
-	if (!node->data || !node->data[0])
-		return (exe);
-	if (node->type == T_WORD)
-	{
-		if (ft_strchr(node->data[0], '/'))
-			exec_local(node->data, exe);
-		else if (is_builtin(node->data[0]))
-			exec_builtin(node->data, exe);
-		else
-			exec_binary(node->data, exe);
-	}
-	return (exe);
-}
-
-t_exec	*post_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
-	return (exe);
 }
 
 int		exec_cmd(t_ast *root, char **envp)

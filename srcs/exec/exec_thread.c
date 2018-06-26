@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/25 15:04:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 11:13:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,13 @@ static int	parent_process(pid_t child_pid)
 t_exec		*exec_thread(char *cmd, char **argv, t_exec *exe)
 {
 	pid_t	child_pid;
-	int		ret;
 
-	ret = -2;
 	child_pid = fork();
 	if (child_pid == -1)
 		log_error("Fork() not working");
 	else if (child_pid == 0)
 		child_process(cmd, argv, exe->envp);
 	else
-		ret = parent_process(child_pid);
+		exe->ret = parent_process(child_pid);
 	return (exe);
 }
