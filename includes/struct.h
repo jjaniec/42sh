@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 11:09:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 11:23:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct	s_ast
 
 /*
 ** int	ret: the return value of the last command. Default: 0
-** int	ret: if set to one, next execve() will be bypassed. Default: 0
+** int	ready_for_exec: if set to one, next execve() will be bypassed. Default: 0
 ** char	**envp: the environmental var. Default: arg of the main()
 ** char	**tmp_envp: environmental var if modified temporarily
 **			(T_ASSIGN_ENVIRONEMENT for instance). Default: NULL

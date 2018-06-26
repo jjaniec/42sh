@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/26 11:14:47 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/26 16:34:49 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC_NAME = 	is_separator.c \
 			exec/io_manager.c \
 			exec/manage_env.c \
 			exec/manage_path.c \
+			builtin/builtin_cd.c \
 			log.c \
 			main.c
 
@@ -52,7 +53,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/
 FT_PRINTF_DIR = ./ft_printf/
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))

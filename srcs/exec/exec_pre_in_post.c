@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 11:14:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 11:24:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_exec	*pre_exec(t_ast *node, t_exec *exe)
 {
-	(void)node;
+	io_manager_pre(node, exe);
 	return (exe);
 }
 
@@ -22,7 +22,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	if (!node->data || !node->data[0])
 		return (exe);
-	io_manager(node, exe);
+	io_manager_in(node, exe);
 	if (node->type == T_WORD && exe->ready_for_exec == 0)
 	{
 		if (ft_strchr(node->data[0], '/'))

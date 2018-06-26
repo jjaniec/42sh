@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 10:54:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 16:38:02 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,22 @@ void	exec_local(char **argv, t_exec *exe)
 
 void	exec_builtin(char **argv, t_exec *exe)
 {
-	/*
+	
 	char	*cmd;
 
 	cmd = argv[0];
 	if (ft_strequ(cmd, "echo"))
-		builtin_echo(argv, envp);
+		builtin_echo(argv, exe);
 	else if (ft_strequ(cmd, "cd"))
-		return (builtin_cd(argv, envp, ret));
+		return (builtin_cd(argv, exe));
 	else if (ft_strequ(cmd, "setenv"))
-		return (builtin_setenv(argv, envp, ret));
+		return (builtin_setenv(argv, exe));
 	else if (ft_strequ(cmd, "unsetenv"))
-		return (builtin_unsetenv(argv, envp, ret));
+		return (builtin_unsetenv(argv, exe));
 	else if (ft_strequ(cmd, "env"))
-		return (builtin_env(argv, envp, ret));
+		return (builtin_env(argv, exe));
 	else if (ft_strequ(cmd, "exit"))
-		builtin_exit(envp);
-	*/
-	(void)argv;
-	(void)exe;
+		builtin_exit(exe);
 }
 
 void	exec_binary(char **argv, t_exec *exe)

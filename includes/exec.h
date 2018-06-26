@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 10:59:20 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 16:34:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	exec_builtin(char **argv, t_exec *exe);
 void	exec_binary(char **argv, t_exec *exe);
 int		is_builtin(char *cmd);
 
-void	io_manager(t_ast *node, t_exec *exe);
+void	io_manager_in(t_ast *node, t_exec *exe);
+void	io_manager_pre(t_ast *node, t_exec *exe);
 
 char	*get_env(const char *name, const char **envp);
 size_t	size_envp(const char **envp);
@@ -34,5 +35,12 @@ void	show_envp(char **envp);
 char	*new_path(char *s1, char *s2);
 char	**get_path(char *str);
 char	*isin_path(char **paths, char *cmd);
+
+void	builtin_exit(t_exec *exe);
+void	builtin_echo(char **argv, t_exec *exe);
+void	builtin_env(char **argv, t_exec *exe);
+void	builtin_setenv(char **argv, t_exec *exe);
+void	builtin_unsetenv(char **argv, t_exec *exe);
+void	builtin_cd(char **argv, t_exec *exe);
 
 #endif

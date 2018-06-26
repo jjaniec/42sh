@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:56:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 11:15:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/26 11:24:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	io_ctrl_opt(t_ast *node, t_exec *exe)
 		exe->ready_for_exec = 1;
 	else if (node->type_details == TK_OR && exe->ret == 0)
 		exe->ready_for_exec = 1;
+	else if (is_nodeop0(node))
+		exe->ready_for_exec = 0;
 	else
 		exe->ready_for_exec = 0;
 }
@@ -28,7 +30,7 @@ static void	io_redir_opt(t_ast *node, t_exec *exe)
 	(void)exe;
 }
 
-void	io_manager(t_ast *node, t_exec *exe)
+void	io_manager_in(t_ast *node, t_exec *exe)
 {
 	if (!node->parent)
 		return ;
