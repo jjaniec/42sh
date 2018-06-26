@@ -20,6 +20,13 @@ void		func_arrow_left(struct s_line *le)
 		return ;
 	}
 
+	if (le->current_cursor_pos == 0)
+	{
+		le->current_cursor_pos = le->li_max_size - 1;
+		le->current_cursor_line -= 1U;
+
+	}
+
 	// if (on est pas sur la premiere ligne ET on est tout a gauche)
 		// alors il faut monter sur la ligne du dessus
 	

@@ -17,7 +17,8 @@ static	struct s_action_key	*get_array_action_key(void)
 	static struct s_action_key	actionk[LE_NB_KEYS] =
 	{
 		{LE_ARROW_RIGHT, &func_arrow_right},
-		{LE_ARROW_LEFT, &func_arrow_left}
+		{LE_ARROW_LEFT, &func_arrow_left},
+		{LE_CTRL_A, &func_ctrl_a}
 	};
 
 	return (actionk);

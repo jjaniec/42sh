@@ -18,16 +18,6 @@
 **	 SET_OLD to set the saved attributes
 */
 
-static void		init_termcaps(void)
-{
-	const char	*term;
-
-	if ((term = getenv("TERM")) == NULL)
-		term = "xterm-256color";
-	if (tgetent(NULL, term) != 1)
-		le_exit("Error while getting terminal attributes\n", "tgetent");
-}
-
 static void		init_termios_flags(struct termios *new)
 {
 	new->c_lflag &= ~(ECHO | ICANON);
@@ -50,7 +40,6 @@ void			set_term_attr(t_set_term mode)
 		init_termios_flags(&new);
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
 			le_exit("Error while setting terminal attributes\n", "tcsetattr");
-		init_termcaps();
 	}
 	else if (mode == SET_OLD)
 	{

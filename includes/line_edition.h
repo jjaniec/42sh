@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys001"
+# define TTY_DEBUG "/dev/ttys000"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -38,13 +38,15 @@
 // sizes
 # define LE_LINE_SIZE (2048U)
 # define LE_KEY_SIZE (7U)
+# define HISTORY_ELEMENT_SIZE (2048)
 
 // keys
-# define LE_NB_KEYS (4U)
+# define LE_NB_KEYS (5U)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
 # define LE_ARROW_LEFT ((27) + (91 << 1) + (68 << 2))
+# define LE_CTRL_A (1)
 
 
 // others
@@ -60,8 +62,9 @@ typedef unsigned int t_set_term;
 
 struct s_le_termcaps
 {
-	const char	*nd;
-	const char	*le;
+	const char	*nd; // Déplacer le curseur vers la droite d’un caractère
+	const char	*le; // Déplacement du curseur d’un caractère vers la gauche
+	const char	*_do; // Descendre le curseur d’une ligne
 };
 
 struct s_line
@@ -76,10 +79,19 @@ struct s_line
 	struct s_le_termcaps	*tcaps;
 };
 
+// REGARDER LA FONCTION PUT_A_KEY() DE SAXIAO, JE FAIS PAREIL OU PAS ? ET PK ?
+
 struct s_action_key
 {
 	t_kno	key;
 	void	(*func_ptr)(struct s_line *);
+};
+
+struct s_history
+{
+	char 				his[HISTORY_ELEMENT_SIZE];
+	struct s_history	*next;
+	struct s_history	*prev;
 };
 
 // prototypes
@@ -99,5 +111,6 @@ void	init_line_edition_attributes(struct s_line *le);
 
 void	func_arrow_right(struct s_line *le);
 void	func_arrow_left(struct s_line *le);
+void	func_ctrl_a(struct s_line *le);
 
 #endif

@@ -59,10 +59,15 @@ char			*line_edition(void)
 	while ("INFINITY")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
-		read_key(key);
+		read_key(key);  //for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);
 
-		fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
+		if (key_no >= 32 && key_no >= 126)
+			fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
+
+		process_key(key_no, &le);
+
+		fprintf(tty_debug, "pos = %u line = %u\n",  le.current_cursor_pos, le.current_cursor_line);
 
 		if (key_no == '\n')
 		{
@@ -70,8 +75,6 @@ char			*line_edition(void)
 			break ;
 			// need more things to do in the future when line is finished
 		} 
-
-		process_key(key_no, &le);
 
 	}
 
@@ -84,7 +87,7 @@ char			*line_edition(void)
 ////////////////////////////////////////////////////////////// for tests
 void	prompt(void)
 {
-	printf("JJANIEC $> ");
+	printf("SERGE   $> ");
 	fflush(stdout);
 }
 
@@ -102,7 +105,10 @@ int	 main(void)
 {
 	prepare_test();
 	prompt();
-	free( line_edition() );
+	
+	char * s = line_edition();
+	printf("\ninput = %s", s);
+	free(s);
 
 	return 0;
 }

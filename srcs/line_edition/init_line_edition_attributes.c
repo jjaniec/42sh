@@ -24,11 +24,12 @@ static unsigned int	get_terminal_nb_col(void)
 
 void    			init_line_edition_attributes(struct s_line *le)
 {
+	le->tcaps = init_termcaps_strings();
 	ft_memset(le->line, '\0', LE_LINE_SIZE);
 	le->line_index = 0U;
     le->start_pos = 10U; // tmp value, need to be updated according to the prompt
     le->current_cursor_pos = le->start_pos;
 	le->current_cursor_line = 0U;
 	le->li_max_size = get_terminal_nb_col();
-	le->tcaps = init_termcaps_strings();
+	
 }

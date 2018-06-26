@@ -12,19 +12,55 @@
 
 #include "../../includes/line_edition.h"
 
+bool possible_to_go_right(struct s_line *le)
+{
+	if (le->current_cursor_line == 0)
+	{
+		if (le->current_cursor_pos == (le->line_index + le->start_pos))
+			return (false);
+		return (true);
+	}
 
+	fprintf(tty_debug, "line_index = %u\nli_max_sz = %u\nstartpos = %u\n",
+	le->line_index, le->li_max_size, le->start_pos	);
+
+	fprintf(tty_debug, ">>> %d\n",  (le->line_index -
+	(le->current_cursor_line * le->li_max_size - le->start_pos)) + 2    );
+
+
+	if (le->current_cursor_pos ==  (le->line_index -
+	(le->current_cursor_line * le->li_max_size - le->start_pos)) + 1  )
+
+	{
+		fprintf(tty_debug, "ICI\n");
+		return (false);
+	}
+
+	// LE DERNIER CAR DUNE LIGNE SAFFICHE EN BAS AU LIEU DE LA DERNIERE PLACE DE LA LIGNE
+	
+	return (true);
+}
 
 void		func_arrow_right(struct s_line *le)
 {
-	if (le->current_cursor_pos == (le->line_index + le->start_pos))
+	if ( possible_to_go_right(le) == false )
 	{
 		fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
 		return ;
 	}
 
-	if (le->current_cursor_pos == le->li_max_size)
+	if (le->current_cursor_pos == le->li_max_size - 2)
 	{
 		// passer a la ligne du dessous
+		fprintf(tty_debug, "PASSAGE LIGNE DU DESSOUS\n");
+		le->current_cursor_line += 1U;
+		le->current_cursor_pos = 0U;
+		tputs(le->tcaps->_do, 1, &write_one_char);
+
+		for (unsigned int i = 0 ; i < le->li_max_size - 1 ; ++i)
+		{
+			tputs(le->tcaps->le, 1, &write_one_char);
+		}
 	}
 	else
 	{
