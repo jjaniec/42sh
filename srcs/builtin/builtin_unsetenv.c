@@ -6,11 +6,11 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:45:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/04/30 14:41:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:25:38 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <twenty_one_sh.h>
 
 static char	**create_new_tab(const size_t size, char **envp)
 {
@@ -43,7 +43,8 @@ static int	unset(char **envp, char *name)
 {
 	int		pos;
 
-	if (get_env(name, (const char **)envp, &pos))
+	pos = get_env_pos(name, (const char **)envp);
+	if (pos != -1)
 	{
 		envp[pos][0] = '=';
 		return (1);
@@ -51,20 +52,19 @@ static int	unset(char **envp, char *name)
 	return (0);
 }
 
-char		**builtin_unsetenv(char **argv, char **envp, int *ret)
+void		builtin_unsetenv(char **argv, char **envp, t_exec *exe)
 {
 	size_t	i;
 	size_t	removed;
 	char	**new_envp;
 
-	*ret = 0;
+	exe->ret = 0;
 	if (!argv[1])
 	{
-		*ret = 1;
-		error_arg("unsetenv");
-		return (envp);
+		exe->ret = 1;
+		//error_arg("unsetenv");
 	}
-	else if (argv[1])
+	else
 	{
 		i = 1;
 		removed = size_envp((const char **)envp);
@@ -74,10 +74,12 @@ char		**builtin_unsetenv(char **argv, char **envp, int *ret)
 			i++;
 		}
 		new_envp = create_new_tab(removed, envp);
-		free_envp(envp);
-		return (new_envp);
+		//if (exe->tmp_envp)
+			//free_envp(exe->tmp_envp);
+		//if (exe->envp)
+			//free_envp(exe->envp);
+		exe->envp = new_envp;
 	}
-	return (envp);
 }
 
 char		**inline_unsetenv(char *name, char **envp)

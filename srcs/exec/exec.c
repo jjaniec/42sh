@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 16:38:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 11:44:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		is_builtin(char *cmd)
 		return (0);
 }
 
-void	exec_local(char **argv, t_exec *exe)
+void	exec_local(char **argv, char **envp, t_exec *exe)
 {
 	char	*cmd;
 
@@ -52,39 +52,38 @@ void	exec_local(char **argv, t_exec *exe)
 		return ;
 	}
 	else
-		exec_thread(cmd, argv, exe);
+		exec_thread(cmd, argv, envp, exe);
 }
 
-void	exec_builtin(char **argv, t_exec *exe)
+void	exec_builtin(char **argv, char **envp, t_exec *exe)
 {
-	
 	char	*cmd;
 
 	cmd = argv[0];
 	if (ft_strequ(cmd, "echo"))
-		builtin_echo(argv, exe);
+		builtin_echo(argv, envp);
 	else if (ft_strequ(cmd, "cd"))
-		return (builtin_cd(argv, exe));
+		return (builtin_cd(argv, envp, exe));
 	else if (ft_strequ(cmd, "setenv"))
-		return (builtin_setenv(argv, exe));
+		return (builtin_setenv(argv, envp, exe));
 	else if (ft_strequ(cmd, "unsetenv"))
-		return (builtin_unsetenv(argv, exe));
+		return (builtin_unsetenv(argv, envp, exe));
 	else if (ft_strequ(cmd, "env"))
-		return (builtin_env(argv, exe));
+		return (builtin_env(argv, envp, exe));
 	else if (ft_strequ(cmd, "exit"))
 		builtin_exit(exe);
 }
 
-void	exec_binary(char **argv, t_exec *exe)
+void	exec_binary(char **argv, char **envp, t_exec *exe)
 {
 	char	*pth;
 	char	**paths;
 
 	exe->ret = -2;
-	paths = get_path(get_env("PATH", (const char**)exe->envp));
+	paths = get_path(get_env("PATH", (const char**)envp));
 	pth = isin_path(paths, argv[0]);
 	if (pth)
-		exe = exec_thread(pth, argv, exe);
+		exe = exec_thread(pth, argv, envp, exe);
 	ft_strdel(&pth);
 }
 

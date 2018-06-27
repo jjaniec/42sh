@@ -6,11 +6,30 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:04:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/25 13:45:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:24:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+int		get_env_pos(const char *name, const char **envp)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (envp[i])
+	{
+		j = 0;
+		while (envp[i][j] == name[j])
+			j++;
+		if (envp[i][j] == '=' && name[j] == '\0')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
 char	*get_env(const char *name, const char **envp)
 {

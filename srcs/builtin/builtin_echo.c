@@ -6,35 +6,30 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/05/04 17:03:47 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 11:25:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <twenty_one_sh.h>
 
 static void	expanse_var(const char *str, const char **envp)
 {
-	int		pos;
-
 	str++;
-	if (LIKELY(*str))
-		buff_add(get_env(str, envp, &pos));
+	if (*str)
+		ft_putstr(get_env(str, envp));
 }
 
 void		builtin_echo(char **argv, char **envp)
 {
 	argv++;
-	buff_clear();
 	while (*argv)
 	{
 		if ((*argv)[0] == '$')
 			expanse_var(*argv, (const char **)envp);
 		else
-			buff_add(*argv);
+			ft_putstr(*argv);
 		if (argv[1])
-			buff_add(" ");
+			ft_putchar(' ');
 		argv++;
 	}
-	buff_add("\n");
-	buff_flush();
 }

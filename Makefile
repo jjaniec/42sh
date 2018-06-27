@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/26 16:34:49 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/27 11:42:24 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,11 @@ SRC_NAME = 	is_separator.c \
 			exec/manage_env.c \
 			exec/manage_path.c \
 			builtin/builtin_cd.c \
+			builtin/builtin_exit.c \
+			builtin/builtin_setenv.c \
+			builtin/builtin_unsetenv.c \
+			builtin/builtin_echo.c \
+			builtin/builtin_env.c \
 			log.c \
 			main.c
 

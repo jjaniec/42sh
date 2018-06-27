@@ -6,16 +6,16 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/04/30 13:04:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:28:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <twenty_one_sh.h>
 
-inline void	builtin_exit(char **envp)
+inline void	builtin_exit(t_exec *exe)
 {
-	ft_putstr("\033[0m");
-	if (LIKELY(envp))
-		free_envp(envp);
+	(void)exe;
+	//if (envp)
+	//	free_envp(envp);
 	exit(0);
 }
