@@ -6,12 +6,17 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:04:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:24:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:54:06 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+** Tool.
+** Take in the name of an environment var and the char **envp.
+** Give back the index of the environment var in the char **envp
+*/
 int		get_env_pos(const char *name, const char **envp)
 {
 	int		i;
@@ -31,6 +36,11 @@ int		get_env_pos(const char *name, const char **envp)
 	return (-1);
 }
 
+/*
+** Tool.
+** Take in the name of an environment var and the char **envp.
+** Give back the value corresponding to the environment var
+*/
 char	*get_env(const char *name, const char **envp)
 {
 	int		i;
@@ -50,6 +60,11 @@ char	*get_env(const char *name, const char **envp)
 	return (NULL);
 }
 
+/*
+** Tool.
+** Take in the char **envp.
+** Give back the size of the char **envp
+*/
 size_t	size_envp(const char **envp)
 {
 	int		i;
@@ -60,6 +75,12 @@ size_t	size_envp(const char **envp)
 	return (i);
 }
 
+/*
+** Tool.
+** Copy in a new allocated char** the char **envp.
+** The argument char **envp is not freed.
+** In case of failure, exit with MALLOC_ERROR
+*/
 char	**cp_envp(const char **envp)
 {
 	char	**new;
@@ -69,18 +90,21 @@ char	**cp_envp(const char **envp)
 	size = size_envp(envp);
 	new = (char **)ft_memalloc(sizeof(char *) * (size + 1));
 	if (!new)
-		exit(1);
+		exit(MALLOC_ERROR);
 	i = 0;
 	while (i < size)
 	{
 		new[i] = ft_strdup(envp[i]);
 		if (new[i])
-			exit(1);
+			exit(MALLOC_ERROR);
 		i++;
 	}
 	return (new);
 }
 
+/*
+** Print the char **envp on STDOUT
+*/
 void	show_envp(char **envp)
 {
 	int		i;

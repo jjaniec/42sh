@@ -6,18 +6,24 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 11:07:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:46:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+** Child. Execve() here
+*/
 static void	child_process(char *cmd, char **argv, char **envp)
 {
 	if (execve(cmd, argv, envp) == -1)
 		log_error("Execve() not working");
 }
 
+/*
+** Parent. Wait() for the child here
+*/
 static int	parent_process(pid_t child_pid)
 {
 	pid_t	wait_pid;
@@ -35,6 +41,10 @@ static int	parent_process(pid_t child_pid)
 	return (status);
 }
 
+/*
+** Fork here.
+** Call the parent_process() function and the child_process() function
+*/
 t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe)
 {
 	pid_t	child_pid;

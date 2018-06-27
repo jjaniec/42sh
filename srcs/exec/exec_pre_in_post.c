@@ -6,12 +6,15 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:29:17 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:44:32 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+** Distribute the **argv to the rigth processing function 
+*/
 void	exec_argv(char **argv, char **envp, t_exec *exe)
 {
 	if (ft_strchr(argv[0], '/'))
@@ -22,6 +25,9 @@ void	exec_argv(char **argv, char **envp, t_exec *exe)
 		exec_binary(argv, envp, exe);
 }
 
+/*
+** Is executed at the first passage of a node in the AST
+*/
 t_exec	*pre_exec(t_ast *node, t_exec *exe)
 {
 	//io_manager_pre(node, exe);
@@ -29,6 +35,9 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe)
 	return (exe);
 }
 
+/*
+** Is executed at the second passage of a node in the AST
+*/
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
@@ -48,6 +57,9 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 	return (exe);
 }
 
+/*
+** Is executed at the third and last passage of a node in the AST
+*/
 t_exec	*post_exec(t_ast *node, t_exec *exe)
 {
 	(void)node;

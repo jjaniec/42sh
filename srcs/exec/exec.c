@@ -6,12 +6,16 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 11:44:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 12:42:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <twenty_one_sh.h>
 
+/*
+** Malloc for the struct t_exec*
+** In fail, exit the program with MALLOC_ERROR
+*/
 static t_exec	*create_exec(char **envp)
 {
 	t_exec	*exe;
@@ -23,7 +27,10 @@ static t_exec	*create_exec(char **envp)
 	return (exe);
 }
 
-int		is_builtin(char *cmd)
+/*
+** Check if function is a builtin
+*/
+static int		is_builtin(char *cmd)
 {
 	if (ft_strequ(cmd, "echo")
 	|| ft_strequ(cmd, "cd")
@@ -36,7 +43,12 @@ int		is_builtin(char *cmd)
 		return (0);
 }
 
-void	exec_local(char **argv, char **envp, t_exec *exe)
+/*
+** Main function for executing a local file like './21_sh' or '/bin/ls'
+** Look for the presence of the file and for execution rigths.
+** Then send everything to exec_thread().
+*/
+static void	exec_local(char **argv, char **envp, t_exec *exe)
 {
 	char	*cmd;
 
@@ -55,7 +67,11 @@ void	exec_local(char **argv, char **envp, t_exec *exe)
 		exec_thread(cmd, argv, envp, exe);
 }
 
-void	exec_builtin(char **argv, char **envp, t_exec *exe)
+/*
+** Main function for executing a builtin.
+** Send informations to 'builtin_nameofthebuiltin()'.
+*/
+static void	exec_builtin(char **argv, char **envp, t_exec *exe)
 {
 	char	*cmd;
 
@@ -74,7 +90,12 @@ void	exec_builtin(char **argv, char **envp, t_exec *exe)
 		builtin_exit(exe);
 }
 
-void	exec_binary(char **argv, char **envp, t_exec *exe)
+/*
+** Main function for executing a binary like 'ls' or 'pwd' or 'sh'
+** Look in the PATH environment var and look for the correponding path.
+** Then send everything to exec_thread().
+*/
+static void	exec_binary(char **argv, char **envp, t_exec *exe)
 {
 	char	*pth;
 	char	**paths;
@@ -87,6 +108,11 @@ void	exec_binary(char **argv, char **envp, t_exec *exe)
 	ft_strdel(&pth);
 }
 
+/*
+** Main execution function. Assume that *ast exist, is completely correct,
+** and can be just executed.
+** char **envp comes directly from the main()
+*/
 int		exec_cmd(t_ast *root, char **envp)
 {
 	t_exec	*exe;
