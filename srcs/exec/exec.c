@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 13:37:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 16:55:25 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 ** Malloc for the struct t_exec*
 ** In fail, exit the program with MALLOC_ERROR
 */
-static t_exec	*create_exec(char **envp)
+static t_exec	*create_exec(const char **envp)
 {
 	t_exec	*exe;
 
 	exe = (t_exec *)ft_memalloc(sizeof(t_exec));
 	if (!exe)
 		exit(MALLOC_ERROR);
-	exe->envp = envp;
+	exe->envp = cp_envp(envp);
 	return (exe);
 }
 
 /*
 ** Check if function is a builtin
 */
-static int		is_builtin(char *cmd)
+int		is_builtin(char *cmd)
 {
 	if (ft_strequ(cmd, "echo")
 	|| ft_strequ(cmd, "cd")
@@ -117,7 +117,7 @@ int		exec_cmd(t_ast *root, char **envp)
 {
 	t_exec	*exe;
 
-	exe = create_exec(envp);
+	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
 	if (!exe)
 		return (-1);

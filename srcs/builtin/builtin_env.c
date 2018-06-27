@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:44:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:01:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 16:48:33 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	**create_new_var(char *str, char **envp)
 		if (!tmp_envp)
 			return (NULL);
 		new_envp = inline_setenv(str, equal + 1, tmp_envp);
-		//free_envp(tmp_envp);
+		ft_free_argv(&tmp_envp);
 		ft_strdel(&str);
 		return (new_envp);
 	}
@@ -44,7 +44,7 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 	exe->ret = 0;
 	if (!argv[1])
 		show_envp(envp);
-	else if (argv[1])
+	else
 	{
 		new_envp = create_new_var(ft_strdup(argv[1]), exe->envp);
 		if (ft_strchr(argv[1], '='))
@@ -56,11 +56,6 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 		}
 		else
 			exec_argv(argv + 1, new_envp, exe);
-		//free_envp(new_envp);
-	}
-	else
-	{
-		exe->ret = 1;
-		//error_arg("env");
+		ft_free_argv(&new_envp);
 	}
 }

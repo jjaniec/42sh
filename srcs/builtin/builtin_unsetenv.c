@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:45:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:25:38 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 16:58:54 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		builtin_unsetenv(char **argv, char **envp, t_exec *exe)
 	if (!argv[1])
 	{
 		exe->ret = 1;
-		//error_arg("unsetenv");
+		ft_putstr_fd("unsetenv: Too few arguments.\n", 2);
 	}
 	else
 	{
@@ -74,10 +74,10 @@ void		builtin_unsetenv(char **argv, char **envp, t_exec *exe)
 			i++;
 		}
 		new_envp = create_new_tab(removed, envp);
-		//if (exe->tmp_envp)
-			//free_envp(exe->tmp_envp);
-		//if (exe->envp)
-			//free_envp(exe->envp);
+		if (exe->tmp_envp)
+			ft_free_argv(&exe->tmp_envp);
+		if (exe->envp)
+			ft_free_argv(&exe->envp);
 		exe->envp = new_envp;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 19:05:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 17:55:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ static void	ast_tree_diff(int test_nbr, char *str)
 	char	*cmd;
 	int		ret;
 	int		save_stdout;
+	t_ast	*root;
 
 	asprintf(&cmd, "diff tests/ast_tree/A.txt tests/ast_tree/%d.txt", test_nbr);
 	save_stdout = dup(1);
 	close(1);
 	open("tests/ast_tree/A.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	ast(lexer(ft_strdup(str)));
+	root = ast(lexer(ft_strdup(str)));
+	ast_debug(root);
 	close(1);
 	dup2(save_stdout, 1);
 	close(save_stdout);

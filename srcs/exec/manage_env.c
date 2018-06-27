@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:04:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:54:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 16:56:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	**cp_envp(const char **envp)
 	while (i < size)
 	{
 		new[i] = ft_strdup(envp[i]);
-		if (new[i])
+		if (!new[i])
 			exit(MALLOC_ERROR);
 		i++;
 	}

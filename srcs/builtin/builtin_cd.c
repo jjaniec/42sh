@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:27:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 17:02:26 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*get_cd_path(char *str, const char **envp)
 	return (final);
 }
 
-static void	change_dir(char *path, char **envp, t_exec *exe)
+static int	change_dir(char *path, char **envp, t_exec *exe)
 {
 	char	*actual_pwd;
 	char	**new_envp;
@@ -76,20 +76,22 @@ static void	change_dir(char *path, char **envp, t_exec *exe)
 	if (chdir(path) == -1)
 	{
 		exe->ret = 1;
-		//error_nofile(path);
+		ft_strdel(&actual_pwd);
+		return (0);
 	}
 	else
 	{
 		new_envp = inline_setenv("PWD", path, envp);
-		//if (exe->envp)
-			//free_envp(exe->envp);
+		if (exe->envp)
+			ft_free_argv(&(exe->envp));
 		exe->envp = inline_setenv("OLDPWD", actual_pwd, new_envp);
-		//if (exe->tmp_envp)
-			//free_envp(exe->tmp_envp);
-		//free_envp(new_envp);
+		if (exe->tmp_envp)
+			ft_free_argv(&(exe->tmp_envp));
+		ft_free_argv(&new_envp);
 	}
 	ft_strdel(&actual_pwd);
 	exe->ret = 0;
+	return (1);
 }
 
 void		builtin_cd(char **argv, char **envp, t_exec *exe)
@@ -101,6 +103,13 @@ void		builtin_cd(char **argv, char **envp, t_exec *exe)
 	else
 		path = get_cd_path(argv[1], (const char **)envp);
 	if (path)
-		change_dir(path, envp, exe);
+	{
+		if (!change_dir(path, envp, exe))
+		{
+			ft_putstr_fd("cd: no such file or directory: ", 2);
+			ft_putstr_fd(argv[1], 2);
+			ft_putchar_fd('\n', 2);
+		}
+	}
 	ft_strdel(&path);
 }

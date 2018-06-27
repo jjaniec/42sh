@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/27 11:42:24 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/27 17:49:24 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ INCLUDES_NAME = lexer.h \
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					ast_tests.c \
+					exec_tests.c \
 					main.c
 
 SRC_DIR = ./srcs/
