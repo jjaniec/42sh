@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 12:42:51 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/27 13:37:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int		is_builtin(char *cmd)
 ** Look for the presence of the file and for execution rigths.
 ** Then send everything to exec_thread().
 */
-static void	exec_local(char **argv, char **envp, t_exec *exe)
+void	exec_local(char **argv, char **envp, t_exec *exe)
 {
 	char	*cmd;
 
@@ -71,7 +71,7 @@ static void	exec_local(char **argv, char **envp, t_exec *exe)
 ** Main function for executing a builtin.
 ** Send informations to 'builtin_nameofthebuiltin()'.
 */
-static void	exec_builtin(char **argv, char **envp, t_exec *exe)
+void	exec_builtin(char **argv, char **envp, t_exec *exe)
 {
 	char	*cmd;
 
@@ -95,7 +95,7 @@ static void	exec_builtin(char **argv, char **envp, t_exec *exe)
 ** Look in the PATH environment var and look for the correponding path.
 ** Then send everything to exec_thread().
 */
-static void	exec_binary(char **argv, char **envp, t_exec *exe)
+void	exec_binary(char **argv, char **envp, t_exec *exe)
 {
 	char	*pth;
 	char	**paths;
