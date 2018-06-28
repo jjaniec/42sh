@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 21:50:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/28 22:45:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	lexer_tests(void)
 	test_ll("Backslashes Operators 1", "\\; \\&&", ";", T_WORD, TK_DEFAULT, "&", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND);
 	test_ll("Backslashes Operators 2", "  ls \\>arg1>\\>file  ", "ls", T_WORD, TK_DEFAULT, ">arg1", T_WORD, TK_DEFAULT, \
 		">", T_REDIR_OPT, TK_GREAT, ">file", T_WORD, TK_DEFAULT);
-	//test_ll("Backslashes Operators 3", "");
 	test_ll("Escapes 1", "ls \"\\\"\"", "ls", T_WORD, TK_DEFAULT, "\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 2", "ls -la\\\"", "ls", T_WORD, TK_DEFAULT, "-la\"", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 3", "ls -la\"\"", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
@@ -96,8 +95,10 @@ void	lexer_tests(void)
 	test_ll("Escapes 10 - Backslashes", "ls\"     \\\\\\\"      \"", "ls     \\\"      ", T_WORD, TK_DEFAULT);
 	test_ll("Escapes 11", "ls\"'''\"", "ls'''", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 1", "\\", "\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 1.1", "\\ ", " ", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 2", "\\\\", "\\", T_WORD, TK_DEFAULT);
-	//test_ll("Full Backslashes 3", "\\\\\\", "\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 2.1", "\\\\ ", "\\", T_WORD, TK_DEFAULT);
+	test_ll("Full Backslashes 3", "\\\\\\ ", "\\ ", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 4", "\\\\\\\\", "\\\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 5", "\\\"\\\\", "\"\\", T_WORD, TK_DEFAULT);
 	test_ll("Full Backslashes 6", "\\\"\\t", "\"t", T_WORD, TK_DEFAULT);
@@ -122,4 +123,17 @@ void	lexer_tests(void)
 	ok(lexer("echo '      daw da dwd wda''") == NULL, "Unmatched quotes 5");
 	ok(lexer("echo \"     test test tes\"\"t") == NULL, "Unmatched quotes 6");
 	ok(lexer("echo \"    test test t\"\"\"\"\"\"est") == NULL, "Unmatched quotes 7");
+	test_ll("Operator quotes 1", "ls >\">\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, ">", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 2", "ls >\"&\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "&", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 3", "ls \"<\"\\&", "ls", T_WORD, TK_DEFAULT, "<&", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 4", "ls \"<\"\\ &", "ls", T_WORD, TK_DEFAULT, "< ", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND);
+	test_ll("Operator quotes 5", "ls '<'\\ &", "ls", T_WORD, TK_DEFAULT, "< ", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND);
+	test_ll("Operator quotes 6", "ls '<\\ '&", "ls", T_WORD, TK_DEFAULT, "<\\ ", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND);
+	test_ll("Operator quotes 7", "ls>'&'", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "&", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 8", "ls>\\&", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "&", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 9", "ls>\\&", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "&", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 10", "ls>\\&", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "&", T_WORD, TK_DEFAULT);
+	test_ll("Operator quotes 11 - Hard", "ls>|\">\"'&'>'|'\\&", "ls", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, ">&", T_WORD, TK_DEFAULT, \
+		">", T_REDIR_OPT, TK_GREAT, "|&", T_WORD, TK_DEFAULT);
+
 }
