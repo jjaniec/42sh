@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 16:55:25 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/28 15:11:27 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		exec_cmd(t_ast *root, char **envp)
 {
 	t_exec	*exe;
 
+	//dprintf(1, "lastnode: %s %p\n", node->data[0], node->data[0]);
 	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
 	if (!exe)

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/27 17:49:24 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/28 16:43:41 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
 			log.c \
+			ft_free_argv.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
