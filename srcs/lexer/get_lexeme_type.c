@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/23 17:42:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/28 22:55:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	lexeme_type_ctrlopt(char *s, int *pos, \
 {
 	int		data_len;
 
-	if (*s == '&' || *s == '|' || *s == ';')
+	if (*s == '&' || *s == '|' || *s == ';' || *s == '\n')
 	{
 		if (*s != ';' && *s == s[1])
 		{
@@ -51,6 +51,8 @@ static size_t	lexeme_type_ctrlopt(char *s, int *pos, \
 				*type_details = TK_PIPE;
 			else if (*s == ';')
 				*type_details = TK_SEMICOLON;
+			else if (*s == '\n')
+				*type_details = TK_NEWLINE;
 			data_len = 1;
 		}
 		return (store_optlexeme(s, data_len, pos, data, T_CTRL_OPT));
