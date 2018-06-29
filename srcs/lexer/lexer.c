@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 22:14:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/29 16:35:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int			make_next_lexeme(char *line, int *pos, \
 	t_lexeme	*e;
 
 	type_details = TK_DEFAULT;
-	while (line[*pos] && line[*pos] != '\\' && is_separator(line[*pos]))
+	while (line[*pos] && line[*pos] != '\\' && line[*pos] != '\n' && is_separator(line[*pos]))
 		*pos += 1;
 	if (line[*pos])
 	{

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/28 23:42:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/29 18:42:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,13 @@ void	lexer_tests(void)
 	test_ll("Operator quotes 11 - Hard", "ls>|\">\"'&'>'|'\\&", "ls", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, ">&", T_WORD, TK_DEFAULT, \
 		">", T_REDIR_OPT, TK_GREAT, "|&", T_WORD, TK_DEFAULT);
 	test_ll("Newlines 1", "   \n    ", "\n", T_CTRL_OPT, TK_NEWLINE);
-	test_ll("Newlines 2 - IN_SQUOTES", "   l'\n ' ", "l\\n ", T_WORD, TK_DEFAULT);
-	test_ll("Newlines 3 - IN_DQUOTES", "l\"\n \" ", "l\\n", T_WORD, TK_DEFAULT);
-	test_ll("Newlines 4", "ls&\n&>>\n>|\n<\n\\'\n<<-\\\n", "ls", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND, \
+	test_ll("Newlines 2 - IN_SQUOTES", "   l'\n ' ", "l\n ", T_WORD, TK_DEFAULT);
+	test_ll("Newlines 3 - IN_SQUOTES", "   l'\\n ' ", "l\\n ", T_WORD, TK_DEFAULT);
+	test_ll("Newlines 4 - IN_DQUOTES", "l\"\\n \" ", "l\\n ", T_WORD, TK_DEFAULT);
+	test_ll("Newlines 5 - IN_DQUOTES", "l\"\n \" ", "l\n ", T_WORD, TK_DEFAULT);
+	test_ll("Newlines 6", "ls&\n&>>\n>|\n<\n\\'\n<<-\\\n", "ls", T_WORD, TK_DEFAULT, "&", T_CTRL_OPT, TK_AND, \
 		"\n", T_CTRL_OPT, TK_NEWLINE, "&", T_CTRL_OPT, TK_AND, ">>", T_REDIR_OPT, TK_DGREAT, \
-		"\n", T_CTRL_OPT, TK_NEWLINE, ">|", T_CTRL_OPT, TK_CLOBBER, "\n", T_CTRL_OPT, TK_NEWLINE, \
+		"\n", T_CTRL_OPT, TK_NEWLINE, ">|", T_REDIR_OPT, TK_CLOBBER, "\n", T_CTRL_OPT, TK_NEWLINE, \
 		"<", T_REDIR_OPT, TK_LESS, "\n", T_CTRL_OPT, TK_NEWLINE, "'", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, \
 		"<<-", T_REDIR_OPT, TK_DLESSDASH);
 }
