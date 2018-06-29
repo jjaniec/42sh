@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/23 11:43:03 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/29 16:00:11 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,9 @@ SRC_NAME = 	is_separator.c \
 			lexer/lexeme_type_word.c \
 			lexer/clean_word_lexeme.c \
 			lexer/has_matching_quote.c \
-      lexer/env_assigns_status.c \
-      ast/ast.c \
+			lexer/env_assigns_status.c \
+			lexer/handle_backslash_escape.c \
+			ast/ast.c \
 			ast/ast_construct.c \
 			ast/check_parsing.c \
 			ast/ast_utils.c \
