@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/25 13:39:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/28 17:29:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	**prepare_argv_simple(t_lexeme *lex);
 int		check_parsing(t_lexeme *lex);
 
 t_exec	*ast_explore(t_ast *ast, t_exec *exe);
+void	ast_free(t_ast *ast);
 
 void	ast_debug(t_ast *root);
 

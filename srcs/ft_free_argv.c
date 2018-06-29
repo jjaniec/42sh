@@ -6,27 +6,24 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 16:53:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/29 14:34:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void	ft_free_argv(char ***tab)
+void	ft_free_argv(char **tab)
 {
 	int		i;
-	char	**t;
 
 	i = 0;
 	if (!tab)
 		return ;
-	t = *tab;
-	while (t && t[i])
+	while (tab && tab[i])
 	{
-		free(t[i]);
-		t[i] = NULL;
+		free(tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
-	free(*tab);
-	*tab = NULL;
+	free(tab);
 }

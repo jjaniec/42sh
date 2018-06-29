@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 11:22:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/28 17:31:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int	main(int ac, char **av, char **envp)
 	if (!ast_root)
 		return (1);
 	exec_cmd(ast_root, envp);
+	//ast_free(ast_root);
 	return (0);
 }

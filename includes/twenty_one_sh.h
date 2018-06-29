@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/28 16:44:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/29 14:45:05 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 # define IFS		"\t\n "
 # define MALLOC_ERROR 1
 
-void	ft_free_argv(char ***tab);
+void	ft_free_argv(char **tab);
 
 #endif

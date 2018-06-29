@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:44:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 16:48:33 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/29 14:39:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static char	**create_new_var(char *str, char **envp)
 		*equal = '\0';
 		tmp_envp = cp_envp((const char **)envp);
 		if (!tmp_envp)
-			return (NULL);
+			exit(MALLOC_ERROR);
 		new_envp = inline_setenv(str, equal + 1, tmp_envp);
-		ft_free_argv(&tmp_envp);
+		ft_free_argv(tmp_envp);
 		ft_strdel(&str);
 		return (new_envp);
 	}
@@ -46,7 +46,7 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 		show_envp(envp);
 	else
 	{
-		new_envp = create_new_var(ft_strdup(argv[1]), exe->envp);
+		new_envp = create_new_var(ft_strdup(argv[1]), envp);
 		if (ft_strchr(argv[1], '='))
 		{
 			if (!argv[2])
@@ -56,6 +56,6 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 		}
 		else
 			exec_argv(argv + 1, new_envp, exe);
-		ft_free_argv(&new_envp);
+		ft_free_argv(new_envp);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 17:02:26 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/29 20:40:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ static char	*create_path(char *path, char *home, char *oldpwd, char *str)
 	char	*final;
 
 	final = NULL;
-	if (str && home && str[0] == '~')
+	if (str && home && str[0] == '~' && str[1])
 		final = new_path(home, str + 1);
+	else if (str && home && str[0] == '~' && !str[1])
+		final = ft_strdup(home);
 	else if (str && path && str[0] == '.' && str[1] == '\0')
 		final = ft_strdup(path);
 	else if (str && path && str[0] == '.' && str[1] == '.' && str[2] == '\0')
@@ -46,7 +48,10 @@ static char	*create_path(char *path, char *home, char *oldpwd, char *str)
 	else if (str && str[0] == '/')
 		final = ft_strdup(str);
 	else if (oldpwd && str && str[0] == '-' && str[1] == '\0')
+	{
 		final = ft_strdup(oldpwd);
+		ft_putendl(oldpwd);
+	}
 	else if (path && str)
 		final = new_path(path, str);
 	return (final);
@@ -59,8 +64,8 @@ static char	*get_cd_path(char *str, const char **envp)
 	char	*home;
 	char	*oldpwd;
 
-	home = get_env("HOME", (const char **)envp);
-	oldpwd = get_env("OLDPWD", (const char **)envp);
+	home = get_env("HOME", envp);
+	oldpwd = get_env("OLDPWD", envp);
 	path = getcwd(NULL, 0);
 	final = create_path(path, home, oldpwd, str);
 	ft_strdel(&path);
@@ -83,11 +88,12 @@ static int	change_dir(char *path, char **envp, t_exec *exe)
 	{
 		new_envp = inline_setenv("PWD", path, envp);
 		if (exe->envp)
-			ft_free_argv(&(exe->envp));
+			ft_free_argv(exe->envp);
 		exe->envp = inline_setenv("OLDPWD", actual_pwd, new_envp);
 		if (exe->tmp_envp)
-			ft_free_argv(&(exe->tmp_envp));
-		ft_free_argv(&new_envp);
+			ft_free_argv(exe->tmp_envp);
+		exe->tmp_envp = NULL;
+		ft_free_argv(new_envp);
 	}
 	ft_strdel(&actual_pwd);
 	exe->ret = 0;

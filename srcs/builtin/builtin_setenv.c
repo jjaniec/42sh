@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:45:27 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 17:23:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/29 14:41:05 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ void		builtin_setenv(char **argv, char **envp, t_exec *exe)
 			new_envp = create_new_tab(size_envp((const char **)envp), envp);
 		new_envp[size_envp((const char**)new_envp)] = add_val(argv[1], argv[2]);
 	if (exe->tmp_envp)
-		ft_free_argv(&exe->tmp_envp);
+	{
+		ft_free_argv(exe->tmp_envp);
+		exe->tmp_envp = NULL;
+	}
 	if (exe->envp)
-		ft_free_argv(&exe->envp);
-		exe->envp = new_envp;
+		ft_free_argv(exe->envp);
+	exe->envp = new_envp;
 	}
 	else
 	{

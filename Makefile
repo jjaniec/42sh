@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/28 16:43:41 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/06/28 17:29:22 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_utils.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			ast/ast_free.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \

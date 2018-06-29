@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:45:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 16:58:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/06/29 14:43:24 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,12 @@ void		builtin_unsetenv(char **argv, char **envp, t_exec *exe)
 		}
 		new_envp = create_new_tab(removed, envp);
 		if (exe->tmp_envp)
-			ft_free_argv(&exe->tmp_envp);
+		{
+			ft_free_argv(exe->tmp_envp);
+			exe->tmp_envp = NULL;
+		}
 		if (exe->envp)
-			ft_free_argv(&exe->envp);
+			ft_free_argv(exe->envp);
 		exe->envp = new_envp;
 	}
 }
