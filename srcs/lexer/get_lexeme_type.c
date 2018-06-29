@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/29 15:18:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/06/29 20:56:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ static size_t	is_redir_inputfd(char *s, int *pos, \
 {
 	int		i;
 	int		start;
-	char	c;
 	char	*new_data;
 
 	i = *pos;
@@ -136,14 +135,10 @@ static size_t	is_redir_inputfd(char *s, int *pos, \
 	log_trace("Stop redirect fd numbers |%s|", s + i);
 	if (lexeme_type_rediropt(s + i, pos, data, type_details))
 	{
-		*pos = start;
-		c = s[i];
-		s[i] = '\0';
-		new_data = ft_strjoin(s + start, *data);
-		s[i] = c;
+		new_data = ft_strsub(s + start, 0, ((i + *pos) - 2 * start));
 		free(*data);
 		*data = new_data;
-		*pos += ft_strlen(*data);
+		*pos = start + ft_strlen(*data);
 		log_trace("New data |%s|", *data);
 		return (T_REDIR_OPT);
 	}
