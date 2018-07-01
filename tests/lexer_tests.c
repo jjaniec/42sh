@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/29 20:56:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/01 11:59:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,14 @@ void	lexer_tests(void)
 		">&", T_REDIR_OPT, TK_GREATAND, "1>", T_REDIR_OPT, TK_GREAT, "test.txt", T_WORD, TK_DEFAULT, \
 		";", T_CTRL_OPT, TK_SEMICOLON, "aaaa", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "bbb", T_WORD, TK_DEFAULT, "|", T_CTRL_OPT, TK_PIPE, \
 		">", T_REDIR_OPT, TK_GREAT, "bbbbb", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "bbbbbbbbbbbbbb", T_WORD, TK_DEFAULT);
-	test_ll("Medium - Mixed 3", "ls<<-&", "ls", T_WORD, TK_DEFAULT, "<<-", T_REDIR_OPT, TK_DLESSDASH, "&", T_CTRL_OPT, TK_AND);
+	test_ll("Medium - Mixed 3", "ls<<-& <<&", "ls", T_WORD, TK_DEFAULT, "<<-", T_REDIR_OPT, TK_DLESSDASH, "&", T_CTRL_OPT, TK_AND, "<<", T_REDIR_OPT, TK_DLESS, "&", T_CTRL_OPT, TK_AND);
+	test_ll("Medium - Mixed 4", "ls 21<& 3> /dev/null|||42>/dev/random&&1<>/dev/urandom", "ls", T_WORD, TK_DEFAULT, "21<&", T_REDIR_OPT, TK_LESSAND, "3>", T_REDIR_OPT, TK_GREAT, \
+		"/dev/null", T_WORD, TK_DEFAULT, "||", T_CTRL_OPT, TK_OR, "|", T_CTRL_OPT, TK_PIPE, "42>", T_REDIR_OPT, TK_GREAT, "/dev/random", T_WORD, TK_DEFAULT, "&&", T_CTRL_OPT, TK_DAND, \
+		"1<>", T_REDIR_OPT, TK_LESSGREAT, "/dev/urandom", T_WORD, TK_DEFAULT);
+	test_ll("Medium - Mixed 5", "ls '2'>a.txt '2'2>a.txt", "ls", T_WORD, TK_DEFAULT, "2", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "a.txt", T_WORD, TK_DEFAULT, \
+		"22", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "a.txt", T_WORD, TK_DEFAULT);
+	test_ll("Medium - Mixed 6", "ls \"2\">a.txt \"2\"2>a.txt", "ls", T_WORD, TK_DEFAULT, "2", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "a.txt", T_WORD, TK_DEFAULT, \
+		"22", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "a.txt", T_WORD, TK_DEFAULT);
 	test_ll("Medium - Other 1", "ls > \"2>&1\"", "ls", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2>&1", T_WORD, TK_DEFAULT);
 	test_ll("Quotes merging 1", "ls\" lol \\\"   \\\"   \"' lol \\'", "ls lol \"   \"    lol \\", T_WORD, TK_DEFAULT);
 	test_ll("Quotes merging 2", "echo \"    test test t\"\"\"\"\"\"est\"", "echo", T_WORD, TK_DEFAULT, "    test test test", T_WORD, TK_DEFAULT);
