@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/28 22:55:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/01 11:57:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,35 @@ static size_t	lexeme_type_rediropt(char *s, int *pos, \
 }
 
 /*
+** Determines if lexeme is composed of a redirection operator and numbers before it to specify
+** fd to redirect, if a redirection operator is found after numbers,
+** remake data string and *pos offset
+*/
+
+static size_t	is_redir_inputfd(char *s, int *pos, \
+					char **data, size_t *type_details)
+{
+	int		i;
+	int		start;
+	char	*new_data;
+
+	i = *pos;
+	start = i;
+	new_data = NULL;
+	while (s[i] && s[i] >= '0' && s[i] <= '9')
+		i++;
+	if (lexeme_type_rediropt(s + i, pos, data, type_details))
+	{
+		new_data = ft_strsub(s + start, 0, ((i + *pos) - 2 * start));
+		free(*data);
+		*data = new_data;
+		*pos = start + ft_strlen(*data);
+		return (T_REDIR_OPT);
+	}
+	return (0);
+}
+
+/*
 ** Determines type of lexeme (type list in lexer.h)
 ** If an operator is found, call env_assign_status to toggle creation
 ** of T_ENV_ASSIGN elements
@@ -127,12 +156,17 @@ size_t			get_lexeme_type(char *s, int *pos, \
 {
 	if (!s)
 		return (0);
-	if (is_operator(s[*pos]))
+	if (is_operator(s[*pos]) || (s[*pos] >= '0' && s[*pos] <= '9'))
 	{
 		env_assigns_status(*"stop creating T_ENV_ASSIGN elements", 1);
-		if (lexeme_type_ctrlopt(s + *pos, pos, data, type_details))
+		if (s[*pos] >= '0' && s[*pos] <= '9')
+		{
+			if (is_redir_inputfd(s, pos, data, type_details))
+				return (T_REDIR_OPT);
+		}
+		else if (lexeme_type_ctrlopt(s + *pos, pos, data, type_details))
 			return (T_CTRL_OPT);
-		if (lexeme_type_rediropt(s + *pos, pos, data, type_details))
+		else if (lexeme_type_rediropt(s + *pos, pos, data, type_details))
 			return (T_REDIR_OPT);
 	}
 	return (lexeme_type_word(s, pos, data));

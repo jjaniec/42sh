@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/29 16:00:11 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/06/29 20:57:54 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,12 +121,16 @@ coverage: tests
 	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME)) 2> /dev/null
 
 clean:
-	@rm -rf $(OBJ_DIR)
-	@make clean -C $(FT_PRINTF_DIR)
-	@rm -rf $(addprefix $(TESTS_DIR),/*.o)
+	rm -rf $(OBJ_DIR)
+	make clean -C $(FT_PRINTF_DIR)
+	rm -rf $(addprefix $(TESTS_DIR),*.o)
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
+
+ffclean: fclean
+	rm -rf ft_printf
+	rm -rf libtap
 
 re: fclean all
 
