@@ -6,30 +6,29 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 20:12:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/01 12:50:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Search for next (double)quote in string $s
-** instead stopping to next $IFS separator
+** If a quote is found, call this to
+** search for next (simple/double)quote in string $s
+** and skip all chars in quotes instead stopping to next $IFS separator
 */
 
 static int	skip_quotes_substring(char *s, int *pos, int start)
 {
 	char	*quote_pos;
 
-	log_debug("start: |%s|", s + start);
 	quote_pos = has_matching_quote(s, start);
 	if (!(quote_pos))
 	{
 		ft_printf("42sh: Error: Unmatched %c\n", s[start]);
 		return (1);
 	}
-	*pos = ((quote_pos - s) / sizeof(char)/* + sizeof(char)*/);
-	log_debug("end: |%s| - %d", s + *pos, *pos);
+	*pos = ((quote_pos - s) / sizeof(char));
 	return (0);
 }
 

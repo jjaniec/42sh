@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 18:52:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/01 12:43:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int		is_quote_removable(char **s, int *i, char **jump_ptr, int *quote_typ
 	{
 		if (jump_ptr)
 			*jump_ptr = tmp;
-		log_debug("Found removable quote @ tmp : |%s|", tmp);
+		log_debug("Found removable quote @ : |%s|", tmp);
 		if (c == '"')
 			*quote_type = IN_DQUOTES;
 		else if (c == '\'')
@@ -91,11 +91,8 @@ void			clean_word_lexeme(char **data)
 {
 	char	*new_data;
 
-	log_debug("Cleaning |%s|", *data);
-	//log_trace("Make new str");
-	//new_data = get_new_data_str(*data);
 	new_data = malloc(ft_strlen(*data) * sizeof(char) + 1); // faster & simpler than calculating new string size
-	log_trace("Filling new str");
+	log_trace("Filling new cleaned str of |%s|", *data);
 	fill_new_data_str(*data, new_data);
 	free(*data);
 	*data = new_data;

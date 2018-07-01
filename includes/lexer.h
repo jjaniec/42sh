@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/27 17:15:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/01 12:44:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ typedef struct			s_lexeme
 	size_t				type_details;
 	void				*data;
 	struct s_lexeme		*next;
-	struct s_lexeme		*prev;
 }						t_lexeme;
 
 t_lexeme				*lexer(char *exp);
