@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/06/28 17:29:22 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/07/04 18:07:12 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,11 @@ SRC_NAME = 	is_separator.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
 			lexer/lexeme_type_word.c \
+			lexer/clean_word_lexeme.c \
+			lexer/has_matching_quote.c \
+			lexer/env_assigns_status.c \
+			lexer/handle_backslash_escape.c \
+			lexer/free_lexemes.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_construct.c \
@@ -48,7 +53,6 @@ SRC_NAME = 	is_separator.c \
 INCLUDES_NAME = lexer.h \
 				ast.h \
 				exec.h \
-				struct.h \
 				twenty_one_sh.h \
 				log.h
 
@@ -63,16 +67,19 @@ TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/
 FT_PRINTF_DIR = ./ft_printf/
+LIBTAP_DIR = libtap
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
 TESTS_OBJ = $(addprefix $(TESTS_DIR),$(TESTS_SRC_NAME:.c=.o))
+TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $(LIBTAP_DIR),"/tap.o")
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
 DEBUG?=0
 DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
+COVERAGE_FLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf
 
@@ -123,17 +130,25 @@ $(TESTS_DIR)%.o: $(TESTS_DIR)%.c $(addprefix $(TESTS_DIR),/tests.h)
 
 $(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
 	$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
-	$(CC) $(CFLAGS) $(LFLAGS) $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $(LIBTAP_DIR),"/tap.o") $(LIBFTPRINTF) -o $(TESTS_EXEC)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC)
 
+tests: CFLAGS += $(COVERAGE_FLAGS)
 tests: $(LIBTAP_DIR) $(TESTS_EXEC)
 
+coverage: tests
+	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME)) 2> /dev/null
+
 clean:
-	@rm -rf $(OBJ_DIR)
-	@make clean -C $(FT_PRINTF_DIR)
-	@rm -rf $(addprefix $(TESTS_DIR),/*.o)
+	rm -rf $(OBJ_DIR)
+	make clean -C $(FT_PRINTF_DIR)
+	rm -rf $(addprefix $(TESTS_DIR),*.o)
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
+
+ffclean: fclean
+	rm -rf ft_printf
+	rm -rf libtap
 
 re: fclean all
 

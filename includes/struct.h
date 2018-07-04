@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/26 11:23:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/04 18:11:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,19 @@
 
 # include <twenty_one_sh.h>
 
+/*
+** Struct in linked list to store type of lexeme and data pointer
+** type: type of lexeme (T_(WORD/CTRL_OPT/REDIR_OPT))
+** type_details: token associated with data (TK_(LESS/GREAT/...))
+** data: pointer to char * from input to data of element
+** next: ptr to next lexeme
+*/
+
 typedef struct			s_lexeme
 {
 	size_t				type;
 	size_t				type_details;
-	char				*data;
+	void				*data;
 	struct s_lexeme		*next;
 }						t_lexeme;
 

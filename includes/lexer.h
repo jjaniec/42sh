@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/25 10:31:55 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/04 18:11:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,34 @@
 # define LEXER_H
 # include <twenty_one_sh.h>
 
-# define T_ENV_ASSIGN		1
+# define UNMATCHED_QUOTE_ERR	-1
+
+/*
+** Backslashes rules for handle_backslash_escape()
+*/
+
+# define NOT_IN_QUOTES		0
+# define IN_SQUOTES			1
+# define IN_DQUOTES			2
+
+/*
+** Lexeme types and TOKENS
+*/
 
 /*
 ** ex: ENV_VAR=VAL command
 */
 
+# define T_ENV_ASSIGN		1
+
+/*
+** Default type and 
+** default token for type_details
+*/
+
 # define T_WORD				2
 
-# define T_CTRL_OPT			3
-
-# define TK_AND				31
-# define TK_DAND			32
-# define TK_SEMICOLON		33
-# define TK_NEWLINE			34
-# define TK_PIPE			35
-# define TK_OR				36
+# define TK_DEFAULT			0
 
 /* Control operators:
 ** &
@@ -41,6 +53,45 @@
 ** '\n'
 ** |
 ** ||
+*/
+
+# define T_CTRL_OPT			3
+
+# define TK_AND				31
+# define TK_DAND			32
+# define TK_SEMICOLON		33
+# define TK_NEWLINE			34
+# define TK_PIPE			35
+# define TK_OR				36
+
+/*
+** Redirect operators:
+** <
+** > or >| http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_02
+** >>
+** << or <<-
+** <& http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_05
+** >&
+** <> http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_07
+*/
+
+/*
+** IO redirects operators lexing particularities:
+** when input fd is not specified, data of the lexeme element will only
+** be the token specifier, example:
+**   with "ls >&1", data of the TK_GREATAND operator will be ">&"
+** else if an input fd is specified and no IFS separator are between '>'/'<'
+** and the fd number, the data of our operator will contain the input fd number in the data string,
+** example:
+**   with "ls 42>&1", data of the TK_GREATAND operator will be "42>&"
+**   while with "ls 42 >&1", data of the TK_GREATAND operator will be ">&"
+**     as "42" will be an argument of ls
+** if input fd is a string not only composed of numbers, it will be lexed as a T_WORD
+** and the data of our operator will not be changed, example:
+**   with "echo ls>&2",
+**     our linked list will contain
+**     (T_WORD)echo -> (T_WORD)ls -> (T_REDIR_OPT)>& -> (T_WORD)2
+**     and the fd '1' (default) will be redirected to fd '2'
 */
 
 # define T_REDIR_OPT		4
@@ -55,31 +106,6 @@
 # define TK_GREATAND		48
 # define TK_LESSGREAT		49
 
-/*
-** Redirect operators:
-** <
-** > or >| http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_02
-** >>
-** << or <<-
-** <& http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_05
-** >&
-** <> http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_07
-*/
-
-# define TK_DEFAULT			0
-
-/*
-** Default token for type_details if not applied (word lexemes)
-*/
-
-/*
-** Struct in linked list to store type of lexeme and data pointer
-** type: type of lexeme (T_(WORD/CTRL_OPT/REDIR_OPT))
-** type_details: token associated with data (TK_(LESS/GREAT/...))
-** data: pointer to char * from input to data of element
-** next: ptr to next lexeme
-*/
-
 t_lexeme				*lexer(char *exp);
 
 int						is_separator(char c);
@@ -92,7 +118,16 @@ t_lexeme				*create_lexeme(size_t type, char *data, \
 size_t					get_lexeme_type(char *s, int *pos, \
 							char **data, size_t *type_details);
 
-int						lexeme_type_word(char *s, int *pos, char **data, \
-							int *env_assigns_passed);
+size_t					lexeme_type_word(char *s, int *pos, char **data);
+
+void					clean_word_lexeme(char **data);
+
+char					*has_matching_quote(char *s, int pos);
+
+int						env_assigns_status(int mode_set, int new_value);
+
+void					handle_backslash_escape(char *s, int *pos, int in_quote_type);
+
+void					free_lexemes(t_lexeme *ll);
 
 #endif

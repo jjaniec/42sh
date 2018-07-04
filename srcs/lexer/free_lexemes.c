@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   free_lexemes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/04 18:12:02 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/07/04 12:37:51 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/07/04 12:53:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#include <twenty_one_sh.h>
 
-# include <ft_printf.h>
-# include "struct.h"
-# include "lexer.h"
-# include "log.h"
-# include "ast.h"
-# include "exec.h"
+/*
+** Free lexemes linked list
+*/
 
-# define IFS			"\t\n "
-# define MALLOC_ERROR 	1
+void		free_lexemes(t_lexeme *ll)
+{
+	t_lexeme	*prev;
 
-void	ft_free_argv(char **tab);
-
-#endif
+	while (ll)
+	{
+		free(ll->data);
+		prev = ll;
+		ll = ll->next;
+		free(prev);
+	}
+}
