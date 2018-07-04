@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/01 12:44:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/04 12:46:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,7 @@ char					*has_matching_quote(char *s, int pos);
 int						env_assigns_status(int mode_set, int new_value);
 
 void					handle_backslash_escape(char *s, int *pos, int in_quote_type);
+
+void					free_lexemes(t_lexeme *ll);
 
 #endif

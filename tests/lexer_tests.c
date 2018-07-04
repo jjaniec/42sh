@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/01 11:59:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/04 12:47:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	test_ll(char *test_name, char *input, ...)
 {
 	va_list		va_ptr;
 	t_lexeme	*result;
+	t_lexeme	*ll_begin;
 	char		*data_cmp;
 	size_t		type_cmp;
 	size_t		type_details_cmp;
@@ -30,6 +31,7 @@ static void	test_ll(char *test_name, char *input, ...)
 		printf("Oops that's a fail ! - Lexer returned NULL");
 		ok(1 == 0, "Return ERROR");
 	}
+	ll_begin = result;
 	while (result)
 	{
 		new_test_name = malloc(sizeof(char) * 100);
@@ -47,6 +49,7 @@ static void	test_ll(char *test_name, char *input, ...)
 		i += 1;
 	}
 	va_end(va_ptr);
+	free_lexemes(ll_begin);
 }
 
 void	lexer_tests(void)
