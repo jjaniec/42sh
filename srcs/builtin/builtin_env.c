@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:44:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/29 14:39:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/05 17:21:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 			if (!argv[2])
 				show_envp(new_envp);
 			else
-				exec_argv(argv + 2, new_envp, exe);
+				exec_argv(argv + 2, new_envp, exe, NULL);
 		}
 		else
-			exec_argv(argv + 1, new_envp, exe);
+			exec_argv(argv + 1, new_envp, exe, NULL);
 		ft_free_argv(new_envp);
 	}
 }

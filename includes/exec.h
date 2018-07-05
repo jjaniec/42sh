@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/05 17:12:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/05 17:25:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 # include <twenty_one_sh.h>
 
 int		exec_cmd(t_ast *root, char **envp);
-void	exec_argv(char **argv, char **envp, t_exec *exe);
-t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe);
+void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
+t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
-void	exec_local(char **argv, char **envp, t_exec *exe);
+void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node);
 void	exec_builtin(char **argv, char **envp, t_exec *exe);
-void	exec_binary(char **argv, char **envp, t_exec *exe);
+void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd);
 
 void	io_manager_in(t_ast *node, t_exec *exe);
@@ -48,6 +48,6 @@ void	builtin_cd(char **argv, char **envp, t_exec *exe);
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
 
-void	handle_redir(t_ast *redir_ast_node);
+void	handle_redirs(t_ast *redir_ast_node);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pre_in_post.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/28 16:55:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/05 17:21:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
 ** Distribute the **argv to the rigth processing function 
 */
-void	exec_argv(char **argv, char **envp, t_exec *exe)
+void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	if (ft_strchr(argv[0], '/'))
-		exec_local(argv, envp, exe);
+		exec_local(argv, envp, exe, node);
 	else if (is_builtin(argv[0]))
 		exec_builtin(argv, envp, exe);
 	else
-		exec_binary(argv, envp, exe);
+		exec_binary(argv, envp, exe, node);
 }
 
 /*
@@ -41,7 +41,8 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe)
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
- 
+
+	log_debug("Current node in type: %zu %zu", node->type, node->type_details);
 	if (!node->data || !node->data[0])
 		return (exe);
 	log_debug("Current node IN : %s", node->data[0]);
@@ -52,7 +53,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 			envp = exe->tmp_envp;
 		else
 			envp = exe->envp;
-		exec_argv(node->data, envp, exe);
+		exec_argv(node->data, envp, exe, node);
 	}
 	exe->ready_for_exec = 1;
 	return (exe);
