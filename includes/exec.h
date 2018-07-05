@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/27 16:46:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/05 17:12:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,7 @@ void	builtin_cd(char **argv, char **envp, t_exec *exe);
 
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
+
+void	handle_redir(t_ast *redir_ast_node);
+
 #endif
