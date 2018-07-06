@@ -6,6 +6,9 @@
 21sh
 21sh_tests
 
+*.gcno
+*.gcda
+
 # Prerequisites
 *.d
 

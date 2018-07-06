@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_operator.c                                      :+:      :+:    :+:   */
+/*   free_lexemes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 19:25:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/01 12:38:40 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/07/04 12:37:51 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/07/04 12:53:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Return 1 if c is an operator char, else return 0
+** Free lexemes linked list
 */
 
-int		is_operator(char c)
+void		free_lexemes(t_lexeme *ll)
 {
-	if (c == '&' || c == '|' || c == ';' || c == '<' || c == '>' || c == '\n')
-		return (1);
-	return (0);
+	t_lexeme	*prev;
+
+	while (ll)
+	{
+		free(ll->data);
+		prev = ll;
+		ll = ll->next;
+		free(prev);
+	}
 }
