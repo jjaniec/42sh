@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pre_in_post.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/10 14:07:57 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/07/10 14:11:52 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
 ** Distribute the **argv to the rigth processing function 
 */
-void	exec_argv(char **argv, char **envp, t_exec *exe)
+void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	if (ft_strchr(argv[0], '/'))
-		exec_local(argv, envp, exe);
+		exec_local(argv, envp, exe, node);
 	else if (is_builtin(argv[0]))
 		exec_builtin(argv, envp, exe);
 	else
-		exec_binary(argv, envp, exe);
+		exec_binary(argv, envp, exe, node);
 }
 
 /*
@@ -52,7 +52,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 			envp = exe->tmp_envp;
 		else
 			envp = exe->envp;
-		exec_argv(node->data, envp, exe);
+		exec_argv(node->data, envp, exe, node);
 	}
 	exe->ready_for_exec = 1;
 	return (exe);

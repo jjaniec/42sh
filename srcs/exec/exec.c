@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/28 15:11:27 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/05 17:16:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		is_builtin(char *cmd)
 ** Look for the presence of the file and for execution rigths.
 ** Then send everything to exec_thread().
 */
-void	exec_local(char **argv, char **envp, t_exec *exe)
+void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	char	*cmd;
 
@@ -64,7 +64,7 @@ void	exec_local(char **argv, char **envp, t_exec *exe)
 		return ;
 	}
 	else
-		exec_thread(cmd, argv, envp, exe);
+		exec_thread(cmd, argv, envp, exe, node);
 }
 
 /*
@@ -95,7 +95,7 @@ void	exec_builtin(char **argv, char **envp, t_exec *exe)
 ** Look in the PATH environment var and look for the correponding path.
 ** Then send everything to exec_thread().
 */
-void	exec_binary(char **argv, char **envp, t_exec *exe)
+void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	char	*pth;
 	char	**paths;
@@ -104,7 +104,7 @@ void	exec_binary(char **argv, char **envp, t_exec *exe)
 	paths = get_path(get_env("PATH", (const char**)envp));
 	pth = isin_path(paths, argv[0]);
 	if (pth)
-		exe = exec_thread(pth, argv, envp, exe);
+		exe = exec_thread(pth, argv, envp, exe, node);
 	ft_strdel(&pth);
 }
 
@@ -120,6 +120,7 @@ int		exec_cmd(t_ast *root, char **envp)
 	//dprintf(1, "lastnode: %s %p\n", node->data[0], node->data[0]);
 	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
+	ast_debug(root);
 	if (!exe)
 		return (-1);
 	return (exe->ret);

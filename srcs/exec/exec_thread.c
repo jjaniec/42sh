@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/28 15:30:46 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/05 17:25:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 /*
 ** Child. Execve() here
 */
-static void	child_process(char *cmd, char **argv, char **envp)
+static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 {
+	handle_redirs(node);
 	if (execve(cmd, argv, envp) == -1)
 		log_error("Execve() not working");
 }
@@ -45,7 +46,7 @@ static int	parent_process(pid_t child_pid)
 ** Fork here.
 ** Call the parent_process() function and the child_process() function
 */
-t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe)
+t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	pid_t	child_pid;
 
@@ -53,7 +54,7 @@ t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe)
 	if (child_pid == -1)
 		log_error("Fork() not working");
 	else if (child_pid == 0)
-		child_process(cmd, argv, envp);
+		child_process(cmd, argv, envp, node);
 	else
 		exe->ret = parent_process(child_pid);
 	return (exe);
