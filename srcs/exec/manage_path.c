@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/28 17:09:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/05 18:17:37 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	*new_path(char *s1, char *s2)
 {
 	char	*str;
 
-	log_warn("%p - %p", s1, s2);
 	if (!s1 || !s2)
 		return (NULL);
 	str = NULL;
@@ -46,7 +45,6 @@ char	**get_path(char *str)
 {
 	if (!str)
 		return (NULL);
-	log_warn(str);
 	return (ft_strsplit(str, ':'));
 }
 

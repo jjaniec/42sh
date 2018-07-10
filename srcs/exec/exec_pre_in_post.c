@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/28 16:55:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/10 14:07:57 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
  
-	if (!node->data || !node->data[0])
+	if (!node->data)
 		return (exe);
 	log_debug("Current node IN : %s", node->data[0]);
 	io_manager_in(node, exe);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/01 12:17:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/10 13:53:41 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ static t_ast	*place_new_node(t_ast *root, t_ast *new)
 		if (root->parent)
 			root->parent->right = new;
 		new->left = root;
-		new->parent = root->parent;
+		if (root->parent && lvl_node(root->parent) < lvl_node(new))
+			new->parent = root->parent;
+		root->parent = new;
 	}
 	return (new);
 }
@@ -93,7 +95,10 @@ t_ast	*construct_ast(t_lexeme *lex, t_ast *root)
 				lex = lex->next;
 		}
 		else
+		{
 			new = create_node(lex->type, lex->type_details, (char **)&(lex->data));
+
+		}
 		root = place_new_node(root, new);
 		lex = lex->next;
 	}
