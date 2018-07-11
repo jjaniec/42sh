@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 19:15:23 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/25 20:59:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 17:54:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,17 @@ bool possible_to_go_right(struct s_line *le)
 		return (true);
 	}
 
-	fprintf(tty_debug, "line_index = %u\nli_max_sz = %u\nstartpos = %u\n",
-	le->line_index, le->li_max_size, le->start_pos	);
+	//fprintf(tty_debug, "line_index = %u\nli_max_sz = %u\nstartpos = %u\n",
+	//le->line_index, le->li_max_size, le->start_pos	);
 
-	fprintf(tty_debug, ">>> %d\n",  (le->line_index -
-	(le->current_cursor_line * le->li_max_size - le->start_pos)) + 2    );
+	//fprintf(tty_debug, ">>> %d\n",  (le->line_index -
+	//(le->current_cursor_line * le->li_max_size - le->start_pos)) + 2    );
 
 
 	if (le->current_cursor_pos ==  (le->line_index -
 	(le->current_cursor_line * le->li_max_size - le->start_pos)) + 1  )
-
 	{
-		fprintf(tty_debug, "ICI\n");
+		//fprintf(tty_debug, "ICI\n");
 		return (false);
 	}
 
@@ -49,12 +48,13 @@ void		func_arrow_right(struct s_line *le)
 		return ;
 	}
 
-	if (le->current_cursor_pos == le->li_max_size - 2)
+	if ((le->current_cursor_line == 0 && le->current_cursor_pos == le->li_max_size - 2)
+	|| (le->current_cursor_line != 0 && le->current_cursor_pos == le->li_max_size - 1))
 	{
 		// passer a la ligne du dessous
 		fprintf(tty_debug, "PASSAGE LIGNE DU DESSOUS\n");
-		le->current_cursor_line += 1U;
-		le->current_cursor_pos = 0U;
+		++(le->current_cursor_line);
+		le->current_cursor_pos = 0;
 		tputs(le->tcaps->_do, 1, &write_one_char);
 
 		for (unsigned int i = 0 ; i < le->li_max_size - 1 ; ++i)
@@ -65,6 +65,6 @@ void		func_arrow_right(struct s_line *le)
 	else
 	{
 		tputs(le->tcaps->nd, 1, &write_one_char);
-		le->current_cursor_pos += 1U;
+		++(le->current_cursor_pos);
 	}
 }

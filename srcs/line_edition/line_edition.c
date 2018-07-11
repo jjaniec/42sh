@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/25 20:26:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 18:21:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char			*line_edition(void)
 
 		process_key(key_no, &le);
 
-		fprintf(tty_debug, "pos = %u line = %u\n",  le.current_cursor_pos, le.current_cursor_line);
+		fprintf(tty_debug, "\npos = %u line = %u\n",  le.current_cursor_pos, le.current_cursor_line);
 
 		if (key_no == '\n')
 		{

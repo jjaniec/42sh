@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 20:00:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/25 20:48:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 15:43:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ struct s_le_termcaps	*init_termcaps_strings(void)
 		le_exit("Failed to initialize \"le\" termcap\n", "tgetstr");
 	if ((tc._do = tgetstr("do", NULL)) == NULL)
 		le_exit("Failed to initialize \"do\" termcap\n", "tgetstr");
+	if ((tc.up = tgetstr("up", NULL)) == NULL)
+		le_exit("Failed to initialize \"up\" termcap\n", "tgetstr");
 
 	return (&tc);
 }

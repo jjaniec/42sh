@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/25 19:18:22 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 19:06:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ void	process_key(t_kno key, struct s_line *le)
 {
 	if (key_is_printable(key))
 	{
+		print_key(key);
+		le->line[le->line_index] = key; // check depassement tableau
+		++(le->line_index);
 		if ( go_to_next_line(le) == true )
-		{// faut afficher puis descendre
-			print_key(key);
+		{
 			tputs(le->tcaps->_do, 1, &write_one_char);
 			for (unsigned int i = 0 ; i < le->li_max_size - 1 ; ++i)
 				tputs(le->tcaps->le, 1, &write_one_char);
-			le->current_cursor_pos = 0U;
-			le->current_cursor_line += 1U;
-			le->line[le->line_index] = key;
-			le->line_index += 1U;
-			return ;
+			le->current_cursor_pos = 0;
+			++(le->current_cursor_line);
+			++(le->nb_li_currently_writing);
+			le->nb_car_written_on_last_current_line = 0;
 		}
-		print_key(key);
-		le->current_cursor_pos += 1U;
-		le->line[le->line_index] = key;
-		le->line_index += 1U;
-		
+		else
+		{
+			++(le->current_cursor_pos);
+			++(le->nb_car_written_on_last_current_line);
+		}
 	}
 	else if (key == '\n')
 	{

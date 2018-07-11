@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/25 20:48:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 19:01:42 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,18 @@
 // sizes
 # define LE_LINE_SIZE (2048U)
 # define LE_KEY_SIZE (7U)
-# define HISTORY_ELEMENT_SIZE (2048)
+# define HISTORY_ELEMENT_SIZE (2048U)
 
 // keys
-# define LE_NB_KEYS (5U)
-# define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
-# define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
+# define LE_NB_KEYS (8)
+# define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
+# define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
 # define LE_ARROW_LEFT ((27) + (91 << 1) + (68 << 2))
 # define LE_CTRL_A (1)
+# define LE_HOME ((27) + (91 << 1) + (72 << 2))
+# define LE_CTRL_E (5)
+# define LE_END ((27) + (91 << 1) + (70 << 2))
 
 
 // others
@@ -65,6 +68,7 @@ struct s_le_termcaps
 	const char	*nd; // Déplacer le curseur vers la droite d’un caractère
 	const char	*le; // Déplacement du curseur d’un caractère vers la gauche
 	const char	*_do; // Descendre le curseur d’une ligne
+	const char	*up; // Déplacer le curseur d’une ligne vers le haut
 };
 
 struct s_line
@@ -75,6 +79,8 @@ struct s_line
 	unsigned int			current_cursor_pos;
 	unsigned int			current_cursor_line;
 	unsigned int			li_max_size;
+	unsigned int			nb_li_currently_writing;
+	unsigned int			nb_car_written_on_last_current_line;
 
 	struct s_le_termcaps	*tcaps;
 };
@@ -112,5 +118,6 @@ void	init_line_edition_attributes(struct s_line *le);
 void	func_arrow_right(struct s_line *le);
 void	func_arrow_left(struct s_line *le);
 void	func_ctrl_a(struct s_line *le);
+void	func_ctrl_e(struct s_line *le);
 
 #endif

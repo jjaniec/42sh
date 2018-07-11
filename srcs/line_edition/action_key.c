@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/25 20:58:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 18:22:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static	struct s_action_key	*get_array_action_key(void)
 	{
 		{LE_ARROW_RIGHT, &func_arrow_right},
 		{LE_ARROW_LEFT, &func_arrow_left},
-		{LE_CTRL_A, &func_ctrl_a}
+		{LE_CTRL_A, &func_ctrl_a},
+		{LE_HOME, &func_ctrl_a},
+		{LE_CTRL_E, &func_ctrl_e},
+		{LE_END, &func_ctrl_e}
 	};
 
 	return (actionk);
@@ -30,7 +33,7 @@ void						action_key(t_kno key, struct s_line *le)
 	unsigned int			i;
 
 	actionk = get_array_action_key();
-	i = 0U;
+	i = 0;
 	while (i < LE_NB_KEYS)
 	{
 		if (actionk[i].key == key)
@@ -41,7 +44,7 @@ void						action_key(t_kno key, struct s_line *le)
 		++i;
 	}
 
-	fprintf(tty_debug, "curr cursor pos = %u\n",  le->current_cursor_pos );
+	//fprintf(tty_debug, "curr cursor pos = %u\n",  le->current_cursor_pos );
 
 	//fprintf(tty_debug, "foo = %d\n", i);
 }
