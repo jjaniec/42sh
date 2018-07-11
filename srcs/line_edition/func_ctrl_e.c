@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/11 18:11:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/11 19:57:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/11 21:20:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 void	func_ctrl_e(struct s_line *le)
 {
 	fprintf(tty_debug, "CTRL_E\n");
+
+	int etait_sur_prem_li = 0;
+	if (le->current_cursor_line == 0)
+		etait_sur_prem_li = 1;
 
 	while (le->current_cursor_line < le->nb_li_currently_writing - 1)
 	{
@@ -46,6 +50,8 @@ void	func_ctrl_e(struct s_line *le)
 			tputs(le->tcaps->nd, 1, &write_one_char);
 			++(le->current_cursor_pos);
 		}
+		if (etait_sur_prem_li == 1)
+			tputs(le->tcaps->le, 1, &write_one_char);
 		//++(le->current_cursor_pos);
 	}
 
@@ -58,6 +64,11 @@ void	func_ctrl_e(struct s_line *le)
 			tputs(le->tcaps->le, 1, &write_one_char);
 			--(le->current_cursor_pos);
 		}
+
+		if (etait_sur_prem_li == 1)
+			tputs(le->tcaps->le, 1, &write_one_char);
+			
+	/* C'EST UTILE CA ?? JE NE SUIS PAS SUR ON VERRA
 		if (le->current_cursor_line == 0)
 		{
 			fprintf(tty_debug, "CE IF\n");
@@ -67,6 +78,8 @@ void	func_ctrl_e(struct s_line *le)
 		}
 		//--(le->current_cursor_pos);
 	}
+
+	*/
 
 
 
