@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/11 18:22:25 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/12 19:57:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static	struct s_action_key	*get_array_action_key(void)
 {
 	static struct s_action_key	actionk[LE_NB_KEYS] =
 	{
-		{LE_ARROW_RIGHT, &func_arrow_right},
-		{LE_ARROW_LEFT, &func_arrow_left},
+		{LE_ARROW_RIGHT, &actionk_cursor_move_right},
+		{LE_ARROW_LEFT, &actionk_cursor_move_left},
 		{LE_CTRL_A, &func_ctrl_a},
 		{LE_HOME, &func_ctrl_a},
 		{LE_CTRL_E, &func_ctrl_e},

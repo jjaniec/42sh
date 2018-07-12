@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/11 18:21:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/12 19:52:21 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ char			*line_edition(void)
 	set_term_attr(SET_NEW);
 	init_line_edition_attributes(&le);
 
-	while ("INFINITY")
+	while ("cest ta mere la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
-		read_key(key);  //for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
+		read_key(key);  for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);
 
 		if (key_no >= 32 && key_no >= 126)

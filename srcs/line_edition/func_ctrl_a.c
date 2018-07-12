@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 18:31:55 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/11 18:01:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/12 16:10:55 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ void	func_ctrl_a(struct s_line *le)
 
 	le->current_cursor_pos = le->start_pos;
 	le->current_cursor_line = 0;
+	le->cursor_index_for_line = 0;
 }

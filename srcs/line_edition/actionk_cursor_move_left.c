@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   func_arrow_left.c                                  :+:      :+:    :+:   */
+/*   actionk_cursor_move_left.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/25 20:14:43 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/11 17:53:50 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/07/12 19:58:27 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/07/12 19:58:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
-void		func_arrow_left(struct s_line *le)
+void		actionk_cursor_move_left(struct s_line *le)
 {
 	if (le->current_cursor_line == 0 && le->current_cursor_pos == le->start_pos)
 	{
@@ -44,5 +44,7 @@ void		func_arrow_left(struct s_line *le)
 		tputs(le->tcaps->le, 1, &write_one_char);
 		--(le->current_cursor_pos);
 	}
+
+	--(le->cursor_index_for_line);
 		
 }

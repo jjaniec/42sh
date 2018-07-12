@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/11 18:11:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/11 21:20:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/12 16:11:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	func_ctrl_e(struct s_line *le)
 {
 	fprintf(tty_debug, "CTRL_E\n");
+
+	le->cursor_index_for_line = le->line_index;
 
 	int etait_sur_prem_li = 0;
 	if (le->current_cursor_line == 0)
@@ -77,11 +79,12 @@ void	func_ctrl_e(struct s_line *le)
 			--(le->current_cursor_pos);
 		}
 		//--(le->current_cursor_pos);
-	}
 
 	*/
 
+	}
 
+	
 
 }
 

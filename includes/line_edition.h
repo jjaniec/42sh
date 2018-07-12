@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/11 19:01:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/12 19:57:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # include "../ft_printf/libft/libft.h"
 
 // sizes
-# define LE_LINE_SIZE (2048U)
+# define LE_LINE_SIZE (8192U)
 # define LE_KEY_SIZE (7U)
 # define HISTORY_ELEMENT_SIZE (2048U)
 
@@ -50,6 +50,8 @@
 # define LE_HOME ((27) + (91 << 1) + (72 << 2))
 # define LE_CTRL_E (5)
 # define LE_END ((27) + (91 << 1) + (70 << 2))
+# define LE_CTRL_UP ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (65 << 5))
+# define LE_CTRL_DOWN ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (66 << 5))
 
 
 // others
@@ -75,12 +77,14 @@ struct s_line
 {
 	char					line[LE_LINE_SIZE];
 	unsigned int			line_index;
+	unsigned int			cursor_index_for_line;
 	unsigned int			start_pos;
 	unsigned int			current_cursor_pos;
 	unsigned int			current_cursor_line;
 	unsigned int			li_max_size;
 	unsigned int			nb_li_currently_writing;
 	unsigned int			nb_car_written_on_last_current_line;
+	char					clipboard[LE_LINE_SIZE];
 
 	struct s_le_termcaps	*tcaps;
 };
@@ -111,12 +115,21 @@ void	le_exit(const char *msg, const char *func_name);
 
 void	process_key(t_kno key, struct s_line *le);
 
+void	print_key_at_end(struct s_line *le, t_kno key);
+
 void	action_key(t_kno key, struct s_line *le_lettr);
 
 void	init_line_edition_attributes(struct s_line *le);
 
-void	func_arrow_right(struct s_line *le);
-void	func_arrow_left(struct s_line *le);
+bool 	possible_to_go_right(struct s_line *le);
+
+bool	cursor_is_at_end(struct s_line *le);
+
+void	insert_character_into_cmdline(struct s_line *le, t_kno key);
+
+//void	func_arrow_right(struct s_line *le);
+void	actionk_cursor_move_right(struct s_line *le);
+void	actionk_cursor_move_left(struct s_line *le);
 void	func_ctrl_a(struct s_line *le);
 void	func_ctrl_e(struct s_line *le);
 
