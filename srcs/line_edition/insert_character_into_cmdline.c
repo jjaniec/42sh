@@ -37,7 +37,7 @@ void		insert_character_into_cmdline(struct s_line *le, t_kno key)
 	insert_char_into_array(le->line, key, le->cursor_index_for_line);
 	++(le->line_index);
 
-	func_ctrl_a(le);
+	actionk_move_cursor_start(le);
 
 	char tmp[LE_LINE_SIZE];
 	ft_strcpy(tmp, le->line);

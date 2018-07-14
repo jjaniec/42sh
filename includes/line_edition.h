@@ -130,7 +130,7 @@ void	insert_character_into_cmdline(struct s_line *le, t_kno key);
 //void	func_arrow_right(struct s_line *le);
 void	actionk_cursor_move_right(struct s_line *le);
 void	actionk_cursor_move_left(struct s_line *le);
-void	func_ctrl_a(struct s_line *le);
-void	func_ctrl_e(struct s_line *le);
+void	actionk_move_cursor_start(struct s_line *le);
+void	actionk_move_cursor_end(struct s_line *le);
 
 #endif

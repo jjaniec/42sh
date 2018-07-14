@@ -18,10 +18,10 @@ static	struct s_action_key	*get_array_action_key(void)
 	{
 		{LE_ARROW_RIGHT, &actionk_cursor_move_right},
 		{LE_ARROW_LEFT, &actionk_cursor_move_left},
-		{LE_CTRL_A, &func_ctrl_a},
-		{LE_HOME, &func_ctrl_a},
-		{LE_CTRL_E, &func_ctrl_e},
-		{LE_END, &func_ctrl_e}
+		{LE_CTRL_A, &actionk_move_cursor_start},
+		{LE_HOME, &actionk_move_cursor_start},
+		{LE_CTRL_E, &actionk_move_cursor_end},
+		{LE_END, &actionk_move_cursor_end}
 	};
 
 	return (actionk);

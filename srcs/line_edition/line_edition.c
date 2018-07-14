@@ -59,7 +59,8 @@ char			*line_edition(void)
 	while ("cest ta mere la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
-		read_key(key);  for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
+		read_key(key);
+		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);
 
 		if (key_no >= 32 && key_no >= 126)
@@ -67,7 +68,8 @@ char			*line_edition(void)
 
 		process_key(key_no, &le);
 
-		fprintf(tty_debug, "\npos = %u line = %u\n",  le.current_cursor_pos, le.current_cursor_line);
+		fprintf(tty_debug, "\npos = %u line = %u\n",
+		le.current_cursor_pos, le.current_cursor_line);
 
 		if (key_no == '\n')
 		{

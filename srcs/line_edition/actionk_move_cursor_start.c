@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   func_ctrl_a.c                                      :+:      :+:    :+:   */
+/*   actionk_move_cursor_start.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/26 18:31:55 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/12 16:10:55 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/07/14 15:34:28 by cfermier          #+#    #+#             */
+/*   Updated: 2018/07/14 15:34:28 by cfermier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
-void	func_ctrl_a(struct s_line *le)
+void	actionk_move_cursor_start(struct s_line *le)
 {
 	fprintf(tty_debug, "CTRL_A\n");
 

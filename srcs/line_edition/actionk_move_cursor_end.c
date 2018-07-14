@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   func_ctrl_e.c                                      :+:      :+:    :+:   */
+/*   actionk_move_cursor_end.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/11 18:11:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 16:11:32 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/07/14 15:36:38 by cfermier          #+#    #+#             */
+/*   Updated: 2018/07/14 15:36:38 by cfermier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
-void	func_ctrl_e(struct s_line *le)
+void	actionk_move_cursor_end(struct s_line *le)
 {
 	fprintf(tty_debug, "CTRL_E\n");
 
