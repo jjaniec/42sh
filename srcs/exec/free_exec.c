@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_free.c                                         :+:      :+:    :+:   */
+/*   free_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/12 12:00:31 by sebastien        ###   ########.fr       */
+/*   Created: 2018/07/12 11:27:28 by sebastien         #+#    #+#             */
+/*   Updated: 2018/07/12 11:31:03 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static void	free_node(t_ast **ast)
+void	free_exec(t_exec **exe)
 {
-	free(ast[0]->data);
-	free(*ast);
-	*ast = NULL;
-}
-
-void	ast_free(t_ast *ast)
-{
-	if (!ast)
-		return ;
-	ast_free(ast->left);
-	ast_free(ast->right);
-	free_node(&ast);
+	ft_free_argv(exe[0]->envp);
+	ft_free_argv(exe[0]->tmp_envp);
+	free(*exe);
+	*exe = NULL;
 }

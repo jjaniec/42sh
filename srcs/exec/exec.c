@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/05 17:16:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/12 11:37:17 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 	if (pth)
 		exe = exec_thread(pth, argv, envp, exe, node);
 	ft_strdel(&pth);
+	ft_free_argv(paths);
 }
 
 /*
@@ -116,6 +117,7 @@ void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 int		exec_cmd(t_ast *root, char **envp)
 {
 	t_exec	*exe;
+	int		ret;
 
 	//dprintf(1, "lastnode: %s %p\n", node->data[0], node->data[0]);
 	exe = create_exec((const char **)envp);
@@ -123,5 +125,7 @@ int		exec_cmd(t_ast *root, char **envp)
 	ast_debug(root);
 	if (!exe)
 		return (-1);
-	return (exe->ret);
+	ret = exe->ret;
+	free_exec(&exe);
+	return (ret);
 }

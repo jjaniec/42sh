@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/05 17:25:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/12 11:36:12 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
 
 void	handle_redirs(t_ast *redir_ast_node);
+void	free_exec(t_exec **exe);
 
 #endif
