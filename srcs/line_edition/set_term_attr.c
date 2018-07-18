@@ -14,8 +14,8 @@
 
 /*
 **	set_term_attr() can be call with :
-**	 SET_NEW to save current attributes and set 42sh attributes
-**	 SET_OLD to set the saved attributes
+**	 LE_SET_NEW to save current attributes and set 42sh attributes
+**	 LE_SET_OLD to set the saved attributes
 */
 
 static void		init_termios_flags(struct termios *new)
@@ -32,7 +32,7 @@ void			set_term_attr(t_set_term mode)
 	static struct termios	old;
 	struct termios			new;
 
-	if (mode == SET_NEW)
+	if (mode == LE_SET_NEW)
 	{
 		if (tcgetattr(STDIN_FILENO, &old) == -1)
 			le_exit("Error while getting terminal attributes\n", "tcgetattr");
@@ -41,7 +41,7 @@ void			set_term_attr(t_set_term mode)
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
 			le_exit("Error while setting terminal attributes\n", "tcsetattr");
 	}
-	else if (mode == SET_OLD)
+	else if (mode == LE_SET_OLD)
 	{
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &old) == -1)
 			le_exit("Error while setting terminal attributes\n", "tcsetattr");

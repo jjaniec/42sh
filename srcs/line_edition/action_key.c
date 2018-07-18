@@ -21,7 +21,9 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_CTRL_A, &actionk_move_cursor_start},
 		{LE_HOME, &actionk_move_cursor_start},
 		{LE_CTRL_E, &actionk_move_cursor_end},
-		{LE_END, &actionk_move_cursor_end}
+		{LE_END, &actionk_move_cursor_end},
+		{LE_ALT_RIGHT, &actionk_move_cursor_by_word_right},
+		{LE_ALT_LEFT, &actionk_move_cursor_by_word_left}
 	};
 
 	return (actionk);

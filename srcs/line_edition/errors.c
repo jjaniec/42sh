@@ -19,7 +19,7 @@
 
 void	le_exit(const char *msg, const char *func_name)
 {
-	set_term_attr(SET_OLD);
+	set_term_attr(LE_SET_OLD);
 	write(STDERR_FILENO, "\nfatal error: ", 14);
 	write(STDERR_FILENO, func_name, ft_strlen(func_name));
 	write(STDERR_FILENO, "(): ", 4);

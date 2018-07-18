@@ -36,9 +36,10 @@
 # include "../ft_printf/libft/libft.h"
 
 // sizes
-# define LE_LINE_SIZE (8192U)
+# define LE_LINE_SIZE (2048U)
 # define LE_KEY_SIZE (7U)
-# define HISTORY_ELEMENT_SIZE (2048U)
+# define LE_HISTORY_LINE_SIZE (LE_LINE_SIZE)
+# define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
 # define LE_NB_KEYS (8)
@@ -52,18 +53,21 @@
 # define LE_END ((27) + (91 << 1) + (70 << 2))
 # define LE_CTRL_UP ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (65 << 5))
 # define LE_CTRL_DOWN ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (66 << 5))
+# define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
+# define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 
 
 // others
 # define LE_FATAL_ERROR (2) // for le_exit()
+# define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 
 
 typedef uint64_t t_kno;
 
 // for set_term_attr() function
 typedef unsigned int t_set_term;
-# define SET_NEW (1U)
-# define SET_OLD (2U)
+# define LE_SET_NEW (1U)
+# define LE_SET_OLD (2U)
 
 struct s_le_termcaps
 {
@@ -99,15 +103,18 @@ struct s_action_key
 
 struct s_history
 {
-	char 				his[HISTORY_ELEMENT_SIZE];
+	char 				his[LE_HISTORY_LINE_SIZE];
 	struct s_history	*next;
 	struct s_history	*prev;
+	unsigned int		nb_elem;
 };
 
 // prototypes
 struct s_le_termcaps	*init_termcaps_strings(void);
 
 int		write_one_char(int c);
+
+bool    is_separator(char c);
 
 void	set_term_attr(t_set_term mode);
 
@@ -127,10 +134,11 @@ bool	cursor_is_at_end(struct s_line *le);
 
 void	insert_character_into_cmdline(struct s_line *le, t_kno key);
 
-//void	func_arrow_right(struct s_line *le);
 void	actionk_cursor_move_right(struct s_line *le);
 void	actionk_cursor_move_left(struct s_line *le);
 void	actionk_move_cursor_start(struct s_line *le);
 void	actionk_move_cursor_end(struct s_line *le);
+void    actionk_move_cursor_by_word_right(struct s_line *le);
+void    actionk_move_cursor_by_word_left(struct s_line *le);
 
 #endif

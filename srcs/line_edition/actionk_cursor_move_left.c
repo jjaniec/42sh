@@ -14,37 +14,29 @@
 
 void		actionk_cursor_move_left(struct s_line *le)
 {
+	unsigned int	i;
 	if (le->current_cursor_line == 0 && le->current_cursor_pos == le->start_pos)
 	{
-		fprintf(tty_debug, "Pas possible d'aller plus a gauche\n");
+		//fprintf(tty_debug, "Pas possible d'aller plus a gauche\n");
 		return ;
 	}
-
 	if (le->current_cursor_pos == 0)
 	{
+		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
 		le->current_cursor_pos = le->li_max_size - 1;
-		if (le->current_cursor_line == 1U)
-			le->current_cursor_pos = le->li_max_size - 2;
 		--(le->current_cursor_line);
-
-		fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
 		tputs(le->tcaps->up, 1, &write_one_char);
-		for (unsigned int i = 0 ; i < le->li_max_size - 1 ; ++i)
+		i = 0;
+		while (i < le->li_max_size - 1)
 		{
 			tputs(le->tcaps->nd, 1, &write_one_char);
+			++i;
 		}
-
 	}
-
-	// if (on est pas sur la premiere ligne ET on est tout a gauche)
-		// alors il faut monter sur la ligne du dessus
-	
 	else
 	{
 		tputs(le->tcaps->le, 1, &write_one_char);
 		--(le->current_cursor_pos);
 	}
-
 	--(le->cursor_index_for_line);
-		
 }

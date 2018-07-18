@@ -53,7 +53,7 @@ char			*line_edition(void)
 	struct s_line	le;
 	t_kno			key_no;
 
-	set_term_attr(SET_NEW);
+	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(&le);
 
 	while ("cest ta mere la jjaniec")
@@ -68,12 +68,20 @@ char			*line_edition(void)
 
 		process_key(key_no, &le);
 
-		fprintf(tty_debug, "\npos = %u line = %u\n",
+fprintf(tty_debug, "--------------------------------------\n");
+		fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n",
 		le.current_cursor_pos, le.current_cursor_line);
+		fprintf(tty_debug, "line index = %u\n", le.line_index);
+		fprintf(tty_debug, "cursor index for line = %u\n", le.cursor_index_for_line);
+		fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
+		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
+		le.nb_car_written_on_last_current_line);
+fprintf(tty_debug, "--------------------------------------\n");
+
 
 		if (key_no == '\n')
 		{
-			set_term_attr(SET_OLD);
+			set_term_attr(LE_SET_OLD);
 			break ;
 			// need more things to do in the future when line is finished
 		} 
@@ -111,6 +119,7 @@ int	 main(void)
 	char * s = line_edition();
 	printf("\ninput = %s", s);
 	free(s);
+	fclose(tty_debug);
 
 	return 0;
 }

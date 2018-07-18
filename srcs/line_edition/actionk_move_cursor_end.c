@@ -14,8 +14,23 @@
 
 void	actionk_move_cursor_end(struct s_line *le)
 {
-	fprintf(tty_debug, "CTRL_E\n");
+	unsigned int	start_i;
+	unsigned int	stop_i;
 
+	fprintf(tty_debug, "CTRL_E - cur ind for line %u line index %u\n",
+	le->cursor_index_for_line, le->line_index  );
+
+	start_i = le->cursor_index_for_line;
+	stop_i = le->line_index;
+	while (start_i < stop_i)
+	{
+		actionk_cursor_move_right(le);
+		++start_i;
+	}
+
+
+	return ; return ; return ; return ; return ; return ; return ;
+/*
 	le->cursor_index_for_line = le->line_index;
 
 	int etait_sur_prem_li = 0;
@@ -70,21 +85,9 @@ void	actionk_move_cursor_end(struct s_line *le)
 		if (etait_sur_prem_li == 1)
 			tputs(le->tcaps->le, 1, &write_one_char);
 			
-	/* C'EST UTILE CA ?? JE NE SUIS PAS SUR ON VERRA
-		if (le->current_cursor_line == 0)
-		{
-			fprintf(tty_debug, "CE IF\n");
-
-			tputs(le->tcaps->le, 1, &write_one_char);
-			--(le->current_cursor_pos);
-		}
-		//--(le->current_cursor_pos);
-
-	*/
-
 	}
 
-	
+	*/
 
 }
 

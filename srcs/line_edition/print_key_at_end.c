@@ -18,38 +18,38 @@ static void	print_key(t_kno key)
 		le_exit("Writing on stdout failed\n", "write");
 }
 
-static bool	go_to_next_line(struct s_line *le)
-{
-	if ((le->current_cursor_line == 0
-	&& le->current_cursor_pos == le->li_max_size - 2)
-	|| (le->current_cursor_line != 0
-	&& le->current_cursor_pos == le->li_max_size - 1))
-	{
-		return true;
-	}
-	return false;
+static bool	need_to_go_to_next_line(struct s_line *le)
+{//fprintf(tty_debug, "into go to next line() - %u\n", le->current_cursor_pos);
+	if (le->current_cursor_pos == le->li_max_size - 1)
+		return (true);
+	return (false);
 }
 
 void	print_key_at_end(struct s_line *le, t_kno key)
 {
-		print_key(key);
-		le->line[le->line_index] = key; // check depassement tableau
-		++(le->line_index);
-		++(le->cursor_index_for_line);
-		if ( go_to_next_line(le) == true )
-		{
-			tputs(le->tcaps->_do, 1, &write_one_char);
-			for (unsigned int i = 0 ; i < le->li_max_size - 1 ; ++i)
-				tputs(le->tcaps->le, 1, &write_one_char);
-			le->current_cursor_pos = 0;
-			++(le->current_cursor_line);
-			++(le->nb_li_currently_writing);
-			le->nb_car_written_on_last_current_line = 0;
-		}
-		else
-		{
-			++(le->current_cursor_pos);
-			++(le->nb_car_written_on_last_current_line);
-		}
+	unsigned int	i;
 
+	print_key(key);
+	le->line[le->line_index] = key; // check depassement tableau
+	++(le->line_index);
+	++(le->cursor_index_for_line);
+	if ( need_to_go_to_next_line(le) == true )
+	{													fprintf(tty_debug, "NEXT LINE\n"); //sleep(3);
+		tputs(le->tcaps->_do, 1, &write_one_char);
+		i = 0;
+		while (i < le->li_max_size - 1)
+		{
+			tputs(le->tcaps->le, 1, &write_one_char);
+			++i;
+		}
+		le->current_cursor_pos = 0;
+		++(le->current_cursor_line);
+		++(le->nb_li_currently_writing);
+		le->nb_car_written_on_last_current_line = 0;
+	}
+	else
+	{
+		++(le->current_cursor_pos);
+		++(le->nb_car_written_on_last_current_line);
+	}
 }

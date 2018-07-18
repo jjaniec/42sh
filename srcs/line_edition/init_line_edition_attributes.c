@@ -17,7 +17,7 @@ static unsigned int	get_terminal_nb_col(void)
 	int		col;
 
 	col = tgetnum("co");
-	if (col == -1)
+	if (col < 0)
 		le_exit("Failed to get terminal sizes\n", "tgetnum");
 	return ((unsigned int)col);
 }
@@ -28,7 +28,7 @@ void    			init_line_edition_attributes(struct s_line *le)
 	ft_memset(le->line, '\0', LE_LINE_SIZE);
 	le->line_index = 0;
 	le->cursor_index_for_line = 0;
-    le->start_pos = 10; // tmp value, need to be updated according to the prompt
+    le->start_pos = 11; // tmp value, need to be updated according to the prompt
     le->current_cursor_pos = le->start_pos;
 	le->current_cursor_line = 0;
 	le->li_max_size = get_terminal_nb_col();
