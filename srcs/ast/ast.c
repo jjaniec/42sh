@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/14 21:16:38 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/07/19 13:28:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	**prepare_argv_simple(t_lexeme *lex)
 	if (!tab)
 		exit(MALLOC_ERROR);
 	tab[0] = lex->data;
+	tab[1] = NULL;
 	return (tab);
 }
 
