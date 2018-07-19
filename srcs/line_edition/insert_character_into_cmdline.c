@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:58:56 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/19 15:25:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		insert_character_into_cmdline(struct s_line *le, t_kno key)
 	{	
 		tputs(le->tcaps->up, 1, &write_one_char);
 		--(le->current_cursor_line);
-		le->cursor_index_for_line -= le->li_max_size - 0;
+		le->cursor_index_for_line -= le->li_max_size;
 	}
 	foo = false;
 	if (keep_pos == le->li_max_size - 1)

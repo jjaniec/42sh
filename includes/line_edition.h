@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:57:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/19 15:54:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys000"
+# define TTY_DEBUG "/dev/null"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -42,7 +42,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (8)
+# define LE_NB_KEYS (9)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -55,6 +55,7 @@
 # define LE_CTRL_DOWN ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (66 << 5))
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
+# define LE_BACKSPACE (127)
 
 
 // others
@@ -75,6 +76,7 @@ struct s_le_termcaps
 	const char	*le; // Déplacement du curseur d’un caractère vers la gauche
 	const char	*_do; // Descendre le curseur d’une ligne
 	const char	*up; // Déplacer le curseur d’une ligne vers le haut
+	const char	*dc; // delete character
 };
 
 struct s_line
@@ -123,6 +125,7 @@ void	le_exit(const char *msg, const char *func_name);
 void	process_key(t_kno key, struct s_line *le);
 
 void	print_key_at_end(struct s_line *le, t_kno key);
+void	insert_character_into_cmdline(struct s_line *le, t_kno key);
 
 void	action_key(t_kno key, struct s_line *le_lettr);
 
@@ -132,13 +135,12 @@ bool 	possible_to_go_right(struct s_line *le);
 
 bool	cursor_is_at_end(struct s_line *le);
 
-void	insert_character_into_cmdline(struct s_line *le, t_kno key);
-
 void	actionk_cursor_move_right(struct s_line *le);
 void	actionk_cursor_move_left(struct s_line *le);
 void	actionk_move_cursor_start(struct s_line *le);
 void	actionk_move_cursor_end(struct s_line *le);
 void    actionk_move_cursor_by_word_right(struct s_line *le);
 void    actionk_move_cursor_by_word_left(struct s_line *le);
+void	actionk_delete_character(struct s_line *le);
 
 #endif
