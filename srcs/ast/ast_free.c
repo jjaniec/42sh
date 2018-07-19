@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/29 14:45:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/19 13:19:24 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	free_node(t_ast **ast)
 {
-	if (ast[0]->data && ast[0]->data[0])
-	ft_free_argv(ast[0]->data);
+	free(ast[0]->data);
+	free(*ast);
 	*ast = NULL;
 }
 
