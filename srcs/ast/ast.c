@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 19:16:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/19 16:16:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_ast	*create_node(size_t type, size_t type_details, char **data)
 */
 char	**prepare_argv(t_lexeme *lex)
 {
-	char		**tab;
+	char		**tabb;
 	size_t		size;
 	t_lexeme	*current;
 
@@ -47,17 +47,17 @@ char	**prepare_argv(t_lexeme *lex)
 		current = current->next;
 		size++;
 	}
-	tab = (char **)ft_memalloc(sizeof(char *) * (size + 1));
-	if (!tab)
+	tabb = (char **)ft_memalloc(sizeof(char *) * (size + 1));
+	if (!tabb)
 		exit(MALLOC_ERROR);
 	size = 0;
 	while (lex && lex->type == T_WORD)
 	{
-		tab[size] = lex->data;
+		tabb[size] = lex->data;
 		size++;
 		lex = lex->next;
 	}
-	return (tab);
+	return (tabb);
 }
 
 /*
@@ -65,13 +65,13 @@ char	**prepare_argv(t_lexeme *lex)
 */
 char	**prepare_argv_simple(t_lexeme *lex)
 {
-	char		**tab;
+	char		**tabb;
 
-	tab = (char **)ft_memalloc(sizeof(char *) * 2);
-	if (!tab)
+	tabb = (char **)ft_memalloc(sizeof(char *) * 2);
+	if (!tabb)
 		exit(MALLOC_ERROR);
-	tab[0] = lex->data;
-	return (tab);
+	tabb[0] = lex->data;
+	return (tabb);
 }
 
 /*

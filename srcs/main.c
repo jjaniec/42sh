@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/06/21 18:33:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/19 16:22:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static void lexer_loop(void)
   t_lexeme	*lex;
 	char	*input;
 
-	input = malloc(sizeof(char) * 200);
+tty_debug = fopen(TTY_DEBUG, "w");
 	while (1)
 	{
-		read(STDIN_FILENO, input, 200);
+		ft_putstr("%> ");
+		input = line_edition();
 		lex = lexer(input);
-    ast(lex);
-		ft_bzero(input, 200);
+   		 ast(lex);
 	}
 	free(input);
 }

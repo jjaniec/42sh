@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/07/04 12:46:12 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/07/19 16:09:52 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,14 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_utils.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			line_edition/action_key.c line_edition/actionk_cursor_move_left.c line_edition/actionk_cursor_move_right.c line_edition/actionk_delete_character.c line_edition/actionk_move_cursor_by_word_left.c line_edition/actionk_move_cursor_by_word_right.c line_edition/actionk_move_cursor_end.c line_edition/actionk_move_cursor_line_down.c line_edition/actionk_move_cursor_line_up.c line_edition/actionk_move_cursor_start.c line_edition/cursor_is_at_end.c line_edition/errors.c line_edition/init_line_edition_attributes.c line_edition/init_termcaps_strings.c line_edition/insert_character_into_cmdline.c line_edition/is_separator.c line_edition/line_edition.c line_edition/possible_to_go_right.c line_edition/print_key_at_end.c line_edition/process_key.c line_edition/set_term_attr.c line_edition/write_one_char.c \
 			log.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
 				twenty_one_sh.h \
+				line_edition.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -48,7 +50,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/
+OBJ_SUBDIRS = lexer/ ast/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = libtap
 
@@ -64,7 +66,7 @@ DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 COVERAGE_FLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
-LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf
+LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf -ltermcap
 
 LIBTAP_DIR = libtap
 LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap

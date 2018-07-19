@@ -9,6 +9,9 @@
 *.gcno
 *.gcda
 
+notes.txt
+
+Makefile
 # Prerequisites
 *.d
 
