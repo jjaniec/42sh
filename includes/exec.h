@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/12 11:36:12 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/07/19 13:48:53 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 int		exec_cmd(t_ast *root, char **envp);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
-t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, t_ast *node);
+t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
+		t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);

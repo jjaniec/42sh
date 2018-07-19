@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_op.c                                        :+:      :+:    :+:   */
+/*   is_op.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/21 17:47:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 19:18:50 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/07/19 15:09:13 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/07/19 15:09:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 ** Set of functiun to look a the level of an operator of a *lexeme
 ** 0 is high priority, 4 is low priority
 */
+
 inline int	is_op0(t_lexeme *lex)
 {
 	return (lex->type_details == TK_AND

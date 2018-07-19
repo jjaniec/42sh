@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/14 17:29:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/19 15:24:57 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,18 @@ void			handle_redirs(t_ast *redir_ast_node)
 	int		input_fd;
 
 	node = redir_ast_node->parent;
-	log_trace("Handle redirs of %s(t %zu td %zu)", redir_ast_node->data[0], redir_ast_node->type, redir_ast_node->type_details);
+	log_trace("Handle redirs of %s(t %zu td %zu)", redir_ast_node->data[0], \
+			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->parent && node->parent->type == T_REDIR_OPT)
 		node = node->parent;
 	while (node->type == T_REDIR_OPT)
 	{
-		log_trace("in while node: t %zu td %zu d %s d left %s d right %s", node->type, node->type_details, (node->data)[0], (node->left->data)[0], (node->right->data)[0]);
+		log_trace("in while node: t %zu td %zu d %s d left %s d right %s", \
+				node->type, node->type_details, (node->data)[0], \
+				(node->left->data)[0], (node->right->data)[0]);
 		input_fd = ft_atoi(node->data[0]);
-		if (node->type_details == TK_LESSAND || node->type_details == TK_GREATAND)
+		if (node->type_details == TK_LESSAND \
+			|| node->type_details == TK_GREATAND)
 			handle_redir_fd(input_fd, ft_atoi(node->right->data[0]));
 		else
 			handle_redir_file(input_fd, node->right->data[0]);

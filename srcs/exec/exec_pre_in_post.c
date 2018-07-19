@@ -6,15 +6,16 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/10 14:11:52 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/07/19 15:22:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Distribute the **argv to the rigth processing function 
+** Distribute the **argv to the rigth processing function
 */
+
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	if (ft_strchr(argv[0], '/'))
@@ -28,9 +29,9 @@ void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 /*
 ** Is executed at the first passage of a node in the AST
 */
+
 t_exec	*pre_exec(t_ast *node, t_exec *exe)
 {
-	//io_manager_pre(node, exe);
 	(void)node;
 	return (exe);
 }
@@ -38,10 +39,11 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe)
 /*
 ** Is executed at the second passage of a node in the AST
 */
+
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
- 
+
 	if (!node->data)
 		return (exe);
 	log_debug("Current node IN : %s", node->data[0]);
@@ -61,6 +63,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 /*
 ** Is executed at the third and last passage of a node in the AST
 */
+
 t_exec	*post_exec(t_ast *node, t_exec *exe)
 {
 	(void)node;

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 13:19:24 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/19 15:08:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	free_node(t_ast **ast)
 	*ast = NULL;
 }
 
-void	ast_free(t_ast *ast)
+void		ast_free(t_ast *ast)
 {
 	if (!ast)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/05 17:25:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/19 15:23:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 ** Child. Execve() here
 */
+
 static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 {
 	handle_redirs(node);
@@ -25,6 +26,7 @@ static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 /*
 ** Parent. Wait() for the child here
 */
+
 static int	parent_process(pid_t child_pid)
 {
 	pid_t	wait_pid;
@@ -46,7 +48,9 @@ static int	parent_process(pid_t child_pid)
 ** Fork here.
 ** Call the parent_process() function and the child_process() function
 */
-t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, t_ast *node)
+
+t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
+				t_ast *node)
 {
 	pid_t	child_pid;
 

@@ -6,16 +6,17 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/12 11:37:17 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/07/19 15:17:16 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <twenty_one_sh.h>
+#include <twenty_one_sh.h>
 
 /*
 ** Malloc for the struct t_exec*
 ** In fail, exit the program with MALLOC_ERROR
 */
+
 static t_exec	*create_exec(const char **envp)
 {
 	t_exec	*exe;
@@ -28,40 +29,25 @@ static t_exec	*create_exec(const char **envp)
 }
 
 /*
-** Check if function is a builtin
-*/
-int		is_builtin(char *cmd)
-{
-	if (ft_strequ(cmd, "echo")
-	|| ft_strequ(cmd, "cd")
-	|| ft_strequ(cmd, "setenv")
-	|| ft_strequ(cmd, "unsetenv")
-	|| ft_strequ(cmd, "env")
-	|| ft_strequ(cmd, "exit"))
-		return (1);
-	else
-		return (0);
-}
-
-/*
 ** Main function for executing a local file like './21_sh' or '/bin/ls'
 ** Look for the presence of the file and for execution rigths.
 ** Then send everything to exec_thread().
 */
-void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
+
+void			exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	char	*cmd;
 
 	cmd = argv[0];
 	if (access(cmd, F_OK) != 0)
 	{
-		//error_nofile(cmd);
-		return ;
+		ft_putstr_fd("21sh: no such file or directory: ", 2);
+		ft_putendl_fd(cmd, 2);
 	}
 	else if (access(cmd, X_OK) != 0)
 	{
-		//error_permission(cmd);
-		return ;
+		ft_putstr_fd("21sh: permission denied: ", 2);
+		ft_putendl_fd(cmd, 2);
 	}
 	else
 		exec_thread(cmd, argv, envp, exe, node);
@@ -71,7 +57,8 @@ void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 ** Main function for executing a builtin.
 ** Send informations to 'builtin_nameofthebuiltin()'.
 */
-void	exec_builtin(char **argv, char **envp, t_exec *exe)
+
+void			exec_builtin(char **argv, char **envp, t_exec *exe)
 {
 	char	*cmd;
 
@@ -95,7 +82,8 @@ void	exec_builtin(char **argv, char **envp, t_exec *exe)
 ** Look in the PATH environment var and look for the correponding path.
 ** Then send everything to exec_thread().
 */
-void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
+
+void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
 	char	*pth;
 	char	**paths;
@@ -114,12 +102,12 @@ void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 ** and can be just executed.
 ** char **envp comes directly from the main()
 */
-int		exec_cmd(t_ast *root, char **envp)
+
+int				exec_cmd(t_ast *root, char **envp)
 {
 	t_exec	*exe;
 	int		ret;
 
-	//dprintf(1, "lastnode: %s %p\n", node->data[0], node->data[0]);
 	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
 	ast_debug(root);
