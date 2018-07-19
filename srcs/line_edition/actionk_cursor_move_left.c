@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cursor_move_left.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:58:27 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:58:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/19 17:44:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		actionk_cursor_move_left(struct s_line *le)
 	}
 	if (le->current_cursor_pos == 0)
 	{
-		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
+		fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
 		le->current_cursor_pos = le->li_max_size - 1;
 		--(le->current_cursor_line);
 		tputs(le->tcaps->up, 1, &write_one_char);

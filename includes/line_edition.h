@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 15:54:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/07/19 16:43:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/null"
+# define TTY_DEBUG "/dev/ttys001"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
