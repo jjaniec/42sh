@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/07/12 11:35:57 by sebastien        ###   ########.fr        #
+#    Updated: 2018/07/20 13:26:01 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRC_NAME = 	is_separator.c \
 			exec/manage_env.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
+			exec/handle_redir_fd.c \
+			exec/handle_pipes.c \
 			exec/free_exec.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \

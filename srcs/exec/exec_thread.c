@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:23:55 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/20 13:16:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 {
+	handle_pipes(node);
 	handle_redirs(node);
 	if (execve(cmd, argv, envp) == -1)
 		log_error("Execve() not working");

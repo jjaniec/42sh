@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 13:48:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/20 13:25:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
 
 void	handle_redirs(t_ast *redir_ast_node);
+void	handle_redir_fd(int input_fd, int target_fd);
+
+void	handle_pipes(t_ast *node);
+
 void	free_exec(t_exec **exe);
 
 #endif
