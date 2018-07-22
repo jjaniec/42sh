@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 13:48:27 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/22 16:34:36 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ void	ast_debug(t_ast *root);
 
 int		is_op0(t_lexeme *lex);
 int		is_op1(t_lexeme *lex);
+int		is_op1_5(t_lexeme *lex);
 int		is_op2(t_lexeme *lex);
 int		is_op3(t_lexeme *lex);
 int		is_nodeop0(t_ast *ast);
 int		is_nodeop1(t_ast *ast);
+int		is_nodeop1_5(t_ast *ast);
 int		is_nodeop2(t_ast *ast);
 int		is_nodeop3(t_ast *ast);
 
