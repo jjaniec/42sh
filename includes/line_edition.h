@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys001"
+# define TTY_DEBUG "/dev/ttys000"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
