@@ -6,47 +6,32 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 13:04:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 18:42:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/23 20:29:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-**
+** Search for last pipe and apply pipe redirections depending on
+** which side is our element compared to the pipe node (right/left)
 */
 
-static int	is_input_piped(t_ast *node, int *pipe_end_fd, t_ast *last_pipe_node)
+static void	apply_pipes_fds(t_ast *node, t_ast *last_pipe)
 {
-	t_ast	*pipe_right_elem;
 	t_ast	*ptr;
 
-	if (!(last_pipe_node->parent && last_pipe_node->parent->type_details == TK_PIPE))
-	{
-		pipe_right_elem = last_pipe_node->right;
-		ptr = node;
-		while (ptr && ptr != pipe_right_elem)
-			ptr = ptr->parent;
-		if (ptr != pipe_right_elem)
-			return (0);
-	}
-	*pipe_end_fd = *(&(last_pipe_node->data[1][0]));
-	return (1);
-}
-
-static int	is_output_piped(t_ast *node, int *pipe_end_fd, t_ast *last_pipe_node)
-{
-	t_ast	*pipe_left_elem;
-	t_ast	*ptr;
-
-	pipe_left_elem = last_pipe_node->left;
 	ptr = node;
-	while (ptr && ptr != pipe_left_elem)
+	while (ptr->parent != last_pipe)
 		ptr = ptr->parent;
-	if (ptr != pipe_left_elem)
-		return (0);
-	*pipe_end_fd = *(&(last_pipe_node->data[1][sizeof(int)]));
-	return (1);
+	if (ptr == last_pipe->right)
+	{
+		handle_redir_fd(STDIN_FILENO, *(&(last_pipe->data[1][0])));
+		if (last_pipe->parent && last_pipe->parent->type_details == TK_PIPE)
+			handle_redir_fd(STDOUT_FILENO, *(&(last_pipe->parent->data[1][sizeof(int)])));
+	}
+	else if (ptr == last_pipe->left)
+		handle_redir_fd(STDOUT_FILENO, *(&(last_pipe->data[1][sizeof(int)])));
 }
 
 /*
@@ -57,15 +42,10 @@ static int	is_output_piped(t_ast *node, int *pipe_end_fd, t_ast *last_pipe_node)
 
 void	handle_pipes(t_ast *node)
 {
-	int		pipe_end_fd;
 	t_ast	*last_pipe_node;
 
-	pipe_end_fd = 0;
 	log_trace("Handle pipes of %s", node->data[0]);
 	if (!(last_pipe_node = get_last_pipe_node(node)))
 		return ;
-	if (is_input_piped(node, &pipe_end_fd, last_pipe_node))
-		handle_redir_fd(STDIN_FILENO, pipe_end_fd);
-	if (is_output_piped(node, &pipe_end_fd, last_pipe_node))
-		handle_redir_fd(STDOUT_FILENO, pipe_end_fd);
+	apply_pipes_fds(node, last_pipe_node);
 }
