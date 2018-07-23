@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 12:13:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 13:09:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <twenty_one_sh.h>
 
-t_exec	*exec_cmd(t_ast *root, char **envp);
+t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
 t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
 		t_ast *node);
@@ -39,7 +39,7 @@ char	*new_path(char *s1, char *s2);
 char	**get_path(char *str);
 char	*isin_path(char **paths, char *cmd);
 
-void	builtin_exit(t_exec *exe);
+void	builtin_exit(void);
 void	builtin_echo(char **argv, char **envp);
 void	builtin_env(char **argv, char **envp, t_exec *exe);
 void	builtin_setenv(char **argv, char **envp, t_exec *exe);
@@ -51,5 +51,6 @@ char	**inline_unsetenv(char *name, char **envp);
 
 void	handle_redirs(t_ast *redir_ast_node);
 void	free_exec(t_exec **exe);
+t_exec	*create_exec(const char **envp);
 
 #endif

@@ -6,17 +6,32 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 12:29:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:40:42 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static void twentyonesh(char **envp)
+static t_exec	*loop_body(char *input, char **envp)
 {
 	t_lexeme	*lex;
-	char		*input;
 	t_ast		*ast_root;
+	t_exec		*exe;
+
+	lex = lexer(input);
+	ast_root = ast(lex);
+	if (!ast_root)
+		exit(1);
+	exe = create_exec((const char **)envp);
+	exe = exec_cmd(ast_root, exe);
+	ast_free(ast_root);
+	free_lexemes(lex);
+	return (exe);
+}
+
+static void twentyonesh(char **envp)
+{
+	char		*input;
 	t_exec		*exe;
 
 	tty_debug = fopen(TTY_DEBUG, "w");
@@ -25,43 +40,25 @@ static void twentyonesh(char **envp)
 		ft_putstr("%> ");
 		input = line_edition();
 		ft_putchar('\n');
-		lex = lexer(input);
-		ast_root = ast(lex);
-		if (!ast_root)
-			exit(1);
-		exe = exec_cmd(ast_root, envp);
+		exe = loop_body(input, envp);
 		if (exe && exe->tmp_envp)
 			envp = exe->tmp_envp;
 		else if (exe)
 			envp = exe->envp;
 		else
 			exit(1);
-		ast_free(ast_root);
-		//free_exec(&exe);
-		free_lexemes(lex);
+		free_exec(&exe);
 		free(input);
 	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_lexeme	*lex;
-	t_ast		*ast_root;
-	t_exec		*exe;
-
 	if (!DEBUG)
 		log_set_quiet(1);
 	if (ac > 1)
-	{
-		lex = lexer(ft_strdup(av[1]));
-		ast_root = ast(lex);
-		if (!ast_root)
-			return (1);
-		exe = exec_cmd(ast_root, envp);
-		ast_free(ast_root);
-		free_lexemes(lex);
-	}
+		loop_body(av[1], cp_envp((const char **)envp));
 	else
-		twentyonesh(envp);
+		twentyonesh(cp_envp((const char **)envp));
 	return (0);
 }

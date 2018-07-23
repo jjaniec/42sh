@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:45:27 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:28:33 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:46:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void		builtin_setenv(char **argv, char **envp, t_exec *exe)
 			ft_free_argv(exe->tmp_envp);
 			exe->tmp_envp = NULL;
 		}
-		if (exe->envp)
-			ft_free_argv(exe->envp);
+		ft_free_argv(exe->envp);
 		exe->envp = new_envp;
 	}
 	else

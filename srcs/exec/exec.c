@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 12:19:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 13:09:07 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 ** In fail, exit the program with MALLOC_ERROR
 */
 
-static t_exec	*create_exec(const char **envp)
+t_exec	*create_exec(const char **envp)
 {
 	t_exec	*exe;
 
 	exe = (t_exec *)ft_memalloc(sizeof(t_exec));
 	if (!exe)
 		exit(MALLOC_ERROR);
-	exe->envp = cp_envp(envp);
+	exe->envp = (char **)envp;
 	return (exe);
 }
 
@@ -74,7 +74,7 @@ void			exec_builtin(char **argv, char **envp, t_exec *exe)
 	else if (ft_strequ(cmd, "env"))
 		return (builtin_env(argv, envp, exe));
 	else if (ft_strequ(cmd, "exit"))
-		builtin_exit(exe);
+		builtin_exit();
 }
 
 /*
@@ -103,12 +103,10 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 ** char **envp comes directly from the main()
 */
 
-t_exec				*exec_cmd(t_ast *root, char **envp)
+t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
-	t_exec	*exe;
 	int		ret;
 
-	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
 	if (!exe)
 		return (NULL);

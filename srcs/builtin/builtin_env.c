@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:44:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 12:55:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:46:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ static char	**create_new_var(char *str, char **envp)
 	}
 }
 
+static void	free_envp(t_exec *exe, char **sve_envp, char **nw_envp)
+{
+	ft_free_argv(exe->envp);
+	if (exe->tmp_envp)
+	{
+		ft_free_argv(exe->tmp_envp);
+		exe->tmp_envp = NULL;
+	}
+	ft_free_argv(nw_envp);
+	exe->envp = sve_envp;
+}
+
 void		builtin_env(char **argv, char **envp, t_exec *exe)
 {
 	char	**new_envp;
@@ -58,10 +70,6 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 		}
 		else
 			exec_argv(argv + 1, new_envp, exe, NULL);
-		ft_free_argv(new_envp);
-		ft_free_argv(exe->envp);
-		ft_free_argv(exe->tmp_envp);
-		exe->tmp_envp = NULL;
-		exe->envp = save_envp;
+		free_envp(exe, save_envp, new_envp);
 	}
 }
