@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/22 19:17:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/19 15:08:02 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 ** Recursive. print the tree form left to right
 */
+
 static void	print_ast_tree(t_ast *node, int level)
 {
 	int		l;
@@ -35,7 +36,8 @@ static void	print_ast_tree(t_ast *node, int level)
 /*
 ** Main function for printing and showing the tree from the root
 */
-void	ast_debug(t_ast *root)
+
+void		ast_debug(t_ast *root)
 {
 	if (root)
 		print_ast_tree(root, 0);

@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_operator.c                                      :+:      :+:    :+:   */
+/*   ast_explore.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 19:25:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:04:02 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/06/28 15:13:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-/*
-** Return 1 if c is an operator char, else return 0
-*/
-
-int		is_operator(char c)
+t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 {
-	if (c == '&' || c == '|' || c == ';' || c == '<' || c == '>' || c == '\n')
-		return (1);
-	return (0);
+	if (!ast)
+		return (exe);
+	exe = pre_exec(ast, exe);
+	exe = ast_explore(ast->left, exe);
+	exe = in_exec(ast, exe);
+	exe = ast_explore(ast->right, exe);
+	exe = post_exec(ast, exe);
+	return (exe);
 }

@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_operator.c                                      :+:      :+:    :+:   */
+/*   ast_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 19:25:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:04:02 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/07/19 15:08:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-/*
-** Return 1 if c is an operator char, else return 0
-*/
-
-int		is_operator(char c)
+static void	free_node(t_ast **ast)
 {
-	if (c == '&' || c == '|' || c == ';' || c == '<' || c == '>' || c == '\n')
-		return (1);
-	return (0);
+	free(ast[0]->data);
+	free(*ast);
+	*ast = NULL;
+}
+
+void		ast_free(t_ast *ast)
+{
+	if (!ast)
+		return ;
+	ast_free(ast->left);
+	ast_free(ast->right);
+	free_node(&ast);
 }

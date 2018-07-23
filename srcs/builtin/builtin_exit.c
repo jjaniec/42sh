@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_operator.c                                      :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 19:25:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:04:02 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/06/29 14:39:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-/*
-** Return 1 if c is an operator char, else return 0
-*/
-
-int		is_operator(char c)
+inline void	builtin_exit(t_exec *exe)
 {
-	if (c == '&' || c == '|' || c == ';' || c == '<' || c == '>' || c == '\n')
-		return (1);
-	return (0);
+	if (exe->tmp_envp)
+		ft_free_argv(exe->tmp_envp);
+	if (exe->envp)
+		ft_free_argv(exe->envp);
+	exit(0);
 }

@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_operator.c                                      :+:      :+:    :+:   */
+/*   free_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 19:25:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:04:02 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/07/12 11:27:28 by sebastien         #+#    #+#             */
+/*   Updated: 2018/07/12 11:31:03 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-/*
-** Return 1 if c is an operator char, else return 0
-*/
-
-int		is_operator(char c)
+void	free_exec(t_exec **exe)
 {
-	if (c == '&' || c == '|' || c == ';' || c == '<' || c == '>' || c == '\n')
-		return (1);
-	return (0);
+	ft_free_argv(exe[0]->envp);
+	ft_free_argv(exe[0]->tmp_envp);
+	free(*exe);
+	*exe = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/01 11:57:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/19 15:01:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ static size_t	lexeme_type_rediropt(char *s, int *pos, \
 }
 
 /*
-** Determines if lexeme is composed of a redirection operator and numbers before it to specify
+** Determines if lexeme is composed of a redirection operator and numbers
+** before it to specify
 ** fd to redirect, if a redirection operator is found after numbers,
 ** remake data string and *pos offset
 */

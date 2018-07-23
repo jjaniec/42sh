@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_operator.c                                      :+:      :+:    :+:   */
+/*   ft_free_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 19:25:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:04:02 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/07/23 11:58:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <stdlib.h>
 
-/*
-** Return 1 if c is an operator char, else return 0
-*/
-
-int		is_operator(char c)
+void	ft_free_argv(char **tabb)
 {
-	if (c == '&' || c == '|' || c == ';' || c == '<' || c == '>' || c == '\n')
-		return (1);
-	return (0);
+	int		i;
+
+	i = 0;
+	if (!tabb)
+		return ;
+	while (tabb && tabb[i])
+	{
+		free(tabb[i]);
+		tabb[i] = NULL;
+		i++;
+	}
+	free(tabb);
 }

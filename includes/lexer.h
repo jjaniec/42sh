@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/04 12:46:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/19 14:47:35 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define T_ENV_ASSIGN		1
 
 /*
-** Default type and 
+** Default type and
 ** default token for type_details
 */
 
@@ -43,7 +43,8 @@
 
 # define TK_DEFAULT			0
 
-/* Control operators:
+/*
+** Control operators:
 ** &
 ** &&
 ** // (
@@ -67,12 +68,15 @@
 /*
 ** Redirect operators:
 ** <
-** > or >| http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_02
+** > or >| http://pubs.opengroup.org/
+**			onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_02
 ** >>
 ** << or <<-
-** <& http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_05
+** <& http://pubs.opengroup.org/
+**			onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_05
 ** >&
-** <> http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_07
+** <> http://pubs.opengroup.org/
+**			onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_07_07
 */
 
 /*
@@ -81,12 +85,14 @@
 ** be the token specifier, example:
 **   with "ls >&1", data of the TK_GREATAND operator will be ">&"
 ** else if an input fd is specified and no IFS separator are between '>'/'<'
-** and the fd number, the data of our operator will contain the input fd number in the data string,
+** and the fd number, the data of our operator will contain
+** the input fd number in the data string,
 ** example:
 **   with "ls 42>&1", data of the TK_GREATAND operator will be "42>&"
 **   while with "ls 42 >&1", data of the TK_GREATAND operator will be ">&"
 **     as "42" will be an argument of ls
-** if input fd is a string not only composed of numbers, it will be lexed as a T_WORD
+** if input fd is a string not only composed of numbers, it will be lexed
+** as a T_WORD
 ** and the data of our operator will not be changed, example:
 **   with "echo ls>&2",
 **     our linked list will contain
@@ -105,22 +111,6 @@
 # define TK_LESSAND			47
 # define TK_GREATAND		48
 # define TK_LESSGREAT		49
-
-/*
-** Struct in linked list to store type of lexeme and data pointer
-** type: type of lexeme (T_(WORD/CTRL_OPT/REDIR_OPT))
-** type_details: token associated with data (TK_(LESS/GREAT/...))
-** data: pointer to char * from input to data of element
-** next: ptr to next lexeme
-*/
-
-typedef struct			s_lexeme
-{
-	size_t				type;
-	size_t				type_details;
-	void				*data;
-	struct s_lexeme		*next;
-}						t_lexeme;
 
 t_lexeme				*lexer(char *exp);
 
@@ -142,7 +132,8 @@ char					*has_matching_quote(char *s, int pos);
 
 int						env_assigns_status(int mode_set, int new_value);
 
-void					handle_backslash_escape(char *s, int *pos, int in_quote_type);
+void					handle_backslash_escape(char *s, int *pos,
+						int in_quote_type);
 
 void					free_lexemes(t_lexeme *ll);
 

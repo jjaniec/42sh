@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/07/19 23:42:40 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/07/23 11:54:07 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,10 @@ SRC_NAME = 	is_separator.c \
 			lexer/handle_backslash_escape.c \
 			lexer/free_lexemes.c \
 			ast/ast.c \
+			ast/ast_explore.c \
 			ast/ast_construct.c \
 			ast/check_parsing.c \
-			ast/ast_utils.c \
+			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
 			line_edition/action_key.c \
@@ -54,24 +55,42 @@ SRC_NAME = 	is_separator.c \
 			line_edition/process_key.c \
 			line_edition/set_term_attr.c \
 			line_edition/write_one_char.c \
+			ast/ast_free.c \
+			exec/exec.c \
+			exec/exec_pre_in_post.c \
+			exec/exec_thread.c \
+			exec/io_manager.c \
+			exec/manage_env.c \
+			exec/manage_path.c \
+			exec/handle_redirs.c \
+			exec/free_exec.c \
+			builtin/builtin_cd.c \
+			builtin/builtin_exit.c \
+			builtin/builtin_setenv.c \
+			builtin/builtin_unsetenv.c \
+			builtin/builtin_echo.c \
+			builtin/builtin_env.c \
 			log.c \
+			ft_free_argv.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
+				exec.h \
 				twenty_one_sh.h \
 				line_edition.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					ast_tests.c \
+					exec_tests.c \
 					main.c
 
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ line_edition/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = libtap
 

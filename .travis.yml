@@ -59,4 +59,4 @@ matrix:
         # - os: linux
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
-script: make CC=$CXX tests && valgrind --leak-check=full ./21sh_tests 2> ./tmp; r=$?; cat ./tmp | grep -A5 'LEAK SUMMARY'; make coverage; return $r
+script: make CC=$CXX verbose && make CC=$CXX tests && valgrind --leak-check=full ./21sh_tests 2> ./tmp; r=$?; cat ./tmp | grep -A5 'LEAK SUMMARY'; make coverage; return $r
