@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redir_fd.c                                  :+:      :+:    :+:   */
+/*   get_last_pipe_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/20 13:21:13 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 18:30:22 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/07/23 18:24:16 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/07/23 18:24:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Handle redirections to fds ex: 2>&1
+** Look for pipes in ast before && and || tokens,
+** if found, return pointer to node,
+** otherwise return NULL
 */
 
-void		handle_redir_fd(int input_fd, int target_fd)
+t_ast		*get_last_pipe_node(t_ast *node)
 {
-	log_trace("  Redir fd %d -> %d(fd)", input_fd, target_fd);
-	//close(input_fd);
-	dup2(target_fd, input_fd);
+	t_ast	*ptr;
+
+	ptr = node;
+	while (ptr && ptr->parent && ptr->type != T_CTRL_OPT)
+		ptr = ptr->parent;
+	log_trace("last pipe :%s(t %zu td %zu)", ptr->data[0], ptr->type, ptr->type_details);
+	if (ptr->type_details == TK_PIPE)
+		return (ptr);
+	return (NULL);
 }
