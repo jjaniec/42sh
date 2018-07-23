@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 18:47:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/07/23 19:14:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,22 @@ static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 ** Parent. Wait() for the child here
 */
 
-static int	parent_process(pid_t child_pid)//, child_pipe_inputfd)
+static int	parent_process(pid_t child_pid, t_ast *last_pipe_node)//, child_pipe_inputfd)
 {
-	pid_t	wait_pid;
 	int		status;
+	int		waited_pid;
 
-	(void)child_pid;
+	if (last_pipe_node && last_pipe_node->data[1])
+		close(*(&(last_pipe_node->data[1][sizeof(int)])));
 	status = -2;
-	wait_pid = 0;
-	wait_pid = wait(&status);
-	if (wait_pid == -1)
+	waited_pid = waitpid(child_pid, &status, 0);
+	if (waited_pid == -1)
 	{
-		log_error("Wait() not working");
-		return (status);
+		log_error("Wait returned -1");
+		ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
 	}
+	if (waited_pid != -1 && waited_pid != child_pid)
+		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
 	return (status);
 }
 
@@ -66,6 +68,6 @@ t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
 	else if (child_pid == 0)
 		child_process(cmd, argv, envp, node);
 	else
-		exe->ret = parent_process(child_pid);
+		exe->ret = parent_process(child_pid, last_pipe_node);
 	return (exe);
 }
