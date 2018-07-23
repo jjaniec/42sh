@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:08:58 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 15:42:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 
 static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 {
-	if (!lex2 && (is_op3(lex1) || is_op2(lex1) || is_op1(lex1)))
-		return (0);
-	else if (lex2 && (is_op0(lex1) || is_op1(lex1) || is_op2(lex1))
-			&& (is_op0(lex2) || is_op1(lex2) || is_op2(lex2)))
+	if (ft_strequ(lex2->data, "\n") && (is_op3(lex1) || is_op1_5(lex1) || is_op2(lex1)
+	|| is_op1(lex1)))
+		return (NEED_SUBPROMPT);
+	else if (lex2 && (is_op0(lex1) || is_op1_5(lex1) || is_op1(lex1)
+	|| is_op2(lex1)) && (is_op0(lex2) || is_op1_5(lex1) || is_op1(lex2)
+	|| is_op2(lex2)))
 		return (0);
 	return (1);
 }
@@ -37,7 +39,7 @@ int			check_parsing(t_lexeme *lex)
 		return (0);
 	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && !is_op3(lex))
 	{
-		ft_printf("Parsing error just after |%s|", lex->data);
+		ft_printf("Parsing error just after: %s\n", lex->data);
 		return (0);
 	}
 	lex = lex->next;
@@ -45,9 +47,11 @@ int			check_parsing(t_lexeme *lex)
 	{
 		if (!check_lexeme(lex, lex->next))
 		{
-			ft_printf("Parsing error just after |%s|", lex->data);
+			ft_printf("Parsing error just after: %s\n", lex->data);
 			return (0);
 		}
+		else if (check_lexeme(lex, lex->next) == NEED_SUBPROMPT)
+			return (NEED_SUBPROMPT);
 		lex = lex->next;
 	}
 	return (1);

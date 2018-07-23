@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/22 16:34:36 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/07/23 15:22:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define AST_H
 
 # include <twenty_one_sh.h>
+
+# define NEED_SUBPROMPT -1
 
 t_ast	*ast(t_lexeme *lex);
 t_ast	*construct_ast(t_lexeme *lex, t_ast *root);

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 15:07:17 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 15:29:37 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define MALLOC_ERROR 	1
 
 void	subp_string(char **s);
+void	subp_lexeme(t_lexeme *lex);
 void	ft_free_argv(char **tabb);
 
 #endif
