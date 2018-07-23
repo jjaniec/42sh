@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 12:02:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 12:19:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 ** char **envp comes directly from the main()
 */
 
-int				exec_cmd(t_ast *root, char **envp)
+t_exec				*exec_cmd(t_ast *root, char **envp)
 {
 	t_exec	*exe;
 	int		ret;
@@ -111,8 +111,7 @@ int				exec_cmd(t_ast *root, char **envp)
 	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
 	if (!exe)
-		return (-1);
+		return (NULL);
 	ret = exe->ret;
-	free_exec(&exe);
-	return (ret);
+	return (exe);
 }

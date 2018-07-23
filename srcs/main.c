@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 12:00:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 12:29:00 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void twentyonesh(char **envp)
 	t_lexeme	*lex;
 	char		*input;
 	t_ast		*ast_root;
+	t_exec		*exe;
 
-	(void)envp;
 	tty_debug = fopen(TTY_DEBUG, "w");
 	while (1)
 	{
@@ -29,8 +29,15 @@ static void twentyonesh(char **envp)
 		ast_root = ast(lex);
 		if (!ast_root)
 			exit(1);
-		exec_cmd(ast_root, envp);
+		exe = exec_cmd(ast_root, envp);
+		if (exe && exe->tmp_envp)
+			envp = exe->tmp_envp;
+		else if (exe)
+			envp = exe->envp;
+		else
+			exit(1);
 		ast_free(ast_root);
+		//free_exec(&exe);
 		free_lexemes(lex);
 		free(input);
 	}
@@ -40,6 +47,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_lexeme	*lex;
 	t_ast		*ast_root;
+	t_exec		*exe;
 
 	if (!DEBUG)
 		log_set_quiet(1);
@@ -49,7 +57,7 @@ int	main(int ac, char **av, char **envp)
 		ast_root = ast(lex);
 		if (!ast_root)
 			return (1);
-		exec_cmd(ast_root, envp);
+		exe = exec_cmd(ast_root, envp);
 		ast_free(ast_root);
 		free_lexemes(lex);
 	}

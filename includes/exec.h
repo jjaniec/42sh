@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 13:48:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 12:13:06 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <twenty_one_sh.h>
 
-int		exec_cmd(t_ast *root, char **envp);
+t_exec	*exec_cmd(t_ast *root, char **envp);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
 t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
 		t_ast *node);
