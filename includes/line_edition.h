@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys000"
+# define TTY_DEBUG "/dev/ttys001"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -103,6 +103,14 @@ struct s_action_key
 	void	(*func_ptr)(struct s_line *);
 };
 
+// for actionk_delete_character()
+struct s_infos_for_rewriting
+{
+	unsigned int	nb_line_to_go_up;
+	unsigned int	pos_begin_rewriting;
+	unsigned int	pos_end_rewriting;
+};
+
 struct s_history
 {
 	char 				his[LE_HISTORY_LINE_SIZE];
@@ -123,6 +131,8 @@ void	set_term_attr(t_set_term mode);
 void	le_exit(const char *msg, const char *func_name);
 
 void	process_key(t_kno key, struct s_line *le);
+
+void    print_key(t_kno key);
 
 void	print_key_at_end(struct s_line *le, t_kno key);
 void	insert_character_into_cmdline(struct s_line *le, t_kno key);

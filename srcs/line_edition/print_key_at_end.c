@@ -12,12 +12,6 @@
 
 #include "../../includes/line_edition.h"
 
-static void	print_key(t_kno key)
-{
-	if (write(STDOUT_FILENO, &key, sizeof(char)) == -1)
-		le_exit("Writing on stdout failed\n", "write");
-}
-
 static bool	need_to_go_to_next_line(struct s_line *le)
 {//fprintf(tty_debug, "into go to next line() - %u\n", le->current_cursor_pos);
 	if (le->current_cursor_pos == le->li_max_size - 1)
