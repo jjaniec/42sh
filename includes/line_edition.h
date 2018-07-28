@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys001"
+# define TTY_DEBUG "/dev/ttys000"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -42,7 +42,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (9)
+# define LE_NB_KEYS (11)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -152,5 +152,22 @@ void	actionk_move_cursor_end(struct s_line *le);
 void    actionk_move_cursor_by_word_right(struct s_line *le);
 void    actionk_move_cursor_by_word_left(struct s_line *le);
 void	actionk_delete_character(struct s_line *le);
+void    actionk_move_cursor_line_up(struct s_line *le);
+void    actionk_move_cursor_line_down(struct s_line *le);
 
 #endif
+
+
+
+
+
+/*
+
+
+
+
+
+
+
+
+*/
