@@ -26,7 +26,10 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_ALT_LEFT, &actionk_move_cursor_by_word_left},
 		{LE_BACKSPACE, &actionk_delete_character},
 		{LE_CTRL_UP, &actionk_move_cursor_line_up},
-		{LE_CTRL_DOWN, &actionk_move_cursor_line_down}
+		{LE_CTRL_DOWN, &actionk_move_cursor_line_down},
+		{LE_CTRL_B, &actionk_copy_to_start},
+		{LE_CTRL_F, &actionk_copy_to_end},
+		{LE_CTRL_R, &actionk_copy_all}
 	};
 
 	return (actionk);

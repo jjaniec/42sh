@@ -56,6 +56,19 @@ char			*line_edition(void)
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(&le);
 
+fprintf(tty_debug, "--------------------------------------\n");
+		fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n",
+		le.current_cursor_pos, le.current_cursor_line);
+		fprintf(tty_debug, "line index = %u\n", le.line_index);
+		fprintf(tty_debug, "cursor index for line = %u - %c\n", \
+		le.cursor_index_for_line, le.line[le.cursor_index_for_line]);
+		fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
+		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
+		le.nb_car_written_on_last_current_line);
+		fprintf(tty_debug, "li max size = %u\n", le.li_max_size);
+fprintf(tty_debug, "--------------------------------------\n");
+
+
 	while ("cest ta mere la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
