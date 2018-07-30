@@ -42,7 +42,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (11)
+# define LE_NB_KEYS (14)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -56,6 +56,9 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
+# define LE_CTRL_B (2)
+# define LE_CTRL_F (6)
+# define LE_CTRL_R (18)
 
 
 // others
@@ -93,6 +96,7 @@ struct s_line
 	char					clipboard[LE_LINE_SIZE];
 
 	struct s_le_termcaps	*tcaps;
+	struct s_history		*first_his_ll;
 };
 
 // REGARDER LA FONCTION PUT_A_KEY() DE SAXIAO, JE FAIS PAREIL OU PAS ? ET PK ?
@@ -117,6 +121,7 @@ struct s_history
 	struct s_history	*next;
 	struct s_history	*prev;
 	unsigned int		nb_elem;
+	struct s_line		his_le;
 };
 
 // prototypes
@@ -154,6 +159,9 @@ void    actionk_move_cursor_by_word_left(struct s_line *le);
 void	actionk_delete_character(struct s_line *le);
 void    actionk_move_cursor_line_up(struct s_line *le);
 void    actionk_move_cursor_line_down(struct s_line *le);
+void    actionk_copy_to_start(struct s_line *le);
+void    actionk_copy_to_end(struct s_line *le);
+void    actionk_copy_all(struct s_line *le);
 
 #endif
 

@@ -13,10 +13,12 @@
 #include "../../includes/line_edition.h"
 
 static void	delete_last_char(struct s_line *le)
-{
-	bool	foo;
+{fprintf(tty_debug, "DELETE LAST CHAR\n");
+	bool			foo;
+	unsigned int	keep_current_cursor_line;
 
 	foo = (le->current_cursor_pos == 0) ? (true) : (false);
+	keep_current_cursor_line = le->current_cursor_line;
 	actionk_cursor_move_left(le);
 	tputs(le->tcaps->dc, 1, &write_one_char);
 	if (foo == true)
@@ -27,12 +29,17 @@ static void	delete_last_char(struct s_line *le)
 	}
 	--(le->line_index);
 	le->line[le->line_index] = '\0';
-	if ((le->current_cursor_line + 1) == le->nb_li_currently_writing)
+	if ((keep_current_cursor_line + 1) == le->nb_li_currently_writing)
 	{// si on est sur la derniere ligne
+		fprintf(tty_debug, "UN\n");
 		if (le->nb_car_written_on_last_current_line == 0)
 		{
+			fprintf(tty_debug, "DEUX\n");
 			--(le->nb_li_currently_writing);
-			le->nb_car_written_on_last_current_line = le->li_max_size;
+			le->nb_car_written_on_last_current_line = le->li_max_size - 1;
+			if (le->current_cursor_line == 0 && le->nb_li_currently_writing == 1)
+				le->nb_car_written_on_last_current_line = le->li_max_size \
+				- le->start_pos - 1;
 		}
 		else
 			--(le->nb_car_written_on_last_current_line);
@@ -119,7 +126,7 @@ static void	f(struct s_line *le, unsigned int foo2)
 		if (le->nb_car_written_on_last_current_line == le->li_max_size
 		|| (le->current_cursor_line == 0
 		&& le->nb_car_written_on_last_current_line
-		== /*le->li_max_size - le->start_pos*/0))
+		== /*le->li_max_size - le->start_pos*/   0  ))
 		{
 			fprintf(tty_debug, "DAT IFFFFFFFFFFFFFFFFFFF LOOOL\n");
 			-- foo2;
@@ -211,18 +218,20 @@ static void	delete_char_into_cmdline(struct s_line *le)
 	le->line[le->line_index - 1] = '\0';
 	--(le->line_index);
 
+	//unsigned int keep_nb_li_cur_wr = le->nb_li_currently_writing;
 	if (le->nb_car_written_on_last_current_line == 0)
 		le->nb_li_currently_writing -= 1;
 
 	if (le->nb_car_written_on_last_current_line > 0)
 		--(le->nb_car_written_on_last_current_line);
-	else if (le->nb_car_written_on_last_current_line == 0)
+	else if (le->nb_car_written_on_last_current_line == 0
+	&& le->nb_li_currently_writing > 1)
 		le->nb_car_written_on_last_current_line = le->li_max_size - 1;
 
 	if (le->nb_car_written_on_last_current_line == 0)
 	{
-		if (le->current_cursor_line == /*1*/  0x0  )
-			le->nb_car_written_on_last_current_line = le->li_max_size - le->start_pos;
+		if (le->current_cursor_line == /*1*/  0x0 && le->nb_li_currently_writing == 1 )
+			le->nb_car_written_on_last_current_line = le->li_max_size - le->start_pos - 1;
 		else
 			le->nb_car_written_on_last_current_line = le->li_max_size;
 	}
@@ -253,14 +262,14 @@ static void	delete_char_into_cmdline(struct s_line *le)
 	else
 	{
 		fprintf(tty_debug, "OLALALA %u %u %u\n",
-		le->nb_car_written_on_last_current_line, le->current_cursor_line,k
+		le->nb_car_written_on_last_current_line, le->current_cursor_line,
 		le->nb_li_currently_writing);
 	}
 
 	old_move_cursor_back_to_right_place(le, &infos_rewriting);
 
 	if (le->nb_car_written_on_last_current_line == le->li_max_size
-	|| (le->current_cursor_line == 0
+	|| (le->current_cursor_line == 0 && le->nb_li_currently_writing == 1 && 0
 	&& le->nb_car_written_on_last_current_line
 	== le->li_max_size - le->start_pos))
 		le->nb_car_written_on_last_current_line = 0;
