@@ -29,7 +29,8 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_CTRL_DOWN, &actionk_move_cursor_line_down},
 		{LE_CTRL_B, &actionk_copy_to_start},
 		{LE_CTRL_F, &actionk_copy_to_end},
-		{LE_CTRL_R, &actionk_copy_all}
+		{LE_CTRL_R, &actionk_copy_all},
+		{LE_CTRL_P, &actionk_past_clipboard}
 	};
 
 	return (actionk);

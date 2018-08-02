@@ -42,7 +42,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (14)
+# define LE_NB_KEYS (15)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -59,6 +59,7 @@
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
+# define LE_CTRL_P (16)
 
 
 // others
@@ -162,6 +163,7 @@ void    actionk_move_cursor_line_down(struct s_line *le);
 void    actionk_copy_to_start(struct s_line *le);
 void    actionk_copy_to_end(struct s_line *le);
 void    actionk_copy_all(struct s_line *le);
+void	actionk_past_clipboard(struct s_line *le);
 
 #endif
 

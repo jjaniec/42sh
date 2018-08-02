@@ -12,6 +12,13 @@
 
 #include "../../includes/line_edition.h"
 
+static void	trick_for_special_weird_case_lol(struct s_line *le)
+{
+	write(STDOUT_FILENO, " ", sizeof(char));
+	tputs(le->tcaps->le, 1, &write_one_char);
+	tputs(le->tcaps->nd, 1, &write_one_char);
+}
+
 static void	delete_last_char(struct s_line *le)
 {fprintf(tty_debug, "DELETE LAST CHAR\n");
 	bool			foo;
@@ -22,19 +29,15 @@ static void	delete_last_char(struct s_line *le)
 	actionk_cursor_move_left(le);
 	tputs(le->tcaps->dc, 1, &write_one_char);
 	if (foo == true)
-	{
-		write(STDOUT_FILENO, " ", sizeof(char));
-		tputs(le->tcaps->le, 1, &write_one_char);
-		tputs(le->tcaps->nd, 1, &write_one_char);
-	}
+		trick_for_special_weird_case_lol(le);
 	--(le->line_index);
 	le->line[le->line_index] = '\0';
 	if ((keep_current_cursor_line + 1) == le->nb_li_currently_writing)
 	{// si on est sur la derniere ligne
-		fprintf(tty_debug, "UN\n");
+		//fprintf(tty_debug, "UN\n");
 		if (le->nb_car_written_on_last_current_line == 0)
 		{
-			fprintf(tty_debug, "DEUX\n");
+		//	fprintf(tty_debug, "DEUX\n");
 			--(le->nb_li_currently_writing);
 			le->nb_car_written_on_last_current_line = le->li_max_size - 1;
 			if (le->current_cursor_line == 0 && le->nb_li_currently_writing == 1)
