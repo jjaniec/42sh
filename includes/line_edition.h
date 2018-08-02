@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 16:43:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/02 20:12:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (15)
+# define LE_NB_KEYS (18)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -60,6 +60,9 @@
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
 # define LE_CTRL_P (16)
+# define LE_CTRL_DASH (31)
+# define LE_CTRL_OPEN_SQUARE_BRACKET (27)
+# define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
 
 
 // others
@@ -112,7 +115,6 @@ struct s_action_key
 struct s_infos_for_rewriting
 {
 	unsigned int	nb_line_to_go_up;
-	unsigned int	pos_begin_rewriting;
 	unsigned int	pos_end_rewriting;
 };
 
@@ -151,6 +153,8 @@ bool 	possible_to_go_right(struct s_line *le);
 
 bool	cursor_is_at_end(struct s_line *le);
 
+void	weird_trick_to_erase_char(struct s_line *le);
+
 void	actionk_cursor_move_right(struct s_line *le);
 void	actionk_cursor_move_left(struct s_line *le);
 void	actionk_move_cursor_start(struct s_line *le);
@@ -164,6 +168,10 @@ void    actionk_copy_to_start(struct s_line *le);
 void    actionk_copy_to_end(struct s_line *le);
 void    actionk_copy_all(struct s_line *le);
 void	actionk_past_clipboard(struct s_line *le);
+void	delete_char_into_cmdline(struct s_line *le);
+void	actionk_cut_all(struct s_line *le);
+void	actionk_cut_to_start(struct s_line *le);
+void	actionk_cut_to_end(struct s_line *le);
 
 #endif
 

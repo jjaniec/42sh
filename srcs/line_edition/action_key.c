@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 15:00:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/02 20:21:50 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_CTRL_B, &actionk_copy_to_start},
 		{LE_CTRL_F, &actionk_copy_to_end},
 		{LE_CTRL_R, &actionk_copy_all},
-		{LE_CTRL_P, &actionk_past_clipboard}
+		{LE_CTRL_P, &actionk_past_clipboard},
+		{LE_CTRL_DASH, &actionk_cut_all},
+		{LE_CTRL_OPEN_SQUARE_BRACKET, &actionk_cut_to_start},
+		{LE_CTRL_CLOSE_SQUARE_BRACKET, &actionk_cut_to_end}
 	};
 
 	return (actionk);
@@ -52,8 +55,4 @@ void						action_key(t_kno key, struct s_line *le)
 		}
 		++i;
 	}
-
-	//fprintf(tty_debug, "curr cursor pos = %u\n",  le->current_cursor_pos );
-
-	//fprintf(tty_debug, "foo = %d\n", i);
 }
