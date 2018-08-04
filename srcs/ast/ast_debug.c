@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:08:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/04 16:03:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ static void	print_ast_tree(t_ast *node, int level)
 	print_ast_tree(node->right, level + 1);
 	while (l-- > 0)
 		ft_putchar('\t');
-	if (node->data && node->data[0])
+	if (node->data && node->data[0][0] == '\n')
+		ft_printf("\\n\n");
+	else if (node->data && node->data[0])
 		ft_printf("%s\n", node->data[0]);
 	else
 		ft_printf("%c\n", '~');

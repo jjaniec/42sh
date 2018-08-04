@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 15:37:07 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/04 16:47:25 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,15 @@ t_ast	*ast(t_lexeme *lex)
 	t_ast	*root;
 	int		check;
 
-	if (!lex)
-		return (NULL);
 	root = NULL;
-	check = check_parsing(lex);
+	check = NEED_SUBPROMPT;
 	while (check == NEED_SUBPROMPT)
-		subp_lexeme(lex);
+	{
+		if (lex)
+			check = check_parsing(lex);
+		if (check == NEED_SUBPROMPT)
+			lex = subp_lexeme(lex);
+	}
 	if (!check)
 		return (NULL);
 	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
