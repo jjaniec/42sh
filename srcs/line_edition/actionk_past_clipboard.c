@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_past_clipboard.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/30 17:04:59 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/08/05 20:01:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static unsigned int	print_clipboard(struct s_line *le)
 {
 	const char		*clipboard = le->clipboard;
 	unsigned int	tmp_current_cursor_pos;
-	unsigned int	i;
 
 	tmp_current_cursor_pos = le->current_cursor_pos;
 	while (*clipboard != '\0')
@@ -26,12 +25,7 @@ static unsigned int	print_clipboard(struct s_line *le)
 		{
 			tmp_current_cursor_pos = 0;
 			tputs(le->tcaps->_do, 1, &write_one_char);
-			i = 0;
-			while (i < le->li_max_size - 1)
-			{
-				tputs(le->tcaps->le, 1, &write_one_char);
-				++i;
-			}
+			cursor_crosses_screen(le, CROSS_TO_LEFT);
 		}
 		print_key(*clipboard);
 		++clipboard;
@@ -43,7 +37,6 @@ static void	reprint_following_part_of_line(struct s_line *le,
 						unsigned int tmp_current_cursor_pos)
 {
 	const char		*part_of_line = (le->line) + (le->cursor_index_for_line);
-	unsigned int	i;
 
 	while (*part_of_line != '\0')
 	{
@@ -52,12 +45,7 @@ static void	reprint_following_part_of_line(struct s_line *le,
 		{
 			tmp_current_cursor_pos = 0;
 			tputs(le->tcaps->_do, 1, &write_one_char);
-			i = 0;
-			while (i < le->li_max_size - 1)
-			{
-				tputs(le->tcaps->le, 1, &write_one_char);
-				++i;
-			}
+			cursor_crosses_screen(le, CROSS_TO_LEFT);
 		}
 		print_key(*part_of_line);
 		++part_of_line;
@@ -90,7 +78,6 @@ static void	update_values(struct s_line *le)
 	//const int clipboard_len = ft_strlen(le->clipboard);
 	const char		*clipboard = le->clipboard;
 	unsigned int	tmp_current_cursor_pos;
-	unsigned int	i;
 
 	tmp_current_cursor_pos = le->current_cursor_pos;
 	while (*clipboard != '\0')
@@ -102,15 +89,7 @@ static void	update_values(struct s_line *le)
 			//tputs(le->tcaps->_do, 1, &write_one_char);
 			++(le->current_cursor_line);
 			++(le->nb_li_currently_writing);
-			i = 0;
-			while (i < le->li_max_size - 1)
-			{
-			//	tputs(le->tcaps->le, 1, &write_one_char);
-				++i;
-			}
 		}
-		//print_key(*part_of_line);
-
 		++clipboard;
 	}
 	

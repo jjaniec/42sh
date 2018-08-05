@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:58:27 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 17:44:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/05 19:05:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		actionk_cursor_move_left(struct s_line *le)
 {
-	unsigned int	i;
 	if (le->current_cursor_line == 0 && le->current_cursor_pos == le->start_pos)
 	{
 		//fprintf(tty_debug, "Pas possible d'aller plus a gauche\n");
@@ -22,16 +21,11 @@ void		actionk_cursor_move_left(struct s_line *le)
 	}
 	if (le->current_cursor_pos == 0)
 	{
-		fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
+		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
 		le->current_cursor_pos = le->li_max_size - 1;
 		--(le->current_cursor_line);
 		tputs(le->tcaps->up, 1, &write_one_char);
-		i = 0;
-		while (i < le->li_max_size - 1)
-		{
-			tputs(le->tcaps->nd, 1, &write_one_char);
-			++i;
-		}
+		cursor_crosses_screen(le, CROSS_TO_RIGHT);
 	}
 	else
 	{

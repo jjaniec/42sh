@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/02 20:12:08 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/05 20:16:42 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (18)
+# define LE_NB_KEYS (19)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -56,6 +56,7 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
+# define LE_DELETE ((27) + (91 << 1) + (51 << 2) + (126 << 3))
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
@@ -73,9 +74,19 @@
 typedef uint64_t t_kno;
 
 // for set_term_attr() function
-typedef unsigned int t_set_term;
-# define LE_SET_NEW (1U)
-# define LE_SET_OLD (2U)
+enum e_set_term
+{
+	LE_SET_NEW,
+	LE_SET_OLD
+};
+typedef enum e_set_term t_set_term;
+
+enum e_cross_screen
+{
+	CROSS_TO_LEFT,
+	CROSS_TO_RIGHT
+};
+typedef enum e_cross_screen t_cross_screen;
 
 struct s_le_termcaps
 {
@@ -88,6 +99,7 @@ struct s_le_termcaps
 
 struct s_line
 {
+	t_kno					key_no;
 	char					line[LE_LINE_SIZE];
 	unsigned int			line_index;
 	unsigned int			cursor_index_for_line;
@@ -100,7 +112,8 @@ struct s_line
 	char					clipboard[LE_LINE_SIZE];
 
 	struct s_le_termcaps	*tcaps;
-	struct s_history		*first_his_ll;
+	struct s_history		*first_his_elem;
+	unsigned int			his_index;
 };
 
 // REGARDER LA FONCTION PUT_A_KEY() DE SAXIAO, JE FAIS PAREIL OU PAS ? ET PK ?
@@ -155,6 +168,8 @@ bool	cursor_is_at_end(struct s_line *le);
 
 void	weird_trick_to_erase_char(struct s_line *le);
 
+void	cursor_crosses_screen(struct s_line *le, t_cross_screen direction);
+
 void	actionk_cursor_move_right(struct s_line *le);
 void	actionk_cursor_move_left(struct s_line *le);
 void	actionk_move_cursor_start(struct s_line *le);
@@ -162,13 +177,14 @@ void	actionk_move_cursor_end(struct s_line *le);
 void    actionk_move_cursor_by_word_right(struct s_line *le);
 void    actionk_move_cursor_by_word_left(struct s_line *le);
 void	actionk_delete_character(struct s_line *le);
+void	delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le);
+void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le);
 void    actionk_move_cursor_line_up(struct s_line *le);
 void    actionk_move_cursor_line_down(struct s_line *le);
 void    actionk_copy_to_start(struct s_line *le);
 void    actionk_copy_to_end(struct s_line *le);
 void    actionk_copy_all(struct s_line *le);
 void	actionk_past_clipboard(struct s_line *le);
-void	delete_char_into_cmdline(struct s_line *le);
 void	actionk_cut_all(struct s_line *le);
 void	actionk_cut_to_start(struct s_line *le);
 void	actionk_cut_to_end(struct s_line *le);

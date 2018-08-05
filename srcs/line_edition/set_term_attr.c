@@ -6,17 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 19:21:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/06/23 16:43:43 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/05 18:52:04 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
-
-/*
-**	set_term_attr() can be call with :
-**	 LE_SET_NEW to save current attributes and set 42sh attributes
-**	 LE_SET_OLD to set the saved attributes
-*/
 
 static void		init_termios_flags(struct termios *new)
 {

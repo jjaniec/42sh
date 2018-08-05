@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cursor_move_right.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:56:44 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:56:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/05 19:04:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		actionk_cursor_move_right(struct s_line *le)
 {
-	unsigned int	i;
 	if ( possible_to_go_right(le) == false )
 	{
 		//fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
@@ -26,12 +25,7 @@ void		actionk_cursor_move_right(struct s_line *le)
 		le->current_cursor_pos = 0;
 		++(le->current_cursor_line);
 		tputs(le->tcaps->_do, 1, &write_one_char);
-		i = 0;
-		while (i < le->li_max_size - 1)
-		{
-			tputs(le->tcaps->le, 1, &write_one_char);
-			++i;
-		}
+		cursor_crosses_screen(le, CROSS_TO_LEFT);
 	}
 	else
 	{

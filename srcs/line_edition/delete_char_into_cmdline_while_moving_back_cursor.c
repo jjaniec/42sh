@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   delete_char_into_cmdline.c                         :+:      :+:    :+:   */
+/*   delete_char_into_cmdline_while_moving_bac          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/02 17:08:10 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/02 18:13:38 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/08/05 20:19:16 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/08/05 20:19:21 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
 static void	reprint_part_of_line_2(struct s_line *le,
-		unsigned int tmp_current_cursor_pos,
-		struct s_infos_for_rewriting *infos_rewriting)
+unsigned int tmp_current_cursor_pos,
+struct s_infos_for_rewriting *infos_rewriting)
 {
-	unsigned int	i;
-
 	if (tmp_current_cursor_pos == le->li_max_size - 1)
 	{
 		tputs(le->tcaps->_do, 1, &write_one_char);
 		++(infos_rewriting->nb_line_to_go_up);
-		i = 0;
-		while (i < le->li_max_size - 1)
-		{
-			tputs(le->tcaps->le, 1, &write_one_char);
-			++i;
-		}
+		cursor_crosses_screen(le, CROSS_TO_LEFT);
 		tmp_current_cursor_pos = 0;
 	}
 	infos_rewriting->pos_end_rewriting = tmp_current_cursor_pos;
@@ -38,7 +31,6 @@ static void	reprint_part_of_line(struct s_line *le,
 {
 	const char		*line;
 	unsigned int	tmp_current_cursor_pos;
-	unsigned int	i;
 
 	line = (le->line) + (le->cursor_index_for_line);
 	tmp_current_cursor_pos = le->current_cursor_pos;
@@ -51,9 +43,7 @@ static void	reprint_part_of_line(struct s_line *le,
 		{
 			tputs(le->tcaps->_do, 1, &write_one_char);
 			++(infos_rewriting->nb_line_to_go_up);
-			i = 0;
-			while (i++ < le->li_max_size - 1)
-				tputs(le->tcaps->le, 1, &write_one_char);
+			cursor_crosses_screen(le, CROSS_TO_LEFT);
 			tmp_current_cursor_pos = 0;
 		}
 		print_key(*line);
@@ -114,7 +104,7 @@ static void	update_values(struct s_line *le)
 	}
 }
 
-void		delete_char_into_cmdline(struct s_line *le)
+void		delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le)
 {
 	struct s_infos_for_rewriting	infos_rewriting;
 
