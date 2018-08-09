@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/07/23 18:25:34 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/09 17:14:05 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_unsetenv.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
+			builtin/builtin_return.c \
+			builtin/is_builtin.c \
 			log.c \
 			ft_free_argv.c \
 			main.c

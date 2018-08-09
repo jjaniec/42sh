@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:56:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/09 16:37:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/09 17:02:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		io_manager_in(t_ast *node, t_exec *exe)
 	if (!node->parent)
 		return ;
 	if (node->parent->type == T_CTRL_OPT)
-		io_ctrl_opt(node, exe)
+		io_ctrl_opt(node, exe);
 	if (node->parent->type == T_REDIR_OPT)
 		io_redir_opt(node->parent, exe);
 }
