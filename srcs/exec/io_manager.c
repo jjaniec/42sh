@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   io_manager.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:56:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:25:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/09 16:37:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Handle every T_CTRL_OPT node
+** Handle every T_REDIR_OPT node
+** 1: Don't exec node
 */
 
 static void	io_ctrl_opt(t_ast *node, t_exec *exe)
 {
-	if (node->type_details == TK_DAND && exe->ret != 0)
+	if ((node->type_details == TK_DAND && exe->ret != 0) || \
+		(node->type_details == TK_OR && exe->ret == 0))
 		exe->ready_for_exec = 1;
-	else if (node->type_details == TK_OR && exe->ret == 0)
-		exe->ready_for_exec = 1;
-	else if (is_nodeop0(node))
-		exe->ready_for_exec = 0;
 	else
 		exe->ready_for_exec = 0;
 }
@@ -48,7 +46,7 @@ void		io_manager_in(t_ast *node, t_exec *exe)
 	if (!node->parent)
 		return ;
 	if (node->parent->type == T_CTRL_OPT)
-		io_ctrl_opt(node->parent, exe);
+		io_ctrl_opt(node, exe)
 	if (node->parent->type == T_REDIR_OPT)
 		io_redir_opt(node->parent, exe);
 }
