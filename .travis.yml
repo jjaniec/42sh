@@ -3,7 +3,7 @@ sudo: true
 notifications:
   email: false
 before_install:
-    - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update; else brew update && brew install valgrind; fi
+    - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update; else brew update && sed -i .bak 's#https://sourceware.org/git/valgrind.git#git://sourceware.org/git/valgrind.git#g' ~/.brew/Library/Taps/homebrew/homebrew-core/Formula/valgrind.rb && brew install valgrind; fi
 after_success:
     - bash <(curl -s https://codecov.io/bash)
 addons:
