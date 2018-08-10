@@ -65,7 +65,7 @@ fprintf(tty_debug, "--------------------------------------\n");
 		fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
 		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
 		le.nb_car_written_on_last_current_line);
-		fprintf(tty_debug, "li max size = %u\n", le.li_max_size);
+		fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
 fprintf(tty_debug, "--------------------------------------\n");
 
 
@@ -90,7 +90,7 @@ fprintf(tty_debug, "--------------------------------------\n");
 		fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
 		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
 		le.nb_car_written_on_last_current_line);
-		fprintf(tty_debug, "li max size = %u\n", le.li_max_size);
+		fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
 fprintf(tty_debug, "--------------------------------------\n");
 
 

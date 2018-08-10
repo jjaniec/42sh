@@ -25,7 +25,18 @@ static void	update_values(struct s_line *le)
 	le->line[le->line_index - 1] = '\0';
 	--(le->line_index);
 
-
+	if (le->nb_car_written_on_last_current_line == 0)
+	{
+		--(le->nb_li_currently_writing);
+		le->nb_car_written_on_last_current_line = le->term_line_size - 1;
+		if (le->current_cursor_line == 0)
+			le->nb_car_written_on_last_current_line = le->term_line_size \
+			- le->start_pos - 1;
+	}
+	else
+	{
+		--(le->nb_car_written_on_last_current_line);
+	}
 }
 
 void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le)

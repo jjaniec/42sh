@@ -19,7 +19,7 @@ static void	delete_last_char_while_moving_back_cursor(struct s_line *le)
 	keep_current_cursor_line = le->current_cursor_line;
 	actionk_cursor_move_left(le);
 	tputs(le->tcaps->dc, 1, &write_one_char);
-	if (le->current_cursor_pos == le->li_max_size - 1)
+	if (le->current_cursor_pos == le->term_line_size - 1)
 		weird_trick_to_erase_char(le);
 	--(le->line_index);
 	le->line[le->line_index] = '\0';
@@ -28,9 +28,9 @@ static void	delete_last_char_while_moving_back_cursor(struct s_line *le)
 		if (le->nb_car_written_on_last_current_line == 0)
 		{
 			--(le->nb_li_currently_writing);
-			le->nb_car_written_on_last_current_line = le->li_max_size - 1;
+			le->nb_car_written_on_last_current_line = le->term_line_size - 1;
 			if (!(le->current_cursor_line) && le->nb_li_currently_writing == 1)
-				le->nb_car_written_on_last_current_line = le->li_max_size \
+				le->nb_car_written_on_last_current_line = le->term_line_size \
 				- le->start_pos - 1;
 		}
 		else
@@ -41,18 +41,18 @@ static void	delete_last_char_while_moving_back_cursor(struct s_line *le)
 static void	delete_last_char_without_moving_cursor(struct s_line *le)
 {
 	tputs(le->tcaps->dc, 1, &write_one_char);
-	if (le->current_cursor_pos == le->li_max_size - 1)
+	if (le->current_cursor_pos == le->term_line_size - 1)
 		weird_trick_to_erase_char(le);
 	--(le->line_index);
 	le->line[le->line_index] = '\0';
-	if (le->current_cursor_pos == (le->li_max_size - 1))
+	if (le->current_cursor_pos == (le->term_line_size - 1))
 	{
 		--(le->nb_li_currently_writing);
-		le->nb_car_written_on_last_current_line = le->li_max_size - 1;
+		le->nb_car_written_on_last_current_line = le->term_line_size - 1;
 		if (!(le->current_cursor_line) && le->nb_li_currently_writing == 1)
-			le->nb_car_written_on_last_current_line = le->li_max_size \
+			le->nb_car_written_on_last_current_line = le->term_line_size \
 			- le->start_pos - 1;
-		else if (le->current_cursor_pos != le->li_max_size - 1)
+		else if (le->current_cursor_pos != le->term_line_size - 1)
 		{
 			//fprintf(tty_debug, "CE ELSE - - - - - - - - - - - - \n");
 			--(le->nb_car_written_on_last_current_line);

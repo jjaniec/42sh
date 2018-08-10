@@ -14,14 +14,19 @@
 
 static unsigned int	print_clipboard(struct s_line *le)
 {
-	const char		*clipboard = le->clipboard;
-	unsigned int	tmp_current_cursor_pos;
+	//const char		*clipboard = le->clipboard;
+	//unsigned int	tmp_current_cursor_pos;
 
+	// pas besoin de cette fonction du coup lol
+	// mais je vais ptet la laisser quand meme pour la comprehension du code
+
+	return (print_str_on_term(le->clipboard, le->current_cursor_pos, le, 2));
+/*
 	tmp_current_cursor_pos = le->current_cursor_pos;
 	while (*clipboard != '\0')
 	{
 		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 2 == le->li_max_size - 1)
+		if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
 		{
 			tmp_current_cursor_pos = 0;
 			tputs(le->tcaps->_do, 1, &write_one_char);
@@ -31,17 +36,22 @@ static unsigned int	print_clipboard(struct s_line *le)
 		++clipboard;
 	}
 	return (tmp_current_cursor_pos);
+*/
 }
 
 static void	reprint_following_part_of_line(struct s_line *le,
 						unsigned int tmp_current_cursor_pos)
 {
 	const char		*part_of_line = (le->line) + (le->cursor_index_for_line);
+	// pas besoin de cette variable mdr, pas vraiment besoin de l'ancienne fonction du coup
+	// mais je vais ptet la laisser quand meme pour la comprehension du code
 
+	print_str_on_term(part_of_line, tmp_current_cursor_pos, le, 2);
+/*
 	while (*part_of_line != '\0')
 	{
 		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 2 == le->li_max_size - 1)
+		if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
 		{
 			tmp_current_cursor_pos = 0;
 			tputs(le->tcaps->_do, 1, &write_one_char);
@@ -50,7 +60,7 @@ static void	reprint_following_part_of_line(struct s_line *le,
 		print_key(*part_of_line);
 		++part_of_line;
 	}
-
+*/
 }
 
 static void	insert_clipboard_into_line_array(struct s_line *le)
@@ -83,7 +93,7 @@ static void	update_values(struct s_line *le)
 	while (*clipboard != '\0')
 	{
 		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 2 == le->li_max_size - 1)
+		if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
 		{
 			tmp_current_cursor_pos = 0;
 			//tputs(le->tcaps->_do, 1, &write_one_char);

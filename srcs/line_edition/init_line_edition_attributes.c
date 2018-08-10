@@ -31,7 +31,7 @@ void    			init_line_edition_attributes(struct s_line *le)
     le->start_pos = 11; // tmp value, need to be updated according to the prompt
     le->current_cursor_pos = le->start_pos;
 	le->current_cursor_line = 0;
-	le->li_max_size = get_terminal_nb_col();
+	le->term_line_size = get_terminal_nb_col();
 	le->nb_li_currently_writing = 1;
 	le->nb_car_written_on_last_current_line = 0;
 	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);

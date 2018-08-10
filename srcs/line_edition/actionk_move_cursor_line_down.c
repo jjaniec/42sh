@@ -26,7 +26,7 @@ void    actionk_move_cursor_line_down(struct s_line *le)
         {
             tputs(le->tcaps->_do, 1, &write_one_char);
             ++(le->current_cursor_line);
-            le->cursor_index_for_line += le->li_max_size;
+            le->cursor_index_for_line += le->term_line_size;
         }
     }
     else

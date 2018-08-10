@@ -24,7 +24,7 @@ void	cursor_crosses_screen(struct s_line *le, t_cross_screen direction)
 	else
 		return ;
 	i = 0;
-	while (i < le->li_max_size - 1)
+	while (i < le->term_line_size - 1)
 	{
 		tputs(tcaps_move_cursor, 1, &write_one_char);
 		++i;

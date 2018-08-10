@@ -19,7 +19,7 @@ void		actionk_cursor_move_right(struct s_line *le)
 		//fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
 		return ;
 	}
-	if (le->current_cursor_pos == le->li_max_size - 1)
+	if (le->current_cursor_pos == le->term_line_size - 1)
 	{
 		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSOUS\n");
 		le->current_cursor_pos = 0;

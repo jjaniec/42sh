@@ -21,7 +21,7 @@ bool possible_to_go_right(struct s_line *le)
 		return (true);
 	}
 	if (le->current_cursor_pos == (le->line_index -
-		(le->current_cursor_line * le->li_max_size - le->start_pos)))
+		(le->current_cursor_line * le->term_line_size - le->start_pos)))
 		return (false);
 	return (true);
 }

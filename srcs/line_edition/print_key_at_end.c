@@ -14,7 +14,7 @@
 
 static bool	need_to_go_to_next_line(struct s_line *le)
 {//fprintf(tty_debug, "into go to next line() - %u\n", le->current_cursor_pos);
-	if (le->current_cursor_pos == le->li_max_size - 1)
+	if (le->current_cursor_pos == le->term_line_size - 1)
 		return (true);
 	return (false);
 }

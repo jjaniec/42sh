@@ -84,16 +84,16 @@ void		insert_character_into_cmdline(struct s_line *le, t_kno key)
 	insert_char_into_array(le->line, key, le->cursor_index_for_line);
 	init_and_update_values(le, &keep_pos, &keep_line, &keep_cursor_index_for_line);
 	shift_printed_line(le);
-	if (keep_pos == le->li_max_size - 1)
+	if (keep_pos == le->term_line_size - 1)
 		keep_line += 1;
 	while (le->current_cursor_line > keep_line)
 	{	
 		tputs(le->tcaps->up, 1, &write_one_char);
 		--(le->current_cursor_line);
-		le->cursor_index_for_line -= le->li_max_size;
+		le->cursor_index_for_line -= le->term_line_size;
 	}
 	foo = false;
-	if (keep_pos == le->li_max_size - 1)
+	if (keep_pos == le->term_line_size - 1)
 	{
 		keep_pos = 0;
 		foo = true;

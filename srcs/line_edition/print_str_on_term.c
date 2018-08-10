@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actionk_move_cursor_line_up.c                      :+:      :+:    :+:   */
+/*   print_str_on_term.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/14 16:14:20 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/14 16:14:20 by cfermier         ###   ########.fr       */
+/*   Created: 2018/08/10 21:18:37 by cfermier          #+#    #+#             */
+/*   Updated: 2018/08/10 21:18:37 by cfermier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
-void    actionk_move_cursor_line_up(struct s_line *le)
+unsigned int	print_str_on_term(const char *str,
+								  unsigned int tmp_current_cursor_pos,
+								  struct s_line *le, int foo)
 {
-    if (le->current_cursor_line != 0)
+    while (*str != '\0')
     {
-        if (le->current_cursor_line == 1 && le->current_cursor_pos < le->start_pos)
-            actionk_move_cursor_start(le);
-        else
+        ++tmp_current_cursor_pos;
+        if (tmp_current_cursor_pos - foo == le->term_line_size - 1)
         {
-            tputs(le->tcaps->up, 1, &write_one_char);
-            --(le->current_cursor_line);
-            le->cursor_index_for_line -= le->term_line_size;
+            tputs(le->tcaps->_do, 1, &write_one_char);
+            cursor_crosses_screen(le, CROSS_TO_LEFT);
+            tmp_current_cursor_pos = 0;
         }
+        print_key(*str);
+        ++str;
     }
+	return (tmp_current_cursor_pos);
 }

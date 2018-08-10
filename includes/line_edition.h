@@ -56,7 +56,7 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE ((27) + (91 << 1) + (51 << 2) + (126 << 3))
+# define LE_DELETE 9  //((27) + (91 << 1) + (51 << 2) + (126 << 3))
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
@@ -106,7 +106,7 @@ struct s_line
 	unsigned int			start_pos;
 	unsigned int			current_cursor_pos;
 	unsigned int			current_cursor_line;
-	unsigned int			li_max_size;
+	size_t					term_line_size;
 	unsigned int			nb_li_currently_writing;
 	unsigned int			nb_car_written_on_last_current_line;
 	char					clipboard[LE_LINE_SIZE];
@@ -154,6 +154,9 @@ void	le_exit(const char *msg, const char *func_name);
 void	process_key(t_kno key, struct s_line *le);
 
 void    print_key(t_kno key);
+unsigned int	print_str_on_term(const char *str,
+								  unsigned int tmp_current_cursor_pos,
+								  struct s_line *le, int foo);
 
 void	print_key_at_end(struct s_line *le, t_kno key);
 void	insert_character_into_cmdline(struct s_line *le, t_kno key);

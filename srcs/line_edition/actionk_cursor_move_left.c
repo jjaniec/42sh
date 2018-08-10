@@ -22,7 +22,7 @@ void		actionk_cursor_move_left(struct s_line *le)
 	if (le->current_cursor_pos == 0)
 	{
 		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
-		le->current_cursor_pos = le->li_max_size - 1;
+		le->current_cursor_pos = le->term_line_size - 1;
 		--(le->current_cursor_line);
 		tputs(le->tcaps->up, 1, &write_one_char);
 		cursor_crosses_screen(le, CROSS_TO_RIGHT);
