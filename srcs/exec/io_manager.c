@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:56:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/10 16:46:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/11 17:28:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_ast	*get_next_ctrl_opt(t_ast *node)
 	t_ast	*ptr;
 
 	ptr = node;
-	while (ptr && ptr->type != T_CTRL_OPT)
+	while (ptr && ptr->type != T_CTRL_OPT && ptr->type_details != TK_PIPE)
 		ptr = ptr->parent;
 	return (ptr);
 }
@@ -32,6 +32,8 @@ static t_ast	*get_next_ctrl_opt(t_ast *node)
 
 static int		search_node(t_ast *pos, t_ast *ptr_cmp)
 {
+	if (!pos)
+		return (0);
 	if (pos == ptr_cmp)
 		return (1);
 	if (pos->left)
@@ -47,10 +49,12 @@ static int		search_node(t_ast *pos, t_ast *ptr_cmp)
 
 static void	io_ctrl_opt(t_ast *node, t_ast *next_ctrl_opt, t_exec *exe)
 {
+
 	log_trace("Updating ready_for_exec - exe->ret : %d", exe->ret);
-	if (search_node(next_ctrl_opt->right, node) && \
-		((next_ctrl_opt->type_details == TK_DAND && exe->ret != 0) || \
-		(next_ctrl_opt->type_details == TK_OR && exe->ret == 0)))
+	if (search_node(next_ctrl_opt->left, node))
+		return ;
+	else if ((next_ctrl_opt->type_details == TK_DAND && exe->ret != 0) || \
+		(next_ctrl_opt->type_details == TK_OR && exe->ret == 0))
 		exe->ready_for_exec = 1;
 	else
 		exe->ready_for_exec = 0;
@@ -67,9 +71,5 @@ void		io_manager_in(t_ast *node, t_exec *exe)
 {
 	if (!node->parent)
 		return ;
-	if ((node->parent->type == T_CTRL_OPT && \
-		node->parent->type != TK_PIPE) || \
-		node->parent->type == T_REDIR_OPT)
-		io_ctrl_opt(node, ((node->parent->type == T_REDIR_OPT) ? \
-			(get_next_ctrl_opt(node)) : (node->parent)), exe);
+	io_ctrl_opt(node, get_next_ctrl_opt(node), exe);
 }
