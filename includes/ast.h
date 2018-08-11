@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/22 16:34:36 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/11 18:53:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ast_free(t_ast *ast);
 
 void	ast_debug(t_ast *root);
 
+int		lvl_lex(t_lexeme *lex);
 int		is_op0(t_lexeme *lex);
 int		is_op1(t_lexeme *lex);
 int		is_op1_5(t_lexeme *lex);
