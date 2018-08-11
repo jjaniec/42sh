@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/11 16:25:49 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/11 18:53:21 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_explore.c \
 			ast/ast_construct.c \
 			ast/check_parsing.c \
+			ast/lvl_lex.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
