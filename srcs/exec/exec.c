@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/10 16:57:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/11 17:53:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int				exec_cmd(t_ast *root, char **envp)
 
 	exe = create_exec((const char **)envp);
 	exe = ast_explore(root, exe);
-	if (DEBUG)
+	if (VERBOSE_MODE == 1)
 		ast_debug(root);
 	if (!exe)
 		return (-1);

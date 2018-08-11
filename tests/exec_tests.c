@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/09 18:39:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/11 16:14:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ static void	exec_diff_fd(char *test_name, char *str, int fd, int fd2)
 	system(cmd_sh);
 	asprintf(&cmd_sh, "./21sh \"%s\" %d> /tmp/exec_21sh.txt %d> /dev/null", str, fd, fd2);
 	system(cmd_sh);
-	log_fatal("LOL");
-	system("cat /tmp/exec_21sh.txt");
-	log_fatal("LAL");
-	system("cat /tmp/exec_sh.txt");
+//	system("cat /tmp/exec_21sh.txt");
+//	system("cat /tmp/exec_sh.txt");
 	ret = system("diff /tmp/exec_21sh.txt /tmp/exec_sh.txt");
 	ok(!ret, test_name);
-	remove("/tmp/exec_sh.txt");
-	remove("/tmp/exec_21sh.txt");
+	//remove("/tmp/exec_sh.txt");
+	//remove("/tmp/exec_21sh.txt");
 }
 
 static void	exec_diff(char *test_name, char *str)
@@ -76,4 +74,5 @@ void	exec_tests(char **envp)
 	exec_diff("Pipes 9 - AND, OR", "/bin/echo a && /bin/echo b | cat || /bin/echo c");
 	exec_diff("Pipes 10 - AND, OR, redirs", "ls 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null");
 	//exec_diff("env A=B env C=D && env && setenv A B && env && unsetenv A && env");
+
 }

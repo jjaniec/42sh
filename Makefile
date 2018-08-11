@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/09 17:14:05 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/11 16:25:49 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
 			ast/ast_free.c \
+            ast/prepare_argv.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
@@ -84,8 +85,8 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
-DEBUG?=0
-DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
+VERBOSE_MODE = 0
+VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 COVERAGE_FLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
@@ -105,11 +106,11 @@ define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true
 endef
 
-CFLAGS += $(DEBUG_FLAGS)
+CFLAGS += $(VERBOSE_MODE_FLAGS)
 
 all : $(NAME)
 
-verbose: DEBUG=1
+verbose: VERBOSE_MODE=1
 verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)

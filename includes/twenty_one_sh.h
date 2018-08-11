@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/12 11:36:03 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/11 16:20:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	1
+
+# ifndef VERBOSE_MODE
+#  define VERBOSE_MODE 0
+# endif
 
 void	ft_free_argv(char **tab);
 
