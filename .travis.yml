@@ -45,6 +45,9 @@ matrix:
         #   env: CXX=clang-5.0
     allow_failures:
         - os: linux
+          compiler: gcc-8
+          env: CXX=gcc-8
+        - os: linux
           compiler: gcc-7
           env: CXX=gcc-7
         - os: linux
@@ -59,4 +62,13 @@ matrix:
         # - os: linux
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
-script: make CC=$CXX verbose && make CC=$CXX tests && ./tests/launch_tests.sh; r=$? make coverage; return $r;
+script: >
+  make CC=$CXX &&
+  make CC=$CXX tests &&
+  if [ $TRAVIS_OS_NAME == osx ];
+  then ./21sh_tests;
+  else valgrind --leak-check=full ./21sh_tests;
+  fi;
+  r=$?;
+  make coverage;
+  return $r;
