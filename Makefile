@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/11 18:53:21 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/14 17:37:04 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,8 @@ SRC_NAME = 	is_separator.c \
 			exec/handle_redirs.c \
 			exec/handle_redir_fd.c \
 			exec/handle_pipes.c \
+			exec/handle_open_error.c \
+			exec/print_error.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \

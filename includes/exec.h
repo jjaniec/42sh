@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/09 17:11:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/14 17:38:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,8 @@ void	init_pipe_data(t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
 
 void	free_exec(t_exec **exe);
+
+void	handle_open_error(int errno_code, char *filename);
+void	print_error(char *subject, char *err_str);
 
 #endif
