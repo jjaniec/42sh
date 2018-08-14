@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_argv.c                                     :+:      :+:    :+:   */
+/*   write_one_char.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 14:41:45 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/06/26 16:16:11 by cfermier          #+#    #+#             */
+/*   Updated: 2018/06/26 16:16:11 by cfermier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <unistd.h>
 
-void	ft_free_argv(char **tabb)
+int		write_one_char(int c)
 {
-	int		i;
-
-	i = 0;
-	if (!tabb)
-		return ;
-	while (tabb && tabb[i])
-	{
-		free(tabb[i]);
-		tabb[i] = NULL;
-		i++;
-	}
-	free(tabb);
+	write(STDOUT_FILENO, &c, sizeof(char));
+	return (42);
 }

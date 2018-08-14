@@ -10,6 +10,9 @@ ft_printf
 *.gcno
 *.gcda
 
+notes.txt
+
+Makefile
 # Prerequisites
 *.d
 

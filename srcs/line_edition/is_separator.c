@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_argv.c                                     :+:      :+:    :+:   */
+/*   is_separator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 14:41:45 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/07/15 14:48:21 by cfermier          #+#    #+#             */
+/*   Updated: 2018/07/19 16:11:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "../../includes/line_edition.h"
 
-void	ft_free_argv(char **tabb)
+bool    le_is_separator(char c)
 {
-	int		i;
-
-	i = 0;
-	if (!tabb)
-		return ;
-	while (tabb && tabb[i])
-	{
-		free(tabb[i]);
-		tabb[i] = NULL;
-		i++;
-	}
-	free(tabb);
+	if (ft_strchr(LE_IFS, c) != NULL)
+		return (true);
+	return (false);
 }

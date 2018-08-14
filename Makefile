@@ -34,6 +34,28 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			line_edition/action_key.c \
+			line_edition/actionk_cursor_move_left.c \
+			line_edition/actionk_cursor_move_right.c \
+			line_edition/actionk_delete_character.c \
+			line_edition/actionk_move_cursor_by_word_left.c \
+			line_edition/actionk_move_cursor_by_word_right.c \
+			line_edition/actionk_move_cursor_end.c \
+			line_edition/actionk_move_cursor_line_down.c \
+			line_edition/actionk_move_cursor_line_up.c \
+			line_edition/actionk_move_cursor_start.c \
+			line_edition/cursor_is_at_end.c \
+			line_edition/errors.c \
+			line_edition/init_line_edition_attributes.c \
+			line_edition/init_termcaps_strings.c \
+			line_edition/insert_character_into_cmdline.c \
+			line_edition/is_separator.c \
+			line_edition/line_edition.c \
+			line_edition/possible_to_go_right.c \
+			line_edition/print_key_at_end.c \
+			line_edition/process_key.c \
+			line_edition/set_term_attr.c \
+			line_edition/write_one_char.c \
 			ast/ast_free.c \
             ast/prepare_argv.c \
 			exec/exec.c \
@@ -64,6 +86,7 @@ INCLUDES_NAME = lexer.h \
 				ast.h \
 				exec.h \
 				twenty_one_sh.h \
+				line_edition.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -75,7 +98,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = libtap
 
@@ -89,9 +112,9 @@ CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
 VERBOSE_MODE = 0
 VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
-COVERAGE_FLAGS = -coverage -O0
+COVERAGE_CFLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
-LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf
+LFLAGS = -lncurses -L$(FT_PRINTF_DIR) -lftprintf
 
 LIBTAP_DIR = libtap
 LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap
@@ -140,9 +163,9 @@ $(TESTS_DIR)%.o: $(TESTS_DIR)%.c $(addprefix $(TESTS_DIR),/tests.h)
 
 $(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
 	$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
-	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC)
+	$(CC) $(CFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC) $(LFLAGS)
 
-tests: CFLAGS += $(COVERAGE_FLAGS)
+tests: CFLAGS += $(COVERAGE_CFLAGS)
 tests: $(LIBTAP_DIR) $(TESTS_EXEC)
 
 coverage: tests

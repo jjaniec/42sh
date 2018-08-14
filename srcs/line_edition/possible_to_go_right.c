@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   possible_to_go_right.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/11 16:20:13 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/07/12 15:46:41 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/07/19 15:15:49 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#include "../../includes/line_edition.h"
 
-# include <ft_printf.h>
-# include "struct.h"
-# include "lexer.h"
-# include "log.h"
-# include "ast.h"
-# include "line_edition.h"
-# include "exec.h"
-# include <sys/wait.h>
-
-# define IFS			"\t\n "
-# define MALLOC_ERROR 	1
-
-# ifndef VERBOSE_MODE
-#  define VERBOSE_MODE 0
-# endif
-
-void	ft_free_argv(char **tab);
-
-#endif
+bool possible_to_go_right(struct s_line *le)
+{
+	if (le->current_cursor_line == 0)
+	{
+		if (le->current_cursor_pos == (le->line_index + le->start_pos))
+			return (false);
+		return (true);
+	}
+	if (le->current_cursor_pos == (le->line_index -
+		(le->current_cursor_line * le->li_max_size - le->start_pos)))
+		return (false);
+	return (true);
+}

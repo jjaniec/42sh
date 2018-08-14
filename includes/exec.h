@@ -15,7 +15,7 @@
 
 # include <twenty_one_sh.h>
 
-int		exec_cmd(t_ast *root, char **envp);
+t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
 t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
 		t_ast *node);
@@ -43,6 +43,7 @@ char	*isin_path(char **paths, char *cmd);
 
 void	builtin_exit(char **argv, char **envp, t_exec *exe);
 void	builtin_echo(char **argv, char **envp, t_exec *exe);
+
 void	builtin_env(char **argv, char **envp, t_exec *exe);
 void	builtin_setenv(char **argv, char **envp, t_exec *exe);
 void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
@@ -60,5 +61,6 @@ void	init_pipe_data(t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
 
 void	free_exec(t_exec **exe);
+t_exec	*create_exec(const char **envp);
 
 #endif
