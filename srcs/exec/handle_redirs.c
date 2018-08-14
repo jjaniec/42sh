@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 16:20:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/14 19:25:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			handle_redirs(t_ast *redir_ast_node)
 			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->parent && node->parent->type == T_REDIR_OPT)
 		node = node->parent;
-	while (node->type == T_REDIR_OPT)
+	while (node && node->type == T_REDIR_OPT)
 	{
 		input_fd = ft_atoi(node->data[0]);
 		if (node->type_details == TK_LESSAND \

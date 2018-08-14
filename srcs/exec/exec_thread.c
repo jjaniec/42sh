@@ -6,14 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 20:36:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/14 19:11:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Child. Execve() here
+** Handle pipes and redirections then
+** launch specified program in child process
 */
 
 static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
@@ -26,7 +27,7 @@ static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 }
 
 /*
-** Close pipe input of forked process
+** Close unessecary pipe inputs
 */
 
 static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
@@ -47,11 +48,12 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 }
 
 /*
-** Parent. Wait() for the child here
+** Parent process function when forking
+** Wait child process to end
 */
 
 static int	parent_process(pid_t child_pid, t_ast *node, \
-				t_ast *last_pipe_node)//, child_pipe_inputfd)
+				t_ast *last_pipe_node)
 {
 	int		status;
 	int		waited_pid;

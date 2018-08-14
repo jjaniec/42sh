@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   twenty_one_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/11 16:20:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/14 18:34:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@
 #  define VERBOSE_MODE 0
 # endif
 
-void	ft_free_argv(char **tab);
+void	ft_free_argv(char **tab_);
 
 #endif

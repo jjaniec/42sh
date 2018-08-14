@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/11 16:14:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/14 19:36:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 static void	exec_diff_fd(char *test_name, char *str, int fd, int fd2)
 {
-	static int nbr = 0;
 	char	*cmd_sh;
 	int		ret;
 
-	nbr++;
 	asprintf(&cmd_sh, "{ %s ; } %d> /tmp/exec_sh.txt %d> /dev/null", str, fd, fd2);
 	system(cmd_sh);
 	asprintf(&cmd_sh, "./21sh \"%s\" %d> /tmp/exec_21sh.txt %d> /dev/null", str, fd, fd2);
