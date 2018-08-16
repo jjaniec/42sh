@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/19 15:42:10 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/08/20 15:18:33 by sebastien        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,6 @@ TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
-LIBTAP_DIR = libtap
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
@@ -108,13 +107,13 @@ DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 COVERAGE_CFLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
-LFLAGS = -lncurses -L$(FT_PRINTF_DIR) -lftprintf
+LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf -lncurses
 
 LIBTAP_DIR = libtap
 LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap
 
 CFLAGS += $(DEV_FLAGS)
-LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),"libftprintf.a")
+LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 
 MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
 
@@ -133,10 +132,10 @@ verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
 ifeq ($(UNAME_S),Linux)
-	@$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME) $(LFLAGS)
 endif
 ifeq ($(UNAME_S),Darwin)
-	@$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LFLAGS)
 endif
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(addprefix $(INCLUDES_DIR), $(INCLUDES_NAME))
