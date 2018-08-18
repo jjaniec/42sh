@@ -48,10 +48,10 @@ static t_kno	get_key_number(const char *key)
 
 char			*line_edition(void)
 {
-	char			*final_line;
-	char			key[LE_KEY_SIZE];
-	struct s_line	le;
-	t_kno			key_no;
+	char					*final_line;
+	char					key[LE_KEY_SIZE];
+	static struct s_line	le;
+	t_kno					key_no;
 
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(&le);
@@ -99,13 +99,27 @@ fprintf(tty_debug, "--------------------------------------\n");
 			set_term_attr(LE_SET_OLD);
 			break ;
 			// need more things to do in the future when line is finished
-		} 
+		}
 
 	}
 
+	actionk_move_cursor_end(&le);
+	if (le.line[0] != '\0')
+		add_history(&le);
+
+	reset_history_on_first_elem(&le);
+
 	if ((final_line = ft_strdup(le.line)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc");
+		le_exit("Memory allocation failed\n", "malloc", errno);
 	return (final_line);
+
+	/*
+		En fait faudra retourner une structure qui contient la commande,
+		mais aussi peut etre des codes d'erreur pour remplacer le_exit(),
+		c'est à discuter avec les collegues.
+		Il faudra aussi dans la structure, un pointeur vers l'historique
+		pour pouvoir le free() si necessaire ...
+	*/
 }
 
 
@@ -127,16 +141,38 @@ void	prepare_test(void)
 	}
 }
 
+
 int	 main(void)
 {
+	char	*input;
+	bool	loop;
+
 	prepare_test();
-	prompt();
 	
-	char * s = line_edition();
-	printf("\ninput = |%s|\n", s);
-	free(s);
+	loop = true;
+	while (loop == true)
+	{
+		prompt();
+		
+		input = line_edition();
+		//printf("\ninput = |%s|\n", s);
+		
+		if ( strcmp(input, "q\n") == 0 )
+			loop = false;
+		
+		free(input);
+
+#define TERPRI putchar('\n');
+		TERPRI TERPRI TERPRI
+	}
+	
 	fclose(tty_debug);
 
-	return 0;
+	return
+	!!!!!!!!!!!!! 
+	"patate + licorne = patatorne"
+	+ !!!
+	TERPRI
+
 }
 

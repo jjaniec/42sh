@@ -12,19 +12,42 @@
 
 #include "../../includes/line_edition.h"
 
+static void		init_termcaps(void)
+{
+	const char	*term;
+
+	if ((term = getenv("TERM")) == NULL)
+		term = "xterm-256color";
+	if (tgetent(NULL, term) != 1)
+		le_exit("Error while getting terminal attributes\n", "tgetent", errno);
+}
+
 static unsigned int	get_terminal_nb_col(void)
 {
 	int		col;
 
 	col = tgetnum("co");
 	if (col < 0)
-		le_exit("Failed to get terminal sizes\n", "tgetnum");
+		le_exit("Failed to get terminal sizes\n", "tgetnum", errno);
 	return ((unsigned int)col);
 }
 
 void    			init_line_edition_attributes(struct s_line *le)
 {
-	le->tcaps = init_termcaps_strings();
+	static bool already_init = false;
+
+	if (already_init == false)
+	{
+		init_termcaps();
+		le->tcaps = init_termcaps_strings();
+		//if ((le->history = malloc(sizeof(struct s_history))) == NULL)
+        //    le_exit("Memory allocation failed\n", "malloc");
+		//ft_memset(le->history, 0, sizeof(struct s_history));
+		le->history = NULL;
+		le->his_nb_elem = 0;
+		already_init = true;
+	}
+
 	ft_memset(le->line, '\0', LE_LINE_SIZE);
 	le->line_index = 0;
 	le->cursor_index_for_line = 0;
@@ -35,5 +58,6 @@ void    			init_line_edition_attributes(struct s_line *le)
 	le->nb_li_currently_writing = 1;
 	le->nb_car_written_on_last_current_line = 0;
 	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
-	
+	// faut re-init le clipboard a chaque fois? pas sur ...
+
 }

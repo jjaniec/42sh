@@ -26,6 +26,7 @@ unsigned int	print_str_on_term(const char *str,
             tmp_current_cursor_pos = 0;
         }
         print_key(*str);
+        fprintf(tty_debug, "- - - - - - TERPRINT |%c|\n", *str);
         ++str;
     }
 	return (tmp_current_cursor_pos);

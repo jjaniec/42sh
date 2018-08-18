@@ -34,7 +34,9 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_CTRL_DASH, &actionk_cut_all},
 		{LE_CTRL_OPEN_SQUARE_BRACKET, &actionk_cut_to_start},
 		{LE_CTRL_CLOSE_SQUARE_BRACKET, &actionk_cut_to_end},
-		{LE_DELETE, &actionk_delete_character}
+		{LE_DELETE, &actionk_delete_character},
+		{LE_ARROW_UP, actionk_history_up},
+		{LE_ARROW_DOWN, actionk_history_down}
 	};
 
 	return (actionk);

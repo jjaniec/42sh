@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////
 
 // includes
+# include <errno.h>
 # include <stdint.h>
 # include <inttypes.h>
 # include <unistd.h>
@@ -42,7 +43,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (19)
+# define LE_NB_KEYS (21)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -112,11 +113,19 @@ struct s_line
 	char					clipboard[LE_LINE_SIZE];
 
 	struct s_le_termcaps	*tcaps;
-	struct s_history		*first_his_elem;
-	unsigned int			his_index;
+	struct s_history		*history;
+	unsigned int			his_nb_elem;
+
 };
 
-// REGARDER LA FONCTION PUT_A_KEY() DE SAXIAO, JE FAIS PAREIL OU PAS ? ET PK ?
+struct s_history
+{
+	char 				cmd[LE_HISTORY_LINE_SIZE];
+	struct s_history	*next; // the most next is the newest
+	struct s_history	*prev; // the most prev is the oldest
+	struct s_line		cmd_le;
+};
+
 
 struct s_action_key
 {
@@ -131,14 +140,6 @@ struct s_infos_for_rewriting
 	unsigned int	pos_end_rewriting;
 };
 
-struct s_history
-{
-	char 				his[LE_HISTORY_LINE_SIZE];
-	struct s_history	*next;
-	struct s_history	*prev;
-	unsigned int		nb_elem;
-	struct s_line		his_le;
-};
 
 // prototypes
 struct s_le_termcaps	*init_termcaps_strings(void);
@@ -149,7 +150,7 @@ bool    is_separator(char c);
 
 void	set_term_attr(t_set_term mode);
 
-void	le_exit(const char *msg, const char *func_name);
+void	le_exit(const char *msg, const char *func_name, int errno_value);
 
 void	process_key(t_kno key, struct s_line *le);
 
@@ -191,6 +192,11 @@ void	actionk_past_clipboard(struct s_line *le);
 void	actionk_cut_all(struct s_line *le);
 void	actionk_cut_to_start(struct s_line *le);
 void	actionk_cut_to_end(struct s_line *le);
+
+void    reset_history_on_first_elem(struct s_line *le);
+void    add_history(struct s_line *le);
+void    actionk_history_up(struct s_line *le);
+void    actionk_history_down(struct s_line *le);
 
 #endif
 

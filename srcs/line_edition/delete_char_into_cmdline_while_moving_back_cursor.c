@@ -83,11 +83,11 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 		tputs(le->tcaps->up, 1, &write_one_char);
 	if (infos_rewriting->pos_end_rewriting < le->current_cursor_pos)
 	{
-		++(infos_rewriting->pos_end_rewriting);
-		if (le->nb_car_written_on_last_current_line == le->term_line_size
+		//++(infos_rewriting->pos_end_rewriting);
+		if (!(le->nb_car_written_on_last_current_line == le->term_line_size
 		|| (le->current_cursor_line == 0
-		&& le->nb_car_written_on_last_current_line == 0))
-			--(infos_rewriting->pos_end_rewriting);
+		&& le->nb_car_written_on_last_current_line == 0)))
+			++(infos_rewriting->pos_end_rewriting);
 		while (infos_rewriting->pos_end_rewriting < le->current_cursor_pos)
 		{
 			tputs(le->tcaps->nd, 1, &write_one_char);
@@ -97,8 +97,11 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 	else if (infos_rewriting->pos_end_rewriting > le->current_cursor_pos)
 	{
 		++(infos_rewriting->pos_end_rewriting);
-		while ((infos_rewriting->pos_end_rewriting)-- > le->current_cursor_pos)
+		while (infos_rewriting->pos_end_rewriting > le->current_cursor_pos)
+		{
 			tputs(le->tcaps->le, 1, &write_one_char);
+			--(infos_rewriting->pos_end_rewriting);
+		}
 	}
 	else if (infos_rewriting->pos_end_rewriting == le->current_cursor_pos)
 		tputs(le->tcaps->le, 1, &write_one_char);

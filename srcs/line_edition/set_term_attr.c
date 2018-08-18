@@ -29,15 +29,15 @@ void			set_term_attr(t_set_term mode)
 	if (mode == LE_SET_NEW)
 	{
 		if (tcgetattr(STDIN_FILENO, &old) == -1)
-			le_exit("Error while getting terminal attributes\n", "tcgetattr");
+			le_exit("Error while getting terminal attributes\n", "tcgetattr", errno);
 		new = old;
 		init_termios_flags(&new);
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			le_exit("Error while setting terminal attributes\n", "tcsetattr");
+			le_exit("Error while setting terminal attributes\n", "tcsetattr", errno);
 	}
 	else if (mode == LE_SET_OLD)
 	{
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &old) == -1)
-			le_exit("Error while setting terminal attributes\n", "tcsetattr");
+			le_exit("Error while setting terminal attributes\n", "tcsetattr", errno);
 	}
 }

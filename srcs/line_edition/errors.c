@@ -17,7 +17,7 @@
 **	and the name of the function where the fail happened
 */
 
-void	le_exit(const char *msg, const char *func_name)
+void	le_exit(const char *msg, const char *func_name, int errno_value)
 {
 	set_term_attr(LE_SET_OLD);
 	write(STDERR_FILENO, "\nfatal error: ", 14);
@@ -26,6 +26,7 @@ void	le_exit(const char *msg, const char *func_name)
 	write(STDERR_FILENO, msg, ft_strlen(msg));
 	if (msg[ft_strlen(msg) - 1] != '\n')
 		write(STDERR_FILENO, "\n", 1);
+	errno = errno_value;
 	perror("errno report");
 	exit(LE_FATAL_ERROR);
 }

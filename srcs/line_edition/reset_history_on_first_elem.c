@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_key.c                                        :+:      :+:    :+:   */
+/*   reset_history_on_first_elem.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 14:42:58 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/23 14:42:58 by cfermier         ###   ########.fr       */
+/*   Created: 2018/08/11 22:29:55 by cfermier          #+#    #+#             */
+/*   Updated: 2018/08/11 22:29:55 by cfermier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
-void    print_key(t_kno key)
+void    reset_history_on_first_elem(struct s_line *le)
 {
-    if (write(STDOUT_FILENO, &key, sizeof(char)) != sizeof(char))
-		  le_exit("Writing on stdout failed\n", "write", errno);
+	if (le->history == NULL)
+		return ;
+	while (le->history->next != NULL)
+		le->history = le->history->next;
 }
