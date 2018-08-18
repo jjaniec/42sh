@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_argv.c                                     :+:      :+:    :+:   */
+/*   cursor_is_at_end.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 14:41:45 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/07/12 15:45:07 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/07/12 15:49:23 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "../../includes/line_edition.h"
 
-void	ft_free_argv(char **tabb)
+bool	cursor_is_at_end(struct s_line *le)
 {
-	int		i;
-
-	i = 0;
-	if (!tabb)
-		return ;
-	while (tabb && tabb[i])
-	{
-		free(tabb[i]);
-		tabb[i] = NULL;
-		i++;
-	}
-	free(tabb);
+	if ( possible_to_go_right(le) == false )
+		return (true);
+	return (false);
 }

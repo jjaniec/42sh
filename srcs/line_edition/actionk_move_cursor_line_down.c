@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_argv.c                                     :+:      :+:    :+:   */
+/*   actionk_move_cursor_line_down.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 14:41:45 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/07/14 16:14:28 by cfermier          #+#    #+#             */
+/*   Updated: 2018/07/14 16:14:28 by cfermier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "../../includes/line_edition.h"
 
-void	ft_free_argv(char **tabb)
+void    actionk_move_cursor_line_down(struct s_line *le)
 {
-	int		i;
-
-	i = 0;
-	if (!tabb)
-		return ;
-	while (tabb && tabb[i])
-	{
-		free(tabb[i]);
-		tabb[i] = NULL;
-		i++;
-	}
-	free(tabb);
+    (void) le;
 }

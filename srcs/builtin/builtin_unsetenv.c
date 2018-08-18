@@ -6,13 +6,13 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:45:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/29 14:43:24 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:28:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static char	**create_new_tab(const size_t size, char **envp)
+static char	**create_new_tab(const size_t size, const char **envp)
 {
 	char	**new;
 	size_t	i;
@@ -73,14 +73,13 @@ void		builtin_unsetenv(char **argv, char **envp, t_exec *exe)
 			removed -= unset(envp, argv[i]);
 			i++;
 		}
-		new_envp = create_new_tab(removed, envp);
+		new_envp = create_new_tab(removed, (const char **)envp);
 		if (exe->tmp_envp)
 		{
 			ft_free_argv(exe->tmp_envp);
 			exe->tmp_envp = NULL;
 		}
-		if (exe->envp)
-			ft_free_argv(exe->envp);
+		ft_free_argv(exe->envp);
 		exe->envp = new_envp;
 	}
 }
@@ -90,6 +89,6 @@ char		**inline_unsetenv(char *name, char **envp)
 	char	**new_envp;
 
 	unset(envp, name);
-	new_envp = create_new_tab(size_envp((const char **)envp) - 1, envp);
+	new_envp = create_new_tab(size_envp((const char **)envp) - 1, (const char **)envp);
 	return (new_envp);
 }
