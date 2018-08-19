@@ -126,7 +126,7 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 		if (le->current_cursor_line == 0 && le->nb_li_currently_writing > 1
 		&& le->nb_car_written_on_last_current_line == 0)
 			++(infos_rewriting->pos_end_rewriting);
-		;;;;;;;;;;;;;;;
+
 
 		while (infos_rewriting->pos_end_rewriting > le->current_cursor_pos)
 		{
@@ -155,11 +155,19 @@ static void	print_shifted_line(struct s_line *le)
 		foo = 2;
 
 
-	if (le->current_cursor_line == 0 && le->nb_li_currently_writing > 1)
+	if ( 
+	(le->current_cursor_line == 0 && le->nb_li_currently_writing > 1)
+	/*|| (  le->nb_li_currently_writing - le->current_cursor_line >= 3 ) */
+
+	)
 	{
+		fprintf(tty_debug, "FOO 2 FOO 2 FOO 2 FOO 2 FOO 2\n");
 		le->current_cursor_pos -= 1;
 		foo2 = true;
 	}
+
+	if ( le->nb_li_currently_writing - le->current_cursor_line >= 3 )
+		foo = 42;
 
 	print_str_on_term(le->line + le->cursor_index_for_line, le->current_cursor_pos, le, foo);
 	if (foo2 == true)
@@ -229,7 +237,14 @@ void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le)
 	}
 
 
+	bool foofoo = false;
 
+	if ( le->nb_li_currently_writing - le->current_cursor_line >= 3 )
+		foofoo = true;
+
+
+	if (foofoo == true)
+		foo = 2;
 
 	while (*line)
 	{
@@ -238,16 +253,26 @@ void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le)
 		{
 			++(infos_rewriting.nb_line_to_go_up);
 			tmp_current_cursor_pos = 0;
+
+			if (foofoo == true)
+            {
+                foo = 1;
+                foofoo = false;
+            }
 		}
-		fprintf(tty_debug, " AAAAAAAAAAA %u \'%c\'\n", tmp_current_cursor_pos, *line);
+	//	fprintf(tty_debug, " AAAAAAAAAAA %u \'%c\'\n", tmp_current_cursor_pos, *line);
 		++line;
 	}
+	
 	infos_rewriting.pos_end_rewriting = tmp_current_cursor_pos;
 	if (foo == 2)
 		infos_rewriting.pos_end_rewriting += 1;
 
 
 	if (foo2 == true)
+		infos_rewriting.pos_end_rewriting += 1;
+
+	if ( le->nb_li_currently_writing - le->current_cursor_line >= 3 )
 		infos_rewriting.pos_end_rewriting += 1;
 
 

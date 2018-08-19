@@ -57,7 +57,7 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE /*9*/  ((27) + (91 << 1) + (51 << 2) + (126 << 3))
+# define LE_DELETE 9 /* ((27) + (91 << 1) + (51 << 2) + (126 << 3)) */
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)

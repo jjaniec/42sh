@@ -17,9 +17,18 @@ unsigned int	print_str_on_term(const char *str,
 								  struct s_line *le, int foo)
 {
 fprintf(tty_debug, "TERFOO = %d\n", foo);
+
+    bool foofoo = false;
+    if (foo == 42)
+    {
+        foo = 2;
+        foofoo = true;
+    }
+
     while (*str != '\0')
     {
         ++tmp_current_cursor_pos;
+        fprintf(tty_debug, "IFFFFFF %u\n", tmp_current_cursor_pos - foo );
         if (tmp_current_cursor_pos - foo == le->term_line_size - 1)
         {
 
@@ -28,7 +37,14 @@ fprintf(tty_debug, "- - - - - - TERPRINT DOWN\n");
             tputs(le->tcaps->_do, 1, &write_one_char);
             cursor_crosses_screen(le, CROSS_TO_LEFT);
             tmp_current_cursor_pos = 0;
+
+            if (foofoo == true)
+            {
+                foo = 1;
+                foofoo = false;
+            }
         }
+
         print_key(*str);
 
 fprintf(tty_debug, "- - - - - - TERPRINT |%c|\n", *str);
