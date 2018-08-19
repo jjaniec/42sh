@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/19 17:52:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 21:52:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 {
 	int		fd;
 
+	if (prefix_fd == -1)
+		prefix_fd = DEFAULT_INPUT_REDIR_FD;
 	if (tk_type_details == TK_LESS)
 	{
-		if ((fd = open(target, O_RDONLY)) == -1)
+		if ((fd = open(target, O_RDONLY, 0)) == -1)
 			handle_open_error(errno, target);
 		else
-		{
-			log_trace("  Redir fd %s(file)(%d) -> %d(fd)", target, fd, prefix_fd);
-			dup2(prefix_fd, fd);
-		}
+			handle_redir_fd(prefix_fd, fd);
 	}
 	else if (tk_type_details == TK_DLESS || \
 			tk_type_details == TK_TLESS)
@@ -53,19 +52,18 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 ** Handle output redirections
 */
 
-static void		handle_output_redir(\
-					int prefix_fd, char *target, size_t tk_type_details)
+static void		handle_output_redir(int prefix_fd, \
+					char *target, size_t tk_type_details)
 {
 	int		fd;
 
 	(void)tk_type_details;
+	if (prefix_fd == -1)
+		prefix_fd = DEFAULT_OUTPUT_REDIR_FD;
 	if ((fd = open(target, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
 		handle_open_error(errno, target);
 	else
-	{
-		log_trace("  Redir fd %d -> %s(file)(%d)", prefix_fd, target, fd);
-		dup2(fd, prefix_fd);
-	}
+		handle_redir_fd(prefix_fd, fd);
 }
 
 /*
@@ -79,18 +77,16 @@ static void		handle_output_redir(\
 static void		handle_redir(int prefix_fd, t_ast *node)
 {
 	char	*target;
-	char	redir_first_char;
 
 	target = node->right->data[0];
-	redir_first_char = (node->data[0][ft_strlen(node->data[0]) - 1]);
 	if (node->type_details == TK_LESSAND \
 		|| node->type_details == TK_GREATAND)
 		handle_redir_fd(prefix_fd, ft_atoi(target));
 	else
 	{
-		if (redir_first_char == '<')
+		if (ft_strchr(node->data[0], '<'))
 			handle_input_redir(prefix_fd, target, node->type_details, node);
-		else if (redir_first_char == '>')
+		if (ft_strchr(node->data[0], '>'))
 			handle_output_redir(prefix_fd, target, node->type_details);
 	}
 }
@@ -98,6 +94,8 @@ static void		handle_redir(int prefix_fd, t_ast *node)
 static void		get_prefix_fd(int *prefix_fd, char *data)
 {
 	*prefix_fd = ft_atoi(data);
+	if (*prefix_fd == 0 && !(data[0] == '0'))
+		*prefix_fd = -1;
 }
 
 /*
