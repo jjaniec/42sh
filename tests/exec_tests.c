@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/11 16:14:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:50:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ void	exec_tests(char **envp)
 	exec_diff("Pipes 8 - AND, OR", "ls | cat && /bin/echo a | cat || /bin/echo b | cat");
 	exec_diff("Pipes 9 - AND, OR", "/bin/echo a && /bin/echo b | cat || /bin/echo c");
 	exec_diff("Pipes 10 - AND, OR, redirs", "ls 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null");
+	exec_diff("Pipes 11 - Long Mixed", "/bin/echo a 2>&1 | cat | cat || /bin/echo b | cat | cat && /bin/echo c 1>/dev/null | cat ; /bin/echo lol | cat");
+	exec_diff("TLESS Here-documents 1 - Simple", "/bin/cat <<< lol");
+	exec_diff("TLESS Here-documents 2 - Simple", "/bin/cat <<< diajdiwajdoiwdjdwadjaiwdjwaidj");
+	exec_diff("TLESS Here-documents 3 - Simple w/ lexer quotes concats", "/bin/cat <<< aaaa\"bbbbb\"'ccccc'ddddd");
+	exec_diff("TLESS Here-documents 4 - OR", "/bin/cat <<< lol || /bin/cat <<< lal");
+	exec_diff("TLESS Here-documents 5 - AND", "/bin/cat <<< lol && /bin/cat <<< lal");
+	exec_diff("TLESS Here-documents 6 - OR & AND", "/bin/cat <<< lol || /bin/cat <<< lal && /bin/cat <<< lel");
+	exec_diff("TLESS Here-documents 7 - Pipes", "/bin/cat <<< lol | cat");
+	exec_diff("TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat");
+	exec_diff("TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat");
+	exec_diff("TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl");
 	//exec_diff("env A=B env C=D && env && setenv A B && env && unsetenv A && env");
 
 }

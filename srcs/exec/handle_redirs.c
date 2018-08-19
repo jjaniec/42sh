@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/19 16:48:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:19:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 {
 	int		fd;
 
-	(void)tk_type_details;
-	(void)node;
 	if (tk_type_details == TK_LESS)
 	{
 		if ((fd = open(target, O_RDONLY)) == -1)
@@ -37,7 +35,7 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 			dup2(prefix_fd, fd);
 		}
 	}
-	else if (tk_type_details == TK_DLESS || tk_type_details == TK_CLOBBER || \
+	else if (tk_type_details == TK_DLESS || \
 			tk_type_details == TK_TLESS)
 	{
 		init_pipe_data(&(node->data), NULL);
