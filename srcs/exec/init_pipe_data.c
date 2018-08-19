@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:19:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/19 16:38:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 18:48:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr)
 		pipe_fds[0], pipe_fds[1]);
 	if (pipe_node_ptr && pipe_node_ptr->parent && \
 		pipe_node_ptr->parent->type_details == TK_PIPE)
-		init_pipe_data(&(pipe_node_ptr->data), pipe_node_ptr->parent);
+		init_pipe_data(&(pipe_node_ptr->parent->data), pipe_node_ptr->parent);
 }

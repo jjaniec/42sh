@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/19 17:19:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:52:37 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 		init_pipe_data(&(node->data), NULL);
 		ft_putstr_fd(node->right->data[0], \
 			*(&(node->data[1][sizeof(int)])));
+		ft_putchar_fd('\n', *(&(node->data[1][sizeof(int)])));
 		close(*(&(node->data[1][sizeof(int)])));
 		log_debug("Here-doc: writing %s to pipe input fd: %d", \
 			node->right->data[0], *(&(node->data[1][sizeof(int)])));
