@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 20:36:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 16:32:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
 {
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
-	
+
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		!last_pipe_node->data[1])
-		init_pipe_data(last_pipe_node);
+		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
 	child_pid = fork();
 	if (child_pid == -1)
 		log_error("Fork() not working");

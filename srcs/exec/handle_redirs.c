@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/18 19:11:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 16:48:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 /*
 ** Handle input redirections
+** For here-doc redirections, init a temporary pipe w/
+** file descs stored in redir node data,
+** then write content of here document in input, close it and redir
+** stdin to pipe output
 */
 
 static void		handle_input_redir(int prefix_fd, char *target, \
@@ -36,7 +40,13 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 	else if (tk_type_details == TK_DLESS || tk_type_details == TK_CLOBBER || \
 			tk_type_details == TK_TLESS)
 	{
-		return ;
+		init_pipe_data(&(node->data), NULL);
+		ft_putstr_fd(node->right->data[0], \
+			*(&(node->data[1][sizeof(int)])));
+		close(*(&(node->data[1][sizeof(int)])));
+		log_debug("Here-doc: writing %s to pipe input fd: %d", \
+			node->right->data[0], *(&(node->data[1][sizeof(int)])));
+		handle_redir_fd(STDIN_FILENO, *(&(node->data[1][0])));
 	}
 }
 
@@ -107,8 +117,7 @@ void			handle_redirs(t_ast *redir_ast_node)
 			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->parent && node->parent->type == T_REDIR_OPT)
 		node = node->parent;
-	log_fatal("aaa %s", node->data[0]);
-	while (node->type == T_REDIR_OPT)
+	while (node && node->type == T_REDIR_OPT)
 	{
 		get_prefix_fd(&prefix_fd, node->data[0]);
 		handle_redir(prefix_fd, node);
