@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/04 16:39:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/19 17:30:22 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ static t_exec	*loop_body(char *input, char **envp)
 
 	lex = lexer(input);
 	ast_root = ast(lex);
+	exe = create_exec((const char **)envp);
 	if (!ast_root)
-		exit(1);
+	{
+		free_lexemes(lex);
+		return (exe);
+	}
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);

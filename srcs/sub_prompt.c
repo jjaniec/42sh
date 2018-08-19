@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 15:04:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/19 17:20:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,28 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 	else
 		lex->next = new;
 	return (save);
+}
+
+void	subp_heredoc(t_lexeme *lex, char *eof_word)
+{
+	char	*input;
+	char	*final;
+
+	input = NULL;
+	final = (char *)ft_memalloc(sizeof(char));
+	if (!final)
+		exit(MALLOC_ERROR);
+	eof_word = ft_strjoin(eof_word, "\n");
+	while (!input)
+	{
+		ft_putstr("heredoc> ");
+		input = line_edition();
+		ft_putchar('\n');
+		if (ft_strequ(input, eof_word))
+			break ;
+		final = ft_strjoin(final, input);
+		free(input);
+		input = NULL;
+	}
+	lex->next->data = final;
 }
