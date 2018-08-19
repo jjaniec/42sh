@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/19 21:52:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 22:07:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,14 @@ static void		handle_output_redir(int prefix_fd, \
 {
 	int		fd;
 
-	(void)tk_type_details;
+	fd = -1;
 	if (prefix_fd == -1)
 		prefix_fd = DEFAULT_OUTPUT_REDIR_FD;
-	if ((fd = open(target, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
+	if (tk_type_details == TK_GREAT)
+		fd = open(target, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	else if (tk_type_details == TK_DGREAT)
+		fd = open(target, O_WRONLY | O_CREAT | O_APPEND, 0666);
+	if (fd == -1)
 		handle_open_error(errno, target);
 	else
 		handle_redir_fd(prefix_fd, fd);

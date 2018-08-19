@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 21:51:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/19 22:03:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <twenty_one_sh.h>
 
-# define DEFAULT_INPUT_REDIR_FD 0
-# define DEFAULT_OUTPUT_REDIR_FD 1
+# define DEFAULT_INPUT_REDIR_FD STDIN_FILENO
+# define DEFAULT_OUTPUT_REDIR_FD STDOUT_FILENO
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
