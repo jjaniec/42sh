@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/04 17:22:44 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/19 15:04:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,19 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 		lex->next = new;
 	}
 	else if (lex->next && lex->next->type_details != TK_NEWLINE)
+	{
 		lex->next->next = new;
+	}
+	else if (lex->next && !lex->next->next && lex->next->type == T_WORD && new->type == T_WORD)
+	{
+		lex->next->data = ft_strjoin(lex->next->data, new->data);
+		lex->next->next = new->next;
+	}
+	else if (lex && !lex->next && lex->type == T_WORD && new->type == T_WORD)
+	{
+		lex->data = ft_strjoin(lex->data, new->data);
+		lex->next = new->next;
+	}
 	else
 		lex->next = new;
 	return (save);
