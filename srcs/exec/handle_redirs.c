@@ -6,22 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:24:57 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/14 19:25:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-/*
-** Handle redirections to fds ex: 2>&1
-*/
-
-static void		handle_redir_fd(int input_fd, int target_fd)
-{
-	log_trace("  Redir fd %d -> %d(fd)", input_fd, target_fd);
-	close(input_fd);
-	dup(target_fd);
-}
 
 /*
 ** Handle redirections to files like '2>a.txt'
@@ -49,11 +38,8 @@ void			handle_redirs(t_ast *redir_ast_node)
 			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->parent && node->parent->type == T_REDIR_OPT)
 		node = node->parent;
-	while (node->type == T_REDIR_OPT)
+	while (node && node->type == T_REDIR_OPT)
 	{
-		log_trace("in while node: t %zu td %zu d %s d left %s d right %s", \
-				node->type, node->type_details, (node->data)[0], \
-				(node->left->data)[0], (node->right->data)[0]);
 		input_fd = ft_atoi(node->data[0]);
 		if (node->type_details == TK_LESSAND \
 			|| node->type_details == TK_GREATAND)

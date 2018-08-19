@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   lvl_lex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/14 18:34:17 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/08/11 18:52:33 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/08/11 18:52:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#include <twenty_one_sh.h>
 
-# include <ft_printf.h>
-# include "struct.h"
-# include "lexer.h"
-# include "log.h"
-# include "ast.h"
-# include "line_edition.h"
-# include "exec.h"
-# include <sys/wait.h>
+/*
+** Get the right level of a lexeme, 0 is being high priority, 4 low priority
+*/
 
-# define IFS			"\t\n "
-# define MALLOC_ERROR 	1
+int				lvl_lex(t_lexeme *lex)
+{
+	int		lvl;
 
-# ifndef VERBOSE_MODE
-#  define VERBOSE_MODE 0
-# endif
-
-void	ft_free_argv(char **tab_);
-
-#endif
+	lvl = 5;
+	if (is_op0(lex))
+		lvl = 0;
+	else if (lvl > 1 && is_op1(lex))
+		lvl = 1;
+	else if (lvl > 2 && is_op1_5(lex))
+		lvl = 2;
+	else if (lvl > 3 && is_op2(lex))
+		lvl = 3;
+	else if (lvl > 4 && is_op3(lex))
+		lvl = 4;
+	return (lvl);
+}

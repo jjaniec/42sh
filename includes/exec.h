@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 13:09:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/09 17:11:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
 void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node);
-void	exec_builtin(char **argv, char **envp, t_exec *exe);
+void	exec_builtin(char **argv, char **envp, t_exec *exe, \
+			void (**builtin_fun_ptr)(char **, char **, t_exec *));
 void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
-int		is_builtin(char *cmd);
+int		is_builtin(char *cmd, \
+			void (**builtin_fun_ptr)(char **, char **, t_exec *));
 
 void	io_manager_in(t_ast *node, t_exec *exe);
 void	io_manager_pre(t_ast *node, t_exec *exe);
@@ -39,17 +41,25 @@ char	*new_path(char *s1, char *s2);
 char	**get_path(char *str);
 char	*isin_path(char **paths, char *cmd);
 
-void	builtin_exit(void);
-void	builtin_echo(char **argv, char **envp);
+void	builtin_exit(char **argv, char **envp, t_exec *exe);
+void	builtin_echo(char **argv, char **envp, t_exec *exe);
+
 void	builtin_env(char **argv, char **envp, t_exec *exe);
 void	builtin_setenv(char **argv, char **envp, t_exec *exe);
 void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
 void	builtin_cd(char **argv, char **envp, t_exec *exe);
+void	builtin_return(char **argv, char **envp, t_exec *exe);
 
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
 
 void	handle_redirs(t_ast *redir_ast_node);
+void	handle_redir_fd(int input_fd, int target_fd);
+
+void	handle_pipes(t_ast *node);
+void	init_pipe_data(t_ast *pipe_node_ptr);
+t_ast	*get_last_pipe_node(t_ast *node);
+
 void	free_exec(t_exec **exe);
 t_exec	*create_exec(const char **envp);
 

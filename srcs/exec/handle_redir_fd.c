@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   handle_redir_fd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/14 18:34:17 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/07/20 13:21:13 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/08/10 14:39:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#include <twenty_one_sh.h>
 
-# include <ft_printf.h>
-# include "struct.h"
-# include "lexer.h"
-# include "log.h"
-# include "ast.h"
-# include "line_edition.h"
-# include "exec.h"
-# include <sys/wait.h>
+/*
+** Handle redirections to fds ex: 2>&1
+*/
 
-# define IFS			"\t\n "
-# define MALLOC_ERROR 	1
-
-# ifndef VERBOSE_MODE
-#  define VERBOSE_MODE 0
-# endif
-
-void	ft_free_argv(char **tab_);
-
-#endif
+void		handle_redir_fd(int input_fd, int target_fd)
+{
+	log_trace("  Redir fd %d -> %d(fd)", input_fd, target_fd);
+	dup2(target_fd, input_fd);
+}

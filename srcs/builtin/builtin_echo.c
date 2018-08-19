@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/28 14:39:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/09 16:44:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static void	expanse_var(const char *str, const char **envp)
 		ft_putstr(get_env(str, envp));
 }
 
-void		builtin_echo(char **argv, char **envp)
+void		builtin_echo(char **argv, char **envp, t_exec *exe)
 {
+	(void)exe;
 	argv++;
 	while (*argv)
 	{

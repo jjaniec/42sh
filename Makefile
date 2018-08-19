@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/07/23 11:54:07 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/08/16 20:00:12 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_explore.c \
 			ast/ast_construct.c \
 			ast/check_parsing.c \
+			ast/lvl_lex.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
@@ -56,6 +57,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/set_term_attr.c \
 			line_edition/write_one_char.c \
 			ast/ast_free.c \
+            ast/prepare_argv.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
@@ -63,6 +65,10 @@ SRC_NAME = 	is_separator.c \
 			exec/manage_env.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
+			exec/handle_redir_fd.c \
+			exec/handle_pipes.c \
+			exec/init_pipe_data.c \
+			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
@@ -70,6 +76,8 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_unsetenv.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
+			builtin/builtin_return.c \
+			builtin/is_builtin.c \
 			log.c \
 			ft_free_argv.c \
 			main.c
@@ -92,7 +100,6 @@ TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
-LIBTAP_DIR = libtap
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
@@ -101,18 +108,18 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
-DEBUG?=0
-DEBUG_FLAGS = -D DEBUG=$(DEBUG) -DLOG_USE_COLOR
+VERBOSE_MODE = 0
+VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 COVERAGE_CFLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
-LFLAGS = -lncurses -L$(FT_PRINTF_DIR) -lftprintf
+LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf -lncurses
 
 LIBTAP_DIR = libtap
 LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap
 
 CFLAGS += $(DEV_FLAGS)
-LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),"libftprintf.a")
+LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 
 MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
 
@@ -122,19 +129,19 @@ define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true
 endef
 
-CFLAGS += $(DEBUG_FLAGS)
+CFLAGS += $(VERBOSE_MODE_FLAGS)
 
 all : $(NAME)
 
-verbose: DEBUG=1
+verbose: VERBOSE_MODE=1
 verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
 ifeq ($(UNAME_S),Linux)
-	@$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME) $(LFLAGS)
 endif
 ifeq ($(UNAME_S),Darwin)
-	@$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LFLAGS)
 endif
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(addprefix $(INCLUDES_DIR), $(INCLUDES_NAME))

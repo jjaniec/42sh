@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 13:09:07 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/16 19:54:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,13 @@ void			exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 
 /*
 ** Main function for executing a builtin.
-** Send informations to 'builtin_nameofthebuiltin()'.
+** execute builtin function stored in $builtin_ptr
 */
 
-void			exec_builtin(char **argv, char **envp, t_exec *exe)
+void			exec_builtin(char **argv, char **envp, t_exec *exe, \
+					void (**builtin_fun_ptr)(char **, char **, t_exec *))
 {
-	char	*cmd;
-
-	cmd = argv[0];
-	if (ft_strequ(cmd, "echo"))
-		builtin_echo(argv, envp);
-	else if (ft_strequ(cmd, "cd"))
-		return (builtin_cd(argv, envp, exe));
-	else if (ft_strequ(cmd, "setenv"))
-		return (builtin_setenv(argv, envp, exe));
-	else if (ft_strequ(cmd, "unsetenv"))
-		return (builtin_unsetenv(argv, envp, exe));
-	else if (ft_strequ(cmd, "env"))
-		return (builtin_env(argv, envp, exe));
-	else if (ft_strequ(cmd, "exit"))
-		builtin_exit();
+	(*builtin_fun_ptr)(argv, envp, exe);
 }
 
 /*
@@ -105,11 +92,10 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 
 t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
-	int		ret;
-
 	exe = ast_explore(root, exe);
+	if (VERBOSE_MODE)
+		ast_debug(root);
 	if (!exe)
 		return (NULL);
-	ret = exe->ret;
 	return (exe);
 }

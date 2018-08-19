@@ -3,7 +3,7 @@ sudo: true
 notifications:
   email: false
 before_install:
-    - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update; else brew update && brew install valgrind; fi
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; else brew update; fi;
 after_success:
     - bash <(curl -s https://codecov.io/bash)
 addons:
@@ -59,4 +59,13 @@ matrix:
         # - os: linux
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
-script: make CC=$CXX verbose && make CC=$CXX tests && valgrind --leak-check=full ./21sh_tests 2> ./tmp; r=$?; cat ./tmp | grep -A5 'LEAK SUMMARY'; make coverage; return $r
+script: >
+  make CC=$CXX &&
+  make CC=$CXX tests &&
+  if [ $TRAVIS_OS_NAME == osx ];
+  then ./21sh_tests;
+  else valgrind --leak-check=full ./21sh_tests;
+  fi;
+  r=$?;
+  make coverage;
+  return $r;
