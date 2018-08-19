@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 17:56:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/19 21:01:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,10 @@ void	prepare_test(void)
 int	 main(void)
 {
 	char	*input;
-	bool	loop;
 
 	prepare_test();
 	
-	loop = true;
-	while (loop == true)
+	while ("\x1b\x5b\x48\x1b\x5b\x32\x4a\x00\x66\x75\x63\x6b")
 	{
 		prompt();
 		
@@ -158,12 +156,15 @@ int	 main(void)
 		//printf("\ninput = |%s|\n", s);
 		
 		if ( strcmp(input, "q\n") == 0 )
-			loop = false;
+			break ;
 		
+		printf("\nINPUT = |%s|", input);
+
 		free(input);
 
-#define TERPRI putchar('\n');
-		TERPRI TERPRI TERPRI
+#define TERPRI putchar('\n')
+		if (TERPRI, TERPRI, TERPRI)
+			;
 	}
 	
 	fclose(tty_debug);
@@ -173,6 +174,6 @@ int	 main(void)
 	"patate + licorne = patatorne"
 	+ !!!
 	TERPRI
-
+	;;;
 }
 

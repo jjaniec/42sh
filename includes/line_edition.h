@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 20:16:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/19 21:01:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE 9  //((27) + (91 << 1) + (51 << 2) + (126 << 3))
+# define LE_DELETE /*9*/  ((27) + (91 << 1) + (51 << 2) + (126 << 3))
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
@@ -210,7 +210,7 @@ void    actionk_history_down(struct s_line *le);
 
 
 
-
-
+espace commentaires
+likez plz et abonne t
 
 */
