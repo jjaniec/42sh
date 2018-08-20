@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/16 20:00:12 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/20 15:50:49 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,11 +129,10 @@ define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true
 endef
 
-CFLAGS += $(VERBOSE_MODE_FLAGS)
-
 all : $(NAME)
 
 verbose: VERBOSE_MODE=1
+CFLAGS += $(VERBOSE_MODE_FLAGS)
 verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
@@ -164,15 +163,15 @@ $(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
 	$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
 	$(CC) $(CFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC) $(LFLAGS)
 
-tests: CFLAGS += $(COVERAGE_CFLAGS)
-tests: $(LIBTAP_DIR) $(TESTS_EXEC)
+tests: $(NAME) $(LIBTAP_DIR) $(TESTS_EXEC)
 
+coverage: CFLAGS += $(COVERAGE_CFLAGS)
 coverage: tests
 	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME)) 2> /dev/null
 
 clean:
 	rm -rf $(OBJ_DIR)
-	make clean -C $(FT_PRINTF_DIR)
+	make fclean -C $(FT_PRINTF_DIR)
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
 
 fclean: clean
