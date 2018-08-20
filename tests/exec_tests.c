@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/20 18:43:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/20 19:11:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,28 @@
 
 # define TK_LESS_TMP_FILENAME "/tmp/21sh_tests_tmp.txt"
 
-static void	exec_diff_fd(char *test_name, char *str, int fd, int fd2)
+static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_fd, char *str)
+{
+	char	*cmd_sh;
+	int		tmp_fd;
+
+	tmp_fd = open(filename_sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
+	dup2(redirected_fd, tmp_fd);
+	asprintf(&cmd_sh, "{ %s ; }", str);
+	system(cmd_sh);
+	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
+	dup2(redirected_fd, tmp_fd);
+	asprintf(&cmd_sh, "./21sh \"%s\"", str);
+	system(cmd_sh);
+}
+
+static void	exec_diff_fd(char *test_name, char *str, int redirected_fd)
 {
 	static int nbr = 0;
-	char	*cmd_sh;
 	int		ret;
 
 	nbr++;
-	asprintf(&cmd_sh, "{ %s ; } %d> /tmp/exec_sh.txt %d> /dev/null", str, fd, fd2);
-	system(cmd_sh);
-	asprintf(&cmd_sh, "./21sh \"%s\" %d> /tmp/exec_21sh.txt %d> /dev/null", str, fd, fd2);
-	system(cmd_sh);
+	exec_fd_test("/tmp/exec_sh.txt", "/tmp/exec_21sh.txt", redirected_fd, str);
 	//system("cat /tmp/exec_21sh.txt");
 	//system("cat /tmp/exec_sh.txt");
 	ret = system("diff /tmp/exec_21sh.txt /tmp/exec_sh.txt");
@@ -42,7 +53,7 @@ static void	exec_diff(char *test_name, char *str)
 	new_test_name = malloc(test_name_str_len * sizeof(char) + 10);
 	ft_strcpy(new_test_name, test_name);
 	ft_strcpy(new_test_name + test_name_str_len, " - stdout");
-	exec_diff_fd(new_test_name, str, 1, 2);
+	exec_diff_fd(new_test_name, str, STDIN_FILENO);
 	ft_strcpy(new_test_name + test_name_str_len, " - stderr");
 //	exec_diff_fd(new_test_name, str, 2, 1);
 	free(new_test_name);
