@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/08/05 20:01:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/20 18:51:22 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static void past_clipboard_at_end(struct s_line *le)
 
 void        actionk_past_clipboard(struct s_line *le)
 {
-    if (cursor_is_at_end(le) == true)
+    if (cursor_is_at_end_of_cmd(le) == true)
         past_clipboard_at_end(le);
     else
         past_clipboard_into_cmdline(le);

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 17:58:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/20 18:51:22 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	process_key(t_kno key, struct s_line *le)
 	le->key_no = key;
 	if (key_is_printable(key) == true)
 	{
-		if ( cursor_is_at_end(le) == true )
+		if ( cursor_is_at_end_of_cmd(le) == true )
 		{
 			print_key_at_end(le, key);
 		}

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 21:18:37 by cfermier          #+#    #+#             */
-/*   Updated: 2018/08/19 13:04:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/20 16:11:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ unsigned int	print_str_on_term(const char *str,
 fprintf(tty_debug, "TERFOO = %d\n", foo);
 
     bool foofoo = false;
-    if (foo == 42)
+    if (foo == LE_SPECIAL_CASE)
     {
         foo = 2;
         foofoo = true;
@@ -28,7 +28,7 @@ fprintf(tty_debug, "TERFOO = %d\n", foo);
     while (*str != '\0')
     {
         ++tmp_current_cursor_pos;
-        fprintf(tty_debug, "IFFFFFF %u\n", tmp_current_cursor_pos - foo );
+       // fprintf(tty_debug, "IFFFFFF %u\n", tmp_current_cursor_pos - foo );
         if (tmp_current_cursor_pos - foo == le->term_line_size - 1)
         {
 

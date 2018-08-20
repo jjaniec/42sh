@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/19 21:01:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/20 19:01:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE 9 /* ((27) + (91 << 1) + (51 << 2) + (126 << 3)) */
+# define LE_DELETE /*9*/  ((27) + (91 << 1) + (51 << 2) + (126 << 3))
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
@@ -70,6 +70,7 @@
 // others
 # define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
+# define LE_SPECIAL_CASE (42)
 
 
 typedef uint64_t t_kno;
@@ -168,7 +169,9 @@ void	init_line_edition_attributes(struct s_line *le);
 
 bool 	possible_to_go_right(struct s_line *le);
 
-bool	cursor_is_at_end(struct s_line *le);
+bool	cursor_is_at_end_of_cmd(struct s_line *le);
+bool	cursor_is_at_end_of_term_line(unsigned int cursorpos,
+										struct s_line *le);
 
 void	weird_trick_to_erase_char(struct s_line *le);
 

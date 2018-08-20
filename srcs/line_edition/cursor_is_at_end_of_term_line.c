@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cursor_is_at_end.c                                 :+:      :+:    :+:   */
+/*   cursor_is_at_end_of_term_line.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/12 15:45:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 15:49:23 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/08/20 18:51:54 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/08/20 19:02:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
 
-bool	cursor_is_at_end(struct s_line *le)
+bool	cursor_is_at_end_of_term_line(unsigned int cursorpos, struct s_line *le)
 {
-	if ( possible_to_go_right(le) == false )
+	if (cursorpos == (le->term_line_size - 1))
 		return (true);
 	return (false);
 }

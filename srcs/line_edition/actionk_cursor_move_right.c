@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:56:44 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 19:04:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/20 19:14:50 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void		actionk_cursor_move_right(struct s_line *le)
 {
 	if ( possible_to_go_right(le) == false )
 	{
-		//fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
+		fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
 		return ;
 	}
-	if (le->current_cursor_pos == le->term_line_size - 1)
+	if (cursor_is_at_end_of_term_line(le->current_cursor_pos, le) == true)
 	{
 		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSOUS\n");
 		le->current_cursor_pos = 0;

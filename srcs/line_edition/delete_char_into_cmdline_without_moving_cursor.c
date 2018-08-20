@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:17:11 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/19 20:45:56 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/20 18:45:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,14 +118,19 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 		&& le->current_cursor_pos == le->term_line_size - 1)
 			--(infos_rewriting->pos_end_rewriting);
 
-		if (le->nb_car_written_on_last_current_line == 0)
+		if (le->nb_car_written_on_last_current_line == 0
+		&& le->nb_li_currently_writing - le->current_cursor_line == 2)
 			--(infos_rewriting->pos_end_rewriting);
+		
 		if (le->nb_car_written_on_last_current_line == 0)
 			--(infos_rewriting->pos_end_rewriting);
 
 		if (le->current_cursor_line == 0 && le->nb_li_currently_writing > 1
 		&& le->nb_car_written_on_last_current_line == 0)
 			++(infos_rewriting->pos_end_rewriting);
+
+		if (infos_rewriting->pos_end_rewriting == le->term_line_size)
+			--(infos_rewriting->pos_end_rewriting);
 
 
 		while (infos_rewriting->pos_end_rewriting > le->current_cursor_pos)
@@ -157,7 +162,7 @@ static void	print_shifted_line(struct s_line *le)
 
 	if ( 
 	(le->current_cursor_line == 0 && le->nb_li_currently_writing > 1)
-	/*|| (  le->nb_li_currently_writing - le->current_cursor_line >= 3 ) */
+	&& le->nb_car_written_on_last_current_line != 0
 
 	)
 	{
@@ -167,7 +172,7 @@ static void	print_shifted_line(struct s_line *le)
 	}
 
 	if ( le->nb_li_currently_writing - le->current_cursor_line >= 3 )
-		foo = 42;
+		foo = LE_SPECIAL_CASE;
 
 	print_str_on_term(le->line + le->cursor_index_for_line, le->current_cursor_pos, le, foo);
 	if (foo2 == true)
@@ -204,6 +209,16 @@ void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le)
 	char							*line;
 	unsigned int					tmp_current_cursor_pos;
 	struct s_infos_for_rewriting	infos_rewriting;
+// variables useless
+
+	actionk_cursor_move_right(le);
+	delete_char_into_cmdline_while_moving_back_cursor(le);
+
+
+
+
+
+return ;return ;return ;return ;return ;return ;return ;return ;return ;return ;return ;
 
 	ft_memset(&infos_rewriting, 0, sizeof(struct s_infos_for_rewriting));
 
