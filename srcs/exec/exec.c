@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 13:09:07 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/20 14:52:55 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,8 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 
 t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
-	int		ret;
-
 	exe = ast_explore(root, exe);
 	if (!exe)
 		return (NULL);
-	ret = exe->ret;
 	return (exe);
 }
