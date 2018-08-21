@@ -6,27 +6,34 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/20 19:11:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/21 17:42:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-# define TK_LESS_TMP_FILENAME "/tmp/21sh_tests_tmp.txt"
+# define TESTS_TMP_FILENAME "/tmp/21sh_tests_tmp.txt"
+# define BUFF_SIZE_TMP_FILE 1000000
 
 static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_fd, char *str)
 {
 	char	*cmd_sh;
 	int		tmp_fd;
+	int		dup_redirected_fd;
 
+	dup_redirected_fd = dup(redirected_fd);
 	tmp_fd = open(filename_sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
-	dup2(redirected_fd, tmp_fd);
+	dup2(tmp_fd, redirected_fd);
 	asprintf(&cmd_sh, "{ %s ; }", str);
 	system(cmd_sh);
+	close(tmp_fd);
 	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
-	dup2(redirected_fd, tmp_fd);
+	dup2(tmp_fd, redirected_fd);
 	asprintf(&cmd_sh, "./21sh \"%s\"", str);
 	system(cmd_sh);
+	close(tmp_fd);
+	dup2(dup_redirected_fd, redirected_fd);
+	close(dup_redirected_fd);
 }
 
 static void	exec_diff_fd(char *test_name, char *str, int redirected_fd)
@@ -35,6 +42,7 @@ static void	exec_diff_fd(char *test_name, char *str, int redirected_fd)
 	int		ret;
 
 	nbr++;
+	fflush(stdout);
 	exec_fd_test("/tmp/exec_sh.txt", "/tmp/exec_21sh.txt", redirected_fd, str);
 	//system("cat /tmp/exec_21sh.txt");
 	//system("cat /tmp/exec_sh.txt");
@@ -48,34 +56,45 @@ static void	exec_diff(char *test_name, char *str)
 {
 	int		test_name_str_len;
 	char	*new_test_name;
+	int		tmp;
 
 	test_name_str_len = ft_strlen(test_name);
 	new_test_name = malloc(test_name_str_len * sizeof(char) + 10);
 	ft_strcpy(new_test_name, test_name);
+
 	ft_strcpy(new_test_name + test_name_str_len, " - stdout");
-	exec_diff_fd(new_test_name, str, STDIN_FILENO);
+	tmp = dup(STDERR_FILENO);
+	freopen("/dev/null", "w", stderr);
+	exec_diff_fd(new_test_name, str, STDOUT_FILENO);
+	dup2(tmp, STDERR_FILENO);
+
 	ft_strcpy(new_test_name + test_name_str_len, " - stderr");
-//	exec_diff_fd(new_test_name, str, 2, 1);
+	tmp = dup(STDOUT_FILENO);
+	freopen("/dev/null", "w", stdout);
+	exec_diff_fd(new_test_name, str, STDERR_FILENO);
+	dup2(tmp, STDOUT_FILENO);
+
 	free(new_test_name);
 }
-/*
-static void	exec_diff_file_redir(char *test_name, char *str, int redirs_count, ...)
+
+static void	comp_output_redir(char *test_name, char *test, char *data_expected)
 {
-	int		redirs_fd;
-	va_list		va_ptr;
+	int		fd;
+	char	data_in_file[BUFF_SIZE_TMP_FILE];
+	int		tmp;
 
-	va_start(va_ptr, str);
-	while (redirs_count)
+	system(test);
+	fd = open(TESTS_TMP_FILENAME, O_RDONLY);
+	if ((tmp = read(fd, data_in_file, BUFF_SIZE_TMP_FILE)) == -1)
 	{
-		redirs_fd = open("/tmp/21sh_tests_tmp_file.txt", \
-			O_CREATE | O_WRONLY | O_APPEND, 777);
+		printf("READ ERROR FOR TEST %s\n", test_name);
+		return ;
 	}
+	data_in_file[tmp] = '\0';
+	is(data_in_file, data_expected, test_name);
+	remove(TESTS_TMP_FILENAME);
+}
 
-}*/
-
-/*
-** Ne surtout pas rajouter de ; a la fin <3
-*/
 void	exec_tests(char **envp)
 {
 	(void)envp;
@@ -93,7 +112,7 @@ void	exec_tests(char **envp)
 	exec_diff("AND - Long 1", "cd / && pwd && cd ~ && ls && cd /usr && ls && cd - && ls && cd && ls");
 
 	exec_diff("Pipes 1 - Simple", "/bin/echo a | cat");
-	exec_diff("Pipes 2 - Simple", "/bin/echo a | cat | cat | cowsay");
+	exec_diff("Pipes 2 - Simple", "/bin/echo a | cat | cat");
 	exec_diff("Pipes 3 - redirs", "/bin/echo a 2>&1 | cat");
 	exec_diff("Pipes 4 - redirs", "/bin/echo a 2>/dev/null 3>/dev/null | cat");
 	exec_diff("Pipes 5 - redirs", "/bin/echo a 1>&2 | cat");
@@ -104,16 +123,18 @@ void	exec_tests(char **envp)
 	exec_diff("Pipes 10 - AND, OR, redirs", "ls 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null");
 	exec_diff("Pipes 11 - Long Mixed", "/bin/echo a 2>&1 | cat | cat || /bin/echo b | cat | cat && /bin/echo c 1>/dev/null | cat ; /bin/echo lol | cat");
 
-	tk_less_tests_tmp_fd = open(TK_LESS_TMP_FILENAME, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
-	ft_putstr_fd("Some random text in"TK_LESS_TMP_FILENAME, tk_less_tests_tmp_fd);
-	exec_diff("TK_LESS 1 - Simple", "cat < "TK_LESS_TMP_FILENAME);
-	exec_diff("TK_LESS 2 - Pipe", "cat < "TK_LESS_TMP_FILENAME" | cat");
-	exec_diff("TK_LESS 3 - Multiple pipes", "cat < "TK_LESS_TMP_FILENAME" | cat | cat | cat|cat|cat|cat");
-	exec_diff("TK_LESS 4 - OR", "ls /zzz || cat < "TK_LESS_TMP_FILENAME" |cat ");
-	exec_diff("TK_LESS 5 - AND", "cat a && cat < "TK_LESS_TMP_FILENAME" |cat ");
-	exec_diff("TK_LESS 6 - OR - AND - Pipes", "cat a && cat < "TK_LESS_TMP_FILENAME" |cat && cat "TK_LESS_TMP_FILENAME" | cat || cat 'this should not append'; cat <"TK_LESS_TMP_FILENAME" | cat");
-	exec_diff("TK_LESS 7 - rewrite input redir to same file", "cat <"TK_LESS_TMP_FILENAME" 2>&1 | cat >"TK_LESS_TMP_FILENAME);
+	tk_less_tests_tmp_fd = open(TESTS_TMP_FILENAME, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
+	ft_putstr_fd("Some random text in"TESTS_TMP_FILENAME, tk_less_tests_tmp_fd);
+	exec_diff("TK_LESS 1 - Simple", "cat < "TESTS_TMP_FILENAME);
+	exec_diff("TK_LESS 2 - Pipe", "cat < "TESTS_TMP_FILENAME" | cat");
+	exec_diff("TK_LESS 3 - Multiple pipes", "cat < "TESTS_TMP_FILENAME" | cat | cat | cat|cat|cat|cat");
+	exec_diff("TK_LESS 4 - OR", "ls /zzz || cat < "TESTS_TMP_FILENAME" |cat ");
+	exec_diff("TK_LESS 5 - AND", "cat a && cat < "TESTS_TMP_FILENAME" |cat ");
+	exec_diff("TK_LESS 6 - OR - AND - Pipes", "cat a && cat < "TESTS_TMP_FILENAME" |cat && cat "TESTS_TMP_FILENAME" | cat || cat 'this should not append'; cat <"TESTS_TMP_FILENAME" | cat");
+	exec_diff("TK_LESS 7 - rewrite input redir to same file", "cat <"TESTS_TMP_FILENAME" 2>&1 | cat >"TESTS_TMP_FILENAME);
 	close(tk_less_tests_tmp_fd);
+
+	comp_output_redir("TK_MORE 1 - Simple", "/bin/echo aaa > "TESTS_TMP_FILENAME, "aaa\n");
 
 	exec_diff("TK_TLESS Here-documents 1 - Simple", "/bin/cat <<< lol");
 	exec_diff("TK_TLESS Here-documents 2 - Simple", "/bin/cat <<< diajdiwajdoiwdjdwadjaiwdjwaidj");

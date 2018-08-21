@@ -44,9 +44,9 @@ matrix:
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
     allow_failures:
-        - os: linux
-          compiler: gcc-8
-          env: CXX=gcc-8
+        # - os: linux
+        #   compiler: gcc-8
+        #   env: CXX=gcc-8
         - os: linux
           compiler: gcc-7
           env: CXX=gcc-7
