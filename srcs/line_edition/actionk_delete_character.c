@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 14:53:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/20 19:14:41 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/21 18:06:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void		actionk_delete_character(struct s_line *le)
 	}
 	else if (le->key_no == LE_DELETE)
 	{
-		//if (cursor_is_at_end_of_cmd(le))
-		if (le->cursor_index_for_line == le->line_index)
+		if (cursor_is_at_end_of_cmd(le))
+		//if (le->cursor_index_for_line == le->line_index)
 		{
 			fprintf(tty_debug, "NOP PAS DE DELETE\n");
 			return ;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   delete_char_into_cmdline_while_moving_bac          :+:      :+:    :+:   */
+/*   delete_char_into_cmdline_while_moving_back_        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:19:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 20:19:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/21 20:18:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ static void	reprint_part_of_line(struct s_line *le,
 	while (*line++)
 	{
 		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 1 == le->term_line_size - 1)
+		if (cursor_is_at_end_of_term_line(tmp_current_cursor_pos - 1, le) == true)
+		//if (tmp_current_cursor_pos - 1 == le->term_line_size - 1)
 		{
 			++(infos_rewriting->nb_line_to_go_up);
 			tmp_current_cursor_pos = 0;
 		}
 	}
-	if (tmp_current_cursor_pos == le->term_line_size - 1)
+	if (cursor_is_at_end_of_term_line(tmp_current_cursor_pos, le) == true)
+	//if (tmp_current_cursor_pos == le->term_line_size - 1)
 	{
 		tputs(le->tcaps->_do, 1, &write_one_char);
 		++(infos_rewriting->nb_line_to_go_up);
@@ -139,7 +141,8 @@ void		delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le)
 	update_values(le);
 	actionk_cursor_move_left(le);
 	tputs(le->tcaps->dc, 1, &write_one_char);
-	if (le->current_cursor_pos == le->term_line_size - 1)
+	if (cursor_is_at_end_of_term_line(le->current_cursor_pos, le) == true)
+	//if (le->current_cursor_pos == le->term_line_size - 1)
 		weird_trick_to_erase_char(le);
 	reprint_part_of_line(le, &infos_rewriting);
 	tputs(le->tcaps->dc, 1, &write_one_char);

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/08/20 18:51:22 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/21 18:33:22 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ static void	update_values(struct s_line *le)
 	while (*clipboard != '\0')
 	{
 		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
+		if (cursor_is_at_end_of_term_line(tmp_current_cursor_pos - 2, le) == true)
+		//if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
 		{
 			tmp_current_cursor_pos = 0;
 			//tputs(le->tcaps->_do, 1, &write_one_char);
