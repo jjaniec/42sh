@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/22 18:16:50 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/22 22:23:21 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_return.c \
 			builtin/is_builtin.c \
 			syntax_highlighting/print_colorized_input.c \
+			syntax_highlighting/elem_path_found.c \
 			log.c \
 			ft_free_argv.c \
 			main.c
@@ -88,6 +89,7 @@ INCLUDES_NAME = lexer.h \
 				exec.h \
 				twenty_one_sh.h \
 				line_edition.h \
+				syntax_highlighting.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \

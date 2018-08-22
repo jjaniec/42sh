@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/22 18:14:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/22 22:40:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define TWENTY_ONE_SH_H
 
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
 
 # include <ft_printf.h>
 # include "struct.h"
