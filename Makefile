@@ -6,15 +6,13 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/21 13:35:36 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/08/22 13:27:41 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 ###### EXEC ######
 NAME = 21sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
-
 
 ###### FILES ######
 SRC_NAME = 	is_separator.c \
@@ -106,17 +104,16 @@ OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = libtap
 
-
 ###### SRC / OBJ ######
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
 TESTS_OBJ = $(addprefix $(TESTS_DIR),$(TESTS_SRC_NAME:.c=.o))
 TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $(LIBTAP_DIR),"/tap.o")
 
-
 ###### COMPILATION ######
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
+
 ### FLAGS ###
 VERBOSE_MODE = 0
 VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
@@ -124,28 +121,26 @@ VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
 CFLAGS += $(DEV_FLAGS)
 COVERAGE_CFLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)includes -I$(INCLUDES_DIR)
+
 ### LIB ###
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf -lncurses
 LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap
 LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 ### VERBOSE - COVERAGE ###
-verbose: VERBOSE_MODE=1
-coverage: CFLAGS += $(COVERAGE_CFLAGS)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
 MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true
 endef
-
-
-
 
 ###### RULES ######
 .PHONY: fclean re all verbose
 all : $(NAME)
 
+verbose: VERBOSE_MODE=1
 verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
@@ -162,24 +157,11 @@ $(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
 
 tests: $(NAME) $(LIBTAP_DIR) $(TESTS_EXEC)
 
+coverage: CFLAGS += $(COVERAGE_CFLAGS)
 coverage: tests
 	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME)) 2> /dev/null
 
 re: fclean all
-
-
-###### CLEAN RULES ######
-clean:
-	rm -rf $(OBJ_DIR)
-	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
-	rm -rf $(addprefix $(TESTS_DIR),*.o)
-
-fclean: clean
-	rm -f $(NAME)
-
-ffclean: fclean
-	rm -rf ft_printf
-	rm -rf libtap
 
 
 ###### OBJ RULES ######
@@ -200,3 +182,17 @@ $(LIBFTPRINTF): $(FT_PRINTF_DIR)
 
 $(LIBTAP_DIR):
 	git clone https://github.com/zorgnax/libtap.git $(LIBTAP_DIR) || true
+
+
+###### CLEAN RULES ######
+clean:
+	rm -rf $(OBJ_DIR)
+	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
+	rm -rf $(addprefix $(TESTS_DIR),*.o)
+
+fclean: clean
+	rm -f $(NAME)
+
+ffclean: fclean
+	rm -rf ft_printf
+	rm -rf libtap
