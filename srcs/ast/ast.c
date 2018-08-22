@@ -45,5 +45,7 @@ t_ast	*ast(t_lexeme *lex)
 		return (NULL);
 	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 	root = construct_ast(lex, root);
+	if (VERBOSE_MODE)
+		ast_debug(root);
 	return (root);
 }

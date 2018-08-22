@@ -140,7 +140,7 @@ verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
 ifeq ($(UNAME_S),Linux)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME) $(LFLAGS)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFTPRINTF) -o $(NAME) $(LFLAGS)
 endif
 ifeq ($(UNAME_S),Darwin)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LFLAGS)

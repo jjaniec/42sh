@@ -13,7 +13,8 @@
 #include <twenty_one_sh.h>
 
 /*
-** Child. Execve() here
+** Handle pipes and redirections then
+** launch specified program in child process
 */
 
 static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
@@ -26,7 +27,7 @@ static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
 }
 
 /*
-** Close pipe input of forked process
+** Close unessecary pipe inputs
 */
 
 static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
@@ -47,11 +48,12 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 }
 
 /*
-** Parent. Wait() for the child here
+** Parent process function when forking
+** Wait child process to end
 */
 
 static int	parent_process(pid_t child_pid, t_ast *node, \
-				t_ast *last_pipe_node)//, child_pipe_inputfd)
+				t_ast *last_pipe_node)
 {
 	int		status;
 	int		waited_pid;
