@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/16 20:00:12 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/22 18:16:50 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
 			builtin/is_builtin.c \
+			syntax_highlighting/print_colorized_input.c \
 			log.c \
 			ft_free_argv.c \
 			main.c
@@ -98,7 +99,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ syntax_highlighting/
 FT_PRINTF_DIR = ./ft_printf/
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
