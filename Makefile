@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/22 13:27:41 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/22 16:05:44 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -155,11 +155,11 @@ $(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
 	@$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
 	@$(CC) $(CFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC) $(LFLAGS)
 
-tests: $(NAME) $(LIBTAP_DIR) $(TESTS_EXEC)
+tests: CFLAGS += $(COVERAGE_CFLAGS)
+tests: all $(LIBTAP_DIR) $(TESTS_EXEC)
 
-coverage: CFLAGS += $(COVERAGE_CFLAGS)
 coverage: tests
-	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME)) 2> /dev/null
+	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME))
 
 re: fclean all
 
@@ -189,6 +189,7 @@ clean:
 	rm -rf $(OBJ_DIR)
 	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
+	rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
 
 fclean: clean
 	rm -f $(NAME)

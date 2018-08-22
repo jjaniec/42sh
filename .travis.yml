@@ -60,7 +60,6 @@ matrix:
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
 script: >
-  make CC=$CXX &&
   make CC=$CXX tests &&
   if [ $TRAVIS_OS_NAME == osx ];
   then ./21sh_tests;
