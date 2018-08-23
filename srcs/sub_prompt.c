@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 17:20:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/23 23:17:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 		lex->data = ft_strjoin(lex->data, new->data);
 		lex->next = new->next;
 	}
-	else
+	else if (lex)
 		lex->next = new;
 	return (save);
 }

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/23 22:23:44 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/23 23:18:33 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -190,13 +190,14 @@ $(LIBTAP_DIR):
 ###### CLEAN RULES ######
 clean:
 	rm -rf $(OBJ_DIR)
-	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
 	rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
+	if [ -d $(FT_PRINTF_DIR) ]; then make clean -C $(FT_PRINTF_DIR); fi
 
 fclean: clean
 	rm -f $(NAME)
+	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
 
 ffclean: fclean
-	rm -rf ft_printf
-	rm -rf libtap
+	rm -rf $(FT_PRINTF_DIR)
+	rm -rf $(LIBTAP_DIR)
