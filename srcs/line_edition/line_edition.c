@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/19 21:01:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/23 20:08:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ fprintf(tty_debug, "--------------------------------------\n");
 	}
 
 	actionk_move_cursor_end(&le);
-	if (le.line[0] != '\0')
+	if (le.line[0] != '\0' && le.line[0] != '\n')
 		add_history(&le);
 
 	reset_history_on_first_elem(&le);
@@ -127,7 +127,7 @@ fprintf(tty_debug, "--------------------------------------\n");
 
 void	prompt(void)
 {
-	printf("SERGE   $> ");
+	printf("PROMPT  $> ");
 	fflush(stdout);
 }
 
@@ -158,7 +158,7 @@ int	 main(void)
 		if ( strcmp(input, "q\n") == 0 )
 			break ;
 		
-		printf("\nINPUT = |%s|", input);
+		//printf("\nINPUT = |%s|", input);
 
 		free(input);
 

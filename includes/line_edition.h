@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/20 19:01:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/23 18:50:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (21)
+# define LE_NB_KEYS (22)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -62,6 +62,7 @@
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
 # define LE_CTRL_P (16)
+# define LE_CTRL_U (21)
 # define LE_CTRL_DASH (31)
 # define LE_CTRL_OPEN_SQUARE_BRACKET (27)
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
@@ -124,7 +125,7 @@ struct s_history
 	char 				cmd[LE_HISTORY_LINE_SIZE];
 	struct s_history	*next; // the most next is the newest
 	struct s_history	*prev; // the most prev is the oldest
-	struct s_line		cmd_le;
+//	struct s_line		cmd_le;
 };
 
 
@@ -192,6 +193,7 @@ void    actionk_copy_to_start(struct s_line *le);
 void    actionk_copy_to_end(struct s_line *le);
 void    actionk_copy_all(struct s_line *le);
 void	actionk_past_clipboard(struct s_line *le);
+void	actionk_delete_current_input(struct s_line *le);
 void	actionk_cut_all(struct s_line *le);
 void	actionk_cut_to_start(struct s_line *le);
 void	actionk_cut_to_end(struct s_line *le);

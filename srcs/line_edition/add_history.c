@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_history.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/08/11 20:10:04 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/08/23 17:36:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static struct s_history *get_former_newest_elem(struct s_history *history)
     }
     return (history);
 }
-
+/*
 static void copy_line_edition_attr(struct s_history *new_elem,
                                             struct s_line *le)
 {
@@ -32,7 +32,7 @@ static void copy_line_edition_attr(struct s_history *new_elem,
 	new_elem->cmd_le.nb_car_written_on_last_current_line = \
 		le->nb_car_written_on_last_current_line;
 }
-
+*/
 void    add_history(struct s_line *le)
 {
    // bool new = false;
@@ -58,5 +58,5 @@ void    add_history(struct s_line *le)
 
     ++(le->his_nb_elem);
 
-   copy_line_edition_attr(new_elem, le);
+  // copy_line_edition_attr(new_elem, le);
 }

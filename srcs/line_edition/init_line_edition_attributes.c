@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:52:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/23 17:49:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void    			init_line_edition_attributes(struct s_line *le)
 		//ft_memset(le->history, 0, sizeof(struct s_history));
 		le->history = NULL;
 		le->his_nb_elem = 0;
+		ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
 		already_init = true;
 	}
 
@@ -57,7 +58,5 @@ void    			init_line_edition_attributes(struct s_line *le)
 	le->term_line_size = get_terminal_nb_col();
 	le->nb_li_currently_writing = 1;
 	le->nb_car_written_on_last_current_line = 0;
-	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
-	// faut re-init le clipboard a chaque fois? pas sur ...
 
 }
