@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 15:41:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/23 22:02:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,6 @@ t_ast	*create_node(size_t type, size_t type_details, char **data)
 	node->type_details = type_details;
 	node->data = data;
 	return (node);
-}
-
-/*
-** Take a char * and tronsform it in a char** NULL-terminated
-*/
-
-char	**prepare_argv_simple(t_lexeme *lex)
-{
-	char		**tabb;
-
-	tabb = (char **)ft_memalloc(sizeof(char *) * 2);
-	if (!tabb)
-		exit(MALLOC_ERROR);
-	tabb[0] = lex->data;
-	return (tabb);
 }
 
 /*
@@ -67,7 +52,7 @@ t_ast	*ast(t_lexeme *lex)
 		return (NULL);
 	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 	root = construct_ast(lex, root);
-	if (DEBUG)
+	if (VERBOSE_MODE)
 		ast_debug(root);
 	return (root);
 }
