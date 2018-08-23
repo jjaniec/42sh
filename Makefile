@@ -67,6 +67,8 @@ SRC_NAME = 	is_separator.c \
 			exec/handle_redirs.c \
 			exec/handle_redir_fd.c \
 			exec/handle_pipes.c \
+			exec/handle_open_error.c \
+			exec/print_error.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \

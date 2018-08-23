@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/14 18:34:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/18 14:55:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "line_edition.h"
 # include "exec.h"
 # include <sys/wait.h>
+# include <errno.h>
 
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	1

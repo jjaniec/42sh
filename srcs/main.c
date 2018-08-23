@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/14 18:33:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/18 14:54:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_exec	*loop_body(char *input, char **envp)
 	t_ast		*ast_root;
 	t_exec		*exe;
 
+	errno = 0;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	lex = lexer(input);
