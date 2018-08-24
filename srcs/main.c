@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/18 14:54:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/23 22:24:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ static t_exec	*loop_body(char *input, char **envp)
 		log_set_quiet(1);
 	lex = lexer(input);
 	ast_root = ast(lex);
+	exe = create_exec((const char **)envp);
 	if (!ast_root)
-		exit(1);
+	{
+		free_lexemes(lex);
+		return (exe);
+	}
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
@@ -60,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	if (ac > 1)
-		loop_body(av[1], cp_envp((const char **)envp));
+		loop_body(ft_strjoin(av[1], "\n"), cp_envp((const char **)envp));
 	else
 		twentyonesh(cp_envp((const char **)envp));
 	return (0);

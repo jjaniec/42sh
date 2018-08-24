@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/22 16:05:44 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/23 23:18:33 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/set_term_attr.c \
 			line_edition/write_one_char.c \
 			ast/ast_free.c \
-            ast/prepare_argv.c \
+			ast/prepare_argv.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
@@ -82,6 +82,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/is_builtin.c \
 			log.c \
 			ft_free_argv.c \
+			sub_prompt.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
@@ -104,7 +105,7 @@ TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
 FT_PRINTF_DIR = ./ft_printf/
-LIBTAP_DIR = libtap
+LIBTAP_DIR = ./libtap/
 
 ###### SRC / OBJ ######
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
@@ -122,7 +123,7 @@ VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 CFLAGS += $(DEV_FLAGS)
 COVERAGE_CFLAGS = -coverage -O0
-IFLAGS = -I$(FT_PRINTF_DIR)includes -I$(INCLUDES_DIR)
+IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
 
 ### LIB ###
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf -lncurses
@@ -189,13 +190,14 @@ $(LIBTAP_DIR):
 ###### CLEAN RULES ######
 clean:
 	rm -rf $(OBJ_DIR)
-	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
 	rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
+	if [ -d $(FT_PRINTF_DIR) ]; then make clean -C $(FT_PRINTF_DIR); fi
 
 fclean: clean
 	rm -f $(NAME)
+	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
 
 ffclean: fclean
-	rm -rf ft_printf
-	rm -rf libtap
+	rm -rf $(FT_PRINTF_DIR)
+	rm -rf $(LIBTAP_DIR)
