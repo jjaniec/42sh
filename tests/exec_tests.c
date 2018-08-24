@@ -6,14 +6,27 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 22:23:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/24 21:08:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
+# ifdef __linux__
+#  define MODE "Linux"
+# endif
+# ifndef MODE
+#  define MODE "Apple"
+# endif
+
 # define TESTS_TMP_FILENAME "/tmp/21sh_tests_tmp.txt"
 # define BUFF_SIZE_TMP_FILE 1000000
+
+/*
+** Compares output of 21sh and sh by redirecting file descs in files and reading it,
+** as sh does not support '<<<' redirs on linux,
+** compare w/ output of bash instead, which handles '<<<' tokens
+*/
 
 static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_fd, char *str)
 {
@@ -55,23 +68,25 @@ static void	exec_diff(char *test_name, char *str)
 	char	*new_test_name;
 	int		tmp;
 
-	test_name_str_len = ft_strlen(test_name);
-	new_test_name = malloc(test_name_str_len * sizeof(char) + 10);
-	ft_strcpy(new_test_name, test_name);
+	if (!(*MODE == 'L' && ft_strstr(str, "<<<")))
+	{
+		test_name_str_len = ft_strlen(test_name);
+		new_test_name = malloc(test_name_str_len * sizeof(char) + 10);
+		ft_strcpy(new_test_name, test_name);
 
-	ft_strcpy(new_test_name + test_name_str_len, " - stdout");
-	tmp = dup(STDERR_FILENO);
-	freopen("/dev/null", "w", stderr);
-	exec_diff_fd(new_test_name, str, STDOUT_FILENO);
-	dup2(tmp, STDERR_FILENO);
+		ft_strcpy(new_test_name + test_name_str_len, " - stdout");
+		tmp = dup(STDERR_FILENO);
+		freopen("/dev/null", "w", stderr);
+		exec_diff_fd(new_test_name, str, STDOUT_FILENO);
+		dup2(tmp, STDERR_FILENO);
 
-	ft_strcpy(new_test_name + test_name_str_len, " - stderr");
-	tmp = dup(STDOUT_FILENO);
-	freopen("/dev/null", "w", stdout);
-	exec_diff_fd(new_test_name, str, STDERR_FILENO);
-	dup2(tmp, STDOUT_FILENO);
-
-	free(new_test_name);
+		ft_strcpy(new_test_name + test_name_str_len, " - stderr");
+		tmp = dup(STDOUT_FILENO);
+		freopen("/dev/null", "w", stdout);
+		exec_diff_fd(new_test_name, str, STDERR_FILENO);
+		dup2(tmp, STDOUT_FILENO);
+		free(new_test_name);
+	}
 }
 
 static void	comp_output_redir(char *test_name, char *test, char *data_expected)
