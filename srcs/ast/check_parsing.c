@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/20 15:21:30 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/25 11:52:01 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@
 
 static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 {
-	if (lex2 && (is_op1(lex1) || is_op1_5(lex1)) && lex2->type_details == TK_NEWLINE)
+	if (!script_check_parsing(lex1, lex2))
+		return (0);
+	else if (lex2 && (is_op1(lex1) || is_op1_5(lex1)) && lex2->type_details == TK_NEWLINE)
 		return (NEED_SUBPROMPT);
-	else if (lex2 && (lvl_lex(lex1) != 5) && (lvl_lex(lex2) != 5) && lex2->type_details != TK_NEWLINE)
+	else if (lex2 && (lvl_lex(lex1) != 5 && lex1->type < 5)
+	&& (lvl_lex(lex2) != 5 && lex2->type < 5) && lex2->type_details != TK_NEWLINE)
 		return (0);
 	return (1);
 }
@@ -34,7 +37,7 @@ int			check_parsing(t_lexeme *lex)
 {
 	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
-	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN)
+	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
 	{
 		ft_printf("Parsing error just after: %s\n", lex->data);
 		return (0);

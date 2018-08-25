@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/25 11:17:00 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/25 12:26:01 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,8 @@
 # define TK_SCRIPT_NE 806
 
 void	script_lexemes(t_lexeme *lexemes);
+int		script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
+t_ast	*script_create_node(t_lexeme *lex);
+t_lexeme	*script_put_node_ast(t_ast *new, t_lexeme *lex, t_ast *root);
 
 #endif
