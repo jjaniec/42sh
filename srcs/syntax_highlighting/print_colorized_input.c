@@ -6,112 +6,65 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/22 22:43:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/25 08:40:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** Return a pointer to next element beginning
+** Return a pointer to next element begin
 */
 
-static char		*get_next_elem_begin(char *ptr)
+static char		*get_next_elem_begin(char *input_str, t_lexeme *lexeme)
 {
-	int		i;
+	char	*ret;
 
-	i = 0;
-	while (is_separator(ptr[i]) && ptr[i])
-		i++;
-	return (ptr + i); 
+	(void)lexeme;
+	ret = input_str;
+	while (ft_strrchr(IFS, *ret))
+		ret++;
+	return (ret);
 }
 
 /*
-** Return a pointer to next #IFS separator (end of element)
+** Return a pointer to next element end
 */
 
-static char		*get_next_elem_end(char *ptr)
+static char		*get_next_elem_end(char *elem_begin, t_lexeme *lexeme)
 {
-	int			i;
-
-	i = 0;
-	while (!(is_separator(ptr[i])) && ptr[i])
-		i++;
-	return (&(ptr[i]));
+	return (&(elem_begin[ft_strlen(lexeme->data)]));
 }
 
-/*
-** Print color associated w/ type of element found in string
-*/
-
-static void		print_prog_name_arg(struct stat *elem_stats, int elem_found, int item_nb)
+static void		get_lexeme_substring(char *input_str, t_lexeme *lexeme, \
+					char **lexeme_str_begin, char ** lexeme_str_end)
 {
-	if (elem_found)
+	*lexeme_str_begin = get_next_elem_begin(input_str, lexeme);
+	if (!(*lexeme_str_begin))
 	{
-		if (item_nb == 0)
-			ft_putstr(COL_PROG_NAME_FOUND);
-		else
-		{
-			if (S_ISDIR(elem_stats->st_mode))
-				ft_putstr(COL_PROG_ARG_DIR);
-			else
-				ft_putstr(COL_PROG_ARG_FILE);
-		}
-	}
-	else
-	{
-		if (item_nb == 0)
-			ft_putstr(COL_PROG_NAME_NOT_FOUND);
-		else
-			ft_putstr(COL_PROG_ARG_NOT_FOUND);
-	}
-}
-
-static void		print_elem_color(char *elem_ptr, char *elem_end_ptr, char **env, int *item_nb)
-{
-	char			c;
-	struct stat		elem_stats;
-
-	if (*elem_ptr == ';' || *elem_ptr == '&' || *elem_ptr == '|')
-	{
-		ft_putstr(COL_OPERATORS);
-		*item_nb = -1;
-	}
-	else if (*elem_ptr == '-')
-		ft_putstr(COL_PROG_OPT);
-	else if (*elem_ptr == '\'' || *elem_ptr == '"')
-		ft_putstr(COL_QUOTED_ARG);
-	else
-	{
-		c = *elem_end_ptr;
-		*elem_end_ptr = '\0';
-		print_prog_name_arg(&elem_stats, elem_path_found(&elem_stats, elem_ptr, env), *item_nb);
-		*elem_end_ptr = c;
-	}
-}
-
-static void		print_next_elem(char *input_str, char **env, int *item_nb)
-{
-	char	*elem_begin_ptr;
-	char	*elem_end_ptr;
-
-	if (!(input_str && *input_str))
+		*lexeme_str_begin = NULL;
 		return ;
-	if (!(*(elem_begin_ptr = get_next_elem_begin(input_str))))
-		return ;
-	elem_end_ptr = get_next_elem_end(elem_begin_ptr);
-	print_elem_color(elem_begin_ptr, elem_end_ptr, env, item_nb);
-	write(1, input_str, (elem_end_ptr - input_str));
-	ft_putstr(COL_DEFAULT);
-	*item_nb += 1;
-	print_next_elem(elem_end_ptr, env, item_nb);
+	}
+	*lexeme_str_end = get_next_elem_end(*lexeme_str_begin, lexeme);
 }
 
-
-void		print_colorized_input(char *input_str, char **env)
+void		print_colorized_input(char *input_str, char **env, t_lexeme *lexemes)
 {
-	int		item_nb;
+	t_lexeme	*cur_lexeme;
+	char		*lexeme_str_begin;
+	char		*lexeme_str_end;
+	char		*ptr;
 
-	item_nb = 0;
-	print_next_elem(input_str, env, &item_nb);
+	cur_lexeme = lexemes;
+	ptr = input_str;
+	while (ptr && cur_lexeme && *ptr)
+	{
+		get_lexeme_substring(ptr, cur_lexeme, &lexeme_str_begin, &lexeme_str_end);
+		if (!(lexeme_str_begin))
+			break ;
+		print_lexeme_colorized(lexeme_str_begin, lexeme_str_end, ptr, cur_lexeme, env);
+		cur_lexeme = cur_lexeme->next;
+		ptr = lexeme_str_end;
+	}
+	ft_putchar('\n');
 }

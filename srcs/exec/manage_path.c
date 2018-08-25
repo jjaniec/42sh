@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/09 16:41:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/25 08:30:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,5 @@ char	*isin_path(char **paths, char *cmd)
 		ft_strdel(&pth);
 		i++;
 	}
-	ft_putstr_fd("21sh: no such file or directory: ", 2);
-	ft_putendl_fd(cmd, 2);
 	return (NULL);
 }

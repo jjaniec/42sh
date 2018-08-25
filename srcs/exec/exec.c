@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/16 19:54:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/25 08:31:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 	pth = isin_path(paths, argv[0]);
 	if (pth)
 		exe = exec_thread(pth, argv, envp, exe, node);
+	else
+	{
+		ft_putstr_fd("21sh: no such file or directory: ", 2);
+		ft_putendl_fd(argv[0], 2);
+	}
 	ft_strdel(&pth);
 	ft_free_argv(paths);
 }
