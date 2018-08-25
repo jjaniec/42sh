@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/23 21:51:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/24 21:05:52 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "ast.h"
 # include "line_edition.h"
 # include "exec.h"
+# include "script.h"
 # include <sys/wait.h>
 # include <errno.h>
 

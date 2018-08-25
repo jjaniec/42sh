@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/23 23:18:33 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/24 21:53:52 by sebastien        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
 			builtin/is_builtin.c \
+			script/script.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
@@ -90,6 +91,7 @@ INCLUDES_NAME = lexer.h \
 				exec.h \
 				twenty_one_sh.h \
 				line_edition.h \
+				script.h \
 				log.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -103,7 +105,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ script/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
