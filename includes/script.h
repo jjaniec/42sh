@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/25 12:26:01 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/26 18:06:41 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define T_SCRIPT_LOGICAL 5
 
+# define TK_SCRIPT 50
 # define TK_SCRIPT_IF 51
 # define TK_SCRIPT_ELIF 52
 # define TK_SCRIPT_ELSE 53
@@ -37,7 +38,7 @@
 
 # define TK_SCRIPT_CONDITION_BEGIN 71
 # define TK_SCRIPT_CONDITION_END 72
-
+# define TK_SCRIPT_INSTRUCTION 73
 
 
 # define T_SCRIPT_CONDITION 8
@@ -52,6 +53,6 @@
 void	script_lexemes(t_lexeme *lexemes);
 int		script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
 t_ast	*script_create_node(t_lexeme *lex);
-t_lexeme	*script_put_node_ast(t_ast *new, t_lexeme *lex, t_ast *root);
+t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);
 
 #endif

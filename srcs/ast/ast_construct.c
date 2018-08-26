@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/25 12:23:32 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/26 17:13:34 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int				lvl_node(t_ast *ast)
 ** Place the node *new in the AST, from the node *root
 */
 
-static t_ast	*place_new_node(t_ast *root, t_ast *new)
+t_ast		*place_new_node(t_ast *root, t_ast *new, int lvl_new)
 {
-	if (lvl_node(new) > lvl_node(root))
+	if (lvl_new > lvl_node(root))
 	{
 		if (root->right)
 			new->left = root->right;
@@ -49,12 +49,12 @@ static t_ast	*place_new_node(t_ast *root, t_ast *new)
 	}
 	else
 	{
-		while (root->parent && lvl_node(new) <= lvl_node(root->parent))
+		while (root->parent && lvl_new <= lvl_node(root->parent))
 			root = root->parent;
 		if (root->parent)
 			root->parent->right = new;
 		new->left = root;
-		if (root->parent && lvl_node(root->parent) < lvl_node(new))
+		if (root->parent && lvl_node(root->parent) < lvl_new)
 			new->parent = root->parent;
 		root->parent = new;
 	}
@@ -73,13 +73,18 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
 	flag_heredoc_EOF = 0;
 	while (lex)
 	{
-		new = script_create_node(lex);
+		if (lex->type_details == TK_SCRIPT_IF || lex->type_details == TK_SCRIPT_WHILE)
+		{
+			lex = script_put_node_ast(lex, root);
+			continue;
+		}
+		/*new = script_create_node(lex);
 		if (new)
 		{
 			lex = script_put_node_ast(new, lex, root);
 			continue;
 		}
-		else
+		else*/
 			new = create_node(lex->type, lex->type_details, \
 					prepare_argv(lex, flag_heredoc_EOF));
 		if (lvl_lex(lex) == 5)
@@ -102,7 +107,7 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
 			flag_heredoc_EOF = 1;
 			subp_heredoc(lex, lex->next->data);
 		}
-		root = place_new_node(root, new);
+		root = place_new_node(root, new, lvl_node(new));
 		lex = lex->next;
 	}
 	while (root->parent)
