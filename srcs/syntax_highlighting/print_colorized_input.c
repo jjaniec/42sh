@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/25 08:40:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/27 19:21:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static char		*get_next_elem_begin(char *input_str, t_lexeme *lexeme)
 	ret = input_str;
 	while (ft_strrchr(IFS, *ret))
 		ret++;
+//	log_debug("Colorization elem_begin: |%s|", ret);
 	return (ret);
 }
 
@@ -31,9 +32,37 @@ static char		*get_next_elem_begin(char *input_str, t_lexeme *lexeme)
 ** Return a pointer to next element end
 */
 
+static char		*get_next_elem_end_quotes(char *elem_begin, t_lexeme *lexeme)
+{
+	char	*ptr;
+
+	(void)lexeme;
+	ptr = elem_begin;
+	ptr++;
+	while (*ptr && *elem_begin != *ptr)
+		ptr++;
+	if (*ptr == *elem_begin)
+		ptr++;
+//	log_debug("Colorization elem_end_quotes: |%s|", ptr);
+	return (ptr);
+}
+
 static char		*get_next_elem_end(char *elem_begin, t_lexeme *lexeme)
 {
-	return (&(elem_begin[ft_strlen(lexeme->data)]));
+	char	*ptr;
+
+	(void)lexeme;
+	if (lexeme->type == T_REDIR_OPT || lexeme->type == T_CTRL_OPT)
+		ptr = (elem_begin + ft_strlen((char *)((*lexeme).data)));
+	else
+	{
+		if (*elem_begin == '\'' || *elem_begin == '"')
+			return (get_next_elem_end_quotes(elem_begin, lexeme));
+		while (*ptr && !(ft_strchr(IFS, *ptr)))
+			ptr++;
+	}
+//	log_debug("Colorization elem_end: |%s|", ptr);
+	return (ptr);
 }
 
 static void		get_lexeme_substring(char *input_str, t_lexeme *lexeme, \

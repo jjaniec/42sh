@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/25 08:43:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/27 18:51:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, char **env)
 		ft_putstr(COL_REDIRS);
 	else if (lexeme->type == T_WORD)
 	{
-		if ((*(char *)(lexeme->data) == '-'))
+		if (*(char *)(lexeme->data) == '-')
 			ft_putstr(COL_PROG_OPT);
+		else if (*(lexeme_begin) == '$')
+			ft_putstr(COL_ENV_VAR_EXPANSION);
 		else if (*(lexeme_begin) == '\'' || *(lexeme_begin) == '"')
 			ft_putstr(COL_QUOTED_ARG);
 		else
