@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/25 07:17:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/28 21:38:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_exec	*loop_body(char *input, char **envp)
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	lex = lexer(input);
-	print_colorized_input(input, envp, lex);
+	//print_colorized_input(input, envp, lex);
 	ast_root = ast(lex);
 	if (!ast_root)
 		exit(1);
