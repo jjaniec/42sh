@@ -34,6 +34,8 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			autocomplete/autocomplete.c\
+			autocomplete/str_effect.c\
 			line_edition/action_key.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \
@@ -90,7 +92,8 @@ INCLUDES_NAME = lexer.h \
 				exec.h \
 				twenty_one_sh.h \
 				line_edition.h \
-				log.h
+				log.h\
+				autocomplete.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					ast_tests.c \
@@ -103,7 +106,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ autocomplete/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

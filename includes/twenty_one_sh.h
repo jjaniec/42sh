@@ -20,6 +20,7 @@
 # include "ast.h"
 # include "line_edition.h"
 # include "exec.h"
+# include "autocomplete.h"
 # include <sys/wait.h>
 # include <errno.h>
 

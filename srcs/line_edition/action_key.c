@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static	struct s_action_key	*get_array_action_key(void)
 {
@@ -24,7 +24,8 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_END, &actionk_move_cursor_end},
 		{LE_ALT_RIGHT, &actionk_move_cursor_by_word_right},
 		{LE_ALT_LEFT, &actionk_move_cursor_by_word_left},
-		{LE_BACKSPACE, &actionk_delete_character}
+		{LE_BACKSPACE, &actionk_delete_character},
+		{LE_TAB, &autocomplete}
 	};
 
 	return (actionk);
