@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/11 19:03:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/23 22:19:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,36 @@ static t_ast	*place_new_node(t_ast *root, t_ast *new)
 ** Construct the AST from the lexer. Need to alway have a root with ';'
 */
 
-t_ast			*construct_ast(t_lexeme *lex, t_ast *root)
+t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
 {
-	t_ast	*new;
+	t_ast   *new;
+	int		flag_heredoc_EOF;
 
+	flag_heredoc_EOF = 0;
 	while (lex)
 	{
 		new = create_node(lex->type, lex->type_details, \
-			prepare_argv(lex));
+				prepare_argv(lex, flag_heredoc_EOF));
 		if (lvl_lex(lex) == 5)
+		{
+			if (lex->type == T_WORD)
+				new = create_node(lex->type, lex->type_details, \
+					prepare_argv(lex, flag_heredoc_EOF));
+			else
+				new = create_node(lex->type, lex->type_details, \
+					prepare_argv(lex, flag_heredoc_EOF));
 			while (lex->type == 2 && lex->next && lex->next->type == T_WORD)
 				lex = lex->next;
+		}
+		else
+			new = create_node(lex->type, lex->type_details, \
+					prepare_argv(lex, flag_heredoc_EOF));
+		flag_heredoc_EOF = 0;
+		if (lvl_lex(lex) == 4)
+		{
+			flag_heredoc_EOF = 1;
+			subp_heredoc(lex, lex->next->data);
+		}
 		root = place_new_node(root, new);
 		lex = lex->next;
 	}

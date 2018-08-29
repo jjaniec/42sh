@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:56:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/11 17:28:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/20 18:43:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,5 @@ static void	io_ctrl_opt(t_ast *node, t_ast *next_ctrl_opt, t_exec *exe)
 
 void		io_manager_in(t_ast *node, t_exec *exe)
 {
-	if (!node->parent)
-		return ;
 	io_ctrl_opt(node, get_next_ctrl_opt(node), exe);
 }

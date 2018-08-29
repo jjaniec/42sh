@@ -18,13 +18,18 @@ static t_exec	*loop_body(char *input, char **envp)
 	t_ast		*ast_root;
 	t_exec		*exe;
 
+	errno = 0;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	lex = lexer(input);
 	//print_colorized_input(input, envp, lex);
 	ast_root = ast(lex);
+	exe = create_exec((const char **)envp);
 	if (!ast_root)
-		exit(1);
+	{
+		free_lexemes(lex);
+		return (exe);
+	}
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
@@ -60,7 +65,7 @@ int	main(int ac, char **av, char **envp)
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	if (ac > 1)
-		loop_body(av[1], cp_envp((const char **)envp));
+		loop_body(ft_strjoin(av[1], "\n"), cp_envp((const char **)envp));
 	else
 		twentyonesh(cp_envp((const char **)envp));
 	return (0);

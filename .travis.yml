@@ -4,7 +4,7 @@ notifications:
   email: false
 before_install:
     - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; else brew update; fi;
-after_success:
+after_script:
     - bash <(curl -s https://codecov.io/bash)
 addons:
   apt:
@@ -15,15 +15,34 @@ addons:
     - gcc-7
     - gcc-4.8
     - valgrind
+    - libncurses-dev
     # - clang-6.0
     # - clang-5.0
 matrix:
     include:
         - os: osx
           compiler: gcc
+          osx_image: xcode9.4
           env: CXX=gcc
         - os: osx
           compiler: clang
+          osx_image: xcode9.4
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode9.2
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode9.2
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode8
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode8
           env: CXX=clang
         - os: linux
           compiler: gcc-8
@@ -44,6 +63,25 @@ matrix:
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
     allow_failures:
+        - os: osx
+          compiler: gcc
+          osx_image: xcode9.4
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode9.4
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode8
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode8
+          env: CXX=clang
+        - os: linux
+          compiler: gcc-8
+          env: CXX=gcc-8
         - os: linux
           compiler: gcc-7
           env: CXX=gcc-7
@@ -60,7 +98,6 @@ matrix:
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
 script: >
-  make CC=$CXX &&
   make CC=$CXX tests &&
   if [ $TRAVIS_OS_NAME == osx ];
   then ./21sh_tests;

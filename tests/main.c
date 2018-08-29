@@ -17,7 +17,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	//plan(66);
-	log_set_quiet(1);
+	if (!VERBOSE_MODE)
+		log_set_quiet(1);
 	lexer_tests();
 	ast_tests();
 	exec_tests(envp);

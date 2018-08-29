@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redir_fd.c                                  :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/20 13:21:13 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/19 22:05:47 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/08/14 17:20:41 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/08/14 17:24:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-/*
-** Handle redirections to fds ex: 2>&1
-*/
-
-void		handle_redir_fd(int input_fd, int target_fd)
+void	print_error(char *subject, char *err_str)
 {
-	log_trace("\tRedir fd %d -> %d", input_fd, target_fd);
-	dup2(target_fd, input_fd);
+	ft_putstr_fd("21sh: ", 2);
+	ft_putstr_fd(err_str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(subject, 2);
+	ft_putstr_fd("\n", 2);
 }
