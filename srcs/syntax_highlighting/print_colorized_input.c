@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/29 16:03:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:31:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ static char		*get_next_elem_begin(char *input_str, t_lexeme *lexeme)
 
 	(void)lexeme;
 	ret = input_str;
-	while (ft_strrchr(IFS, *ret))
+	while (*ret && ft_strchr(IFS, *ret))
 		ret++;
+	if (!(*ret))
+		return (NULL);
 //	log_debug("Colorization elem_begin: |%s|", ret);
 	return (ret);
 }
@@ -43,6 +45,8 @@ static char		*get_next_elem_end_quotes(char *elem_begin, t_lexeme *lexeme)
 		ptr++;
 	if (*ptr == *elem_begin)
 		ptr++;
+	if (*ptr == '\'' || *ptr == '"')
+		return (get_next_elem_end_quotes(ptr, lexeme));
 //	log_debug("Colorization elem_end_quotes: |%s|", ptr);
 	return (ptr);
 }
@@ -59,7 +63,7 @@ static char		*get_next_elem_end(char *elem_begin, t_lexeme *lexeme)
 		ptr = elem_begin;
 		if (*elem_begin == '\'' || *elem_begin == '"')
 			return (get_next_elem_end_quotes(elem_begin, lexeme));
-		while (*ptr && !(ft_strchr(IFS, *ptr)))
+		while (*ptr && !(ft_strchr(IFS, *ptr)) && !is_operator(*ptr))
 			ptr++;
 	}
 //	log_debug("Colorization elem_end: |%s|", ptr);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/29 17:47:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:52:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,21 @@ static void		test_syntax_hightlighting(char *testname, char *test, \
 	int			stdout_dup;
 	int			pipe_input_fd;
 	int			pipe_output_fd;
-
 	t_lexeme	*lexemes;
+	int			bytes_read;
 	char		buf[MAX_BUF_SIZE];
 
 	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
 	lexemes = lexer(test);
 	print_colorized_input(test, g_envp, lexemes);
 	close(pipe_input_fd);
-	//sleep(500);
-	if ((read(pipe_output_fd, buf, MAX_BUF_SIZE)) == -1)
-		printf("Can't read comparison file on fd %d!\n", STDOUT_FILENO);
+	if ((bytes_read = read(pipe_output_fd, buf, MAX_BUF_SIZE)) == -1)
+		printf("Can't read comparison file desc %d!\n", pipe_output_fd);
+	else
+		buf[bytes_read] = '\0';
+	close(pipe_output_fd);
 	dup2(stdout_dup, STDOUT_FILENO);
-	printf("buf : |%s|\n - expected |%s|\n", buf, rslt_expected);
 	is(buf, rslt_expected, testname);
-	remove(SH_TESTS_TMP_FILENAME);
 }
 
 void			syntax_highlighting_tests(char **envp)
@@ -64,15 +64,15 @@ void			syntax_highlighting_tests(char **envp)
 	test_syntax_hightlighting("Prog found options & redirs", "ls -la 2>/dev/null 1>/tmp/thisdoesnotexists", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT\
 		COL_REDIRS" 2>"COL_DEFAULT COL_PROG_ARG_FILE"/dev/null"COL_DEFAULT COL_REDIRS" 1>"COL_DEFAULT COL_PROG_ARG_NOT_FOUND"/tmp/thisdoesnotexists"COL_DEFAULT"\n");
 	remove("/tmp/thisdoesnotexists");
-	test_syntax_hightlighting("Quoted args 1", "ls -\\\" \" arg \"   '  arg  ' \" arg\"'arg ' ||ls_ ", COL_PROG_NAME_FOUND"ls "COL_DEFAULT COL_PROG_OPT"-\\\" "COL_DEFAULT COL_QUOTED_ARG"\" arg \"   "COL_DEFAULT\
-		COL_QUOTED_ARG"'  arg  '"COL_DEFAULT COL_QUOTED_ARG"\" arg\"'arg ' "COL_DEFAULT COL_OPERATORS"||"COL_DEFAULT COL_PROG_NAME_NOT_FOUND"ls_ "COL_DEFAULT"\n");
+	test_syntax_hightlighting("Quoted args 1", "ls -\\\" \" arg \"   '  arg  ' \" arg\"'arg ' ||ls_", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -\\\""COL_DEFAULT COL_QUOTED_ARG" \" arg \""COL_DEFAULT\
+		COL_QUOTED_ARG"   '  arg  '"COL_DEFAULT COL_QUOTED_ARG" \" arg\"'arg '"COL_DEFAULT COL_OPERATORS" ||"COL_DEFAULT COL_PROG_NAME_NOT_FOUND"ls_"COL_DEFAULT"\n");
 	test_syntax_hightlighting("Long 1 - prog not found - whitespaces - multiple options - redirs", "ls___      -a -b -c   \t-d\t  \t-- /tmp ./srcs 2>/dev/null 2>&1", COL_PROG_NAME_NOT_FOUND"ls___"COL_DEFAULT\
 		COL_PROG_OPT"      -a"COL_DEFAULT COL_PROG_OPT" -b"COL_DEFAULT COL_PROG_OPT" -c"COL_DEFAULT COL_PROG_OPT"   \t-d"COL_DEFAULT COL_PROG_OPT"\t  \t--"COL_DEFAULT COL_PROG_ARG_FILE" /tmp"COL_DEFAULT\
 		COL_PROG_ARG_DIR" ./srcs"COL_DEFAULT COL_REDIRS" 2>"COL_DEFAULT COL_PROG_ARG_FILE"/dev/null"COL_DEFAULT COL_REDIRS" 2>&"COL_DEFAULT COL_PROG_ARG_NOT_FOUND"1"COL_DEFAULT"\n");
 	test_syntax_hightlighting("Long 2 - w/ operators", "ls -la /tmp; ls; ls -la;ls ;   ls;", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT COL_PROG_ARG_FILE" /tmp"COL_DEFAULT\
-		COL_OPERATORS"; "COL_DEFAULT COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_OPERATORS"; "COL_DEFAULT COL_PROG_NAME_FOUND"ls "COL_DEFAULT COL_PROG_OPT"-la"COL_DEFAULT COL_OPERATORS";"COL_DEFAULT\
-		COL_PROG_NAME_FOUND"ls "COL_DEFAULT COL_OPERATORS";   "COL_DEFAULT COL_PROG_NAME_FOUND"ls"COL_DEFAULT);
-	test_syntax_hightlighting("Long 3 - operators - env expansions", "ls -la $PWD /tmp $HOME ||ls|| ls&&ls_", COL_PROG_NAME_FOUND"ls "COL_DEFAULT COL_OPERATORS"-la "COL_DEFAULT COL_ENV_VAR_EXPANSION"$PWD "COL_DEFAULT\
-		COL_PROG_ARG_FILE"/tmp "COL_DEFAULT COL_ENV_VAR_EXPANSION"$HOME "COL_DEFAULT COL_OPERATORS"||"COL_DEFAULT COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_OPERATORS"|| "COL_DEFAULT COL_PROG_NAME_FOUND"ls"COL_DEFAULT\
+		COL_OPERATORS";"COL_DEFAULT COL_PROG_NAME_FOUND" ls"COL_DEFAULT COL_OPERATORS";"COL_DEFAULT COL_PROG_NAME_FOUND" ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT COL_OPERATORS";"COL_DEFAULT\
+		COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_OPERATORS" ;"COL_DEFAULT COL_PROG_NAME_FOUND"   ls"COL_DEFAULT COL_OPERATORS";"COL_DEFAULT"\n");
+	test_syntax_hightlighting("Long 3 - operators - env expansions", "ls -la $PWD /tmp $HOME ||ls|| ls&&ls_", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT COL_ENV_VAR_EXPANSION" $PWD"COL_DEFAULT\
+		COL_PROG_ARG_FILE" /tmp"COL_DEFAULT COL_ENV_VAR_EXPANSION" $HOME"COL_DEFAULT COL_OPERATORS" ||"COL_DEFAULT COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_OPERATORS"||"COL_DEFAULT COL_PROG_NAME_FOUND" ls"COL_DEFAULT\
 		COL_OPERATORS"&&"COL_DEFAULT COL_PROG_NAME_NOT_FOUND"ls_"COL_DEFAULT"\n");
 }
