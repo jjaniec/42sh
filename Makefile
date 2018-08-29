@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/28 21:36:40 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/08/29 19:57:07 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,6 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_return.c \
 			builtin/is_builtin.c \
 			syntax_highlighting/print_colorized_input.c \
-			syntax_highlighting/elem_path_found.c \
 			syntax_highlighting/print_lexeme_colorized.c \
 			log.c \
 			ft_free_argv.c \

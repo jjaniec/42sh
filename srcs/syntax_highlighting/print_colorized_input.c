@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/29 18:31:31 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 20:07:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static char		*get_next_elem_begin(char *input_str, t_lexeme *lexeme)
 }
 
 /*
-** Return a pointer to next element end
+** Return a pointer to next element end w/ IFS separators or
+** w/ get_next_elem_end_quotes() when quotes
+** are found at the beginning of the element
 */
 
 static char		*get_next_elem_end_quotes(char *elem_begin, t_lexeme *lexeme)
@@ -70,8 +72,14 @@ static char		*get_next_elem_end(char *elem_begin, t_lexeme *lexeme)
 	return (ptr);
 }
 
+/*
+** Calls get_next_elem_(begin/end) functions
+** to store pointers of current lexeme beginning and end in input string, in
+** lexeme_str_begin and lexeme_str_end
+*/
+
 static void		get_lexeme_substring(char *input_str, t_lexeme *lexeme, \
-					char **lexeme_str_begin, char ** lexeme_str_end)
+					char **lexeme_str_begin, char **lexeme_str_end)
 {
 	*lexeme_str_begin = get_next_elem_begin(input_str, lexeme);
 	if (!(*lexeme_str_begin))
@@ -82,7 +90,14 @@ static void		get_lexeme_substring(char *input_str, t_lexeme *lexeme, \
 	*lexeme_str_end = get_next_elem_end(*lexeme_str_begin, lexeme);
 }
 
-void		print_colorized_input(char *input_str, char **env, t_lexeme *lexemes)
+/*
+** Cycle through each lexeme,
+** call get_lexeme_substring to find beginning and end of lexeme in input string
+** and print associated color w/ print_lexeme_colorized
+*/
+
+void		print_colorized_input(char *input_str, char **env, \
+				t_lexeme *lexemes)
 {
 	t_lexeme	*cur_lexeme;
 	char		*lexeme_str_begin;
@@ -93,12 +108,13 @@ void		print_colorized_input(char *input_str, char **env, t_lexeme *lexemes)
 	ptr = input_str;
 	while (ptr && cur_lexeme && *ptr)
 	{
-		get_lexeme_substring(ptr, cur_lexeme, &lexeme_str_begin, &lexeme_str_end);
+		get_lexeme_substring(ptr, cur_lexeme, &lexeme_str_begin, \
+			&lexeme_str_end);
 		if (!(lexeme_str_begin))
 			break ;
-		print_lexeme_colorized(lexeme_str_begin, lexeme_str_end, ptr, cur_lexeme, env);
+		print_lexeme_colorized(lexeme_str_begin, lexeme_str_end, \
+			ptr, cur_lexeme, env);
 		cur_lexeme = cur_lexeme->next;
 		ptr = lexeme_str_end;
 	}
-	ft_putchar('\n');
 }

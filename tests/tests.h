@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/28 21:32:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 19:52:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 
 void	lexer_tests(void);
 
-void	syntax_highlighting_tests(char **envp);
-
 void 	ast_tests(void);
 
 void	exec_tests(char **envp);
+
+void	syntax_highlighting_tests(char **envp);
 
 #endif
