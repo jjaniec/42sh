@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/27 19:21:22 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 16:03:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static char		*get_next_elem_end(char *elem_begin, t_lexeme *lexeme)
 		ptr = (elem_begin + ft_strlen((char *)((*lexeme).data)));
 	else
 	{
+		ptr = elem_begin;
 		if (*elem_begin == '\'' || *elem_begin == '"')
 			return (get_next_elem_end_quotes(elem_begin, lexeme));
 		while (*ptr && !(ft_strchr(IFS, *ptr)))

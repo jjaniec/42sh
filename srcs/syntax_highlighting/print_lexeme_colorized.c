@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/27 18:51:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 17:49:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Print color associated w/ type of element found in string
 */
 
-static void		print_prog_name_arg(struct stat *elem_stats, int elem_found, int item_nb)
+static void		print_prog_name_arg_col(struct stat *elem_stats, int elem_found, int item_nb)
 {
 	if (elem_found)
 	{
@@ -62,10 +62,12 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, char **env)
 			ft_putstr(COL_QUOTED_ARG);
 		else
 		{
-			print_prog_name_arg(&elem_stats, \
+			print_prog_name_arg_col(&elem_stats, \
 				elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
 		}
 	}
+	if (!lexeme->next)
+		item_nb = -1;
 }
 
 void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, char *input_ptr, t_lexeme *lexeme, char **envp)

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 21:24:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/25 08:39:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/29 17:09:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int		elem_path_found(struct stat *elem_stats, char *lexeme_data, char **env, int
 
 	if (ft_strchr(lexeme_data, '/') || item_nb > 0)
 	{
-		if (access(lexeme_data, F_OK) == 0)
+		if (lstat(lexeme_data, elem_stats) != -1)
 			return (1);
+		return (0);
 	}
 	else
 	{
