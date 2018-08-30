@@ -1,3 +1,15 @@
+ft_printf
+/objs/
+/.vscode/
+/libtap/
+/ft_printf/
+
+21sh
+21sh_tests
+
+*.gcno
+*.gcda
+
 notes.txt
 
 Makefile

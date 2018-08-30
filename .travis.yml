@@ -1,26 +1,108 @@
 language: c
 sudo: true
+notifications:
+  email: false
 before_install:
-    - brew update || sudo apt-get update -yqq
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; else brew update; fi;
+after_script:
+    - bash <(curl -s https://codecov.io/bash)
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-8
+    - gcc-7
+    - gcc-4.8
+    - valgrind
+    - libncurses-dev
+    # - clang-6.0
+    # - clang-5.0
 matrix:
     include:
         - os: osx
           compiler: gcc
+          osx_image: xcode9.4
           env: CXX=gcc
         - os: osx
           compiler: clang
+          osx_image: xcode9.4
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode9.2
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode9.2
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode8
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode8
           env: CXX=clang
         - os: linux
-          compiler: gcc
-          env: CXX=gcc
+          compiler: gcc-8
+          env: CXX=gcc-8
+        - os: linux
+          compiler: gcc-7
+          env: CXX=gcc-7
+        - os: linux
+          compiler: gcc-4.8
+          env: CXX=gcc-4.8
         - os: linux
           compiler: clang
           env: CXX=clang
+        # - os: linux
+        #   compiler: clang-6.0
+        #   env: CXX=clang-6.0
+        # - os: linux
+        #   compiler: clang-5.0
+        #   env: CXX=clang-5.0
     allow_failures:
-        - os: linux
+        - os: osx
           compiler: gcc
+          osx_image: xcode9.4
           env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode9.4
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode8
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode8
+          env: CXX=clang
+        - os: linux
+          compiler: gcc-8
+          env: CXX=gcc-8
+        - os: linux
+          compiler: gcc-7
+          env: CXX=gcc-7
+        - os: linux
+          compiler: gcc-4.8
+          env: CXX=gcc-4.8
         - os: linux
           compiler: clang
           env: CXX=clang
-script: make CC=$CXX && make tests && ./21sh_tests
+        # - os: linux
+        #   compiler: clang-6.0
+        #   env: CXX=clang-6.0
+        # - os: linux
+        #   compiler: clang-5.0
+        #   env: CXX=clang-5.0
+script: >
+  make CC=$CXX tests &&
+  if [ $TRAVIS_OS_NAME == osx ];
+  then ./21sh_tests;
+  else valgrind --leak-check=full ./21sh_tests;
+  fi;
+  r=$?;
+  make coverage;
+  return $r;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_move_cursor_by_word_left.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:00:43 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/14 16:00:43 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/07/19 16:11:45 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static unsigned int	find_nb_moves_needed(const char *line, unsigned int i)
 	if (i == 0)
 		return (0);
 	i -= 1;
-	while ( is_separator(line[i]) == true )
+	while ( le_is_separator(line[i]) == true )
 	{
 		if (i == 0)
 			return (nb_moves_needed + 1);
 		--i;
 		++nb_moves_needed;
 	}
-	while ( is_separator(line[i]) == false )
+	while ( le_is_separator(line[i]) == false )
 	{
 		if (i == 0)
 			return (nb_moves_needed + 1);

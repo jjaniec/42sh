@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/23 18:50:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/30 19:37:50 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,13 @@ struct s_infos_for_rewriting
 
 
 // prototypes
+char			*line_edition(void);
+
 struct s_le_termcaps	*init_termcaps_strings(void);
 
 int		write_one_char(int c);
 
-bool    is_separator(char c);
+bool    le_is_separator(char c);
 
 void	set_term_attr(t_set_term mode);
 
