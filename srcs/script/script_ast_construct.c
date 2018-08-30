@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 11:55:55 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/25 12:20:28 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/30 18:22:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int	count_data(t_lexeme *lex)
 {
 	if (lex->type_details == TK_SCRIPT_CONDITION_BEGIN)
 		return (count(lex, TK_SCRIPT_CONDITION_END));
-	if (lex->type_details == TK_SCRIPT_THEN)
-		return (count(lex, TK_SCRIPT_FI));
+	/*if (lex->type_details == TK_SCRIPT_THEN)
+		return (count(lex, TK_SCRIPT_FI));*/
 	if (lex->type_details == TK_SCRIPT_DO)
 		return (count(lex, TK_SCRIPT_DONE));
-	return (0);
+	return (1);
 }
 
 static char	**node_data(t_lexeme *lex)
@@ -50,7 +50,7 @@ static char	**node_data(t_lexeme *lex)
 	while (i < size)
 	{
 		data[i] = lex->data;
-		log_debug("Data[%d] = %s;", i, lex->data);
+		log_debug("Data[%d] = %s", i, lex->data);
 		lex = lex->next;
 		i++;
 	}
@@ -62,7 +62,8 @@ t_ast	*script_create_node(t_lexeme *lex)
 {
 	t_ast	*node;
 
-	if (lex->type < 6)
+	log_debug("Node constructed - node->type = %zd - %zd", lex->type, lex->type_details);
+	if (lex->type < 5)
 		return (NULL);
 	log_info("AST: Creating scripting node starting from %s.", lex->data);
 	node = (t_ast *)ft_memalloc(sizeof(t_ast));

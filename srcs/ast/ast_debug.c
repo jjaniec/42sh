@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 15:47:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/30 18:21:44 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,26 @@ static void	print_ast_tree(t_ast *node, int level)
 	print_ast_tree(node->right, level + 1);
 	while (l-- > 0)
 		ft_putchar('\t');
-	if (node->data && node->data[0][0] == '\n')
+	if (node->data && node->data[0] && node->data[0][0] == '\n')
 		ft_printf("\\n\n");
 	else if (node->data && node->data[0])
 		print_arg(node);
 	else
 		ft_printf("%c\n", '~');
+	if (node->type_details == TK_SCRIPT && node->data)
+	{
+
+		ft_printf("=============== SCRIPT SUB_AST ===================\n");
+		print_ast_tree(node->sub_ast, 0);
+		ft_printf("==================================================\n");
+	}
+	if (node->type_details == TK_SCRIPT_THEN)
+	{
+
+		ft_printf("================= THEN SUB_AST ===================\n");
+		print_ast_tree(node->sub_ast, 0);
+		ft_printf("==================================================\n");
+	}
 	print_ast_tree(node->left, level + 1);
 }
 

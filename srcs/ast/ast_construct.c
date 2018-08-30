@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/26 17:13:34 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/30 17:28:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_ast		*place_new_node(t_ast *root, t_ast *new, int lvl_new)
 ** Construct the AST from the lexer. Need to alway have a root with ';'
 */
 
-t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
+t_ast		*construct_ast(t_lexeme *lex, t_ast *root, size_t end_token)
 {
 	t_ast   *new;
 	int		flag_heredoc_EOF;
@@ -73,9 +73,15 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
 	flag_heredoc_EOF = 0;
 	while (lex)
 	{
+		log_debug(">>CLASSICAL lex->data = %s", lex->data);
+		// ========== SCRIPT =============
+		if (end_token != 0 && lex->type_details == end_token)
+			break;
 		if (lex->type_details == TK_SCRIPT_IF || lex->type_details == TK_SCRIPT_WHILE)
 		{
+			log_debug(">>CLASSICAL ==== Creation of script AST");
 			lex = script_put_node_ast(lex, root);
+			log_debug(">>CLASSICAL ==== Continue with lex->data = %s", lex->data);
 			continue;
 		}
 		/*new = script_create_node(lex);
@@ -85,6 +91,7 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
 			continue;
 		}
 		else*/
+		// ========= CLASSICAL ===========
 			new = create_node(lex->type, lex->type_details, \
 					prepare_argv(lex, flag_heredoc_EOF));
 		if (lvl_lex(lex) == 5)

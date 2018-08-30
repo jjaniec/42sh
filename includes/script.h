@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/26 18:06:41 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/08/30 18:15:22 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 
 # define TK_SCRIPT_CONDITION_BEGIN 71
 # define TK_SCRIPT_CONDITION_END 72
-# define TK_SCRIPT_INSTRUCTION 73
 
 
 # define T_SCRIPT_CONDITION 8
