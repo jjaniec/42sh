@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 22:20:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/30 20:05:16 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	builtin_setenv(char **argv, char **envp, t_exec *exe);
 void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
 void	builtin_cd(char **argv, char **envp, t_exec *exe);
 void	builtin_return(char **argv, char **envp, t_exec *exe);
+void		builtin_bracket(char **argv, char **envp, t_exec *exe);
 
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
