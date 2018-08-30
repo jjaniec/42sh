@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 11:55:55 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/30 18:22:11 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/30 19:44:25 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	count_data(t_lexeme *lex)
 		return (count(lex, TK_SCRIPT_CONDITION_END));
 	/*if (lex->type_details == TK_SCRIPT_THEN)
 		return (count(lex, TK_SCRIPT_FI));*/
-	if (lex->type_details == TK_SCRIPT_DO)
-		return (count(lex, TK_SCRIPT_DONE));
+	/*if (lex->type_details == TK_SCRIPT_DO)
+		return (count(lex, TK_SCRIPT_DONE));*/
 	return (1);
 }
 

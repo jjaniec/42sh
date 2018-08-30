@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/30 17:28:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/30 19:33:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_ast		*place_new_node(t_ast *root, t_ast *new, int lvl_new)
 ** Construct the AST from the lexer. Need to alway have a root with ';'
 */
 
-t_ast		*construct_ast(t_lexeme *lex, t_ast *root, size_t end_token)
+t_ast		*construct_ast(t_lexeme *lex, t_ast *root, t_lexeme *end_lexeme)
 {
 	t_ast   *new;
 	int		flag_heredoc_EOF;
@@ -75,9 +75,9 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root, size_t end_token)
 	{
 		log_debug(">>CLASSICAL lex->data = %s", lex->data);
 		// ========== SCRIPT =============
-		if (end_token != 0 && lex->type_details == end_token)
+		if (end_lexeme && lex == end_lexeme)
 			break;
-		if (lex->type_details == TK_SCRIPT_IF || lex->type_details == TK_SCRIPT_WHILE)
+		if (lex->type == T_SCRIPT_LOGICAL)
 		{
 			log_debug(">>CLASSICAL ==== Creation of script AST");
 			lex = script_put_node_ast(lex, root);

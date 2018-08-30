@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/30 18:20:57 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/30 19:38:53 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,13 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 	t_ast	*script_root;
 	t_ast	*new;
 	size_t		end_token;
+	t_lexeme	*end_lexeme;
 
 	if (lex->type_details == TK_SCRIPT_IF)
 		end_token = TK_SCRIPT_THEN;
 	if (lex->type_details == TK_SCRIPT_WHILE)
 		end_token = TK_SCRIPT_DO;
+	end_lexeme = find_end_lexeme(lex);
 	script_root = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[script]")); //[script]
 	script_root->sub_ast = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, NULL);
 	place_new_node(root, script_root, T_WORD);
@@ -119,16 +121,13 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 		}*/
 		// ===== INSTRUCTIONS ====
 		if (root->type_details == TK_SCRIPT_THEN
+		|| root->type_details == TK_SCRIPT_ELSE
 		|| root->type_details == TK_SCRIPT_DO)
 		{
 			root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 			lex = lex->next;
-			if (root->type_details == TK_SCRIPT_THEN)
-				root->sub_ast = construct_ast(lex, root->sub_ast, TK_SCRIPT_FI);
-			else
-				root->sub_ast = construct_ast(lex, root->sub_ast, TK_SCRIPT_DONE);
-			while (lex && lex->type != T_SCRIPT_CONTAINER)
-				lex = lex->next;
+			root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme);
+			lex = end_lexeme;
 			break;
 		}
 		lex = lex->next;
@@ -136,9 +135,5 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 		(lex->type_details == TK_SEMICOLON || lex->type_details == TK_NEWLINE))
 			lex = lex->next;
 	}
-
-	if (lex)
-		return (lex->next);
-	else
-		return (lex);
+	return (lex);
 }

@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/30 18:15:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/08/30 19:13:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void	script_lexemes(t_lexeme *lexemes);
 int		script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
 t_ast	*script_create_node(t_lexeme *lex);
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);
+t_lexeme	*find_end_lexeme(t_lexeme *start);
 
 #endif
