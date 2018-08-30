@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/30 19:46:23 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/08/30 20:37:21 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ FILE *tty_debug = NULL; // debug
 
 #include "../../includes/line_edition.h"
 #undef FOOLOL // debug
+
+extern struct s_line *g_le;
 
 static void		read_key(char key[LE_KEY_SIZE])
 {
@@ -50,7 +52,7 @@ char			*line_edition(void)
 {
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
-	static struct s_line	le;
+	static struct s_line	le;    g_le = &le;
 	t_kno					key_no;
 
 	set_term_attr(LE_SET_NEW);
@@ -91,6 +93,7 @@ fprintf(tty_debug, "--------------------------------------\n");
 		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
 		le.nb_car_written_on_last_current_line);
 		fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
+	fprintf(tty_debug, "line = |%s|\n", le.line);
 fprintf(tty_debug, "--------------------------------------\n");
 
 

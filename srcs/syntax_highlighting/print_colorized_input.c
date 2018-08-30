@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_colorized_input.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/29 20:07:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/30 19:56:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,14 @@ static void		get_lexeme_substring(char *input_str, t_lexeme *lexeme, \
 ** and print associated color w/ print_lexeme_colorized
 */
 
-void		print_colorized_input(char *input_str, char **env, \
-				t_lexeme *lexemes)
+void		print_colorized_input(char *input_str, char **env)
 {
 	t_lexeme	*cur_lexeme;
 	char		*lexeme_str_begin;
 	char		*lexeme_str_end;
 	char		*ptr;
 
-	cur_lexeme = lexemes;
+	cur_lexeme = lexer(input_str);
 	ptr = input_str;
 	while (ptr && cur_lexeme && *ptr)
 	{

@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/28 21:38:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/30 20:24:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+char		**g_envp;
+struct s_line	*g_le;
 
 static t_exec	*loop_body(char *input, char **envp)
 {
@@ -65,8 +68,8 @@ int	main(int ac, char **av, char **envp)
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	if (ac > 1)
-		loop_body(ft_strjoin(av[1], "\n"), cp_envp((const char **)envp));
+		loop_body(ft_strjoin(av[1], "\n"), (g_envp = cp_envp((const char **)envp)));
 	else
-		twentyonesh(cp_envp((const char **)envp));
+		twentyonesh((g_envp = cp_envp((const char **)envp)));
 	return (0);
 }
