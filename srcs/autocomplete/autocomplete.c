@@ -11,9 +11,35 @@
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+/*
+	ls
+	ls /
+	ls sr
 
-void	autocomplete(struct s_line *le)
+*/
+
+static int		check_dir(struct s_line *le)
 {
-	(void)le;
-	ft_video("YOLO");
+	int i;
+
+	i = le->cursor_index_for_line - 1;
+	if (ft_strchr(le->line, ' '))
+	{
+		while (i)
+		{
+			if (le->line[i] > 40)
+				return (1);
+			i--;
+		}
+	}
+	return (0);
+}
+
+void				autocomplete(struct s_line *le)
+{
+	char **items;
+	if (le->cursor_index_for_line > 1 && check_dir(le))
+	{
+		items = autoc_dir(le);
+	}
 }

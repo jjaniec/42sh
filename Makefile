@@ -36,6 +36,8 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_debug.c \
 			autocomplete/autocomplete.c\
 			autocomplete/str_effect.c\
+			autocomplete/autoc_dir.c\
+			autocomplete/dir_get_items.c\
 			line_edition/action_key.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \
