@@ -15,7 +15,7 @@
 	ls
 	ls /
 	ls sr
-
+	ls /usr/wemwgj
 */
 
 static int		check_dir(struct s_line *le)
@@ -35,11 +35,26 @@ static int		check_dir(struct s_line *le)
 	return (0);
 }
 
+static void		autoc_menu(char **items)
+{
+	int i;
+
+	i = 0;
+	while (items[i] != NULL)
+	{
+		ft_putstr(items[i]);
+		ft_putstr(" | ");
+		i++;
+	}
+}
+
 void				autocomplete(struct s_line *le)
 {
 	char **items;
 	if (le->cursor_index_for_line > 1 && check_dir(le))
 	{
 		items = autoc_dir(le);
+		if (items != NULL)
+			autoc_menu(items);
 	}
 }

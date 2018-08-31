@@ -27,7 +27,9 @@ typedef struct			s_select
 void	autocomplete(struct s_line *le);
 char	**autoc_dir(struct s_line *le);
 char	**dir_get_items(char *in);
+char	**order_tab_ascii(char **tabl);
 void	ft_ul_video(char *str);
 void	ft_ul(char *str);
 void	ft_video(char *str);
+
 #endif

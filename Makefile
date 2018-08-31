@@ -38,6 +38,7 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/str_effect.c\
 			autocomplete/autoc_dir.c\
 			autocomplete/dir_get_items.c\
+			autocomplete/order_tab_ascii.c\
 			line_edition/action_key.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \

@@ -6,13 +6,13 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 21:27:30 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/08/30 21:27:34 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/08/31 14:39:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static int		nbr_tab(char *dirname)
+static int			nbr_tab(char *dirname)
 {
 	int				i;
 	DIR				*dir;
@@ -29,7 +29,7 @@ static int		nbr_tab(char *dirname)
 	return (i);
 }
 
-char		**dir_get_items(char *in)
+char					**dir_get_items(char *in)
 {
 	DIR				*dir;
 	struct dirent	*file;
@@ -49,5 +49,5 @@ char		**dir_get_items(char *in)
 	}
 	res[i] = NULL;
 	closedir(dir);
-	return (res);
+	return (order_tab_ascii(res));
 }
