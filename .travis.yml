@@ -2,6 +2,7 @@ language: c
 sudo: true
 notifications:
   email: false
+  slack: 42born2code:7VKgN0wy7keo3PVkYmKvkbJf
 before_install:
     - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; else brew update; fi;
 after_script:

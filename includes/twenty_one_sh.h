@@ -13,6 +13,12 @@
 #ifndef TWENTY_ONE_SH_H
 # define TWENTY_ONE_SH_H
 
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
+# include <errno.h>
+
 # include <ft_printf.h>
 # include "struct.h"
 # include "lexer.h"
@@ -20,8 +26,7 @@
 # include "ast.h"
 # include "line_edition.h"
 # include "exec.h"
-# include <sys/wait.h>
-# include <errno.h>
+# include "syntax_highlighting.h"
 
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	1

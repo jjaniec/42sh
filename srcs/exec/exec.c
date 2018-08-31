@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 22:04:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/08/30 15:25:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 	pth = isin_path(paths, argv[0]);
 	if (pth)
 		exe = exec_thread(pth, argv, envp, exe, node);
+	else
+	{
+		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
+	}
 	ft_strdel(&pth);
 	ft_free_argv(paths);
 }
