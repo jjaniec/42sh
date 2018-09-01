@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/01 12:18:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 12:20:38 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int		lvl_script_node(t_ast *node)
 	|| node->type_details == TK_SCRIPT_DONE)
 		return (5);
 	else if (node->type == T_SCRIPT_LOGICAL
-	|| node->type_details == TK_SCRIPT_THEN)
+	|| node->type_details == TK_SCRIPT_THEN
+	|| node->type_details == TK_SCRIPT_DO)
 		return (4);
 	else if (node->type_details == TK_SCRIPT_CONDITION_BEGIN)
 		return (3);
