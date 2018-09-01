@@ -18,7 +18,7 @@ FILE *tty_debug = NULL; // debug
 #include "../../includes/line_edition.h"
 #undef FOOLOL // debug
 
-extern struct s_line *g_le;
+//extern struct s_line *g_le;
 
 // debug function
 static void		le_debug_infos(void)
@@ -72,8 +72,8 @@ char			*line_edition(void)
 {
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
-	static struct s_line	le;
-	g_le = &le;
+	static struct s_line	*le;
+	//g_le = &le;
 	t_kno					key_no;
 
 	le = access_le_main_datas();

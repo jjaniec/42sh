@@ -34,6 +34,7 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			line_edition/access_le_main_datas.c \
 			line_edition/action_key.c \
 			line_edition/actionk_copy_all.c \
 			line_edition/actionk_copy_to_end.c \
@@ -62,6 +63,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/delete_char_into_cmdline_without_moving_cursor.c \
 			line_edition/errors.c \
 			line_edition/init_line_edition_attributes.c \
+			line_edition/init_signals.c \
 			line_edition/init_termcaps_strings.c \
 			line_edition/insert_character_into_cmdline.c \
 			line_edition/is_separator.c \

@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-extern struct s_line *g_le;
+//extern struct s_line *g_le;
 
 /*
 ** Returns 1 if file in lexeme_data was found by searching directories in
@@ -117,10 +117,13 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 void f(const char *s, int nb)
 {
 	//write(2, "JJANIEC", 7);
+	struct s_line *le;
+
+	le = access_le_main_datas();
 
 	while (nb > 0)
 	{
-		print_key_at_end(g_le, *s++);
+		print_key_at_end(le, *s++);
 		--nb;
 	}
 
