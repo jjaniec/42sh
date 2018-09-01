@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/01 14:00:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 15:25:24 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	script_in_exec(t_ast *node, t_exec *exe)
 	if (node->type_details == TK_SCRIPT_WHILE)
 	{
 		if (exe->ret == 0)
+		{
 			exe = ast_explore(node->left->left->sub_ast, exe);
-		script_in_exec(node, exe);
+			script_in_exec(node, exe);
+		}
 	}
 }
