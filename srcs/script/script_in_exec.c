@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/01 13:45:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 14:00:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 void	script_in_exec(t_ast *node, t_exec *exe)
 {
-	t_ast	*script_node;
-
-	script_node = node->sub_ast->left;
 	//Go to the condition
-	script_node = script_node->left;
+	node = node->left;
 	//Downgrade of the condition
-	script_node->type = T_WORD;
-	script_node->type_details = TK_DEFAULT;
+	node->type = T_WORD;
+	node->type_details = TK_DEFAULT;
 	log_info("Downgrade of conditionnal node in AST into type T_WORD.");
-	in_exec(script_node, exe);
-	script_node = script_node->parent;
+	in_exec(node, exe);
+	node = node->parent;
 	//If the script is an IF
-	if (script_node->type_details == TK_SCRIPT_IF)
+	if (node->type_details == TK_SCRIPT_IF
+	|| node->type_details == TK_SCRIPT_ELIF)
 	{
+		in_exec(node->left, exe);
+		log_debug("EXEC->actual node : %s - exe->ret = %d", node->data[0], exe->ret);
 		if (exe->ret == 0)
-			exe = ast_explore(script_node->left->left->sub_ast, exe);
+			exe = ast_explore(node->left->left->sub_ast, exe);
+		else if (node->right)
+			script_in_exec(node->right, exe);
 	}
-	if (script_node->type_details == TK_SCRIPT_WHILE)
+	if (node->type_details == TK_SCRIPT_WHILE)
 	{
 		if (exe->ret == 0)
-			exe = ast_explore(script_node->left->left->sub_ast, exe);
+			exe = ast_explore(node->left->left->sub_ast, exe);
 		script_in_exec(node, exe);
 	}
 }

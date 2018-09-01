@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/01 13:07:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 13:57:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 		return (exe);
 	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
 	if (node->type_details == TK_SCRIPT)
-		script_in_exec(node, exe);
+		script_in_exec(node->sub_ast->left, exe);
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)
 	{
 		io_manager_in(node, exe);
