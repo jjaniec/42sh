@@ -32,7 +32,7 @@ fprintf(tty_debug, "TERFOO = %d\n", foo);
         if (tmp_current_cursor_pos - foo == le->term_line_size - 1)
         {
 
-fprintf(tty_debug, "- - - - - - TERPRINT DOWN\n");
+//fprintf(tty_debug, "- - - - - - TERPRINT DOWN\n");
 
             tputs(le->tcaps->_do, 1, &write_one_char);
             cursor_crosses_screen(le, CROSS_TO_LEFT);
@@ -47,7 +47,7 @@ fprintf(tty_debug, "- - - - - - TERPRINT DOWN\n");
 
         print_key(*str);
 
-fprintf(tty_debug, "- - - - - - TERPRINT |%c|\n", *str);
+//fprintf(tty_debug, "- - - - - - TERPRINT |%c|\n", *str);
 
         ++str;
     }

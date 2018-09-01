@@ -14,10 +14,30 @@
 FILE *tty_debug = NULL; // debug
 #define FOOLOL // debug
 
+
 #include "../../includes/line_edition.h"
 #undef FOOLOL // debug
 
 extern struct s_line *g_le;
+
+// debug function
+static void		le_debug_infos(void)
+{
+	struct s_line	le = *( access_le_main_datas() );
+
+	fprintf(tty_debug, "--------------------------------------\n");
+	fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n",
+	le.current_cursor_pos, le.current_cursor_line);
+	fprintf(tty_debug, "line index = %u\n", le.line_index);
+	fprintf(tty_debug, "cursor index for line = %u - %c\n", \
+	le.cursor_index_for_line, le.line[le.cursor_index_for_line]);
+	fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
+	fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
+	le.nb_car_written_on_last_current_line);
+	fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
+	fprintf(tty_debug, "--------------------------------------\n");
+}
+
 
 static void		read_key(char key[LE_KEY_SIZE])
 {
@@ -52,24 +72,15 @@ char			*line_edition(void)
 {
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
-	static struct s_line	le;    g_le = &le;
+	static struct s_line	le;
+	g_le = &le;
 	t_kno					key_no;
 
+	le = access_le_main_datas();
 	set_term_attr(LE_SET_NEW);
-	init_line_edition_attributes(&le);
+	init_line_edition_attributes(le);
 
-fprintf(tty_debug, "--------------------------------------\n");
-		fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n",
-		le.current_cursor_pos, le.current_cursor_line);
-		fprintf(tty_debug, "line index = %u\n", le.line_index);
-		fprintf(tty_debug, "cursor index for line = %u - %c\n", \
-		le.cursor_index_for_line, le.line[le.cursor_index_for_line]);
-		fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
-		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
-		le.nb_car_written_on_last_current_line);
-		fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
-fprintf(tty_debug, "--------------------------------------\n");
-
+	le_debug_infos(); // debug
 
 	while ("cest ta mere la jjaniec")
 	{
@@ -81,21 +92,8 @@ fprintf(tty_debug, "--------------------------------------\n");
 		if (key_no >= 32 && key_no >= 126)
 			fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
 
-		process_key(key_no, &le);
-
-fprintf(tty_debug, "--------------------------------------\n");
-		fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n",
-		le.current_cursor_pos, le.current_cursor_line);
-		fprintf(tty_debug, "line index = %u\n", le.line_index);
-		fprintf(tty_debug, "cursor index for line = %u - %c\n", \
-		le.cursor_index_for_line, le.line[le.cursor_index_for_line]);
-		fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
-		fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
-		le.nb_car_written_on_last_current_line);
-		fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
-	fprintf(tty_debug, "line = |%s|\n", le.line);
-fprintf(tty_debug, "--------------------------------------\n");
-
+		process_key(key_no, le);
+		le_debug_infos(); // debug
 
 		if (key_no == '\n')
 		{
@@ -106,13 +104,14 @@ fprintf(tty_debug, "--------------------------------------\n");
 
 	}
 
-	actionk_move_cursor_end(&le);
-	if (le.line[0] != '\0' && le.line[0] != '\n')
-		add_history(&le);
+	le->special_case_for_newest_his_elem = false;
+	actionk_move_cursor_end(le);
+	if (le->line[0] != '\0' && le->line[0] != '\n')
+		add_history(le);
 
-	reset_history_on_first_elem(&le);
+	reset_history_on_first_elem(le);
 
-	if ((final_line = ft_strdup(le.line)) == NULL)
+	if ((final_line = ft_strdup(le->line)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	return (final_line);
 
@@ -121,7 +120,7 @@ fprintf(tty_debug, "--------------------------------------\n");
 		mais aussi peut etre des codes d'erreur pour remplacer le_exit(),
 		c'est à discuter avec les collegues.
 		Il faudra aussi dans la structure, un pointeur vers l'historique
-		pour pouvoir le free() si necessaire ...
+		pour pouvoir le free() si necessaire et le save dans un fichier ...
 	*/
 }
 

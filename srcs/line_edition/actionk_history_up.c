@@ -51,22 +51,20 @@ static void	copy_back_line_edition_attr(struct s_line *le)
 
 void    actionk_history_up(struct s_line *le)
 {
-	static bool	newest_elem_already_treated = false;
-
+	//static bool	special_case_for_newest_elem = false;
+fprintf(tty_debug, "HIS BOOL %s\n", le->special_case_for_newest_his_elem ? "true" : "false"  );
 	debug_display_history(le->history);
 
 	if (le->history == NULL
-	|| (le->history->prev == NULL && newest_elem_already_treated == true ) ) // si on est sur le premier elem, le plus vieux
+	|| (le->history->prev == NULL
+	&& le->special_case_for_newest_his_elem == true )) // si on est sur le premier elem, le plus vieux
 	{
 		fprintf(tty_debug, "HISTO UP DOES NOTHING\n");
 		return ;
 	}
 
-	if (newest_elem_already_treated == false)
-	{
-		// nothing ?
-		newest_elem_already_treated = true;
-	}
+	if (le->special_case_for_newest_his_elem  == false)
+		le->special_case_for_newest_his_elem  = true;
 	else
 		le->history = le->history->prev;
 

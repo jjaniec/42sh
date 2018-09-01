@@ -98,6 +98,7 @@ struct s_le_termcaps
 	const char	*_do; // Descendre le curseur d’une ligne
 	const char	*up; // Déplacer le curseur d’une ligne vers le haut
 	const char	*dc; // delete character
+	const char	*cl; // clear screen
 };
 
 struct s_line
@@ -117,6 +118,7 @@ struct s_line
 	struct s_le_termcaps	*tcaps;
 	struct s_history		*history;
 	unsigned int			his_nb_elem;
+	bool					special_case_for_newest_his_elem;
 
 };
 
@@ -148,6 +150,8 @@ char			*line_edition(void);
 
 struct s_le_termcaps	*init_termcaps_strings(void);
 
+struct s_line	*access_le_main_datas(void);
+
 int		write_one_char(int c);
 
 bool    le_is_separator(char c);
@@ -169,6 +173,8 @@ void	insert_character_into_cmdline(struct s_line *le, t_kno key);
 void	action_key(t_kno key, struct s_line *le_lettr);
 
 void	init_line_edition_attributes(struct s_line *le);
+struct s_le_termcaps	*init_termcaps_strings(void);
+void    init_signals(void);
 
 bool 	possible_to_go_right(struct s_line *le);
 
@@ -216,11 +222,15 @@ void		print_colorized_input(char *input_str, char **env);
 
 /*
 
+	dossier caché dans le home
+	dedans ya le fichier historique
+	un .42shrc qui contient des alias
+	les alias c'est des expansions finalement
 
-
-
-
-espace commentaires
-likez plz et abonne t
 
 */
+
+
+
+
+
