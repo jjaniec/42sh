@@ -64,6 +64,8 @@ void    actionk_history_down(struct s_line *le)
 	{
 		fprintf(tty_debug, "HISTO DOWN GOES EMPTY\n");
 
+		le->special_case_for_newest_his_elem = false;
+
 		actionk_delete_current_input(le);
 
 		return ;

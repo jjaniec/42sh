@@ -22,7 +22,7 @@ static void		init_termcaps(void)
 		le_exit("Error while getting terminal attributes\n", "tgetent", errno);
 }
 
-static unsigned int	get_terminal_nb_col(void)
+/*static*/ unsigned int	get_terminal_nb_col(void)
 {
 	int		col;
 
@@ -32,20 +32,32 @@ static unsigned int	get_terminal_nb_col(void)
 	return ((unsigned int)col);
 }
 
+static void			init_once(struct s_line *le)
+{
+	init_termcaps();
+	init_signals();
+	le->tcaps = init_termcaps_strings();
+	le->history = NULL;
+	le->his_nb_elem = 0;
+	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
+	le->special_case_for_newest_his_elem = false;
+
+	init_signals();
+}
+
 void    			init_line_edition_attributes(struct s_line *le)
 {
 	static bool already_init = false;
 
 	if (already_init == false)
 	{
-		init_termcaps();
+		init_once(le);
+		/* init_termcaps();
 		le->tcaps = init_termcaps_strings();
-		//if ((le->history = malloc(sizeof(struct s_history))) == NULL)
-        //    le_exit("Memory allocation failed\n", "malloc");
-		//ft_memset(le->history, 0, sizeof(struct s_history));
 		le->history = NULL;
 		le->his_nb_elem = 0;
 		ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
+		le->special_case_for_newest_his_elem = false; */
 		already_init = true;
 	}
 

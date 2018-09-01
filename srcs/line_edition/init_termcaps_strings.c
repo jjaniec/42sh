@@ -32,6 +32,8 @@ struct s_le_termcaps	*init_termcaps_strings(void)
 		le_exit("Failed to initialize \"up\" termcap\n", "tgetstr", errno);
 	if ((tc.dc = tgetstr("dc", NULL)) == NULL)
 		le_exit("Failed to initialize \"dc\" termcap\n", "tgetstr", errno);
+	if ((tc.cl = tgetstr("cl", NULL)) == NULL)
+		le_exit("Failed to initialize \"cl\" termcap\n", "tgetstr", errno);
 
 	return (&tc);
 }

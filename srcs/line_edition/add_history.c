@@ -58,5 +58,7 @@ void    add_history(struct s_line *le)
 
     ++(le->his_nb_elem);
 
+   // le->special_case_for_newest_his_elem = false;
+
   // copy_line_edition_attr(new_elem, le);
 }
