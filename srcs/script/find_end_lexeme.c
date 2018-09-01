@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/30 19:31:58 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 13:42:10 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ t_lexeme	*find_end_lexeme(t_lexeme *start)
 
 	token = start->type_details;
 	start = start->next;
-	while (start && !is_end(token, start))
+	while (start && !is_end(token, start->next))
 	{
 		if (start->type == T_SCRIPT_LOGICAL)
 			start = to_end(start);
 		start = start->next;
 	}
+	log_debug("End_lexeme found : %s - %p", start->data, start);
 	return (start);
 }

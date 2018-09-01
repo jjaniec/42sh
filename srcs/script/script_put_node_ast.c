@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/01 12:56:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 13:42:44 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static int		lvl_script_node(t_ast *node)
 	if (node->type_details == TK_SCRIPT_FI
 	|| node->type_details == TK_SCRIPT_DONE)
 		return (5);
-	else if (node->type == T_SCRIPT_LOGICAL
-	|| node->type_details == TK_SCRIPT_THEN
-	|| node->type_details == TK_SCRIPT_DO)
+	else if (node->type == T_SCRIPT_LOGICAL)
 		return (4);
 	else if (node->type_details == TK_SCRIPT_CONDITION_BEGIN)
 		return (3);
@@ -31,18 +29,11 @@ static int		lvl_script_node(t_ast *node)
 }
 
 /*
- * if [ A == B ] ; then echo abc; ls; elif [ A == D ]; then echo def; else echo ghi; fi
+** if [ 0 ]; then ls -lG; else ls -lG /; fi
 ~
-			else
-				echo ghi;
-		elif
-			[ A == D ]
-				then
-					echo def;
 	if
-		[ A == B ]
+		[ 0 ]
 			then
-				echo abc; ls;
  */
 
 static void	construct_script_ast(t_ast *root, t_ast *new)
@@ -96,7 +87,7 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 	root = script_root->sub_ast;
 
 	// ====== WHILE ======
-	while (lex)
+	while (lex && lex != end_lexeme->next)
 	{
 		log_debug("lex->data = %s", lex->data);
 		new = script_create_node(lex);
@@ -120,8 +111,11 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 			root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 			lex = lex->next;
 			root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme);
-			lex = end_lexeme;
-			break;
+			lex = end_lexeme->next;
+			if (lex->type_details == TK_SCRIPT_FI || lex->type_details == TK_SCRIPT_DONE)
+				break ;
+			end_lexeme = find_end_lexeme(lex);
+			continue ;
 		}
 		lex = lex->next;
 		if (new->type == T_SCRIPT_CONTAINED && 
