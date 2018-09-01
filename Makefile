@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/01 12:15:36 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/01 13:01:45 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,7 @@ SRC_NAME = 	is_separator.c \
 			script/script_ast_construct.c \
 			script/script_put_node_ast.c \
 			script/find_end_lexeme.c \
+			script/script_in_exec.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \

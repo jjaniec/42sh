@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/01 12:20:38 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 12:56:03 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,8 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 		(lex->type_details == TK_SEMICOLON || lex->type_details == TK_NEWLINE))
 			lex = lex->next;
 	}
-	return (lex);
+	if (lex)
+		return (lex->next);
+	else
+		return (lex);
 }
