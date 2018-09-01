@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/30 19:38:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/01 12:18:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ static int		lvl_script_node(t_ast *node)
 {
 	if (node->type_details == TK_SCRIPT)
 		return (6);
-	if (node->type_details == TK_SCRIPT_FI || 
-		node->type_details == TK_SCRIPT_DONE)
+	if (node->type_details == TK_SCRIPT_FI
+	|| node->type_details == TK_SCRIPT_DONE)
 		return (5);
-	else if (node->type == T_SCRIPT_LOGICAL)
+	else if (node->type == T_SCRIPT_LOGICAL
+	|| node->type_details == TK_SCRIPT_THEN)
 		return (4);
 	else if (node->type_details == TK_SCRIPT_CONDITION_BEGIN)
 		return (3);
@@ -110,15 +111,6 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 			log_debug("JUMP TO %s", lex->data);
 			continue ;
 		}
-		// ===== INSTRUCTIONS ====
-		/*if (lex->type_details == end_token)
-		{
-			lex = lex->next;
-			while (lex && lex->type != T_SCRIPT_CONTAINER)
-				lex = lex->next;
-			log_debug("end_token found. now exit while loop with lex->data = %s", lex->data);
-			break ;
-		}*/
 		// ===== INSTRUCTIONS ====
 		if (root->type_details == TK_SCRIPT_THEN
 		|| root->type_details == TK_SCRIPT_ELSE

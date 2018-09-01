@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_bracket.c                                  :+:      :+:    :+:   */
+/*   builtin_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/30 20:03:19 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/30 20:04:58 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/09/01 12:16:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-void		builtin_bracket(char **argv, char **envp, t_exec *exe)
+void		builtin_test(char **argv, char **envp, t_exec *exe)
 {
+	(void)envp;
 	if (argv && argv[1])
-		return (ft_atoi(argv[1]));
+		exe->ret = ft_atoi(argv[1]);
 }

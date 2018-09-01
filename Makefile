@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/30 20:05:39 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/01 12:15:36 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
-			builtin/builtin_bracket.c \
+			builtin/builtin_test.c \
 			builtin/is_builtin.c \
 			script/script.c \
 			script/script_check_parsing.c \
