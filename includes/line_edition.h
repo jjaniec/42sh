@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/30 20:31:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 19:24:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys000"
+# define TTY_DEBUG "/dev/pts/4"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -210,9 +210,6 @@ void    reset_history_on_first_elem(struct s_line *le);
 void    add_history(struct s_line *le);
 void    actionk_history_up(struct s_line *le);
 void    actionk_history_down(struct s_line *le);
-
-void		print_colorized_input(char *input_str, char **env);
-
 
 #endif
 
