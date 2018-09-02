@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 15:16:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/02 17:42:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,30 +83,34 @@ static int			make_next_lexeme(char *line, int *pos, \
 ** line: input received from user
 */
 
-t_lexeme			*lexer(char *line)
+int					lexer(char *line, t_lexeme **lexemes, char **unmatched_quote_err_ptr)
 {
-	t_lexeme	*lexemes;
 	t_lexeme	*cur_elem;
 	int			i;
 	int			r;
 
+	if (unmatched_quote_err_ptr)
+		*unmatched_quote_err_ptr = NULL;
+	*lexemes = NULL;
 	i = 0;
-	lexemes = NULL;
+	r = 0;
 	if (line)
 		while (line[i])
 		{
-			r = make_next_lexeme(line, &i, &lexemes, &cur_elem);
+			r = make_next_lexeme(line, &i, lexemes, &cur_elem);
 			if (r == UNMATCHED_QUOTE_ERR)
 			{
-				free_lexemes(lexemes);
-				i = 0;
-				r = 1;
-				lexemes = NULL;
-				subp_string(&line);
+				if (unmatched_quote_err_ptr)
+				{
+					*unmatched_quote_err_ptr = &(line[i]);
+					log_fatal("Unmatched_quote_err_ptr: |%s|", *unmatched_quote_err_ptr);
+				}
+				break ;
+				//subp_string(&line);
 			}
 			else if (r == 0)
 				break ;
 		}
 	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
-	return (lexemes);
+	return (r);
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 23:17:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/02 17:36:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 	ft_putstr("> ");
 	input = line_edition();
 	ft_putchar('\n');
-	new = lexer(input);
+	lexer(input, &new, NULL);
 	if (!lex)
 		return (new);
 	save = lex;

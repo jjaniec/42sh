@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/30 20:24:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 17:33:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_exec	*loop_body(char *input, char **envp)
 	errno = 0;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	lex = lexer(input);
+	lexer(input, &lex, NULL);
 	//print_colorized_input(input, envp, lex);
 	ast_root = ast(lex);
 	exe = create_exec((const char **)envp);

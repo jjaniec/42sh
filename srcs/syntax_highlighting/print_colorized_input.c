@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_colorized_input.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/30 19:56:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 18:10:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,16 @@ static void		get_lexeme_substring(char *input_str, t_lexeme *lexeme, \
 
 void		print_colorized_input(char *input_str, char **env)
 {
-	t_lexeme	*cur_lexeme;
-	char		*lexeme_str_begin;
-	char		*lexeme_str_end;
-	char		*ptr;
+	t_lexeme		*lexemes;
+	t_lexeme		*cur_lexeme;
+	char			*lexeme_str_begin;
+	char			*lexeme_str_end;
+	char			*unmatched_quote_err_ptr;
+	char			*ptr;
+	struct s_line	*le;
 
-	cur_lexeme = lexer(input_str);
+	lexer(input_str, &lexemes, &unmatched_quote_err_ptr);
+	cur_lexeme = lexemes;
 	ptr = input_str;
 	while (ptr && cur_lexeme && *ptr)
 	{
@@ -115,5 +119,14 @@ void		print_colorized_input(char *input_str, char **env)
 			ptr, cur_lexeme, env);
 		cur_lexeme = cur_lexeme->next;
 		ptr = lexeme_str_end;
+	}
+	if (unmatched_quote_err_ptr)
+		ft_putstr(COL_QUOTED_ARG);
+	if (ptr && *ptr)
+	{
+		le = access_le_main_datas();
+		while (*ptr)
+			print_key_at_end(le, *ptr++);
+		ft_putstr(COL_DEFAULT);
 	}
 }
