@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lexeme_colorized.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/30 20:38:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 18:14:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,14 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 
 void f(const char *s, int nb)
 {
-	//write(2, "JJANIEC", 7);
 	struct s_line *le;
 
 	le = access_le_main_datas();
-
 	while (nb > 0)
 	{
 		print_key_at_end(le, *s++);
 		--nb;
 	}
-
-
 }
 
 
@@ -139,7 +135,6 @@ void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, \
 	(void)lexeme_end;
 	put_lexeme_color(lexeme, lexeme_begin, envp);
 //	write(1, input_ptr, (lexeme_end - input_ptr));
-
 	f(input_ptr, (lexeme_end - input_ptr));
 
 	ft_putstr(COL_DEFAULT);
