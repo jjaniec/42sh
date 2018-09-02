@@ -17,15 +17,18 @@
 # include <sys/types.h>
 # include <dirent.h>
 
-typedef struct			s_select
+typedef struct			s_autoc
 {
-	char					*name;
-	int					selected;
-	struct s_select	*next;
-}							t_select;
+	struct s_line		*le;
+	char					**items;
+	int					menu_selected;
+	int					menu_line;
+	int					menu_cursor;
+}							t_autoc;
 
 void	autocomplete(struct s_line *le);
 char	**autoc_dir(struct s_line *le);
+int	autoc_menu(char **items, struct s_line *le);
 char	**dir_get_items(char *in);
 char	**order_tab_ascii(char **tabl);
 void	ft_ul_video(char *str);

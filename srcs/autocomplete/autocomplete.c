@@ -35,26 +35,27 @@ static int		check_dir(struct s_line *le)
 	return (0);
 }
 
-static void		autoc_menu(char **items)
+static t_autoc	*autoc_setup(struct s_line *le)
 {
-	int i;
+	t_autoc	*autoc;
 
-	i = 0;
-	while (items[i] != NULL)
-	{
-		ft_putstr(items[i]);
-		ft_putstr(" | ");
-		i++;
-	}
+	autoc = (t_autoc*)malloc(sizeof(t_autoc));
+	if (autoc == NULL)
+		return (NULL);
+	autoc->le = le;
+	autoc->menu_selected = 0;
+	autoc->menu_line = 1;
+	autoc->menu_cursor = 0;
+	if (le->cursor_index_for_line > 1 && check_dir(le))
+		autoc->items = autoc_dir(le);
+	return (autoc);
 }
 
 void				autocomplete(struct s_line *le)
 {
-	char **items;
-	if (le->cursor_index_for_line > 1 && check_dir(le))
-	{
-		items = autoc_dir(le);
-		if (items != NULL)
-			autoc_menu(items);
-	}
+	t_autoc	*autoc;
+
+	autoc = autoc_setup(le);
+	if (autoc && autoc->items)
+		autoc_menu(autoc->items, le);
 }
