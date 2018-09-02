@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:15:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/02 20:53:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,8 @@ void	process_key(t_kno key, struct s_line *le)
 
 		ft_strcpy(tmp, le->line);
 		tmp[le->line_index] = key;
-		fprintf(tty_debug, "MDR TMP c |%s|\n", tmp);
+		fprintf(tty_debug, "tmp: |%s|\n", tmp);
 		lexer(tmp, &lexemes, &unmatched_quote_err_ptr);
-	//	fprintf(tty_debug, "MDR elem begin [0] c |%s| |%s|\n", lexemes->lexeme_begin_ptr, lexemes->lexeme_end_ptr);
-
-
-	//	char *tmp = strdup("ls -la lolmdr ..");
-
-//		actionk_delete_current_input(le);
-		fprintf(tty_debug, "PTDR line c |%s|\n", le->line);
 		if (!ft_strchr(LE_IFS, key))
 		{
 			actionk_delete_current_input(le);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   delete_char_into_cmdline_while_moving_back_        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:19:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/21 20:18:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 /*
 static void	reprint_part_of_line_2(struct s_line *le,

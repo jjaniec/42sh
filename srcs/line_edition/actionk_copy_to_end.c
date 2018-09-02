@@ -6,11 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:14:46 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/02 17:35:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void    actionk_copy_to_end(struct s_line *le)
 {

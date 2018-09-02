@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_copy_all.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 16:50:52 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/30 16:50:52 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:51:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void    actionk_copy_all(struct s_line *le)
 {

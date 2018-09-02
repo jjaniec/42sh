@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_past_clipboard.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/08/21 18:33:22 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:51:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static unsigned int	print_clipboard(struct s_line *le)
 {

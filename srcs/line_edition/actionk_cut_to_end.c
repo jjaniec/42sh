@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cut_to_end.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 18:20:01 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/02 20:21:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void	actionk_cut_to_end(struct s_line *le)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_delete_current_input.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 18:51:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/23 18:59:40 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void	actionk_delete_current_input(struct s_line *le)
 {

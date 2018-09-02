@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_move_cursor_line_up.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:14:20 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/14 16:14:20 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void    actionk_move_cursor_line_up(struct s_line *le)
 {

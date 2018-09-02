@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/30 20:37:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ FILE *tty_debug = NULL; // debug
 #define FOOLOL // debug
 
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 #undef FOOLOL // debug
 
 //extern struct s_line *g_le;
@@ -80,7 +80,7 @@ char			*line_edition(void)
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le);
 
-	le_debug_infos(); // debug
+	//le_debug_infos(); // debug
 
 	while ("cest ta mere la jjaniec")
 	{

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   insert_character_into_cmdline.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/19 20:40:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static void	insert_char_into_array(char *line, t_kno key, unsigned int pos)
 {
