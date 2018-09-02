@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 14:48:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/02 19:22:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 ** type: type of lexeme (T_(WORD/CTRL_OPT/REDIR_OPT))
 ** type_details: token associated with data (TK_(LESS/GREAT/...))
 ** data: pointer to char * from input to data of element
+** elem_(begin/end)_ptr: pointer to beginning and end of lexeme in input string
 ** next: ptr to next lexeme
 */
 
@@ -28,6 +29,8 @@ typedef struct			s_lexeme
 	size_t				type;
 	size_t				type_details;
 	void				*data;
+	char				*lexeme_begin_ptr;
+	char				*lexeme_end_ptr;
 	struct s_lexeme		*next;
 }						t_lexeme;
 
