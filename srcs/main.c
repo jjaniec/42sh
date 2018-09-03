@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/02 17:33:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 22:28:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static t_exec	*loop_body(char *input, char **envp)
 	exe = create_exec((const char **)envp);
 	if (!ast_root)
 	{
+		fprintf(tty_debug, "MDR");
 		free_lexemes(lex);
 		return (exe);
 	}
@@ -49,7 +50,7 @@ static void twentyonesh(char **envp)
 	while (1)
 	{
 		ft_putstr("%> ");
-		input = line_edition();
+		input = line_edition(PROMPT_DEFAULT);
 		ft_putchar('\n');
 		exe = loop_body(input, envp);
 		if (exe && exe->tmp_envp)

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/03 16:55:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 19:48:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys004"
+# define TTY_DEBUG "/dev/ttys001"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -34,7 +34,6 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
-# include "../ft_printf/libft/libft.h"
 
 // sizes
 # define LE_LINE_SIZE (2048U)
@@ -67,6 +66,15 @@
 # define LE_CTRL_OPEN_SQUARE_BRACKET (27)
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
 
+//prompt types
+# define PROMPT_DEFAULT 1
+# define PROMPT_SUBPROMPT_SQUOTE 2
+# define PROMPT_SUBPROMPT_DQUOTE 3
+# define PROMPT_SUBPROMPT_HEREDOC 4
+
+# define PROMPT_DEFAULT_STRING "%> "
+# define PROMPT_SUBPROMPT_QUOTE_STRING "> "
+# define PROMPT_SUBPROMPT_HEREDOC_STRING "heredoc> "
 
 // others
 # define LE_FATAL_ERROR (2) // for le_exit()
@@ -103,6 +111,7 @@ struct s_le_termcaps
 
 struct s_line
 {
+	int						prompt_type;
 	t_kno					key_no;
 	char					line[LE_LINE_SIZE];
 	unsigned int			line_index;
@@ -146,7 +155,7 @@ struct s_infos_for_rewriting
 
 
 // prototypes
-char			*line_edition(void);
+char			*line_edition(int prompt_type);
 
 struct s_le_termcaps	*init_termcaps_strings(void);
 

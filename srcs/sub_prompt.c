@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/02 17:36:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 22:21:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 void	subp_string(char **s)
 {
-	char	*new;
-	char	*input;
+	char		*new;
+	char		*input;
+	char		*unmatched_quote_err_ptr;
+	t_lexeme	*lexemes;
 
 	ft_putstr("> ");
-	input = line_edition();
+	input = line_edition(PROMPT_SUBPROMPT_SQUOTE);
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;
+	fprintf(tty_debug, "Subp *s : |%s|", *s);
+	if (lexer(*s, &lexemes, &unmatched_quote_err_ptr) == UNMATCHED_QUOTE_ERR)
+		subp_string(&new);
 }
 
 t_lexeme	*subp_lexeme(t_lexeme *lex)
@@ -31,7 +36,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 	t_lexeme	*save;
 
 	ft_putstr("> ");
-	input = line_edition();
+	input = line_edition(PROMPT_SUBPROMPT_SQUOTE);
 	ft_putchar('\n');
 	lexer(input, &new, NULL);
 	if (!lex)
@@ -54,7 +59,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 		lex->next->data = ft_strjoin(lex->next->data, new->data);
 		lex->next->next = new->next;
 	}
-	else if (lex && !lex->next && lex->type == T_WORD && new->type == T_WORD)
+	else if (lex && !lex->next && lex->type == T_WORD && new && new->type == T_WORD)
 	{
 		lex->data = ft_strjoin(lex->data, new->data);
 		lex->next = new->next;
@@ -77,7 +82,7 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	while (!input)
 	{
 		ft_putstr("heredoc> ");
-		input = line_edition();
+		input = line_edition(PROMPT_SUBPROMPT_HEREDOC);
 		ft_putchar('\n');
 		if (ft_strequ(input, eof_word))
 			break ;

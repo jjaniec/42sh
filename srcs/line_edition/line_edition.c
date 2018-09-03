@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 19:43:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_kno	get_key_number(const char *key)
 	return (key_no);
 }
 
-char			*line_edition(void)
+char			*line_edition(int prompt_type)
 {
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
@@ -77,6 +77,7 @@ char			*line_edition(void)
 	t_kno					key_no;
 
 	le = access_le_main_datas();
+	le->prompt_type = prompt_type;
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le);
 
