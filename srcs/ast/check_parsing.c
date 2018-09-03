@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/25 11:52:01 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/03 14:22:23 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int			check_parsing(t_lexeme *lex)
 {
 	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
-	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
+	if ((lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
+	|| !script_check_parsing(lex, lex->next))
 	{
 		ft_printf("Parsing error just after: %s\n", lex->data);
 		return (0);

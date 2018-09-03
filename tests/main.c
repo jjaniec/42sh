@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/20 15:49:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 14:35:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int	main(int argc, char **argv, char **envp)
 	lexer_tests();
 	ast_tests();
 	exec_tests(envp);
+	script_tests();
 	done_testing();
 }
