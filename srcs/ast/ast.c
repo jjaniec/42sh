@@ -6,28 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 22:02:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 17:06:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-/*
-** Malloc and create an AST node
-*/
-
-t_ast	*create_node(size_t type, size_t type_details, char **data)
-{
-	t_ast	*node;
-
-	node = (t_ast *)ft_memalloc(sizeof(t_ast));
-	if (!node)
-		exit(MALLOC_ERROR);
-	node->type = type;
-	node->type_details = type_details;
-	node->data = data;
-	return (node);
-}
 
 /*
 ** Main function of AST.

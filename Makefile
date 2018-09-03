@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/02 18:36:45 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/03 17:07:34 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,9 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			ast/ast_free.c \
+			ast/prepare_argv.c \
+			ast/create_node.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/action_key.c \
 			line_edition/actionk_copy_all.c \
@@ -77,8 +80,6 @@ SRC_NAME = 	is_separator.c \
 			line_edition/set_term_attr.c \
 			line_edition/weird_trick_to_erase_char.c \
 			line_edition/write_one_char.c \
-			ast/ast_free.c \
-			ast/prepare_argv.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \

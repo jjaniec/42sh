@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 19:24:22 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/03 16:55:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/pts/4"
+# define TTY_DEBUG "/dev/ttys004"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
