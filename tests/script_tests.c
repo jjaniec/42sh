@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/03 19:12:23 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/05 11:00:33 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ static void tests(void)
 	test_framework("if", "Parsing error just after: if", "ERROR - Simple IF");
 	test_framework("if [ 0 ]; echo NOPE; fi", "Parsing error just after: if", "ERROR - Simple IF");
 	test_framework("if [ 0 ] echo NOPE; fi", "Parsing error just after: if", "ERROR - Simple IF");
-	test_framework("if [ 0 ] then echo NOPE; fi", "Parsing error just after: if", "ERROR - Simple IF");
-	test_framework("if [ 0 ]; then echo NOPE fi", "Parsing error just after: if", "ERROR - Simple IF");
+	test_framework("if [ 0 ] then echo NOPE; fi", "Parsing error just after: ]", "ERROR - Simple IF");
+	test_framework("if [ 0 ]; then echo NOPE fi", "Parsing error just after: NOPE", "ERROR - Simple IF");
 	test_framework("if ; then echo NOPE; fi", "Parsing error just after: if", "ERROR - Simple IF");
 	test_framework("if ; fi", "Parsing error just after: if", "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE;", "Parsing error just after: if", "ERROR - Simple IF");

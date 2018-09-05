@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 11:23:48 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/03 14:20:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/05 11:01:38 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ int		script_check_parsing(t_lexeme *lex1, t_lexeme *lex2)
 		return (0);
 	else if (lex1->type_details == TK_SCRIPT_CONDITION_BEGIN && lex2->type != T_WORD)
 		return (0);
-	else if (lex1->type_details == TK_SCRIPT_CONDITION_END && lvl_lex(lex2) != 0
-	&& lex2->type != T_SCRIPT_CONTAINER)
+	else if (lex1->type_details == TK_SCRIPT_CONDITION_END && lvl_lex(lex2) != 0)
 		return (0);
-	if (lex1->type_details == TK_SCRIPT_IF)
+	else if (lex2 && (lex2->type_details == TK_SCRIPT_FI || lex2->type_details == TK_SCRIPT_DONE)
+	&& lvl_lex(lex1) != 0)
+		return (0);
+	if (lex1->type_details == TK_SCRIPT_IF || lex1->type_details == TK_SCRIPT_ELIF)
 		if (!complete_script(lex1, TK_SCRIPT_CONDITION_BEGIN, TK_SCRIPT_THEN, TK_SCRIPT_FI))
 			return (0);
 	if (lex1->type_details == TK_SCRIPT_WHILE)

@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/01 13:42:44 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/05 10:51:59 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,8 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 {
 	t_ast	*script_root;
 	t_ast	*new;
-	size_t		end_token;
 	t_lexeme	*end_lexeme;
 
-	if (lex->type_details == TK_SCRIPT_IF)
-		end_token = TK_SCRIPT_THEN;
-	if (lex->type_details == TK_SCRIPT_WHILE)
-		end_token = TK_SCRIPT_DO;
 	end_lexeme = find_end_lexeme(lex);
 	script_root = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[script]")); //[script]
 	script_root->sub_ast = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, NULL);
