@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/20 14:51:52 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/02 21:07:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	test_ll(char *test_name, char *input, ...)
 	char		*new_test_name;
 
 	i = 1;
-	result = lexer(input);
+	lexer(input, &result, NULL);
 	va_start(va_ptr, input);
 	if (!result)
 	{
@@ -54,9 +54,12 @@ static void	test_ll(char *test_name, char *input, ...)
 
 void	lexer_tests(void)
 {
+	t_lexeme	*tmp;
 
-	ok(lexer("") == NULL, "Empty string");
-	ok(lexer("''") == NULL, "Empty string quotes");
+	lexer("", &tmp, NULL);
+	ok(tmp == NULL, "Empty string");
+	lexer("''", &tmp, NULL);
+	ok(tmp == NULL, "Empty string quotes");
 	test_ll("Basic 1", "ls", "ls", T_WORD, TK_DEFAULT);
 	test_ll("Basic 2", "ls -la", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
 	test_ll("Basic 3", "ls-la;ls -la", "ls-la", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);

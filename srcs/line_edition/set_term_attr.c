@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_term_attr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 19:21:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 18:52:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static void		init_termios_flags(struct termios *new)
 {

@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cursor_crosses_screen.c                            :+:      :+:    :+:   */
+/*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/05 18:47:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:04 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/09/03 17:06:59 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/09/03 17:07:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-void	cursor_crosses_screen(struct s_line *le, t_cross_screen direction)
-{
-	unsigned int	i;
-	const char		*tcaps_move_cursor;
+/*
+** Malloc and create an AST node
+*/
 
-	if (direction == CROSS_TO_LEFT)
-		tcaps_move_cursor = le->tcaps->le;
-	else if (direction == CROSS_TO_RIGHT)
-		tcaps_move_cursor = le->tcaps->nd;
-	else
-		return ;
-	i = 0;
-	while (i < le->term_line_size - 1)
-	{
-		tputs(tcaps_move_cursor, 1, &write_one_char);
-		++i;
-	}
+t_ast	*create_node(size_t type, size_t type_details, char **data)
+{
+	t_ast	*node;
+
+	node = (t_ast *)ft_memalloc(sizeof(t_ast));
+	if (!node)
+		exit(MALLOC_ERROR);
+	node->type = type;
+	node->type_details = type_details;
+	node->data = data;
+	return (node);
 }

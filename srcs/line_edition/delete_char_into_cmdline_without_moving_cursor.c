@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   delete_char_into_cmdline_without_moving_cur        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:17:11 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/20 18:45:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 // update les values
 // reafficher la partie de ligne qui est shiftee

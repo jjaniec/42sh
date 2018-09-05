@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/01 17:20:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:00:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ FILE *tty_debug = NULL; // debug
 #define FOOLOL // debug
 
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 #undef FOOLOL // debug
 
 // debug function
@@ -66,7 +66,7 @@ static t_kno	get_key_number(const char *key)
 	return (key_no);
 }
 
-char			*line_edition(void)
+char			*line_edition(int prompt_type)
 {
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
@@ -75,10 +75,11 @@ char			*line_edition(void)
 	t_kno					key_no;
 
 	le = access_le_main_datas();
+	le->prompt_type = prompt_type;
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le);
 
-	le_debug_infos(); // debug
+	//le_debug_infos(); // debug
 
 	while ("cest ta mere la jjaniec")
 	{

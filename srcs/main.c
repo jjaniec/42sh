@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/30 20:24:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 17:57:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,36 @@
 char		**g_envp;
 struct s_line	*g_le;
 
-static t_exec	*loop_body(char *input, char **envp)
+static char		*get_valid_input(t_lexeme **lexemes)
+{
+	char		*input;
+	char		*unmatched_quote_err_ptr;
+	t_lexeme	*lexemes_ret;
+
+	ft_putstr("%> ");
+	input = line_edition(PROMPT_DEFAULT);
+	ft_putchar('\n');
+	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+		UNMATCHED_QUOTE_ERR)
+	{
+		free_lexemes(lexemes_ret);
+		subp_string(&input);
+	}
+	*lexemes = lexemes_ret;
+	return (input);
+}
+
+static t_exec	*loop_body(char **envp)
 {
 	t_lexeme	*lex;
 	t_ast		*ast_root;
 	t_exec		*exe;
+	char		*input;
 
 	errno = 0;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	lex = lexer(input);
-	//print_colorized_input(input, envp, lex);
+	input = get_valid_input(&lex);
 	ast_root = ast(lex);
 	exe = create_exec((const char **)envp);
 	if (!ast_root)
@@ -37,21 +56,18 @@ static t_exec	*loop_body(char *input, char **envp)
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
+	free(input);
 	return (exe);
 }
 
 static void twentyonesh(char **envp)
 {
-	char		*input;
 	t_exec		*exe;
 
 	tty_debug = fopen(TTY_DEBUG, "w");
 	while (1)
 	{
-		ft_putstr("%> ");
-		input = line_edition();
-		ft_putchar('\n');
-		exe = loop_body(input, envp);
+		exe = loop_body(envp);
 		if (exe && exe->tmp_envp)
 			envp = exe->tmp_envp;
 		else if (exe)
@@ -59,17 +75,19 @@ static void twentyonesh(char **envp)
 		else
 			exit(1);
 		free_exec(&exe);
-		free(input);
 	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
+
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	if (ac > 1)
+/*	if (ac > 1)
 		loop_body(ft_strjoin(av[1], "\n"), (g_envp = cp_envp((const char **)envp)));
-	else
+	else*/
 		twentyonesh((g_envp = cp_envp((const char **)envp)));
 	return (0);
 }

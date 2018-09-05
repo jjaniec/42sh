@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_history_up.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 21:58:32 by cfermier          #+#    #+#             */
-/*   Updated: 2018/08/23 20:11:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static void	debug_display_history(struct s_history *his)
 {

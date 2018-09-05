@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   action_key.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 16:07:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:00:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static	struct s_action_key	*get_array_action_key(void)
 {

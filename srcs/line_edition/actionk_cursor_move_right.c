@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cursor_move_right.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:56:44 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/01 17:26:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:01:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void		actionk_cursor_move_right(struct s_line *le)
 {

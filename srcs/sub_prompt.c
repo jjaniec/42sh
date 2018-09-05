@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 23:17:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 17:58:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	subp_string(char **s)
 {
-	char	*new;
-	char	*input;
+	char		*new;
+	char		*input;
 
 	ft_putstr("> ");
-	input = line_edition();
+	input = line_edition(PROMPT_SUBPROMPT_SQUOTE);
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;
@@ -31,9 +31,9 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 	t_lexeme	*save;
 
 	ft_putstr("> ");
-	input = line_edition();
+	input = line_edition(PROMPT_SUBPROMPT_SQUOTE);
 	ft_putchar('\n');
-	new = lexer(input);
+	lexer(input, &new, NULL);
 	if (!lex)
 		return (new);
 	save = lex;
@@ -54,7 +54,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex)
 		lex->next->data = ft_strjoin(lex->next->data, new->data);
 		lex->next->next = new->next;
 	}
-	else if (lex && !lex->next && lex->type == T_WORD && new->type == T_WORD)
+	else if (lex && !lex->next && lex->type == T_WORD && new && new->type == T_WORD)
 	{
 		lex->data = ft_strjoin(lex->data, new->data);
 		lex->next = new->next;
@@ -77,7 +77,7 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	while (!input)
 	{
 		ft_putstr("heredoc> ");
-		input = line_edition();
+		input = line_edition(PROMPT_SUBPROMPT_HEREDOC);
 		ft_putchar('\n');
 		if (ft_strequ(input, eof_word))
 			break ;

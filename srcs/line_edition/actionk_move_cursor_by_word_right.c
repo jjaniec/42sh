@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_move_cursor_by_word_right.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:00:54 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/19 16:11:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static unsigned int	find_nb_moves_needed(const char *line, unsigned int i)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   insert_and_print_character_into_cmdline.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/01 19:35:53 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/01 19:35:54 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/09/05 18:01:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static void	init_and_update_values(struct s_line *le, unsigned int *keep_pos,
 						unsigned int *keep_line,

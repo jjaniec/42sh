@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_delete_character.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 14:53:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/21 18:06:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static void	delete_last_char_while_moving_back_cursor(struct s_line *le)
 {

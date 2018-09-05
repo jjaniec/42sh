@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/18 15:37:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 15:32:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,15 @@
 # define TK_GREATAND		48
 # define TK_LESSGREAT		49
 
-t_lexeme				*lexer(char *exp);
+int						lexer(char *line, t_lexeme **lexemes, \
+							char **unmatched_quote_err_ptr);
 
 int						is_separator(char c);
 
 int						is_operator(char c);
 
 t_lexeme				*create_lexeme(size_t type, char *data, \
-							size_t type_details);
+							size_t type_details, char **lexeme_begin_end_ptrs);
 
 size_t					get_lexeme_type(char *s, int *pos, \
 							char **data, size_t *type_details);

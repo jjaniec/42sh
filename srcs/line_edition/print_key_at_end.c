@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_key_at_end.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:18:10 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/05 20:06:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static bool	need_to_go_to_next_line(struct s_line *le)
 {//fprintf(tty_debug, "into go to next line() - %u\n", le->current_cursor_pos);

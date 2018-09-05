@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cursor_crosses_screen.c                            :+:      :+:    :+:   */
+/*   print_input_string_end.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/05 18:47:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:04 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/09/02 18:33:03 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/09/02 19:51:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-void	cursor_crosses_screen(struct s_line *le, t_cross_screen direction)
+void		print_input_string_end(char *ptr, char *unmatched_quote_err_ptr)
 {
-	unsigned int	i;
-	const char		*tcaps_move_cursor;
+	struct s_line	*le;
 
-	if (direction == CROSS_TO_LEFT)
-		tcaps_move_cursor = le->tcaps->le;
-	else if (direction == CROSS_TO_RIGHT)
-		tcaps_move_cursor = le->tcaps->nd;
-	else
-		return ;
-	i = 0;
-	while (i < le->term_line_size - 1)
+	if (ptr && *ptr)
 	{
-		tputs(tcaps_move_cursor, 1, &write_one_char);
-		++i;
+		if (unmatched_quote_err_ptr)
+		{
+			ft_putstr(COL_QUOTED_ARG);
+			fprintf(tty_debug, "A ya une quote lol ! |%s|\n", unmatched_quote_err_ptr);
+		}
+		else
+			return ;
+		le = access_le_main_datas();
+		while (*ptr)
+			print_key_at_end(le, *ptr++);
+		ft_putstr(COL_DEFAULT);
 	}
 }
