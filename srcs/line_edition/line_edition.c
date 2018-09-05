@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/30 20:37:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/01 17:20:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ FILE *tty_debug = NULL; // debug
 
 #include "../../includes/line_edition.h"
 #undef FOOLOL // debug
-
-//extern struct s_line *g_le;
 
 // debug function
 static void		le_debug_infos(void)
@@ -86,6 +84,7 @@ char			*line_edition(void)
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
 		read_key(key);
+
 		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);
 
@@ -126,13 +125,15 @@ char			*line_edition(void)
 
 
 ////////////////////////////////////////////////////////////// for tests
-
+/*
 void	prompt(void)
 {
 	printf("PROMPT  $> ");
 	fflush(stdout);
 }
+*/
 
+/*
 void	prepare_test(void)
 {
 	tty_debug = fopen(TTY_DEBUG, "w");
@@ -142,6 +143,7 @@ void	prepare_test(void)
 		exit(123);
 	}
 }
+*/
 
 /*
 int	 main(void)

@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   insert_character_into_cmdline.c                    :+:      :+:    :+:   */
+/*   insert_and_print_character_into_cmdline.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/19 20:40:01 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/09/01 19:35:53 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/09/01 19:35:54 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/line_edition.h"
-
-static void	insert_char_into_array(char *line, t_kno key, unsigned int pos)
-{
-	// check depassement tableau
-
-	//fprintf(tty_debug, "BEFORE LINE = |%s|\n", line);
-
-	//fprintf(tty_debug, "je bouge |%s|\n",   line + pos );
-
-	ft_memmove(line + pos + 1, line + pos, ft_strlen(line + pos) );
-
-	line[pos] = key;
-
-	//fprintf(tty_debug, "AFTER LINE  = |%s|\n", line);
-}
 
 static void	init_and_update_values(struct s_line *le, unsigned int *keep_pos,
 						unsigned int *keep_line,
@@ -74,7 +59,7 @@ static void	move_cursor_back_to_right_place(struct s_line *le, unsigned int keep
 			actionk_cursor_move_right(le);
 }
 
-void		insert_character_into_cmdline(struct s_line *le, t_kno key)
+void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
 {
 	unsigned int	keep_pos;
 	unsigned int	keep_line;

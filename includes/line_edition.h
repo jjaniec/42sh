@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/30 20:31:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:47:45 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # include <curses.h>
 # include <term.h>
 # include "../ft_printf/libft/libft.h"
+
+extern char		**g_envp;
 
 // sizes
 # define LE_LINE_SIZE (2048U)
@@ -103,6 +105,8 @@ struct s_le_termcaps
 
 struct s_line
 {
+	//struct s_le_state		le_state;
+
 	t_kno					key_no;
 	char					line[LE_LINE_SIZE];
 	unsigned int			line_index;
@@ -120,6 +124,16 @@ struct s_line
 	unsigned int			his_nb_elem;
 	bool					special_case_for_newest_his_elem;
 
+};
+
+
+struct s_le_state
+{
+	bool		opt_colosyn;
+
+	size_t		prompt_len;
+//	prompt_t	prompt_type; // enum ?
+	
 };
 
 struct s_history
@@ -153,6 +167,7 @@ struct s_le_termcaps	*init_termcaps_strings(void);
 struct s_line	*access_le_main_datas(void);
 
 int		write_one_char(int c);
+void	insert_char_into_array(char *line, t_kno key, unsigned int pos);
 
 bool    le_is_separator(char c);
 
@@ -168,7 +183,8 @@ unsigned int	print_str_on_term(const char *str,
 								  struct s_line *le, int foo);
 
 void	print_key_at_end(struct s_line *le, t_kno key);
-void	insert_character_into_cmdline(struct s_line *le, t_kno key);
+void	insert_and_print_character_into_cmdline(struct s_line *le, t_kno key);
+void		print_with_colosyn(struct s_line *le, t_kno key);
 
 void	action_key(t_kno key, struct s_line *le_lettr);
 
@@ -210,6 +226,8 @@ void    reset_history_on_first_elem(struct s_line *le);
 void    add_history(struct s_line *le);
 void    actionk_history_up(struct s_line *le);
 void    actionk_history_down(struct s_line *le);
+
+////
 
 void		print_colorized_input(char *input_str, char **env);
 

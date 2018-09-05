@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/23 17:49:31 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/01 17:21:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void			init_once(struct s_line *le)
 
 	init_signals();
 }
-
+//
 void    			init_line_edition_attributes(struct s_line *le)
 {
 	static bool already_init = false;
@@ -64,7 +64,7 @@ void    			init_line_edition_attributes(struct s_line *le)
 	ft_memset(le->line, '\0', LE_LINE_SIZE);
 	le->line_index = 0;
 	le->cursor_index_for_line = 0;
-    le->start_pos = 11; // tmp value, need to be updated according to the prompt
+    le->start_pos = 3; // tmp value, need to be updated according to the prompt
     le->current_cursor_pos = le->start_pos;
 	le->current_cursor_line = 0;
 	le->term_line_size = get_terminal_nb_col();

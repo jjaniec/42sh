@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/30 19:46:00 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/01 19:41:06 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/init_line_edition_attributes.c \
 			line_edition/init_signals.c \
 			line_edition/init_termcaps_strings.c \
+			line_edition/insert_char_into_array.c \
 			line_edition/insert_character_into_cmdline.c \
 			line_edition/is_separator.c \
 			line_edition/line_edition.c \
@@ -72,6 +73,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/print_key_at_end.c \
 			line_edition/print_key.c \
 			line_edition/print_str_on_term.c \
+			line_edition/print_with_colosyn.c \
 			line_edition/process_key.c \
 			line_edition/reset_history_on_first_elem.c \
 			line_edition/set_term_attr.c \
@@ -140,7 +142,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
+CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
 
 ### FLAGS ###
 VERBOSE_MODE = 0
