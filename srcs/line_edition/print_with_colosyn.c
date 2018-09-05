@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_with_colosyn.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 19:39:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:13:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 21:44:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		print_with_colosyn(struct s_line *le, t_kno key)
 
 	fprintf(tty_debug, "MDR TMP_ARRAY c |%s|\n", tmp_array);
 
-	if (le->prompt_type == PROMPT_DEFAULT && ft_strchr(LE_IFS, key) == NULL)
+	if (le->le_state.prompt_type == PROMPT_DEFAULT && ft_strchr(LE_IFS, key) == NULL)
 	{
 		lexer(tmp_array, &lexemes, &unmatched_quote_err_ptr);
 		actionk_delete_current_input(le);

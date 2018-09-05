@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_key.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:14:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 20:41:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,73 +18,30 @@ static bool	key_is_printable(t_kno key)
 		return (true);
 	return (false);
 }
-/*
-void	handle_quote_subprompts(t_lexeme **lexemes, char end_subprompt_char, char *str)
-{
-	t_lexeme	*subprompt_lexemes;
-	char		*unmatched_quote_err_ptr;
-
-	lexemes
-}*/
 
 void			process_key(t_kno key, struct s_line *le)
 {
 	le->key_no = key;
 	if (key_is_printable(key) == true)
 	{
-		//if (le->le_state.opt_colosyn == true)
-		{
+		if (le->le_state.opt_colosyn == true)
 			print_with_colosyn(le, key);
-		}/*
-=======
-		if (le->prompt_type == PROMPT_DEFAULT && !ft_strchr(LE_IFS, key))
-		{
-			char tmp[LE_LINE_SIZE] = {0};
 
-			ft_strcpy(tmp, le->line);
-			tmp[le->line_index] = key;
-			fprintf(tty_debug, "tmp: |%s|\n", tmp);
-			lexer(tmp, &lexemes, &unmatched_quote_err_ptr);
-			actionk_delete_current_input(le);
-			print_colorized_input(tmp, g_envp, lexemes, \
-				unmatched_quote_err_ptr);
-			fprintf(tty_debug, "concat string : %s\n", tmp);
-		}
-		else
+		else if (le->le_state.opt_colosyn == false)
 		{
-			//fprintf(tty_debug, "concat string : %s\n", tmp);
-			print_key_at_end(le, key);
-		}
->>>>>>> syntax_highlighting_integration*/
-
-		//else if (le->le_state.opt_colosyn == false)
-		{
-			/*
-			if ( cursor_is_at_end_of_cmd(le) == true )
-			{
+			if (cursor_is_at_end_of_cmd(le) == true)
 				print_key_at_end(le, key);
-			}
 			else
-			{
 				insert_and_print_character_into_cmdline(le, key);
-			}
-			*/
 		}
-
-
 	}
 
 	else if (key == '\n')
 	{
-		le->line[le->line_index] = key;
+		le->line[le->line_index] = key; // check depassement tableau
 	}
 
-//		if (le->prompt_type == PROMPT_DEFAULT && unmatched_quote_err_ptr)
-			
-	/*	if (unmatched_quote_err_ptr)
-			handle_quote_subprompts(&lexemes, *unmatched_quote_err_ptr);*/
-		// check depassement tableau
-	//}
+
 	else
 	{
 		action_key(key, le);

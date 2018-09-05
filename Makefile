@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/05 18:19:48 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/05 20:43:55 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/init_line_edition_attributes.c \
 			line_edition/init_signals.c \
 			line_edition/init_termcaps_strings.c \
+			line_edition/insert_and_print_character_into_cmdline.c \
 			line_edition/insert_char_into_array.c \
 			line_edition/is_separator.c \
 			line_edition/line_edition.c \
@@ -99,6 +100,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
+			builtin/builtin_toggle_syntax_highlighting.c \
 			builtin/builtin_unsetenv.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \

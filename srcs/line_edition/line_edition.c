@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:00:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 19:27:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char			*line_edition(int prompt_type)
 	t_kno					key_no;
 
 	le = access_le_main_datas();
-	le->prompt_type = prompt_type;
+	le->le_state.prompt_type = prompt_type; // a mettre au bon endroit xd
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le);
 

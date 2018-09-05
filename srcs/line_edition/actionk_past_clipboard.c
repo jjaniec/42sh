@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_past_clipboard.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/02 20:51:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 21:09:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,7 @@
 
 static unsigned int	print_clipboard(struct s_line *le)
 {
-	//const char		*clipboard = le->clipboard;
-	//unsigned int	tmp_current_cursor_pos;
-
-	// pas besoin de cette fonction du coup lol
-	// mais je vais ptet la laisser quand meme pour la comprehension du code
-
 	return (print_str_on_term(le->clipboard, le->current_cursor_pos, le, 2));
-/*
-	tmp_current_cursor_pos = le->current_cursor_pos;
-	while (*clipboard != '\0')
-	{
-		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
-		{
-			tmp_current_cursor_pos = 0;
-			tputs(le->tcaps->_do, 1, &write_one_char);
-			cursor_crosses_screen(le, CROSS_TO_LEFT);
-		}
-		print_key(*clipboard);
-		++clipboard;
-	}
-	return (tmp_current_cursor_pos);
-*/
 }
 
 static void	reprint_following_part_of_line(struct s_line *le,
@@ -47,20 +25,7 @@ static void	reprint_following_part_of_line(struct s_line *le,
 	// mais je vais ptet la laisser quand meme pour la comprehension du code
 
 	print_str_on_term(part_of_line, tmp_current_cursor_pos, le, 2);
-/*
-	while (*part_of_line != '\0')
-	{
-		++tmp_current_cursor_pos;
-		if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
-		{
-			tmp_current_cursor_pos = 0;
-			tputs(le->tcaps->_do, 1, &write_one_char);
-			cursor_crosses_screen(le, CROSS_TO_LEFT);
-		}
-		print_key(*part_of_line);
-		++part_of_line;
-	}
-*/
+
 }
 
 static void	insert_clipboard_into_line_array(struct s_line *le)
@@ -70,7 +35,6 @@ static void	insert_clipboard_into_line_array(struct s_line *le)
 	char	tmp_keep_part_of_line[LE_LINE_SIZE];
 
 	ft_strcpy(tmp_keep_part_of_line, (le->line) + (le->cursor_index_for_line) );
-	//fprintf(tty_debug, "|%s|\n", tmp_keep_part_of_line);
 
 	ft_strcpy(  (le->line) + (le->cursor_index_for_line),  le->clipboard  );
 
@@ -81,11 +45,9 @@ static void	insert_clipboard_into_line_array(struct s_line *le)
 }
 
 static void	update_values(struct s_line *le)
-{ // (line_index)  (cursor_index_for_line)  (current_cursor_pos)
-  // (current_cursor_line)  (nb_li_currently_writing)  (nb_car_written_on_last_current_line)
+{
 	insert_clipboard_into_line_array(le);
 
-	//const int clipboard_len = ft_strlen(le->clipboard);
 	const char		*clipboard = le->clipboard;
 	unsigned int	tmp_current_cursor_pos;
 
@@ -97,14 +59,12 @@ static void	update_values(struct s_line *le)
 		//if (tmp_current_cursor_pos - 2 == le->term_line_size - 1)
 		{
 			tmp_current_cursor_pos = 0;
-			//tputs(le->tcaps->_do, 1, &write_one_char);
 			++(le->current_cursor_line);
 			++(le->nb_li_currently_writing);
 		}
 		++clipboard;
 	}
 	
-
 	le->line_index += ft_strlen(le->clipboard);
 	le->cursor_index_for_line += ft_strlen(le->clipboard);
 	le->current_cursor_pos = tmp_current_cursor_pos;

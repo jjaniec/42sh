@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 16:41:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/09 17:10:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 20:37:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ int		is_builtin(char *cmd, \
 		*builtin_fun_ptr = &builtin_exit;
 	else if (ft_strequ(cmd, "return"))
 		*builtin_fun_ptr = &builtin_return;
+	else if (ft_strequ(cmd, "syntax"))
+		*builtin_fun_ptr = &builtin_toggle_syntax_highlighting;
 	return ((*builtin_fun_ptr) ? (1) : (0));
 }
