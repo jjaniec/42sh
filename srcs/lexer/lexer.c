@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/03 22:14:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 15:31:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ int					lexer(char *line, t_lexeme **lexemes, \
 					*unmatched_quote_err_ptr = &(line[i]);
 					log_fatal("Unmatched_quote_err_ptr: |%s|", *unmatched_quote_err_ptr);
 				}
-				if (!unmatched_quote_err_ptr)
-					subp_string(&line);
 				break ;
 			}
 			else if (r == 0)

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/03 20:01:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 16:10:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,13 @@ void	process_key(t_kno key, struct s_line *le)
 			actionk_delete_current_input(le);
 			print_colorized_input(tmp, g_envp, lexemes, \
 				unmatched_quote_err_ptr);
+			fprintf(tty_debug, "concat string : %s\n", tmp);
 		}
 		else
+		{
+			//fprintf(tty_debug, "concat string : %s\n", tmp);
 			print_key_at_end(le, key);
+		}
 
 		/*
 		if ( cursor_is_at_end_of_cmd(le) == true )
@@ -69,13 +73,14 @@ void	process_key(t_kno key, struct s_line *le)
 	else if (key == '\n')
 	{
 		le->line[le->line_index] = key;
-//		lexer(le->line, &lexemes, &unmatched_quote_err_ptr);
+	}
+
 //		if (le->prompt_type == PROMPT_DEFAULT && unmatched_quote_err_ptr)
 			
 	/*	if (unmatched_quote_err_ptr)
 			handle_quote_subprompts(&lexemes, *unmatched_quote_err_ptr);*/
 		// check depassement tableau
-	}
+	//}
 	else
 	{
 		action_key(key, le);

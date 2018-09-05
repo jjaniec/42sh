@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/03 22:21:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 17:58:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,12 @@ void	subp_string(char **s)
 {
 	char		*new;
 	char		*input;
-	char		*unmatched_quote_err_ptr;
-	t_lexeme	*lexemes;
 
 	ft_putstr("> ");
 	input = line_edition(PROMPT_SUBPROMPT_SQUOTE);
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;
-	fprintf(tty_debug, "Subp *s : |%s|", *s);
-	if (lexer(*s, &lexemes, &unmatched_quote_err_ptr) == UNMATCHED_QUOTE_ERR)
-		subp_string(&new);
 }
 
 t_lexeme	*subp_lexeme(t_lexeme *lex)
