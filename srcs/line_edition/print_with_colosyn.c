@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 19:39:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:13:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/05 18:46:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,4 @@ void		print_with_colosyn(struct s_line *le, t_kno key)
 	}
 	else
 		print_key_at_end(le, key);
-
 }
