@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/23 18:50:24 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 16:07:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_CTRL_OPEN_SQUARE_BRACKET, &actionk_cut_to_start},
 		{LE_CTRL_CLOSE_SQUARE_BRACKET, &actionk_cut_to_end},
 		{LE_DELETE, &actionk_delete_character},
-		{LE_ARROW_UP, actionk_history_up},
-		{LE_ARROW_DOWN, actionk_history_down}
+		{LE_ARROW_UP, &actionk_history_up},
+		{LE_ARROW_DOWN, &actionk_history_down},
+		{LE_CTRL_D, &actionk_eof}
 		// faudrait une combi de touches pour delete l'input sans la copier -
 		// - nulle-part
 	};

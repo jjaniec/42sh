@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/01 19:41:06 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/05 16:07:10 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/actionk_cut_to_start.c \
 			line_edition/actionk_delete_character.c \
 			line_edition/actionk_delete_current_input.c \
+			line_edition/actionk_eof.c \
 			line_edition/actionk_history_down.c \
 			line_edition/actionk_history_up.c \
 			line_edition/actionk_move_cursor_by_word_left.c \

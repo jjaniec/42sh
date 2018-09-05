@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 14:47:45 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 16:04:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ extern char		**g_envp;
 # define LE_NB_ELEM_HISTORY (1000U)
 
 // keys
-# define LE_NB_KEYS (22)
+# define LE_NB_KEYS (23)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -68,6 +68,7 @@ extern char		**g_envp;
 # define LE_CTRL_DASH (31)
 # define LE_CTRL_OPEN_SQUARE_BRACKET (27)
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
+# define LE_CTRL_D (4)
 
 
 // others
@@ -221,6 +222,7 @@ void	actionk_delete_current_input(struct s_line *le);
 void	actionk_cut_all(struct s_line *le);
 void	actionk_cut_to_start(struct s_line *le);
 void	actionk_cut_to_end(struct s_line *le);
+void	actionk_eof(struct s_line *le);
 
 void    reset_history_on_first_elem(struct s_line *le);
 void    add_history(struct s_line *le);
@@ -244,6 +246,18 @@ void		print_colorized_input(char *input_str, char **env);
 	dedans ya le fichier historique
 	un .42shrc qui contient des alias
 	les alias c'est des expansions finalement
+
+
+	ctrl d
+	{
+		si le curseur est sur un caractere, meme effet que la touche delete
+		
+		si le curseur n'est pas sur un carac, donc il est en fin de cmdline,
+		il ne se passe rien
+
+		si la ligne est vide, le shell exit
+	}
+
 
 
 */
