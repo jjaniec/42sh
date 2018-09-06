@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 19:27:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/06 19:18:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void		le_debug_infos(void)
 	fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
 	le.nb_car_written_on_last_current_line);
 	fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
+	fprintf(tty_debug, "line = |%s|\n", le.line);
 	fprintf(tty_debug, "--------------------------------------\n");
 }
 
@@ -81,6 +82,7 @@ char			*line_edition(int prompt_type)
 
 	//le_debug_infos(); // debug
 
+	le_debug_infos(); // debug
 	while ("cest ta mere la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);

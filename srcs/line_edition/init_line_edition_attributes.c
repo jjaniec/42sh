@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 19:34:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/06 22:39:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ static void			init_once(struct s_line *le)
 	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
 	le->special_case_for_newest_his_elem = false;
 
-	le->le_state.opt_colosyn = true;
+	le->le_state.opt_colosyn = !true;
 
-	init_signals();
 }
 //
 void    			init_line_edition_attributes(struct s_line *le)

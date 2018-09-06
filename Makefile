@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/05 20:43:55 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/06 18:23:31 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/actionk_move_cursor_start.c \
 			line_edition/actionk_past_clipboard.c \
 			line_edition/add_history.c \
+			line_edition/colosyn_update_cmd.c \
 			line_edition/cursor_crosses_screen.c \
 			line_edition/cursor_is_at_end_of_cmd.c \
 			line_edition/cursor_is_at_end_of_term_line.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_delete_character.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 14:53:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/06 20:58:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ static void	delete_last_char_without_moving_cursor(struct s_line *le)
 
 void		actionk_delete_character(struct s_line *le)
 {
+	if (le->le_state.opt_colosyn == true)
+	{
+		colosyn_delete_char(le);
+		return ;
+	}
+
 	if (le->key_no == LE_BACKSPACE)
 	{
 		if (le->current_cursor_line == 0
@@ -83,13 +89,13 @@ void		actionk_delete_character(struct s_line *le)
 	}
 	else if (le->key_no == LE_DELETE)
 	{
-		if (cursor_is_at_end_of_cmd(le))
+		if (cursor_is_at_end_of_cmd(le) == true)
 		//if (le->cursor_index_for_line == le->line_index)
 		{
 			fprintf(tty_debug, "NOP PAS DE DELETE\n");
 			return ;
 		}
-		if (le->cursor_index_for_line == (le->line_index - 1))
+		if (cursor_is_at_end_of_term_line(le->cursor_index_for_line, le))
 		{
 			delete_last_char_without_moving_cursor(le);
 		}

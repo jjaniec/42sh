@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 19:30:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/06 18:29:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,11 @@ struct s_infos_for_rewriting
 
 
 // prototypes
+void		refresh_colorized_printing(struct s_line *le, char *cmd); // tmp
+void	colosyn_add_char(struct s_line *le, t_kno key);
+void	colosyn_delete_char(struct s_line *le);
+
+
 char			*line_edition(int prompt_type);
 
 struct s_le_termcaps	*init_termcaps_strings(void);

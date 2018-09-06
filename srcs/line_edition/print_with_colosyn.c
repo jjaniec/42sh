@@ -6,12 +6,32 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 19:39:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 21:44:56 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/06 21:31:54 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// CE FICHIER SERA SUPPRIME CAR LA PREMIERE FONCTION C JJ QUI L'A ET
+// LA SECONDE EST UNE ANCIENNE VERSION PLUS UTILISEE
+
 #include <twenty_one_sh.h>
 
+void		refresh_colorized_printing(struct s_line *le, char *cmd)
+{
+	t_lexeme	*lexemes;
+	char		*unmatched_quote_err_ptr;
+
+	fprintf(tty_debug, "UPDATED |%s|\n", cmd);
+
+	lexer(cmd, &lexemes, &unmatched_quote_err_ptr);
+	//fprintf(tty_debug, "LO<DRdadawdawdwada |%s|\n", cmd);
+	actionk_delete_current_input(le);
+	//fprintf(tty_debug, "LO<DRwwwwwwwww |%s|\n", cmd);
+	print_colorized_input(cmd, g_envp, lexemes, unmatched_quote_err_ptr);
+
+	//fprintf(tty_debug, "LO<DR |%s|\n", cmd);
+
+}
+/*
 void		print_with_colosyn(struct s_line *le, t_kno key)
 {
 	char			tmp_array[LE_LINE_SIZE]; // a changer si on use malloc au lieu d'un tab
@@ -51,3 +71,4 @@ void		print_with_colosyn(struct s_line *le, t_kno key)
 		print_key_at_end(le, key);
 
 }
+*/
