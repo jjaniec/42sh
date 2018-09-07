@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/07 16:15:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/07 16:24:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,18 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 		{
 			t_lexeme	*end_lexeme_tmp;
 
-			end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_THEN);
-			log_trace("Need to go to the corresponding THEN");
+			log_trace("Need to go to the corresponding ELIF");
+			end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_ELIF);
+			if (!end_lexeme_tmp)
+			{
+				log_trace("Need to go to the corresponding ELSE");
+				end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_ELSE);
+				if (!end_lexeme_tmp)
+				{
+					log_trace("Need to go to the corresponding THEN");
+					end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_THEN);
+				}
+			}
 			root->left = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[condition]"));
 			root->left->parent = root;
 			root = root->left;
