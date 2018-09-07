@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/30 19:33:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/07 16:10:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,19 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root, t_lexeme *end_lexeme)
 		log_debug(">>CLASSICAL lex->data = %s", lex->data);
 		// ========== SCRIPT =============
 		if (end_lexeme && lex == end_lexeme)
+		{
+			log_trace("End lexeme found");
 			break;
-		if (lex->type == T_SCRIPT_LOGICAL)
+		}
+		if (lex->type >= T_SCRIPT_LOGICAL)
 		{
-			log_debug(">>CLASSICAL ==== Creation of script AST");
+			log_trace("We are in a script !");
 			lex = script_put_node_ast(lex, root);
-			log_debug(">>CLASSICAL ==== Continue with lex->data = %s", lex->data);
-			continue;
+			continue ;
 		}
-		/*new = script_create_node(lex);
-		if (new)
-		{
-			lex = script_put_node_ast(new, lex, root);
-			continue;
-		}
-		else*/
 		// ========= CLASSICAL ===========
-			new = create_node(lex->type, lex->type_details, \
-					prepare_argv(lex, flag_heredoc_EOF));
+		new = create_node(lex->type, lex->type_details, \
+				prepare_argv(lex, flag_heredoc_EOF));
 		if (lvl_lex(lex) == 5)
 		{
 			if (lex->type == T_WORD)

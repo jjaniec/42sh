@@ -6,25 +6,11 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/08/24 22:05:32 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/07 15:45:43 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-static void	is_contained(t_lexeme *lex, char *word)
-{
-	if (ft_strequ(word, "["))
-	{
-		lex->type = T_SCRIPT_CONTAINED;
-		lex->type_details = TK_SCRIPT_CONDITION_BEGIN;
-	}
-	if (ft_strequ(word, "]"))
-	{
-		lex->type = T_SCRIPT_CONTAINED;
-		lex->type_details = TK_SCRIPT_CONDITION_END;
-	}
-}
 
 static void	is_container(t_lexeme *lex, char *word)
 {
@@ -48,7 +34,6 @@ static void	is_container(t_lexeme *lex, char *word)
 		lex->type = T_SCRIPT_CONTAINER;
 		lex->type_details = TK_SCRIPT_DONE;
 	}
-	is_contained(lex, word);
 }
 
 static void	is_keyword(t_lexeme *lex)
@@ -81,17 +66,20 @@ static void	is_keyword(t_lexeme *lex)
 
 void	script_lexemes(t_lexeme *lexemes)
 {
+	int		first;
+
+	first = 0;
 	while (lexemes)
 	{
-		if (lexemes->type == T_WORD)
+		if (lexemes->type == T_WORD && first == 0)
 		{
+			first = 1;
 			is_keyword(lexemes);
 			if (lexemes->type >= 5)
 				log_info("Update elem w/ data |%s| - type : %zu", lexemes->data, lexemes->type);
-			if (lexemes->type_details == TK_SCRIPT_CONDITION_BEGIN)
-				while (lexemes->next && !ft_strequ(lexemes->next->data, "]"))
-					lexemes = lexemes->next;
 		}
+		if (lexemes->type != T_WORD)
+			first = 0;
 		lexemes = lexemes->next;
 	}
 }

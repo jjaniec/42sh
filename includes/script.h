@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/05 11:32:44 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/07 16:00:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,19 @@
 
 
 
-# define T_SCRIPT_CONTAINED 7
+# define T_SCRIPT_CONDITION 7
 
-# define TK_SCRIPT_CONDITION_BEGIN 71
-# define TK_SCRIPT_CONDITION_END 72
-
-
-# define T_SCRIPT_CONDITION 8
-
-# define TK_SCRIPT_GE 801
-# define TK_SCRIPT_GT 802
-# define TK_SCRIPT_LE 803
-# define TK_SCRIPT_LT 804
-# define TK_SCRIPT_EQ 805
-# define TK_SCRIPT_NE 806
+# define TK_SCRIPT_GE 701
+# define TK_SCRIPT_GT 702
+# define TK_SCRIPT_LE 703
+# define TK_SCRIPT_LT 704
+# define TK_SCRIPT_EQ 705
+# define TK_SCRIPT_NE 706
 
 void		script_lexemes(t_lexeme *lexemes);
 int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
-int			is_script_complete(t_lexeme *lex);
-t_lexeme	*find_end_lexeme(t_lexeme *start);
+int			is_script_complete(t_lexeme *lex, size_t next_token);
+t_lexeme	*find_end_lexeme(t_lexeme *start, size_t end_token);
 
 t_ast		*script_create_node(t_lexeme *lex);
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);

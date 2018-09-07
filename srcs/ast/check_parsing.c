@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/03 14:22:23 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/07 15:50:34 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 
 static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 {
-	if (!script_check_parsing(lex1, lex2))
-		return (0);
-	else if (lex2 && (is_op1(lex1) || is_op1_5(lex1)) && lex2->type_details == TK_NEWLINE)
+	/*if (!script_check_parsing(lex1, lex2))
+		return (0);*/
+
+	if (lex2 && (is_op1(lex1) || is_op1_5(lex1)) && lex2->type_details == TK_NEWLINE)
 		return (NEED_SUBPROMPT);
 	else if (lex2 && (lvl_lex(lex1) != 5 && lex1->type < 5)
 	&& (lvl_lex(lex2) != 5 && lex2->type < 5) && lex2->type_details != TK_NEWLINE)
@@ -37,10 +38,9 @@ int			check_parsing(t_lexeme *lex)
 {
 	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
-	if ((lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
-	|| !script_check_parsing(lex, lex->next))
+	if ((lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5))
 	{
-		ft_printf("Parsing error just after: %s\n", lex->data);
+		//ft_printf("Parsing error just after: %s\n", lex->data);
 		return (0);
 	}
 	lex = lex->next;
@@ -52,7 +52,7 @@ int			check_parsing(t_lexeme *lex)
 			return (NEED_SUBPROMPT);
 		if (!check_lexeme(lex, lex->next))
 		{
-			ft_printf("Parsing error just after: %s\n", lex->data);
+			//ft_printf("Parsing error just after: %s\n", lex->data);
 			return (0);
 		}
 		else if (check_lexeme(lex, lex->next) == NEED_SUBPROMPT)

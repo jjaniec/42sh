@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/05 11:20:45 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/07 15:28:03 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,17 @@ t_ast	*ast(t_lexeme *lex)
 			check = check_parsing(lex);
 		if (check == NEED_SUBPROMPT)
 			lex = subp_lexeme(lex);
+		else if (!check)
+		{
+			printf("There is an error in your command line.\n");
+			return (NULL);
+		}
 	}
-	if (!check || !is_script_complete(lex))
+	if (!is_script_complete(lex, 0))
+	{
+		printf("There is an error in your script.\n");
 		return (NULL);
+	}
 	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 	root = construct_ast(lex, root, NULL);
 	if (VERBOSE_MODE)

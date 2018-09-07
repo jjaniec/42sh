@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/05 10:51:59 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/07 16:15:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 static int		lvl_script_node(t_ast *node)
 {
 	if (node->type_details == TK_SCRIPT)
-		return (6);
+		return (5);
 	if (node->type_details == TK_SCRIPT_FI
 	|| node->type_details == TK_SCRIPT_DONE)
-		return (5);
-	else if (node->type == T_SCRIPT_LOGICAL)
 		return (4);
-	else if (node->type_details == TK_SCRIPT_CONDITION_BEGIN)
+	else if (node->type == T_SCRIPT_LOGICAL)
 		return (3);
 	else if (node->type == T_SCRIPT_CONTAINER)
 		return (2);
@@ -75,7 +73,8 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 	t_ast	*new;
 	t_lexeme	*end_lexeme;
 
-	end_lexeme = find_end_lexeme(lex);
+	if (lex->type_details == TK_SCRIPT_IF)
+		end_lexeme = find_end_lexeme(lex, TK_SCRIPT_FI);
 	script_root = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[script]")); //[script]
 	script_root->sub_ast = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, NULL);
 	place_new_node(root, script_root, T_WORD);
@@ -85,11 +84,26 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 	while (lex && lex != end_lexeme->next)
 	{
 		log_debug("lex->data = %s", lex->data);
-		new = script_create_node(lex);
+		new = create_node(lex->type, lex->type_details, prepare_argv(lex, 0));
 		construct_script_ast(root, new);
 		root = new;
 		// =====   CONDITION  ====
-		if (lex->type_details == TK_SCRIPT_CONDITION_BEGIN)
+		if (lex->type_details == TK_SCRIPT_IF)
+		{
+			t_lexeme	*end_lexeme_tmp;
+
+			end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_THEN);
+			log_trace("Need to go to the corresponding THEN");
+			root->left = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[condition]"));
+			root->left->parent = root;
+			root = root->left;
+			root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
+			lex = lex->next;
+			root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme_tmp);
+			lex = end_lexeme_tmp->next;
+			continue ;
+		}
+		/*if (lex->type_details == TK_SCRIPT_CONDITION_BEGIN)
 		{
 			while (lex->type_details != TK_SCRIPT_CONDITION_END)
 				lex = lex->next;
@@ -97,7 +111,7 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 			lex = lex->next;
 			log_debug("JUMP TO %s", lex->data);
 			continue ;
-		}
+		}*/
 		// ===== INSTRUCTIONS ====
 		if (root->type_details == TK_SCRIPT_THEN
 		|| root->type_details == TK_SCRIPT_ELSE
@@ -109,13 +123,13 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 			lex = end_lexeme->next;
 			if (lex->type_details == TK_SCRIPT_FI || lex->type_details == TK_SCRIPT_DONE)
 				break ;
-			end_lexeme = find_end_lexeme(lex);
+			//end_lexeme = find_end_lexeme(lex);
 			continue ;
 		}
 		lex = lex->next;
-		if (new->type == T_SCRIPT_CONTAINED && 
+		/*if (new->type == T_SCRIPT_CONTAINED && 
 		(lex->type_details == TK_SEMICOLON || lex->type_details == TK_NEWLINE))
-			lex = lex->next;
+			lex = lex->next;*/
 	}
 	if (lex)
 		return (lex->next);

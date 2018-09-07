@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/05 11:22:08 by sebastien        ###   ########.fr        #
+#    Updated: 2018/09/07 15:48:04 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,6 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_test.c \
 			builtin/is_builtin.c \
 			script/script.c \
-			script/script_check_parsing.c \
 			script/script_ast_construct.c \
 			script/script_put_node_ast.c \
 			script/find_end_lexeme.c \

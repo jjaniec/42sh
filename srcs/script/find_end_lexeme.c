@@ -6,28 +6,11 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/01 13:42:10 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/07 16:06:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-static int	is_end(size_t token, t_lexeme *lex)
-{
-	if (token == TK_SCRIPT_WHILE)
-		return (lex->type_details == TK_SCRIPT_DONE);
-	if (token == TK_SCRIPT_IF)
-		return (lex->type_details == TK_SCRIPT_ELIF
-		|| lex->type_details == TK_SCRIPT_ELSE
-		|| lex->type_details == TK_SCRIPT_FI);
-	if (token == TK_SCRIPT_ELIF)
-		return (lex->type_details == TK_SCRIPT_ELSE
-		|| lex->type_details == TK_SCRIPT_FI);
-	if (token == TK_SCRIPT_ELSE)
-		return (lex->type_details == TK_SCRIPT_FI);
-	else
-		return (0);
-}
 
 static t_lexeme	*to_end(t_lexeme *lex)
 {
@@ -47,13 +30,10 @@ static t_lexeme	*to_end(t_lexeme *lex)
 ** Otherwise, undefined behaviour
 */
 
-t_lexeme	*find_end_lexeme(t_lexeme *start)
+t_lexeme	*find_end_lexeme(t_lexeme *start, size_t end_token)
 {
-	size_t		token;
-
-	token = start->type_details;
 	start = start->next;
-	while (start && !is_end(token, start->next))
+	while (start && start->next && start->next->type_details != end_token)
 	{
 		if (start->type == T_SCRIPT_LOGICAL)
 			start = to_end(start);
