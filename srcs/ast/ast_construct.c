@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/07 16:10:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/09 13:24:52 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_ast		*place_new_node(t_ast *root, t_ast *new, int lvl_new)
 	}
 	return (new);
 }
+
 
 /*
 ** Construct the AST from the lexer. Need to alway have a root with ';'

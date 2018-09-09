@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/09 12:52:03 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/09 13:12:24 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static t_lexeme	*to_end(t_lexeme *lex)
 
 	if (lex->type_details == TK_SCRIPT_IF)
 		end_token = TK_SCRIPT_FI;
-	if (lex->type_details == TK_SCRIPT_WHILE)
+	else if (lex->type_details == TK_SCRIPT_WHILE)
 		end_token = TK_SCRIPT_DONE;
+	else
+		return (lex);
 	while (lex && lex->type_details != end_token)
 		lex = lex->next;
 	return (lex);

@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 12:24:02 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/07 16:24:29 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/09 13:50:07 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,31 @@ static char	**debug_data_node(char *str)
 	return (tab_);
 }
 
+static t_lexeme	*find_next_token(t_lexeme *lex)
+{
+	t_lexeme	*next;
+
+	next = NULL;
+	if (lex->type_details == TK_SCRIPT_IF
+	|| lex->type_details == TK_SCRIPT_ELIF)
+		next = find_end_lexeme(lex, TK_SCRIPT_THEN);
+	if (lex->type_details == TK_SCRIPT_WHILE)
+		next = find_end_lexeme(lex, TK_SCRIPT_DO);
+	if (lex->type_details == TK_SCRIPT_DO)
+		next = find_end_lexeme(lex, TK_SCRIPT_DONE);
+	if (lex->type_details == TK_SCRIPT_THEN)
+	{
+		next = find_end_lexeme(lex, TK_SCRIPT_ELIF);
+		if (!next)
+		{
+			next = find_end_lexeme(lex, TK_SCRIPT_ELSE);
+			if (!next)
+				next = find_end_lexeme(lex, TK_SCRIPT_FI);
+		}
+	}
+	return (next);
+}
+
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 {
 	t_ast	*script_root;
@@ -88,30 +113,39 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 		construct_script_ast(root, new);
 		root = new;
 		// =====   CONDITION  ====
-		if (lex->type_details == TK_SCRIPT_IF)
+		if (lex->type == T_SCRIPT_LOGICAL
+		|| lex->type == T_SCRIPT_CONTAINER)
 		{
 			t_lexeme	*end_lexeme_tmp;
 
-			log_trace("Need to go to the corresponding ELIF");
-			end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_ELIF);
-			if (!end_lexeme_tmp)
+			if (lex->type_details == TK_SCRIPT_THEN
+			|| lex->type_details == TK_SCRIPT_ELSE
+			|| lex->type_details == TK_SCRIPT_DO)
 			{
-				log_trace("Need to go to the corresponding ELSE");
-				end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_ELSE);
-				if (!end_lexeme_tmp)
-				{
-					log_trace("Need to go to the corresponding THEN");
-					end_lexeme_tmp = find_end_lexeme(lex, TK_SCRIPT_THEN);
-				}
+				log_debug("Create sub_ast for THEN / ELSE / DO with root %p", lex);
+				end_lexeme_tmp = find_next_token(lex);
+				root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
+				lex = lex->next;
+				root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme_tmp);
+				lex = end_lexeme_tmp->next;
+				if (lex->type_details == TK_SCRIPT_FI || lex->type_details == TK_SCRIPT_DONE)
+					break ;
+				//end_lexeme = find_end_lexeme(lex);
+				continue ;
 			}
-			root->left = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[condition]"));
-			root->left->parent = root;
-			root = root->left;
-			root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
-			lex = lex->next;
-			root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme_tmp);
-			lex = end_lexeme_tmp->next;
-			continue ;
+			else
+			{
+				log_debug("Create sub_ast for [condition] or IF / WHILE with root %p", lex);
+				end_lexeme_tmp = find_next_token(lex);
+				root->left = create_node(T_SCRIPT_LOGICAL, TK_SCRIPT, debug_data_node("[condition]"));
+				root->left->parent = root;
+				root = root->left;
+				root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
+				lex = lex->next;
+				root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme_tmp);
+				lex = end_lexeme_tmp->next;
+				continue ;
+			}
 		}
 		/*if (lex->type_details == TK_SCRIPT_CONDITION_BEGIN)
 		{
@@ -123,19 +157,6 @@ t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root)
 			continue ;
 		}*/
 		// ===== INSTRUCTIONS ====
-		if (root->type_details == TK_SCRIPT_THEN
-		|| root->type_details == TK_SCRIPT_ELSE
-		|| root->type_details == TK_SCRIPT_DO)
-		{
-			root->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
-			lex = lex->next;
-			root->sub_ast = construct_ast(lex, root->sub_ast, end_lexeme);
-			lex = end_lexeme->next;
-			if (lex->type_details == TK_SCRIPT_FI || lex->type_details == TK_SCRIPT_DONE)
-				break ;
-			//end_lexeme = find_end_lexeme(lex);
-			continue ;
-		}
 		lex = lex->next;
 		/*if (new->type == T_SCRIPT_CONTAINED && 
 		(lex->type_details == TK_SEMICOLON || lex->type_details == TK_NEWLINE))
