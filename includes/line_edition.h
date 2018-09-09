@@ -78,6 +78,11 @@ struct s_le_termcaps
 	const char	*_do; // Descendre le curseur d’une ligne
 	const char	*up; // Déplacer le curseur d’une ligne vers le haut
 	const char	*dc; // delete character
+	const char	*cr; // cursor_zero
+	const char	*sc; // cursor_save
+	const char	*rc; // cursor_back
+	const char	*cd; // clear_line
+	const char	*me; // clear_effect
 };
 
 struct s_line
