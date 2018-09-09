@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/07 16:06:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/09 12:52:03 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ t_lexeme	*find_end_lexeme(t_lexeme *start, size_t end_token)
 		start = start->next;
 	}
 	log_debug("End_lexeme found : %s - %p", start->data, start);
+	if (is_op0(start) && !start->next)
+		return (NULL);
 	return (start);
 }
