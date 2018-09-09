@@ -57,5 +57,6 @@ void				autocomplete(struct s_line *le)
 
 	autoc = autoc_setup(le);
 	if (autoc && autoc->items)
-		autoc_menu(autoc->items, le);
+		autoc_menu(autoc, le);
+	autoc_mem_free(autoc);
 }
