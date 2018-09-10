@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:39:26 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 13:42:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 14:26:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	node_placer_classic(t_ast *root, t_ast *new)
 {
 	int		lvl_new;
 
+	lvl_new = lvl_node(new);
 	log_debug("Node placement CLASSIC. new->data = %s", new->data[0]);
-	lvl_new = lvl_node(new)
 	if (lvl_new > lvl_node(root))
 	{
 		if (root->right)
@@ -62,5 +62,4 @@ void	node_placer_classic(t_ast *root, t_ast *new)
 			new->parent = root->parent;
 		root->parent = new;
 	}
-	return (new);
 }

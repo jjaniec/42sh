@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/10 12:42:22 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/10 14:14:12 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_explore.c \
 			ast/ast_constructor.c \
 			ast/node_placer_classic.c \
+			ast/node_placer_if.c \
+			ast/node_placer_while.c \
 			ast/check_parsing.c \
 			ast/lvl_lex.c \
 			ast/is_op.c \
@@ -84,7 +86,6 @@ SRC_NAME = 	is_separator.c \
 			builtin/is_builtin.c \
 			script/script.c \
 			script/script_ast_construct.c \
-			script/script_put_node_ast.c \
 			script/find_end_lexeme.c \
 			script/script_in_exec.c \
 			script/is_script_complete.c \

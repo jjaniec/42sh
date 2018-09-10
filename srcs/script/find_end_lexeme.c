@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 11:43:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 14:05:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_lexeme	*to_end(t_lexeme *lex)
 ** Otherwise, undefined behaviour
 */
 
-t_lexeme	*find_end_lexeme(t_lexeme *start, size_t end_token[])
+t_lexeme	*find_end_lexeme(t_lexeme *start, const size_t end_token[])
 {
 	int			i;
 	t_lexeme	*lex;
