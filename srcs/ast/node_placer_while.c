@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 13:44:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 14:01:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:50:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ void	node_placer_while(t_ast *root, t_ast *new)
 		new->parent = root;
 	}
 	else
-		node_placer_if(root->parent, new);
+		node_placer_while(root->parent, new);
 }

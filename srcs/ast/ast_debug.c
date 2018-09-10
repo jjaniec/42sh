@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/01 13:29:24 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 16:23:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,12 @@ static void	print_ast_tree(t_ast *node, int level)
 		print_arg(node);
 	else
 		ft_printf("%c\n", '~');
-	if (node->type_details == TK_SCRIPT && node->data && show_sub_ast)
+	if (node->sub_ast && node->data && show_sub_ast)
 	{
 
-		ft_printf("=============== SCRIPT SUB_AST ===================\n");
+		ft_printf("=================== SUB_AST ===================\n");
 		print_ast_tree(node->sub_ast, 0);
 		ft_printf("   =========================================\n");
-	}
-	if ((node->type_details == TK_SCRIPT_THEN || node->type_details == TK_SCRIPT_ELSE) && show_sub_ast)
-	{
-
-		ft_printf("   ============== THEN SUB_AST ================\n");
-		print_ast_tree(node->sub_ast, 0);
-		ft_printf("      ===================================\n");
-	}
-	if (node->type_details == TK_SCRIPT_DO && show_sub_ast)
-	{
-
-		ft_printf("   =============== DO SUB_AST =================\n");
-		print_ast_tree(node->sub_ast, 0);
-		ft_printf("      ===================================\n");
 	}
 	print_ast_tree(node->left, level + 1);
 }

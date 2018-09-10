@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/10 14:05:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:46:43 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,8 @@
 
 # define T_SCRIPT_CONDITION 7
 
-# define TK_SCRIPT_GE 701
-# define TK_SCRIPT_GT 702
-# define TK_SCRIPT_LE 703
-# define TK_SCRIPT_LT 704
-# define TK_SCRIPT_EQ 705
-# define TK_SCRIPT_NE 706
+# define TK_SCRIPT_CONDITION_IF 70
+# define TK_SCRIPT_CONDITION_WHILE 70
 
 
 void		script_lexemes(t_lexeme *lexemes);

@@ -6,13 +6,37 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/10 13:51:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 16:05:42 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static void	is_container(t_lexeme *lex, char *word)
+static t_lexeme *next_lex_condition(t_lexeme *lex)
+{
+	log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
+	if (lex->next)
+	{
+		lex->next->type = T_SCRIPT_CONDITION;
+		lex->next->type_details = TK_SCRIPT_CONDITION_IF;
+		return (lex->next);
+	}
+	return (lex);
+}
+
+static t_lexeme	*next_lex_condition_while(t_lexeme *lex)
+{
+	log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
+	if (lex->next)
+	{
+		lex->next->type = T_SCRIPT_CONDITION;
+		lex->next->type_details = TK_SCRIPT_CONDITION_WHILE;
+		return (lex->next);
+	}
+	return (lex);
+}
+
+static t_lexeme *is_container(t_lexeme *lex, char *word)
 {
 	if (ft_strequ(word, "THEN"))
 	{
@@ -34,9 +58,10 @@ static void	is_container(t_lexeme *lex, char *word)
 		lex->type = T_SCRIPT_CONTAINER;
 		lex->type_details = TK_SCRIPT_DONE;
 	}
+	return (lex);
 }
 
-static void	is_keyword(t_lexeme *lex)
+static t_lexeme	*is_keyword(t_lexeme *lex)
 {
 	char	*word;
 
@@ -45,11 +70,13 @@ static void	is_keyword(t_lexeme *lex)
 	{
 		lex->type = T_SCRIPT_LOGICAL;
 		lex->type_details = TK_SCRIPT_IF;
+		return (next_lex_condition(lex));
 	}
 	if (ft_strequ(word, "ELIF"))
 	{
 		lex->type = T_SCRIPT_LOGICAL;
 		lex->type_details = TK_SCRIPT_ELIF;
+		return (next_lex_condition(lex));
 	}
 	if (ft_strequ(word, "ELSE"))
 	{
@@ -60,8 +87,9 @@ static void	is_keyword(t_lexeme *lex)
 	{
 		lex->type = T_SCRIPT_LOGICAL;
 		lex->type_details = TK_SCRIPT_WHILE;
+		return(next_lex_condition_while(lex));
 	}
-	is_container(lex, word);
+	return (is_container(lex, word));
 }
 
 void	script_lexemes(t_lexeme *lexemes)
@@ -74,7 +102,7 @@ void	script_lexemes(t_lexeme *lexemes)
 		if (lexemes->type == T_WORD && first == 0)
 		{
 			first = 1;
-			is_keyword(lexemes);
+			lexemes = is_keyword(lexemes);
 			if (lexemes->type >= 5)
 				log_info("Update elem w/ data |%s| - type : %zu", lexemes->data, lexemes->type);
 		}
