@@ -81,7 +81,7 @@ struct s_le_termcaps
 	const char	*cr; // cursor_zero
 	const char	*sc; // cursor_save
 	const char	*rc; // cursor_back
-	const char	*cd; // clear_line
+	const char	*cd; // clear_all_after_cursor
 	const char	*me; // clear_effect
 	const char	*dl; // del_line
 	const char	*al; // add_line

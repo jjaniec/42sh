@@ -19,13 +19,7 @@ int		tab_key(char buffer[3], t_autoc *autoc)
 	if (!autoc->items[autoc->menu_selected])
 		autoc->menu_selected = 0;
 	autoc->menu_cursor = 0;
-	while (autoc->menu_line > 1)
-	{
-		tputs(autoc->le->tcaps->_do, 1, &write_one_char);
-		tputs(autoc->le->tcaps->cr, 1, &write_one_char);
-		tputs(autoc->le->tcaps->cd, 1, &write_one_char);
-		autoc->menu_line--;
-	}
+	autoc->menu_line = 1;
 	return (0);
 }
 

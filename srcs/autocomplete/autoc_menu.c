@@ -36,10 +36,8 @@ static void		cursor_back(t_autoc *autoc, struct s_line *le)
 static void		menu_new_line(t_autoc *autoc)
 {
 	tputs(autoc->le->tcaps->_do, 1, &write_one_char);
-	tputs(autoc->le->tcaps->dl, 1, &write_one_char);
-	tputs(autoc->le->tcaps->al, 1, &write_one_char);
-	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	tputs(autoc->le->tcaps->cr, 1, &write_one_char);
+	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	autoc->menu_cursor = 0;
 	autoc->menu_line++;
 }
@@ -50,8 +48,8 @@ static void		print_items(t_autoc *autoc, struct s_line *le)
 
 	i = 0;
 	tputs(le->tcaps->_do, 1, &write_one_char);
-	tputs(le->tcaps->al, 1, &write_one_char);
-	tputs(le->tcaps->cd, 1, &write_one_char);
+	tputs(autoc->le->tcaps->cr, 1, &write_one_char);
+	tputs(autoc->le->tcaps->cd, 1, &write_one_char);;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	tputs(le->tcaps->cr, 1, &write_one_char);
 	while (autoc->items[i])
