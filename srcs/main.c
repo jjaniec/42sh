@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 21:22:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/10 22:34:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,16 @@ static void 	twentyonesh(char **envp)
 
 int				main(int ac, char **av, char **envp)
 {
-/*	t_option	lol[SH_OPT_COUNT + 1];
-	init_options((t_option **)&lol);
-	(void)lol;*/
 	t_option	*twenty_one_sh_opts;
 
 	twenty_one_sh_opts = malloc(sizeof(t_option) * SH_OPT_COUNT + 1);
 	init_option_list(&twenty_one_sh_opts, SH_OPT_LIST);
-	while (twenty_one_sh_opts && twenty_one_sh_opts->opt_name)
+/*	while (twenty_one_sh_opts && twenty_one_sh_opts->opt_name)
 	{
 		printf("1st opt desc: %s\n", twenty_one_sh_opts[0].opt_desc);
 		twenty_one_sh_opts = twenty_one_sh_opts + 1;
-	}
-
-	//printf("1st opt desc: %s\n", twenty_one_sh_opts[0].opt_desc);
-	(void)twenty_one_sh_opts;
+	}*/
+	parse_options(ac, av, twenty_one_sh_opts);
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	if (ac > 1)

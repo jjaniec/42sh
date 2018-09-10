@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 21:22:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/10 22:20:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ void		subp_heredoc(t_lexeme *lex, char *eof_word);
 void		ft_free_argv(char **tab_);
 
 void		init_option_list(t_option **opt_tab, ...);
+
+void		parse_options(int ac, char **av, t_option *opt_list);
 
 #endif
