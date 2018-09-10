@@ -50,6 +50,7 @@ static void		print_items(t_autoc *autoc, struct s_line *le)
 	i = 0;
 	//i = le->cursor_index_for_line + 1;
 	tputs(le->tcaps->_do, 1, &write_one_char);
+	tputs(le->tcaps->al, 1, &write_one_char);
 	tputs(le->tcaps->cd, 1, &write_one_char);
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	//while (--i)

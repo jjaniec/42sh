@@ -48,6 +48,8 @@ static t_autoc	*autoc_setup(struct s_line *le)
 	autoc->menu_cursor = 0;
 	if (le->cursor_index_for_line > 1 && check_dir(le))
 		autoc->items = autoc_dir(le);
+	else
+		autoc->items = NULL;
 	return (autoc);
 }
 

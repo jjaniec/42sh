@@ -54,6 +54,10 @@ struct s_le_termcaps	*init_termcaps_strings(void)
 		le_exit("Failed to initialize \"cd\" termcap\n", "tgetstr");
 	if ((tc.me = tgetstr("me", NULL)) == NULL)
 		le_exit("Failed to initialize \"me\" termcap\n", "tgetstr");
+	if ((tc.dl = tgetstr("dl", NULL)) == NULL)
+		le_exit("Failed to initialize \"dl\" termcap\n", "tgetstr");
+	if ((tc.al = tgetstr("al", NULL)) == NULL)
+		le_exit("Failed to initialize \"al\" termcap\n", "tgetstr");
 
 	return (&tc);
 }

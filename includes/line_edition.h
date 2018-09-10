@@ -83,6 +83,8 @@ struct s_le_termcaps
 	const char	*rc; // cursor_back
 	const char	*cd; // clear_line
 	const char	*me; // clear_effect
+	const char	*dl; // del_line
+	const char	*al; // add_line
 };
 
 struct s_line

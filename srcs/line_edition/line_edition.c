@@ -28,7 +28,7 @@ static void		read_key(char key[LE_KEY_SIZE])
 		perror("read() - perror() report");
 	}
 
-	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ... 
+	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ...
 }
 
 static t_kno	get_key_number(const char *key)
@@ -70,10 +70,13 @@ char			*line_edition(void)
 
 		if (key_no == '\n')
 		{
+			tputs(le.tcaps->_do, 1, &write_one_char);
+			tputs(le.tcaps->al, 1, &write_one_char);
+			tputs(le.tcaps->up, 1, &write_one_char);
 			set_term_attr(LE_SET_OLD);
 			break ;
 			// need more things to do in the future when line is finished
-		} 
+		}
 
 	}
 
@@ -105,7 +108,7 @@ int	 main(void)
 {
 	prepare_test();
 	prompt();
-	
+
 	char * s = line_edition();
 	printf("\ninput = %s", s);
 	free(s);
