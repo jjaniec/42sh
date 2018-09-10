@@ -27,7 +27,7 @@ int		other_key(char buffer[3], t_autoc *autoc)
 {
 	(void)buffer;
 	(void)autoc;
-	return (0);
+	return (1);
 }
 
 void		init_key_func(t_autoc *autoc)

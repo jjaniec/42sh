@@ -18,6 +18,6 @@ int		autoc_key_reader(t_autoc *autoc)
 
 		read(1, buffer, 3);
 		if (((autoc->key_function)[(int)buffer[0]])(buffer, autoc))
-			return (1);
-	return (0);
+			return (0);
+	return (1);
 }

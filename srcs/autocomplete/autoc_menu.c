@@ -74,7 +74,7 @@ int				autoc_menu(t_autoc *autoc, struct s_line *le)
 {
 	print_items(autoc, le);
 	init_key_func(autoc);
-	while (!autoc_key_reader(autoc))
+	while (autoc_key_reader(autoc))
 	{
 		print_items(autoc, le);
 	}
