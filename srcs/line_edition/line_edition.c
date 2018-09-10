@@ -71,7 +71,8 @@ char			*line_edition(void)
 		if (key_no == '\n')
 		{
 			tputs(le.tcaps->_do, 1, &write_one_char);
-			tputs(le.tcaps->dl, 1, &write_one_char);
+			tputs(le.tcaps->cr, 1, &write_one_char);
+			tputs(le.tcaps->cd, 1, &write_one_char);
 			tputs(le.tcaps->up, 1, &write_one_char);
 			set_term_attr(LE_SET_OLD);
 			break ;
