@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 16:16:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/10 16:58:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,7 @@
 
 ////////////////////////////////////////////////////////
 
-// includes
-# include <stdint.h>
-# include <inttypes.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <termios.h>
-# include <curses.h>
-# include <term.h>
-# include "../ft_printf/libft/libft.h"
+# include <twenty_one_sh.h>
 
 // sizes
 # define LE_LINE_SIZE (2048U)

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 14:48:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 18:29:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct			s_ast
 ** char	**tmp_envp: environmental var if modified temporarily
 **			(T_ASSIGN_ENVIRONEMENT for instance). Default: NULL
 */
+
 typedef struct			s_exec
 {
 	int		ret;
@@ -55,5 +56,22 @@ typedef struct			s_exec
 	char	**envp;
 	char	**tmp_envp;
 }						t_exec;
+
+/*
+** Option typedef:
+** an option should be composed of:
+** the name of the option: ex: (-)"G" / (--)"--color"
+** the description of the option: ex: "Enables colorized output"
+** a bool storing its status, initialized with its default value
+*/
+
+typedef struct			s_option
+{
+	char	*opt_name;
+	char	*opt_desc;
+	bool	opt_status;
+}						t_option;
+
+typedef t_option		*t_opt_list;
 
 #endif

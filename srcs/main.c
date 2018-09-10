@@ -6,13 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/28 21:38:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/10 21:22:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static t_exec	*loop_body(char *input, char **envp)
+static t_exec		*loop_body(char *input, char **envp)
 {
 	t_lexeme	*lex;
 	t_ast		*ast_root;
@@ -37,7 +37,7 @@ static t_exec	*loop_body(char *input, char **envp)
 	return (exe);
 }
 
-static void twentyonesh(char **envp)
+static void 	twentyonesh(char **envp)
 {
 	char		*input;
 	t_exec		*exe;
@@ -60,8 +60,23 @@ static void twentyonesh(char **envp)
 	}
 }
 
-int	main(int ac, char **av, char **envp)
+int				main(int ac, char **av, char **envp)
 {
+/*	t_option	lol[SH_OPT_COUNT + 1];
+	init_options((t_option **)&lol);
+	(void)lol;*/
+	t_option	*twenty_one_sh_opts;
+
+	twenty_one_sh_opts = malloc(sizeof(t_option) * SH_OPT_COUNT + 1);
+	init_option_list(&twenty_one_sh_opts, SH_OPT_LIST);
+	while (twenty_one_sh_opts && twenty_one_sh_opts->opt_name)
+	{
+		printf("1st opt desc: %s\n", twenty_one_sh_opts[0].opt_desc);
+		twenty_one_sh_opts = twenty_one_sh_opts + 1;
+	}
+
+	//printf("1st opt desc: %s\n", twenty_one_sh_opts[0].opt_desc);
+	(void)twenty_one_sh_opts;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	if (ac > 1)
