@@ -6,11 +6,17 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/07 15:45:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 10:42:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+static void	upgrade_next_to_condition(t_lexeme *lex)
+{
+	if (lex->next)
+		lex->next->type_details = TK_SCRIPT_CONDITION;
+}
 
 static void	is_container(t_lexeme *lex, char *word)
 {
@@ -45,11 +51,13 @@ static void	is_keyword(t_lexeme *lex)
 	{
 		lex->type = T_SCRIPT_LOGICAL;
 		lex->type_details = TK_SCRIPT_IF;
+		upgrade_next_to_condition(lex);
 	}
 	if (ft_strequ(word, "ELIF"))
 	{
 		lex->type = T_SCRIPT_LOGICAL;
 		lex->type_details = TK_SCRIPT_ELIF;
+		upgrade_next_to_condition(lex);
 	}
 	if (ft_strequ(word, "ELSE"))
 	{
@@ -60,6 +68,7 @@ static void	is_keyword(t_lexeme *lex)
 	{
 		lex->type = T_SCRIPT_LOGICAL;
 		lex->type_details = TK_SCRIPT_WHILE;
+		upgrade_next_to_condition(lex);
 	}
 	is_container(lex, word);
 }

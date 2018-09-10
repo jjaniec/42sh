@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/09 13:12:24 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/10 11:43:37 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,30 @@ static t_lexeme	*to_end(t_lexeme *lex)
 ** Otherwise, undefined behaviour
 */
 
-t_lexeme	*find_end_lexeme(t_lexeme *start, size_t end_token)
+t_lexeme	*find_end_lexeme(t_lexeme *start, size_t end_token[])
 {
+	int			i;
+	t_lexeme	*lex;
+
+	i = 0;
 	start = start->next;
-	while (start && start->next && start->next->type_details != end_token)
+	i = 0;
+	while (end_token[i])
 	{
-		if (start->type == T_SCRIPT_LOGICAL)
-			start = to_end(start);
-		start = start->next;
+		lex = start;
+		while (lex && lex->type_details != end_token[i])
+		{
+			lex = to_end(lex);
+			lex = lex->next;
+		}
+		if (lex)
+		{
+			log_debug("End_lexeme found : %s - %p", lex->data, lex);
+			return (lex);
+		}
+		/*if (is_op0(start) && !start->next)
+			return (NULL);*/
+		i++;
 	}
-	log_debug("End_lexeme found : %s - %p", start->data, start);
-	if (is_op0(start) && !start->next)
-		return (NULL);
 	return (start);
 }

@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/09 13:50:14 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/10 11:14:03 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define TK_SCRIPT_ELIF 52
 # define TK_SCRIPT_ELSE 53
 # define TK_SCRIPT_WHILE 54
+# define TK_SCRIPT_CONDITION_IF 55
+# define TK_SCRIPT_CONDITION_WHILE 55
 
 
 
