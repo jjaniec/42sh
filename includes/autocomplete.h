@@ -20,6 +20,7 @@
 
 typedef struct			s_autoc
 {
+	int					(*key_function[128])(char buffer[3], struct s_autoc *aut);
 	struct s_line		*le;
 	struct winsize		win;
 	char					**items;
@@ -37,5 +38,7 @@ void	ft_ul_video(char *str);
 void	ft_ul(char *str);
 void	ft_video(char *str);
 void	autoc_mem_free(t_autoc *autoc);
+int	autoc_key_reader(t_autoc *autoc);
+void	init_key_func(t_autoc *autoc);
 
 #endif

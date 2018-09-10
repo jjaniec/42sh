@@ -56,7 +56,7 @@ char			*line_edition(void)
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(&le);
 
-	while ("cest ta mere la jjaniec")
+	while (1)
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
 		read_key(key);
@@ -71,7 +71,7 @@ char			*line_edition(void)
 		if (key_no == '\n')
 		{
 			tputs(le.tcaps->_do, 1, &write_one_char);
-			tputs(le.tcaps->al, 1, &write_one_char);
+			tputs(le.tcaps->dl, 1, &write_one_char);
 			tputs(le.tcaps->up, 1, &write_one_char);
 			set_term_attr(LE_SET_OLD);
 			break ;

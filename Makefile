@@ -41,6 +41,8 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/order_tab_ascii.c\
 			autocomplete/autoc_menu.c\
 			autocomplete/autoc_mem_free.c\
+			autocomplete/autoc_key_reader.c\
+			autocomplete/autoc_fkey.c\
 			line_edition/action_key.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \
