@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/07 15:28:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 13:47:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_ast	*ast(t_lexeme *lex)
 		return (NULL);
 	}
 	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
-	root = construct_ast(lex, root, NULL);
+	root = ast_constructor(lex, root, NULL, &node_placer_classic);
 	if (VERBOSE_MODE)
 		ast_debug(root);
 	return (root);

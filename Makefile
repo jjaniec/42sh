@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/07 15:48:04 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/10 12:42:22 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC_NAME = 	is_separator.c \
 			lexer/free_lexemes.c \
 			ast/ast.c \
 			ast/ast_explore.c \
-			ast/ast_construct.c \
+			ast/ast_constructor.c \
+			ast/node_placer_classic.c \
 			ast/check_parsing.c \
 			ast/lvl_lex.c \
 			ast/is_op.c \

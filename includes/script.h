@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/10 11:14:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 13:35:38 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # define TK_SCRIPT_ELIF 52
 # define TK_SCRIPT_ELSE 53
 # define TK_SCRIPT_WHILE 54
-# define TK_SCRIPT_CONDITION_IF 55
-# define TK_SCRIPT_CONDITION_WHILE 55
 
 
 
@@ -44,6 +42,7 @@
 # define TK_SCRIPT_LT 704
 # define TK_SCRIPT_EQ 705
 # define TK_SCRIPT_NE 706
+
 
 void		script_lexemes(t_lexeme *lexemes);
 int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
