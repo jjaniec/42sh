@@ -95,12 +95,14 @@ void		actionk_delete_character(struct s_line *le)
 			fprintf(tty_debug, "NOP PAS DE DELETE\n");
 			return ;
 		}
-		if (cursor_is_at_end_of_term_line(le->cursor_index_for_line, le))
+		if (le->cursor_index_for_line == (le->line_index - 1))
 		{
+			fprintf(tty_debug, "FIFIFIFIFIFI\n");
 			delete_last_char_without_moving_cursor(le);
 		}
 		else
 		{
+			fprintf(tty_debug, "ZAZAZAZAZAZAZAZ\n");
 			delete_char_into_cmdline_without_moving_cursor(le);
 		}
 	

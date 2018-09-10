@@ -15,13 +15,27 @@
 void	actionk_cut_to_end(struct s_line *le)
 {
 	unsigned int	stop_loop;
+	t_kno			keep_key_no;
 
-	stop_loop = le->line_index - le->cursor_index_for_line;
+	if (le->cursor_index_for_line == le->line_index
+	|| le->cursor_index_for_line == le->line_index - 1)
+		return ;
+
+	if (le->le_state.opt_colosyn == true)
+	{
+		colosyn_cut_to_end(le);
+		return ;
+	}
+
+	stop_loop = le->line_index - le->cursor_index_for_line - 1;
 	actionk_copy_to_end(le);
 	actionk_move_cursor_end(le);
+	keep_key_no = le->key_no;
+	le->key_no = LE_BACKSPACE;
 	while (stop_loop > 0)
 	{
 		actionk_delete_character(le);
 		--stop_loop;
 	}
+	le->key_no = keep_key_no;
 }

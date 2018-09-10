@@ -49,7 +49,7 @@ static void	reprint_part_of_line(struct s_line *le,
 
 static void	move_cursor_back_to_right_place(struct s_line *le,
 					struct s_infos_for_rewriting *infos_rewriting)
-{
+{//sleep(5);
 	while ((infos_rewriting->nb_line_to_go_up)-- > 0)
 		tputs(le->tcaps->up, 1, &write_one_char);
 	if (infos_rewriting->pos_end_rewriting < le->current_cursor_pos)
@@ -118,7 +118,8 @@ void		delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le)
 	if (le->nb_car_written_on_last_current_line == le->term_line_size - 1
 	&& (le->current_cursor_line + 1) < le->nb_li_currently_writing)
 		weird_trick_to_erase_char(le);
-	move_cursor_back_to_right_place(le, &infos_rewriting);
+	if (le->cursor_index_for_line != le->line_index)
+		move_cursor_back_to_right_place(le, &infos_rewriting);
 	if (le->nb_car_written_on_last_current_line == le->term_line_size
 	|| (le->current_cursor_line == 0 && le->nb_li_currently_writing == 1 && 0
 	&& le->nb_car_written_on_last_current_line

@@ -25,6 +25,7 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_ALT_RIGHT, &actionk_move_cursor_by_word_right},
 		{LE_ALT_LEFT, &actionk_move_cursor_by_word_left},
 		{LE_BACKSPACE, &actionk_delete_character},
+		{LE_DELETE, &actionk_delete_character},
 		{LE_CTRL_UP, &actionk_move_cursor_line_up},
 		{LE_CTRL_DOWN, &actionk_move_cursor_line_down},
 		{LE_CTRL_B, &actionk_copy_to_start},
@@ -35,7 +36,6 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_CTRL_DASH, &actionk_cut_all},
 		{LE_CTRL_OPEN_SQUARE_BRACKET, &actionk_cut_to_start},
 		{LE_CTRL_CLOSE_SQUARE_BRACKET, &actionk_cut_to_end},
-		{LE_DELETE, &actionk_delete_character},
 		{LE_ARROW_UP, &actionk_history_up},
 		{LE_ARROW_DOWN, &actionk_history_down},
 		{LE_CTRL_D, &actionk_eof}

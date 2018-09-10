@@ -45,8 +45,8 @@ extern char		**g_envp;
 
 // keys
 # define LE_NB_KEYS (23)
-# define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
-# define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
+# define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
+# define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
 # define LE_ARROW_LEFT ((27) + (91 << 1) + (68 << 2))
 # define LE_CTRL_A (1)
@@ -58,16 +58,16 @@ extern char		**g_envp;
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE /*9*/  ((27) + (91 << 1) + (51 << 2) + (126 << 3))
+# define LE_DELETE 9  /*((27) + (91 << 1) + (51 << 2) + (126 << 3))*/
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
 # define LE_CTRL_P (16)
 # define LE_CTRL_U (21)
 # define LE_CTRL_DASH (31)
-# define LE_CTRL_OPEN_SQUARE_BRACKET (27)
+# define LE_CTRL_OPEN_SQUARE_BRACKET (27) - 23
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
-# define LE_CTRL_D (4)
+# define LE_CTRL_D (4) + 1
 // CTRL + L  :)
 
 //prompt types
@@ -142,6 +142,7 @@ struct s_line
 	size_t					term_line_size;
 	unsigned int			nb_li_currently_writing;
 	unsigned int			nb_car_written_on_last_current_line;
+							// a modifier en nb_char_on_last_line
 	char					clipboard[LE_LINE_SIZE];
 
 	struct s_le_termcaps	*tcaps;
@@ -179,6 +180,9 @@ struct s_infos_for_rewriting
 void		refresh_colorized_printing(struct s_line *le, char *cmd); // tmp
 void	colosyn_add_char(struct s_line *le, t_kno key);
 void	colosyn_delete_char(struct s_line *le);
+void	colosyn_past_clipboard(struct s_line *le);
+void	colosyn_cut_to_end(struct s_line *le);
+void	colosyn_cut_to_start(struct s_line *le);
 
 
 char			*line_edition(int prompt_type);

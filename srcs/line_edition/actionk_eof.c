@@ -26,6 +26,7 @@ void	actionk_eof(struct s_line *le)
 
 	else
 	{
-		actionk_delete_character(le);
+		//keep key no, set it to LE_DELETE then restore
+		//actionk_delete_character(le);
 	}
 }

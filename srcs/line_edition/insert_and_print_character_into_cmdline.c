@@ -51,12 +51,17 @@ static void	move_cursor_back_to_right_place(struct s_line *le, unsigned int keep
 		foo2 = true;
 	}
 
-	if (foo == true)
+	if (foo == true && fprintf(tty_debug, "PTDRRRR\n"))
 		actionk_cursor_move_left(le);
 	
 	if (foo2 == false)
 		while (le->current_cursor_pos < (keep_pos + 1))
 			actionk_cursor_move_right(le);
+
+	if (keep_pos == 0 && cursor_is_at_end_of_cmd(le) == true)
+	{
+		actionk_cursor_move_left(le);
+	}
 }
 
 void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
@@ -84,37 +89,4 @@ void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
 		foo = true;
 	}
 	move_cursor_back_to_right_place(le, keep_pos, foo);
-}
-
-void		old_version_insert_character_into_cmdline(struct s_line *le, t_kno key)
-{
-	//fprintf(tty_debug, "INSERTION CARACTERE A LA POS %u\n", le->cursor_index_for_line);
-
-	/* FAUT OPTI CA, CEST TROP LENT CA SE VOIT TROP, PAS BESOIN DE REECRIRE LES CAR QUI
-	NE BOUGERONT PAS, CEST A DIRE CEUX QUI PRECEDENT LA POSITION D'INSERTION  
-	LE DEFI VA DONC ETRE DE CORRECTEMENT SET - RESET MES VARIABLES DANS struct s_line *le  */
-
-	unsigned int	keep_pos;
-	char			tmp[LE_LINE_SIZE];
-	unsigned int	len_tmp;
-	char			save_clipboard[LE_LINE_SIZE];
-	unsigned int	i;
-
-	insert_char_into_array(le->line, key, le->cursor_index_for_line);
-	++(le->line_index);
-	keep_pos = le->cursor_index_for_line;
-	actionk_move_cursor_start(le);
-	ft_strcpy(tmp, le->line);
-	len_tmp = le->line_index;
-	ft_strcpy(save_clipboard, le->clipboard);
-	init_line_edition_attributes(le);
-	ft_strcpy(le->clipboard, save_clipboard);
-	i = 0;
-	while (i < len_tmp)
-	{
-		print_key_at_end(le, tmp[i]);
-		++i;
-	}
-	while ((le->cursor_index_for_line - 1) != keep_pos)
-		actionk_cursor_move_left(le);
 }
