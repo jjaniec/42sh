@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 18:36:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 19:24:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@
 # include "exec.h"
 # include "syntax_highlighting.h"
 
-/*
-** Shell options
-*/
-
 extern t_option		g_sh_opts[];
+
+# define SH_USAGE \
+	"./21sh -[Gh] [-c \"command\"]"
 
 void		subp_string(char **s);
 
@@ -64,5 +63,12 @@ void		init_option_list(t_option **opt_tab, ...);
 
 char		**parse_options(int *ac, char **av, \
 				t_option *opt_list, t_option **char_opt_index);
+
+void		format_help(char *usage_str, t_option *opts);
+
+t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
+
+bool	is_option_activated(char *opt_str, \
+			t_option *opt_list, t_option **char_opt_index);
 
 #endif

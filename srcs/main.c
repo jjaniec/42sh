@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 18:55:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 19:26:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,21 @@ static void 	twentyonesh(char **envp)
 
 int				main(int ac, char **av, char **envp)
 {
-	t_option	*ptr;
+	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char		**args;
 
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	ptr = g_sh_opts;
-	args = parse_options(&ac, av, ptr, (t_option **)char_opt_index);
+	opt_list = g_sh_opts;
+	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	log_debug("Option parsing new ac %d", ac);
-	if (ac > 0 && char_opt_index['c'] && char_opt_index['c']->opt_status)
+	if (is_option_activated("h", opt_list, char_opt_index))
+	{
+		format_help(SH_USAGE, opt_list);
+		exit(0);
+	}
+	if (ac > 0 && is_option_activated("c", opt_list, char_opt_index))
 		loop_body(ft_strjoin(*args, "\n"), cp_envp((const char **)envp));
 	else
 		twentyonesh(cp_envp((const char **)envp));

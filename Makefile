@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/11 15:04:41 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/11 19:26:52 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,9 @@ SRC_NAME = 	is_separator.c \
 			ft_free_argv.c \
 			sub_prompt.c \
 			parse_options.c \
+			format_help.c \
+			get_opt_elem.c \
+			is_option_activated.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
