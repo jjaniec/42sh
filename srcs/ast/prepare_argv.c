@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 15:52:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 15:48:34 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 17:06:39 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_EOF)
 		lexemes->type = T_WORD;
 		lexemes->type_details = TK_DEFAULT;
 	}
-	if (lexemes->type != T_WORD || lvl_lex(lexemes) != 5 || flag_heredoc_EOF)
+	if (lexemes->type != T_WORD || flag_heredoc_EOF)
 		return (prepare_argv_operator(lexemes));
 	if (!(argv = malloc(sizeof(char *) * count_argv(lexemes) + 1)))
 		exit(MALLOC_ERROR);

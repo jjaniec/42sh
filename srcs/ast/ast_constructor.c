@@ -6,11 +6,14 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 17:01:27 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/10 18:58:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+static int	put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
+			void(* const node_placer)(t_ast *, t_ast *));
 
 const size_t	g_token_bypass[] = {
 	TK_SCRIPT_THEN,
@@ -69,7 +72,7 @@ static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast *root, const size_t next_to
 	end_lexeme = find_end_lexeme(lex, next_tokens);
 	if (lex == end_lexeme)
 		log_warn("Find end lexeme: end_lexeme is the same than start ! %s - %p", lex->data, lex);
-	ast_constructor(lex->next, root, end_lexeme, node_placer);
+	ast_constructor(lex, root, end_lexeme, node_placer);
 	return (end_lexeme);
 }
 
@@ -88,8 +91,11 @@ static t_lexeme	*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
 			node_placer(*root, node_subast);
 			*root = node_subast;
 			root[0]->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
-			g_node_placer[i](root[0]->sub_ast, new);
-			return(create_sub_ast(lex, new, g_next_tokens[i], g_node_placer[i]));
+			put_node(&lex, &(root[0]->sub_ast), new, g_node_placer[i]);
+			if (root[0]->sub_ast->left || root[0]->sub_ast->right)
+				return(create_sub_ast(lex, new, g_next_tokens[i], g_node_placer[i]));
+			else
+				return(create_sub_ast(lex, root[0]->sub_ast, g_next_tokens[i], g_node_placer[i]));
 		}
 		i++;
 	}
@@ -124,14 +130,36 @@ static int	is_bypass_token(t_ast *node)
 	return (0);
 }
 
+
+static int	put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
+			void(* const node_placer)(t_ast *, t_ast *))
+{
+	int		flag_heredoc_EOF;
+
+	flag_heredoc_EOF = manage_heredoc(*lex);
+	if (!is_bypass_token(new))
+	{
+		//log_trace("Put_node: %s - %p", new->data[0], new);
+		node_placer(*root, new);
+		*root = new;
+	}
+	if (lex[0]->type == T_WORD)
+		while (*lex && lex[0]->type == T_WORD)
+			*lex = lex[0]->next;
+	else
+		*lex = lex[0]->next;
+	return (flag_heredoc_EOF);
+}
+
 t_ast		*ast_constructor(t_lexeme *lex, t_ast *root, t_lexeme *end, \
 			void(* const node_placer)(t_ast *, t_ast *))
 {
 	t_ast	*new;
-	int		flag_heredoc_EOF = 0;
 	t_lexeme	*save;
+	int		flag_heredoc_EOF;
 
 	log_info("Construction of new AST. root = %p", root);
+	flag_heredoc_EOF = 0;
 	while (lex != end)
 	{
 		new = create_node(lex->type, lex->type_details, \
@@ -140,17 +168,7 @@ t_ast		*ast_constructor(t_lexeme *lex, t_ast *root, t_lexeme *end, \
 		lex = need_subast(lex, &root, new, node_placer);
 		if (lex != save)
 			continue;
-		flag_heredoc_EOF = manage_heredoc(lex);
-		if (!is_bypass_token(new))
-		{
-			node_placer(root, new);
-			root = new;
-		}
-		if (lex->type == T_WORD)
-			while (lex && lex->type == T_WORD)
-				lex = lex->next;
-		else
-			lex = lex->next;
+		flag_heredoc_EOF = put_node(&lex, &root, new, node_placer);
 	}
 	while (root->parent)
 		root = root->parent;
