@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 15:43:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 18:55:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,16 @@ static void 	twentyonesh(char **envp)
 int				main(int ac, char **av, char **envp)
 {
 	t_option	*ptr;
+	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
+	char		**args;
 
-	ptr = g_sh_opts;
-	parse_options(ac, av, g_sh_opts);
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	if (ac > 1)
-		loop_body(ft_strjoin(av[1], "\n"), cp_envp((const char **)envp));
+	ptr = g_sh_opts;
+	args = parse_options(&ac, av, ptr, (t_option **)char_opt_index);
+	log_debug("Option parsing new ac %d", ac);
+	if (ac > 0 && char_opt_index['c'] && char_opt_index['c']->opt_status)
+		loop_body(ft_strjoin(*args, "\n"), cp_envp((const char **)envp));
 	else
 		twentyonesh(cp_envp((const char **)envp));
 	return (0);

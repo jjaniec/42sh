@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 15:34:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 18:36:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,16 @@
 
 # include <errno.h>
 
+# define IFS			"\t\n "
+# define MALLOC_ERROR 	1
+# define OPT_NOT_FOUND_ERROR 1
+
+# ifndef VERBOSE_MODE
+#  define VERBOSE_MODE 0
+# endif
+
 # define MAX_OPT_NAMES	2
+# define CHAR_OPT_INDEX_SIZE (126)
 
 # include <ft_printf.h>
 # include "struct.h"
@@ -36,13 +45,6 @@
 # include "line_edition.h"
 # include "exec.h"
 # include "syntax_highlighting.h"
-
-# define IFS			"\t\n "
-# define MALLOC_ERROR 	1
-
-# ifndef VERBOSE_MODE
-#  define VERBOSE_MODE 0
-# endif
 
 /*
 ** Shell options
@@ -60,6 +62,7 @@ void		ft_free_argv(char **tab_);
 
 void		init_option_list(t_option **opt_tab, ...);
 
-void		parse_options(int ac, char **av, t_option *opt_list);
+char		**parse_options(int *ac, char **av, \
+				t_option *opt_list, t_option **char_opt_index);
 
 #endif
