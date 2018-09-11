@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-int		tab_key(char buffer[3], t_autoc *autoc)
+static int		tab_key(char buffer[3], t_autoc *autoc)
 {
 	(void)buffer;
 	autoc->menu_selected++;
@@ -23,10 +23,28 @@ int		tab_key(char buffer[3], t_autoc *autoc)
 	return (0);
 }
 
-int		other_key(char buffer[3], t_autoc *autoc)
+static int		return_key(char buffer[3], t_autoc *autoc)
 {
+	char	*item;
+	int	i;
+
 	(void)buffer;
-	(void)autoc;
+	i = 0;
+	if (autoc->menu_selected >= 0)
+	{
+		item = autoc->items[autoc->menu_selected];
+		while (item[i])
+		{
+			insert_character_into_cmdline(autoc->le, (uint64_t)item[i]);
+			i++;
+		}
+	}
+	return (1);
+}
+
+static int		other_key(char buffer[3], t_autoc *autoc)
+{
+	process_key((uint64_t)buffer[0], autoc->le);
 	return (1);
 }
 
@@ -34,16 +52,11 @@ void		init_key_func(t_autoc *autoc)
 {
 	int		i;
 
-	i = 0;
-	while (i < 128)
-	{
+	i = -1;
+	while (++i < 128)
 		autoc->key_function[i] = &other_key;
-		/*if (i >= 32 && i <= 126)
-			autoc->key_function[i] = &alpha_num;*/
-		i++;
-	}
 	//autoc->key_function[27] = &arrow_key;
-	//autoc->key_function[10] = &return_key;
+	autoc->key_function[10] = &return_key;
 	//autoc->key_function[LE_BACKSPACE] = &del_key;
 	autoc->key_function[LE_TAB] = &tab_key;
 }
