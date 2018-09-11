@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 22:20:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 15:34:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdbool.h>
 
 # include <errno.h>
+
+# define MAX_OPT_NAMES	2
 
 # include <ft_printf.h>
 # include "struct.h"
@@ -46,13 +48,7 @@
 ** Shell options
 */
 
-# define SH_OPT_COUNT	3
-
-# define INTERACTIVE_MODE_OPT		"c", "Non-interactive mode: Execute command line parameters", false
-# define SYNTAX_HIGHLIGHTING_OPT	"G", "Toggle syntax highlighting", true
-
-# define SH_OPT_LIST	\
-	INTERACTIVE_MODE_OPT, SYNTAX_HIGHLIGHTING_OPT, NULL
+extern t_option		g_sh_opts[];
 
 void		subp_string(char **s);
 

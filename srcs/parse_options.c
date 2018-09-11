@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:45:34 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 22:35:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 15:43:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 static t_option	*get_opt_elem(t_option *opt_list, char *opt_str)
 {
-	t_option	*ptr;
+	t_option	*cur_elem;
+	char		**cur_elem_identifier;
+	int			i;
 
-	ptr = opt_list;
-	while (ptr && ptr->opt_name)
+	cur_elem = opt_list;
+	while (cur_elem && cur_elem->opt_desc)
 	{
-		printf("Opt name : %s\n", ptr->opt_name);
-		if (!(ft_strcmp(opt_str, ptr->opt_name)))
-			return (ptr);
-		ptr += 1;
+		i = 0;
+		cur_elem_identifier = cur_elem->opt_name;
+		while (cur_elem_identifier && *cur_elem_identifier && i < MAX_OPT_NAMES)
+		{
+			if (!(ft_strcmp(opt_str, *cur_elem_identifier)))
+				return (cur_elem);
+			cur_elem_identifier += 1;
+			i++;
+		}
+		cur_elem += 1;
 	}
 	return (NULL);
 }
@@ -32,7 +40,10 @@ static void		toggle_str_opt(t_option *opt_list, char *str_opt)
 	t_option	*elem_ptr;
 
 	if ((elem_ptr = get_opt_elem(opt_list, str_opt)))
+	{
+		log_info("Toggled %s option", str_opt);
 		elem_ptr->opt_status = true;
+	}
 	else
 	{
 		ft_putstr_fd("No such option : ", 2);
@@ -65,13 +76,10 @@ void			parse_options(int ac, char **av, t_option *opt_list)
 	ptr = &av[1];
 	while (ac-- > 0 && **ptr == '-' && ft_strcmp(*ptr, "--"))
 	{
-		if (**ptr == '-')
-		{
-			if ((*ptr)[1] == '-')
-				toggle_str_opt(opt_list, (*ptr) + 2);
-			else
-				toggle_char_opts(opt_list, (*ptr) + 1);
-		}
+		if ((*ptr)[1] == '-')
+			toggle_str_opt(opt_list, (*ptr) + 1);
+		else
+			toggle_char_opts(opt_list, (*ptr) + 1);
 		ptr = (ac != 0) ? (&ptr[1]) : (NULL);
 	}
 }

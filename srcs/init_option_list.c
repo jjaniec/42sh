@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:15:13 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 21:23:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 14:23:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,18 @@ void				init_option_list(t_option **opt_tab, ...)
 {
 	t_option	*ptr;
 	va_list		va_ptr;
-	void		*tmp;
+	char		**tmp;
 
 	ptr = *opt_tab;
 	va_start(va_ptr, opt_tab);
 	while (1)
 	{
-		if (!(tmp = va_arg(va_ptr, char *)))
+		if (!(tmp = va_arg(va_ptr, char **)) || !(*tmp))
 			break ;
-		*ptr = init_opt(tmp, va_arg(va_ptr, char *), va_arg(va_ptr, int));
+		*ptr = init_opt(*tmp, va_arg(va_ptr, char *), va_arg(va_ptr, int));
 		ptr++;
 	}
+	//ptr = NULL;
 	*ptr = (t_option){NULL, NULL, false};
 	va_end(va_ptr);
 }

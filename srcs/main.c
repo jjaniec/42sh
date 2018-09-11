@@ -6,11 +6,18 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 22:34:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 15:43:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+t_option		g_sh_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
+	{{"G"}, "Disable syntax highlighting", false},
+	{{}, NULL, false},
+};
 
 static t_exec		*loop_body(char *input, char **envp)
 {
@@ -62,16 +69,10 @@ static void 	twentyonesh(char **envp)
 
 int				main(int ac, char **av, char **envp)
 {
-	t_option	*twenty_one_sh_opts;
+	t_option	*ptr;
 
-	twenty_one_sh_opts = malloc(sizeof(t_option) * SH_OPT_COUNT + 1);
-	init_option_list(&twenty_one_sh_opts, SH_OPT_LIST);
-/*	while (twenty_one_sh_opts && twenty_one_sh_opts->opt_name)
-	{
-		printf("1st opt desc: %s\n", twenty_one_sh_opts[0].opt_desc);
-		twenty_one_sh_opts = twenty_one_sh_opts + 1;
-	}*/
-	parse_options(ac, av, twenty_one_sh_opts);
+	ptr = g_sh_opts;
+	parse_options(ac, av, g_sh_opts);
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	if (ac > 1)

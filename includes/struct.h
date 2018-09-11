@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 18:29:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 15:34:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct			s_exec
 
 typedef struct			s_option
 {
-	char	*opt_name;
+	char	*opt_name[MAX_OPT_NAMES];
 	char	*opt_desc;
 	bool	opt_status;
 }						t_option;
