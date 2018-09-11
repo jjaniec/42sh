@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_line_edition_attributes.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:01:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/06 22:39:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static void			init_once(struct s_line *le)
 	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
 	le->special_case_for_newest_his_elem = false;
 
-	init_signals();
+	le->le_state.opt_colosyn = !true;
+
 }
 //
 void    			init_line_edition_attributes(struct s_line *le)

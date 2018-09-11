@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:09:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/06 18:29:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys001"
+# define TTY_DEBUG "/dev/ttys000"
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
@@ -41,12 +41,12 @@ extern char		**g_envp;
 # define LE_LINE_SIZE (2048U)
 # define LE_KEY_SIZE (7U)
 # define LE_HISTORY_LINE_SIZE (LE_LINE_SIZE)
-# define LE_NB_ELEM_HISTORY (1000U)
+# define LE_NB_ELEM_HISTORY (1000U)// utile ?
 
 // keys
 # define LE_NB_KEYS (23)
-# define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2)) // not done yet
-# define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2)) // not done yet
+# define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
+# define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
 # define LE_ARROW_LEFT ((27) + (91 << 1) + (68 << 2))
 # define LE_CTRL_A (1)
@@ -58,26 +58,32 @@ extern char		**g_envp;
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE /*9*/  ((27) + (91 << 1) + (51 << 2) + (126 << 3))
+# define LE_DELETE 9  /*((27) + (91 << 1) + (51 << 2) + (126 << 3))*/
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
 # define LE_CTRL_P (16)
 # define LE_CTRL_U (21)
 # define LE_CTRL_DASH (31)
-# define LE_CTRL_OPEN_SQUARE_BRACKET (27)
+# define LE_CTRL_OPEN_SQUARE_BRACKET (27) - 23
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
-# define LE_CTRL_D (4)
+# define LE_CTRL_D (4) + 1
+// CTRL + L  :)
 
 //prompt types
-# define PROMPT_DEFAULT 1
-# define PROMPT_SUBPROMPT_SQUOTE 2
-# define PROMPT_SUBPROMPT_DQUOTE 3
-# define PROMPT_SUBPROMPT_HEREDOC 4
+enum e_prompt
+{
+	PROMPT_DEFAULT,
+	PROMPT_SUBPROMPT_SQUOTE,
+	PROMPT_SUBPROMPT_DQUOTE,
+	PROMPT_SUBPROMPT_HEREDOC
+};
+
 
 # define PROMPT_DEFAULT_STRING "%> "
 # define PROMPT_SUBPROMPT_QUOTE_STRING "> "
 # define PROMPT_SUBPROMPT_HEREDOC_STRING "heredoc> "
+// ajouter les subprompt and et or
 
 // others
 # define LE_FATAL_ERROR (2) // for le_exit()
@@ -102,6 +108,15 @@ enum e_cross_screen
 };
 typedef enum e_cross_screen t_cross_screen;
 
+struct s_le_state
+{
+	bool			opt_colosyn;
+
+	size_t			prompt_len;
+	enum e_prompt	prompt_type;
+	
+};
+
 struct s_le_termcaps
 {
 	const char	*nd; // Déplacer le curseur vers la droite d’un caractère
@@ -114,9 +129,9 @@ struct s_le_termcaps
 
 struct s_line
 {
-	//struct s_le_state		le_state;
+	struct s_le_state		le_state;
 
-	int						prompt_type;
+//	int						prompt_type;
 	t_kno					key_no;
 	char					line[LE_LINE_SIZE];
 	unsigned int			line_index;
@@ -127,6 +142,7 @@ struct s_line
 	size_t					term_line_size;
 	unsigned int			nb_li_currently_writing;
 	unsigned int			nb_car_written_on_last_current_line;
+							// a modifier en nb_char_on_last_line
 	char					clipboard[LE_LINE_SIZE];
 
 	struct s_le_termcaps	*tcaps;
@@ -136,15 +152,6 @@ struct s_line
 
 };
 
-
-struct s_le_state
-{
-	bool		opt_colosyn;
-
-	size_t		prompt_len;
-//	prompt_t	prompt_type; // enum ?
-	
-};
 
 struct s_history
 {
@@ -170,6 +177,14 @@ struct s_infos_for_rewriting
 
 
 // prototypes
+void		refresh_colorized_printing(struct s_line *le, char *cmd); // tmp
+void	colosyn_add_char(struct s_line *le, t_kno key);
+void	colosyn_delete_char(struct s_line *le);
+void	colosyn_past_clipboard(struct s_line *le);
+void	colosyn_cut_to_end(struct s_line *le);
+void	colosyn_cut_to_start(struct s_line *le);
+
+
 char			*line_edition(int prompt_type);
 
 struct s_le_termcaps	*init_termcaps_strings(void);

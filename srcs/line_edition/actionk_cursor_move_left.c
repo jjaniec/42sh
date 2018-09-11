@@ -33,4 +33,6 @@ void		actionk_cursor_move_left(struct s_line *le)
 		--(le->current_cursor_pos);
 	}
 	--(le->cursor_index_for_line);
+
+	fprintf(tty_debug, "LEFTTTTT\n");
 }

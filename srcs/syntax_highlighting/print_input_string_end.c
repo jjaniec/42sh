@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_input_string_end.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/02 18:33:03 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/02 19:51:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/06 18:09:52 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void		print_input_string_end(char *ptr, char *unmatched_quote_err_ptr)
 	if (ptr && *ptr)
 	{
 		if (unmatched_quote_err_ptr)
-		{
 			ft_putstr(COL_QUOTED_ARG);
-			fprintf(tty_debug, "A ya une quote lol ! |%s|\n", unmatched_quote_err_ptr);
-		}
 		else
 			return ;
 		le = access_le_main_datas();
