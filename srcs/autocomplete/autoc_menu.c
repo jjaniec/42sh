@@ -23,12 +23,20 @@ static void		cursor_back(t_autoc *autoc, struct s_line *le)
 	tmp_line = autoc->menu_line;
 	while ((unsigned int)tmp_cursor != original_pos_index)
 	{
-		ft_putstr(le->tcaps->le);
-		tmp_cursor--;
+		if ((unsigned int)tmp_cursor > original_pos_index)
+		{
+			tputs(autoc->le->tcaps->le, 1, &write_one_char);
+			tmp_cursor--;
+		}
+		else
+		{
+			tputs(autoc->le->tcaps->nd, 1, &write_one_char);
+			tmp_cursor++;
+		}
 	}
 	while (tmp_line)
 	{
-		ft_putstr(le->tcaps->up);
+		tputs(autoc->le->tcaps->up, 1, &write_one_char);
 		tmp_line--;
 	}
 }
@@ -51,7 +59,6 @@ static void		print_items(t_autoc *autoc, struct s_line *le)
 	tputs(autoc->le->tcaps->cr, 1, &write_one_char);
 	tputs(autoc->le->tcaps->cd, 1, &write_one_char);;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
-	tputs(le->tcaps->cr, 1, &write_one_char);
 	while (autoc->items[i])
 	{
 		if (autoc->menu_cursor + ft_strlen(autoc->items[i]) + 1 >=
@@ -73,8 +80,6 @@ int				autoc_menu(t_autoc *autoc, struct s_line *le)
 	print_items(autoc, le);
 	init_key_func(autoc);
 	while (autoc_key_reader(autoc))
-	{
 		print_items(autoc, le);
-	}
 	return (1);
 }
