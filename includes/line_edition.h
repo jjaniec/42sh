@@ -38,9 +38,9 @@
 extern char		**g_envp;
 
 // sizes
-# define LE_LINE_SIZE (2048U)
+# define LE_DEFAULT_LINE_SIZE 10//(2048U)
 # define LE_KEY_SIZE (7U)
-# define LE_HISTORY_LINE_SIZE (LE_LINE_SIZE)
+# define LE_HISTORY_LINE_SIZE (LE_DEFAULT_LINE_SIZE)
 # define LE_NB_ELEM_HISTORY (1000U)// utile ?
 
 // keys
@@ -133,9 +133,11 @@ struct s_line
 
 //	int						prompt_type;
 	t_kno					key_no;
-	char					line[LE_LINE_SIZE];
-	unsigned int			line_index;
-	unsigned int			cursor_index_for_line;
+	//char					line[LE_LINE_SIZE];
+	char					*line; // a renommer en "cmd"
+	size_t					line_size;
+	unsigned int			line_index; // a renommer en cmd_index
+	unsigned int			cursor_index_for_line; // cursor_index_for_cmd
 	unsigned int			start_pos;
 	unsigned int			current_cursor_pos;
 	unsigned int			current_cursor_line;
@@ -143,12 +145,15 @@ struct s_line
 	unsigned int			nb_li_currently_writing;
 	unsigned int			nb_car_written_on_last_current_line;
 							// a modifier en nb_char_on_last_line
-	char					clipboard[LE_LINE_SIZE];
+	//char					clipboard[LE_LINE_SIZE]; // pointer
+	char					*clipboard;
+	size_t					clipboard_size; // total size of the memory area
+	size_t					clipboard_len; // nb char stored
 
 	struct s_le_termcaps	*tcaps;
 	struct s_history		*history;
 	unsigned int			his_nb_elem;
-	bool					special_case_for_newest_his_elem;
+	bool					special_case_for_newest_his_elem;// a changer pour un elem vide
 
 };
 
@@ -177,6 +182,11 @@ struct s_infos_for_rewriting
 
 
 // prototypes
+
+void	check_cmd_storage(struct s_line *le, unsigned int nb_char);
+void	check_clipboard_storage(struct s_line *le, unsigned int nb_char);
+
+
 void		refresh_colorized_printing(struct s_line *le, char *cmd); // tmp
 void	colosyn_add_char(struct s_line *le, t_kno key);
 void	colosyn_delete_char(struct s_line *le);
@@ -192,7 +202,7 @@ struct s_le_termcaps	*init_termcaps_strings(void);
 struct s_line	*access_le_main_datas(void);
 
 int		write_one_char(int c);
-void	insert_char_into_array(char *line, t_kno key, unsigned int pos);
+void	insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos);
 
 bool    le_is_separator(char c);
 

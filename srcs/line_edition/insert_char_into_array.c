@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-void	insert_char_into_array(char *line, t_kno key, unsigned int pos)
+void	insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos)
 {
 	// check depassement tableau
 
@@ -20,9 +20,11 @@ void	insert_char_into_array(char *line, t_kno key, unsigned int pos)
 
 	//fprintf(tty_debug, "je bouge |%s|\n",   line + pos );
 
-	ft_memmove(line + pos + 1, line + pos, ft_strlen(line + pos) );
+	check_cmd_storage(le, 2);
 
-	line[pos] = key;
+	ft_memmove(le->line + pos + 1, le->line + pos, ft_strlen(le->line + pos) );
+
+	le->line[pos] = key;
 
 	//fprintf(tty_debug, "AFTER LINE  = |%s|\n", line);
 }

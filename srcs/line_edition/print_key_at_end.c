@@ -22,7 +22,8 @@ static bool	need_to_go_to_next_line(struct s_line *le)
 void	print_key_at_end(struct s_line *le, t_kno key)
 {
 	print_key(key);
-	le->line[le->line_index] = key; // check depassement tableau
+	check_cmd_storage(le, 2);
+	le->line[le->line_index] = key;
 	++(le->line_index);
 	++(le->cursor_index_for_line);
 	if ( need_to_go_to_next_line(le) == true )

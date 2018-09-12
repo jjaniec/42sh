@@ -39,13 +39,18 @@ static void			init_once(struct s_line *le)
 	le->tcaps = init_termcaps_strings();
 	le->history = NULL;
 	le->his_nb_elem = 0;
-	ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
+	if ((le->clipboard = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
+		le_exit("Memory allocation failed\n", "malloc", errno);
+	ft_memset(le->clipboard, '\0', LE_DEFAULT_LINE_SIZE);
+	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
+	le->clipboard_len = 0;
+
 	le->special_case_for_newest_his_elem = false;
 
 	le->le_state.opt_colosyn = !true;
 
 }
-//
+
 void    			init_line_edition_attributes(struct s_line *le)
 {
 	static bool already_init = false;
@@ -53,16 +58,13 @@ void    			init_line_edition_attributes(struct s_line *le)
 	if (already_init == false)
 	{
 		init_once(le);
-		/* init_termcaps();
-		le->tcaps = init_termcaps_strings();
-		le->history = NULL;
-		le->his_nb_elem = 0;
-		ft_memset(le->clipboard, '\0', LE_LINE_SIZE);
-		le->special_case_for_newest_his_elem = false; */
 		already_init = true;
 	}
-
-	ft_memset(le->line, '\0', LE_LINE_SIZE);
+	
+	if ((le->line = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
+		le_exit("Memory allocation failed\n", "malloc", errno);
+	le->line_size = LE_DEFAULT_LINE_SIZE;
+	ft_memset(le->line, '\0', le->line_size);
 	le->line_index = 0;
 	le->cursor_index_for_line = 0;
     le->start_pos = 3; // tmp value, need to be updated according to the prompt

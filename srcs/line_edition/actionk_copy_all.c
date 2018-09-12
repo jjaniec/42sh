@@ -12,8 +12,13 @@
 
 #include <twenty_one_sh.h>
 
-void    actionk_copy_all(struct s_line *le)
+void	actionk_copy_all(struct s_line *le)
 {
+    le->clipboard_len = 0;
+
+ 	check_clipboard_storage(le, le->line_index);
+
     ft_strcpy(le->clipboard, le->line);
+    le->clipboard_len = le->line_index;
 	fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
 }

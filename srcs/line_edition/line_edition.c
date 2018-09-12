@@ -24,16 +24,21 @@ static void		le_debug_infos(void)
 	struct s_line	le = *( access_le_main_datas() );
 
 	fprintf(tty_debug, "--------------------------------------\n");
-	fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n",
-	le.current_cursor_pos, le.current_cursor_line);
+	fprintf(tty_debug, "line = |%s|\n", le.line);
+	fprintf(tty_debug, "line size = %zu\n", le.line_size);
 	fprintf(tty_debug, "line index = %u\n", le.line_index);
 	fprintf(tty_debug, "cursor index for line = %u - %c\n", \
 	le.cursor_index_for_line, le.line[le.cursor_index_for_line]);
+	fprintf(tty_debug, "start pos = %u\n", le.start_pos);
+	fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n", \
+	le.current_cursor_pos, le.current_cursor_line);
+	fprintf(tty_debug, "term line size = %zu\n", le.term_line_size);
 	fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
-	fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n",
+	fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n", \
 	le.nb_car_written_on_last_current_line);
-	fprintf(tty_debug, "li max size = %zu\n", le.term_line_size);
-	fprintf(tty_debug, "line = |%s|\n", le.line);
+	fprintf(tty_debug, "clipboard = |%s|\n", le.clipboard);
+	fprintf(tty_debug, "clipboard size = %zu\nclipboard len = %zu\n", \
+	le.clipboard_size, le.clipboard_len);
 	fprintf(tty_debug, "--------------------------------------\n");
 }
 

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
+/*
 static unsigned int	print_clipboard(struct s_line *le)
 {
 	return (print_str_on_term(le->clipboard, le->current_cursor_pos, le, 2));
@@ -117,10 +117,10 @@ static void	replace_cursor(struct s_line *le, unsigned int tmp_current_cursor_po
 	}
 
 }
-
+*/
 static void past_clipboard_into_cmdline(struct s_line *le)
 {
-	unsigned int	tmp_current_cursor_pos;
+	//unsigned int	tmp_current_cursor_pos;
 	t_kno			keep_key_no;
 	bool			keep_opt_colosyn;
 
@@ -130,7 +130,7 @@ static void past_clipboard_into_cmdline(struct s_line *le)
 
 	keep_key_no = le->key_no;
 	keep_opt_colosyn = le->le_state.opt_colosyn;
-	//actionk_cursor_move_right(le);
+
 	le->key_no = LE_DELETE;
 	le->le_state.opt_colosyn = false;
 	while (cursor_is_at_end_of_cmd(le) == false)
@@ -140,15 +140,13 @@ static void past_clipboard_into_cmdline(struct s_line *le)
 	le->key_no = keep_key_no;
 	le->le_state.opt_colosyn = keep_opt_colosyn;
 
-	//actionk_cursor_move_right(le);
-//sleep(5);
 	const char *clipboard = le->clipboard;
 	while (*clipboard != '\0')
 	{
 		print_key_at_end(le, *clipboard);
 		++clipboard;
 	}
-//sleep(5);
+
 	char *keep = part_of_line;
 	while (*part_of_line != '\0')
 	{
@@ -162,13 +160,13 @@ static void past_clipboard_into_cmdline(struct s_line *le)
 		actionk_cursor_move_left(le);
 
 
-
 	return ; return ; return ; return ; return ; return ; return ; return ; return ;
-
+/*
 	tmp_current_cursor_pos = print_clipboard(le);
 	tmp_current_cursor_pos = reprint_following_part_of_line(le, tmp_current_cursor_pos);
 	update_values(le);
 	replace_cursor(le, tmp_current_cursor_pos);
+*/
 }
 
 static void past_clipboard_at_end(struct s_line *le)

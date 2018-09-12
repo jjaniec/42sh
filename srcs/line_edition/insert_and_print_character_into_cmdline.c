@@ -71,7 +71,7 @@ void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
 	unsigned int	keep_cursor_index_for_line;
 	bool			foo;
 	
-	insert_char_into_array(le->line, key, le->cursor_index_for_line);
+	insert_char_into_array(le, key, le->cursor_index_for_line);
 	init_and_update_values(le, &keep_pos, &keep_line, &keep_cursor_index_for_line);
 	shift_printed_line(le);
 	if (keep_pos == le->term_line_size - 1)

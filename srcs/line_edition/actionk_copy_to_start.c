@@ -14,6 +14,9 @@
 
 void    actionk_copy_to_start(struct s_line *le)
 {
+    le->clipboard_len = 0;
+    check_clipboard_storage(le, le->cursor_index_for_line + 1);
+
     le->clipboard[0] = '\0';
     ft_strncat( le->clipboard, &(le->line[0]), le->cursor_index_for_line );
     fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
