@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/10 15:46:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/12 13:52:43 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define TK_SCRIPT_CONDITION_IF 70
 # define TK_SCRIPT_CONDITION_WHILE 70
 
+
+extern const size_t	g_cant_begin_with[7];
 
 void		script_lexemes(t_lexeme *lexemes);
 int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);

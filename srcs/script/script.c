@@ -6,20 +6,52 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/10 16:05:42 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/12 13:56:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+const size_t g_cant_begin_with[7] = {
+	TK_SCRIPT_THEN,
+	TK_SCRIPT_ELIF,
+	TK_SCRIPT_ELSE,
+	TK_SCRIPT_FI,
+	TK_SCRIPT_DONE,
+	TK_SEMICOLON,
+	0
+};
+
+static int	good_start(t_lexeme *lex)
+{
+	int		i;
+
+	i = 0;
+	while (g_cant_begin_with[i])
+	{
+		if (lex->type_details == g_cant_begin_with[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static t_lexeme	*is_keyword(t_lexeme *lex);
+
 static t_lexeme *next_lex_condition(t_lexeme *lex)
 {
-	log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
-	if (lex->next)
+	lex->next = is_keyword(lex->next);
+	if (lex->next && good_start(lex->next))
 	{
+		log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
 		lex->next->type = T_SCRIPT_CONDITION;
 		lex->next->type_details = TK_SCRIPT_CONDITION_IF;
 		return (lex->next);
+	}
+	else
+	{
+		log_error("Nope");
+		return (NULL);
 	}
 	return (lex);
 }
@@ -103,6 +135,8 @@ void	script_lexemes(t_lexeme *lexemes)
 		{
 			first = 1;
 			lexemes = is_keyword(lexemes);
+			if (!lexemes)
+				exit(1);
 			if (lexemes->type >= 5)
 				log_info("Update elem w/ data |%s| - type : %zu", lexemes->data, lexemes->type);
 		}
