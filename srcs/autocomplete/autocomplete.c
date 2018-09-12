@@ -44,7 +44,7 @@ static t_autoc	*autoc_setup(struct s_line *le)
 		return (NULL);
 	autoc->le = le;
 	autoc->menu_selected = -1;
-	autoc->menu_line = 1;
+	autoc->menu_line = 0;
 	autoc->menu_cursor = 0;
 	if (le->cursor_index_for_line > 1 && check_dir(le))
 		autoc->items = autoc_dir(le);

@@ -15,24 +15,19 @@
 static void		cursor_back(t_autoc *autoc, struct s_line *le)
 {
 	unsigned int	original_pos_index;
-	int				tmp_cursor;
-	int				tmp_line;
+	unsigned int	tmp_cursor;
+	unsigned int	tmp_line;
 
 	original_pos_index = le->cursor_index_for_line + 3;
-	tmp_cursor = autoc->menu_cursor;
-	tmp_line = autoc->menu_line;
-	while ((unsigned int)tmp_cursor != original_pos_index)
+	tmp_cursor = (unsigned int)autoc->menu_cursor;
+	tmp_line = (unsigned int)autoc->menu_line;
+	while (tmp_cursor != original_pos_index)
 	{
-		if ((unsigned int)tmp_cursor > original_pos_index)
-		{
-			tputs(autoc->le->tcaps->le, 1, &write_one_char);
-			tmp_cursor--;
-		}
-		else
-		{
-			tputs(autoc->le->tcaps->nd, 1, &write_one_char);
-			tmp_cursor++;
-		}
+		(tmp_cursor > original_pos_index) ?
+		(tputs(autoc->le->tcaps->le, 1, &write_one_char)) :
+		(tputs(autoc->le->tcaps->nd, 1, &write_one_char));
+
+		(tmp_cursor > original_pos_index) ? (tmp_cursor--) : (tmp_cursor++);
 	}
 	while (tmp_line)
 	{
@@ -55,9 +50,7 @@ static void		print_items(t_autoc *autoc, struct s_line *le)
 	int i;
 
 	i = 0;
-	tputs(le->tcaps->_do, 1, &write_one_char);
-	tputs(autoc->le->tcaps->cr, 1, &write_one_char);
-	tputs(autoc->le->tcaps->cd, 1, &write_one_char);;
+	menu_new_line(autoc);
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	while (autoc->items[i])
 	{
@@ -65,10 +58,8 @@ static void		print_items(t_autoc *autoc, struct s_line *le)
 		autoc->win.ws_col)
 			menu_new_line(autoc);
 		autoc->menu_cursor += ft_strlen(autoc->items[i]) + 1;
-		if (autoc->menu_selected == i)
-			ft_video(autoc->items[i]);
-		else
-			ft_putstr(autoc->items[i]);
+		(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
+		(ft_putstr(autoc->items[i]));
 		tputs(le->tcaps->nd, 1, &write_one_char);
 		i++;
 	}

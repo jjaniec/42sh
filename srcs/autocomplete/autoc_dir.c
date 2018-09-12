@@ -22,19 +22,15 @@ static char		*autoc_get_path(struct s_line *le)
 	count = 0;
 	if (le->line[i] == ' ')
 		return (ft_strdup("./"));
-	else
+	while (le->line[i] != ' ')
 	{
-		while (le->line[i] != ' ')
-		{
-			count++;
-			i--;
-		}
-		res = malloc(sizeof(char) * count + 1);
-		ft_bzero(res, count + 1);
-		ft_strncpy(res, &le->line[i + 1], count);
-		return (res);
+		count++;
+		i--;
 	}
-	return (NULL);
+	res = malloc(sizeof(char) * count + 1);
+	ft_bzero(res, count + 1);
+	ft_strncpy(res, &le->line[i + 1], count);
+	return (res);
 }
 
 static int		check_path(char *dirname)

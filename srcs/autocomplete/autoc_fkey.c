@@ -19,7 +19,7 @@ static int		tab_key(char buffer[3], t_autoc *autoc)
 	if (!autoc->items[autoc->menu_selected])
 		autoc->menu_selected = 0;
 	autoc->menu_cursor = 0;
-	autoc->menu_line = 1;
+	autoc->menu_line = 0;
 	return (0);
 }
 
