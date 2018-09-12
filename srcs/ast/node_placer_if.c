@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:43:39 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 16:51:09 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/12 12:57:53 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 
 void	node_placer_if(t_ast *root, t_ast *new)
 {
-	log_debug("Node placement IF. new->data = %s - Root : %p", new->data[0], root);
+	//log_debug("Node placement IF. new->data = %s - Root : %p", new->data[0], root);
 	if (!root)
 		log_error("!ROOT");
 	if (!new)
 		log_error("!NEW");
 	if (root->parent && root->parent->type == T_WORD)
 	{
+		log_trace("On right !");
 		root = root->parent->parent;
 		root->right = new;
 		new->parent = root;

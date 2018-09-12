@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 13:44:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 15:50:58 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/12 12:58:17 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int		lvl_script_node(t_ast *node)
 
 void	node_placer_while(t_ast *root, t_ast *new)
 {
-	log_debug("Node placement WHILE. new->data = %s", new->data[0]);
+	//log_debug("Node placement WHILE. new->data = %s", new->data[0]);
 	if (!root)
 		log_error("!ROOT");
 	if (!new)
