@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 19:12:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 21:27:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,4 +170,34 @@ void	exec_tests(char **envp)
 	exec_diff("TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat");
 	exec_diff("TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl");
 
+	exec_diff("Builtins 1 - echo", "echo ls");
+	exec_diff("Builtins 2 - echo multi args", "echo ls ls ls ls ls ls");
+	exec_diff("Builtins 3 - echo no args", "echo");
+	exec_diff("Builtins 4 - Pipes (w/ echo)", "echo ls | cat");
+	exec_diff("Builtins 5 - Redirs (w/ echo)", "echo ls > /tmp/a && cat < /tmp/a");
+	exec_diff("Builtins 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a");
+	exec_diff("Builtins 7 - cd", "cd / && pwd");
+	exec_diff("Builtins 8 - cd", "cd / && cd dev && pwd");
+	exec_diff("Builtins 9 - cd", "cd ~ && cd /dev && pwd");
+	exec_diff("Builtins 10 - cd", "cd ~ && cd /dev && cd .. && pwd");
+
+	//char		**tmp_env = cp_envp((const char **)envp);
+	exec_diff("Builtins 11 - env", "env | grep -v _");
+	//exec_diff("Builtins 12 - env w/ T_ENV_ASSIGN", "envxi"); (pas encore gere)
+	exec_diff("Builtins 13 - env 2", "env | grep -v _ | cat");
+/*
+	pid_t	child_pid = fork();
+	int		status;
+	int		waited_pid;
+
+	if (child_pid == -1)
+		log_error("Fork() not working");
+	else if (child_pid == 0)
+		system("./21sh exit");
+	else
+	{
+		waited_pid = waitpid(child_pid, &status, 0);
+		ok(1, "Builtins 15 - exit");
+	}
+*/
 }
