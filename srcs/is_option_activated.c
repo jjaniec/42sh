@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 19:16:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 19:27:41 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/11 19:51:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ bool	is_option_activated(char *opt_str, \
 	opt_ptr = NULL;
 	if (opt_str)
 	{
-		if (*opt_str != '-' && char_opt_index && \
+		if (*opt_str != '-' && \
+			char_opt_index && \
 			char_opt_index[(int)*opt_str])
 			opt_ptr = char_opt_index[(int)*opt_str];
 		else

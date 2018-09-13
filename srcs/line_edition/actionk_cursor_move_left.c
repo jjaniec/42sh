@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cursor_move_left.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:58:27 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:58:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void		actionk_cursor_move_left(struct s_line *le)
 {
-	unsigned int	i;
 	if (le->current_cursor_line == 0 && le->current_cursor_pos == le->start_pos)
 	{
 		//fprintf(tty_debug, "Pas possible d'aller plus a gauche\n");
@@ -23,15 +22,10 @@ void		actionk_cursor_move_left(struct s_line *le)
 	if (le->current_cursor_pos == 0)
 	{
 		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
-		le->current_cursor_pos = le->li_max_size - 1;
+		le->current_cursor_pos = le->term_line_size - 1;
 		--(le->current_cursor_line);
 		tputs(le->tcaps->up, 1, &write_one_char);
-		i = 0;
-		while (i < le->li_max_size - 1)
-		{
-			tputs(le->tcaps->nd, 1, &write_one_char);
-			++i;
-		}
+		cursor_crosses_screen(le, CROSS_TO_RIGHT);
 	}
 	else
 	{

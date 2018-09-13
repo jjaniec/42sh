@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 19:26:22 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 15:27:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,53 +19,94 @@ t_option		g_sh_opts[] = {
 	{{}, NULL, false},
 };
 
-static t_exec		*loop_body(char *input, char **envp)
+char			**g_envp;
+struct s_line	*g_le;
+
+static char		*get_valid_input(int ac, char **av, t_lexeme **lexemes)
+{
+	char		*input;
+	char		*unmatched_quote_err_ptr;
+	t_lexeme	*lexemes_ret;
+
+	if (ac > 1)
+		input = ft_strjoin(av[1], "\n");
+	else
+	{
+		ft_putstr("%> ");
+		input = line_edition(PROMPT_DEFAULT);
+		ft_putchar('\n');
+	}
+	if (ac == 1)
+	{
+		while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+			UNMATCHED_QUOTE_ERR)
+		{
+			free_lexemes(lexemes_ret);
+			subp_string(&input);
+		}
+		*lexemes = lexemes_ret;
+	}
+	else
+	{
+		if (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+			UNMATCHED_QUOTE_ERR)
+		{
+			printf("21sh: Error: Unmatched quote");
+			*lexemes = NULL;
+			return (NULL);
+		}
+		else
+			*lexemes = lexemes_ret;
+	}
+	return (input);
+}
+
+static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_index)
 {
 	t_lexeme	*lex;
-	t_ast		*ast_root;
-	t_exec		*exe;
+	char		*input;
 
 	errno = 0;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	lex = lexer(input);
-	//print_colorized_input(input, envp, lex);
+	while (1)
+	{
+		if (!(input = get_valid_input(ac, av, &lex)))
+			return (NULL);
+		twenty_one_sh(input, envp, opt_list, char_opt_index);
+		free_lexemes(lex);
+		free(input);
+	}
+}
+
+static int		twenty_one_sh(char *input, char **envp, \
+					t_option *opt_list, t_option **char_opt_index)
+{
+	t_ast		*ast_root;
+	t_exec		*exe;
+	t_lexeme	*lexemes;
+
+	if (/*is_option_activated("c", opt_list, char_opt_index) && */\
+		lexer(input, &lexemes, NULL);
+	{
+		printf("Non-interactive mode: unmatched quote error, exiting\n");
+		exit(1);
+	}
 	ast_root = ast(lex);
 	exe = create_exec((const char **)envp);
 	if (!ast_root)
 	{
 		free_lexemes(lex);
-		return (exe);
+		return (1);
 	}
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
-	free_lexemes(lex);
-	return (exe);
+	free_lexemes(lexemes);
+	free(input);
+	return (0);
 }
 
-static void 	twentyonesh(char **envp)
-{
-	char		*input;
-	t_exec		*exe;
-
-	tty_debug = fopen(TTY_DEBUG, "w");
-	while (1)
-	{
-		ft_putstr("%> ");
-		input = line_edition();
-		ft_putchar('\n');
-		exe = loop_body(input, envp);
-		if (exe && exe->tmp_envp)
-			envp = exe->tmp_envp;
-		else if (exe)
-			envp = exe->envp;
-		else
-			exit(1);
-		free_exec(&exe);
-		free(input);
-	}
-}
 
 int				main(int ac, char **av, char **envp)
 {
@@ -75,17 +116,23 @@ int				main(int ac, char **av, char **envp)
 
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
+	g_envp = cp_envp((const char **)envp);
+	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
-	log_debug("Option parsing new ac %d", ac);
 	if (is_option_activated("h", opt_list, char_opt_index))
 	{
 		format_help(SH_USAGE, opt_list);
 		exit(0);
 	}
 	if (ac > 0 && is_option_activated("c", opt_list, char_opt_index))
-		loop_body(ft_strjoin(*args, "\n"), cp_envp((const char **)envp));
+		while (ac > 0)
+		{
+			twenty_one_sh(ft_strjoin(*av, "\n"), g_envp);
+			av++;
+			ac--;
+		}
 	else
-		twentyonesh(cp_envp((const char **)envp));
+		loop_body(g_envp, opt_list, char_opt_index);
 	return (0);
 }

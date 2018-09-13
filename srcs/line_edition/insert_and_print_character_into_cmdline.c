@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   insert_character_into_cmdline.c                    :+:      :+:    :+:   */
+/*   insert_and_print_character_into_cmdline.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 15:25:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:01:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
-
-static void	insert_char_into_array(char *line, t_kno key, unsigned int pos)
-{
-	// check depassement tableau
-
-	//fprintf(tty_debug, "BEFORE LINE = |%s|\n", line);
-
-	//fprintf(tty_debug, "je bouge |%s|\n",   line + pos );
-
-	ft_memmove(line + pos + 1, line + pos, ft_strlen(line + pos) );
-
-	line[pos] = key;
-
-	//fprintf(tty_debug, "AFTER LINE  = |%s|\n", line);
-}
+#include <twenty_one_sh.h>
 
 static void	init_and_update_values(struct s_line *le, unsigned int *keep_pos,
 						unsigned int *keep_line,
@@ -74,7 +59,7 @@ static void	move_cursor_back_to_right_place(struct s_line *le, unsigned int keep
 			actionk_cursor_move_right(le);
 }
 
-void		insert_character_into_cmdline(struct s_line *le, t_kno key)
+void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
 {
 	unsigned int	keep_pos;
 	unsigned int	keep_line;
@@ -84,16 +69,16 @@ void		insert_character_into_cmdline(struct s_line *le, t_kno key)
 	insert_char_into_array(le->line, key, le->cursor_index_for_line);
 	init_and_update_values(le, &keep_pos, &keep_line, &keep_cursor_index_for_line);
 	shift_printed_line(le);
-	if (keep_pos == le->li_max_size - 1)
+	if (keep_pos == le->term_line_size - 1)
 		keep_line += 1;
 	while (le->current_cursor_line > keep_line)
 	{	
 		tputs(le->tcaps->up, 1, &write_one_char);
 		--(le->current_cursor_line);
-		le->cursor_index_for_line -= le->li_max_size;
+		le->cursor_index_for_line -= le->term_line_size;
 	}
 	foo = false;
-	if (keep_pos == le->li_max_size - 1)
+	if (keep_pos == le->term_line_size - 1)
 	{
 		keep_pos = 0;
 		foo = true;

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/11 19:26:52 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/13 14:53:16 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,30 +34,54 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			ast/ast_free.c \
+			ast/prepare_argv.c \
+			ast/create_node.c \
+			line_edition/access_le_main_datas.c \
 			line_edition/action_key.c \
+			line_edition/actionk_copy_all.c \
+			line_edition/actionk_copy_to_end.c \
+			line_edition/actionk_copy_to_start.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \
+			line_edition/actionk_cut_all.c \
+			line_edition/actionk_cut_to_end.c \
+			line_edition/actionk_cut_to_start.c \
 			line_edition/actionk_delete_character.c \
+			line_edition/actionk_delete_current_input.c \
+			line_edition/actionk_eof.c \
+			line_edition/actionk_history_down.c \
+			line_edition/actionk_history_up.c \
 			line_edition/actionk_move_cursor_by_word_left.c \
 			line_edition/actionk_move_cursor_by_word_right.c \
 			line_edition/actionk_move_cursor_end.c \
 			line_edition/actionk_move_cursor_line_down.c \
 			line_edition/actionk_move_cursor_line_up.c \
 			line_edition/actionk_move_cursor_start.c \
-			line_edition/cursor_is_at_end.c \
+			line_edition/actionk_past_clipboard.c \
+			line_edition/add_history.c \
+			line_edition/cursor_crosses_screen.c \
+			line_edition/cursor_is_at_end_of_cmd.c \
+			line_edition/cursor_is_at_end_of_term_line.c \
+			line_edition/delete_char_into_cmdline_while_moving_back_cursor.c \
+			line_edition/delete_char_into_cmdline_without_moving_cursor.c \
 			line_edition/errors.c \
 			line_edition/init_line_edition_attributes.c \
+			line_edition/init_signals.c \
 			line_edition/init_termcaps_strings.c \
-			line_edition/insert_character_into_cmdline.c \
+			line_edition/insert_char_into_array.c \
 			line_edition/is_separator.c \
 			line_edition/line_edition.c \
 			line_edition/possible_to_go_right.c \
 			line_edition/print_key_at_end.c \
+			line_edition/print_key.c \
+			line_edition/print_str_on_term.c \
+			line_edition/print_with_colosyn.c \
 			line_edition/process_key.c \
+			line_edition/reset_history_on_first_elem.c \
 			line_edition/set_term_attr.c \
+			line_edition/weird_trick_to_erase_char.c \
 			line_edition/write_one_char.c \
-			ast/ast_free.c \
-			ast/prepare_argv.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
@@ -89,6 +113,7 @@ SRC_NAME = 	is_separator.c \
 			format_help.c \
 			get_opt_elem.c \
 			is_option_activated.c \
+			syntax_highlighting/print_input_string_end.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
@@ -123,7 +148,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
+CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
 
 ### FLAGS ###
 VERBOSE_MODE = 0

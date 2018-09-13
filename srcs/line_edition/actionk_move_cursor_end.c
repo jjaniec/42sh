@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_move_cursor_end.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 15:36:38 by cfermier          #+#    #+#             */
-/*   Updated: 2018/07/14 15:36:38 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:52:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 void	actionk_move_cursor_end(struct s_line *le)
 {
 	unsigned int	start_i;
 	unsigned int	stop_i;
 
-	fprintf(tty_debug, "CTRL_E - cur ind for line %u line index %u\n",
-	le->cursor_index_for_line, le->line_index  );
+	//fprintf(tty_debug, "CTRL_E - cur ind for line %u line index %u\n",
+	//le->cursor_index_for_line, le->line_index  );
 
 	start_i = le->cursor_index_for_line;
 	stop_i = le->line_index;

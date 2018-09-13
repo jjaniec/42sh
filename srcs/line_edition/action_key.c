@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   action_key.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 15:00:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:00:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/line_edition.h"
+#include <twenty_one_sh.h>
 
 static	struct s_action_key	*get_array_action_key(void)
 {
@@ -24,7 +24,23 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_END, &actionk_move_cursor_end},
 		{LE_ALT_RIGHT, &actionk_move_cursor_by_word_right},
 		{LE_ALT_LEFT, &actionk_move_cursor_by_word_left},
-		{LE_BACKSPACE, &actionk_delete_character}
+		{LE_BACKSPACE, &actionk_delete_character},
+		{LE_CTRL_UP, &actionk_move_cursor_line_up},
+		{LE_CTRL_DOWN, &actionk_move_cursor_line_down},
+		{LE_CTRL_B, &actionk_copy_to_start},
+		{LE_CTRL_F, &actionk_copy_to_end},
+		{LE_CTRL_R, &actionk_copy_all},
+		{LE_CTRL_P, &actionk_past_clipboard},
+		{LE_CTRL_U, &actionk_delete_current_input},
+		{LE_CTRL_DASH, &actionk_cut_all},
+		{LE_CTRL_OPEN_SQUARE_BRACKET, &actionk_cut_to_start},
+		{LE_CTRL_CLOSE_SQUARE_BRACKET, &actionk_cut_to_end},
+		{LE_DELETE, &actionk_delete_character},
+		{LE_ARROW_UP, &actionk_history_up},
+		{LE_ARROW_DOWN, &actionk_history_down},
+		{LE_CTRL_D, &actionk_eof}
+		// faudrait une combi de touches pour delete l'input sans la copier -
+		// - nulle-part
 	};
 
 	return (actionk);
@@ -46,8 +62,4 @@ void						action_key(t_kno key, struct s_line *le)
 		}
 		++i;
 	}
-
-	//fprintf(tty_debug, "curr cursor pos = %u\n",  le->current_cursor_pos );
-
-	//fprintf(tty_debug, "foo = %d\n", i);
 }
