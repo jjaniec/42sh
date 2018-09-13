@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 18:17:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:55:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,11 @@ void			exec_builtin(char **argv, char **envp, t_exec *exe, \
 					t_ast *node, \
 					void (**builtin_fun_ptr)(char **, char **, t_exec *))
 {
-	exec_thread((void *[2]){(void *)EXEC_THREAD_BUILTIN, builtin_fun_ptr}, \
-		argv, envp, exe, node);
+	if ((*(void (**)(char **, char **, t_exec *))(builtin_fun_ptr)) == builtin_cd)
+		builtin_cd(argv, envp, exe);
+	else
+		exec_thread((void *[2]){(void *)EXEC_THREAD_BUILTIN, builtin_fun_ptr}, \
+			argv, envp, exe, node);
 }
 
 /*

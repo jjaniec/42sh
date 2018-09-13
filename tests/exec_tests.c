@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/24 21:08:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:12:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,5 @@ void	exec_tests(char **envp)
 	exec_diff("TK_TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat");
 	exec_diff("TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat");
 	exec_diff("TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl");
-	//exec_diff_file_redir("TK_LESS input redirects 1 - Simple", "/bin/echo a > ", "/tmp/21sh_tests_tmp_file.txt", "/tmp/comp_tests_tmp_file.txt");
-	//exec_diff("env A=B env C=D && env && setenv A B && env && unsetenv A && env");
 
 }

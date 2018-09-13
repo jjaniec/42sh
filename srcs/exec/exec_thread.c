@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 18:23:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:55:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ static void	child_process(void **cmd, char **argv, char **envp, \
 	handle_redirs(node);
 	if (cmd)
 	{
-		printf("MDR cmd: %p - cmd[0] : %d\n", cmd, (int)cmd[0]);
+		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (int)cmd[0]);
 		if ((int)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, char **, t_exec *))(cmd[1]))(argv, envp, exe);
 		else
 		{
+			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
 			if (execve(cmd[1], argv, envp) == -1)
 				log_error("Execve() not working");
 		}
@@ -107,12 +108,12 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	is_cmd_exit(void **cmd)
+static int	should_fork(void **cmd)
 {
 	if ((int)*cmd == EXEC_THREAD_BUILTIN && \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == &builtin_exit)
-		return (1);
-	return (0);
+		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit))
+		return (0);
+	return (1);
 }
 
 t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
@@ -124,7 +125,7 @@ t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		!last_pipe_node->data[1])
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
-	if (!is_cmd_exit(cmd))
+	if (should_fork(cmd))
 	{
 		child_pid = fork();
 		if (child_pid == -1)
@@ -132,9 +133,12 @@ t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
 		else if (child_pid == 0)
 			child_process(cmd, argv, envp, exe, node);
 		else
+		{
+			log_trace("Forked process pid: %d", child_pid);
 			exe->ret = parent_process(child_pid, node, last_pipe_node);
+		}
 	}
 	else
-		(*(void (**)(char **, char **, t_exec *))(cmd[1]))(argv, envp, exe);
+		child_process(cmd, argv, envp, exe, node);
 	return (exe);
 }
