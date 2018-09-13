@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/19 16:32:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 18:23:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,39 @@
 /*
 ** Handle pipes and redirections then
 ** launch specified program in child process
+**
+** $cmd wizard casts explanations:
+** if cmd[0] is equal to EXEC_THREAD_NOT_BUILTIN,
+** we know the the passed command
+** is not a builtin and should be executed by execve,
+** with path stored in cmd[1],
+**
+** otherwise if cmd[0] is equal to EXEC_THREAD_BUILTIN,
+** we know that the command we
+** have to execute is a builtin, and so should not be executed with execve() but
+** with a function pointer to the builtin instead,
+** the function pointer will then be stored in cmd[1],
+** and be casted to be executed by this function
+** (which allows pipes and redirs handling for builtins
+** without duplicating code)
 */
 
-static void	child_process(char *cmd, char **argv, char **envp, t_ast *node)
+static void	child_process(void **cmd, char **argv, char **envp, \
+				t_exec *exe, t_ast *node)
 {
 	handle_pipes(node);
 	handle_redirs(node);
-	if (execve(cmd, argv, envp) == -1)
-		log_error("Execve() not working");
+	if (cmd)
+	{
+		printf("MDR cmd: %p - cmd[0] : %d\n", cmd, (int)cmd[0]);
+		if ((int)*cmd == EXEC_THREAD_BUILTIN)
+			(*(void (**)(char **, char **, t_exec *))(cmd[1]))(argv, envp, exe);
+		else
+		{
+			if (execve(cmd[1], argv, envp) == -1)
+				log_error("Execve() not working");
+		}
+	}
 	exit(1);
 }
 
@@ -73,11 +98,24 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 }
 
 /*
-** Fork here.
-** Call the parent_process() function and the child_process() function
+** Fork here if passed command
+** is not the exit() builtin function (verified by is_cmd_exit())
+** pointer stored in cmd[1], then
+** call the parent_process() function to wait the child process,
+** and the child_process() function to handle pipes, redirs, and process/builtin
+** execution.
+** More explanation of $cmd in commentary of the child_process() function
 */
 
-t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
+static int	is_cmd_exit(void **cmd)
+{
+	if ((int)*cmd == EXEC_THREAD_BUILTIN && \
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == &builtin_exit)
+		return (1);
+	return (0);
+}
+
+t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
 				t_ast *node)
 {
 	pid_t	child_pid;
@@ -86,12 +124,17 @@ t_exec		*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		!last_pipe_node->data[1])
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
-	child_pid = fork();
-	if (child_pid == -1)
-		log_error("Fork() not working");
-	else if (child_pid == 0)
-		child_process(cmd, argv, envp, node);
+	if (!is_cmd_exit(cmd))
+	{
+		child_pid = fork();
+		if (child_pid == -1)
+			log_error("Fork() not working");
+		else if (child_pid == 0)
+			child_process(cmd, argv, envp, exe, node);
+		else
+			exe->ret = parent_process(child_pid, node, last_pipe_node);
+	}
 	else
-		exe->ret = parent_process(child_pid, node, last_pipe_node);
+		(*(void (**)(char **, char **, t_exec *))(cmd[1]))(argv, envp, exe);
 	return (exe);
 }
