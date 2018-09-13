@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 15:27:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 16:06:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,53 @@ t_option		g_sh_opts[] = {
 char			**g_envp;
 struct s_line	*g_le;
 
-static char		*get_valid_input(int ac, char **av, t_lexeme **lexemes)
+static char		*get_valid_input(t_lexeme **lexemes)
 {
 	char		*input;
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	if (ac > 1)
-		input = ft_strjoin(av[1], "\n");
-	else
+	ft_putstr("%> ");
+	input = line_edition(PROMPT_DEFAULT);
+	ft_putchar('\n');
+	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+		UNMATCHED_QUOTE_ERR)
 	{
-		ft_putstr("%> ");
-		input = line_edition(PROMPT_DEFAULT);
-		ft_putchar('\n');
+		free_lexemes(lexemes_ret);
+		subp_string(&input);
 	}
-	if (ac == 1)
-	{
-		while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-			UNMATCHED_QUOTE_ERR)
-		{
-			free_lexemes(lexemes_ret);
-			subp_string(&input);
-		}
-		*lexemes = lexemes_ret;
-	}
-	else
-	{
-		if (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-			UNMATCHED_QUOTE_ERR)
-		{
-			printf("21sh: Error: Unmatched quote");
-			*lexemes = NULL;
-			return (NULL);
-		}
-		else
-			*lexemes = lexemes_ret;
-	}
+	*lexemes = lexemes_ret;
 	return (input);
+}
+
+static int		twenty_one_sh(char *input, char **envp, \
+					t_option *opt_list, t_option **char_opt_index)
+{
+	t_ast		*ast_root;
+	t_exec		*exe;
+	t_lexeme	*lexemes;
+
+	(void)opt_list;
+	(void)char_opt_index;
+	lexemes = NULL;
+	if (/*is_option_activated("c", opt_list, char_opt_index) &&*/ \
+		lexer(input, &lexemes, NULL) == UNMATCHED_QUOTE_ERR)
+	{
+		printf("Non-interactive mode: unmatched quote error, exiting\n");
+		exit(1);
+	}
+	ast_root = ast(lexemes);
+	exe = create_exec((const char **)envp);
+	if (!ast_root)
+	{
+		free_lexemes(lexemes);
+		return (1);
+	}
+	exe = create_exec((const char **)envp);
+	exe = exec_cmd(ast_root, exe);
+	ast_free(ast_root);
+	free_lexemes(lexemes);
+	return (0);
 }
 
 static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_index)
@@ -71,44 +81,15 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 		log_set_quiet(1);
 	while (1)
 	{
-		if (!(input = get_valid_input(ac, av, &lex)))
-			return (NULL);
+		if (!(input = get_valid_input(&lex)))
+			return ;
 		twenty_one_sh(input, envp, opt_list, char_opt_index);
 		free_lexemes(lex);
 		free(input);
 	}
 }
 
-static int		twenty_one_sh(char *input, char **envp, \
-					t_option *opt_list, t_option **char_opt_index)
-{
-	t_ast		*ast_root;
-	t_exec		*exe;
-	t_lexeme	*lexemes;
-
-	if (/*is_option_activated("c", opt_list, char_opt_index) && */\
-		lexer(input, &lexemes, NULL);
-	{
-		printf("Non-interactive mode: unmatched quote error, exiting\n");
-		exit(1);
-	}
-	ast_root = ast(lex);
-	exe = create_exec((const char **)envp);
-	if (!ast_root)
-	{
-		free_lexemes(lex);
-		return (1);
-	}
-	exe = create_exec((const char **)envp);
-	exe = exec_cmd(ast_root, exe);
-	ast_free(ast_root);
-	free_lexemes(lexemes);
-	free(input);
-	return (0);
-}
-
-
-int				main(int ac, char **av, char **envp)
+int			main(int ac, char **av, char **envp)
 {
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
@@ -125,11 +106,11 @@ int				main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(0);
 	}
-	if (ac > 0 && is_option_activated("c", opt_list, char_opt_index))
+	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
-			twenty_one_sh(ft_strjoin(*av, "\n"), g_envp);
-			av++;
+			twenty_one_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
+			args++;
 			ac--;
 		}
 	else
