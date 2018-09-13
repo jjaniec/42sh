@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/13 14:29:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 17:35:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,16 @@ static void			init_once(struct s_line *le)
 	init_termcaps();
 	init_signals();
 	le->tcaps = init_termcaps_strings();
-	le->history = NULL;
+
+	le->history = malloc(sizeof(struct s_history)); // check ret
+	le->history->prev = NULL;
+	le->history->next = NULL;
+	le->history->cmd = NULL;
+
+	le->save_tmp_cmd = NULL;
+
 	le->his_nb_elem = 0;
+
 	if ((le->clipboard = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	ft_memset(le->clipboard, '\0', LE_DEFAULT_LINE_SIZE);

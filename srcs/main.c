@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 15:34:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 17:56:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char		*get_valid_input(int ac, char **av, t_lexeme **lexemes)
 	t_lexeme	*lexemes_ret;
 
 	if (ac > 1)
-		input = ft_strjoin(av[1], "\n");
+		input = ft_strjoin(av[1], "\n");// check malloc
 	else
 	{
 		ft_putstr("%> ");
@@ -66,7 +66,10 @@ static t_exec	*loop_body(int ac, char **av, char **envp)
 		log_set_quiet(1);
 	if (!(input = get_valid_input(ac, av, &lex)))
 		return (NULL);
-	// add his
+
+	if (input != NULL && input[0] != '\0' && input[0] != '\n')
+		add_history(input, access_le_main_datas());
+
 	ast_root = ast(lex);
 	exe = create_exec((const char **)envp);
 	if (!ast_root)

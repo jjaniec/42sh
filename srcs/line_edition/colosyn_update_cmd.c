@@ -6,11 +6,39 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 18:19:41 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/13 14:50:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 20:30:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+void	colosyn_print_history_elem(struct s_line *le)
+{
+	const char	*cmd = le->history->cmd;
+	char		*updated_cmd;
+
+	updated_cmd = NULL;
+	if (cmd == NULL)
+	{	//fprintf(tty_debug, "HIS CMD IS NULL\n");
+		if (le->save_tmp_cmd != NULL)
+		{
+			cmd = le->save_tmp_cmd;
+			if ((updated_cmd = ft_strdup(cmd)) == NULL)
+				le_exit("Memory allocation failed\n", "malloc", errno);
+			refresh_colorized_printing(le, updated_cmd);
+			free(le->save_tmp_cmd);
+			le->save_tmp_cmd = NULL;
+		}
+	}
+	else
+	{
+		if ((updated_cmd = ft_strdup(cmd)) == NULL)
+			le_exit("Memory allocation failed\n", "malloc", errno);
+		refresh_colorized_printing(le, updated_cmd);
+	}
+
+	free(updated_cmd);
+}
 
 void	colosyn_cut_to_start(struct s_line *le)
 {
@@ -73,6 +101,8 @@ void	colosyn_past_clipboard(struct s_line *le)
 			le_exit("Memory allocation failed\n", "malloc", errno);
 		}
 		updated_cmd = tmp_realloc;
+		ft_memset(updated_cmd + le->line_index, '\0', \
+		le->line_index + le->clipboard_len + 1 - le->line_index);
 		ft_strcat(updated_cmd, le->clipboard);
 	}
 	else
@@ -88,6 +118,8 @@ void	colosyn_past_clipboard(struct s_line *le)
 			le_exit("Memory allocation failed\n", "malloc", errno);
 		}
 		updated_cmd = tmp_realloc;
+		ft_memset(updated_cmd + le->line_index, '\0', \
+		le->line_index + le->clipboard_len + 1 - le->line_index);
 
 		tmp_keep_part_of_line = ft_strdup(le->line + le->cursor_index_for_line);
 		if (tmp_keep_part_of_line == NULL)

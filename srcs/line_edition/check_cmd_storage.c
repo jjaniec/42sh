@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd_storage.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfermier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 16:19:43 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/11 16:19:43 by cfermier         ###   ########.fr       */
+/*   Updated: 2018/09/13 20:25:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	check_clipboard_storage(struct s_line *le, unsigned int nb_char)
 			le_exit("Memory allocation failed\n", "malloc", errno);
 		le->clipboard = tmp_realloc;
 		le->clipboard_size *= 2;
+		ft_memset(le->clipboard + le->clipboard_len, '\0', le->clipboard_size - le->clipboard_len);
 	}
 }
 
@@ -62,5 +63,6 @@ void	check_cmd_storage(struct s_line *le, unsigned int nb_char)
 			le_exit("Memory allocation failed\n", "malloc", errno);
 		le->line = tmp_realloc;
 		le->line_size *= 2;
+		ft_memset(le->line + le->line_index, '\0', le->line_size - le->line_index);
 	}
 }

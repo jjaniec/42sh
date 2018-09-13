@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   add_history.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 16:27:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+void	his_debug(void)
+{
+	struct s_history *h = access_le_main_datas()->history;
+
+	while (h->prev != NULL)
+		h = h->prev;
+
+	fprintf(tty_debug, "HIS linked list\n");
+	while (h != NULL)
+	{
+		fprintf(tty_debug, "|%s|\n", h->cmd);
+		h = h->next;
+	}
+	fprintf(tty_debug, "HIS END\n");
+
+}
 
 static struct s_history *get_former_newest_elem(struct s_history *history)
 {
@@ -20,20 +37,39 @@ static struct s_history *get_former_newest_elem(struct s_history *history)
     }
     return (history);
 }
-/*
-static void copy_line_edition_attr(struct s_history *new_elem,
-                                            struct s_line *le)
+
+
+
+void	add_history(const char *input, struct s_line *le)
 {
-	new_elem->cmd_le.line_index = le->line_index;
-	new_elem->cmd_le.cursor_index_for_line = le->cursor_index_for_line;
-	new_elem->cmd_le.current_cursor_pos = le->current_cursor_pos;
-	new_elem->cmd_le.current_cursor_line = le->current_cursor_line;
-	new_elem->cmd_le.nb_li_currently_writing = le->nb_li_currently_writing;
-	new_elem->cmd_le.nb_car_written_on_last_current_line = \
-		le->nb_car_written_on_last_current_line;
+	struct s_history	*new;
+
+	new = malloc(sizeof(struct s_history)); // check ret
+	
+	size_t input_len = ft_strlen(input);
+	new->cmd = ft_strdup(input); // check ret
+	if (new->cmd[input_len - 1] == '\n')
+		new->cmd[input_len - 1] = '\0';
+
+	struct s_history *tmp = le->history;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	new->next = tmp;
+	new->prev = tmp->prev;
+	if (tmp->prev != NULL)
+		tmp->prev->next = new;
+	tmp->prev = new;
+	
+	++(le->his_nb_elem);
+
+	his_debug();
+	
 }
-*/
-void    add_history(struct s_line *le)
+
+
+
+
+void    old_add_history(struct s_line *le)
 {
    // bool new = false;
     struct s_history *new_elem;

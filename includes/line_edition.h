@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/13 14:57:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 22:27:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ struct s_line
 
 	struct s_le_termcaps	*tcaps;
 	struct s_history		*history;
+	char					*save_tmp_cmd;
 	unsigned int			his_nb_elem;
 	bool					special_case_for_newest_his_elem;// a changer pour un elem vide
 
@@ -160,7 +161,7 @@ struct s_line
 
 struct s_history
 {
-	char 				cmd[LE_HISTORY_LINE_SIZE];
+	char 				*cmd;
 	struct s_history	*next; // the most next is the newest
 	struct s_history	*prev; // the most prev is the oldest
 //	struct s_line		cmd_le;
@@ -195,6 +196,7 @@ void	colosyn_delete_char(struct s_line *le);
 void	colosyn_past_clipboard(struct s_line *le);
 void	colosyn_cut_to_end(struct s_line *le);
 void	colosyn_cut_to_start(struct s_line *le);
+void	colosyn_print_history_elem(struct s_line *le);
 
 
 char			*line_edition(int prompt_type);
@@ -262,7 +264,8 @@ void	actionk_eof(struct s_line *le);
 void	actionk_clear_screen(struct s_line *le);
 
 void    reset_history_on_first_elem(struct s_line *le);
-void    add_history(struct s_line *le);
+//void    add_history(struct s_line *le);
+void	add_history(const char *input, struct s_line *le);
 void    actionk_history_up(struct s_line *le);
 void    actionk_history_down(struct s_line *le);
 
