@@ -12,7 +12,6 @@
 
 #include <twenty_one_sh.h>
 
-static
 void		*ft_realloc(void *ptr, size_t original_size, size_t new_size)
 {
 	void	*new;

@@ -120,6 +120,7 @@ char			*line_edition(int prompt_type)
 
 	if ((final_line = ft_strdup(le->line)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
+	free(le->line);
 	return (final_line);
 
 	/*

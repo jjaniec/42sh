@@ -60,6 +60,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/actionk_move_cursor_start.c \
 			line_edition/actionk_past_clipboard.c \
 			line_edition/add_history.c \
+			line_edition/check_cmd_storage.c \
 			line_edition/colosyn_update_cmd.c \
 			line_edition/cursor_crosses_screen.c \
 			line_edition/cursor_is_at_end_of_cmd.c \

@@ -135,9 +135,9 @@ struct s_line
 	t_kno					key_no;
 	//char					line[LE_LINE_SIZE];
 	char					*line; // a renommer en "cmd"
-	size_t					line_size;
-	unsigned int			line_index; // a renommer en cmd_index
-	unsigned int			cursor_index_for_line; // cursor_index_for_cmd
+	size_t					line_size; // memory size, note string length
+	unsigned int			line_index; // a renommer en cmd_len
+	unsigned int			cursor_index_for_line; // cursor_index_for_cmd ou juste cursor_index
 	unsigned int			start_pos;
 	unsigned int			current_cursor_pos;
 	unsigned int			current_cursor_line;
@@ -182,6 +182,8 @@ struct s_infos_for_rewriting
 
 
 // prototypes
+
+void *ft_realloc(void *, size_t, size_t);
 
 void	check_cmd_storage(struct s_line *le, unsigned int nb_char);
 void	check_clipboard_storage(struct s_line *le, unsigned int nb_char);
@@ -271,6 +273,9 @@ void    actionk_history_down(struct s_line *le);
 
 /*
 
+	dans zsh si la ligne est vide, on peut mettre des tabulations avec tab (si la ligne nest
+	pas vide, ça lance la completion, go tester differents cas)
+
 	dossier caché dans le home
 	dedans ya le fichier historique
 	un .42shrc qui contient des alias
@@ -287,7 +292,7 @@ void    actionk_history_down(struct s_line *le);
 		si la ligne est vide, le shell exit
 	}
 
-
+	faudrait free() l'historique et le clipboard dans le_exit()
 
 */
 
