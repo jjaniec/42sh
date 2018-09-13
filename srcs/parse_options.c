@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:45:34 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 19:19:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 17:17:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void		toggle_str_opt(t_option *opt_list, char *str_opt, \
 
 	if ((elem_ptr = get_opt_elem(opt_list, str_opt)))
 	{
-		log_info("Toggled %s option", str_opt);
+		//log_info("Toggled %s option", str_opt);
 		elem_ptr->opt_status = true;
 		if (char_opt_index && *str_opt != '-' && \
 			ft_isprint(*str_opt) && *str_opt < CHAR_OPT_INDEX_SIZE)
@@ -80,8 +80,12 @@ char			**parse_options(int *ac, char **av, \
 					t_option *opt_list, t_option **char_opt_index)
 {
 	char		**ptr;
+	int			i;
 
 	ptr = &av[1];
+	if (char_opt_index && !(i = 0))
+		while (i != CHAR_OPT_INDEX_SIZE)
+			char_opt_index[i++] = NULL;
 	while ((*ac)-- > 1 && **ptr == '-' && ft_strcmp(*ptr, "--"))
 	{
 		if ((*ptr)[1] == '-')

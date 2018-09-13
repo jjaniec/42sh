@@ -6,11 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/08/29 20:07:04 by jjaniec          ###   ########.fr       */
-=======
-/*   Updated: 2018/09/02 21:08:09 by jjaniec          ###   ########.fr       */
->>>>>>> line_edition
+/*   Updated: 2018/09/13 17:09:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +40,8 @@ static void		test_syntax_hightlighting(char *testname, char *test, \
 	char		buf[MAX_BUF_SIZE];
 
 	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
-<<<<<<< HEAD
-	lexemes = lexer(test);
-	print_colorized_input(test, g_envp, lexemes);
-=======
 	lexer(test, &lexemes, NULL);
 	print_colorized_input(test, g_envp, lexemes, NULL);
->>>>>>> line_edition
 	close(pipe_input_fd);
 	if ((bytes_read = read(pipe_output_fd, buf, MAX_BUF_SIZE)) == -1)
 		printf("Can't read comparison file desc %d!\n", pipe_output_fd);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 16:06:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 17:16:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
 	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
 	{{"G"}, "Disable syntax highlighting", false},
-	{{}, NULL, false},
+	{{"v", "-verbose"}, "Enable verbose mode", false},
+	{{NULL}, NULL, false}
 };
 
 char			**g_envp;
@@ -95,12 +96,12 @@ int			main(int ac, char **av, char **envp)
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char		**args;
 
-	if (!VERBOSE_MODE)
-		log_set_quiet(1);
 	g_envp = cp_envp((const char **)envp);
 	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
+	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
+		log_set_quiet(1);
 	if (is_option_activated("h", opt_list, char_opt_index))
 	{
 		format_help(SH_USAGE, opt_list);

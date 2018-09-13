@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/24 21:08:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 17:11:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_
 	close(tmp_fd);
 	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	dup2(tmp_fd, redirected_fd);
-	asprintf(&cmd_sh, "./21sh \"%s\"", str);
+	asprintf(&cmd_sh, "./21sh -c \"%s\"", str);
 	system(cmd_sh);
 	close(tmp_fd);
 	dup2(dup_redirected_fd, redirected_fd);

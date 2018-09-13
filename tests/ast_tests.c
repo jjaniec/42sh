@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tests.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/20 15:29:48 by sebastien        ###   ########.fr       */
-=======
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/02 21:09:17 by jjaniec          ###   ########.fr       */
->>>>>>> line_edition
+/*   Updated: 2018/09/13 17:10:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +18,7 @@ static void	tests_multi_ok(char *test_name, int nbr_tests, ...)
 	int		i;
 	char	*str;
 	int		result;
-<<<<<<< HEAD
-=======
 	t_lexeme	*tmp;
->>>>>>> line_edition
 
 	i = 0;
 	va_start(va_ptr, nbr_tests);
@@ -36,18 +26,11 @@ static void	tests_multi_ok(char *test_name, int nbr_tests, ...)
 	{
 		str = va_arg(va_ptr, char *);
 		result = va_arg(va_ptr, int);
-<<<<<<< HEAD
-		if (result == 1)
-			ok(check_parsing(lexer(ft_strdup(str))), test_name);
-		else
-			ok(!check_parsing(lexer(ft_strdup(str))), test_name);
-=======
 		lexer(ft_strdup(str), &tmp, NULL);
 		if (result == 1)
 			ok(check_parsing(tmp), test_name);
 		else
 			ok(!check_parsing(tmp), test_name);
->>>>>>> line_edition
 		i++;
 	}
 	va_end(va_ptr);
