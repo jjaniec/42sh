@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 18:19:41 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/06 22:36:41 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 14:50:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void	colosyn_add_char(struct s_line *le, t_kno key)
 	bool			need_replace_cursor;
 	unsigned int	keep_cursor_index_for_line;
 
+	fprintf(tty_debug, "COLO ADD CHAR KEY = |%c|\n", (char)key);
+
 
 	need_replace_cursor = false;
 	keep_cursor_index_for_line = le->cursor_index_for_line;
@@ -180,13 +182,16 @@ void	colosyn_add_char(struct s_line *le, t_kno key)
 	}
 	else
 	{
+	//fprintf(tty_debug, "MEMMOVE BEFORE |%s|\n", updated_cmd);
 		ft_memmove(updated_cmd + le->cursor_index_for_line + 1, \
 		updated_cmd + le->cursor_index_for_line, \
 		ft_strlen(updated_cmd + le->cursor_index_for_line) );
-		le->line[le->cursor_index_for_line] = key;
+		updated_cmd[le->cursor_index_for_line] = key;
+	//fprintf(tty_debug, "ENTRE %u %c\n", le->cursor_index_for_line, );
 		//insert_char_into_array(updated_cmd, key, le->cursor_index_for_line);
 		updated_cmd[le->line_index + 1] = '\0';
 		need_replace_cursor = true;
+	//fprintf(tty_debug, "MEMMOVE AFTER  |%s| key |%c|\n", updated_cmd,(char)key);
 	}
 
 	refresh_colorized_printing(le, updated_cmd);

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/06 18:29:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 14:34:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ extern char		**g_envp;
 # define LE_NB_ELEM_HISTORY (1000U)// utile ?
 
 // keys
-# define LE_NB_KEYS (23)
+# define LE_NB_KEYS (24)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -68,7 +68,7 @@ extern char		**g_envp;
 # define LE_CTRL_OPEN_SQUARE_BRACKET (27) - 23
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
 # define LE_CTRL_D (4) + 1
-// CTRL + L  :)
+# define LE_CTRL_L (12)
 
 //prompt types
 enum e_prompt
@@ -259,6 +259,7 @@ void	actionk_cut_all(struct s_line *le);
 void	actionk_cut_to_start(struct s_line *le);
 void	actionk_cut_to_end(struct s_line *le);
 void	actionk_eof(struct s_line *le);
+void	actionk_clear_screen(struct s_line *le);
 
 void    reset_history_on_first_elem(struct s_line *le);
 void    add_history(struct s_line *le);

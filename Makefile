@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/06 18:23:31 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/13 14:35:23 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_NAME = 	is_separator.c \
 			ast/create_node.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/action_key.c \
+			line_edition/actionk_clear_screen.c \
 			line_edition/actionk_copy_all.c \
 			line_edition/actionk_copy_to_end.c \
 			line_edition/actionk_copy_to_start.c \
