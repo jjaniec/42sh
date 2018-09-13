@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/13 14:34:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/13 14:57:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,10 @@ void    actionk_history_down(struct s_line *le);
 
 
 /*
+
+	`Heredoc` - `AND a completer` - `OR a completer` - `Backslash a la fin de la
+	 ligne pour echapper le \n` - `Completer des quotes, simple-, double- and back- quotes`
+
 
 	dans zsh si la ligne est vide, on peut mettre des tabulations avec tab (si la ligne nest
 	pas vide, ça lance la completion, go tester differents cas)

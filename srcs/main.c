@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/05 19:18:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 15:34:04 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static t_exec	*loop_body(int ac, char **av, char **envp)
 		log_set_quiet(1);
 	if (!(input = get_valid_input(ac, av, &lex)))
 		return (NULL);
+	// add his
 	ast_root = ast(lex);
 	exe = create_exec((const char **)envp);
 	if (!ast_root)
