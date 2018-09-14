@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/12 19:52:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/14 11:09:37 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static unsigned int	get_terminal_nb_col(void)
 	return ((unsigned int)col);
 }
 
-void    			init_line_edition_attributes(struct s_line *le)
+void    			init_line_edition_attributes(struct s_line *le, int prompt_size)
 {
 	le->tcaps = init_termcaps_strings();
 	ft_memset(le->line, '\0', LE_LINE_SIZE);
 	le->line_index = 0;
 	le->cursor_index_for_line = 0;
-    le->start_pos = 11; // tmp value, need to be updated according to the prompt
+    le->start_pos = prompt_size;
     le->current_cursor_pos = le->start_pos;
 	le->current_cursor_line = 0;
 	le->li_max_size = get_terminal_nb_col();

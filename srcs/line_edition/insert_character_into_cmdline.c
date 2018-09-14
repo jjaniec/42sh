@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 15:25:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/14 11:11:25 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,15 @@ void		insert_character_into_cmdline(struct s_line *le, t_kno key)
 	}
 	move_cursor_back_to_right_place(le, keep_pos, foo);
 }
-
+/*
 void		old_version_insert_character_into_cmdline(struct s_line *le, t_kno key)
 {
 	//fprintf(tty_debug, "INSERTION CARACTERE A LA POS %u\n", le->cursor_index_for_line);
-
+*/
 	/* FAUT OPTI CA, CEST TROP LENT CA SE VOIT TROP, PAS BESOIN DE REECRIRE LES CAR QUI
 	NE BOUGERONT PAS, CEST A DIRE CEUX QUI PRECEDENT LA POSITION D'INSERTION  
 	LE DEFI VA DONC ETRE DE CORRECTEMENT SET - RESET MES VARIABLES DANS struct s_line *le  */
-
+/*
 	unsigned int	keep_pos;
 	char			tmp[LE_LINE_SIZE];
 	unsigned int	len_tmp;
@@ -132,4 +132,4 @@ void		old_version_insert_character_into_cmdline(struct s_line *le, t_kno key)
 	}
 	while ((le->cursor_index_for_line - 1) != keep_pos)
 		actionk_cursor_move_left(le);
-}
+}*/

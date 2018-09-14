@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 22:02:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/14 10:29:54 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ t_ast	*ast(t_lexeme *lex)
 	int		check;
 
 	root = NULL;
-	check = NEED_SUBPROMPT;
-	while (check == NEED_SUBPROMPT)
+	check = NEED_SUBPROMPT_NEWLINE;
+	while (check < 0)
 	{
 		if (lex)
 			check = check_parsing(lex);
-		if (check == NEED_SUBPROMPT)
-			lex = subp_lexeme(lex);
+		if (check < 0)
+			lex = subp_lexeme(lex, check);
 	}
 	if (!check)
 		return (NULL);

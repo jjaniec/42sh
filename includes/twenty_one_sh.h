@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/23 21:51:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/14 11:01:42 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@
 #  define VERBOSE_MODE 0
 # endif
 
+extern const char	*g_prompts[10];
+
+int			prompt_show(const char *prompt);
+
 void		subp_string(char **s);
-t_lexeme	*subp_lexeme(t_lexeme *lex);
+t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
 void		subp_heredoc(t_lexeme *lex, char *eof_word);
 
 void		ft_free_argv(char **tab_);

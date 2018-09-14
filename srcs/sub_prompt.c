@@ -6,32 +6,44 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 23:17:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/14 11:15:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+int		prompt_show(const char *prompt)
+{
+	tputs(tgetstr("md", NULL), 1, &write_one_char);
+	ft_putstr(prompt);
+	if (prompt != g_prompts[0])
+		ft_putstr(g_prompts[0]);
+	tputs(tgetstr("me", NULL), 1, &write_one_char);
+	return (ft_strlen(prompt) + ft_strlen(g_prompts[0]));
+}
+
 void	subp_string(char **s)
 {
 	char	*new;
 	char	*input;
+	int			prompt_size;
 
-	ft_putstr("> ");
-	input = line_edition();
+	prompt_size = prompt_show(g_prompts[-NEED_SUBPROMPT_QUOTES]);
+	input = line_edition(prompt_size);
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;
 }
 
-t_lexeme	*subp_lexeme(t_lexeme *lex)
+t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 {
 	char		*input;
 	t_lexeme	*new;
 	t_lexeme	*save;
+	int			prompt_size;
 
-	ft_putstr("> ");
-	input = line_edition();
+	prompt_size = prompt_show(g_prompts[-need_subprompt]);
+	input = line_edition(prompt_size);
 	ft_putchar('\n');
 	new = lexer(input);
 	if (!lex)
@@ -68,6 +80,7 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 {
 	char	*input;
 	char	*final;
+	int		prompt_size;
 
 	input = NULL;
 	final = (char *)ft_memalloc(sizeof(char));
@@ -76,8 +89,8 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	eof_word = ft_strjoin(eof_word, "\n");
 	while (!input)
 	{
-		ft_putstr("heredoc> ");
-		input = line_edition();
+		prompt_size = prompt_show(g_prompts[-NEED_SUBPROMPT_HEREDOC]);
+		input = line_edition(prompt_size);
 		ft_putchar('\n');
 		if (ft_strequ(input, eof_word))
 			break ;

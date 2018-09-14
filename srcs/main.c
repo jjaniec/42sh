@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/28 21:38:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/14 11:07:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ static void twentyonesh(char **envp)
 {
 	char		*input;
 	t_exec		*exe;
+	int			prompt_size;
 
 	tty_debug = fopen(TTY_DEBUG, "w");
 	while (1)
 	{
-		ft_putstr("%> ");
-		input = line_edition();
+		prompt_size = prompt_show(g_prompts[0]);
+		input = line_edition(prompt_size);
 		ft_putchar('\n');
 		exe = loop_body(input, envp);
 		if (exe && exe->tmp_envp)

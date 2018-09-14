@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/07/19 16:16:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/14 11:10:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ struct s_history
 };
 
 // prototypes
-char			*line_edition(void);
+char			*line_edition(int prompt_size);
 
 struct s_le_termcaps	*init_termcaps_strings(void);
 
@@ -131,7 +131,7 @@ void	insert_character_into_cmdline(struct s_line *le, t_kno key);
 
 void	action_key(t_kno key, struct s_line *le_lettr);
 
-void	init_line_edition_attributes(struct s_line *le);
+void	init_line_edition_attributes(struct s_line *le, int prompt_size);
 
 bool 	possible_to_go_right(struct s_line *le);
 

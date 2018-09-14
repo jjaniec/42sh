@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/29 19:57:07 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/14 10:59:13 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,7 @@ SRC_NAME = 	is_separator.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
+			init_globals_config.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
