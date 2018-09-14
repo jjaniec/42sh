@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/14 11:15:15 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/14 12:10:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 		free(input);
 		input = NULL;
 	}
+	//final[ft_strlen(final) - 1] = '\0';
 	lex->next->data = final;
 }
