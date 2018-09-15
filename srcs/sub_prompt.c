@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/14 12:10:14 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 16:00:14 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,24 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	return (save);
 }
 
+static int	there_is_no_cr(const char *input)
+{
+	if (ft_strlen(input) >= 2 && input[ft_strlen(input) - 1] == '\n' && input[ft_strlen(input) - 2] == '\\')
+		return (1);
+	return (0);
+}
+
 void	subp_heredoc(t_lexeme *lex, char *eof_word)
 {
 	char	*input;
+	char	*final_input;
 	char	*final;
 	int		prompt_size;
 
 	input = NULL;
 	final = (char *)ft_memalloc(sizeof(char));
-	if (!final)
+	final_input = (char *)ft_memalloc(sizeof(char));
+	if (!final || !final_input)
 		exit(MALLOC_ERROR);
 	eof_word = ft_strjoin(eof_word, "\n");
 	while (!input)
@@ -92,9 +101,19 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 		prompt_size = prompt_show(g_prompts[-NEED_SUBPROMPT_HEREDOC]);
 		input = line_edition(prompt_size);
 		ft_putchar('\n');
-		if (ft_strequ(input, eof_word))
+		final_input = ft_strjoin(final_input, input);
+		while (there_is_no_cr(input))
+		{
+			final_input[ft_strlen(final_input) - 2] = '\0';
+			prompt_size = prompt_show(g_prompts[-NEED_SUBPROMPT_NEWLINE]);
+			input = line_edition(prompt_size);
+			ft_putchar('\n');
+			final_input = ft_strjoin(final_input, input);
+		}
+		if (ft_strequ(final_input, eof_word))
 			break ;
-		final = ft_strjoin(final, input);
+		final = ft_strjoin(final, final_input);
+		final_input[0] = '\0';
 		free(input);
 		input = NULL;
 	}
