@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/15 16:04:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/15 18:58:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,9 @@ struct s_infos_for_rewriting
 
 // prototypes
 
+void	le_free_datas(struct s_line *le);
+void	le_free_history(struct s_line *le);
+
 void *ft_realloc(void *, size_t, size_t);
 
 void	check_cmd_storage(struct s_line *le, unsigned int nb_char);
@@ -276,13 +279,13 @@ void    actionk_history_down(struct s_line *le);
 
 
 /*
+	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
+	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
+	FAUDRA VERIFIER CA ULTRA IMPORTANT
+
 
 	`Heredoc` - `AND a completer` - `OR a completer` - `Backslash a la fin de la
 	 ligne pour echapper le \n` - `Completer des quotes, simple-, double- and back- quotes`
-
-
-	dans zsh si la ligne est vide, on peut mettre des tabulations avec tab (si la ligne nest
-	pas vide, ça lance la completion, go tester differents cas)
 
 	dossier caché dans le home
 	dedans ya le fichier historique
@@ -290,7 +293,25 @@ void    actionk_history_down(struct s_line *le);
 	les alias c'est des expansions finalement
 
 
-	ctrl d
+	BUILTINS BONUS A FAIRE (avec leurs options)
+	{
+		read
+		export
+		unset
+		history
+		!
+	}
+	
+
+	faudrait free() l'historique et le clipboard dans le_exit()
+
+*/
+
+
+/*
+	CTRL D	
+
+	POUR LE PROMPT NORMAL
 	{
 		si le curseur est sur un caractere, meme effet que la touche delete
 		
@@ -300,14 +321,7 @@ void    actionk_history_down(struct s_line *le);
 		si la ligne est vide, le shell exit
 	}
 
-	faudrait free() l'historique et le clipboard dans le_exit()
-
-*/
-
-
-/*
-
-	POUR TOUS LES PROMPTS (ctrl d)
+	POUR TOUS LES SUBPROMPTS
 	{
 		si cmd vide = nothing happens
 		si cmd est pas vide, et curseur est au bout = nothing happens
@@ -320,4 +334,68 @@ void    actionk_history_down(struct s_line *le);
 
 */
 
+
+
+/*
+
+MINIMUM REQUIS
+
+IL FAUDRA QUE JE CHECK MOI MEME SI LES BUILTINS ONT LES BONNES OPTIONS
+ET LES BONS COMPORTEMENTS
+
+cd
+{
+	options -p -L et - (dash tout court)
+	http://pubs.opengroup.org/onlinepubs/9699919799/utilities/cd.html
+	https://www.unix.com/man-page/posix/1posix/cd/
+}
+
+echo
+{
+	https://www.unix.com/man-page/posix/1posix/echo
+	(oui le -n n'est pas obligatoire mais go le faire c'est facile et pratique non ?)
+}
+
+exit
+{
+	https://www.unix.com/man-page/posix/1posix/exit
+}
+
+env
+{
+	http://pubs.opengroup.org/onlinepubs/9699919799/utilities/env.html
+	https://www.unix.com/man-page/posix/1posix/env
+}
+
+setenv
+{
+	pas posix ce bultin mdr, pas d'option donc go faire la meme syntaxe
+	que csh qui a "invente" setenv : $ setenv variable value
+	(le nombre de blancs entre variable et value peut etre plus que 1)
+
+	si il y a 3 arguments ou plus, setenv: Too many arguments.
+	si il y a un seul argument, sa valeur est une chaine vide
+	exemple :
+	$ setenv lol
+	$ env
+	var=value
+	var=value
+	...
+	lol=
+
+
+}
+
+unsetenv
+{
+	si ya aucun argument, Too few arguments.
+	tous les arguments sont a traiter, on peut unsetenv autant d'arguments au'on veut
+}
+
+history
+{
+	https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html
+}
+
+*/
 

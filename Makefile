@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/13 14:35:23 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/15 16:45:11 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/insert_and_print_character_into_cmdline.c \
 			line_edition/insert_char_into_array.c \
 			line_edition/is_separator.c \
+			line_edition/le_free_datas.c \
 			line_edition/line_edition.c \
 			line_edition/possible_to_go_right.c \
 			line_edition/print_key_at_end.c \
