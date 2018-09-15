@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 15:11:44 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/15 16:32:49 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static t_lexeme	*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
 		if (new->type_details == g_tokens[i])
 		{
 			//log_trace("new type details %d", new->type_details);
-			node_subast = create_node(T_WORD, TK_DEFAULT, debug_data_node("[subast]"));
+			node_subast = create_node(T_WORD, TK_SUBAST, debug_data_node("[subast]"));
 			node_placer(*root, node_subast);
 			*root = node_subast;
 			root[0]->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);

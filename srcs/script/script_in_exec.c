@@ -6,19 +6,19 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/07 16:18:08 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 16:55:58 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-void	script_in_exec(t_ast *node, t_exec *exe)
+static t_exec	*exec_script(t_ast *node, t_exec *exe)
 {
-	if (node->type_details != TK_SCRIPT_ELSE)
+	if (!node->sub_ast)
 	{
 		//Go to the condition
 		node = node->left;
-		ast_explore(node->sub_ast, exe);
+		exe = ast_explore(node->sub_ast, exe);
 		node = node->parent;
 	}
 	//If the script is an IF
@@ -27,18 +27,27 @@ void	script_in_exec(t_ast *node, t_exec *exe)
 	{
 		log_debug("EXEC->actual node : %s - exe->ret = %d", node->data[0], exe->ret);
 		if (exe->ret == 0)
-			exe = ast_explore(node->left->left->sub_ast, exe);
+			script_in_exec(node->left->left->sub_ast, exe);
 		else if (node->right)
-			script_in_exec(node->right, exe);
+			exec_script(node->right, exe);
 	}
-	if (node->type_details == TK_SCRIPT_ELSE)
-		exe = ast_explore(node->sub_ast, exe);
+	if (node->sub_ast)
+		script_in_exec(node->sub_ast, exe);
 	if (node->type_details == TK_SCRIPT_WHILE)
 	{
 		if (exe->ret == 0)
 		{
-			exe = ast_explore(node->left->left->sub_ast, exe);
-			script_in_exec(node, exe);
+			script_in_exec(node->left->left->sub_ast, exe);
+			exec_script(node, exe);
 		}
 	}
+	return (exe);
+}
+
+void	script_in_exec(t_ast *node, t_exec *exe)
+{
+	if (node->left && node->left->type == T_SCRIPT_LOGICAL)
+		exe = exec_script(node->left, exe);
+	else
+		exe = ast_explore(node, exe);
 }

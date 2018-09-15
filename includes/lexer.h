@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/18 15:37:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 16:33:07 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define T_WORD				2
 
 # define TK_DEFAULT			0
+# define TK_SUBAST			1
 
 /*
 ** Control operators:
