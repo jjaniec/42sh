@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 16:36:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 14:55:35 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ static t_lexeme	*to_end(t_lexeme *lex)
 	return (lex);
 }
 
-/*
-** The lexeme *start should be either a IF or a WHILE.
-** Otherwise, undefined behaviour
-*/
-
 t_lexeme	*find_end_lexeme(t_lexeme *start, const size_t end_token[])
 {
 	int			i;
@@ -50,8 +45,6 @@ t_lexeme	*find_end_lexeme(t_lexeme *start, const size_t end_token[])
 		}
 		if (lex)
 			return (lex);
-		/*if (is_op0(start) && !start->next)
-			return (NULL);*/
 		i++;
 	}
 	return (start);

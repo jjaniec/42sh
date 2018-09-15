@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/15 13:54:23 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/15 15:06:51 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define T_SCRIPT_CONDITION 7
 
 # define TK_SCRIPT_CONDITION_IF 70
-# define TK_SCRIPT_CONDITION_WHILE 70
+# define TK_SCRIPT_CONDITION_WHILE 71
 
 
 extern const size_t	g_cant_begin_with[7];
