@@ -6,11 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/09 17:11:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 18:45:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+**  https://www.unix.com/man-page/posix/1posix/exit
+*/
 
 inline void	builtin_exit(char **argv, char **envp, t_exec *exe)
 {

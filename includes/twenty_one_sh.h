@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 14:59:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 18:54:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,14 @@ extern t_option		g_sh_opts[];
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh -[Gh] [-c \"command\"]"
+	"./21sh [-hcGv] [-c \"command\"]"
+
+# define BUILTIN_ENV_USAGE \
+	"env [-i][name=value]...	[utility [argument...]]"
+
+# define BUILTIN_CD_USAGE \
+	"cd [-L | -P] [-] [directory]"
+
 
 void		subp_string(char **s);
 
