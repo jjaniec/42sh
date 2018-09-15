@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/12 13:56:20 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 14:42:03 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static t_lexeme *next_lex_condition(t_lexeme *lex)
 	{
 		log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
 		lex->next->type = T_SCRIPT_CONDITION;
-		lex->next->type_details = TK_SCRIPT_CONDITION_IF;
+		if (lex->type_details == TK_SCRIPT_IF)
+			lex->next->type_details = TK_SCRIPT_CONDITION_IF;
+		if (lex->type_details == TK_SCRIPT_WHILE)
+			lex->next->type_details = TK_SCRIPT_CONDITION_WHILE;
 		return (lex->next);
 	}
 	else

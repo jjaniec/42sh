@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 15:52:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/10 17:06:39 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 14:37:37 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,11 @@ char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_EOF)
 
 	if (lexemes->type == T_SCRIPT_CONDITION)
 	{
-		log_info("Downgrade of T_SCRIPT_CONDITION to T_WORD");
+		log_info("This is a condition !");
 		lexemes->type = T_WORD;
-		lexemes->type_details = TK_DEFAULT;
+		if (!(argv = malloc(sizeof(char *) * count_argv(lexemes) + 1)))
+			exit(MALLOC_ERROR);
+		return (fill_argv_tab(&argv, lexemes));
 	}
 	if (lexemes->type != T_WORD || flag_heredoc_EOF)
 		return (prepare_argv_operator(lexemes));

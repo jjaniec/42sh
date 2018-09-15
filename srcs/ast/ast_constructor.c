@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/12 12:57:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 14:31:59 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static t_lexeme	*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
 			*root = node_subast;
 			root[0]->sub_ast = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 			put_node(&lex, &(root[0]->sub_ast), new, g_node_placer[i]);
-			//log_trace("Root: %p - %p", root, root->data);
+			log_trace("Root: %p - %p", *root);
 			return(create_sub_ast(lex, &(root[0]->sub_ast), g_next_tokens[i], g_node_placer[i]));
 		}
 		i++;
@@ -133,7 +133,7 @@ static int	put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 	flag_heredoc_EOF = manage_heredoc(*lex);
 	if (!is_bypass_token(new))
 	{
-		//log_trace("Put_node: %s - %p", new->data[0], new);
+		log_trace("Put_node: %s - %p", new->data[0], new);
 		node_placer(*root, new);
 		*root = new;
 	}
