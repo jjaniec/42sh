@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 21:27:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 14:54:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 # define TESTS_TMP_FILENAME "/tmp/21sh_tests_tmp.txt"
 # define BUFF_SIZE_TMP_FILE 1000000
+# define SH_EXEC_CMD_PREFIX "./21sh "
 
 /*
 ** Compares output of 21sh and sh by redirecting file descs in files and reading it,
@@ -42,7 +43,7 @@ static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_
 	close(tmp_fd);
 	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	dup2(tmp_fd, redirected_fd);
-	asprintf(&cmd_sh, "./21sh \"%s\"", str);
+	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", str);
 	system(cmd_sh);
 	close(tmp_fd);
 	dup2(dup_redirected_fd, redirected_fd);
@@ -185,19 +186,12 @@ void	exec_tests(char **envp)
 	exec_diff("Builtins 11 - env", "env | grep -v _");
 	//exec_diff("Builtins 12 - env w/ T_ENV_ASSIGN", "envxi"); (pas encore gere)
 	exec_diff("Builtins 13 - env 2", "env | grep -v _ | cat");
-/*
-	pid_t	child_pid = fork();
-	int		status;
-	int		waited_pid;
 
-	if (child_pid == -1)
-		log_error("Fork() not working");
-	else if (child_pid == 0)
-		system("./21sh exit");
-	else
-	{
-		waited_pid = waitpid(child_pid, &status, 0);
-		ok(1, "Builtins 15 - exit");
-	}
-*/
+	int		ret;
+	ret = system(SH_EXEC_CMD_PREFIX"exit");
+	ok((ret == 0), "Builtins 15 - exit - no args");
+	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42\"");
+	ok((ret / 256 == 42), "Builtins 16 - exit 2 - passed exit value");
+	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42 43 44\"");
+	ok((ret / 256 == 0), "Builtins 17 - exit 3 - too many args err");
 }
