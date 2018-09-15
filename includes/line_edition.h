@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/15 18:58:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/15 19:17:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,7 @@
 
 ////////////////////////////////////////////////////////
 
-// includes
-# include <errno.h>
-# include <stdint.h>
-# include <inttypes.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <termios.h>
-# include <curses.h>
-# include <term.h>
-
-extern char		**g_envp;
+# include <twenty_one_sh.h>
 
 // sizes
 # define LE_DEFAULT_LINE_SIZE 10//(2048U)

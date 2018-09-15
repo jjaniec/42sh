@@ -6,107 +6,117 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 17:56:20 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/15 19:26:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+t_option		g_sh_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
+	{{"G"}, "Disable syntax highlighting", false},
+	{{"v", "-verbose"}, "Enable verbose mode", false},
+	{{NULL}, NULL, false}
+};
+
 char			**g_envp;
 struct s_line	*g_le;
 
-static char		*get_valid_input(int ac, char **av, t_lexeme **lexemes)
+static char		*get_valid_input(t_lexeme **lexemes)
 {
 	char		*input;
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	if (ac > 1)
-		input = ft_strjoin(av[1], "\n");// check malloc
-	else
+	ft_putstr("%> ");
+	input = line_edition(PROMPT_DEFAULT);
+	ft_putchar('\n');
+	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+		UNMATCHED_QUOTE_ERR)
 	{
-		ft_putstr("%> ");
-		input = line_edition(PROMPT_DEFAULT);
-		ft_putchar('\n');
+		free_lexemes(lexemes_ret);
+		subp_string(&input);
 	}
-	if (ac == 1)
-	{
-		while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-			UNMATCHED_QUOTE_ERR)
-		{
-			free_lexemes(lexemes_ret);
-			subp_string(&input);
-		}
-		*lexemes = lexemes_ret;
-	}
-	else
-	{
-		if (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-			UNMATCHED_QUOTE_ERR)
-		{
-			printf("21sh: Error: Unmatched quote");
-			*lexemes = NULL;
-			return (NULL);
-		}
-		else
-			*lexemes = lexemes_ret;
-	}
+	*lexemes = lexemes_ret;
 	return (input);
 }
 
-static t_exec	*loop_body(int ac, char **av, char **envp)
+static int		twenty_one_sh(char *input, char **envp, \
+					t_option *opt_list, t_option **char_opt_index)
 {
-	t_lexeme	*lex;
 	t_ast		*ast_root;
 	t_exec		*exe;
+	t_lexeme	*lexemes;
+
+	(void)opt_list;
+	(void)char_opt_index;
+	lexemes = NULL;
+	if (/*is_option_activated("c", opt_list, char_opt_index) &&*/ \
+		lexer(input, &lexemes, NULL) == UNMATCHED_QUOTE_ERR)
+	{
+		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
+		exit(1);
+	}
+	ast_root = ast(lexemes);
+	exe = create_exec((const char **)envp);
+	if (!ast_root)
+	{
+		free_lexemes(lexemes);
+		return (1);
+	}
+	exe = create_exec((const char **)envp);
+	exe = exec_cmd(ast_root, exe);
+	ast_free(ast_root);
+	free_lexemes(lexemes);
+	return (0);
+}
+
+static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_index)
+{
+	t_lexeme	*lex;
 	char		*input;
 
 	errno = 0;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	if (!(input = get_valid_input(ac, av, &lex)))
-		return (NULL);
-
-	if (input != NULL && input[0] != '\0' && input[0] != '\n')
-		add_history(input, access_le_main_datas());
-
-	ast_root = ast(lex);
-	exe = create_exec((const char **)envp);
-	if (!ast_root)
-	{
-		free_lexemes(lex);
-		return (exe);
-	}
-	exe = create_exec((const char **)envp);
-	exe = exec_cmd(ast_root, exe);
-	ast_free(ast_root);
-	free_lexemes(lex);
-	free(input);
-	return (exe);
-}
-
-int				main(int ac, char **av, char **envp)
-{
-	t_exec		*exe;
-	char		**env_copy;
-
-	if (!VERBOSE_MODE)
-		log_set_quiet(1);
-	g_envp = (env_copy = cp_envp((const char **)envp));
-	tty_debug = fopen(TTY_DEBUG, "w");
 	while (1)
 	{
-		if (!(exe = loop_body(ac, av, env_copy)))
-			return (1);
-		if (exe && exe->tmp_envp)
-			env_copy = exe->tmp_envp;
-		else if (exe)
-			env_copy = exe->envp;
-		else
-			exit(1);
-		free_exec(&exe);
-		if (ac > 1)
-			break ;
+		if (!(input = get_valid_input(&lex)))
+			return ;
+		if (input != NULL && input[0] != '\0' && input[0] != '\n')
+			add_history(input, access_le_main_datas());
+		twenty_one_sh(input, envp, opt_list, char_opt_index);
+		free_lexemes(lex);
+		free(input);
 	}
+}
+
+int			main(int ac, char **av, char **envp)
+{
+	t_option	*opt_list;
+	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
+	char		**args;
+
+	g_envp = cp_envp((const char **)envp);
+	tty_debug = fopen(TTY_DEBUG, "w");
+	opt_list = g_sh_opts;
+	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
+	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
+		log_set_quiet(1);
+	if (is_option_activated("h", opt_list, char_opt_index))
+	{
+		format_help(SH_USAGE, opt_list);
+		exit(0);
+	}
+	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
+		while (ac > 0)
+		{
+			twenty_one_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
+			args++;
+			ac--;
+		}
+	else
+		loop_body(g_envp, opt_list, char_opt_index);
 	return (0);
 }

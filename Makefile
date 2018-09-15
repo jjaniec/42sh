@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/15 16:45:11 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/15 19:19:57 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,10 +112,14 @@ SRC_NAME = 	is_separator.c \
 			builtin/is_builtin.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
-			syntax_highlighting/print_input_string_end.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
+			parse_options.c \
+			format_help.c \
+			get_opt_elem.c \
+			is_option_activated.c \
+			syntax_highlighting/print_input_string_end.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \

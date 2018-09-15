@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_lexeme_colorized.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/02 18:14:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 19:35:00 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-//extern struct s_line *g_le;
+extern t_option		g_sh_opts[];
 
 /*
 ** Returns 1 if file in lexeme_data was found by searching directories in
@@ -134,8 +134,10 @@ void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, \
 
 	(void)lexeme_end;
 	put_lexeme_color(lexeme, lexeme_begin, envp);
-//	write(1, input_ptr, (lexeme_end - input_ptr));
-	f(input_ptr, (lexeme_end - input_ptr));
+	if (is_option_activated("c", g_sh_opts, NULL))
+		write(1, input_ptr, (lexeme_end - input_ptr));
+	else
+		f(input_ptr, (lexeme_end - input_ptr));
 
 	ft_putstr(COL_DEFAULT);
 }
