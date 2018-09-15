@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/15 15:10:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/15 15:55:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,11 +306,11 @@ void    actionk_history_down(struct s_line *le);
 
 
 /*
-	`Heredoc` - `Backslash a la fin de la
+	 `Backslash a la fin de la
 	 ligne pour echapper le \n` - `Completer des quotes, simple-, double- and back- quotes`
 
 
-	AND et OR
+	AND et OR et HEREDOC
 	{
 		si cmd vide = nothing happens
 		si cmd est pas vide, et curseur est au bout = nothing happens
