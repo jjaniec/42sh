@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 17:09:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 20:51:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ void			syntax_highlighting_tests(char **envp)
 	test_syntax_hightlighting("Simple 3 - options", "ls -la", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT);
 	test_syntax_hightlighting("Simple 4 - Path as progname", "/bin/ls -la", COL_PROG_NAME_FOUND"/bin/ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT);
 	remove("/tmp/thisdoesnotexists");
+	test_syntax_hightlighting("Simple 5 - Builtin as progname", "env", COL_PROG_NAME_FOUND"env"COL_DEFAULT);
+	test_syntax_hightlighting("Simple 6 - Builtin as progname w/ options & operators", "echo ls && env && echo ls -la", COL_PROG_NAME_FOUND"echo"COL_DEFAULT COL_PROG_ARG_NOT_FOUND" ls"COL_DEFAULT\
+		COL_OPERATORS" &&" COL_DEFAULT COL_PROG_NAME_FOUND" env"COL_DEFAULT COL_OPERATORS" &&"COL_DEFAULT COL_PROG_NAME_FOUND" echo"COL_DEFAULT COL_PROG_ARG_NOT_FOUND" ls"COL_DEFAULT\
+		COL_PROG_OPT" -la"COL_DEFAULT);
 	test_syntax_hightlighting("Prog found options & redirs", "ls -la 2>/dev/null 1>/tmp/thisdoesnotexists", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT\
 		COL_REDIRS" 2>"COL_DEFAULT COL_PROG_ARG_FILE"/dev/null"COL_DEFAULT COL_REDIRS" 1>"COL_DEFAULT COL_PROG_ARG_NOT_FOUND"/tmp/thisdoesnotexists"COL_DEFAULT);
 	remove("/tmp/thisdoesnotexists");
