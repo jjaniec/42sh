@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:43:39 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/12 12:57:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 14:23:19 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ void	node_placer_if(t_ast *root, t_ast *new)
 		log_error("!NEW");
 	if (root->parent && root->parent->type == T_WORD)
 	{
-		log_trace("On right !");
+		log_trace("On right !%s", new->data[0]);
 		root = root->parent->parent;
 		root->right = new;
 		new->parent = root;
 	}
 	else
 	{
+		log_trace("On left !%s", new->data[0]);
 		root->left = new;
 		new->parent = root;
 	}
