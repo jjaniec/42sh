@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 19:55:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 18:08:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 	paths = get_path(get_env("PATH", (const char**)envp));
 	pth = isin_path(paths, argv[0]);
 	if (pth)
-		exe = exec_thread((void *[2]){EXEC_THREAD_NOT_BUILTIN, pth}, \
+		exec_thread((void *[2]){EXEC_THREAD_NOT_BUILTIN, pth}, \
 			argv, envp, exe, node);
 	else
 	{
