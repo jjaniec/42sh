@@ -12,9 +12,14 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Returns 'true' if the cursor is at the end of the command line (right after
+**	the last character), otherwise 'false' is returned.
+*/
+
 bool	cursor_is_at_end_of_cmd(struct s_line *le)
 {
-	if ( possible_to_go_right(le) == false )
+	if (possible_to_go_right(le) == false)
 		return (true);
 	return (false);
 }

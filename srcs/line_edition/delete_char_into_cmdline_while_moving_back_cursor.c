@@ -12,6 +12,10 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	
+*/
+
 static void	reprint_part_of_line(struct s_line *le,
 	struct s_infos_for_rewriting *infos_rewriting)
 {
@@ -26,15 +30,13 @@ static void	reprint_part_of_line(struct s_line *le,
 	while (*line++)
 	{
 		++tmp_current_cursor_pos;
-		if (cursor_is_at_end_of_term_line(tmp_current_cursor_pos - 1, le) == true)
-		//if (tmp_current_cursor_pos - 1 == le->term_line_size - 1)
+		if (cursor_is_at_end_of_term_line(tmp_current_cursor_pos - 1, le))
 		{
 			++(infos_rewriting->nb_line_to_go_up);
 			tmp_current_cursor_pos = 0;
 		}
 	}
 	if (cursor_is_at_end_of_term_line(tmp_current_cursor_pos, le) == true)
-	//if (tmp_current_cursor_pos == le->term_line_size - 1)
 	{
 		tputs(le->tcaps->_do, 1, &write_one_char);
 		++(infos_rewriting->nb_line_to_go_up);
@@ -42,19 +44,19 @@ static void	reprint_part_of_line(struct s_line *le,
 		tmp_current_cursor_pos = 0;
 	}
 	infos_rewriting->pos_end_rewriting = tmp_current_cursor_pos;
-
-
-
 }
+
+/*
+**	Replaced the cursor where it needs to be for the user.
+*/
 
 static void	move_cursor_back_to_right_place(struct s_line *le,
 					struct s_infos_for_rewriting *infos_rewriting)
-{//sleep(5);
+{
 	while ((infos_rewriting->nb_line_to_go_up)-- > 0)
 		tputs(le->tcaps->up, 1, &write_one_char);
 	if (infos_rewriting->pos_end_rewriting < le->current_cursor_pos)
 	{
-		//++(infos_rewriting->pos_end_rewriting);
 		if (!(le->nb_car_written_on_last_current_line == le->term_line_size
 		|| (le->current_cursor_line == 0
 		&& le->nb_car_written_on_last_current_line == 0)))
@@ -77,6 +79,10 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 	else if (infos_rewriting->pos_end_rewriting == le->current_cursor_pos)
 		tputs(le->tcaps->le, 1, &write_one_char);
 }
+
+/*
+**	Values of the main data structure are updated
+*/
 
 static void	update_values(struct s_line *le)
 {
@@ -102,6 +108,15 @@ static void	update_values(struct s_line *le)
 	}
 }
 
+/*
+**	Delete the character that is right before the cursor, and moves the cursor
+**	one step back.
+**	
+**	Internal behavior : values of 'le' are updated, then the part of the command
+**	line that needs to be reprinted is reprinted. At the end the cursor is replaced
+**	where it needs to be.
+*/
+
 void		delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le)
 {
 	struct s_infos_for_rewriting	infos_rewriting;
@@ -111,7 +126,6 @@ void		delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le)
 	actionk_cursor_move_left(le);
 	tputs(le->tcaps->dc, 1, &write_one_char);
 	if (cursor_is_at_end_of_term_line(le->current_cursor_pos, le) == true)
-	//if (le->current_cursor_pos == le->term_line_size - 1)
 		weird_trick_to_erase_char(le);
 	reprint_part_of_line(le, &infos_rewriting);
 	tputs(le->tcaps->dc, 1, &write_one_char);

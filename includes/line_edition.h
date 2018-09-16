@@ -28,7 +28,7 @@
 
 // sizes
 # define LE_DEFAULT_LINE_SIZE 10//(2048U)
-# define LE_KEY_SIZE (7U)
+# define LE_KEY_SIZE (9U)
 # define LE_HISTORY_LINE_SIZE (LE_DEFAULT_LINE_SIZE)
 # define LE_NB_ELEM_HISTORY (1000U)// utile ?
 
@@ -272,6 +272,9 @@ void    actionk_history_down(struct s_line *le);
 
 	regrouper dans un fichier les deux fonctions "delete last char", je pense
 	static void	 print_history_cmd(struct s_line *le); cette fonction aura son propre fichier
+	ft_realloc dans check cmd storage, a mettre dans son propre fichier
+	renommer le fichier check_cmd_storage en check_cmd_and_clipboard_storage
+
 
 
 	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
@@ -286,6 +289,15 @@ void    actionk_history_down(struct s_line *le);
 	dedans ya le fichier historique
 	un .42shrc qui contient des alias
 	les alias c'est des expansions finalement
+
+
+
+	faudra tester la commande clear quand on aura le full prompt sur deux lignes la,
+	possible que ca ne marche pas on veut, auquel cas on fera un builtin clear personnalisé ;)
+
+
+	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
+	remonté trop haut, alors ctrl+u a un affichage un peu bugué
 
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
@@ -393,4 +405,3 @@ history
 }
 
 */
-

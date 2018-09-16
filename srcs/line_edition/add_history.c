@@ -30,6 +30,11 @@ static void	his_debug(void)
 
 }
 
+/*
+**	Add a new element at the end of the linked list representing
+**	the history.
+*/
+
 void	add_history(const char *input, struct s_line *le)
 {
 	struct s_history	*new;

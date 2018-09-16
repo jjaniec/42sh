@@ -12,6 +12,10 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Move the cursor 'window size' times, to the left or the right.
+*/
+
 void	cursor_crosses_screen(struct s_line *le, t_cross_screen direction)
 {
 	unsigned int	i;
