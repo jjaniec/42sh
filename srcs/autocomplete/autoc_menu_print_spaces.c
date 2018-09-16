@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   autoc_key_reader.c                                 :+:      :+:    :+:   */
+/*   autoc_menu_print_spaces.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 16:46:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/10 16:46:19 by cgaspart         ###   ########.fr       */
+/*   Created: 2018/09/16 15:38:21 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/09/16 15:38:23 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-int		autoc_key_reader(t_autoc *autoc)
+void	autoc_menu_print_spaces(int longest, int len, struct s_line *le)
 {
-	char		buffer[3];
-
-		if (read(1, buffer, 3))
+	if (len != 0)
+	{
+		while (len >= 1 && longest > 0)
 		{
-			if (((autoc->key_function)[(int)buffer[0]])(buffer, autoc))
-				return (0);
+			len--;
+			longest--;
 		}
-	return (1);
+	}
+	else
+		longest--;
+	while (longest)
+	{
+		tputs(le->tcaps->nd, 1, &write_one_char);
+		longest--;
+	}
 }

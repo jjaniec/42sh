@@ -24,6 +24,10 @@ typedef struct			s_autoc
 	struct s_line		*le;
 	struct winsize		win;
 	char					**items;
+	int					nbr_items;
+	int					nbr_items_in_line;
+	int					nbr_line;
+	int					max_item_len;
 	int					menu_selected;
 	int					menu_line;
 	int					menu_cursor;
@@ -40,5 +44,7 @@ void	ft_video(char *str);
 void	autoc_mem_free(t_autoc *autoc);
 int	autoc_key_reader(t_autoc *autoc);
 void	init_key_func(t_autoc *autoc);
+void	autoc_menu_print_items(t_autoc *autoc, struct s_line *le);
+void	autoc_menu_print_spaces(int longest, int len, struct s_line *le);
 
 #endif

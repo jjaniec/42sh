@@ -15,6 +15,8 @@
 static int		tab_key(char buffer[3], t_autoc *autoc)
 {
 	(void)buffer;
+	if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
+		return (1);
 	autoc->menu_selected++;
 	if (!autoc->items[autoc->menu_selected])
 		autoc->menu_selected = 0;
