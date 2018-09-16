@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/10 16:23:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/16 11:02:32 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,17 @@ static void	print_arg(t_ast *node)
 static void	print_ast_tree(t_ast *node, int level)
 {
 	int		l;
+	int		sl;
 	const int	show_sub_ast = 1;
+	static int	sub_level = 0;
 
 	l = level;
 	if (!node)
 		return ;
+	sl = 0;
 	print_ast_tree(node->right, level + 1);
+	while (sl++ < sub_level)
+		ft_printf("\e[2m------->\e[0m");
 	while (l-- > 0)
 		ft_putchar('\t');
 	if (node->data && node->data[0] && node->data[0][0] == '\n')
@@ -50,10 +55,17 @@ static void	print_ast_tree(t_ast *node, int level)
 		ft_printf("%c\n", '~');
 	if (node->sub_ast && node->data && show_sub_ast)
 	{
-
+		sub_level++;
+		sl = 0;
+		while (sl++ < sub_level)
+			ft_printf("\e[2m------->\e[0m");
 		ft_printf("=================== SUB_AST ===================\n");
 		print_ast_tree(node->sub_ast, 0);
-		ft_printf("   =========================================\n");
+		sl = 0;
+		while (sl++ < sub_level)
+			ft_printf("\e[2m------->\e[0m");
+		ft_printf("===============================================\n");
+		sub_level--;
 	}
 	print_ast_tree(node->left, level + 1);
 }
