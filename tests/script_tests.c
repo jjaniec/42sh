@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 13:40:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/16 14:50:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void tests(void)
 	test_framework("if [ 0; then echo OK; fi", "OK", "Builtin test");
 	test_framework("if [ 0 ] ]; then echo OK; fi", "OK", "Builtin test");
 	test_framework("if test 0; then echo OK; fi", "OK", "Builtin test");
-	test_framework("if test 1; then echo OK; fi", "OK", "Builtin test");
+	test_framework("if test 1; then echo KO; fi; echo", "", "Builtin test");
 	test_framework("if [ 1 ]; then echo NOTOK; fi; echo", "", "Builtin test");
 	test_framework("if [ 1; then echo NOTOK; fi; echo", "", "Builtin test");
 	test_framework("if [ 1 ] ]; then echo NOTOK; fi; echo", "", "Builtin test");
