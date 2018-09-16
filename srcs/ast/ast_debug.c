@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 11:02:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/16 11:15:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	print_arg(t_ast *node)
 	while (node->data[i])
 	{
 		if (node->data[i + 1])
-			ft_printf("%s ", node->data[i]);
+			ft_printf("\e[1m%s ", node->data[i]);
 		else
-			ft_printf("%s\n", node->data[i]);
+			ft_printf("\e[1m%s\e[0m - \e[2m - %p\e[0m\n", node->data[i], node);
 		i++;
 	}
 }
@@ -48,11 +48,11 @@ static void	print_ast_tree(t_ast *node, int level)
 	while (l-- > 0)
 		ft_putchar('\t');
 	if (node->data && node->data[0] && node->data[0][0] == '\n')
-		ft_printf("\\n\n");
+		ft_printf("\e[1m\\n\e[0m \e[2m - %p\e[0m\n", node);
 	else if (node->data && node->data[0])
 		print_arg(node);
 	else
-		ft_printf("%c\n", '~');
+		ft_printf("\e[1m%c\e[0m \e[2m%p - \e[0m\n", '~', node);
 	if (node->sub_ast && node->data && show_sub_ast)
 	{
 		sub_level++;
