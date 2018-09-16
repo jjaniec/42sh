@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 16:11:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/16 19:27:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static void	env_builtins_tests(char ***envp_ptr)
 	*envp_ptr = NULL;
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp && env\"");
 	ok((*envp_ptr == NULL), "Builtins 19 - unsetenv without env");
-	/* 15/09: does not work 
+	/* 15/09: does not work
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp\"");
 	ok((envp_ptr[1] == NULL), "Builtins 20 - unsetenv basic");
@@ -225,7 +225,10 @@ void	exec_tests(char ***envp_ptr)
 	ok((ret / 256 == 42), "Builtins 15 - exit 2 - passed exit value");
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42 43 44\"");
 	ok((ret / 256 == 0), "Builtins 16 - exit 3 - too many args err");
-
+	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42w\"");
+	ok((ret / 256 == 255), "Builtins 17 - exit 4 - arg not numeric");
+	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42w 45 12\"");
+	ok((ret / 256 == 255), "Builtins 18 - exit 4 - arg not numeric w/ too many args");
 	env_builtins_tests(envp_ptr);
 
 }
