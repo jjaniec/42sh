@@ -12,9 +12,10 @@
 
 #include <twenty_one_sh.h>
 
-static int		get_nbr_word_t(t_autoc *autoc, int term)
+static void		get_print_infos(t_autoc *autoc, int winsize)
 {
 	int i;
+	int words;
 	int longest;
 
 	longest = 0;
@@ -26,22 +27,13 @@ static int		get_nbr_word_t(t_autoc *autoc, int term)
 		i++;
 	}
 	autoc->max_item_len = i;
-	return (term / (i + 1));
-}
-
-static void		get_print_infos(t_autoc *autoc, int winsize)
-{
-	int i;
-	int words;
-
+	words = winsize / (i + 1);
 	i = 0;
 	while (autoc->items[i])
 		i++;
 	autoc->nbr_items = i;
-	words = get_nbr_word_t(autoc, winsize);
 	autoc->nbr_line = (i / words) + ((i % words) ? 1 : 0);
 	autoc->nbr_items_in_line = i / autoc->nbr_line;
-
 }
 
 static void		cursor_back(t_autoc *autoc, struct s_line *le)
@@ -92,7 +84,7 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 		{
 			(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
 			(ft_putstr(autoc->items[i]));
-			autoc_menu_print_spaces(autoc->max_item_len + 2,
+			autoc_menu_print_spaces(autoc->max_item_len + 1,
 				ft_strlen(autoc->items[i]), le);
 			count++;
 			i = i + autoc->nbr_line;

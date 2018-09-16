@@ -29,4 +29,5 @@ void	autoc_menu_print_spaces(int longest, int len, struct s_line *le)
 		tputs(le->tcaps->nd, 1, &write_one_char);
 		longest--;
 	}
+	tputs(le->tcaps->nd, 1, &write_one_char);
 }
