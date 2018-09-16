@@ -18,9 +18,10 @@ void	le_free_history(struct s_line *le)
 	struct s_history	*del;
 
 	his = le->history;
+	if (his == NULL)
+		return ;
 	while (his->prev != NULL)
 		his = his->prev;
-
 	while (his != NULL)
 	{
 		free(his->cmd);
@@ -30,8 +31,13 @@ void	le_free_history(struct s_line *le)
 	}
 }
 
-void	le_free_datas(struct s_line *le)
+void	le_free_datas(void)
 {
+	struct s_line	*le;
+
+	le = access_le_main_datas();
+	if (le->le_state.le_is_init == false)
+		return ;
 	free(le->line);
 	free(le->clipboard);
 	free(le->save_tmp_cmd);

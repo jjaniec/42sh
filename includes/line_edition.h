@@ -101,6 +101,8 @@ struct s_le_state
 {
 	bool			opt_colosyn;
 
+	bool			le_is_init;
+
 	size_t			prompt_len;
 	enum e_prompt	prompt_type;
 	
@@ -173,7 +175,7 @@ struct s_infos_for_rewriting
 
 // prototypes
 
-void	le_free_datas(struct s_line *le);
+void	le_free_datas(void);
 void	le_free_history(struct s_line *le);
 
 void *ft_realloc(void *, size_t, size_t);
@@ -274,6 +276,7 @@ void    actionk_history_down(struct s_line *le);
 	static void	 print_history_cmd(struct s_line *le); cette fonction aura son propre fichier
 	ft_realloc dans check cmd storage, a mettre dans son propre fichier
 	renommer le fichier check_cmd_storage en check_cmd_and_clipboard_storage
+	colosyn_update_cmd.c doit etre découpé en plusieurs fichiers
 
 
 

@@ -13,7 +13,8 @@
 #include <twenty_one_sh.h>
 
 /*
-**	
+**	Reprint the part of line that needs to be reprinted, and get some
+**	infos about the rewrite in order to replace the cursor later.
 */
 
 static void	reprint_part_of_line(struct s_line *le,

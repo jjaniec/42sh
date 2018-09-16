@@ -13,15 +13,18 @@
 #include <twenty_one_sh.h>
 
 /*
-**	exit() the program after printing an error message
-**	and the name of the function where the fail happened
+**	exit() the shell after printing an error message
+**	and the name of the function where the fail happened.
+**	errno's fail-value is used for perror().
+**	Before exiting, the terminal's settings are restored the way they
+**	were when the shell started.
 */
 
 void	le_exit(const char *msg, const char *func_name, int errno_value)
 {
-	le_free_datas(access_le_main_datas());
+	le_free_datas();
 	set_term_attr(LE_SET_OLD);
-	write(STDERR_FILENO, "\nfatal error: ", 14);
+	write(STDERR_FILENO, "\n21sh: fatal error: ", 20);
 	write(STDERR_FILENO, func_name, ft_strlen(func_name));
 	write(STDERR_FILENO, "(): ", 4);
 	write(STDERR_FILENO, msg, ft_strlen(msg));

@@ -81,5 +81,5 @@ void    			init_line_edition_attributes(struct s_line *le)
 	le->term_line_size = get_terminal_nb_col();
 	le->nb_li_currently_writing = 1;
 	le->nb_car_written_on_last_current_line = 0;
-
+	le->le_state.le_is_init = true;
 }

@@ -20,7 +20,7 @@
 
 struct s_line	*access_le_main_datas(void)
 {
-	static struct s_line	le_main_datas;
+	static struct s_line	le_main_datas = {.le_state.le_is_init = false};
 
 	return (&le_main_datas);
 }
