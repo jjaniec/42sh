@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/07 15:30:05 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/16 13:40:54 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void test_framework(char *str_test, char *result, char *test_name)
 static void tests(void)
 {
 	char	error_msg[] = "There is an error in your script.";
-	char	error_msg2[] = "There is an error in your command line.";
+	//char	error_msg2[] = "There is an error in your command line.";
 
 	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK; echo ABC; fi", "OK\nABC", "Simple IF");
@@ -84,9 +84,9 @@ static void tests(void)
 	test_framework("if [ 0 ]; then if [ 1 ]; then echo NOT OK; fi; echo OK; fi", "OK", "Simple IF nested");
 	test_framework("if [ 1 ]; then if [ 1 ]; then echo NOT OK; fi; echo NOT OK2; fi; echo", "", "Simple IF nested");
 
-	test_framework("if", error_msg2, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; echo NOPE; fi", error_msg2, "ERROR - Simple IF");
-	test_framework("if [ 0 ] echo NOPE; fi", error_msg2, "ERROR - Simple IF");
+	test_framework("if", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ]; echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ] echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ] then echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE fi", error_msg, "ERROR - Simple IF");
 	test_framework("if ; then echo NOPE; fi", error_msg, "ERROR - Simple IF");

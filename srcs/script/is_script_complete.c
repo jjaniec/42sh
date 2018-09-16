@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/15 14:17:32 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/16 13:52:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 
 	tmp = lex;
 	if (!good_start(lex))
+		return (0);
+	//Check if the word following an IF or WHILE is a T_CONDITION
+	if ((next_token == TK_SCRIPT_THEN && lex->type_details != TK_SCRIPT_CONDITION_IF)
+	|| (next_token == TK_SCRIPT_DO && lex->type_details != TK_SCRIPT_CONDITION_WHILE))
 		return (0);
 	//Loop over all expr when not a IF nor a WHILE nor an expected next_token
 	while (lex && ((lex->type_details != next_token && next_token != 0) || next_token == 0))

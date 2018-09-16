@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/15 15:08:12 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/16 13:38:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_lexeme	*is_keyword(t_lexeme *lex);
 static t_lexeme *next_lex_condition(t_lexeme *lex)
 {
 	lex->next = is_keyword(lex->next);
-	if (lex->next && good_start(lex->next))
+	if (lex->next && good_start(lex->next) && lex->next->type == T_WORD)
 	{
 		log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
 		lex->next->type = T_SCRIPT_CONDITION;
@@ -57,11 +57,6 @@ static t_lexeme *next_lex_condition(t_lexeme *lex)
 			lex->next->type_details = TK_SCRIPT_CONDITION_WHILE;
 		}
 		return (lex->next);
-	}
-	else
-	{
-		log_error("Nope");
-		return (NULL);
 	}
 	return (lex);
 }

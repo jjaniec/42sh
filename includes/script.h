@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/15 15:06:51 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/16 13:44:13 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 
 # define T_SCRIPT_CONTAINER 6
 
-# define TK_SCRIPT_THEN 61
-# define TK_SCRIPT_FI 62
-# define TK_SCRIPT_DO 63
-# define TK_SCRIPT_DONE 64
+# define TK_SCRIPT_THEN 60
+# define TK_SCRIPT_FI 61
+# define TK_SCRIPT_DO 62
+# define TK_SCRIPT_DONE 63
 
 
 
