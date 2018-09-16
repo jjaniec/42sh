@@ -1,0 +1,223 @@
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |if| - type : 2 - 0x7f8d16500010
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |[| - type : 2 - 0x7f8d16600530
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |1| - type : 2 - 0x7f8d16600560
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |]| - type : 2 - 0x7f8d16600590
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d166005c0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |then| - type : 2 - 0x7f8d166005f0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |echo| - type : 2 - 0x7f8d16600620
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |OK1| - type : 2 - 0x7f8d16600650
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d16600680
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |
+| - type : 3 - 0x7f8d166006b0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |if| - type : 2 - 0x7f8d166006e0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |[| - type : 2 - 0x7f8d16600710
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |0| - type : 2 - 0x7f8d16600740
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |]| - type : 2 - 0x7f8d16600770
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d166007a0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |then| - type : 2 - 0x7f8d166007d0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |if| - type : 2 - 0x7f8d16600800
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |[| - type : 2 - 0x7f8d16600830
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |0| - type : 2 - 0x7f8d16600860
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |]| - type : 2 - 0x7f8d16600890
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d166008c0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |then| - type : 2 - 0x7f8d166008f0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |echo| - type : 2 - 0x7f8d16600920
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |OK2.5| - type : 2 - 0x7f8d16600950
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d16600980
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |fi| - type : 2 - 0x7f8d166009b0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d166009e0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |fi| - type : 2 - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d16600a40
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |echo| - type : 2 - 0x7f8d16600a70
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |OK4| - type : 2 - 0x7f8d16600aa0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |;| - type : 3 - 0x7f8d16600ad0
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |fi| - type : 2 - 0x7f8d16600b00
+15:50:58 [32mINFO [0m [90msrcs/lexer/create_lexeme.c:32:[0m Created elem w/ data |
+| - type : 3 - 0x7f8d16600b30
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:46:[0m Update elem w/ data |if| - type : 5
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:51:[0m And next lex to TK_SCRIPT_CONDITION_IF
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |[| - type : 7
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |then| - type : 6
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:46:[0m Update elem w/ data |if| - type : 5
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:51:[0m And next lex to TK_SCRIPT_CONDITION_IF
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |[| - type : 7
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |then| - type : 6
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:46:[0m Update elem w/ data |if| - type : 5
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:51:[0m And next lex to TK_SCRIPT_CONDITION_IF
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |[| - type : 7
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |then| - type : 6
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |fi| - type : 6
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |fi| - type : 6
+15:50:58 [32mINFO [0m [90msrcs/script/script.c:134:[0m Update elem w/ data |fi| - type : 6
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 53
+15:50:58 [33mWARN [0m [90msrcs/script/is_script_complete.c:99:[0m Token: 52
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16600c70
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 51
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: if - 0x7f8d16600cc0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : [ - 0x7f8d16600530 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16600cc0
+15:50:58 [32mINFO [0m [90msrcs/ast/prepare_argv.c:86:[0m This is a condition !
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 70
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: [ - 0x7f8d16600dc0
+15:50:58 [33mWARN [0m [90msrcs/ast/ast_constructor.c:90:[0m Find end lexeme: end_lexeme is the same than start ! then - 0x7f8d166005f0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : then - 0x7f8d166005f0 / End : then - 0x7f8d166005f0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16600dc0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16600e50
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : then - 0x7f8d166005f0 / End : then - 0x7f8d166005f0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 60
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:153:[0m BYPASS Put_node: then - 0x7f8d16600ea0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : echo - 0x7f8d16600620 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16600f30
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: echo - 0x7f8d16600f90
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: ; - 0x7f8d16600fe0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: 
+ - 0x7f8d16601030
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 51
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: if - 0x7f8d16601080
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : [ - 0x7f8d16600710 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16601080
+15:50:58 [32mINFO [0m [90msrcs/ast/prepare_argv.c:86:[0m This is a condition !
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 70
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: [ - 0x7f8d16601180
+15:50:58 [33mWARN [0m [90msrcs/ast/ast_constructor.c:90:[0m Find end lexeme: end_lexeme is the same than start ! then - 0x7f8d166007d0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : then - 0x7f8d166007d0 / End : then - 0x7f8d166007d0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16601180
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16601210
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : then - 0x7f8d166007d0 / End : then - 0x7f8d166007d0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 60
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:153:[0m BYPASS Put_node: then - 0x7f8d16601260
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : if - 0x7f8d16600800 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d166012f0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 51
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: if - 0x7f8d16601340
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : [ - 0x7f8d16600830 / End : fi - 0x7f8d166009b0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16601340
+15:50:58 [32mINFO [0m [90msrcs/ast/prepare_argv.c:86:[0m This is a condition !
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 70
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: [ - 0x7f8d16601440
+15:50:58 [33mWARN [0m [90msrcs/ast/ast_constructor.c:90:[0m Find end lexeme: end_lexeme is the same than start ! then - 0x7f8d166008f0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : then - 0x7f8d166008f0 / End : then - 0x7f8d166008f0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d16601440
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d166014d0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : then - 0x7f8d166008f0 / End : then - 0x7f8d166008f0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:110:[0m new type details 60
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:153:[0m BYPASS Put_node: then - 0x7f8d16601520
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:92:[0m BEGIN: Lex : echo - 0x7f8d16600920 / End : fi - 0x7f8d166009b0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:169:[0m Construction of new AST. root = 0x7f8d166015b0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: echo - 0x7f8d16601610
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: ; - 0x7f8d16601660
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16601660
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : fi - 0x7f8d166009b0 / End : fi - 0x7f8d166009b0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d166013d0
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : fi - 0x7f8d166009b0 / End : fi - 0x7f8d166009b0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:153:[0m BYPASS Put_node: fi - 0x7f8d166016b0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: ; - 0x7f8d16601700
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16601700
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : fi - 0x7f8d16600a10 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16601110
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : fi - 0x7f8d16600a10 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16601030
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : fi - 0x7f8d16600a10 / End : fi - 0x7f8d16600a10
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d16600d50
+15:50:58 [36mDEBUG[0m [90msrcs/ast/ast_constructor.c:94:[0m END: Lex : fi - 0x7f8d16600a10 / End : fi - 0x7f8d16600a10
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:153:[0m BYPASS Put_node: fi - 0x7f8d16601750
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: ; - 0x7f8d166017a0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: echo - 0x7f8d16601800
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: ; - 0x7f8d16601850
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:153:[0m BYPASS Put_node: fi - 0x7f8d166018a0
+15:50:58 [94mTRACE[0m [90msrcs/ast/ast_constructor.c:148:[0m Put_node: 
+ - 0x7f8d166018f0
+15:50:58 [32mINFO [0m [90msrcs/ast/ast_constructor.c:183:[0m End of constructing this AST. - 0x7f8d166018f0
+[1m\n[0m [2m - 0x7f8d166018f0[0m
+	[1m;[0m - [2m - 0x7f8d16601850[0m
+			[1mecho [1mOK4[0m - [2m - 0x7f8d16601800[0m
+		[1m;[0m - [2m - 0x7f8d166017a0[0m
+				[1m[subast][0m - [2m - 0x7f8d16600d10[0m
+[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[1m~[0m [2m0x7f8d16600d50 - [0m
+[2m------->[0m	[1mif[0m - [2m - 0x7f8d16600cc0[0m
+[2m------->[0m		[1m[subast][0m - [2m - 0x7f8d16600e10[0m
+[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m	[1m[ [1m1 [1m][0m - [2m - 0x7f8d16600dc0[0m
+[2m------->[0m[2m------->[0m[1m~[0m [2m0x7f8d16600e50 - [0m
+[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m			[1m[subast][0m - [2m - 0x7f8d16600ef0[0m
+[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m	[1m[subast][0m - [2m - 0x7f8d166010d0[0m
+[2m------->[0m[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m[2m------->[0m[1m~[0m [2m0x7f8d16601110 - [0m
+[2m------->[0m[2m------->[0m[2m------->[0m	[1mif[0m - [2m - 0x7f8d16601080[0m
+[2m------->[0m[2m------->[0m[2m------->[0m		[1m[subast][0m - [2m - 0x7f8d166011d0[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m	[1m[ [1m0 [1m][0m - [2m - 0x7f8d16601180[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[1m~[0m [2m0x7f8d16601210 - [0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m[2m------->[0m[2m------->[0m			[1m[subast][0m - [2m - 0x7f8d166012b0[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[1m;[0m - [2m - 0x7f8d16601700[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m		[1m[subast][0m - [2m - 0x7f8d16601390[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[1m~[0m [2m0x7f8d166013d0 - [0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m	[1mif[0m - [2m - 0x7f8d16601340[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m		[1m[subast][0m - [2m - 0x7f8d16601490[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m	[1m[ [1m0 [1m][0m - [2m - 0x7f8d16601440[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[1m~[0m [2m0x7f8d166014d0 - [0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m			[1m[subast][0m - [2m - 0x7f8d16601570[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m=================== SUB_AST ===================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[1m;[0m - [2m - 0x7f8d16601660[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m		[1mecho [1mOK2.5[0m - [2m - 0x7f8d16601610[0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m	[1m~[0m [2m0x7f8d166015b0 - [0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m	[1m~[0m [2m0x7f8d166012f0 - [0m
+[2m------->[0m[2m------->[0m[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m[2m------->[0m[1m\n[0m [2m - 0x7f8d16601030[0m
+[2m------->[0m[2m------->[0m	[1m;[0m - [2m - 0x7f8d16600fe0[0m
+[2m------->[0m[2m------->[0m			[1mecho [1mOK1[0m - [2m - 0x7f8d16600f90[0m
+[2m------->[0m[2m------->[0m		[1m~[0m [2m0x7f8d16600f30 - [0m
+[2m------->[0m[2m------->[0m===============================================
+[2m------->[0m===============================================
+			[1m~[0m [2m0x7f8d16600c70 - [0m
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:52:[0m Current node IN : [subast] ready for exec 0
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:52:[0m Current node IN : [ ready for exec 0
+15:50:58 [36mDEBUG[0m [90msrcs/script/script_in_exec.c:28:[0m EXEC->actual node : if - exe->ret = 1
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:52:[0m Current node IN : ; ready for exec 0
+15:50:58 [94mTRACE[0m [90msrcs/exec/io_manager.c:53:[0m Updating ready_for_exec - exe->ret : 1
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:58:[0m Current node IN : ; ready for exec 0
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:52:[0m Current node IN : echo ready for exec 0
+OK4
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:52:[0m Current node IN : ; ready for exec 0
+15:50:58 [94mTRACE[0m [90msrcs/exec/io_manager.c:53:[0m Updating ready_for_exec - exe->ret : 1
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:58:[0m Current node IN : ; ready for exec 0
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:52:[0m Current node IN : 
+ ready for exec 0
+15:50:58 [94mTRACE[0m [90msrcs/exec/io_manager.c:53:[0m Updating ready_for_exec - exe->ret : 1
+15:50:58 [36mDEBUG[0m [90msrcs/exec/exec_pre_in_post.c:58:[0m Current node IN : 
+ ready for exec 0

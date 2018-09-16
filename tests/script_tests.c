@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 14:50:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/16 15:20:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,69 @@ static void tests(void)
 	test_framework("if [ 0 ]; then echo 'fi'; fi", "fi", "Simple IF with arg like token");
 	test_framework("echo 'if'", "if", "Simple IF with arg like token");
 	test_framework("if [ 0 ]; then echo 'else'; fi", "else", "Simple IF with arg like token");
+
+	test_framework("touch a; while cat a > /dev/null; do echo OK && rm a; done", "OK", "Simple WHILE");
+	test_framework("while [ 1 ]; do echo KO; done; echo", "", "Simple WHILE");
+
+	test_framework("while", error_msg, "ERROR - Simple WHILE");
+	test_framework("while [ 0 ]", error_msg, "ERROR - Simple WHILE");
+	test_framework("while [ 0 ]; do lol", error_msg, "ERROR - Simple WHILE");
+	test_framework("while [ 0 ] do lol; done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while ; do lol; done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while [ 0 ]; do lol done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while while; do lol; done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while [ 0 ]; then lol; done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while [ 0 ]; do lol; fi", error_msg, "ERROR - Simple WHILE");
+	test_framework("while if [ 0 ]; then lol; fi", error_msg, "ERROR - Simple WHILE");
+
+	test_framework("\
+		if [ 0 ] && [ 0 ]; then \
+			echo OK1; \
+			if [ 0 ]; then \
+				echo OK2; \
+				if [ 1 ]; then \
+					echo NOPE; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi", "OK1\nOK2\nOK3\nOK4", "Complex IF");
+	test_framework("\
+		if [ 0 ] && [ 0 ]; then \
+			echo OK1; \
+			if [ 0 ]; then \
+				echo OK2; \
+				if [ 0 ]; then \
+					echo OK2.5; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi", "OK1\nOK2\nOK2.5\nOK3\nOK4", "Complex IF");
+	test_framework("\
+		if [ 0 ] && [ 0 ]; then \
+			echo OK1; \
+			if [ 1 ]; then \
+				echo OK2; \
+				if [ 0 ]; then \
+					echo OK2.5; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi", "OK1\nOK4", "Complex IF");
+	test_framework("\
+		if [ 0 ] && [ 1 ]; then \
+			echo OK1; \
+			if [ 0 ]; then \
+				echo OK2; \
+				if [ 0 ]; then \
+					echo OK2.5; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi; echo", "", "Complex IF");
 }
 
 void script_tests(char **envp)
