@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/16 13:52:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/16 14:48:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,13 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 			return (is_script_complete(lex->next, TK_SCRIPT_THEN));
 		if (next_token == TK_SCRIPT_THEN)
 		{
-			if ((tmp = is_script_complete(lex->next, TK_SCRIPT_ELSE)))
+			const size_t end_t[] = {TK_SCRIPT_ELSE, TK_SCRIPT_ELIF, TK_SCRIPT_FI, 0};
+			t_lexeme *t = find_end_lexeme(lex, end_t);
+			if ((tmp = is_script_complete(lex->next, TK_SCRIPT_ELSE)) && t->type_details == TK_SCRIPT_ELSE)
 				return (tmp);
-			else if ((tmp = is_script_complete(lex->next, TK_SCRIPT_ELIF)))
+			else if ((tmp = is_script_complete(lex->next, TK_SCRIPT_ELIF)) && t->type_details == TK_SCRIPT_ELIF)
 				return (tmp);
-			else if ((tmp = is_script_complete(lex->next, TK_SCRIPT_FI)))
+			else if ((tmp = is_script_complete(lex->next, TK_SCRIPT_FI)) && t->type_details == TK_SCRIPT_FI)
 				return (tmp);
 			else
 				return (return_error(lex));
