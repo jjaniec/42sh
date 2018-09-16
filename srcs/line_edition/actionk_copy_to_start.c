@@ -12,12 +12,19 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**  Copy the part of command line that is before the cursor, into the shell
+**  clipboard. If the 'part of line' is empty (cursor is on the start-position 
+**	of the command line), it clears the clipboard.
+**  The character under the cursor is not copied.
+*/
+
 void    actionk_copy_to_start(struct s_line *le)
 {
-    le->clipboard_len = 0;
-    check_clipboard_storage(le, le->cursor_index_for_line + 1);
+	le->clipboard_len = 0;
+	check_clipboard_storage(le, le->cursor_index_for_line + 1);
 
-    le->clipboard[0] = '\0';
-    ft_strncat( le->clipboard, &(le->line[0]), le->cursor_index_for_line );
-    fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
+	le->clipboard[0] = '\0';
+	ft_strncat( le->clipboard, &(le->line[0]), le->cursor_index_for_line );
+   // fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
 }

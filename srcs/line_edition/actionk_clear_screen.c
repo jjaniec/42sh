@@ -12,6 +12,12 @@
 
 #include <twenty_one_sh.h>
 
+//  NOT FINISHED YET
+
+/*
+**	Clear the entire window then redraw the prompt and the line being edited.
+*/
+
 void	actionk_clear_screen(struct s_line *le)
 {
 	// reafficher le prompt de jj qui dit le dir et la branche git la

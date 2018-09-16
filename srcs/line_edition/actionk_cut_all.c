@@ -12,24 +12,17 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	The command line is entirely copied into the shell clipboard, and
+**	entirely cleared. If the command line is empty, it does nothing and
+**	the clipboard remains untouched.
+*/
+
 void	actionk_cut_all(struct s_line *le)
 {
-	//unsigned int	stop_loop;
-	//t_kno			keep_key_no;
-
 	if (le->line[0] == '\0')
 		return ;
 
 	actionk_copy_all(le);
-	/*actionk_move_cursor_end(le);
-	stop_loop = le->line_index;
-	keep_key_no = le->key_no;
-	le->key_no = LE_BACKSPACE ;
-	while (stop_loop > 0)
-	{
-		actionk_delete_character(le);
-		--stop_loop;
-	}
-	le->key_no = keep_key_no;*/
 	actionk_delete_current_input(le);
 }

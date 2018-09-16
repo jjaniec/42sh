@@ -12,6 +12,12 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Move the cursor one step to the left. If the cursor is to the very left 
+**	of the window, it goes on the top line.
+**	If the cursor is on the start position of the command line, it does nothing.
+*/
+
 void		actionk_cursor_move_left(struct s_line *le)
 {
 	if (le->current_cursor_line == 0 && le->current_cursor_pos == le->start_pos)
@@ -21,7 +27,6 @@ void		actionk_cursor_move_left(struct s_line *le)
 	}
 	if (le->current_cursor_pos == 0)
 	{
-		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSUS\n");
 		le->current_cursor_pos = le->term_line_size - 1;
 		--(le->current_cursor_line);
 		tputs(le->tcaps->up, 1, &write_one_char);
@@ -34,5 +39,5 @@ void		actionk_cursor_move_left(struct s_line *le)
 	}
 	--(le->cursor_index_for_line);
 
-	fprintf(tty_debug, "LEFTTTTT\n");
+	//fprintf(tty_debug, "LEFTTTTT\n");
 }

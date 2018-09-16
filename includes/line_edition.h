@@ -268,6 +268,12 @@ void    actionk_history_down(struct s_line *le);
 
 
 /*
+	NOTES
+
+	regrouper dans un fichier les deux fonctions "delete last char", je pense
+	static void	 print_history_cmd(struct s_line *le); cette fonction aura son propre fichier
+
+
 	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT

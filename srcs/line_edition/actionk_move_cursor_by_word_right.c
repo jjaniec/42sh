@@ -12,39 +12,46 @@
 
 #include <twenty_one_sh.h>
 
-static unsigned int	find_nb_moves_needed(const char *line, unsigned int i)
+/*
+**	Find the number of moves needed by the cursor, to go on the begining
+**	of the next word or the end of the command line.
+*/
+
+static unsigned int	find_nb_moves_needed(const char *line, unsigned int index)
 {
 	unsigned int	nb_moves_needed;
 
-	nb_moves_needed = 0;    // fprintf(tty_debug, "--- %c\n", line[i]);
-	if (line[i] == '\0')
+	nb_moves_needed = 0;
+	if (line[index] == '\0')
 		return (0);
-    while ( le_is_separator(line[i]) == false )
+    while ( le_is_separator(line[index]) == false )
 	{
-		if (line[i] == '\0')
+		if (line[index] == '\0')
 			return (nb_moves_needed + 1);
-		++i;
+		++index;
 		++nb_moves_needed;
 	}
-	while ( le_is_separator(line[i]) == true )
+	while ( le_is_separator(line[index]) == true )
 	{
-		if (line[i] == '\0')
+		if (line[index] == '\0')
 			return (nb_moves_needed + 1);
-		++i;
+		++index;
 		++nb_moves_needed;
 	}
-	
 	return (nb_moves_needed);
 }
+
+/*
+**	Moves the cursor at the begining of the next word in the command line,
+**	or at the end of the command line if there is no next word.
+*/
 
 void    actionk_move_cursor_by_word_right(struct s_line *le)
 {
     unsigned int	nb_moves_needed;
 
 	nb_moves_needed = find_nb_moves_needed(le->line, le->cursor_index_for_line);
-
-	fprintf(tty_debug, "nb moves needed = %u\n", nb_moves_needed );
-
+	//fprintf(tty_debug, "nb moves needed = %u\n", nb_moves_needed );
 	while (nb_moves_needed > 0)
 	{
 		actionk_cursor_move_right(le);

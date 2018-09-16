@@ -12,6 +12,11 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Initialization of an array containing the correspondences between 
+**	the action keys and their functions.
+*/
+
 static	struct s_action_key	*get_array_action_key(void)
 {
 	static struct s_action_key	actionk[LE_NB_KEYS] =
@@ -44,6 +49,10 @@ static	struct s_action_key	*get_array_action_key(void)
 
 	return (actionk);
 }
+
+/*
+**	Looking for the function corresponding to the key, and start it.
+*/
 
 void						action_key(t_kno key, struct s_line *le)
 {

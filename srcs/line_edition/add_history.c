@@ -12,7 +12,8 @@
 
 #include <twenty_one_sh.h>
 
-void	his_debug(void)
+// debug, affiche la liste chainee de l'historique
+static void	his_debug(void)
 {
 	struct s_history *h = access_le_main_datas()->history;
 
@@ -29,29 +30,23 @@ void	his_debug(void)
 
 }
 
-static struct s_history *get_former_newest_elem(struct s_history *history)
-{
-    while (history->next != NULL)
-    {
-        history = history->next;
-    }
-    return (history);
-}
-
-
-
 void	add_history(const char *input, struct s_line *le)
 {
 	struct s_history	*new;
+	size_t				input_len;
+	struct s_history	*tmp;
 
-	new = malloc(sizeof(struct s_history)); // check ret
-	
-	size_t input_len = ft_strlen(input);
-	new->cmd = ft_strdup(input); // check ret
+	if ((new = malloc(sizeof(struct s_history))) == NULL)
+		le_exit("Memory allocation failed\n", "malloc", errno);
+	input_len = ft_strlen(input);
+	if ((new->cmd = ft_strdup(input)) == NULL)
+	{
+		free(new);
+		le_exit("Memory allocation failed\n", "malloc", errno);
+	}
 	if (new->cmd[input_len - 1] == '\n')
 		new->cmd[input_len - 1] = '\0';
-
-	struct s_history *tmp = le->history;
+	tmp = le->history;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	new->next = tmp;
@@ -59,42 +54,6 @@ void	add_history(const char *input, struct s_line *le)
 	if (tmp->prev != NULL)
 		tmp->prev->next = new;
 	tmp->prev = new;
-	
 	++(le->his_nb_elem);
-
-	his_debug();
-	
-}
-
-
-
-
-void    old_add_history(struct s_line *le)
-{
-   // bool new = false;
-    struct s_history *new_elem;
-
-    if ((new_elem = malloc(sizeof(struct s_history))) == NULL)
-    	le_exit("Memory allocation failed\n", "malloc", errno);
-
-    ft_strcpy(new_elem->cmd, le->line);
-    new_elem->cmd[le->line_index] = '\0';
-    new_elem->next = NULL;
-
-    if (le->his_nb_elem == 0)
-	{
-        new_elem->prev = NULL;
-		le->history = new_elem;
-	}
-    else
-	{
-        new_elem->prev = get_former_newest_elem(le->history);
-		new_elem->prev->next = new_elem;
-	}
-
-    ++(le->his_nb_elem);
-
-   // le->special_case_for_newest_his_elem = false;
-
-  // copy_line_edition_attr(new_elem, le);
+	his_debug(); // debug
 }

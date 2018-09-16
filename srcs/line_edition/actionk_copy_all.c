@@ -12,6 +12,11 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**  Copy the entire command line into the shell clipboard.
+**  If the command line is empty, it clears the clipboard.
+*/
+
 void	actionk_copy_all(struct s_line *le)
 {
     le->clipboard_len = 0;
@@ -20,5 +25,5 @@ void	actionk_copy_all(struct s_line *le)
 
     ft_strcpy(le->clipboard, le->line);
     le->clipboard_len = le->line_index;
-	fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
+	//fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
 }

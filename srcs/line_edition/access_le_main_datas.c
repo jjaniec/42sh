@@ -12,6 +12,12 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	On the first call it creates the main data structure for
+**	line edition feature.
+**	Subsequent calls are for getting an access to the datas, via a pointer.
+*/
+
 struct s_line	*access_le_main_datas(void)
 {
 	static struct s_line	le_main_datas;

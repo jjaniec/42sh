@@ -12,6 +12,10 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Clear the command line (if it is not empty)
+*/
+
 void	actionk_delete_current_input(struct s_line *le)
 {
 	unsigned int	stop_loop;

@@ -12,11 +12,18 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Move the cursor one step to the right. If the cursor is to the very right 
+**	of the window, it goes on the bottom line.
+**	If the cursor is to the current end-postion of the command line, it does
+**	nothing.
+*/
+
 void		actionk_cursor_move_right(struct s_line *le)
 {
 	if ( possible_to_go_right(le) == false )
 	{
-		fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
+		//fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
 		return ;
 	}
 	if (cursor_is_at_end_of_term_line(le->current_cursor_pos, le) == true)
@@ -34,5 +41,5 @@ void		actionk_cursor_move_right(struct s_line *le)
 	}
 	++(le->cursor_index_for_line);
 
-	fprintf(tty_debug, "RIGHTTTT\n");
+	//fprintf(tty_debug, "RIGHTTTT\n");
 }

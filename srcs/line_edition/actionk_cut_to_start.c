@@ -12,6 +12,14 @@
 
 #include <twenty_one_sh.h>
 
+/*
+**	Copy the part of the command line that is before the cursor, into the shell
+**	clipboard. The character under the cursor is not copied.
+**	The 'part of line' that is copied is also deleted.
+**	If the 'part of line' is empty (cursor is on the start-position of the command line), 
+**	it does nothing and the clipboard remains untouched.
+*/
+
 void	actionk_cut_to_start(struct s_line *le)
 {
 	unsigned int	stop_loop;
