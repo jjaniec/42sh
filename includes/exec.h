@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 18:07:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 15:37:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,13 @@
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
-t_exec	*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
-				t_ast *node);
+t_exec	*exec_thread(void **cmd, char **envp, t_exec *exe, \
+			t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
 void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node);
-void			exec_builtin(char **argv, char **envp, t_exec *exe, t_ast *node, \
-					void (**builtin_fun_ptr)(char **, char **, t_exec *));
+int		exec_builtin(char **argv, char **envp, t_exec *exe, t_ast *node);
 void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd, \
 			void (**builtin_fun_ptr)(char **, char **, t_exec *));

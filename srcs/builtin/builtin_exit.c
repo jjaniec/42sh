@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 19:24:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 15:10:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void	exit_free_sh_data(t_exec *exe)
 
 static int	str_is_num(char *str)
 {
-	if (!(str && *str))
-		return (1);
-	while (str && *str && ft_isdigit(*str))
+	if (!(*str))
+		return (0);
+	while (*str && ft_isdigit(*str))
 		str++;
 	if (!(*str))
 		return (1);
@@ -59,19 +59,16 @@ inline void	builtin_exit(char **argv, char **envp, t_exec *exe)
 	{
 		if ((first_arg_is_num = str_is_num(argv[1])))
 			exit_val = ft_atoi(argv[1]);
-		if (!first_arg_is_num || argv[2])
+		if (!first_arg_is_num)
 		{
-			if (!first_arg_is_num)
-			{
-				ft_putstr_fd("21sh: exit: numeric argument required\n", 2);
-				exit_val = 255;
-			}
-			else if (argv[2])
-			{
-				ft_putstr_fd("21sh: exit: too many arguments\n", 2);
-				exe->ret = 1;
-				return ;
-			}
+			ft_putstr_fd("21sh: exit: numeric argument required\n", 2);
+			exit_val = 255;
+		}
+		else if (argv[2])
+		{
+			ft_putstr_fd("21sh: exit: too many arguments\n", 2);
+			exe->ret = 1;
+			return ;
 		}
 	}
 	else

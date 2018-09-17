@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 18:08:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 15:47:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
 ** if cmd[0] is equal to EXEC_THREAD_NOT_BUILTIN,
 ** we know the the passed command
 ** is not a builtin and should be executed by execve,
-** with path stored in cmd[1],
+** with path stored in cmd[1] and args in cmd[2],
 **
 ** otherwise if cmd[0] is equal to EXEC_THREAD_BUILTIN,
 ** we know that the command we
 ** have to execute is a builtin, and so should not be executed with execve() but
 ** with a function pointer to the builtin instead,
-** the function pointer will then be stored in cmd[1],
+** the function pointer will then be stored in cmd[1] (w/ args in cmd[2]),
 ** and be casted to be executed by this function
 ** (which allows pipes and redirs handling for builtins
 ** without duplicating code)
 */
 
-static void	child_process(void **cmd, char **argv, char **envp, \
-				t_exec *exe, t_ast *node)
+static void	child_process(void **cmd, char **envp, t_exec *exe, \
+				t_ast *node)
 {
 	handle_pipes(node);
 	handle_redirs(node);
@@ -41,11 +41,12 @@ static void	child_process(void **cmd, char **argv, char **envp, \
 	{
 		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (int)cmd[0]);
 		if ((int)*cmd == EXEC_THREAD_BUILTIN)
-			(*(void (**)(char **, char **, t_exec *))(cmd[1]))(argv, envp, exe);
+			(*(void (**)(char **, char **, t_exec *))(cmd[1]))\
+				(cmd[2], envp, exe);
 		else
 		{
 			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
-			if (execve(cmd[1], argv, envp) == -1)
+			if (execve(cmd[1], cmd[2], envp) == -1)
 				log_error("Execve() not working");
 		}
 	}
@@ -113,13 +114,13 @@ static int	should_fork(void **cmd)
 {
 	if ((int)*cmd == EXEC_THREAD_BUILTIN && \
 		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
-		 (*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
-		 (*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv))
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv))
 		return (0);
 	return (1);
 }
 
-t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
+t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 				t_ast *node)
 {
 	pid_t	child_pid;
@@ -134,7 +135,7 @@ t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
 		if (child_pid == -1)
 			log_error("Fork() not working");
 		else if (child_pid == 0)
-			child_process(cmd, argv, envp, exe, node);
+			child_process(cmd, envp, exe, node);
 		else
 		{
 			log_trace("Forked process pid: %d", child_pid);
@@ -142,6 +143,6 @@ t_exec		*exec_thread(void **cmd, char **argv, char **envp, t_exec *exe, \
 		}
 	}
 	else
-		child_process(cmd, argv, envp, exe, node);
+		child_process(cmd, envp, exe, node);
 	return (exe);
 }
