@@ -45,6 +45,7 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_fkey.c \
 			autocomplete/autoc_menu_print_items.c \
 			autocomplete/autoc_menu_print_spaces.c \
+			autocomplete/dir_get_items_search.c \
 			line_edition/action_key.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \

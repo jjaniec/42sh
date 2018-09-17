@@ -38,6 +38,8 @@ char					**dir_get_items(char *in)
 
 	dir = opendir(in);
 	res = (char**)malloc(sizeof(char*) * nbr_tab(in) + 1);
+	if (res == NULL)
+		return (NULL);
 	i = 0;
 	while ((file = readdir(dir)))
 	{

@@ -36,15 +36,16 @@ typedef struct			s_autoc
 void	autocomplete(struct s_line *le);
 char	**autoc_dir(struct s_line *le);
 int	autoc_menu(t_autoc *autoc, struct s_line *le);
+void	autoc_mem_free(t_autoc *autoc);
+int	autoc_key_reader(t_autoc *autoc);
+void	autoc_menu_print_items(t_autoc *autoc, struct s_line *le);
+void	autoc_menu_print_spaces(int longest, int len, struct s_line *le);
 char	**dir_get_items(char *in);
+char	**dir_get_items_search(char *in, char *path);
 char	**order_tab_ascii(char **tabl);
+void	init_key_func(t_autoc *autoc);
 void	ft_ul_video(char *str);
 void	ft_ul(char *str);
 void	ft_video(char *str);
-void	autoc_mem_free(t_autoc *autoc);
-int	autoc_key_reader(t_autoc *autoc);
-void	init_key_func(t_autoc *autoc);
-void	autoc_menu_print_items(t_autoc *autoc, struct s_line *le);
-void	autoc_menu_print_spaces(int longest, int len, struct s_line *le);
 
 #endif

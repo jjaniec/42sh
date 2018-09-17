@@ -56,8 +56,7 @@ char				**autoc_dir(struct s_line *le)
 	else if (ft_strchr(path, '/'))
 		ft_putstr("n");
 	else
-		ft_putstr("N");
-		//items = dir_get_items_search("./", path);
+		items = dir_get_items_search("./", path);
 	free(path);
 	return (items);
 }
