@@ -3,29 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   insert_and_print_character_into_cmdline.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:01:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 13:29:41 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+**	Some values are kept to be used by the internal behavior,
+**	some other values are updated for the same purpose.
+*/
+
 static void	init_and_update_values(struct s_line *le, unsigned int *keep_pos,
-						unsigned int *keep_line,
-						unsigned int *keep_cursor_index_for_line)
+													unsigned int *keep_line)
 {
 	*keep_pos = le->current_cursor_pos;
 	*keep_line = le->current_cursor_line;
-	*keep_cursor_index_for_line = le->cursor_index_for_line;
-
 	++(le->line_index);
 	le->nb_li_currently_writing = le->current_cursor_line + 1;
 	le->line_index = le->cursor_index_for_line;
 	le->nb_car_written_on_last_current_line = (le->current_cursor_line == 0) \
 	? (le->cursor_index_for_line) : (le->current_cursor_pos);
 }
+
+/*
+**	Reprint the part of the commmand line that needs to be reprinted.
+*/
 
 static void	shift_printed_line(struct s_line *le)
 {
@@ -39,7 +45,12 @@ static void	shift_printed_line(struct s_line *le)
 	}
 }
 
-static void	move_cursor_back_to_right_place(struct s_line *le, unsigned int keep_pos, bool foo)
+/*
+**	Replace the cursor where it needs to be for the user.
+*/
+
+static void	move_cursor_back_to_right_place(struct s_line *le, 
+							unsigned int keep_pos, bool foo)
 {
 	bool	foo2;
 
@@ -50,29 +61,32 @@ static void	move_cursor_back_to_right_place(struct s_line *le, unsigned int keep
 		actionk_cursor_move_left(le);
 		foo2 = true;
 	}
-
-	if (foo == true && fprintf(tty_debug, "PTDRRRR\n"))
+	if (foo == true)
 		actionk_cursor_move_left(le);
-	
 	if (foo2 == false)
 		while (le->current_cursor_pos < (keep_pos + 1))
 			actionk_cursor_move_right(le);
-
 	if (keep_pos == 0 && cursor_is_at_end_of_cmd(le) == true)
-	{
 		actionk_cursor_move_left(le);
-	}
 }
+
+/*
+**	Insert a character into the command line (to put a character at the end of 
+**	the command line, there is print_key_at_end()).
+**	
+**	Internal behavior : The values of the main datas structure are updated, then
+**	the part of the command line that needs to be reprinted is reprinted, then
+**	the cursor is replaced where it needs to be for the user.
+*/
 
 void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
 {
 	unsigned int	keep_pos;
 	unsigned int	keep_line;
-	unsigned int	keep_cursor_index_for_line;
 	bool			foo;
 	
 	insert_char_into_array(le, key, le->cursor_index_for_line);
-	init_and_update_values(le, &keep_pos, &keep_line, &keep_cursor_index_for_line);
+	init_and_update_values(le, &keep_pos, &keep_line);
 	shift_printed_line(le);
 	if (keep_pos == le->term_line_size - 1)
 		keep_line += 1;

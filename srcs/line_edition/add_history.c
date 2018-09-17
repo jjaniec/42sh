@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/13 16:27:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 13:11:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void	add_history(const char *input, struct s_line *le)
 	if (tmp->prev != NULL)
 		tmp->prev->next = new;
 	tmp->prev = new;
-	++(le->his_nb_elem);
+
 	his_debug(); // debug
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_char_into_cmdline_without_moving_cur        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:17:11 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 13:01:41 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 **	Delete the character that is under the cursor, when the cursor is not on the
-**	last character of the command line.
+**	last character of the command line. The cursor does not move.
 */
 
 void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le)

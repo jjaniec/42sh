@@ -6,11 +6,15 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/13 17:35:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 13:15:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+**	Initialize the termcaps library for the terminal.
+*/
 
 static void		init_termcaps(void)
 {
@@ -22,6 +26,10 @@ static void		init_termcaps(void)
 		le_exit("Error while getting terminal attributes\n", "tgetent", errno);
 }
 
+/*
+**	Get the number of columns for the current terminal window.
+*/
+
 /*static*/ unsigned int	get_terminal_nb_col(void)
 {
 	int		col;
@@ -32,20 +40,25 @@ static void		init_termcaps(void)
 	return ((unsigned int)col);
 }
 
+/*
+**	Initialize some datas for the main datas structure, but only one time.
+**	This function is only called on the first initialization of the line edition 
+**	feature.
+*/
+
 static void			init_once(struct s_line *le)
 {
 	init_termcaps();
 	init_signals();
 	le->tcaps = init_termcaps_strings();
 
-	le->history = malloc(sizeof(struct s_history)); // check ret
+	if ((le->history = malloc(sizeof(struct s_history))) == NULL)
+		le_exit("Memory allocation failed\n", "malloc", errno);
 	le->history->prev = NULL;
 	le->history->next = NULL;
 	le->history->cmd = NULL;
 
 	le->save_tmp_cmd = NULL;
-
-	le->his_nb_elem = 0;
 
 	if ((le->clipboard = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
@@ -53,11 +66,13 @@ static void			init_once(struct s_line *le)
 	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
 	le->clipboard_len = 0;
 
-	le->special_case_for_newest_his_elem = false;
-
 	le->le_state.opt_colosyn = true;
 
 }
+
+/*
+**	Initialize some datas for the main datas structure to their default values.
+*/
 
 void    			init_line_edition_attributes(struct s_line *le)
 {

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/15 19:18:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 13:10:21 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ char			*line_edition(int prompt_type)
 
 	}
 
-	le->special_case_for_newest_his_elem = false;
 	actionk_move_cursor_end(le);
 	//if (le->line[0] != '\0' && le->line[0] != '\n')
 		//add_history(le);

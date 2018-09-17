@@ -6,11 +6,15 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 20:35:10 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/15 16:47:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 13:36:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+**	Free the linked list representing the shell's history.
+*/
 
 void	le_free_history(struct s_line *le)
 {
@@ -30,6 +34,11 @@ void	le_free_history(struct s_line *le)
 		free(del);
 	}
 }
+
+/*
+**	Free the datas of the main datas structure of the line edition feature.
+**	The linked list representing the shell's history is also freed.
+*/
 
 void	le_free_datas(void)
 {

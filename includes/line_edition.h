@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/15 19:17:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 13:36:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,7 @@ struct s_line
 {
 	struct s_le_state		le_state;
 
-//	int						prompt_type;
 	t_kno					key_no;
-	//char					line[LE_LINE_SIZE];
 	char					*line; // a renommer en "cmd"
 	size_t					line_size; // memory size, note string length
 	unsigned int			line_index; // a renommer en cmd_len
@@ -136,7 +134,7 @@ struct s_line
 	unsigned int			nb_li_currently_writing;
 	unsigned int			nb_car_written_on_last_current_line;
 							// a modifier en nb_char_on_last_line
-	//char					clipboard[LE_LINE_SIZE]; // pointer
+
 	char					*clipboard;
 	size_t					clipboard_size; // total size of the memory area
 	size_t					clipboard_len; // nb char stored
@@ -144,8 +142,6 @@ struct s_line
 	struct s_le_termcaps	*tcaps;
 	struct s_history		*history;
 	char					*save_tmp_cmd;
-	unsigned int			his_nb_elem;
-	bool					special_case_for_newest_his_elem;// a changer pour un elem vide
 
 };
 
@@ -276,7 +272,12 @@ void    actionk_history_down(struct s_line *le);
 	static void	 print_history_cmd(struct s_line *le); cette fonction aura son propre fichier
 	ft_realloc dans check cmd storage, a mettre dans son propre fichier
 	renommer le fichier check_cmd_storage en check_cmd_and_clipboard_storage
-	colosyn_update_cmd.c doit etre découpé en plusieurs fichiers
+	colosyn_update_cmd.c doit etre découpé en plusieurs fichiers.
+	unsigned int	get_terminal_nb_col(void); a mettre dans son propre fichier
+	car elle sera appelee par le handler sigwinch.
+	le_free_history() devrait ptet avoir son propre fichier.
+	
+	
 
 
 
