@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   le_free_datas.c                                    :+:      :+:    :+:   */
+/*   le_free_datas_and_history.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 20:35:10 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 13:36:15 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/09/17 15:38:08 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/09/17 17:30:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	le_free_datas(void)
 	le = access_le_main_datas();
 	if (le->le_state.le_is_init == false)
 		return ;
-	free(le->line);
+	free(le->cmd);
 	free(le->clipboard);
 	free(le->save_tmp_cmd);
 	le_free_history(le);

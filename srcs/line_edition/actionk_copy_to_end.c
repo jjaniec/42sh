@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_copy_to_end.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:14:46 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 void    actionk_copy_to_end(struct s_line *le)
 {
 	 le->clipboard_len = 0;
-	 check_clipboard_storage(le, ft_strlen(&(le->line[le->cursor_index_for_line + 1])) + 1);
+	 check_clipboard_storage(le, ft_strlen(&(le->cmd[le->cursor_index + 1])) + 1);
 
-    ft_strcpy(le->clipboard, &(le->line[le->cursor_index_for_line + 1]));
+    ft_strcpy(le->clipboard, &(le->cmd[le->cursor_index + 1]));
     //fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
 }

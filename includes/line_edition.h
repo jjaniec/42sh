@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 13:36:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 18:22:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 // sizes
 # define LE_DEFAULT_LINE_SIZE 10//(2048U)
 # define LE_KEY_SIZE (9U)
-# define LE_HISTORY_LINE_SIZE (LE_DEFAULT_LINE_SIZE)
-# define LE_NB_ELEM_HISTORY (1000U)// utile ?
 
 // keys
 # define LE_NB_KEYS (24)
@@ -47,7 +45,7 @@
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
-# define LE_DELETE 9  /*((27) + (91 << 1) + (51 << 2) + (126 << 3))*/
+# define LE_DELETE ((27) + (91 << 1) + (51 << 2) + (126 << 3))
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
 # define LE_CTRL_R (18)
@@ -68,11 +66,16 @@ enum e_prompt
 	PROMPT_SUBPROMPT_HEREDOC
 };
 
-
 # define PROMPT_DEFAULT_STRING "%> "
 # define PROMPT_SUBPROMPT_QUOTE_STRING "> "
 # define PROMPT_SUBPROMPT_HEREDOC_STRING "heredoc> "
-// ajouter les subprompt and et or
+/*
+	Heredoc
+	AND
+	OR
+	Backslash
+	Quotes simples, doubles et back quotes
+*/
 
 // others
 # define LE_FATAL_ERROR (2) // for le_exit()
@@ -123,17 +126,17 @@ struct s_line
 	struct s_le_state		le_state;
 
 	t_kno					key_no;
-	char					*line; // a renommer en "cmd"
-	size_t					line_size; // memory size, note string length
-	unsigned int			line_index; // a renommer en cmd_len
-	unsigned int			cursor_index_for_line; // cursor_index_for_cmd ou juste cursor_index
+	char					*cmd;
+	size_t					cmd_size; // memory size, note string length
+	unsigned int			cmd_len;
+
+	unsigned int			cursor_index;
 	unsigned int			start_pos;
-	unsigned int			current_cursor_pos;
-	unsigned int			current_cursor_line;
+	unsigned int			cursor_pos;
+	unsigned int			cursor_line;
 	size_t					term_line_size;
-	unsigned int			nb_li_currently_writing;
-	unsigned int			nb_car_written_on_last_current_line;
-							// a modifier en nb_char_on_last_line
+	unsigned int			nb_lines_written;
+	unsigned int			nb_char_on_last_line;
 
 	char					*clipboard;
 	size_t					clipboard_size; // total size of the memory area
@@ -151,7 +154,6 @@ struct s_history
 	char 				*cmd;
 	struct s_history	*next; // the most next is the newest
 	struct s_history	*prev; // the most prev is the oldest
-//	struct s_line		cmd_le;
 };
 
 
@@ -174,13 +176,17 @@ struct s_infos_for_rewriting
 void	le_free_datas(void);
 void	le_free_history(struct s_line *le);
 
-void *ft_realloc(void *, size_t, size_t);
+void	print_history_cmd(struct s_line *le);
+
+void *ft_realloc(void *, size_t, size_t); // tmp
+
+unsigned int	get_terminal_nb_col(void);
 
 void	check_cmd_storage(struct s_line *le, unsigned int nb_char);
 void	check_clipboard_storage(struct s_line *le, unsigned int nb_char);
 
 
-void		refresh_colorized_printing(struct s_line *le, char *cmd); // tmp
+void		refresh_colosyn(struct s_line *le, char *cmd);
 void	colosyn_add_char(struct s_line *le, t_kno key);
 void	colosyn_delete_char(struct s_line *le);
 void	colosyn_past_clipboard(struct s_line *le);
@@ -238,8 +244,8 @@ void	actionk_move_cursor_end(struct s_line *le);
 void    actionk_move_cursor_by_word_right(struct s_line *le);
 void    actionk_move_cursor_by_word_left(struct s_line *le);
 void	actionk_delete_character(struct s_line *le);
-void	delete_char_into_cmdline_while_moving_back_cursor(struct s_line *le);
-void	delete_char_into_cmdline_without_moving_cursor(struct s_line *le);
+void	delete_char_into_cmdline_backspace_mode(struct s_line *le);
+void	delete_char_into_cmdline_delete_mode(struct s_line *le);
 void    actionk_move_cursor_line_up(struct s_line *le);
 void    actionk_move_cursor_line_down(struct s_line *le);
 void    actionk_copy_to_start(struct s_line *le);
@@ -268,26 +274,13 @@ void    actionk_history_down(struct s_line *le);
 /*
 	NOTES
 
-	regrouper dans un fichier les deux fonctions "delete last char", je pense
-	static void	 print_history_cmd(struct s_line *le); cette fonction aura son propre fichier
-	ft_realloc dans check cmd storage, a mettre dans son propre fichier
-	renommer le fichier check_cmd_storage en check_cmd_and_clipboard_storage
 	colosyn_update_cmd.c doit etre découpé en plusieurs fichiers.
-	unsigned int	get_terminal_nb_col(void); a mettre dans son propre fichier
-	car elle sera appelee par le handler sigwinch.
-	le_free_history() devrait ptet avoir son propre fichier.
 	
-	
-
-
 
 	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
 
-
-	`Heredoc` - `AND a completer` - `OR a completer` - `Backslash a la fin de la
-	 ligne pour echapper le \n` - `Completer des quotes, simple-, double- and back- quotes`
 
 	dossier caché dans le home
 	dedans ya le fichier historique

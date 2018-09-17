@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   set_term_attr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 19:21:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 15:11:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+**	Modifying the terminal's settings
+*/
 
 static void		init_termios_flags(struct termios *new)
 {
@@ -20,6 +24,13 @@ static void		init_termios_flags(struct termios *new)
 	new->c_cc[VMIN] = 1;
 	new->c_cc[VTIME] = 0;
 }
+
+/*
+**	LE_SET_NEW mode : The current terminal's settings are saved, and new
+**	settings are set.
+**
+**	LE_SET_OLD : The saved settings are restored the way they were.
+*/
 
 void			set_term_attr(t_set_term mode)
 {

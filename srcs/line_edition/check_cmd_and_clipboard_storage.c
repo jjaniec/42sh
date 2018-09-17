@@ -1,37 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd_storage.c                                :+:      :+:    :+:   */
+/*   check_cmd_and_clipboard_storage.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/11 16:19:43 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/13 20:25:15 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/09/17 18:11:36 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/09/17 18:11:38 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-void		*ft_realloc(void *ptr, size_t original_size, size_t new_size)
-{
-	void	*new;
-
-	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	else if (ptr == NULL)
-		return (malloc(new_size));
-	if ((new = malloc(new_size)) == NULL)
-		return (NULL);
-	if (new_size < original_size)
-		ft_memcpy(new, ptr, new_size);
-	else
-		ft_memcpy(new, ptr, original_size);
-	free(ptr);
-	return (new);
-}
 
 /*
 **	Check if there is enough space in the shell's clipboard buffer
@@ -69,15 +48,15 @@ void	check_cmd_storage(struct s_line *le, unsigned int nb_char)
 {
 	void	*tmp_realloc;
 
-	while (le->line_index + nb_char + 1 >= le->line_size)
+	while (le->cmd_len + nb_char + 1 >= le->cmd_size)
 	{
 		//fprintf(tty_debug, "REALLOCATION DE LA MEMOIRE DE L\'ORDINATEUR\n");
-		tmp_realloc = ft_realloc(le->line, le->line_size, le->line_size * 2);
+		tmp_realloc = ft_realloc(le->cmd, le->cmd_size, le->cmd_size * 2);
 		if (tmp_realloc == NULL)
 			le_exit("Memory allocation failed\n", "malloc", errno);
-		le->line = tmp_realloc;
-		le->line_size *= 2;
-		ft_memset(le->line + le->line_index, '\0', \
-		le->line_size - le->line_index);
+		le->cmd = tmp_realloc;
+		le->cmd_size *= 2;
+		ft_memset(le->cmd + le->cmd_len, '\0', \
+		le->cmd_size - le->cmd_len);
 	}
 }

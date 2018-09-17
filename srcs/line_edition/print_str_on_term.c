@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 21:18:37 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 13:52:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 18:20:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,33 @@
 */
 
 unsigned int	print_str_on_term(const char *str,
-								  unsigned int tmp_current_cursor_pos,
+								  unsigned int tmp_cursor_pos,
 								  struct s_line *le, int foo)
 {
-    bool foofoo; 
+	bool foofoo; 
 	
 	foofoo = false;
-    if (foo == LE_SPECIAL_CASE)
-    {
-        foo = 2;
-        foofoo = true;
-    }
-    while (*str != '\0')
-    {
-        ++tmp_current_cursor_pos;
-        if (tmp_current_cursor_pos - foo == le->term_line_size - 1)
-        {
-            tputs(le->tcaps->_do, 1, &write_one_char);
-            cursor_crosses_screen(le, CROSS_TO_LEFT);
-            tmp_current_cursor_pos = 0;
-            if (foofoo == true)
-            {
-                foo = 1;
-                foofoo = false;
-            }
-        }
-        print_key(*str);
-        ++str;
-    }
-	return (tmp_current_cursor_pos);
+	if (foo == LE_SPECIAL_CASE)
+	{
+		foo = 2;
+		foofoo = true;
+	}
+	while (*str != '\0')
+	{
+		++tmp_cursor_pos;
+		if (tmp_cursor_pos - foo == le->term_line_size - 1)
+		{
+			tputs(le->tcaps->_do, 1, &write_one_char);
+			cursor_crosses_screen(le, CROSS_TO_LEFT);
+			tmp_cursor_pos = 0;
+			if (foofoo == true)
+			{
+				foo = 1;
+				foofoo = false;
+			}
+		}
+		print_key(*str);
+		++str;
+	}
+	return (tmp_cursor_pos);
 }

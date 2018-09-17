@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_eof.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 16:02:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:12:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 // NOT DONE YET
 void	actionk_eof(struct s_line *le)
 {
-	if (le->cursor_index_for_line == 0)
+	if (le->cursor_index == 0)
 	{
 		// exit the shell
 	}

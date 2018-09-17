@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset_history_on_first_elem.c                      :+:      :+:    :+:   */
+/*   get_terminal_nb_col.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/11 22:29:55 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 15:09:23 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/09/17 18:16:04 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/09/17 18:17:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-**	Set the value of the history's current pointer on the newest element of the
-**	linked list representing the shell's history.
+**	Get the number of columns for the current terminal window.
 */
 
-void    reset_history_on_first_elem(struct s_line *le)
+unsigned int	get_terminal_nb_col(void)
 {
-	if (le->history == NULL)
-		return ;
-	while (le->history->next != NULL)
-		le->history = le->history->next;
+	int		col;
+
+	col = tgetnum("co");
+	if (col < 0)
+		le_exit("Failed to get terminal sizes\n", "tgetnum", errno);
+	return ((unsigned int)col);
 }

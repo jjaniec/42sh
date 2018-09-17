@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cursor_move_right.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:56:44 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 18:01:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 17:35:21 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ void		actionk_cursor_move_right(struct s_line *le)
 		//fprintf(tty_debug, "Pas possible d'aller plus a droite\n"); // debug
 		return ;
 	}
-	if (cursor_is_at_end_of_term_line(le->current_cursor_pos, le) == true)
+	if (cursor_is_at_end_of_term_line(le->cursor_pos, le) == true)
 	{
 		//fprintf(tty_debug, "PASSAGE LIGNE DU DESSOUS\n");
-		le->current_cursor_pos = 0;
-		++(le->current_cursor_line);
+		le->cursor_pos = 0;
+		++(le->cursor_line);
 		tputs(le->tcaps->_do, 1, &write_one_char);
 		cursor_crosses_screen(le, CROSS_TO_LEFT);
 	}
 	else
 	{
 		tputs(le->tcaps->nd, 1, &write_one_char);
-		++(le->current_cursor_pos);
+		++(le->cursor_pos);
 	}
-	++(le->cursor_index_for_line);
+	++(le->cursor_index);
 
 	//fprintf(tty_debug, "RIGHTTTT\n");
 }

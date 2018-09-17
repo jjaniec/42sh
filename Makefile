@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/15 19:19:57 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/17 18:17:09 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,27 +61,29 @@ SRC_NAME = 	is_separator.c \
 			line_edition/actionk_move_cursor_start.c \
 			line_edition/actionk_past_clipboard.c \
 			line_edition/add_history.c \
-			line_edition/check_cmd_storage.c \
+			line_edition/check_cmd_and_clipboard_storage.c \
 			line_edition/colosyn_update_cmd.c \
 			line_edition/cursor_crosses_screen.c \
 			line_edition/cursor_is_at_end_of_cmd.c \
 			line_edition/cursor_is_at_end_of_term_line.c \
-			line_edition/delete_char_into_cmdline_while_moving_back_cursor.c \
-			line_edition/delete_char_into_cmdline_without_moving_cursor.c \
+			line_edition/delete_char_into_cmdline_backspace_mode.c \
+			line_edition/delete_char_into_cmdline_delete_mode.c \
 			line_edition/errors.c \
+			line_edition/get_terminal_nb_col.c \
 			line_edition/init_line_edition_attributes.c \
 			line_edition/init_signals.c \
 			line_edition/init_termcaps_strings.c \
 			line_edition/insert_and_print_character_into_cmdline.c \
 			line_edition/insert_char_into_array.c \
 			line_edition/is_separator.c \
-			line_edition/le_free_datas.c \
+			line_edition/le_free_datas_and_history.c \
 			line_edition/line_edition.c \
 			line_edition/possible_to_go_right.c \
+			line_edition/print_history_cmd.c \
 			line_edition/print_key_at_end.c \
 			line_edition/print_key.c \
 			line_edition/print_str_on_term.c \
-			line_edition/print_with_colosyn.c \
+			line_edition/refresh_colosyn.c \
 			line_edition/process_key.c \
 			line_edition/reset_history_on_first_elem.c \
 			line_edition/set_term_attr.c \
@@ -120,7 +122,8 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c
+			main.c \
+			line_edition/ft_realloc.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \

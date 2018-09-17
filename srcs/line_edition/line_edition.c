@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 13:10:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 17:43:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,25 @@ FILE *tty_debug = NULL; // debug
 // debug function
 static void		le_debug_infos(void)
 {
-	struct s_line	le = *( access_le_main_datas() );
+	struct s_line	*le = access_le_main_datas();
 
 	fprintf(tty_debug, "--------------------------------------\n");
-	fprintf(tty_debug, "line = |%s|\n", le.line);
-	fprintf(tty_debug, "line size = %zu\n", le.line_size);
-	fprintf(tty_debug, "line index = %u\n", le.line_index);
+	fprintf(tty_debug, "line = |%s|\n", le->cmd);
+	fprintf(tty_debug, "line size = %zu\n", le->cmd_size);
+	fprintf(tty_debug, "line index = %u\n", le->cmd_len);
 	fprintf(tty_debug, "cursor index for line = %u - %c\n", \
-	le.cursor_index_for_line, le.line[le.cursor_index_for_line]);
-	fprintf(tty_debug, "start pos = %u\n", le.start_pos);
+	le->cursor_index, le->cmd[le->cursor_index]);
+	fprintf(tty_debug, "start pos = %u\n", le->start_pos);
 	fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n", \
-	le.current_cursor_pos, le.current_cursor_line);
-	fprintf(tty_debug, "term line size = %zu\n", le.term_line_size);
-	fprintf(tty_debug, "nb li currently writing = %u\n", le.nb_li_currently_writing);
+	le->cursor_pos, le->cursor_line);
+	fprintf(tty_debug, "term line size = %zu\n", le->term_line_size);
+	fprintf(tty_debug, "nb li currently writing = %u\n", le->nb_lines_written);
 	fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n", \
-	le.nb_car_written_on_last_current_line);
-	fprintf(tty_debug, "clipboard = |%s|\n", le.clipboard);
+	le->nb_char_on_last_line);
+	fprintf(tty_debug, "clipboard = |%s|\n", le->clipboard);
 	fprintf(tty_debug, "clipboard size = %zu\nclipboard len = %zu\n", \
-	le.clipboard_size, le.clipboard_len);
-	fprintf(tty_debug, "save cmd = |%s|\n", le.save_tmp_cmd);
+	le->clipboard_size, le->clipboard_len);
+	fprintf(tty_debug, "save cmd = |%s|\n", le->save_tmp_cmd);
 	fprintf(tty_debug, "--------------------------------------\n");
 }
 
@@ -111,15 +111,15 @@ char			*line_edition(int prompt_type)
 	}
 
 	actionk_move_cursor_end(le);
-	//if (le->line[0] != '\0' && le->line[0] != '\n')
+	//if (le->cmd[0] != '\0' && le->cmd[0] != '\n')
 		//add_history(le);
 
 	reset_history_on_first_elem(le);
 
-	if ((final_line = ft_strdup(le->line)) == NULL)
+	if ((final_line = ft_strdup(le->cmd)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
-	free(le->line);
-	le->line = NULL;
+	free(le->cmd);
+	le->cmd = NULL;
 	return (final_line);
 
 	/*

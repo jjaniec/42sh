@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_move_cursor_by_word_right.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:00:54 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/13 14:42:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void    actionk_move_cursor_by_word_right(struct s_line *le)
 {
     unsigned int	nb_moves_needed;
 
-	nb_moves_needed = find_nb_moves_needed(le->line, le->cursor_index_for_line);
+	nb_moves_needed = find_nb_moves_needed(le->cmd, le->cursor_index);
 	//fprintf(tty_debug, "nb moves needed = %u\n", nb_moves_needed );
 	while (nb_moves_needed > 0)
 	{

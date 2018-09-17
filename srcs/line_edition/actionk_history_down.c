@@ -6,42 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 21:58:10 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/13 19:22:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 17:48:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-/*
-**	Print the command line of the currently pointed history's element,
-**	or it prints the saved command line, depending on the situation.
-*/
-
-static void		print_history_cmd(struct s_line *le)
-{
-	const char	*cmd = le->history->cmd;
-
-	if (cmd == NULL)
-	{
-		if (le->save_tmp_cmd != NULL)
-		{
-			cmd = le->save_tmp_cmd;
-			while (*cmd != '\0')
-			{
-				print_key_at_end(le, *cmd);
-				++cmd;
-			}
-			free(le->save_tmp_cmd);
-			le->save_tmp_cmd = NULL;
-		}
-	}
-	else
-		while (*cmd != '\0')
-		{
-			print_key_at_end(le, *cmd);
-			++cmd;
-		}
-}
 
 /*
 **	If the history's pointer is not on the most recent history's element,
@@ -58,7 +27,7 @@ void			actionk_history_down(struct s_line *le)
 	if (le->history == NULL || le->history->next == NULL)
 		return ;
 	if (le->save_tmp_cmd == NULL)
-		if ((le->save_tmp_cmd = ft_strdup(le->line)) == NULL)
+		if ((le->save_tmp_cmd = ft_strdup(le->cmd)) == NULL)
 			le_exit("Memory allocation failed\n", "malloc", errno);
 	le->history = le->history->next;
 	if (le->le_state.opt_colosyn == true)

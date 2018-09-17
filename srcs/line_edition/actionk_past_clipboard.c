@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/06 22:39:31 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 18:21:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 
 static void past_clipboard_at_end(struct s_line *le)
 {
-    unsigned int    index;
+	unsigned int    index;
 
-    index = 0;
-    while (le->clipboard[index] != '\0')
-    {
-        print_key_at_end(le, le->clipboard[index]);
-        ++index;
-    }
+	index = 0;
+	while (le->clipboard[index] != '\0')
+	{
+		print_key_at_end(le, le->clipboard[index]);
+		++index;
+	}
 }
 
 /*
@@ -39,7 +39,7 @@ static void past_clipboard_into_cmdline(struct s_line *le)
 	char			*part_of_line;
 	size_t			len_part_of_line;
 
-	if ((part_of_line = ft_strdup(le->line + le->cursor_index_for_line)) == 0)
+	if ((part_of_line = ft_strdup(le->cmd + le->cursor_index)) == 0)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	len_part_of_line = ft_strlen(part_of_line);
 	keep_key_no = le->key_no;
@@ -72,8 +72,8 @@ void        actionk_past_clipboard(struct s_line *le)
 		colosyn_past_clipboard(le);
 		return ;
 	}
-    if (cursor_is_at_end_of_cmd(le) == true)
-        past_clipboard_at_end(le);
-    else
-        past_clipboard_into_cmdline(le);
+	if (cursor_is_at_end_of_cmd(le) == true)
+		past_clipboard_at_end(le);
+	else
+		past_clipboard_into_cmdline(le);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_cut_to_end.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 18:20:01 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/02 20:52:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	actionk_cut_to_end(struct s_line *le)
 	unsigned int	stop_loop;
 	t_kno			keep_key_no;
 
-	if (le->cursor_index_for_line == le->line_index
-	|| le->cursor_index_for_line == le->line_index - 1)
+	if (le->cursor_index == le->cmd_len
+	|| le->cursor_index == le->cmd_len - 1)
 		return ;
 
 	if (le->le_state.opt_colosyn == true)
@@ -35,7 +35,7 @@ void	actionk_cut_to_end(struct s_line *le)
 		return ;
 	}
 
-	stop_loop = le->line_index - le->cursor_index_for_line - 1;
+	stop_loop = le->cmd_len - le->cursor_index - 1;
 	actionk_copy_to_end(le);
 	actionk_move_cursor_end(le);
 	keep_key_no = le->key_no;
