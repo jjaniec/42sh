@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:56:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/20 18:43:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:52:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int		search_node(t_ast *pos, t_ast *ptr_cmp)
 static void	io_ctrl_opt(t_ast *node, t_ast *next_ctrl_opt, t_exec *exe)
 {
 
-	log_trace("Updating ready_for_exec - exe->ret : %d", exe->ret);
+	log_debug("Updating ready_for_exec - exe->ret : %d", exe->ret);
 	if (search_node(next_ctrl_opt->left, node))
 		return ;
 	else if ((next_ctrl_opt->type_details == TK_DAND && exe->ret != 0) || \

@@ -38,4 +38,5 @@ void		builtin_echo(char **argv, char **envp, t_exec *exe)
 		argv++;
 	}
 	ft_putchar('\n');
+	exit(0);
 }

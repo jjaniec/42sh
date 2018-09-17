@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	g_sh_opts[1].opt_status = true;
 	lexer_tests();
 	ast_tests();
-	exec_tests(envp);
+	exec_tests(&envp);
 	syntax_highlighting_tests(envp);
 	done_testing();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:04:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:25:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 15:42:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_env(const char *name, const char **envp)
 
 	i = 0;
 	j = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		j = 0;
 		while (envp[i][j] == name[j])
