@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 19:53:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:13:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		le_debug_infos(void)
 {
 	struct s_line	*le = access_le_main_datas();
 
-	le_debug("--------------------------------------\n", NULL);
+	le_debug("%s", "--------------------------------------\n");
 	le_debug("line = |%s|\n", le->cmd);
 	le_debug("line size = %zu\n", le->cmd_size);
 	le_debug("line index = %u\n", le->cmd_len);
@@ -40,7 +40,7 @@ static void		le_debug_infos(void)
 	le_debug("clipboard size = %zu\nclipboard len = %zu\n", \
 	le->clipboard_size, le->clipboard_len);
 	le_debug("save cmd = |%s|\n", le->save_tmp_cmd);
-	le_debug("--------------------------------------\n", NULL);
+	le_debug("%s","--------------------------------------\n");
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 19:09:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:25:49 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ static int	should_fork(void **cmd)
 	if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN && \
 		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv))
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv || \
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting))
 		return (0);
 	return (1);
 }

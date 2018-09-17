@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_history.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 19:53:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:28:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void	his_debug(void)
 	while (h->prev != NULL)
 		h = h->prev;
 
-	le_debug("HIS linked list\n", NULL);
+	le_debug("%s", "HIS linked list\n");
 	while (h != NULL)
 	{
 		le_debug("|%s|\n", h->cmd);
 		h = h->next;
 	}
-	le_debug("HIS END\n", NULL);
+	le_debug("%s","HIS END\n");
 }
 
 /*

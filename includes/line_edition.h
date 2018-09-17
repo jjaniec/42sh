@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-
-/*   Updated: 2018/09/17 19:30:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:21:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +17,7 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/ttys006"
+# define TTY_DEBUG "/dev/ttys000"
 
 # ifndef FOOLOL
 	extern FILE *tty_debug;
@@ -33,11 +32,15 @@ int		get_le_debug_status(int mode, int new_value);
 
 # include <twenty_one_sh.h>
 
-// sizes
+/*
+**	Sizes
+*/
 # define LE_DEFAULT_LINE_SIZE 10//(2048U)
 # define LE_KEY_SIZE (9U)
 
-// keys
+/*
+**	Action Keys
+*/
 # define LE_NB_KEYS (24)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
@@ -84,7 +87,9 @@ enum e_prompt
 	Quotes simples, doubles et back quotes
 */
 
-// others
+/*
+**	Things
+*/
 # define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 # define LE_SPECIAL_CASE (42)
@@ -92,7 +97,9 @@ enum e_prompt
 
 typedef uint64_t t_kno;
 
-// for set_term_attr() function
+/*
+**	For set_term_attr() function
+*/
 enum e_set_term
 {
 	LE_SET_NEW,
@@ -100,6 +107,10 @@ enum e_set_term
 };
 typedef enum e_set_term t_set_term;
 
+
+/*
+**	For cursor_crosses_screen() function
+*/
 enum e_cross_screen
 {
 	CROSS_TO_LEFT,
