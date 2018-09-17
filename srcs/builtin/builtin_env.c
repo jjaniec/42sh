@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:44:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/23 14:46:47 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 15:25:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void		builtin_env(char **argv, char **envp, t_exec *exe)
 			exec_argv(argv + 1, new_envp, exe, NULL);
 		free_envp(exe, save_envp, new_envp);
 	}
+	exit(0);
 }
