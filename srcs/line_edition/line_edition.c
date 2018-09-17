@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:43:20 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 19:53:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,24 @@ static void		le_debug_infos(void)
 {
 	struct s_line	*le = access_le_main_datas();
 
-	fprintf(tty_debug, "--------------------------------------\n");
-	fprintf(tty_debug, "line = |%s|\n", le->cmd);
-	fprintf(tty_debug, "line size = %zu\n", le->cmd_size);
-	fprintf(tty_debug, "line index = %u\n", le->cmd_len);
-	fprintf(tty_debug, "cursor index for line = %u - %c\n", \
+	le_debug("--------------------------------------\n", NULL);
+	le_debug("line = |%s|\n", le->cmd);
+	le_debug("line size = %zu\n", le->cmd_size);
+	le_debug("line index = %u\n", le->cmd_len);
+	le_debug("cursor index for line = %u - %c\n", \
 	le->cursor_index, le->cmd[le->cursor_index]);
-	fprintf(tty_debug, "start pos = %u\n", le->start_pos);
-	fprintf(tty_debug, "current cursor pos = %u\ncurrent cursor line = %u\n", \
+	le_debug("start pos = %u\n", le->start_pos);
+	le_debug("current cursor pos = %u\ncurrent cursor line = %u\n", \
 	le->cursor_pos, le->cursor_line);
-	fprintf(tty_debug, "term line size = %zu\n", le->term_line_size);
-	fprintf(tty_debug, "nb li currently writing = %u\n", le->nb_lines_written);
-	fprintf(tty_debug, "nb_car_written_on_last_current_line = %u\n", \
+	le_debug("term line size = %zu\n", le->term_line_size);
+	le_debug("nb li currently writing = %u\n", le->nb_lines_written);
+	le_debug("nb_car_written_on_last_current_line = %u\n", \
 	le->nb_char_on_last_line);
-	fprintf(tty_debug, "clipboard = |%s|\n", le->clipboard);
-	fprintf(tty_debug, "clipboard size = %zu\nclipboard len = %zu\n", \
+	le_debug("clipboard = |%s|\n", le->clipboard);
+	le_debug("clipboard size = %zu\nclipboard len = %zu\n", \
 	le->clipboard_size, le->clipboard_len);
-	fprintf(tty_debug, "save cmd = |%s|\n", le->save_tmp_cmd);
-	fprintf(tty_debug, "--------------------------------------\n");
+	le_debug("save cmd = |%s|\n", le->save_tmp_cmd);
+	le_debug("--------------------------------------\n", NULL);
 }
 
 

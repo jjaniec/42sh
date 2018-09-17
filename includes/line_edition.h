@@ -6,7 +6,8 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 00:06:36 by jjaniec          ###   ########.fr       */
+
+/*   Updated: 2018/09/17 19:30:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +18,16 @@
 //////////////////////////////////////////////////////// debug
 
 # include <stdio.h>
-# define TTY_DEBUG "/dev/pts/2"
+# define TTY_DEBUG "/dev/ttys006"
+
 # ifndef FOOLOL
 	extern FILE *tty_debug;
 # endif
+
+# define LE_DEBUG_STATUS_SET	1
+
+int		get_le_debug_status(int mode, int new_value);
+# define le_debug(str, ...) if (get_le_debug_status(0, 0)) {fprintf(tty_debug, str, __VA_ARGS__); }
 
 ////////////////////////////////////////////////////////
 

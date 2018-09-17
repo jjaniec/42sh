@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/15 19:26:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 19:51:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_option		g_sh_opts[] = {
 	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
 	{{"G"}, "Disable syntax highlighting", false},
 	{{"v", "-verbose"}, "Enable verbose mode", false},
+	{{"-le-debug"}, "Enable line edition debugging in "TTY_DEBUG, false},
 	{{NULL}, NULL, false}
 };
 
@@ -109,6 +110,8 @@ int			main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(0);
 	}
+	if (is_option_activated("-le-debug", opt_list, char_opt_index))
+		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/17 18:17:09 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/17 19:54:21 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,8 @@ SRC_NAME = 	is_separator.c \
 			line_edition/set_term_attr.c \
 			line_edition/weird_trick_to_erase_char.c \
 			line_edition/write_one_char.c \
+			line_edition/ft_realloc.c \
+			line_edition/get_le_debug_status.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
@@ -122,8 +124,7 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c \
-			line_edition/ft_realloc.c
+			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \

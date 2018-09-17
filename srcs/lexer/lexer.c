@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 14:45:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 19:45:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ static int			make_next_lexeme(char *line, int *pos, \
 		lexeme_begin_end_ptrs[0] = &(line[*pos]);
 		type = get_lexeme(line, pos, &data, &type_details);
 		if ((int)type == UNMATCHED_QUOTE_ERR)
-		{
-			fprintf(tty_debug, "Unmatched\n");
 			return (UNMATCHED_QUOTE_ERR);
-		}
 		lexeme_begin_end_ptrs[1] = &(line[*pos]);
 		e = create_lexeme(type, data, type_details, lexeme_begin_end_ptrs);
 		if (add_lexeme_to_list(e, lexemes, cur_lexeme))

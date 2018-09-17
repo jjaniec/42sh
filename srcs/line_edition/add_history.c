@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_history.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 13:11:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 19:53:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ static void	his_debug(void)
 	while (h->prev != NULL)
 		h = h->prev;
 
-	fprintf(tty_debug, "HIS linked list\n");
+	le_debug("HIS linked list\n", NULL);
 	while (h != NULL)
 	{
-		fprintf(tty_debug, "|%s|\n", h->cmd);
+		le_debug("|%s|\n", h->cmd);
 		h = h->next;
 	}
-	fprintf(tty_debug, "HIS END\n");
-
+	le_debug("HIS END\n", NULL);
 }
 
 /*
