@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/05 20:36:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/17 15:37:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,23 @@
 
 # define DEFAULT_OUTPUT_REDIR_FILE_MODE 0644
 
+/*
+** Define to indicate to exec_thread() that passed command is a builtin
+** and should be executed with a function pointer instead of execve()
+*/
+
+# define EXEC_THREAD_NOT_BUILTIN	0
+# define EXEC_THREAD_BUILTIN		1
+
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
-t_exec	*exec_thread(char *cmd, char **argv, char **envp, t_exec *exe, \
-		t_ast *node);
+t_exec	*exec_thread(void **cmd, char **envp, t_exec *exe, \
+			t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
 void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node);
-void	exec_builtin(char **argv, char **envp, t_exec *exe, \
-			void (**builtin_fun_ptr)(char **, char **, t_exec *));
+int		exec_builtin(char **argv, char **envp, t_exec *exe, t_ast *node);
 void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd, \
 			void (**builtin_fun_ptr)(char **, char **, t_exec *));
