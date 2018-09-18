@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 22:13:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/18 16:15:00 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ static void		le_debug_infos(void)
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
-	le_debug("line = |%s|\n", le->cmd);
-	le_debug("line size = %zu\n", le->cmd_size);
-	le_debug("line index = %u\n", le->cmd_len);
-	le_debug("cursor index for line = %u - %c\n", \
+	le_debug("cmd = |%s|\n", le->cmd);
+	le_debug("cmd size = %zu\n", le->cmd_size);
+	le_debug("cmd len = %u\n", le->cmd_len);
+	le_debug("cursor index = %u - %c\n", \
 	le->cursor_index, le->cmd[le->cursor_index]);
 	le_debug("start pos = %u\n", le->start_pos);
-	le_debug("current cursor pos = %u\ncurrent cursor line = %u\n", \
+	le_debug("cursor pos = %u\ncursor line = %u\n", \
 	le->cursor_pos, le->cursor_line);
 	le_debug("term line size = %zu\n", le->term_line_size);
-	le_debug("nb li currently writing = %u\n", le->nb_lines_written);
-	le_debug("nb_car_written_on_last_current_line = %u\n", \
+	le_debug("nb lines written = %u\n", le->nb_lines_written);
+	le_debug("nb char on last line = %u\n", \
 	le->nb_char_on_last_line);
 	le_debug("clipboard = |%s|\n", le->clipboard);
 	le_debug("clipboard size = %zu\nclipboard len = %zu\n", \
 	le->clipboard_size, le->clipboard_len);
-	le_debug("save cmd = |%s|\n", le->save_tmp_cmd);
+	le_debug("save tmp cmd = |%s|\n", le->save_tmp_cmd);
 	le_debug("%s","--------------------------------------\n");
 }
 
@@ -54,6 +54,8 @@ static void		read_key(char key[LE_KEY_SIZE])
 		write(STDERR_FILENO, "\nError while reading on stdin\n", 30);
 		perror("read() - perror() report");
 	}
+
+	// check les differentes erreurs de read(), une coupure a cause d'un signal ...
 
 	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ... 
 }
@@ -78,7 +80,6 @@ char			*line_edition(int prompt_type)
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
 	static struct s_line	*le;
-	//g_le = &le;
 	t_kno					key_no;
 
 	le = access_le_main_datas();
@@ -87,7 +88,7 @@ char			*line_edition(int prompt_type)
 	init_line_edition_attributes(le);
 
 	le_debug_infos(); // debug
-	while ("cest ta mere la jjaniec")
+	while ("cest ta merge la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
 		read_key(key);
@@ -95,8 +96,8 @@ char			*line_edition(int prompt_type)
 		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);
 
-		if (key_no >= 32 && key_no >= 126)
-			fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
+		//if (key_no >= 32 && key_no >= 126)
+			//fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
 
 		process_key(key_no, le);
 		le_debug_infos(); // debug
@@ -105,15 +106,10 @@ char			*line_edition(int prompt_type)
 		{
 			set_term_attr(LE_SET_OLD);
 			break ;
-			// need more things to do in the future when line is finished
 		}
-
 	}
 
 	actionk_move_cursor_end(le);
-	//if (le->cmd[0] != '\0' && le->cmd[0] != '\n')
-		//add_history(le);
-
 	reset_history_on_first_elem(le);
 
 	if ((final_line = ft_strdup(le->cmd)) == NULL)
@@ -121,14 +117,6 @@ char			*line_edition(int prompt_type)
 	free(le->cmd);
 	le->cmd = NULL;
 	return (final_line);
-
-	/*
-		En fait faudra retourner une structure qui contient la commande,
-		mais aussi peut etre des codes d'erreur pour remplacer le_exit(),
-		c'est à discuter avec les collegues.
-		Il faudra aussi dans la structure, un pointeur vers l'historique
-		pour pouvoir le free() si necessaire et le save dans un fichier ...
-	*/
 }
 
 

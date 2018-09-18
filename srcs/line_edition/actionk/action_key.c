@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/13 14:33:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/18 16:43:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static	struct s_action_key	*get_array_action_key(void)
 **	Looking for the function corresponding to the key, and start it.
 */
 
-void						action_key(t_kno key, struct s_line *le)
+void						action_key(t_kno key_no, struct s_line *le)
 {
 	struct s_action_key		*actionk;
 	unsigned int			i;
@@ -63,7 +63,7 @@ void						action_key(t_kno key, struct s_line *le)
 	i = 0;
 	while (i < LE_NB_KEYS)
 	{
-		if (actionk[i].key == key)
+		if (actionk[i].key_no == key_no)
 		{
 			actionk[i].func_ptr(le);
 			break ;
