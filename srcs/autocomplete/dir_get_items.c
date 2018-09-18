@@ -33,6 +33,7 @@ char					**dir_get_items(char *in)
 {
 	DIR				*dir;
 	struct dirent	*file;
+	char				*tmp;
 	char				**res;
 	int				i;
 
@@ -45,7 +46,16 @@ char					**dir_get_items(char *in)
 	{
 		if (file->d_name[0] != '.')
 		{
+			tmp = ft_strjoin(in, file->d_name);
 			res[i] = ft_strdup(file->d_name);
+			if (autoc_check_path(tmp) == 'd')
+			{
+				free(tmp);
+				tmp = ft_strjoin(res[i], "/");
+				free(res[i]);
+				res[i] = ft_strdup(tmp);
+			}
+			free(tmp);
 			i++;
 		}
 	}

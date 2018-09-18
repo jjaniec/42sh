@@ -33,17 +33,6 @@ static char		*autoc_get_path(struct s_line *le)
 	return (res);
 }
 
-static int		check_path(char *dirname)
-{
-	struct stat fstat;
-
-	if (stat(dirname, &fstat) == -1)
-	{
-		return (0);
-	}
-	return (1);
-}
-
 char				**autoc_dir(struct s_line *le)
 {
 	char		**items;
@@ -51,12 +40,12 @@ char				**autoc_dir(struct s_line *le)
 
 	items = NULL;
 	path = autoc_get_path(le);
-	if (check_path(path))
+	if (autoc_check_path(path))
 		items = dir_get_items(path);
 	else if (ft_strchr(path, '/'))
 		ft_putstr("n");
 	else
-		items = dir_get_items_search("./", path);
+		items = dir_get_items_search("./", path, le);
 	free(path);
 	return (items);
 }

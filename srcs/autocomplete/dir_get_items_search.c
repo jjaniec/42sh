@@ -12,7 +12,20 @@
 
 #include <twenty_one_sh.h>
 
-static int		get_matching(char **items, char *search)
+static void			push_in_line(struct s_line *le, char *str, char *search)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != search[i])
+			insert_character_into_cmdline(le, (uint64_t)str[i]);
+		i++;
+	}
+}
+
+static int	get_matching(char **items, char *search)
 {
 	int	count;
 	int	i;
@@ -28,15 +41,44 @@ static int		get_matching(char **items, char *search)
 	return (count);
 }
 
-char			**dir_get_items_search(char *in, char *search)
+static char	**get_search_result(char **items, char *search, int match_res)
+{
+	char	**res;
+	int	j;
+	int	i;
+
+	i = 0;
+	j = 0;
+	res = (char**)malloc(sizeof(char*) * match_res + 1);
+	while (items[i])
+	{
+		if (ft_strnstr(items[i], search, ft_strlen(search)))
+		{
+			res[j] = ft_strdup(items[i]);
+			j++;
+		}
+		i++;
+	}
+	res[j] = NULL;
+	return (res);
+}
+
+char			**dir_get_items_search(char *in, char *search, struct s_line *le)
 {
 	char	**res;
 	char	**items;
 	int	match_result;
 
+
 	items = dir_get_items(in);
 	match_result = get_matching(items, search);
-	if (items != NULL)
-		ft_putnbr(matching_nbr(items, search));
+	res = NULL;
+	if (match_result == 1)
+	{
+		res = get_search_result(items, search, match_result);
+		push_in_line(le, res[0], search);
+	}
+	autoc_free_items(res);
+	autoc_free_items(items);
 	return (NULL);
 }

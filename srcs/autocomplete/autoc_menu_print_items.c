@@ -84,7 +84,7 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 		{
 			(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
 			(ft_putstr(autoc->items[i]));
-			autoc_menu_print_spaces(autoc->max_item_len + 1,
+			autoc_menu_print_spaces(autoc->max_item_len + 2,
 				ft_strlen(autoc->items[i]), le);
 			count++;
 			i = i + autoc->nbr_line;
