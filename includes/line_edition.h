@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 22:21:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/18 17:11:42 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,34 @@ enum e_cross_screen
 };
 typedef enum e_cross_screen t_cross_screen;
 
+/*
+**	opt_colosyn : true if the syntax highlighting feature is active.
+**	le_is_init : true if the main datas structure is initialized,
+**				it's useful to know which datas need to be freed.
+**	prompt_type : type of the current prompt, useful to reprint it if necessary,
+**				  and to handle EOF behavior depending of the prompt type.
+*/
+
 struct s_le_state
 {
 	bool			opt_colosyn;
 
 	bool			le_is_init;
 
-	size_t			prompt_len;
+	//size_t			prompt_len; // pas utilise je pense
 	enum e_prompt	prompt_type;
 	
 };
+
+/*
+**	nd : cursor moves one step right
+**	le : cursor moves one step left
+**	_do : (because 'do' is a standard keyword) cursor moves one line down
+**	up : cursor moves one line up
+**	dc : delete character under the cursor
+**	cl : clear screen
+**
+*/
 
 struct s_le_termcaps
 {
@@ -139,13 +157,44 @@ struct s_le_termcaps
 	const char	*cl; // clear screen
 };
 
+/*
+**	Main datas structure for line_edition feature.
+**
+**	le_state : informations about the current line edition.
+**	key_no : number representing the key(s) pressed by the user.
+**	cmd : buffer containing the command line.
+**	cmd_size : size in bytes of the buffer 'cmd'.
+**	cmd_len : number of characters stored in the buffer 'cmd'.
+**	cursor_index : position of the cursor for the buffer 'cmd'.
+**	start_pos : starting position of the command line, 
+**				depending on the prompt's length.
+**	cursor_pos : position of the cursor on its line (0 is the first position,
+**				 'term_line_size - 1' is the last position on the line).
+**	cursor_line : line where the cursor is for the current command line, (0 is
+**				  the first line, 'nb_lines_written - 1' is the last one).
+**	term_line_size : size of a line for the current window
+**					 (same as the number of columns).
+**	nb_lines_written : number of lines currently written for the 
+**					   current command line.
+**	nb_char_on_last_line : number of characters currently written on the last 
+**						   line of the current command line.
+**	clipboard : buffer containing the shell's clipboard.
+**	clipboard_size : size in bytes of the buffer 'clipboard'.
+**	clipboard_len : number of characters stored in the buffer 'clipboard'.
+**	tcaps : termcaps strings
+**	history : currently pointed element of the linked list representing 
+**			  the shell's history.
+**	save_tmp_cmd : buffer useful to save the command line when navigating
+**				   into the shell's history.
+*/
+
 struct s_line
 {
 	struct s_le_state		le_state;
 
 	t_kno					key_no;
 	char					*cmd;
-	size_t					cmd_size; // memory size, note string length
+	size_t					cmd_size;
 	unsigned int			cmd_len;
 
 	unsigned int			cursor_index;
@@ -157,31 +206,50 @@ struct s_line
 	unsigned int			nb_char_on_last_line;
 
 	char					*clipboard;
-	size_t					clipboard_size; // total size of the memory area
-	size_t					clipboard_len; // nb char stored
+	size_t					clipboard_size;
+	size_t					clipboard_len;
 
 	struct s_le_termcaps	*tcaps;
 	struct s_history		*history;
 	char					*save_tmp_cmd;
-
 };
 
+/*
+**	cmd : buffer containing a command line.
+**	next : pointer to the next newest element.
+**	prev : pointer to the next oldest elememt.
+**
+**	The most 'next' element is the newest of the list,
+**	the most 'prev' element is the oldest.
+*/
 
 struct s_history
 {
 	char 				*cmd;
-	struct s_history	*next; // the most next is the newest
-	struct s_history	*prev; // the most prev is the oldest
+	struct s_history	*next;
+	struct s_history	*prev;
 };
 
+/*
+**	For the action_key() function.
+**	key_no : number representing the key(s) pressed by the user.
+**	func_ptr : function pointer in order to get the function
+**			   corresponding to 'key_no'.
+*/
 
 struct s_action_key
 {
-	t_kno	key;
+	t_kno	key_no;
 	void	(*func_ptr)(struct s_line *);
 };
 
-// for actionk_delete_character()
+/*
+**	Informations to help rewriting and replacing the cursor.
+**	Use only in delete_char_into_cmdline_backspace_mode().
+**	This structure use to be more useful with more datas, now that the code
+**	is optimized, it's not so useful anymore ...
+*/
+
 struct s_infos_for_rewriting
 {
 	unsigned int	nb_line_to_go_up;
@@ -189,99 +257,106 @@ struct s_infos_for_rewriting
 };
 
 
-// prototypes
+/*
+**	actionk
+*/
+void	action_key(t_kno key, struct s_line *le_lettr);
+void	actionk_clear_screen(struct s_line *le);
+void    actionk_copy_all(struct s_line *le);
+void    actionk_copy_to_end(struct s_line *le);
+void    actionk_copy_to_start(struct s_line *le);
+void	actionk_cursor_move_left(struct s_line *le);
+void	actionk_cursor_move_right(struct s_line *le);
+void	actionk_cut_all(struct s_line *le);
+void	actionk_cut_to_end(struct s_line *le);
+void	actionk_cut_to_start(struct s_line *le);
+void	actionk_delete_character(struct s_line *le);
+void	actionk_delete_current_input(struct s_line *le);
+void	actionk_eof(struct s_line *le);
+void    actionk_history_down(struct s_line *le);
+void    actionk_history_up(struct s_line *le);
+void    actionk_move_cursor_by_word_left(struct s_line *le);
+void    actionk_move_cursor_by_word_right(struct s_line *le);
+void	actionk_move_cursor_end(struct s_line *le);
+void    actionk_move_cursor_line_down(struct s_line *le);
+void    actionk_move_cursor_line_up(struct s_line *le);
+void	actionk_move_cursor_start(struct s_line *le);
+void	actionk_past_clipboard(struct s_line *le);
+void	delete_char_into_cmdline_backspace_mode(struct s_line *le);
+void	delete_char_into_cmdline_delete_mode(struct s_line *le);
 
-void	le_free_datas(void);
-void	le_free_history(struct s_line *le);
+/*
+**	boolean_check
+*/
+bool	cursor_is_at_end_of_cmd(struct s_line *le);
+bool	cursor_is_at_end_of_term_line(unsigned int cursorpos,
+									  struct s_line *le);
+bool    le_is_separator(char c);
+bool 	possible_to_go_right(struct s_line *le);
 
-void	print_history_cmd(struct s_line *le);
-
-void *ft_realloc(void *, size_t, size_t); // tmp
-
-unsigned int	get_terminal_nb_col(void);
-
-void	check_cmd_storage(struct s_line *le, unsigned int nb_char);
-void	check_clipboard_storage(struct s_line *le, unsigned int nb_char);
-
-
-void		refresh_colosyn(struct s_line *le, char *cmd);
+/*
+**	colosyn
+*/
 void	colosyn_add_char(struct s_line *le, t_kno key);
+void	colosyn_cut_to_start(struct s_line *le);
+void	colosyn_cut_to_end(struct s_line *le);
 void	colosyn_delete_char(struct s_line *le);
 void	colosyn_past_clipboard(struct s_line *le);
-void	colosyn_cut_to_end(struct s_line *le);
-void	colosyn_cut_to_start(struct s_line *le);
 void	colosyn_print_history_elem(struct s_line *le);
+void	refresh_colosyn(struct s_line *le, char *cmd);
 
-
-char			*line_edition(int prompt_type);
-
+/*
+**	init_le
+*/
+void					init_line_edition_attributes(struct s_line *le);
 struct s_le_termcaps	*init_termcaps_strings(void);
+void					set_term_attr(t_set_term mode);
 
-struct s_line	*access_le_main_datas(void);
-
-int		write_one_char(int c);
-void	insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos);
-
-bool    le_is_separator(char c);
-
-void	set_term_attr(t_set_term mode);
-
-void	le_exit(const char *msg, const char *func_name, int errno_value);
-
-void	process_key(t_kno key, struct s_line *le);
-
-void    print_key(t_kno key);
+/*
+**	print
+*/
+void			insert_and_print_character_into_cmdline(struct s_line *le, t_kno key);
+void			print_history_cmd(struct s_line *le);
+void			print_key_at_end(struct s_line *le, t_kno key);
+void    		print_key(t_kno key);
 unsigned int	print_str_on_term(const char *str,
 								  unsigned int tmp_current_cursor_pos,
 								  struct s_line *le, int foo);
 
-void	print_key_at_end(struct s_line *le, t_kno key);
-void	insert_and_print_character_into_cmdline(struct s_line *le, t_kno key);
-void		print_with_colosyn(struct s_line *le, t_kno key);
 
-void	action_key(t_kno key, struct s_line *le_lettr);
-
-void	init_line_edition_attributes(struct s_line *le);
-struct s_le_termcaps	*init_termcaps_strings(void);
+/*
+**	signals
+*/
 void    init_signals(void);
 
-bool 	possible_to_go_right(struct s_line *le);
+/*
+**	tools
+*/
+void			check_cmd_storage(struct s_line *le, unsigned int nb_char);
+void			check_clipboard_storage(struct s_line *le, unsigned int nb_char);
+void			cursor_crosses_screen(struct s_line *le, t_cross_screen direction);
+unsigned int	get_terminal_nb_col(void);
+void			insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos);
+void    		reset_history_on_first_elem(struct s_line *le);
+void			weird_trick_to_erase_char(struct s_line *le);
+int				write_one_char(int c);
 
-bool	cursor_is_at_end_of_cmd(struct s_line *le);
-bool	cursor_is_at_end_of_term_line(unsigned int cursorpos,
-										struct s_line *le);
+/*
+**	SDF (sans dossier fixe)
+*/
+struct s_line	*access_le_main_datas(void);
+void			add_history(const char *input, struct s_line *le);
+void			le_exit(const char *msg, const char *func_name, int errno_value);
+void			le_free_datas(void);
+void			le_free_history(struct s_line *le);
+char			*line_edition(int prompt_type);
+void			process_key(t_kno key, struct s_line *le);
 
-void	weird_trick_to_erase_char(struct s_line *le);
 
-void	cursor_crosses_screen(struct s_line *le, t_cross_screen direction);
 
-void	actionk_cursor_move_right(struct s_line *le);
-void	actionk_cursor_move_left(struct s_line *le);
-void	actionk_move_cursor_start(struct s_line *le);
-void	actionk_move_cursor_end(struct s_line *le);
-void    actionk_move_cursor_by_word_right(struct s_line *le);
-void    actionk_move_cursor_by_word_left(struct s_line *le);
-void	actionk_delete_character(struct s_line *le);
-void	delete_char_into_cmdline_backspace_mode(struct s_line *le);
-void	delete_char_into_cmdline_delete_mode(struct s_line *le);
-void    actionk_move_cursor_line_up(struct s_line *le);
-void    actionk_move_cursor_line_down(struct s_line *le);
-void    actionk_copy_to_start(struct s_line *le);
-void    actionk_copy_to_end(struct s_line *le);
-void    actionk_copy_all(struct s_line *le);
-void	actionk_past_clipboard(struct s_line *le);
-void	actionk_delete_current_input(struct s_line *le);
-void	actionk_cut_all(struct s_line *le);
-void	actionk_cut_to_start(struct s_line *le);
-void	actionk_cut_to_end(struct s_line *le);
-void	actionk_eof(struct s_line *le);
-void	actionk_clear_screen(struct s_line *le);
+void *ft_realloc(void *, size_t, size_t); // tmp
 
-void    reset_history_on_first_elem(struct s_line *le);
-//void    add_history(struct s_line *le);
-void	add_history(const char *input, struct s_line *le);
-void    actionk_history_up(struct s_line *le);
-void    actionk_history_down(struct s_line *le);
+
 
 #endif
 
@@ -291,8 +366,6 @@ void    actionk_history_down(struct s_line *le);
 
 /*
 	NOTES
-
-	colosyn_update_cmd.c doit etre découpé en plusieurs fichiers.
 	
 
 	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
@@ -303,8 +376,6 @@ void    actionk_history_down(struct s_line *le);
 	dossier caché dans le home
 	dedans ya le fichier historique
 	un .42shrc qui contient des alias
-	les alias c'est des expansions finalement
-
 
 
 	faudra tester la commande clear quand on aura le full prompt sur deux lignes la,
@@ -324,8 +395,6 @@ void    actionk_history_down(struct s_line *le);
 		!
 	}
 	
-
-	faudrait free() l'historique et le clipboard dans le_exit()
 
 */
 
@@ -349,10 +418,6 @@ void    actionk_history_down(struct s_line *le);
 		si cmd est pas vide, et curseur est au bout = nothing happens
 		si cmd est pas vide et curseur au milieu = comme la touche delete
 	}
-
-
-
-
 
 */
 

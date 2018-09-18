@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/18 16:44:06 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/18 17:09:37 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,59 +39,64 @@ SRC_NAME = 	is_separator.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
 			line_edition/access_le_main_datas.c \
-			line_edition/action_key.c \
-			line_edition/actionk_clear_screen.c \
-			line_edition/actionk_copy_all.c \
-			line_edition/actionk_copy_to_end.c \
-			line_edition/actionk_copy_to_start.c \
-			line_edition/actionk_cursor_move_left.c \
-			line_edition/actionk_cursor_move_right.c \
-			line_edition/actionk_cut_all.c \
-			line_edition/actionk_cut_to_end.c \
-			line_edition/actionk_cut_to_start.c \
-			line_edition/actionk_delete_character.c \
-			line_edition/actionk_delete_current_input.c \
-			line_edition/actionk_eof.c \
-			line_edition/actionk_history_down.c \
-			line_edition/actionk_history_up.c \
-			line_edition/actionk_move_cursor_by_word_left.c \
-			line_edition/actionk_move_cursor_by_word_right.c \
-			line_edition/actionk_move_cursor_end.c \
-			line_edition/actionk_move_cursor_line_down.c \
-			line_edition/actionk_move_cursor_line_up.c \
-			line_edition/actionk_move_cursor_start.c \
-			line_edition/actionk_past_clipboard.c \
 			line_edition/add_history.c \
-			line_edition/check_cmd_and_clipboard_storage.c \
-			line_edition/colosyn_update_cmd.c \
-			line_edition/cursor_crosses_screen.c \
-			line_edition/cursor_is_at_end_of_cmd.c \
-			line_edition/cursor_is_at_end_of_term_line.c \
-			line_edition/delete_char_into_cmdline_backspace_mode.c \
-			line_edition/delete_char_into_cmdline_delete_mode.c \
-			line_edition/errors.c \
-			line_edition/get_terminal_nb_col.c \
-			line_edition/init_line_edition_attributes.c \
-			line_edition/init_signals.c \
-			line_edition/init_termcaps_strings.c \
-			line_edition/insert_and_print_character_into_cmdline.c \
-			line_edition/insert_char_into_array.c \
-			line_edition/is_separator.c \
+			line_edition/le_exit.c \
+			line_edition/get_le_debug_status.c \
 			line_edition/le_free_datas_and_history.c \
 			line_edition/line_edition.c \
-			line_edition/possible_to_go_right.c \
-			line_edition/print_history_cmd.c \
-			line_edition/print_key_at_end.c \
-			line_edition/print_key.c \
-			line_edition/print_str_on_term.c \
-			line_edition/refresh_colosyn.c \
 			line_edition/process_key.c \
-			line_edition/reset_history_on_first_elem.c \
-			line_edition/set_term_attr.c \
-			line_edition/weird_trick_to_erase_char.c \
-			line_edition/write_one_char.c \
-			line_edition/ft_realloc.c \
-			line_edition/get_le_debug_status.c \
+			line_edition/actionk/action_key.c \
+			line_edition/actionk/actionk_clear_screen.c \
+			line_edition/actionk/actionk_copy_all.c \
+			line_edition/actionk/actionk_copy_to_end.c \
+			line_edition/actionk/actionk_copy_to_start.c \
+			line_edition/actionk/actionk_cursor_move_left.c \
+			line_edition/actionk/actionk_cursor_move_right.c \
+			line_edition/actionk/actionk_cut_all.c \
+			line_edition/actionk/actionk_cut_to_end.c \
+			line_edition/actionk/actionk_cut_to_start.c \
+			line_edition/actionk/actionk_delete_character.c \
+			line_edition/actionk/actionk_delete_current_input.c \
+			line_edition/actionk/actionk_eof.c \
+			line_edition/actionk/actionk_history_down.c \
+			line_edition/actionk/actionk_history_up.c \
+			line_edition/actionk/actionk_move_cursor_by_word_left.c \
+			line_edition/actionk/actionk_move_cursor_by_word_right.c \
+			line_edition/actionk/actionk_move_cursor_end.c \
+			line_edition/actionk/actionk_move_cursor_line_down.c \
+			line_edition/actionk/actionk_move_cursor_line_up.c \
+			line_edition/actionk/actionk_move_cursor_start.c \
+			line_edition/actionk/actionk_past_clipboard.c \
+			line_edition/tools/check_cmd_and_clipboard_storage.c \
+			line_edition/colosyn/colosyn_add_char.c \
+			line_edition/colosyn/colosyn_cut_to_start_or_end.c \
+			line_edition/colosyn/colosyn_delete_char.c \
+			line_edition/colosyn/colosyn_past_clipboard.c \
+			line_edition/colosyn/colosyn_print_history_elem.c \
+			line_edition/tools/cursor_crosses_screen.c \
+			line_edition/boolean_check/cursor_is_at_end_of_cmd.c \
+			line_edition/boolean_check/cursor_is_at_end_of_term_line.c \
+			line_edition/actionk/delete_char_into_cmdline_backspace_mode.c \
+			line_edition/actionk/delete_char_into_cmdline_delete_mode.c \
+			line_edition/tools/get_terminal_nb_col.c \
+			line_edition/init_le/init_line_edition_attributes.c \
+			line_edition/signals/init_signals.c \
+			line_edition/signals/handle_sigint.c \
+			line_edition/signals/handle_sigwinch.c \
+			line_edition/init_le/init_termcaps_strings.c \
+			line_edition/print/insert_and_print_character_into_cmdline.c \
+			line_edition/tools/insert_char_into_array.c \
+			line_edition/boolean_check/is_separator.c \
+			line_edition/boolean_check/possible_to_go_right.c \
+			line_edition/print/print_history_cmd.c \
+			line_edition/print/print_key_at_end.c \
+			line_edition/print/print_key.c \
+			line_edition/print/print_str_on_term.c \
+			line_edition/colosyn/refresh_colosyn.c \
+			line_edition/tools/reset_history_on_first_elem.c \
+			line_edition/init_le/set_term_attr.c \
+			line_edition/tools/weird_trick_to_erase_char.c \
+			line_edition/tools/write_one_char.c \
 			exec/exec.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
@@ -125,7 +130,8 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c
+			main.c \
+			line_edition/ft_realloc.c \
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -147,7 +153,10 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ syntax_highlighting/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
+			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
+			line_edition/print line_edition/signals line_edition/tools \
+			syntax_highlighting/ 
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
