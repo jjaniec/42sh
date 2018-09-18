@@ -73,12 +73,15 @@ char			**dir_get_items_search(char *in, char *search, struct s_line *le)
 	items = dir_get_items(in);
 	match_result = get_matching(items, search);
 	res = NULL;
-	if (match_result == 1)
+	if (match_result)
 	{
 		res = get_search_result(items, search, match_result);
-		push_in_line(le, res[0], search);
+		autoc_free_items(items);
+		if (match_result == 1)
+			push_in_line(le, res[0], search);
+		else
+			return (res);
 	}
 	autoc_free_items(res);
-	autoc_free_items(items);
 	return (NULL);
 }

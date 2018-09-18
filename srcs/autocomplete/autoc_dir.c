@@ -36,14 +36,24 @@ static char		*autoc_get_path(struct s_line *le)
 char				**autoc_dir(struct s_line *le)
 {
 	char		**items;
+	char		*tmp;
 	char 		*path;
 
 	items = NULL;
 	path = autoc_get_path(le);
-	if (autoc_check_path(path))
+	if (autoc_check_path(path) == 'd')
+	{
+		if (path[ft_strlen(path) - 1] != '/')
+		{
+			insert_character_into_cmdline(le, (uint64_t)'/');
+			tmp = ft_strjoin(path, "/");
+			free(path);
+			path = tmp;
+		}
 		items = dir_get_items(path);
+	}
 	else if (ft_strchr(path, '/'))
-		ft_putstr("n");
+		ft_putstr("N");
 	else
 		items = dir_get_items_search("./", path, le);
 	free(path);
