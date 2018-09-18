@@ -21,7 +21,7 @@
 
 # define TESTS_TMP_FILENAME "/tmp/21sh_tests_tmp.txt"
 # define BUFF_SIZE_TMP_FILE 1000000
-# define SH_EXEC_CMD_PREFIX "./21sh "
+# define SH_EXEC_CMD_PREFIX "./21sh -c "
 
 /*
 ** Compares output of 21sh and sh by redirecting file descs in files and reading it,

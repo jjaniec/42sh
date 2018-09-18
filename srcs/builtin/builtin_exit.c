@@ -13,6 +13,10 @@
 #include <twenty_one_sh.h>
 
 /*
+**  https://www.unix.com/man-page/posix/1posix/exit
+*/
+
+/*
 ** Free shell malloced data before exiting
 */
 
@@ -23,6 +27,7 @@ static void	exit_free_sh_data(t_exec *exe)
 	if (exe->envp)
 		ft_free_argv(exe->envp);
 }
+
 
 /*
 ** Check if a string is only composed of numbers

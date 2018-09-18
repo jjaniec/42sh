@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/29 20:40:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/15 18:56:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** Posix options
+** https://www.unix.com/man-page/posix/1posix/cd/
+*/
+
+t_option		g_cd_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"P"}, "Handle the operand dot-dot physically; symbolic link \
+		components shall be resolved before dot-dot components are processed", false},
+	{{"L"}, "Handle the operand dot-dot logically; symbolic link \
+		components shall not be resolved before dot-dot components are processed", false},
+	{{NULL}, NULL, false}
+};
+
 
 static char	*get_back(char *path)
 {

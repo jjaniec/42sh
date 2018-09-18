@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 14:48:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/13 14:56:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 ** type: type of lexeme (T_(WORD/CTRL_OPT/REDIR_OPT))
 ** type_details: token associated with data (TK_(LESS/GREAT/...))
 ** data: pointer to char * from input to data of element
+** elem_(begin/end)_ptr: pointer to beginning and end of lexeme in input string
 ** next: ptr to next lexeme
 */
 
@@ -28,6 +29,8 @@ typedef struct			s_lexeme
 	size_t				type;
 	size_t				type_details;
 	void				*data;
+	char				*lexeme_begin_ptr;
+	char				*lexeme_end_ptr;
 	struct s_lexeme		*next;
 }						t_lexeme;
 
@@ -48,6 +51,7 @@ typedef struct			s_ast
 ** char	**tmp_envp: environmental var if modified temporarily
 **			(T_ASSIGN_ENVIRONEMENT for instance). Default: NULL
 */
+
 typedef struct			s_exec
 {
 	int		ret;
@@ -55,5 +59,22 @@ typedef struct			s_exec
 	char	**envp;
 	char	**tmp_envp;
 }						t_exec;
+
+/*
+** Option typedef:
+** an option should be composed of:
+** the name of the option: ex: (-)"G" / (--)"--color"
+** the description of the option: ex: "Enables colorized output"
+** a bool storing its status, initialized with its default value
+*/
+
+typedef struct			s_option
+{
+	char	*opt_name[MAX_OPT_NAMES];
+	char	*opt_desc;
+	bool	opt_status;
+}						t_option;
+
+typedef t_option		*t_opt_list;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 15:47:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:25:49 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void	child_process(void **cmd, char **envp, t_exec *exe, \
 	handle_redirs(node);
 	if (cmd)
 	{
-		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (int)cmd[0]);
-		if ((int)*cmd == EXEC_THREAD_BUILTIN)
+		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (intptr_t)cmd[0]);
+		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, char **, t_exec *))(cmd[1]))\
 				(cmd[2], envp, exe);
 		else
@@ -50,7 +50,7 @@ static void	child_process(void **cmd, char **envp, t_exec *exe, \
 				log_error("Execve() not working");
 		}
 	}
-	if (!cmd || (int)*cmd != EXEC_THREAD_BUILTIN)
+	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
 		exit(1);
 }
 
@@ -112,10 +112,11 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 
 static int	should_fork(void **cmd)
 {
-	if ((int)*cmd == EXEC_THREAD_BUILTIN && \
+	if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN && \
 		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv))
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv || \
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting))
 		return (0);
 	return (1);
 }

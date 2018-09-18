@@ -12,6 +12,18 @@
 
 #include <twenty_one_sh.h>
 
+/*
+** https://www.unix.com/man-page/posix/1posix/env
+*/
+
+t_option		g_env_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"i"}, "Invoke utility with exactly the environment specified by the \
+		arguments; the inherited environment will be ignored completely.", \
+		false},
+	{{NULL}, NULL, false}
+};
+
 static char	**create_new_var(char *str, char **envp)
 {
 	char	*equal;

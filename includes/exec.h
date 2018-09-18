@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
 /*   Updated: 2018/09/17 15:37:17 by jjaniec          ###   ########.fr       */
@@ -71,6 +71,8 @@ void	builtin_setenv(char **argv, char **envp, t_exec *exe);
 void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
 void	builtin_cd(char **argv, char **envp, t_exec *exe);
 void	builtin_return(char **argv, char **envp, t_exec *exe);
+void	builtin_toggle_syntax_highlighting(char **argv, char **envp, \
+														t_exec *exe);
 
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
