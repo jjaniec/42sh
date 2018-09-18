@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 13:25:08 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/18 17:09:57 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,17 +159,27 @@ static int	put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 	return (flag_heredoc_EOF);
 }
 
+int		depth = -1;
+
 t_ast		*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 			void(* const node_placer)(t_ast *, t_ast *))
 {
 	t_ast	*new;
 	t_lexeme	*save;
 	int		flag_heredoc_EOF;
+	t_ast		*save_root;
 
-	log_info("Construction of new AST. root = %p", root);
+	depth++;
+	log_info("Construction of new AST. root = %p. Depth = %d", root, depth);
 	flag_heredoc_EOF = 0;
+	save_root = root;
+	while (save_root->parent)
+		save_root = save_root->parent;
 	while (*lex != end)
 	{
+		log_error("lex->data = %s, lex = %p, end = %p", lex[0]->data, *lex, end);
+		//ast_debug(save_root);
+		//getchar();
 		new = create_node(lex[0]->type, lex[0]->type_details, \
 				prepare_argv(*lex, flag_heredoc_EOF));
 		save = *lex;
@@ -180,7 +190,9 @@ t_ast		*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 	}
 	while (root->parent)
 		root = root->parent;
-	log_info("End of constructing this AST. - %p", root);
+	log_info("End of constructing this AST. - %p. Depth = %d\n \
+			lex = %p. end = %p", root, depth, *lex, end);
+	depth--;
 
 	return (root);
 }

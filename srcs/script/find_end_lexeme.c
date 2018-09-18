@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 13:33:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/18 17:17:33 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_lexeme	*to_end(t_lexeme *lex)
 {
 	size_t	end_token;
+	t_lexeme	*save_lex;
 
 	if (lex->type_details == TK_SCRIPT_IF)
 		end_token = TK_SCRIPT_FI;
@@ -24,7 +25,13 @@ static t_lexeme	*to_end(t_lexeme *lex)
 		return (lex);
 	//log_trace("=to_end %d - %s - %p", end_token, lex->data, lex);
 	while (lex && lex->type_details != end_token)
+	{
 		lex = lex->next;
+		save_lex = lex;
+		lex = to_end(lex);
+		if (save_lex != lex)
+			lex = lex->next;
+	}
 	//log_trace("=to_end %d - %s - %p", end_token, lex->data, lex);
 	return (lex);
 }
