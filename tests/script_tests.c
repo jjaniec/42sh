@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/16 15:20:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:24:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,56 @@ static void tests(void)
 			fi; \
 			echo OK4; \
 		fi; echo", "", "Complex IF");
+	test_framework("\
+		if [ 0 ] && [ 0 ]; then \
+			echo OK1; \
+			if [ 1 ]; then \
+				echo OK2; \
+				if [ 0 ]; then \
+					echo OK2.5; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi; echo ABC", "OK1\nOK4\nABC", "Complex IF");
+	test_framework("\
+		echo OKK; \
+		if [ 0 ] && [ 1 ]; then \
+			echo OK1; \
+			if [ 0 ]; then \
+				echo OK2; \
+				if [ 0 ]; then \
+					echo OK2.5; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi;", "OKK", "Complex IF");
+	test_framework("\
+		echo OKK; \
+		if [ 0 ] && [ 0 ]; then \
+			if [ 1 ]; then \
+				echo OK2; \
+				if [ 0 ]; then \
+					echo OK2.5; \
+				fi; \
+				echo OK3; \
+			fi; \
+			echo OK4; \
+		fi;", "OKK\nOK4", "Complex IF");
+	test_framework("\
+		echo 1 && echo 2; \
+		if [ 0 ]; then \
+			echo 3;\
+			if [ 0 ]; then \
+				echo 4;\
+				echo 10;\
+			fi; \
+		elif [ 0 ]; then \
+			echo -6; \
+		fi; \
+		echo 11;\
+		", "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11", "Ultimate IF-ELIF-ELSE");
 }
 
 void script_tests(char **envp)
@@ -185,3 +235,24 @@ void script_tests(char **envp)
 	env = envp;
 	tests();
 }
+/*
+				if [ 0 ]; then \
+					if [ 0 ]; then \
+						echo 5;\
+						if [ 1 ]; then\
+							echo -1; \
+						elif [ 0 ]; then \
+							echo 6; echo 7; \
+						else \
+							echo -2; \
+						fi;\
+						echo 8; \
+						echo 9; \
+					else \
+						echo -3; \
+				elif [ 1 ]; then\
+					echo -4; \
+				elif [ 0 ]; then \
+					echo -5; \
+				fi; \
+				*/
