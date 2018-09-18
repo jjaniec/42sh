@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/17 19:54:21 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/18 16:44:06 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC_NAME = 	is_separator.c \
 			lexer/env_assigns_status.c \
 			lexer/handle_backslash_escape.c \
 			lexer/free_lexemes.c \
+			lexer/handle_expansions.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_construct.c \
