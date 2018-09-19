@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/03 15:40:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 20:12:28 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # ifndef VERBOSE_MODE
 #  define VERBOSE_MODE 0
 # endif
+
+extern const size_t g_cant_begin_with[7];
 
 void		subp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex);

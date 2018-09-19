@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 19:18:15 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 20:16:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ static void tests(void)
 	test_framework("else then echo NOPE; fi", error_msg, "ERROR - Simple ELSE");
 	test_framework("else echo NOPE; fi", error_msg, "ERROR - Simple ELSE");
 	test_framework("else echo NOPE", error_msg, "ERROR - Simple ELSE");
+	
+	test_framework("if if [ 0 ]; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then echo NOPE; fi; fi; echo", error_msg, "ERROR - Duplicate token");
 
 	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Builtin test");
 	test_framework("if [ 0; then echo OK; fi", "OK", "Builtin test");
