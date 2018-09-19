@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 16:38:37 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/09 17:12:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/14 16:32:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	builtin_return(char **argv, char **envp, t_exec *exe)
 {
 	(void)envp;
+	(void)exe;
 
-	exe->ret = ft_atoi(argv[1]);
+	exit(ft_atoi(argv[1]));
 }

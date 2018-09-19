@@ -6,11 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/29 20:00:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/15 20:41:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+extern t_option		g_sh_opts[];
 
 /*
 ** Returns 1 if file in lexeme_data was found by searching directories in
@@ -24,7 +26,9 @@ static int		elem_path_found(struct stat *elem_stats, \
 {
 	char		**paths;
 	char		*tmp;
+	int			r;
 
+	r = 0;
 	if (ft_strchr(lexeme_data, '/') || item_nb > 0)
 	{
 		if (lstat(lexeme_data, elem_stats) != -1)
@@ -37,11 +41,13 @@ static int		elem_path_found(struct stat *elem_stats, \
 		if ((tmp = isin_path(paths, lexeme_data)))
 		{
 			lstat(tmp, elem_stats);
-			return (1);
+			r = 1;
 		}
+		else if (!r && is_builtin(lexeme_data, NULL))
+			r = 1;
 		ft_strdel(&tmp);
 	}
-	return (0);
+	return (r);
 }
 
 /*
@@ -101,7 +107,7 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 			ft_putstr(COL_QUOTED_ARG);
 		else
 			print_prog_name_arg_col(&elem_stats, \
-			elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
+				elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
 	}
 	if (!lexeme->next)
 		item_nb = -1;
@@ -112,11 +118,26 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 ** and reset colors to COL_DEFAULT
 */
 
+void 			print_to_line_edition(const char *s, int nb)
+{
+	struct s_line *le;
+
+	le = access_le_main_datas();
+	while (nb > 0)
+	{
+		print_key_at_end(le, *s++);
+		--nb;
+	}
+}
+
+
 void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, \
 					char *input_ptr, t_lexeme *lexeme, char **envp)
 {
-	(void)lexeme_end;
 	put_lexeme_color(lexeme, lexeme_begin, envp);
-	write(1, input_ptr, (lexeme_end - input_ptr));
+	if (is_option_activated("c", g_sh_opts, NULL))
+		write(1, input_ptr, (lexeme_end - input_ptr));
+	else
+		print_to_line_edition(input_ptr, (lexeme_end - input_ptr));
 	ft_putstr(COL_DEFAULT);
 }

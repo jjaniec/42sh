@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 15:52:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/23 22:16:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 14:48:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ static char		**prepare_argv_operator(t_lexeme *lexemes)
 }
 
 /*
+** Return 1 if passed lexeme should be passed as program argument
+*/
+
+static int		should_add_to_argv(t_lexeme *ptr)
+{
+	if ((ptr->type != T_CTRL_OPT) && ptr->type_details != TK_PIPE)
+		return (1);
+	return (0);
+}
+
+/*
 ** Count number of elements found in the lexeme linked list
 ** to add as program argument
 */
@@ -39,7 +50,7 @@ static int		count_argv(t_lexeme *lexemes)
 
 	ptr = lexemes;
 	r = 1;
-	while (ptr && ptr->type != T_CTRL_OPT && ptr->type_details != TK_PIPE)
+	while (ptr && should_add_to_argv(ptr))
 	{
 		if (ptr->type == T_WORD)
 			r += 1;
@@ -59,7 +70,7 @@ static char		**fill_argv_tab(char ***argv, t_lexeme *lexemes)
 
 	ptr = lexemes;
 	i = 0;
-	while (ptr && ptr->type != T_CTRL_OPT && ptr->type_details != TK_PIPE)
+	while (ptr && should_add_to_argv(ptr))
 	{
 		if (ptr->type == T_WORD)
 			(*argv)[i++] = ptr->data;

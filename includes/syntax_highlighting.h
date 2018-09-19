@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:39:24 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/29 19:56:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/13 14:47:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 
 void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, char *input_ptr, t_lexeme *lexeme, char **envp);
 
-void			print_colorized_input(char *input_str, char **env, t_lexeme *lexemes);
+void			print_colorized_input(char *input_str, char **env, t_lexeme *lexemes, char *unmatched_quote_err_ptr);
+
+void			print_input_string_end(char *ptr, char *unmatched_quote_err_ptr);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 16:00:14 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/19 15:36:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	prompt_size = prompt_show(g_prompts[-need_subprompt]);
 	input = line_edition(prompt_size);
 	ft_putchar('\n');
-	new = lexer(input);
+	lexer(input, &new, NULL);
 	if (!lex)
 		return (new);
 	save = lex;
@@ -66,7 +66,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 		lex->next->data = ft_strjoin(lex->next->data, new->data);
 		lex->next->next = new->next;
 	}
-	else if (lex && !lex->next && lex->type == T_WORD && new->type == T_WORD)
+	else if (lex && !lex->next && lex->type == T_WORD && new && new->type == T_WORD)
 	{
 		lex->data = ft_strjoin(lex->data, new->data);
 		lex->next = new->next;

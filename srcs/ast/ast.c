@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/14 10:29:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 15:21:21 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-/*
-** Malloc and create an AST node
-*/
-
-t_ast	*create_node(size_t type, size_t type_details, char **data)
-{
-	t_ast	*node;
-
-	node = (t_ast *)ft_memalloc(sizeof(t_ast));
-	if (!node)
-		exit(MALLOC_ERROR);
-	node->type = type;
-	node->type_details = type_details;
-	node->data = data;
-	return (node);
-}
 
 /*
 ** Main function of AST.
@@ -40,6 +23,7 @@ t_ast	*ast(t_lexeme *lex)
 	int		check;
 
 	root = NULL;
+
 	check = NEED_SUBPROMPT_NEWLINE;
 	while (check < 0)
 	{
