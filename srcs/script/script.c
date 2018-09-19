@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/16 13:38:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 20:02:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ static t_lexeme *next_lex_condition(t_lexeme *lex)
 		}
 		return (lex->next);
 	}
-	return (lex);
+	else if (!is_op0(lex->next))
+		lex->next->type_details = TK_SCRIPT_FI;
+	return (lex->next);
 }
 
 static t_lexeme *is_container(t_lexeme *lex, char *word)

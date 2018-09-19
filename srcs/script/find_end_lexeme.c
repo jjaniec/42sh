@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 19:11:24 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 18:52:34 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:43:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ t_lexeme	*find_end_lexeme_solo(t_lexeme *start, const size_t end_token)
 
 	i = 0;
 	start = start->next;
-	log_trace("===end_token = %d", end_token);
+	//log_trace("===end_token = %d", end_token);
 	lex = start;
 	while (lex && lex->type_details != end_token)
 	{
-		log_trace("==lex_before %s - %p", lex->data, lex);
+		//log_trace("==lex_before %s - %p", lex->data, lex);
 		lex = to_end(lex);
 		lex = lex->next;
-		if (lex)
-			log_trace("==lex_after %s - %p", lex->data, lex);
-		else
-			log_trace("==lex_after NULL");
+		//if (lex)
+			//log_trace("==lex_after %s - %p", lex->data, lex);
+		//else
+			//log_trace("==lex_after NULL");
 	}
 	if (lex)
 	{
-		log_trace("===LEX FOUND %s - %p", lex->data, lex);
+		//log_trace("===LEX FOUND %s - %p", lex->data, lex);
 		return (lex);
 	}
 	return (start);
@@ -104,16 +104,16 @@ t_lexeme	*lex_compete(t_lexeme *lex, const size_t end_token[])
 	closest = -1;
 	while (end_token[i])
 	{
-		log_debug("path[i] %u", paths[i]);
+		//log_debug("path[i] %u", paths[i]);
 		if (paths[i] != 1 && closest > paths[i])
 			closest = paths[i];
 		i++;
 	}
-	log_debug("Closest %u", closest);
+	//log_debug("Closest %u", closest);
 	//Boucle pour aller au lexeme correspondant
 	while (closest--)
 		lex = lex->next;
-	log_info("LEX_COMPETE_FOUND: %s - %p", lex->data, lex);
+	//log_info("LEX_COMPETE_FOUND: %s - %p", lex->data, lex);
 	return (lex);
 }
 
