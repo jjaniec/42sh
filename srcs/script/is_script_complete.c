@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/16 14:48:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 14:05:22 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 			else
 				lex = tmp;
 		}
+		else if (next_token == TK_SCRIPT_ELIF && (lex->type_details == TK_SCRIPT_ELSE \
+		|| lex->type_details == TK_SCRIPT_ELIF || lex->type_details == TK_SCRIPT_FI))
+		{
+			if (lex->type_details == TK_SCRIPT_ELIF)
+				return (is_script_complete(lex->next, TK_SCRIPT_THEN));
+			if (lex->type_details == TK_SCRIPT_ELSE)
+				return (is_script_complete(lex->next, TK_SCRIPT_FI));
+			if (lex->type_details == TK_SCRIPT_FI)
+				return (lex);
+		}
 		lex = lex->next;
 	}
 	//The next_token is found
@@ -70,18 +80,7 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 		if (next_token == TK_SCRIPT_IF || next_token == TK_SCRIPT_ELIF)
 			return (is_script_complete(lex->next, TK_SCRIPT_THEN));
 		if (next_token == TK_SCRIPT_THEN)
-		{
-			const size_t end_t[] = {TK_SCRIPT_ELSE, TK_SCRIPT_ELIF, TK_SCRIPT_FI, 0};
-			t_lexeme *t = find_end_lexeme(lex, end_t);
-			if ((tmp = is_script_complete(lex->next, TK_SCRIPT_ELSE)) && t->type_details == TK_SCRIPT_ELSE)
-				return (tmp);
-			else if ((tmp = is_script_complete(lex->next, TK_SCRIPT_ELIF)) && t->type_details == TK_SCRIPT_ELIF)
-				return (tmp);
-			else if ((tmp = is_script_complete(lex->next, TK_SCRIPT_FI)) && t->type_details == TK_SCRIPT_FI)
-				return (tmp);
-			else
-				return (return_error(lex));
-		}
+			return (is_script_complete(lex->next, TK_SCRIPT_ELIF));
 		if (next_token == TK_SCRIPT_ELSE)
 			return (is_script_complete(lex->next, TK_SCRIPT_FI));
 		if (next_token == TK_SCRIPT_FI)

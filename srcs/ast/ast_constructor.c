@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/18 17:09:57 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 14:38:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, const size_t next_t
 
 	end_lexeme = find_end_lexeme(lex, next_tokens);
 	lex = lex->next;
-	//log_debug("lex->data = %s / end_lexeme->data = %s", lex->data, end_lexeme->data);
+	log_debug("lex->data = %s / end_lexeme->data = %s", lex->data, end_lexeme->data);
 	if (lex == end_lexeme)
 		log_warn("Find end lexeme: end_lexeme is the same than start ! %s - %p", lex->data, lex);
-	//log_debug("Find end lexeme: lex %s - %p / end_lexeme %s - %p");
+	log_debug("Find end lexeme: lex %s - %p / end_lexeme %s - %p", lex->data, lex, end_lexeme->data, end_lexeme);
 	log_debug("BEGIN: Lex : %s - %p / End : %s - %p", lex->data, lex, end_lexeme->data, end_lexeme);
 	*root = ast_constructor(&lex, *root, end_lexeme, node_placer);
 	log_debug("END: Lex : %s - %p / End : %s - %p", lex->data, lex, end_lexeme->data, end_lexeme);
@@ -177,7 +177,7 @@ t_ast		*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 		save_root = save_root->parent;
 	while (*lex != end)
 	{
-		log_error("lex->data = %s, lex = %p, end = %p", lex[0]->data, *lex, end);
+		//log_error("lex->data = %s, lex = %p, end = %p", lex[0]->data, *lex, end);
 		//ast_debug(save_root);
 		//getchar();
 		new = create_node(lex[0]->type, lex[0]->type_details, \
