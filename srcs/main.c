@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 15:46:32 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 16:49:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	char		*input;
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
-	int			prompt_size;
 
-	prompt_size = prompt_show(g_prompts[0]);
-	input = line_edition(prompt_size);
+	input = line_edition(0);
 	ft_putchar('\n'); 
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
 		UNMATCHED_QUOTE_ERR)

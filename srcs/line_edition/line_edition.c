@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 15:37:25 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 17:04:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_kno	get_key_number(const char *key)
 	return (key_no);
 }
 
-char			*line_edition(int prompt_size)
+char			*line_edition(int prompt_type)
 {
 	char					*final_line;
 	char					key[LE_KEY_SIZE];
@@ -83,9 +83,8 @@ char			*line_edition(int prompt_size)
 	t_kno					key_no;
 
 	le = access_le_main_datas();
-	//le->le_state.prompt_type = prompt_type; // a mettre au bon endroit xd
 	set_term_attr(LE_SET_NEW);
-	init_line_edition_attributes(le, prompt_size);
+	init_line_edition_attributes(le, prompt_type);
 
 	le_debug_infos(); // debug
 	while ("cest ta merge la jjaniec")

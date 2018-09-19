@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 16:22:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 17:02:55 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void			init_once(struct s_line *le)
 **	Initialize some datas for the main datas structure to their default values.
 */
 
-void    			init_line_edition_attributes(struct s_line *le, int prompt_size)
+void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
 {
 	static bool already_init = false;
 
@@ -76,11 +76,12 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_size)
 	ft_memset(le->cmd, '\0', le->cmd_size);
 	le->cmd_len = 0;
 	le->cursor_index = 0;
-    le->start_pos = prompt_size;
+    le->start_pos = prompt_show(g_prompts[-prompt_type]);
     le->cursor_pos = le->start_pos;
 	le->cursor_line = 0;
 	le->term_line_size = get_terminal_nb_col();
 	le->nb_lines_written = 1;
 	le->nb_char_on_last_line = 0;
 	le->le_state.le_is_init = true;
+	le->le_state.prompt_type = prompt_type;
 }
