@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/08/23 23:18:33 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/19 17:07:32 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_menu_print_spaces.c \
 			autocomplete/dir_get_items_search.c \
 			autocomplete/autoc_check_path.c \
+			autocomplete/autoc_push_in_line.c \
 			line_edition/action_key.c \
 			line_edition/actionk_cursor_move_left.c \
 			line_edition/actionk_cursor_move_right.c \

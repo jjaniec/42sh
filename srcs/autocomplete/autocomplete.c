@@ -43,15 +43,15 @@ static t_autoc	*autoc_setup(struct s_line *le)
 	if (autoc == NULL)
 		return (NULL);
 	autoc->le = le;
+	autoc->search = NULL;
 	autoc->menu_selected = -1;
 	autoc->menu_line = 0;
-	autoc->menu_cursor = 0;
 	autoc->nbr_line = 0;
 	autoc->nbr_items_in_line = 0;
 	autoc->max_item_len = 0;
 	autoc->nbr_items = 0;
 	if (le->cursor_index_for_line > 1 && check_dir(le))
-		autoc->items = autoc_dir(le);
+		autoc->items = autoc_dir(autoc);
 	else
 		autoc->items = NULL;
 	return (autoc);

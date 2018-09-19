@@ -33,19 +33,19 @@ static char		*autoc_get_path(struct s_line *le)
 	return (res);
 }
 
-char				**autoc_dir(struct s_line *le)
+char				**autoc_dir(t_autoc *autoc)
 {
 	char		**items;
 	char		*tmp;
 	char 		*path;
 
 	items = NULL;
-	path = autoc_get_path(le);
+	path = autoc_get_path(autoc->le);
 	if (autoc_check_path(path) == 'd')
 	{
 		if (path[ft_strlen(path) - 1] != '/')
 		{
-			insert_character_into_cmdline(le, (uint64_t)'/');
+			insert_character_into_cmdline(autoc->le, (uint64_t)'/');
 			tmp = ft_strjoin(path, "/");
 			free(path);
 			path = tmp;
@@ -55,7 +55,10 @@ char				**autoc_dir(struct s_line *le)
 	else if (ft_strchr(path, '/'))
 		ft_putstr("N");
 	else
-		items = dir_get_items_search("./", path, le);
+	{
+		autoc->search = ft_strdup(path);
+		items = dir_get_items_search("./", autoc);
+	}
 	free(path);
 	return (items);
 }

@@ -60,7 +60,6 @@ static void		menu_new_line(t_autoc *autoc)
 	tputs(autoc->le->tcaps->_do, 1, &write_one_char);
 	tputs(autoc->le->tcaps->cr, 1, &write_one_char);
 	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
-	autoc->menu_cursor = 0;
 	autoc->menu_line++;
 }
 
@@ -74,8 +73,11 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	count = 0;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	get_print_infos(autoc, (int)autoc->win.ws_col);
-	if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
+	/*if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
+	{
+		ft_putstr("YO2");
 		return ;
+	}*/
 	menu_new_line(autoc);
 	while (line < autoc->nbr_line)
 	{

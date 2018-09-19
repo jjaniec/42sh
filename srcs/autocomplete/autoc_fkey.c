@@ -15,32 +15,24 @@
 static int		tab_key(char buffer[3], t_autoc *autoc)
 {
 	(void)buffer;
-	if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
-		return (1);
+	/*if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
+		return (1);*/
 	autoc->menu_selected++;
 	if (!autoc->items[autoc->menu_selected])
 		autoc->menu_selected = 0;
-	autoc->menu_cursor = 0;
 	autoc->menu_line = 0;
 	return (0);
 }
 
 static int		return_key(char buffer[3], t_autoc *autoc)
 {
-	char	*item;
 	int	i;
 
 	(void)buffer;
 	i = 0;
 	if (autoc->menu_selected >= 0)
-	{
-		item = autoc->items[autoc->menu_selected];
-		while (item[i])
-		{
-			insert_character_into_cmdline(autoc->le, (uint64_t)item[i]);
-			i++;
-		}
-	}
+		autoc_push_in_line(autoc->le, autoc->items[autoc->menu_selected],
+		autoc->search);
 	return (1);
 }
 

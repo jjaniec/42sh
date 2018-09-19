@@ -12,19 +12,6 @@
 
 #include <twenty_one_sh.h>
 
-static void			push_in_line(struct s_line *le, char *str, char *search)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != search[i])
-			insert_character_into_cmdline(le, (uint64_t)str[i]);
-		i++;
-	}
-}
-
 static int	get_matching(char **items, char *search)
 {
 	int	count;
@@ -63,7 +50,7 @@ static char	**get_search_result(char **items, char *search, int match_res)
 	return (res);
 }
 
-char			**dir_get_items_search(char *in, char *search, struct s_line *le)
+char			**dir_get_items_search(char *in, t_autoc *autoc)
 {
 	char	**res;
 	char	**items;
@@ -71,14 +58,14 @@ char			**dir_get_items_search(char *in, char *search, struct s_line *le)
 
 
 	items = dir_get_items(in);
-	match_result = get_matching(items, search);
+	match_result = get_matching(items, autoc->search);
 	res = NULL;
 	if (match_result)
 	{
-		res = get_search_result(items, search, match_result);
+		res = get_search_result(items, autoc->search, match_result);
 		autoc_free_items(items);
 		if (match_result == 1)
-			push_in_line(le, res[0], search);
+			autoc_push_in_line(autoc->le, res[0], autoc->search);
 		else
 			return (res);
 	}
