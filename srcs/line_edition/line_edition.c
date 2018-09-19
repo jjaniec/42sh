@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 19:06:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:51:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void		le_debug_infos(void)
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
+	le_debug("PID du 42sh = %d\n", (int)getpid());
 	le_debug("key number = %llu\n", (unsigned long long)(le->key_no));
 	le_debug("cmd = |%s|\n", le->cmd);
 	le_debug("cmd size = %zu\n", le->cmd_size);
