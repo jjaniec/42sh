@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 18:54:55 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:18:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ static void tests(void)
 	test_framework("if [ 0 ] then echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE fi", error_msg, "ERROR - Simple IF");
 	test_framework("if ; then echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple IF");
+	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE; elif ;then echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; then echo NEITHER;", error_msg, "ERROR - Simple IF-ELIF");
@@ -118,6 +120,14 @@ static void tests(void)
 
 	test_framework("touch a; while cat a > /dev/null; do echo OK && rm a; done", "OK", "Simple WHILE");
 	test_framework("while [ 1 ]; do echo KO; done; echo", "", "Simple WHILE");
+
+	test_framework("\
+			touch a b; while cat a > /dev/null; do \
+				echo OK && rm a; \
+				while cat b > /dev/null; do \
+					echo OK2 && rm b; \
+				done; \
+			done", "OK\nOK2", "Nested WHILE");
 
 	test_framework("while", error_msg, "ERROR - Simple WHILE");
 	test_framework("while [ 0 ]", error_msg, "ERROR - Simple WHILE");
@@ -215,6 +225,43 @@ static void tests(void)
 			fi; \
 			echo OK4; \
 		fi;", "OKK\nOK4", "Complex IF");
+
+	test_framework("\
+		echo OKK\n \
+		if [ 0 ] && [ 0 ]\n then \
+			if [ 1 ]\n then \
+				echo OK2\n \
+				if [ 0 ]\n then \
+					echo OK2.5\n \
+				fi\n \
+				echo OK3\n \
+			fi\n \
+			echo OK4\n \
+		fi", "OKK\nOK4", "Complex IF \\n");
+	test_framework("\
+		echo OKK\n \
+		if [ 0 ] && [ 0 ]\n then \
+			if [ 1 ]\n then \
+				echo OK2\n \
+				if [ 0 ] then \
+					echo OK2.5\n \
+				fi\n \
+				echo OK3\n \
+			fi\n \
+			echo OK4\n \
+		fi", error_msg, "Complex IF error");
+	test_framework("\
+		echo OKK\n \
+		if [ 0 ] && [ 0 ]\n then \
+			if [ 1 ]\n then \
+				echo OK2\n \
+				if [ 0 ] then\n \
+				fi\n \
+				echo OK3\n \
+			fi\n \
+			echo OK4\n \
+		fi", error_msg, "Complex IF error");
+
 	test_framework("\
 		echo 1 && echo 2; \
 		if [ 0 ]; then \
@@ -248,6 +295,82 @@ static void tests(void)
 		fi; \
 		echo 11;\
 		", "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11", "Ultimate IF-ELIF-ELSE");
+	test_framework("\
+		echo 1 && echo 2; \
+		touch a; \
+		while cat a > /dev/null; do \
+			echo 0 && rm a; \
+			if [ 0 ]; then \
+				echo 3;\
+				if [ 0 ]; then \
+					echo 4;\
+					if [ 0 ]; then \
+						if [ 0 ]; then \
+							echo 5;\
+							if [ 1 ]; then\
+								echo -1; \
+							elif [ 0 ]; then \
+								echo 6; echo 7; \
+							else \
+								echo -2; \
+							fi;\
+							echo 8; \
+							echo 9; \
+						else \
+							echo -3; \
+						fi; \
+					elif [ 1 ]; then\
+						echo -4; \
+					elif [ 0 ]; then \
+						echo -5; \
+					fi; \
+					echo 10;\
+				fi; \
+			elif [ 0 ]; then \
+				echo -6; \
+			fi; \
+		done; \
+		echo 11;\
+		", "1\n2\n0\n3\n4\n5\n6\n7\n8\n9\n10\n11", "Ultimate IF-ELIF-ELSE inside WHILE");
+	test_framework("\
+		echo 1 && echo 2; \
+		touch a; \
+			if [ 0 ]; then \
+				echo 3;\
+				if [ 0 ]; then \
+					echo 4;\
+					while cat a > /dev/null; do \
+						echo 0 && rm a; \
+						if [ 0 ]; then \
+							if [ 0 ]; then \
+								echo 5;\
+								if [ 1 ]; then\
+									echo -1; \
+								elif [ 0 ]; then \
+									echo 6; echo 7; \
+								else \
+									echo -2; \
+								fi;\
+								echo 8; \
+								echo 9; \
+							else \
+								echo -3; \
+							fi; \
+						elif [ 1 ]; then\
+							echo -4; \
+						elif [ 0 ]; then \
+							echo -5; \
+						fi; \
+						echo 9.5; \
+					done; \
+					echo 10;\
+				fi; \
+			elif [ 0 ]; then \
+				echo -6; \
+			fi; \
+		done; \
+		echo 11;\
+		", "1\n2\n3\n4\n0\n5\n6\n7\n8\n9\n9.5\n10\n11", "WHILE inside ultimate IF-ELIF-ELSE");
 }
 
 void script_tests(char **envp)
