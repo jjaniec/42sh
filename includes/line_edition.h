@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 17:07:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:10:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int		get_le_debug_status(int mode, int new_value);
 # define LE_CTRL_P (16)
 # define LE_CTRL_U (21)
 # define LE_CTRL_DASH (31)
-# define LE_CTRL_OPEN_SQUARE_BRACKET (27) - 23
+# define LE_CTRL_OPEN_SQUARE_BRACKET (27)
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
-# define LE_CTRL_D (4) + 1
+# define LE_CTRL_D (4)
 # define LE_CTRL_L (12)
 
 /*
@@ -78,11 +78,14 @@ int		get_le_debug_status(int mode, int new_value);
 /*
 **	Things
 */
+# define LE_DEFAULT_PROMPT (0)
 # define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 # define LE_SPECIAL_CASE (42)
 
-
+/*
+**	Data type representing a key number
+*/
 typedef uint64_t t_kno;
 
 /*
@@ -378,29 +381,6 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 		!
 	}
 	
-
-*/
-
-
-/*
-	CTRL D	
-
-	POUR LE PROMPT NORMAL
-	{
-		si le curseur est sur un caractere, meme effet que la touche delete
-		
-		si le curseur n'est pas sur un carac, donc il est en fin de cmdline,
-		il ne se passe rien
-
-		si la ligne est vide, le shell exit
-	}
-
-	POUR TOUS LES SUBPROMPTS
-	{
-		si cmd vide = nothing happens
-		si cmd est pas vide, et curseur est au bout = nothing happens
-		si cmd est pas vide et curseur au milieu = comme la touche delete
-	}
 
 */
 
