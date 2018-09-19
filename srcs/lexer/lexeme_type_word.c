@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/23 15:01:15 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:48:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 	}
 	if (start != *pos)
 	{
+		log_fatal("Before clean: |%s|", s + start);
 		*data = ft_strsub(s, start, *pos - start);
 		if (*data && (ft_strchr(*data, '\'') || \
 			ft_strchr(*data, '"') || ft_strchr(*data, '\\')))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_backslash_escape.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:30:04 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/05 18:36:36 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 20:16:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@
 static void	handle_backslash_escape_dquote(char *s, int *pos)
 {
 	if (s[*pos + 1] == '$' || s[*pos + 1] == '`' || \
-	s[*pos + 1] == '"' || s[*pos + 1] == '\\' || \
-	s[*pos + 1] == '\n')
+		s[*pos + 1] == '"' || s[*pos + 1] == '\\' || \
+		s[*pos + 1] == '\n')
 		*pos += 1;
 }
+
+/*
+** Handle char escaping depending on quote type
+*/
 
 void		handle_backslash_escape(char *s, int *pos, int in_quote_type)
 {

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/18 17:30:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/19 20:14:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int		twenty_one_sh(char *input, char **envp, \
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
 		exit(1);
 	}
-	handle_expansions(input, lexemes, envp);
 	ast_root = ast(lexemes);
 	if (!ast_root)
 	{

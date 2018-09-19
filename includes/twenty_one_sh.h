@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/18 17:32:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/19 20:14:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,5 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 
 bool		is_option_activated(char *opt_str, \
 				t_option *opt_list, t_option **char_opt_index);
-
-void		handle_expansions(char *input, t_lexeme *lexemes, char **env);
 
 #endif

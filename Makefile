@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/18 17:09:37 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/19 16:45:49 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,9 @@ SRC_NAME = 	is_separator.c \
 			lexer/handle_backslash_escape.c \
 			lexer/free_lexemes.c \
 			lexer/handle_expansions.c \
+			lexer/handle_char_expansion.c \
+			lexer/concat_expansion.c \
+			lexer/get_expansion_end.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_construct.c \
@@ -168,7 +171,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 #-Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0

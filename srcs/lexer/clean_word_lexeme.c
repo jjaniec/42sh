@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 14:50:07 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 20:12:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,22 @@ static int		is_quote_removable(char **s, int *i, char **jump_ptr,
 }
 
 /*
+** Returns 1 if c is an expansion specifier char and store handler
+** in *callback,
+** otherwise return 0
+*/
+
+static int		is_expansion_char(char c, void **callback)
+{
+	*callback = NULL;
+	if (c == '$')
+		*callback = handle_dollar_expansion;
+	/*else if (c == '~')
+		*callback = handle_tild_expansion;*/
+	return ((*callback) ? (1) : (0));
+}
+
+/*
 ** Fills new created data string
 ** $s: old data string
 ** $new_data: ptr to new data string
@@ -54,12 +70,19 @@ static void		fill_new_data_str(char *s, char *new_data)
 	int		j;
 	int		in_quote_type;
 	char	*jump_ptr;
+	void	*expansion_handler;
 
 	j = 0;
 	i = 0;
 	jump_ptr = s;
 	while (s[i])
-		if (s[i] == '\\')
+		if (is_expansion_char(s[i], &expansion_handler))
+		{
+			(*(void (*)(char *, char **, char **, int *))(expansion_handler))\
+				(s + i, g_envp, &s, &i);
+			
+		}
+		else if (s[i] == '\\')
 		{
 			handle_backslash_escape(s, &i, 0);
 			new_data[j++] = s[i++];
