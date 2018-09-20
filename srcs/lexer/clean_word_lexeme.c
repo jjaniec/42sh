@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 16:16:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 18:28:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,45 +66,42 @@ static int		is_expansion_char(char c, void **callback)
 ** $new_data: ptr to new data string
 */
 
-static void		fill_new_data_str(char *s, char **new_data)
+static void		fill_new_data_str(t_lexeme_data_to_clean *l)
 {
-	int		i;
-	int		j;
+	char	*ptr;
 	int		in_quote_type;
 	char	*jump_ptr;
 	void	*expansion_handler;
 
-	j = 0;
-	i = 0;
-	jump_ptr = s;
-	while (s[i])
-		if (is_expansion_char(s[i], &expansion_handler))
+	ptr = l->raw_lexeme_data;
+	l->raw_lexeme_read_ptr = &ptr;
+	jump_ptr = ptr;
+	while (ptr && *ptr)
+		if (is_expansion_char(*ptr, &expansion_handler))
+			(*(void (*)(t_lexeme_data_to_clean *, char **))(expansion_handler))\
+				(l, g_envp);
+		else if (*ptr == '\\')
 		{
-			(*(void (*)(char *, char **, char **, int *))(expansion_handler))\
-				(s + i, g_envp, &s, &i);
-			
+			ptr += sizeof(char) * handle_escape_offset(ptr, NOT_IN_QUOTES);
+			(*(l->new_data_write_ptr++)) = *(ptr++);
 		}
-		else if (s[i] == '\\')
+		else if ((*ptr == '\'' || *ptr == '"') && \
+			is_quote_removable(ptr, &jump_ptr, &in_quote_type))
 		{
-			i += handle_escape_offset(s + i, NOT_IN_QUOTES);
-			(*new_data)[j++] = s[i++];
-		}
-		else if (((s)[i] == '\'' || (s)[i] == '"') && \
-			is_quote_removable(s + i, &jump_ptr, &in_quote_type))
-		{
-			i++;
-			while (s[i] && (s + i) != jump_ptr)
+			ptr++;
+			while (*ptr && ptr != jump_ptr)
 			{
-				if (s[i] == '\\')
-					i += handle_escape_offset(s + i, in_quote_type);
-				(*new_data)[j++] = s[i++];
+				if (*ptr == '\\')
+					ptr += \
+						sizeof(char) * handle_escape_offset(ptr, in_quote_type);
+				(*(l->new_data_write_ptr++)) = *(ptr++);
 			}
-			if (s[i])
-				i++;
+			if (*ptr)
+				ptr++;
 		}
 		else
-			(*new_data)[j++] = s[i++];
-	(*new_data)[j] = '\0';
+			(*(l->new_data_write_ptr++)) = *(ptr++);
+	*(l->new_data_write_ptr) = '\0';
 }
 
 /*
@@ -115,12 +112,16 @@ static void		fill_new_data_str(char *s, char **new_data)
 
 void			clean_word_lexeme(char **data)
 {
-	char	*new_data;
+	t_lexeme_data_to_clean	new_lex_data;
 
-	new_data = malloc(ft_strlen(*data) * sizeof(char) + 1);
+	new_lex_data.raw_lexeme_data = *data;
+	new_lex_data.new_data_size = ft_strlen(*data) * sizeof(char) + 1;
+	new_lex_data.new_data = malloc(new_lex_data.new_data_size);
+	new_lex_data.new_data_write_ptr = new_lex_data.new_data;
 	log_trace("Filling new cleaned str of |%s|", *data);
-	fill_new_data_str(*data, &new_data);
+	fill_new_data_str(&new_lex_data);
 	free(*data);
-	*data = new_data;
+	*data = new_lex_data.new_data;
 	log_debug("Replaced old data w/ |%s|", *data);
+
 }

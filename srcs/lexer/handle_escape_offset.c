@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_backslash_escape.c                          :+:      :+:    :+:   */
+/*   handle_escape_offset.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:30:04 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 16:14:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 16:34:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int			handle_escape_offset(char *ptr, int in_quote_type)
 	if (in_quote_type == IN_SQUOTES)
 		return (0);
 	else if (in_quote_type == IN_DQUOTES)
-		return (handle_backslash_escape_dquote(ptr + 1));
+		return (handle_backslash_escape_dquote(ptr + sizeof(char)));
 	else if (in_quote_type == NOT_IN_QUOTES && *(ptr + sizeof(char)))
 	{
 		if (*(ptr + sizeof(char)) == '\n')
