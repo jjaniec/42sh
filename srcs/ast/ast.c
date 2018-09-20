@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 14:53:14 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 19:43:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,7 @@ t_ast	*create_node(size_t type, size_t type_details, char **data)
 	node->data = data;
 	return (node);
 }
-/*
-static void		print_one(t_lexeme *lex)
-{
-	if (lex)
-		ft_printf("lex->data = `%s`, lex = %p --> \n", lex->data, lex);
-	else
-		ft_printf("NULL\n\n");
-}
 
-static void		print_lexeme(t_lexeme *lex)
-{
-	while (lex)
-	{
-		print_one(lex);
-		lex = lex->next;
-	}
-	print_one(lex);
-}
-*/
 /*
 ** Main function of AST.
 ** Return NULL if there is a problem during the check / construction

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 14:52:39 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 18:13:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,6 @@
 
 static int	put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 			void(* const node_placer)(t_ast *, t_ast *));
-
-const size_t	g_token_bypass[] = {
-	TK_SCRIPT_THEN,
-	TK_SCRIPT_ELSE,
-	TK_SCRIPT_FI,
-	TK_SCRIPT_DO,
-	TK_SCRIPT_DONE,
-	0
-};
-const size_t	g_tokens[] = {
-	TK_SCRIPT_IF,
-	TK_SCRIPT_THEN,
-	TK_SCRIPT_ELSE,
-	TK_SCRIPT_WHILE,
-	TK_SCRIPT_DO,
-	TK_SCRIPT_CONDITION_IF,
-	TK_SCRIPT_CONDITION_WHILE,
-	0
-};
-const size_t	g_next_tokens[][4] = {
-	{TK_SCRIPT_FI, 0, 0, 0},
-	{TK_SCRIPT_ELIF, TK_SCRIPT_ELSE, TK_SCRIPT_FI, 0},
-	{TK_SCRIPT_FI, 0, 0, 0},
-	{TK_SCRIPT_DONE, 0, 0, 0},
-	{TK_SCRIPT_DONE, 0, 0, 0},
-	{TK_SCRIPT_THEN, 0, 0, 0},
-	{TK_SCRIPT_DO, 0, 0, 0},
-};
-void	(* const g_node_placer[])(t_ast *, t_ast *) = {
-	&node_placer_if,
-	&node_placer_classic,
-	&node_placer_classic,
-	&node_placer_while,
-	&node_placer_classic,
-	&node_placer_classic,
-	&node_placer_classic
-};
 
 static int	is_bypass_token(t_ast *node)
 {

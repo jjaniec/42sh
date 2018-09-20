@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 22:23:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 18:02:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	exec_tests(char **envp)
 {
 	(void)envp;
 	int		tk_less_tests_tmp_fd;
+
 
 	exec_diff("Simple OR", "/bin/echo a || /bin/echo b");
 	exec_diff("Simple AND", "/bin/echo a && /bin/echo b");

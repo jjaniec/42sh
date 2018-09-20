@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/10 14:14:12 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/20 19:30:40 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,11 +84,14 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_return.c \
 			builtin/builtin_test.c \
 			builtin/is_builtin.c \
-			script/script.c \
+			script/script_lexer.c \
 			script/script_ast_construct.c \
 			script/find_end_lexeme.c \
+			script/find_end_lexeme_solo.c \
+			script/find_lexeme_compete.c \
 			script/script_in_exec.c \
 			script/is_script_complete.c \
+			init_globals_config.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \

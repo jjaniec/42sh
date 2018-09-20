@@ -6,14 +6,13 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/16 13:44:13 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 19:47:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCRIPT_H
 # define SCRIPT_H
 # include <twenty_one_sh.h>
-
 
 # define T_SCRIPT_LOGICAL 5
 
@@ -24,7 +23,6 @@
 # define TK_SCRIPT_WHILE 54
 
 
-
 # define T_SCRIPT_CONTAINER 6
 
 # define TK_SCRIPT_THEN 60
@@ -33,22 +31,42 @@
 # define TK_SCRIPT_DONE 63
 
 
-
 # define T_SCRIPT_CONDITION 7
 
 # define TK_SCRIPT_CONDITION_IF 70
 # define TK_SCRIPT_CONDITION_WHILE 71
 
-
-extern const size_t	g_cant_begin_with[7];
+/*
+** SCRIPT LEXER
+*/
 
 void		script_lexemes(t_lexeme *lexemes);
+t_lexeme	*is_keyword(t_lexeme *lex);
+
+
+/*
+** SCRIPT VALIDATION
+*/
+
 int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
 t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token);
-t_lexeme	*find_end_lexeme(t_lexeme *start, const size_t end_token[]);
+
+
+/*
+** SCRIPT AST
+*/
 
 t_ast		*script_create_node(t_lexeme *lex);
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);
+
+t_lexeme	*find_end_lexeme(t_lexeme *start, const size_t end_token[]);
+t_lexeme	*find_lexeme_compete(t_lexeme *lex, const size_t end_token[]);
+t_lexeme	*find_end_lexeme_solo(t_lexeme *start, const size_t end_token);
+
+
+/*
+** SCRIPT EXEC
+*/
 
 void		script_in_exec(t_ast *node, t_exec *exe);
 
