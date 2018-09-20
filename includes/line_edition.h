@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/18 17:11:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:10:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,11 @@ int		get_le_debug_status(int mode, int new_value);
 # define LE_CTRL_P (16)
 # define LE_CTRL_U (21)
 # define LE_CTRL_DASH (31)
-# define LE_CTRL_OPEN_SQUARE_BRACKET (27) - 23
+# define LE_CTRL_OPEN_SQUARE_BRACKET (27)
 # define LE_CTRL_CLOSE_SQUARE_BRACKET (29)
-# define LE_CTRL_D (4) + 1
+# define LE_CTRL_D (4)
 # define LE_CTRL_L (12)
 
-//prompt types
-enum e_prompt
-{
-	PROMPT_DEFAULT,
-	PROMPT_SUBPROMPT_SQUOTE,
-	PROMPT_SUBPROMPT_DQUOTE,
-	PROMPT_SUBPROMPT_HEREDOC
-};
-
-# define PROMPT_DEFAULT_STRING "%> "
-# define PROMPT_SUBPROMPT_QUOTE_STRING "> "
-# define PROMPT_SUBPROMPT_HEREDOC_STRING "heredoc> "
 /*
 	Heredoc
 	AND
@@ -90,11 +78,14 @@ enum e_prompt
 /*
 **	Things
 */
+# define LE_DEFAULT_PROMPT (0)
 # define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 # define LE_SPECIAL_CASE (42)
 
-
+/*
+**	Data type representing a key number
+*/
 typedef uint64_t t_kno;
 
 /*
@@ -129,12 +120,8 @@ typedef enum e_cross_screen t_cross_screen;
 struct s_le_state
 {
 	bool			opt_colosyn;
-
 	bool			le_is_init;
-
-	//size_t			prompt_len; // pas utilise je pense
-	enum e_prompt	prompt_type;
-	
+	int				prompt_type;
 };
 
 /*
@@ -144,17 +131,20 @@ struct s_le_state
 **	up : cursor moves one line up
 **	dc : delete character under the cursor
 **	cl : clear screen
-**
+**	md : begin bold mode
+**	me : end bold mode
 */
 
 struct s_le_termcaps
 {
-	const char	*nd; // Déplacer le curseur vers la droite d’un caractère
-	const char	*le; // Déplacement du curseur d’un caractère vers la gauche
-	const char	*_do; // Descendre le curseur d’une ligne
-	const char	*up; // Déplacer le curseur d’une ligne vers le haut
-	const char	*dc; // delete character
-	const char	*cl; // clear screen
+	const char	*nd;
+	const char	*le;
+	const char	*_do;
+	const char	*up;
+	const char	*dc;
+	const char	*cl;
+	const char	*md;
+	const char	*me;
 };
 
 /*
@@ -308,7 +298,8 @@ void	refresh_colosyn(struct s_line *le, char *cmd);
 /*
 **	init_le
 */
-void					init_line_edition_attributes(struct s_line *le);
+void					init_line_edition_attributes(struct s_line *le, 
+													 int prompt_type);
 struct s_le_termcaps	*init_termcaps_strings(void);
 void					set_term_attr(t_set_term mode);
 
@@ -362,12 +353,7 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 
 
 
-
-
 /*
-	NOTES
-	
-
 	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
@@ -395,29 +381,6 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 		!
 	}
 	
-
-*/
-
-
-/*
-	CTRL D	
-
-	POUR LE PROMPT NORMAL
-	{
-		si le curseur est sur un caractere, meme effet que la touche delete
-		
-		si le curseur n'est pas sur un carac, donc il est en fin de cmdline,
-		il ne se passe rien
-
-		si la ligne est vide, le shell exit
-	}
-
-	POUR TOUS LES SUBPROMPTS
-	{
-		si cmd vide = nothing happens
-		si cmd est pas vide, et curseur est au bout = nothing happens
-		si cmd est pas vide et curseur au milieu = comme la touche delete
-	}
 
 */
 
