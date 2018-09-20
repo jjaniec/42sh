@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 12:44:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 17:38:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static char		*get_valid_input(t_lexeme **lexemes)
 		UNMATCHED_QUOTE_ERR)
 	{
 		free_lexemes(lexemes_ret);
-		subp_string(&input);
+		if (!subpp_string(&input))
+			return (NULL);
 	}
 	*lexemes = lexemes_ret;
 	return (input);
@@ -63,7 +64,7 @@ static int		twenty_one_sh(char *input, char **envp, \
 	ast_root = ast(lexemes);
 	if (!ast_root)
 	{
-		free_lexemes(lexemes);
+		//free_lexemes(lexemes);
 		return (1);
 	}
 	exe = create_exec((const char **)envp);
@@ -91,7 +92,7 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 	while (1)
 	{
 		if (!(input = get_valid_input(&lex)))
-			return ;
+			continue ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		twenty_one_sh(input, envp, opt_list, char_opt_index);
@@ -117,6 +118,7 @@ int			main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(0);
 	}
+	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))

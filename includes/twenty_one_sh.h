@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 12:42:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 17:34:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ extern const char	*g_prompts[10];
 
 int			prompt_show(const char *prompt);
 
-void		subp_string(char **s);
+int			subpp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
-void		subp_heredoc(t_lexeme *lex, char *eof_word);
+int			subp_heredoc(t_lexeme *lex, char *eof_word);
 
 void		ft_free_argv(char **tab_);
 

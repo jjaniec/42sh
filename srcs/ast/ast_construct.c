@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_construct.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/14 11:37:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 17:35:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
 		if (lvl_lex(lex) == 4)
 		{
 			flag_heredoc_EOF = 1;
-			subp_heredoc(lex, lex->next->data);
+			if (!subp_heredoc(lex, lex->next->data))
+				return (NULL);
 		}
 		root = place_new_node(root, new);
 		lex = lex->next;

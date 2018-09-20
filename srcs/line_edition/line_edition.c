@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/20 12:49:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 17:56:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,25 @@ static void		le_debug_infos(void)
 }
 
 
-static void		read_key(char key[LE_KEY_SIZE])
+static int		read_key(char key[LE_KEY_SIZE])
 {
 	ssize_t read_ret;
 
+//labas:
+	errno = 0;
 	read_ret = read(STDIN_FILENO, key, LE_KEY_SIZE - 1);
+
+	if (errno == EINTR)
+	{
+		return 0;
+	}
+
 	if (read_ret == -1)
 	{
 		write(STDERR_FILENO, "\nError while reading on stdin\n", 30);
 		perror("read() - perror() report");
 	}
-
+return 1;
 	// check les differentes erreurs de read(), une coupure a cause d'un signal ...
 }
 
@@ -91,7 +99,12 @@ char			*line_edition(int prompt_type)
 	while ("cest ta merge la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
-		read_key(key);
+		if (! read_key(key) )
+		{
+			// free ?
+			set_term_attr(LE_SET_OLD);
+			return NULL;
+		}
 
 		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);

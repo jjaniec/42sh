@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 13:25:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 17:30:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,22 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 	if (node && last_pipe_node)
 		close_child_pipe_fds(node, last_pipe_node);
 	status = -2;
+	errno = 0;
 	waited_pid = waitpid(child_pid, &status, 0);
+	
+	//dprintf(1, "GOOD : %d\n", WIFSIGNALED(status));
+	//dprintf(1, "GOOD : %d\n", WTERMSIG(status));
 	if (waited_pid == -1)
 	{
-		log_error("Wait returned -1");
-		ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+		//if (WTERMSIG(status))
+		if (errno != EINTR)
+		{
+			log_error("Wait returned -1");
+			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+			return (status);
+		}
+		return (130);
+		//perror("perror waitpid");
 	}
 	if (waited_pid != -1 && waited_pid != child_pid)
 		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
@@ -143,6 +154,7 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 			g_cmd_status.cmd_pid = child_pid;
 			log_trace("Forked process pid: %d", child_pid);
 			exe->ret = parent_process(child_pid, node, last_pipe_node);
+			//dprintf(1, "-> %d\n", exe->ret);
 		}
 	}
 	else

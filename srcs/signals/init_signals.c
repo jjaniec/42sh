@@ -38,9 +38,17 @@
 // NOT DONE YET
 void	init_signals(void)
 {
-	sigset_t    set; (void)set;
+	struct sigaction	new;
 
-	sigemptyset(&set);
+	new.sa_flags = 0;
+
+	new.sa_handler = &(handle_sigint);
+	sigfillset(&(new.sa_mask));
+	sigaction(SIGINT, &new, NULL);
+
+
+	new.sa_handler = &(mhandle_useless_signals);
+	sigaction(SIGFPE, &new, NULL);
 	
 
 }
@@ -52,9 +60,10 @@ void	init_signals(void)
 
 
 	POUR LES "je touche pas", les recevoir ca casse les tcaps.
-	Pour regler ca je peux catch le sig, restore les tcaps, puis
-	restaurer le default handler du sig en question, puis envoyer (raise())
+	Pour regler ca je peux catch le sig, si une commande est en running je la kill,
+	puis jerestore les tcaps, puis restaurer le default handler du sig en question, puis envoyer (raise())
 	le sig au 42sh. Est-ce utile ? En tout cas c'est pas un gros travail supplementaire.
+
 
 	HUP je touche pas
 	TRAP je touche pas

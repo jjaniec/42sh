@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 17:16:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 17:40:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ int		prompt_show(const char *prompt)
 		return (ft_strlen(g_prompts[0]));
 }
 
-void	subp_string(char **s)
+int		subpp_string(char **s)
 {
 	char	*new;
 	char	*input;
 
 	input = line_edition(NEED_SUBPROMPT_QUOTES);
+	if (!input)
+		return (0);
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;
+	return (1);
 }
 
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
@@ -43,6 +46,8 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	t_lexeme	*save;
 
 	input = line_edition(need_subprompt);
+	if (!input)
+		return (NULL);
 	ft_putchar('\n');
 	lexer(input, &new, NULL);
 	if (!lex)
@@ -85,7 +90,7 @@ static int	there_is_no_cr(const char *input)
 	return (0);
 }
 
-void	subp_heredoc(t_lexeme *lex, char *eof_word)
+int		subp_heredoc(t_lexeme *lex, char *eof_word)
 {
 	char	*input;
 	char	*final_input;
@@ -100,6 +105,8 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	while (!input)
 	{
 		input = line_edition(NEED_SUBPROMPT_HEREDOC);
+		if (!input)
+			return (0);
 		ft_putchar('\n');
 		final_input = ft_strjoin(final_input, input);
 		while (there_is_no_cr(input))
@@ -118,4 +125,5 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	}
 	//final[ft_strlen(final) - 1] = '\0';
 	lex->next->data = final;
+	return(1);
 }

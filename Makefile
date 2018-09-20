@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/20 12:42:47 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/20 18:32:42 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,6 +119,8 @@ SRC_NAME = 	is_separator.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
 			signals/init_signals.c \
+			signals/handle_sigint.c \
+			signals/handle_useless_signals.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 12:34:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/20 13:05:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 18:32:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ extern struct s_cmd_status  g_cmd_status;
 
 
 void    init_signals(void);
+void	handle_sigint(int sig);
+
+void	handle_useless_signals(int sig);
 
 #endif
