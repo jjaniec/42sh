@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/19 14:05:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 14:44:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 	if (!good_start(lex))
 		return (0);
 	//Check if the word following an IF or WHILE is a T_CONDITION
-	if ((next_token == TK_SCRIPT_THEN && lex->type_details != TK_SCRIPT_CONDITION_IF)
+	/*if ((next_token == TK_SCRIPT_THEN && lex->type_details != TK_SCRIPT_CONDITION_IF)
 	|| (next_token == TK_SCRIPT_DO && lex->type_details != TK_SCRIPT_CONDITION_WHILE))
-		return (0);
+		return (0);*/
 	//Loop over all expr when not a IF nor a WHILE nor an expected next_token
 	while (lex && ((lex->type_details != next_token && next_token != 0) || next_token == 0))
 	{
 		if (lex->type_details == TK_SCRIPT_IF)
 		{
-			tmp = is_script_complete(lex->next, TK_SCRIPT_THEN);
+			tmp = is_script_complete(lex->next, TK_SCRIPT_CONDITION_IF);
 			if (!tmp)
 				return (return_error(lex));
 			else
@@ -56,12 +56,13 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 		}
 		else if (lex->type_details == TK_SCRIPT_WHILE) 
 		{
-			tmp = is_script_complete(lex->next, TK_SCRIPT_DO);
+			tmp = is_script_complete(lex->next, TK_SCRIPT_CONDITION_WHILE);
 			if (!tmp)
 				return (return_error(lex));
 			else
 				lex = tmp;
 		}
+		//We are in a next_token == THEN
 		else if (next_token == TK_SCRIPT_ELIF && (lex->type_details == TK_SCRIPT_ELSE \
 		|| lex->type_details == TK_SCRIPT_ELIF || lex->type_details == TK_SCRIPT_FI))
 		{
@@ -70,25 +71,32 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 			if (lex->type_details == TK_SCRIPT_ELSE)
 				return (is_script_complete(lex->next, TK_SCRIPT_FI));
 			if (lex->type_details == TK_SCRIPT_FI)
-				return (lex);
+				return (lex->next);
 		}
+		//else if (lex->type_details > TK_SCRIPT && \
+		//((lex->type_details != next_token && next_token != 0) || next_token == 0))
+		//	return (return_error(lex));
+		else if (next_token != TK_SCRIPT_FI && lex->type_details == TK_SCRIPT_FI)
+			return (return_error(lex));
 		lex = lex->next;
 	}
 	//The next_token is found
 	if (lex && lex->type_details == next_token && next_token != 0)
 	{
-		if (next_token == TK_SCRIPT_IF || next_token == TK_SCRIPT_ELIF)
-			return (is_script_complete(lex->next, TK_SCRIPT_THEN));
+		if (next_token == TK_SCRIPT_ELIF)
+			return (is_script_complete(lex->next, TK_SCRIPT_CONDITION_IF));
 		if (next_token == TK_SCRIPT_THEN)
 			return (is_script_complete(lex->next, TK_SCRIPT_ELIF));
 		if (next_token == TK_SCRIPT_ELSE)
 			return (is_script_complete(lex->next, TK_SCRIPT_FI));
 		if (next_token == TK_SCRIPT_FI)
 			return (lex);
-		if (next_token == TK_SCRIPT_WHILE)
-			return (is_script_complete(lex->next, TK_SCRIPT_DO));
 		if (next_token == TK_SCRIPT_DO)
 			return (is_script_complete(lex->next, TK_SCRIPT_DONE));
+		if (next_token == TK_SCRIPT_CONDITION_IF)
+			return (is_script_complete(lex->next, TK_SCRIPT_THEN));
+		if (next_token == TK_SCRIPT_CONDITION_WHILE)
+			return (is_script_complete(lex->next, TK_SCRIPT_DO));
 		if (next_token == TK_SCRIPT_DONE)
 			return (lex);
 	}
