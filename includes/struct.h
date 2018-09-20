@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 18:28:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 19:17:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ typedef struct			s_lexeme
 **   new data string size when realloc'ing to store an expansion data
 */
 
-typedef struct			s_lexeme_data_to_clean
+typedef struct			s_lexeme_clean_data
 {
 	char				*raw_lexeme_data;
 	char				**raw_lexeme_read_ptr;
-	char				*new_data;
-	char				*new_data_write_ptr;
-	size_t				new_data_size;
-}						t_lexeme_data_to_clean;
+	char				*clean_data;
+	char				*clean_data_write_ptr;
+	size_t				clean_data_size;
+}						t_lexeme_clean_data;
 
 typedef struct			s_ast
 {

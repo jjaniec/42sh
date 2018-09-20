@@ -6,11 +6,14 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 17:08:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 20:34:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
+
+# define EXPANSION_TESTS_ENVVAR_NAME	"EXP_TESTS"
+# define EXPANSION_TESTS_ENVVAR_DATA	"42"
 
 static void	test_ll(char *test_name, char *input, ...)
 {
@@ -161,4 +164,33 @@ void	lexer_tests(void)
 		"\n", T_CTRL_OPT, TK_NEWLINE, ">|", T_REDIR_OPT, TK_CLOBBER, "\n", T_CTRL_OPT, TK_NEWLINE, \
 		"<", T_REDIR_OPT, TK_LESS, "\n", T_CTRL_OPT, TK_NEWLINE, "'", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, \
 		"<<-", T_REDIR_OPT, TK_DLESSDASH);
+
+	putenv(EXPANSION_TESTS_ENVVAR_NAME"="EXPANSION_TESTS_ENVVAR_DATA);
+	test_ll("Expansions 1 - Basic", "ls $"EXPANSION_TESTS_ENVVAR_NAME, \
+		"ls", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+	test_ll("Expansions 2 - Basic 2 - escaped expansions", "ls adadad\\$"EXPANSION_TESTS_ENVVAR_NAME"\\$"EXPANSION_TESTS_ENVVAR_NAME, \
+		"ls", T_WORD, TK_DEFAULT, "adadad$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME, T_WORD, TK_DEFAULT);
+	test_ll("Expansions 3 - Basic 3", "ls adadad$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME, \
+		"ls", T_WORD, TK_DEFAULT, "adadad"EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+	test_ll("Expansions 4 - Expansion in squote", "ls '$"EXPANSION_TESTS_ENVVAR_NAME"'", \
+		"ls", T_WORD, TK_DEFAULT, "$"EXPANSION_TESTS_ENVVAR_NAME, T_WORD, TK_DEFAULT);
+	test_ll("Expansions 5 - Expansion in dquote", "ls \"$"EXPANSION_TESTS_ENVVAR_NAME"\"", \
+		"ls", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+	test_ll("Expansions 6 - Expansion backslash stop w/o quotes", "ls $HO\\ME", \
+		"ls", T_WORD, TK_DEFAULT, "ME", T_WORD, TK_DEFAULT);
+	test_ll("Expansions 7 - Expansion backslash stop in squotes", "ls '$HO\\ME'", \
+		"ls", T_WORD, TK_DEFAULT, "$HO\\ME", T_WORD, TK_DEFAULT);
+	test_ll("Expansions 8 - Expansion backslash stop in dquotes", "ls \"$HO\\ME\"", \
+		"ls", T_WORD, TK_DEFAULT, "\\ME", T_WORD, TK_DEFAULT);
+	test_ll("Expansions 9 - Fake expansion - no quotes", "\\$HOME", \
+		"$HOME", T_WORD, TK_DEFAULT);
+	test_ll("Expansions 10 - Fake expansion - dquotes", "\"\\$HOME\"", \
+		"$HOME", T_WORD, TK_DEFAULT);
+	test_ll("Expansions 11 - Fake expansion - squotes", "'\\$HOME'", \
+		"\\$HOME", T_WORD, TK_DEFAULT);
+	test_ll("Expansions 12 - squotes", "dawiodjawid'$HOME'$"EXPANSION_TESTS_ENVVAR_NAME, \
+		"dawiodjawid$HOME"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+	test_ll("Expansions 13 - squotes - empty expansion", "dawiodjawid$LOL'$HOME'$"EXPANSION_TESTS_ENVVAR_NAME"", \
+		"dawiodjawid$HOME"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+
 }

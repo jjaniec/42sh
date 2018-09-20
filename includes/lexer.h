@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 17:42:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 19:17:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,8 @@ int						handle_escape_offset(char *ptr, int in_quote_type);
 
 void					free_lexemes(t_lexeme *ll);
 
-char					*concat_expansion(char *exp_begin_ptr, char *exp_end_ptr, \
-							char *exp_val, char *lex_data);
-
-void					handle_dollar_expansion(t_lexeme_data_to_clean *l, char **env);
+void					handle_dollar_expansion(t_lexeme_clean_data *l, char **env);
 
 char					*get_expansion_end(char *str);
-
 
 #endif
