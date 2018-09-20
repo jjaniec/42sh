@@ -6,18 +6,25 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:45:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 16:46:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 13:36:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-char		*get_expansion_end(char *str, char *lexeme_end_ptr)
+static int	is_expansion_end_char(char c)
+{
+	if (c == '$' || c == '\\')
+		return (1);
+	return (0);
+}
+
+char		*get_expansion_end(char *str)
 {
 	char		*r;
 
 	r = str + 1;
-	while (*r && *r != '$' && r != lexeme_end_ptr)
+	while (*r && !is_expansion_end_char(*r))
 		r++;
 	log_fatal("expansion end |%s|", r);
 	return (r);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:30:04 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 20:16:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 16:14:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,29 @@
 **		onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_02_01
 */
 
-static void	handle_backslash_escape_dquote(char *s, int *pos)
+static int	handle_backslash_escape_dquote(char *ptr)
 {
-	if (s[*pos + 1] == '$' || s[*pos + 1] == '`' || \
-		s[*pos + 1] == '"' || s[*pos + 1] == '\\' || \
-		s[*pos + 1] == '\n')
-		*pos += 1;
+	if (ft_strchr("$`\"\\\n", *ptr))
+		return (1);
+	return (0);
 }
 
 /*
 ** Handle char escaping depending on quote type
 */
 
-void		handle_backslash_escape(char *s, int *pos, int in_quote_type)
+int			handle_escape_offset(char *ptr, int in_quote_type)
 {
 	if (in_quote_type == IN_SQUOTES)
-		*pos += 0;
+		return (0);
 	else if (in_quote_type == IN_DQUOTES)
-		handle_backslash_escape_dquote(s, pos);
-	else if (in_quote_type == NOT_IN_QUOTES && s[*pos + 1])
+		return (handle_backslash_escape_dquote(ptr + 1));
+	else if (in_quote_type == NOT_IN_QUOTES && *(ptr + sizeof(char)))
 	{
-		if (s[*pos + 1] == '\n')
-			*pos += 2;
+		if (*(ptr + sizeof(char)) == '\n')
+			return (2);
 		else
-			*pos += 1;
+			return (1);
 	}
+	return (0);
 }

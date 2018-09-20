@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 19:48:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 16:00:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 ** and skip all chars in quotes instead stopping to next $IFS separator
 */
 
-static int	skip_quotes_substring(char *s, int *pos, int start)
+static int	skip_quotes_substring(char *s, int *pos)
 {
 	char	*quote_pos;
 
-	quote_pos = has_matching_quote(s, start);
+	quote_pos = has_matching_quote(s + *pos, s[*pos]);
 	if (!(quote_pos))
 		return (UNMATCHED_QUOTE_ERR);
 	*pos = ((quote_pos - s) / sizeof(char));
@@ -45,10 +45,10 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]))
 	{
 		if (s[*pos] == '\\')
-			handle_backslash_escape(s, pos, NOT_IN_QUOTES);
+			*pos += handle_escape_offset(s + *pos, NOT_IN_QUOTES);
 		else if (s[*pos] == '\'' || s[*pos] == '"')
 		{
-			if (skip_quotes_substring(s, pos, *pos))
+			if (skip_quotes_substring(s, pos))
 				return (UNMATCHED_QUOTE_ERR);
 		}
 		if (s[*pos])
@@ -59,7 +59,8 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 		log_fatal("Before clean: |%s|", s + start);
 		*data = ft_strsub(s, start, *pos - start);
 		if (*data && (ft_strchr(*data, '\'') || \
-			ft_strchr(*data, '"') || ft_strchr(*data, '\\')))
+			ft_strchr(*data, '"') || ft_strchr(*data, '\\') || \
+			ft_strchr(*data, '$')))
 			clean_word_lexeme(data);
 	}
 	else

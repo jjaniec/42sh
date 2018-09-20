@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 20:12:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 16:16:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@
 **            != NULL
 */
 
-static int		is_quote_removable(char **s, int *i, char **jump_ptr,
+static int		is_quote_removable(char *s, char **jump_ptr,
 				int *quote_type)
 {
 	char	*tmp;
 	char	c;
+	char	*ptr;
 
-	c = (*s)[*i];
 	tmp = NULL;
-	if ((tmp = has_matching_quote((*s), *i)))
+	ptr = s;
+	c = *ptr;
+	if ((tmp = has_matching_quote(ptr, c)))
 	{
 		if (jump_ptr)
 			*jump_ptr = tmp;
@@ -64,7 +66,7 @@ static int		is_expansion_char(char c, void **callback)
 ** $new_data: ptr to new data string
 */
 
-static void		fill_new_data_str(char *s, char *new_data)
+static void		fill_new_data_str(char *s, char **new_data)
 {
 	int		i;
 	int		j;
@@ -84,25 +86,25 @@ static void		fill_new_data_str(char *s, char *new_data)
 		}
 		else if (s[i] == '\\')
 		{
-			handle_backslash_escape(s, &i, 0);
-			new_data[j++] = s[i++];
+			i += handle_escape_offset(s + i, NOT_IN_QUOTES);
+			(*new_data)[j++] = s[i++];
 		}
 		else if (((s)[i] == '\'' || (s)[i] == '"') && \
-			is_quote_removable(&s, &i, &jump_ptr, &in_quote_type))
+			is_quote_removable(s + i, &jump_ptr, &in_quote_type))
 		{
 			i++;
 			while (s[i] && (s + i) != jump_ptr)
 			{
 				if (s[i] == '\\')
-					handle_backslash_escape(s, &i, in_quote_type);
-				new_data[j++] = s[i++];
+					i += handle_escape_offset(s + i, in_quote_type);
+				(*new_data)[j++] = s[i++];
 			}
 			if (s[i])
 				i++;
 		}
 		else
-			new_data[j++] = s[i++];
-	new_data[j] = '\0';
+			(*new_data)[j++] = s[i++];
+	(*new_data)[j] = '\0';
 }
 
 /*
@@ -117,7 +119,7 @@ void			clean_word_lexeme(char **data)
 
 	new_data = malloc(ft_strlen(*data) * sizeof(char) + 1);
 	log_trace("Filling new cleaned str of |%s|", *data);
-	fill_new_data_str(*data, new_data);
+	fill_new_data_str(*data, &new_data);
 	free(*data);
 	*data = new_data;
 	log_debug("Replaced old data w/ |%s|", *data);
