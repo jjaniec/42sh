@@ -12,6 +12,25 @@
 
 #include <twenty_one_sh.h>
 
+static char		*get_last_path(char *path, t_autoc *autoc)
+{
+	int	i;
+	int	j;
+	char	*res;
+
+	i = ft_strlen(path);
+	j = 0;
+	while (path[i] != '/')
+		i--;
+	autoc->search = ft_strdup(path + i + 1);
+	if (i == 0)
+		return (ft_strdup("/"));
+	res = malloc(sizeof(char) * (i + 1));
+	res = ft_strncpy(res, path, i + 1);
+	res[i] = '\0';
+	return (res);
+}
+
 static char		*autoc_get_path(struct s_line *le)
 {
 	char *res;
@@ -53,7 +72,11 @@ char				**autoc_dir(t_autoc *autoc)
 		items = dir_get_items(path);
 	}
 	else if (ft_strchr(path, '/'))
-		ft_putstr("N");
+	{
+		tmp = get_last_path(path, autoc);
+		items = dir_get_items_search(tmp, autoc);
+		free(tmp);
+	}
 	else
 	{
 		autoc->search = ft_strdup(path);
