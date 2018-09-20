@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/19 15:34:42 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/20 12:42:47 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,9 +79,6 @@ SRC_NAME = 	is_separator.c \
 			line_edition/actionk/delete_char_into_cmdline_delete_mode.c \
 			line_edition/tools/get_terminal_nb_col.c \
 			line_edition/init_le/init_line_edition_attributes.c \
-			line_edition/signals/init_signals.c \
-			line_edition/signals/handle_sigint.c \
-			line_edition/signals/handle_sigwinch.c \
 			line_edition/init_le/init_termcaps_strings.c \
 			line_edition/print/insert_and_print_character_into_cmdline.c \
 			line_edition/tools/insert_char_into_array.c \
@@ -121,6 +118,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/is_builtin.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
+			signals/init_signals.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
@@ -156,7 +154,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ 
+			syntax_highlighting/ signals/ 
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

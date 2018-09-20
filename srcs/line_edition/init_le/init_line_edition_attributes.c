@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 17:02:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 13:04:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		init_termcaps(void)
 static void			init_once(struct s_line *le)
 {
 	init_termcaps();
-	init_signals();
+
 	le->tcaps = init_termcaps_strings();
 
 	if ((le->history = malloc(sizeof(struct s_history))) == NULL)

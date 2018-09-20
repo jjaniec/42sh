@@ -6,11 +6,13 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 16:49:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 12:44:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+struct s_cmd_status	g_cmd_status = {.cmd_running = false};
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},

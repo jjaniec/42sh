@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 14:56:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/20 13:24:19 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct			s_exec
 	int		ready_for_exec;
 	char	**envp;
 	char	**tmp_envp;
+
 }						t_exec;
 
 /*

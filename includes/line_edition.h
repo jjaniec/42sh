@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 19:10:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 12:43:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,11 +314,6 @@ unsigned int	print_str_on_term(const char *str,
 								  unsigned int tmp_current_cursor_pos,
 								  struct s_line *le, int foo);
 
-
-/*
-**	signals
-*/
-void    init_signals(void);
 
 /*
 **	tools

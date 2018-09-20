@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 22:25:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/20 13:25:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 			child_process(cmd, envp, exe, node);
 		else
 		{
+			g_cmd_status.cmd_running = true;
+			g_cmd_status.cmd_pid = child_pid;
 			log_trace("Forked process pid: %d", child_pid);
 			exe->ret = parent_process(child_pid, node, last_pipe_node);
 		}
