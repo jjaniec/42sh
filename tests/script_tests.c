@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 20:16:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 14:58:27 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ static void tests(void)
 	test_framework("if [ 0 ] echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ] then echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE fi", error_msg, "ERROR - Simple IF");
+	test_framework("if; [ 0 ]; then echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ]; then; echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if ; then echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
@@ -109,6 +111,24 @@ static void tests(void)
 	test_framework("if [ 0 ]; then then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
 	test_framework("if [ 0 ]; then; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
 	test_framework("if [ 0 ]; then echo NOPE; fi; fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then fi; echo NOPE; fi; echo", error_msg, "ERROR - Duplicate token");
+	
+	test_framework("echo ABC; then; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; then echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; do; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; do echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; done; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; done echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; fi echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; fi; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; if echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; if; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; elif echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; elif; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; else echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; else; echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; while echo DEF", error_msg, "ERROR - Token inside statement");
+	test_framework("echo ABC; while; echo DEF", error_msg, "ERROR - Token inside statement");
 
 	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Builtin test");
 	test_framework("if [ 0; then echo OK; fi", "OK", "Builtin test");
@@ -373,7 +393,6 @@ static void tests(void)
 			elif [ 0 ]; then \
 				echo -6; \
 			fi; \
-		done; \
 		echo 11;\
 		", "1\n2\n3\n4\n0\n5\n6\n7\n8\n9\n9.5\n10\n11", "WHILE inside ultimate IF-ELIF-ELSE");
 }

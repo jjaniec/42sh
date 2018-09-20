@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/20 14:44:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 14:56:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token)
 			if (lex->type_details == TK_SCRIPT_FI)
 				return (lex->next);
 		}
-		//else if (lex->type_details > TK_SCRIPT && \
-		//((lex->type_details != next_token && next_token != 0) || next_token == 0))
-		//	return (return_error(lex));
-		else if (next_token != TK_SCRIPT_FI && lex->type_details == TK_SCRIPT_FI)
+		else if (lex->type_details > TK_SCRIPT && \
+		((lex->type_details != next_token && next_token != 0) || next_token == 0))
 			return (return_error(lex));
+		//else if (next_token != TK_SCRIPT_FI && lex->type_details == TK_SCRIPT_FI)
+		//	return (return_error(lex));
 		lex = lex->next;
 	}
 	//The next_token is found

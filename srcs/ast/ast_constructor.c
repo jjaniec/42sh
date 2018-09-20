@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 14:38:49 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 14:52:39 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, const size_t next_t
 	t_lexeme	*end_lexeme;
 
 	end_lexeme = find_end_lexeme(lex, next_tokens);
+	if (!end_lexeme)
+		return (NULL);
 	lex = lex->next;
 	log_debug("lex->data = %s / end_lexeme->data = %s", lex->data, end_lexeme->data);
 	if (lex == end_lexeme)
@@ -184,6 +186,8 @@ t_ast		*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 				prepare_argv(*lex, flag_heredoc_EOF));
 		save = *lex;
 		*lex = need_subast(*lex, &root, new, node_placer);
+		if (!*lex)
+			return (NULL);
 		if (*lex != save)
 			continue;
 		flag_heredoc_EOF = put_node(lex, &root, new, node_placer);
