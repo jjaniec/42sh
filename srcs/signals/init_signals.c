@@ -39,6 +39,14 @@
 void	init_signals(void)
 {
 	struct sigaction	new;
+	unsigned int		i;
+	const int			sig_array[27] = 
+	{
+		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
+		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
+		SIGTSTP, SIGCONT, SIGCHLD, SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
+		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
+	};
 
 	new.sa_flags = 0;
 
@@ -47,9 +55,17 @@ void	init_signals(void)
 	sigaction(SIGINT, &new, NULL);
 
 
-	new.sa_handler = &(mhandle_useless_signals);
-	sigaction(SIGFPE, &new, NULL);
+
+	// others
+
+	new.sa_handler = &(handle_useless_signals);
 	
+	i = 0;
+	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
+	{
+		sigaction(sig_array[i], &new, NULL);
+		++i;
+	}
 
 }
 

@@ -20,7 +20,7 @@ struct s_cmd_status
 {
 	bool    cmd_running;
 	pid_t   cmd_pid;
-};
+};  
 
 extern struct s_cmd_status  g_cmd_status;
 
