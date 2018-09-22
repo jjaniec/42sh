@@ -4,10 +4,12 @@ notifications:
   email: false
   slack: 42born2code:7VKgN0wy7keo3PVkYmKvkbJf
 before_install:
-    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip build-wrapper-linux-x86.zip && cp build-wrapper-linux-x86/libinterceptor-x86_64.so build-wrapper-linux-x86/libinterceptor-haswell.so; else brew update; fi;
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip build-wrapper-linux-x86.zip && cp build-wrapper-linux-x86/libinterceptor-x86_64.so build-wrapper-linux-x86/libinterceptor-haswell.so;
+      else brew update && wget https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip && unzip build-wrapper-macosx-x86.zip;
+      fi;
 after_script:
-    - bash <(curl -s https://codecov.io/bash)
-    - sonar-scanner
+    - bash <(curl -s https://codecov.io/bash) -F unittests
+    - sonar-scanner -X
 git:
   depth: 3
 addons:
@@ -108,8 +110,8 @@ matrix:
         #   env: CXX=clang-5.0
 script: >
   if [ $TRAVIS_OS_NAME == linux ];
-  then ./build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output make CC=$CXX all tests;
-  else make CC=$CXX tests;
+  then ./build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output make CC=$CXX tests;
+  else ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make CC=$CXX tests;
   fi;
   if [ $TRAVIS_OS_NAME == osx ];
   then ./21sh_tests;
