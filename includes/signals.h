@@ -20,6 +20,9 @@ struct s_cmd_status
 {
 	bool    cmd_running;
 	pid_t   cmd_pid;
+	struct s_line *keep;
+	int keep_prompt_type;
+	bool	resize_happened;
 };  
 
 extern struct s_cmd_status  g_cmd_status;
@@ -27,7 +30,7 @@ extern struct s_cmd_status  g_cmd_status;
 
 void    init_signals(void);
 void	handle_sigint(int sig);
-
+void	handle_sigwinch(int sig);
 void	handle_useless_signals(int sig);
 
 #endif

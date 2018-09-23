@@ -27,20 +27,20 @@ void	handle_sigint(int sig)
 	
 	if (g_cmd_status.cmd_running == true)
 	{
-		le_debug("%s", "SIGINT KILL\n");
+		//le_debug("%s", "SIGINT KILL\n");
 		if (kill(g_cmd_status.cmd_pid, sig) == -1)
 		{
 			write(STDERR_FILENO, "21sh: Cannot kill pid:", 22);
 			ft_putnbr_fd(g_cmd_status.cmd_pid, STDERR_FILENO);
 			write(STDERR_FILENO, "\n", 1);
 		}
-		le_debug("%s\n", "KILL SIGINT WAS SENT");
+		//le_debug("%s\n", "KILL SIGINT WAS SENT");
 		write(STDOUT_FILENO, "\n", sizeof(char));
 	}
 	else
 	{
 		struct s_line *le = access_le_main_datas();
-		le_debug("%s", "SIGINT NEW PROMPT\n");
+		//le_debug("%s", "SIGINT NEW PROMPT\n");
 		if (le->le_state.prompt_type != LE_DEFAULT_PROMPT)
 			write(1, "\n", 1);
 

@@ -80,6 +80,7 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
     le->cursor_pos = le->start_pos;
 	le->cursor_line = 0;
 	le->term_line_size = get_terminal_nb_col();
+		//le_debug(" - - - - - - - RESIZE %zu\n", le->term_line_size);
 	le->nb_lines_written = 1;
 	le->nb_char_on_last_line = 0;
 	le->le_state.le_is_init = true;

@@ -48,18 +48,18 @@ void	init_signals(void)
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
 
+	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
 
 	new.sa_handler = &(handle_sigint);
-	sigfillset(&(new.sa_mask));
 	sigaction(SIGINT, &new, NULL);
 
+	//new.sa_handler = &(handle_sigwinch);
+	//sigaction(SIGWINCH, &new, NULL);
 
 
 	// others
-
 	new.sa_handler = &(handle_useless_signals);
-	
 	i = 0;
 	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
 	{
@@ -73,26 +73,6 @@ void	init_signals(void)
 /*
 	WINCH : on le catch uniquement quand aucune commande est en running,
 	sinon il est juste bloque/mask
-
-
-	POUR LES "je touche pas", les recevoir ca casse les tcaps.
-	Pour regler ca je peux catch le sig, si une commande est en running je la kill,
-	puis jerestore les tcaps, puis restaurer le default handler du sig en question, puis envoyer (raise())
-	le sig au 42sh. Est-ce utile ? En tout cas c'est pas un gros travail supplementaire.
-
-
-	HUP je touche pas
-	TRAP je touche pas
-
-
-	INT
-	{
-		si une commande run (on le sait avec une variable globale),
-		la commande est kill. Sinon on coupe l'edition de ligne pour
-		en lancer une neuve.)
-	}
-
-
 
 
 */

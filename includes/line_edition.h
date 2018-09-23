@@ -78,6 +78,7 @@ int		get_le_debug_status(int mode, int new_value);
 /*
 **	Things
 */
+# define RESIZE_IN_PROGRESS ((char *)(-1))
 # define LE_DEFAULT_PROMPT (0)
 # define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
@@ -185,7 +186,7 @@ struct s_line
 	t_kno					key_no;
 	char					*cmd;
 	size_t					cmd_size;
-	unsigned int			cmd_len;
+	size_t					cmd_len;
 
 	unsigned int			cursor_index;
 	unsigned int			start_pos;

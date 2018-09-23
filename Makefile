@@ -120,6 +120,7 @@ SRC_NAME = 	is_separator.c \
 			syntax_highlighting/print_lexeme_colorized.c \
 			signals/init_signals.c \
 			signals/handle_sigint.c \
+			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
 			log.c \
 			ft_free_argv.c \
@@ -131,7 +132,6 @@ SRC_NAME = 	is_separator.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
 			main.c \
-			line_edition/ft_realloc.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -186,7 +186,7 @@ LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
-MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
 
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true

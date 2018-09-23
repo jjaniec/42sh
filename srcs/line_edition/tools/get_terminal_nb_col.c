@@ -11,17 +11,24 @@
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+#include <sys/ioctl.h>
 
 /*
 **	Get the number of columns for the current terminal window.
 */
 
 unsigned int	get_terminal_nb_col(void)
-{
+{/*
 	int		col;
 
 	col = tgetnum("co");
 	if (col < 0)
 		le_exit("Failed to get terminal sizes\n", "tgetnum", errno);
 	return ((unsigned int)col);
+*/
+
+	struct winsize ws; ws.ws_col = 0;
+	ioctl(STDIN_FILENO, TIOCGWINSZ, &ws);
+	return (ws.ws_col);
+
 }

@@ -12,7 +12,9 @@
 
 #include <twenty_one_sh.h>
 
-struct s_cmd_status	g_cmd_status = {.cmd_running = false};
+struct s_cmd_status	g_cmd_status = {
+	.cmd_running = false, .keep = NULL, .resize_happened = false
+};
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -24,7 +26,7 @@ t_option		g_sh_opts[] = {
 };
 
 char			**g_envp;
-struct s_line	*g_le;
+//struct s_line	*g_le;
 
 static char		*get_valid_input(t_lexeme **lexemes)
 {
@@ -33,7 +35,7 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	t_lexeme	*lexemes_ret;
 
 	input = line_edition(0);
-	ft_putchar('\n'); 
+	ft_putchar('\n');
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
 		UNMATCHED_QUOTE_ERR)
 	{

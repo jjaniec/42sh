@@ -17,9 +17,9 @@
 **	the action keys and their functions.
 */
 
-static	struct s_action_key	*get_array_action_key(void)
+static const struct s_action_key	*get_array_action_key(void)
 {
-	static struct s_action_key	actionk[LE_NB_KEYS] =
+	static const struct s_action_key	actionk[LE_NB_KEYS] =
 	{
 		{LE_ARROW_RIGHT, &actionk_cursor_move_right},
 		{LE_ARROW_LEFT, &actionk_cursor_move_left},
@@ -56,7 +56,7 @@ static	struct s_action_key	*get_array_action_key(void)
 
 void						action_key(t_kno key_no, struct s_line *le)
 {
-	struct s_action_key		*actionk;
+	const struct s_action_key		*actionk;
 	unsigned int			i;
 
 	actionk = get_array_action_key();

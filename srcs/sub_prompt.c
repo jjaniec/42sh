@@ -13,12 +13,12 @@
 #include <twenty_one_sh.h>
 
 int		prompt_show(const char *prompt)
-{
-	tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
+{le_debug("PROMPT SHOW |%s|\n", prompt);
+	//tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
 	ft_putstr(prompt);
 	if (prompt != g_prompts[0])
 		ft_putstr(g_prompts[0]);
-	tputs(access_le_main_datas()->tcaps->me, 1, &write_one_char);
+	//tputs(access_le_main_datas()->tcaps->me, 1, &write_one_char);
 	if (prompt != g_prompts[0])
 		return (ft_strlen(prompt) + ft_strlen(g_prompts[0]));
 	else
@@ -30,9 +30,19 @@ int		subpp_string(char **s)
 	char	*new;
 	char	*input;
 
+	input = RESIZE_IN_PROGRESS;
+
+while (input == RESIZE_IN_PROGRESS)
+{le_debug("%s", "WHILE QUOTES\n");
 	input = line_edition(NEED_SUBPROMPT_QUOTES);
-	if (!input)
+	if (input == NULL)
+	{
+		le_debug("%s", "WHILE QUOTE RETURNS 0\n");
 		return (0);
+	}
+}
+le_debug("%s", "WHILE QUOTE ENDS\n");
+
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;

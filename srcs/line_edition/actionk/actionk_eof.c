@@ -26,7 +26,7 @@
 */
 
 static void	eof_on_default_prompt(struct s_line *le)
-{
+{le_debug("%s", "EOF ON DEFAULT PROMPT\n");
 	t_kno	keep_key_no;
 
 	if (le->cmd_len == 0)
@@ -43,7 +43,7 @@ static void	eof_on_default_prompt(struct s_line *le)
 }
 
 static void	eof_on_subprompt(struct s_line *le)
-{
+{le_debug("%s", "EOF ON SUBPROMPT\n");
 	t_kno	keep_key_no;
 
 	if (le->cmd_len == 0 || cursor_is_at_end_of_cmd(le) == true)

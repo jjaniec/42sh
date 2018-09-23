@@ -21,8 +21,29 @@
 // NOT DONE YET
 void	handle_sigwinch(int sig)
 {
+le_debug("%s", " - - - - - HANDLER SIGWINCH\n");
 	if (sig != SIGWINCH)
 		return ;
+
+	if (g_cmd_status.cmd_running == true)
+	{
+		le_debug("%s", " - - - - - MAIS LOL WINCH\n");
+		return ;
+	}
+	else
+	{
+		le_debug("%s", " - - - - - OK WINCH\n");
+		le_debug("CMD WINCH = |%s|\n", access_le_main_datas()->cmd);
+
+		g_cmd_status.keep = malloc(sizeof(struct s_line));
+		memcpy( g_cmd_status.keep, access_le_main_datas(), sizeof(struct s_line) );
+		g_cmd_status.keep_prompt_type = access_le_main_datas()->le_state.prompt_type;
+
+		g_cmd_status.resize_happened = true;
+		
+		//tputs(access_le_main_datas()->tcaps->cl, 1, write_one_char);
+	}
 	
+	le_debug("QUIT HANDLER SIGWINCH keep len %zu\n", g_cmd_status.keep->cmd_len);
 }
 
