@@ -36,6 +36,19 @@ static int		return_key(char buffer[3], t_autoc *autoc)
 	return (1);
 }
 
+static int		arrow_key(char buffer[3], t_autoc *autoc)
+{
+	if (autoc->menu_selected < 0)
+	{
+		if (buffer[2] == 67)
+			actionk_cursor_move_right(autoc->le);
+		if (buffer[2] == 68)
+			actionk_cursor_move_left(autoc->le);
+		return (1);
+	}
+	return (1);
+}
+
 static int		other_key(char buffer[3], t_autoc *autoc)
 {
 	process_key((uint64_t)buffer[0], autoc->le);
@@ -49,7 +62,7 @@ void		init_key_func(t_autoc *autoc)
 	i = -1;
 	while (++i < 128)
 		autoc->key_function[i] = &other_key;
-	//autoc->key_function[27] = &arrow_key;
+	autoc->key_function[27] = &arrow_key;
 	autoc->key_function[10] = &return_key;
 	//autoc->key_function[LE_BACKSPACE] = &del_key;
 	autoc->key_function[LE_TAB] = &tab_key;
