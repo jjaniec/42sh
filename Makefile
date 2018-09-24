@@ -132,8 +132,7 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c \
-			line_edition/ft_realloc.c
+			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \

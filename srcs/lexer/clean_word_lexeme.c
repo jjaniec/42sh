@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 20:48:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/24 22:34:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ static void		fill_new_data_str(t_lexeme_clean_data *l)
 			while (*ptr && ptr != jump_ptr)
 			{
 				if (in_quote_type == IN_DQUOTES && is_expansion_char(*ptr, &expansion_handler))
-					(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
+				{	(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
 						(l, g_envp);
+					continue ;
+				}
 				else if (*ptr == '\\')
 					ptr += \
 						sizeof(char) * handle_escape_offset(ptr, in_quote_type);

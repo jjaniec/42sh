@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 21:15:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/24 22:01:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	g_envp = envp;
+	g_envp = cp_envp((const char **)envp);
 	g_sh_opts[1].opt_status = true;
-	lexer_tests(envp);
+	lexer_tests(g_envp);
 	ast_tests();
 	exec_tests(&envp);
 	syntax_highlighting_tests(envp);
