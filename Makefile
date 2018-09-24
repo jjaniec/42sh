@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/20 18:55:18 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/24 21:22:59 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,13 +126,14 @@ SRC_NAME = 	is_separator.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
+			init_globals_config.c \
 			parse_options.c \
 			format_help.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
 			main.c \
-			line_edition/ft_realloc.c \
+			line_edition/ft_realloc.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 20:14:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/24 21:22:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	ft_putstr("%> ");
-	input = line_edition(PROMPT_DEFAULT);
-	ft_putchar('\n');
+	input = line_edition(0);
+	ft_putchar('\n'); 
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
 		UNMATCHED_QUOTE_ERR)
 	{
@@ -67,6 +66,13 @@ static int		twenty_one_sh(char *input, char **envp, \
 	}
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
+	/*if (exe && exe->tmp_envp)
+		envp = exe->tmp_envp;
+	else if (exe)
+		envp = exe->envp;
+	else
+		exit(1);
+	free_exec(&exe);*/
 	ast_free(ast_root);
 	free_lexemes(lexemes);
 	return (0);
