@@ -65,6 +65,5 @@ void		init_key_func(t_autoc *autoc)
 		autoc->key_function[i] = &other_key;
 	autoc->key_function[27] = &arrow_key;
 	autoc->key_function[10] = &return_key;
-	//autoc->key_function[LE_BACKSPACE] = &del_key;
 	autoc->key_function[LE_TAB] = &tab_key;
 }

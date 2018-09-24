@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-static void		get_print_infos(t_autoc *autoc, int winsize)
+static int		get_print_infos(t_autoc *autoc, int winsize)
 {
 	int i;
 	int words;
@@ -28,12 +28,15 @@ static void		get_print_infos(t_autoc *autoc, int winsize)
 	}
 	autoc->max_item_len = i;
 	words = winsize / (i + 1);
+	if (!words)
+		return (1);
 	i = 0;
 	while (autoc->items[i])
 		i++;
 	autoc->nbr_items = i;
 	autoc->nbr_line = (i / words) + ((i % words) ? 1 : 0);
 	autoc->nbr_items_in_line = i / autoc->nbr_line;
+	return (0);
 }
 
 static void		cursor_back(t_autoc *autoc, struct s_line *le)
@@ -72,7 +75,8 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	line = 0;
 	count = 0;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
-	get_print_infos(autoc, (int)autoc->win.ws_col);
+	if (get_print_infos(autoc, (int)autoc->win.ws_col))
+		return ;
 	/*if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
 	{
 		ft_putstr("YO2");
