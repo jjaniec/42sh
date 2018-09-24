@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/18 16:15:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:51:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void		le_debug_infos(void)
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
+	le_debug("PID du 42sh = %d\n", (int)getpid());
+	le_debug("key number = %llu\n", (unsigned long long)(le->key_no));
 	le_debug("cmd = |%s|\n", le->cmd);
 	le_debug("cmd size = %zu\n", le->cmd_size);
 	le_debug("cmd len = %u\n", le->cmd_len);
@@ -56,8 +58,6 @@ static void		read_key(char key[LE_KEY_SIZE])
 	}
 
 	// check les differentes erreurs de read(), une coupure a cause d'un signal ...
-
-	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ... 
 }
 
 static t_kno	get_key_number(const char *key)
@@ -83,9 +83,8 @@ char			*line_edition(int prompt_type)
 	t_kno					key_no;
 
 	le = access_le_main_datas();
-	le->le_state.prompt_type = prompt_type; // a mettre au bon endroit xd
 	set_term_attr(LE_SET_NEW);
-	init_line_edition_attributes(le);
+	init_line_edition_attributes(le, prompt_type);
 
 	le_debug_infos(); // debug
 	while ("cest ta merge la jjaniec")

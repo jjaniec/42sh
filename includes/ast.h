@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 21:51:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/14 10:56:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 
 # include <twenty_one_sh.h>
 
-# define NEED_SUBPROMPT -1
+# define NEED_SUBPROMPT_DAND -1
+# define NEED_SUBPROMPT_OR -2
+# define NEED_SUBPROMPT_NEWLINE -3
+# define NEED_SUBPROMPT_PIPE -4
+# define NEED_SUBPROMPT_QUOTES -5
+# define NEED_SUBPROMPT_HEREDOC -6
 
 t_ast	*ast(t_lexeme *lex);
 t_ast	*construct_ast(t_lexeme *lex, t_ast *root);

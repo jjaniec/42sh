@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/20 15:21:30 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/14 10:31:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@
 
 static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 {
-	if (lex2 && (is_op1(lex1) || is_op1_5(lex1)) && lex2->type_details == TK_NEWLINE)
-		return (NEED_SUBPROMPT);
+	if (lex2 && lex1->type_details == TK_DAND && lex2->type_details == TK_NEWLINE)
+		return (NEED_SUBPROMPT_DAND);
+	else if (lex2 && lex1->type_details == TK_OR && lex2->type_details == TK_NEWLINE)
+		return (NEED_SUBPROMPT_OR);
+	else if (lex2 && lex1->type_details == TK_PIPE && lex2->type_details == TK_NEWLINE)
+		return (NEED_SUBPROMPT_PIPE);
 	else if (lex2 && (lvl_lex(lex1) != 5) && (lvl_lex(lex2) != 5) && lex2->type_details != TK_NEWLINE)
+		return (0);
+	else if (is_op3(lex1) && lex2->type != T_WORD)
 		return (0);
 	return (1);
 }
@@ -32,6 +38,8 @@ static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 
 int			check_parsing(t_lexeme *lex)
 {
+	int		need_subpropmt;
+
 	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
 	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN)
@@ -41,18 +49,18 @@ int			check_parsing(t_lexeme *lex)
 	}
 	lex = lex->next;
 	if (!lex)
-		return (NEED_SUBPROMPT);
+		return (NEED_SUBPROMPT_NEWLINE);
 	while (lex)
 	{
 		if (!lex->next && lex->type_details != TK_NEWLINE)
-			return (NEED_SUBPROMPT);
+			return (NEED_SUBPROMPT_NEWLINE);
 		if (!check_lexeme(lex, lex->next))
 		{
 			ft_printf("Parsing error just after: %s\n", lex->data);
 			return (0);
 		}
-		else if (check_lexeme(lex, lex->next) == NEED_SUBPROMPT)
-			return (NEED_SUBPROMPT);
+		else if ((need_subpropmt = check_lexeme(lex, lex->next)) < 0)
+			return (need_subpropmt);
 		lex = lex->next;
 	}
 	return (1);
