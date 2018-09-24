@@ -37,18 +37,18 @@ static char		*autoc_get_path(struct s_line *le)
 	int 	i;
 	int	count;
 
-	i = le->cursor_index_for_line - 1;
+	i = le->cursor_index - 1;
 	count = 0;
-	if (le->line[i] == ' ')
+	if (le->cmd[i] == ' ')
 		return (ft_strdup("./"));
-	while (le->line[i] != ' ')
+	while (le->cmd[i] != ' ')
 	{
 		count++;
 		i--;
 	}
 	res = malloc(sizeof(char) * count + 1);
 	ft_bzero(res, count + 1);
-	ft_strncpy(res, &le->line[i + 1], count);
+	ft_strncpy(res, &le->cmd[i + 1], count);
 	return (res);
 }
 
@@ -64,7 +64,7 @@ char				**autoc_dir(t_autoc *autoc)
 	{
 		if (path[ft_strlen(path) - 1] != '/')
 		{
-			insert_character_into_cmdline(autoc->le, (uint64_t)'/');
+			insert_and_print_character_into_cmdline(autoc->le, (uint64_t)'/');
 			tmp = ft_strjoin(path, "/");
 			free(path);
 			path = tmp;

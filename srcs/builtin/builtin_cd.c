@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/06/29 20:40:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/19 15:59:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** Posix options
+** https://www.unix.com/man-page/posix/1posix/cd/
+*/
+
+t_option		g_cd_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"P"}, "Handle the operand dot-dot physically; symbolic link \
+		components shall be resolved before dot-dot components are processed", false},
+	{{"L"}, "Handle the operand dot-dot logically; symbolic link \
+		components shall not be resolved before dot-dot components are processed", false},
+	{{NULL}, NULL, false}
+};
+
 
 static char	*get_back(char *path)
 {
@@ -74,28 +89,29 @@ static char	*get_cd_path(char *str, const char **envp)
 
 static int	change_dir(char *path, char **envp, t_exec *exe)
 {
-	char	*actual_pwd;
-	char	**new_envp;
+	//char	*actual_pwd;
+	//char	**new_envp;
 
-	actual_pwd = getcwd(NULL, 0);
+	(void)envp;
+	//actual_pwd = getcwd(NULL, 0);
 	if (chdir(path) == -1)
 	{
 		exe->ret = 1;
-		ft_strdel(&actual_pwd);
+		//ft_strdel(&actual_pwd);
 		return (0);
 	}
 	else
 	{
-		new_envp = inline_setenv("PWD", path, envp);
-		if (exe->envp)
-			ft_free_argv(exe->envp);
-		exe->envp = inline_setenv("OLDPWD", actual_pwd, new_envp);
-		if (exe->tmp_envp)
-			ft_free_argv(exe->tmp_envp);
-		exe->tmp_envp = NULL;
-		ft_free_argv(new_envp);
+		//new_envp = inline_setenv("PWD", path, envp);
+		//if (exe->envp)
+		//	ft_free_argv(exe->envp);
+		//exe->envp = inline_setenv("OLDPWD", actual_pwd, new_envp);
+		//if (exe->tmp_envp)
+		//	ft_free_argv(exe->tmp_envp);
+		//exe->tmp_envp = NULL;
+		//ft_free_argv(new_envp);
 	}
-	ft_strdel(&actual_pwd);
+	//ft_strdel(&actual_pwd);
 	exe->ret = 0;
 	return (1);
 }

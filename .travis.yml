@@ -2,10 +2,13 @@ language: c
 sudo: true
 notifications:
   email: false
+  slack: 42born2code:7VKgN0wy7keo3PVkYmKvkbJf
 before_install:
     - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; else brew update; fi;
 after_script:
     - bash <(curl -s https://codecov.io/bash)
+git:
+  depth: 3
 addons:
   apt:
     sources:
@@ -19,6 +22,7 @@ addons:
     # - clang-6.0
     # - clang-5.0
 matrix:
+    fast_finish: true
     include:
         - os: osx
           compiler: gcc

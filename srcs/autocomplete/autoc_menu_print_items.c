@@ -42,7 +42,7 @@ static void		cursor_back(t_autoc *autoc, struct s_line *le)
 	unsigned int	tmp_cursor;
 	unsigned int	tmp_line;
 
-	original_pos_index = le->cursor_index_for_line + 3;
+	original_pos_index = le->cursor_index + le->start_pos;
 	tmp_cursor = 0;
 	tmp_line = (unsigned int)autoc->menu_line;
 	tputs(autoc->le->tcaps->cr, 1, &write_one_char);

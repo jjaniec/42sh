@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/23 22:04:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/17 15:45:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,30 @@ void			exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 		ft_putendl_fd(cmd, 2);
 	}
 	else
-		exec_thread(cmd, argv, envp, exe, node);
+		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
+			envp, exe, node);
 }
 
 /*
 ** Main function for executing a builtin.
-** execute builtin function stored in $builtin_ptr
+** execute builtin function stored in $builtin_ptr with exec_thread
 */
 
-void			exec_builtin(char **argv, char **envp, t_exec *exe, \
-					void (**builtin_fun_ptr)(char **, char **, t_exec *))
+int				exec_builtin(char **argv, char **envp, t_exec *exe, \
+					t_ast *node)
 {
-	(*builtin_fun_ptr)(argv, envp, exe);
+	void	(*builtin_fun_ptr)(char **, char **, t_exec *);
+
+	builtin_fun_ptr = NULL;
+	if (!(is_builtin(argv[0], &builtin_fun_ptr)))
+		return (0);
+	if (builtin_fun_ptr == &builtin_cd)
+		builtin_cd(argv, envp, exe);
+	else
+		exec_thread(\
+			(void *[3]){(void *)EXEC_THREAD_BUILTIN, &builtin_fun_ptr, argv}, \
+			envp, exe, node);
+	return (1);
 }
 
 /*
@@ -79,7 +91,14 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 	paths = get_path(get_env("PATH", (const char**)envp));
 	pth = isin_path(paths, argv[0]);
 	if (pth)
-		exe = exec_thread(pth, argv, envp, exe, node);
+		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, pth, argv}, \
+			envp, exe, node);
+	else
+	{
+		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
+	}
 	ft_strdel(&pth);
 	ft_free_argv(paths);
 }

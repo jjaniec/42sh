@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_backslash_escape.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:30:04 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:03:11 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/05 18:36:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 static void	handle_backslash_escape_dquote(char *s, int *pos)
 {
 	if (s[*pos + 1] == '$' || s[*pos + 1] == '`' || \
-		s[*pos + 1] == '"' || s[*pos + 1] == '\\' || \
-		s[*pos + 1] == '\n')
+	s[*pos + 1] == '"' || s[*pos + 1] == '\\' || \
+	s[*pos + 1] == '\n')
 		*pos += 1;
 }
 

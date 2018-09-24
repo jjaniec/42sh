@@ -22,10 +22,10 @@ void	autoc_push_in_line(struct s_line *le, char *str, char *search)
 		if (search)
 		{
 			if (str[i] != search[i])
-				insert_character_into_cmdline(le, (uint64_t)str[i]);
+				insert_and_print_character_into_cmdline(le, (uint64_t)str[i]);
 		}
 		else
-			insert_character_into_cmdline(le, (uint64_t)str[i]);
+			insert_and_print_character_into_cmdline(le, (uint64_t)str[i]);
 		i++;
 	}
 }
