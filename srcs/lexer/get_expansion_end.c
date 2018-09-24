@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:45:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 13:36:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/24 17:49:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_expansion_end_char(char c)
 {
-	if (c == '$' || c == '\\')
+	if (c == '$' || c == '\\' || c == '\'' || c == '"' || is_separator(c))
 		return (1);
 	return (0);
 }

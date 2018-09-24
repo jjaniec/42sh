@@ -187,7 +187,7 @@ LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
-MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
 
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true

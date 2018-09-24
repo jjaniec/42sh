@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 19:18:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/24 20:48:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,18 @@ static void		fill_new_data_str(t_lexeme_clean_data *l)
 			is_quote_removable(ptr, &jump_ptr, &in_quote_type))
 		{
 			ptr++;
+			log_fatal("Jump ptr |%s| - ptr |%s|", jump_ptr, ptr);
 			while (*ptr && ptr != jump_ptr)
 			{
-				if (*ptr == '\\')
+				if (in_quote_type == IN_DQUOTES && is_expansion_char(*ptr, &expansion_handler))
+					(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
+						(l, g_envp);
+				else if (*ptr == '\\')
 					ptr += \
 						sizeof(char) * handle_escape_offset(ptr, in_quote_type);
-				(*(l->clean_data_write_ptr++)) = *(ptr++);
+				//else
+					(*(l->clean_data_write_ptr++)) = *(ptr++);
+				//printf("lol |%s| %p\n", ptr, ptr);
 			}
 			if (*ptr)
 				ptr++;
