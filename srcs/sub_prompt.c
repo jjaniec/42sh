@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 17:40:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/24 14:54:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,20 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	t_lexeme	*new;
 	t_lexeme	*save;
 
-	input = line_edition(need_subprompt);
-	if (!input)
-		return (NULL);
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+	{
+		input = line_edition(need_subprompt);
+
+		if (input == NULL)
+			return (NULL);
+
+	}
+	log_fatal("Input : %s", input);
+
 	ft_putchar('\n');
 	lexer(input, &new, NULL);
+	log_fatal("1st lex type : %zu - td %zu - d %s", new->type, new->type_details, new->data);
 	if (!lex)
 		return (new);
 	save = lex;
@@ -114,15 +123,31 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word)
 	eof_word = ft_strjoin(eof_word, "\n");
 	while (!input)
 	{
-		input = line_edition(NEED_SUBPROMPT_HEREDOC);
-		if (!input)
-			return (0);
+		input = RESIZE_IN_PROGRESS;
+		while (input == RESIZE_IN_PROGRESS)
+		{
+			input = line_edition(NEED_SUBPROMPT_HEREDOC);
+			if (input == NULL)
+				return (0);
+		}
+
+
+
 		ft_putchar('\n');
 		final_input = ft_strjoin(final_input, input);
 		while (there_is_no_cr(input))
 		{
 			final_input[ft_strlen(final_input) - 2] = '\0';
-			input = line_edition(NEED_SUBPROMPT_NEWLINE);
+			
+
+			input = RESIZE_IN_PROGRESS;
+			while (input == RESIZE_IN_PROGRESS)
+			{
+				input = line_edition(NEED_SUBPROMPT_NEWLINE);
+			}
+
+
+			
 			ft_putchar('\n');
 			final_input = ft_strjoin(final_input, input);
 		}

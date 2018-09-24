@@ -40,11 +40,11 @@ void	init_signals(void)
 {
 	struct sigaction	new;
 	unsigned int		i;
-	const int			sig_array[27] = 
+	const int			sig_array[27 - 1] = 
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
 		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
-		SIGTSTP, SIGCONT, SIGCHLD, SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
+		SIGTSTP, SIGCONT, /*SIGCHLD,*/ SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
 
