@@ -38,15 +38,16 @@ static int		return_key(char buffer[3], t_autoc *autoc)
 
 static int		arrow_key(char buffer[3], t_autoc *autoc)
 {
+	int	arrow_mask[3];
+
+	arrow_mask[0] = 0;
 	if (autoc->menu_selected < 0)
-	{
-		if (buffer[2] == 67)
-			actionk_cursor_move_right(autoc->le);
-		if (buffer[2] == 68)
-			actionk_cursor_move_left(autoc->le);
-		return (1);
-	}
-	return (1);
+		arrow_mask[0] = 1;
+	arrow_mask[1] = (int)buffer[2] - 64;
+	arrow_mask[2] = 0;
+	if(autoc->nbr_line > 1)
+		arrow_mask[2] = 1;
+	return (autoc_arrow_process(arrow_mask, autoc));
 }
 
 static int		other_key(char buffer[3], t_autoc *autoc)

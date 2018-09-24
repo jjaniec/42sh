@@ -56,6 +56,7 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/dir_get_items_search.c \
 			autocomplete/autoc_check_path.c \
 			autocomplete/autoc_push_in_line.c \
+			autocomplete/autoc_arrow.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \

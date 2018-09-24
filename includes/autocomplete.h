@@ -50,5 +50,6 @@ void	init_key_func(t_autoc *autoc);
 void	ft_ul_video(char *str);
 void	ft_ul(char *str);
 void	ft_video(char *str);
+int	autoc_arrow_process(int arrow_mask[3], t_autoc *autoc);
 
 #endif
