@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-static int		get_print_infos(t_autoc *autoc, int winsize)
+static int		get_print_infos(t_autoc *autoc)
 {
 	int i;
 	int words;
@@ -26,8 +26,8 @@ static int		get_print_infos(t_autoc *autoc, int winsize)
 			longest = ft_strlen(autoc->items[i]);
 		i++;
 	}
-	autoc->max_item_len = i;
-	words = winsize / (i + 1);
+	autoc->max_item_len = longest;
+	words = (int)autoc->win.ws_col / (longest + 1);
 	if (!words)
 		return (1);
 	i = 0;
@@ -35,6 +35,8 @@ static int		get_print_infos(t_autoc *autoc, int winsize)
 		i++;
 	autoc->nbr_items = i;
 	autoc->nbr_line = (i / words) + ((i % words) ? 1 : 0);
+	if (!autoc->nbr_line || autoc->nbr_line >= (int)autoc->win.ws_row)
+		return (1);
 	autoc->nbr_items_in_line = i / autoc->nbr_line;
 	return (0);
 }
@@ -75,13 +77,13 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	line = 0;
 	count = 0;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
-	if (get_print_infos(autoc, (int)autoc->win.ws_col))
-		return ;
-	/*if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
+	if (get_print_infos(autoc))
 	{
-		ft_putstr("YO2");
+		menu_new_line(autoc);
+		ft_putstr("AUTOC: Too many items");
+		cursor_back(autoc, le);
 		return ;
-	}*/
+	}
 	menu_new_line(autoc);
 	while (line < autoc->nbr_line)
 	{
@@ -92,7 +94,7 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 				ft_putstr(COL_PROG_ARG_DIR);
 			(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
 			(ft_putstr(autoc->items[i]));
-			autoc_menu_print_spaces(autoc->max_item_len + 3,
+			autoc_menu_print_spaces(autoc->max_item_len + 1,
 				ft_strlen(autoc->items[i]), le);
 			ft_putstr(COL_DEFAULT);
 			count++;

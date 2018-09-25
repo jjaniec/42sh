@@ -12,20 +12,29 @@
 
 #include <twenty_one_sh.h>
 
-void	autoc_push_in_line(struct s_line *le, char *str, char *search)
+static char		*get_final_line(struct s_line *le, char *str, char *search)
 {
 	int i;
 
 	i = 0;
+	if (!search)
+		return (ft_strjoin(le->cmd, str));
 	while (str[i])
 	{
-		if (search)
-		{
-			if (str[i] != search[i])
-				insert_and_print_character_into_cmdline(le, (uint64_t)str[i]);
-		}
-		else
-			insert_and_print_character_into_cmdline(le, (uint64_t)str[i]);
+		if (str[i] != search[i])
+			return (ft_strjoin(le->cmd, &str[i]));
 		i++;
 	}
+	return (NULL);
+}
+
+void	autoc_push_in_line(struct s_line *le, char *str, char *search)
+{
+	char	*final_line;
+
+	final_line = get_final_line(le, str, search);
+	if (final_line == NULL)
+		return ;
+	refresh_colosyn(le, final_line);
+	free(final_line);
 }
