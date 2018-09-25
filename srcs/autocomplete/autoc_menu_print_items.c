@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 10:45:08 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/16 10:45:10 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:11:23 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,32 @@ static void		menu_new_line(t_autoc *autoc)
 	autoc->menu_line++;
 }
 
-void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
+static void		print_col_items(int i, t_autoc *autoc)
 {
-	int i;
-	int line;
 	int count;
 
-	line = 0;
 	count = 0;
+	while (autoc->items[i] && count <= autoc->nbr_items_in_line)
+	{
+		if (ft_strchr(autoc->items[i], '/'))
+			ft_putstr(COL_PROG_ARG_DIR);
+		(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
+		(ft_putstr(autoc->items[i]));
+		autoc_menu_print_spaces(autoc->max_item_len + 1,
+			ft_strlen(autoc->items[i]), autoc->le);
+		ft_putstr(COL_DEFAULT);
+		count++;
+		i = i + autoc->nbr_line;
+		if (i > autoc->nbr_items)
+			break ;
+	}
+}
+
+void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
+{
+	int line;
+
+	line = 0;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	if (get_print_infos(autoc))
 	{
@@ -87,23 +105,8 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	menu_new_line(autoc);
 	while (line < autoc->nbr_line)
 	{
-		i = line;
-		while (autoc->items[i] && count <= autoc->nbr_items_in_line)
-		{
-			if (ft_strchr(autoc->items[i], '/'))
-				ft_putstr(COL_PROG_ARG_DIR);
-			(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
-			(ft_putstr(autoc->items[i]));
-			autoc_menu_print_spaces(autoc->max_item_len + 1,
-				ft_strlen(autoc->items[i]), le);
-			ft_putstr(COL_DEFAULT);
-			count++;
-			i = i + autoc->nbr_line;
-			if (i > autoc->nbr_items)
-				break ;
-		}
+		print_col_items(line, autoc);
 		menu_new_line(autoc);
-		count = 0;
 		line++;
 	}
 	cursor_back(autoc, le);
