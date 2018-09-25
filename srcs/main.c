@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 16:49:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:52:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,11 @@ int			main(int ac, char **av, char **envp)
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char		**args;
+	t_environ	*envv;
+
 
 	g_envp = cp_envp((const char **)envp);
+	envv = init_environ(g_envp);
 	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);

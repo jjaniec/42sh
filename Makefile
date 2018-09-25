@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/19 15:34:42 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/25 17:50:46 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,8 +130,10 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c \
-			line_edition/ft_realloc.c
+			add_env_var.c \
+			init_environ.c \
+			get_environ_struct.c \
+			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -186,7 +188,7 @@ LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
-MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
 
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true

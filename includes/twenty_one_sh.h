@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   twenty_one_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 16:46:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:48:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 
 # define MAX_OPT_NAMES	2
 # define CHAR_OPT_INDEX_SIZE (126)
+
+# define MAX_ENV_ENTRIES	255
+# define MAX_ENV_ENTRY_LEN	255
 
 # include <ft_printf.h>
 # include "struct.h"
@@ -81,5 +84,11 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 
 bool	is_option_activated(char *opt_str, \
 			t_option *opt_list, t_option **char_opt_index);
+
+char		*add_env_var(t_environ *self, char *entry_value, char *name);
+
+t_environ	*get_environ_struct(void);
+
+t_environ	*init_environ(char **env);
 
 #endif

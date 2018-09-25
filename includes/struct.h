@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 14:56:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 17:49:37 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,36 @@ typedef struct			s_option
 	bool	opt_status;
 }						t_option;
 
-typedef t_option		*t_opt_list;
+/*
+** Each environnement entry will be stored in a struct with a
+** pointer to it's value
+*/
+
+typedef struct		s_env_entry
+{
+	char			entry[MAX_ENV_ENTRY_LEN + 1];
+	char				*val_begin_ptr;
+	struct s_env_entry	*next;
+}					t_env_entry;
+
+/*
+** Environnement struct
+** environ: environnement to pass to programs
+** last_used_elem: last environnement entry requested / added / updated,
+**   set to NULL when calling (del_var) and en entry was deleted
+*/
+
+typedef struct		s_environ
+{
+	char			*environ[MAX_ENV_ENTRIES + 1];
+	t_env_entry		*last_used_elem;
+	t_env_entry		*last_entry_ptr;
+	t_env_entry		*env_entries_list;
+	int				entry_count;
+	char			*(*add_var)(struct s_environ *, char *, char *);
+	char			(*upt_var)();
+	char			(*del_var)();
+	char			(*get_var)();
+}					t_environ;
 
 #endif
