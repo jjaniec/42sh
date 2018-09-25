@@ -28,7 +28,7 @@ static char		*get_final_line(struct s_line *le, char *str, char *search)
 	return (NULL);
 }
 
-void	autoc_push_in_line(struct s_line *le, char *str, char *search)
+void			autoc_push_in_line(struct s_line *le, char *str, char *search)
 {
 	char	*final_line;
 

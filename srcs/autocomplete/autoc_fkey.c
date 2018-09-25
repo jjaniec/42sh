@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 16:26:37 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/01 16:26:40 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/25 16:05:02 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static int		tab_key(char buffer[3], t_autoc *autoc)
 {
 	(void)buffer;
-	/*if (autoc->nbr_line >= 5 && autoc->nbr_items_in_line <= 2)
-		return (1);*/
 	autoc->menu_selected++;
 	if (!autoc->items[autoc->menu_selected])
 		autoc->menu_selected = 0;
@@ -45,7 +43,7 @@ static int		arrow_key(char buffer[3], t_autoc *autoc)
 		arrow_mask[0] = 1;
 	arrow_mask[1] = (int)buffer[2] - 64;
 	arrow_mask[2] = 0;
-	if(autoc->nbr_line > 1)
+	if (autoc->nbr_line > 1)
 		arrow_mask[2] = 1;
 	return (autoc_arrow_process(arrow_mask, autoc));
 }
@@ -56,7 +54,7 @@ static int		other_key(char buffer[3], t_autoc *autoc)
 	return (1);
 }
 
-void		init_key_func(t_autoc *autoc)
+void			init_key_func(t_autoc *autoc)
 {
 	int		i;
 

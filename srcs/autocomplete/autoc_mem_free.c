@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 20:08:28 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/09 20:08:30 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/25 16:04:19 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,4 @@ void	autoc_mem_free(t_autoc *autoc)
 			autoc_free_items(autoc->items);
 		free(autoc);
 	}
-
 }

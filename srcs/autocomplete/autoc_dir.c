@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:18:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/08/29 17:18:12 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:13:56 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char		*get_last_path(char *path, t_autoc *autoc)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*res;
 
 	i = ft_strlen(path);
@@ -33,9 +33,9 @@ static char		*get_last_path(char *path, t_autoc *autoc)
 
 static char		*autoc_get_path(struct s_line *le)
 {
-	char *res;
-	int 	i;
-	int	count;
+	char	*res;
+	int		i;
+	int		count;
 
 	i = le->cursor_index - 1;
 	count = 0;
@@ -52,36 +52,54 @@ static char		*autoc_get_path(struct s_line *le)
 	return (res);
 }
 
-char				**autoc_dir(t_autoc *autoc)
+static char		**get_autoc_search_list(char *path, t_autoc *autoc)
 {
-	char		**items;
-	char		*tmp;
-	char 		*path;
+	char	*tmp;
+	char	**res;
 
-	items = NULL;
-	path = autoc_get_path(autoc->le);
-	if (autoc_check_path(path) == 'd')
-	{
-		if (path[ft_strlen(path) - 1] != '/')
-		{
-			insert_and_print_character_into_cmdline(autoc->le, (uint64_t)'/');
-			tmp = ft_strjoin(path, "/");
-			free(path);
-			path = tmp;
-		}
-		items = dir_get_items(path);
-	}
-	else if (ft_strchr(path, '/'))
+	res = NULL;
+	if (ft_strchr(path, '/'))
 	{
 		tmp = get_last_path(path, autoc);
-		items = dir_get_items_search(tmp, autoc);
+		res = dir_get_items_search(tmp, autoc);
 		free(tmp);
 	}
 	else
 	{
 		autoc->search = ft_strdup(path);
-		items = dir_get_items_search("./", autoc);
+		res = dir_get_items_search("./", autoc);
 	}
+	return (res);
+}
+
+static char		**get_autoc_list(char *path, t_autoc *autoc)
+{
+	char	**res;
+	char	*final_path;
+
+	res = NULL;
+	if (path[ft_strlen(path) - 1] != '/')
+	{
+		insert_and_print_character_into_cmdline(autoc->le, (uint64_t)('/'));
+		final_path = ft_strjoin(path, "/");
+	}
+	else
+		final_path = ft_strdup(path);
+	res = dir_get_items(final_path);
+	free(final_path);
+	return (res);
+}
+
+char			**autoc_dir(t_autoc *autoc)
+{
+	char		**items;
+	char		*path;
+
+	path = autoc_get_path(autoc->le);
+	if (autoc_check_path(path) == 'd')
+		items = get_autoc_list(path, autoc);
+	else
+		items = get_autoc_search_list(path, autoc);
 	free(path);
 	return (items);
 }

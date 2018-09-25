@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 21:27:30 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/08/31 14:39:20 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/25 16:01:29 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static char			*cp_item(char *in, char *item)
 	return (res);
 }
 
-char					**dir_get_items(char *in)
+char				**dir_get_items(char *in)
 {
 	DIR				*dir;
 	struct dirent	*file;
-	char				**res;
+	char			**res;
 	int				i;
 
 	dir = opendir(in);
