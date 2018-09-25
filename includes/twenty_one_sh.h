@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/19 16:46:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 19:40:45 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <term.h>
 # include <termios.h>
 # include <stdbool.h>
+# include <dirent.h>
 
 # include <errno.h>
 
@@ -45,13 +46,16 @@
 # include "line_edition.h"
 # include "exec.h"
 # include "syntax_highlighting.h"
+# include "get_next_line.h"
+
+# define _42SHRC_PATH "/Users/cyfermie/.42shrc"
 
 extern t_option		g_sh_opts[];
 
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"]"
+	"./21sh [-hcGv] [-c \"command\"] - MAKE 42SH GREAT AGAIN "
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
@@ -81,5 +85,8 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 
 bool	is_option_activated(char *opt_str, \
 			t_option *opt_list, t_option **char_opt_index);
+
+bool    check_42shrc(void);
+
 
 #endif

@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/24 17:51:53 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/25 18:26:11 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,8 +131,10 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
+			42shrc_checker.c \
+			load_history_file.c \
+			get_next_line.c \
 			main.c \
-			line_edition/ft_realloc.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -140,7 +142,9 @@ INCLUDES_NAME = lexer.h \
 				twenty_one_sh.h \
 				line_edition.h \
 				syntax_highlighting.h \
-				log.h
+				log.h \
+				struct.h \
+				get_next_line.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
@@ -187,7 +191,7 @@ LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
-MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
 
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true

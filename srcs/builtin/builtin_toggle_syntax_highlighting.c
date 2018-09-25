@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:30:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/05 20:49:33 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 14:21:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,14 @@ void				builtin_toggle_syntax_highlighting(char **argv, char **envp,
 																	t_exec *exe)
 {
 	(void)envp;
-	(void)exe;
 	if (check_args(argv + 1) == -1)
+	{
+		exe->ret = 1;
 		return ;
+	}
 	if (argv[1][1] == 'n' || argv[1][1] == 'N')
 		access_le_main_datas()->le_state.opt_colosyn = true;
 	else
 		access_le_main_datas()->le_state.opt_colosyn = false;
+	exe->ret = 0;
 }
