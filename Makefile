@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/25 18:25:09 by sebastien        ###   ########.fr        #
+#    Updated: 2018/09/25 19:38:54 by sebastien        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,7 +133,6 @@ SRC_NAME = 	is_separator.c \
 			script/find_lexeme_compete.c \
 			script/script_in_exec.c \
 			script/is_script_complete.c \
-			init_globals_config.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
 			log.c \
