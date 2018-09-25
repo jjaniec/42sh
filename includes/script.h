@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 16:43:31 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 17:31:08 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_lexeme	*is_keyword(t_lexeme *lex);
 */
 
 int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
-t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token);
+t_lexeme	*is_script_complete(t_lexeme *lex, t_lexeme *tmp, size_t next_token);
+int			good_start(t_lexeme *lex);
 
 
 /*

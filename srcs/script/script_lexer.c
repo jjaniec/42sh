@@ -6,30 +6,11 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/20 19:32:38 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:31:27 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-
-/*
-** Defines if the current lexeme with associated token is a good start \
-** after the IF or ELIF or WHILE (for a T_SCRIPT_CONDITION)
-*/
-
-static int		good_start(t_lexeme *lex)
-{
-	int		i;
-
-	i = 0;
-	while (g_cant_begin_with[i])
-	{
-		if (lex->type_details == g_cant_begin_with[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 /*
 ** Defines the next lexeme type and type_details.
