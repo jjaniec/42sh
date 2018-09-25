@@ -88,10 +88,13 @@ void		autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 		i = line;
 		while (autoc->items[i] && count <= autoc->nbr_items_in_line)
 		{
+			if (ft_strchr(autoc->items[i], '/'))
+				ft_putstr(COL_PROG_ARG_DIR);
 			(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
 			(ft_putstr(autoc->items[i]));
 			autoc_menu_print_spaces(autoc->max_item_len + 3,
 				ft_strlen(autoc->items[i]), le);
+			ft_putstr(COL_DEFAULT);
 			count++;
 			i = i + autoc->nbr_line;
 			if (i > autoc->nbr_items)

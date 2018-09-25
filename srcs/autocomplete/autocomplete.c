@@ -11,16 +11,10 @@
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
-/*
-	ls
-	ls /
-	ls sr
-	ls /usr/wemwgj
-*/
 
-static int		check_dir(struct s_line *le)
+static int			check_dir(struct s_line *le)
 {
-	int i;
+	int	i;
 
 	i = le->cursor_index - 1;
 	if (ft_strchr(le->cmd, ' '))
@@ -35,7 +29,7 @@ static int		check_dir(struct s_line *le)
 	return (0);
 }
 
-static t_autoc	*autoc_setup(struct s_line *le)
+static t_autoc		*autoc_setup(struct s_line *le)
 {
 	t_autoc	*autoc;
 
