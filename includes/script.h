@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 16:34:25 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 16:43:31 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ t_lexeme	*is_script_complete(t_lexeme *lex, size_t next_token);
 
 t_ast		*script_create_node(t_lexeme *lex);
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);
+int			put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
+			void(* const node_placer)(t_ast *, t_ast *));
+t_lexeme	*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
+			void (* const node_placer)(t_ast *, t_ast *));
 
 t_lexeme	*find_end_lexeme(t_lexeme *start, const size_t end_token[]);
 t_lexeme	*find_lexeme_compete(t_lexeme *lex, const size_t end_token[]);

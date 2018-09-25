@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/20 19:30:40 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/25 16:43:25 by sebastien        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRC_NAME = 	is_separator.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_constructor.c \
+			ast/ast_constructor_subast.c \
+			ast/put_node.c \
 			ast/node_placer_classic.c \
 			ast/node_placer_if.c \
 			ast/node_placer_while.c \
