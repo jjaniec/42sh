@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 14:56:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 18:43:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,18 @@ static int		is_quote_removable(char *s, char **jump_ptr,
 ** otherwise return 0
 */
 
-static int		is_expansion_char(char *ptr, int in_quote_type, void **expansion_handler_ptr)
+static int		is_expansion_char(t_lexeme_clean_data *l, int in_quote_type, \
+					void **expansion_handler_ptr)
 {
+	char	*ptr;
+
+	ptr = *(l->raw_lexeme_read_ptr);
 	*expansion_handler_ptr = NULL;
 	if (*ptr == '$')
 		*expansion_handler_ptr = handle_dollar_expansion;
 	else if (*ptr == '~' && \
 		in_quote_type == NOT_IN_QUOTES && \
+		(is_separator(*(ptr - 1)) || ptr == l->raw_lexeme_data) && \
 		(!(*(ptr + 1)) || *(ptr + 1) == '/'))
 		*expansion_handler_ptr = handle_tild_expansion;
 	return ((*expansion_handler_ptr) ? (1) : (0));
@@ -81,7 +86,7 @@ static void		fill_new_data_str(t_lexeme_clean_data *l)
 	in_quote_type = NOT_IN_QUOTES;
 	while (ptr && *ptr)
 	{
-		if (is_expansion_char(ptr, in_quote_type, &expansion_handler))
+		if (is_expansion_char(l, in_quote_type, &expansion_handler))
 			(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
 				(l, g_envp);
 		else if (*ptr == '\\')
@@ -93,10 +98,9 @@ static void		fill_new_data_str(t_lexeme_clean_data *l)
 			is_quote_removable(ptr, &jump_ptr, &in_quote_type))
 		{
 			ptr++;
-			log_fatal("Jump ptr |%s| - ptr |%s|", jump_ptr, ptr);
 			while (*ptr && ptr != jump_ptr)
 			{
-				if (in_quote_type == IN_DQUOTES && is_expansion_char(ptr, in_quote_type, &expansion_handler))
+				if (in_quote_type == IN_DQUOTES && is_expansion_char(l, in_quote_type, &expansion_handler))
 				{
 					(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
 						(l, g_envp);
@@ -131,7 +135,6 @@ void			handle_quotes_expansions(char **data)
 	new_lex_data.clean_data_size = ft_strlen(*data) * sizeof(char) + 1;
 	new_lex_data.clean_data = malloc(new_lex_data.clean_data_size);
 	new_lex_data.clean_data_write_ptr = new_lex_data.clean_data;
-	//log_trace("Filling new clean str of |%s|", *data);
 	fill_new_data_str(&new_lex_data);
 	free(*data);
 	*data = new_lex_data.clean_data;

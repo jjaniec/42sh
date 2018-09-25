@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 22:36:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 18:48:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,8 +211,23 @@ void	lexer_tests(char **envp)
 		"ls", T_WORD, TK_DEFAULT, "\\$IAMEMPTY", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_ll("Expansions 19 - Empty expansion element escaping in dquotes", "ls \"\\$IAMEMPTY\"\n", \
 		"ls", T_WORD, TK_DEFAULT, "$IAMEMPTY", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
-
-	test_ll("Expansions x - Long 1 - only valid expansions", \
+	test_ll("Expansions 20 - tild expansion", "ls ~\n", \
+		"ls", T_WORD, TK_DEFAULT, getenv("HOME"), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	test_ll("Expansions 21 - tild expansion escaped", "ls \\~\n", \
+		"ls", T_WORD, TK_DEFAULT, "~", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	test_ll("Expansions 22 - tild expansion in squotes", "ls '~'\n", \
+		"ls", T_WORD, TK_DEFAULT, "~", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	test_ll("Expansions 23 - tild expansion in dquotes", "ls \"~\"\n", \
+		"ls", T_WORD, TK_DEFAULT, "~", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	test_ll("Expansions 24 - tild expansion w/ content before", "ls w~\n", \
+		"ls", T_WORD, TK_DEFAULT, "w~", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	char *tmp_;
+	test_ll("Expansions 25 - tild expansion w/ content after", "ls ~/Desktop\n", \
+		"ls", T_WORD, TK_DEFAULT, (tmp_ = ft_strjoin(getenv("HOME"), "/Desktop")), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	free(tmp_);
+	test_ll("Expansions 26 - tild expansion as prog name", "~\n", \
+		getenv("HOME"), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+	test_ll("Expansions 27 - Long 1 - only valid expansions", \
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
@@ -225,7 +240,7 @@ void	lexer_tests(char **envp)
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
-	test_ll("Expansions x - Long 2 - valid & empty expansions", \
+	test_ll("Expansions 28 - Long 2 - valid & empty expansions", \
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
@@ -238,7 +253,7 @@ void	lexer_tests(char **envp)
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
-	test_ll("Expansions x - Long 3 - valid & empty expansions", \
+	test_ll("Expansions 29 - Long 3 - valid & empty expansions", \
 		"lol$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
@@ -251,7 +266,7 @@ void	lexer_tests(char **envp)
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
-	test_ll("Expansions x - Long 4 - valid & empty expansions w/ quotes & escapes", \
+	test_ll("Expansions 30 - Long 4 - valid & empty expansions w/ quotes & escapes", \
 		"lol$"EXPANSION_TESTS_ENVVAR_NAME"'$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME"'\"$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY\\$"EXPANSION_TESTS_ENVVAR_NAME"$IAME\"M\\\"PTY$"EXPANSION_TESTS_ENVVAR_NAME"$IAMEMPTY$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
@@ -267,5 +282,4 @@ void	lexer_tests(char **envp)
 	
 	test_ll("Other - Fixed 1 - Empty elem break", "ls \"\"\n", \
 		"ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
-
 }
