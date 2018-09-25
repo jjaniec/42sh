@@ -6,21 +6,13 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 18:27:51 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 18:48:36 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TWENTY_ONE_SH_H
 # define TWENTY_ONE_SH_H
 
-# include <ft_printf.h>
-# include "struct.h"
-# include "lexer.h"
-# include "log.h"
-# include "ast.h"
-# include "line_edition.h"
-# include "exec.h"
-# include "script.h"
 # include <stdint.h>
 # include <inttypes.h>
 # include <sys/wait.h>
@@ -53,6 +45,7 @@
 # include "line_edition.h"
 # include "exec.h"
 # include "syntax_highlighting.h"
+# include "script.h"
 
 extern t_option		g_sh_opts[];
 extern const size_t g_cant_begin_with[];
@@ -60,6 +53,7 @@ extern const size_t	g_token_bypass[];
 extern const size_t	g_tokens[];
 extern const size_t	g_next_tokens[][4];
 extern void			(* const g_node_placer[])(t_ast *, t_ast *);
+extern const char	*g_prompts[10];
 
 extern char			**g_envp;
 
@@ -73,7 +67,6 @@ extern char			**g_envp;
 	"cd [-L | -P] [-] [directory]"
 
 
-extern const char	*g_prompts[10];
 
 int			prompt_show(const char *prompt);
 

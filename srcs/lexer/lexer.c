@@ -6,11 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/08/24 21:32:13 by sebastien        ###   ########.fr       */
-=======
-/*   Updated: 2018/09/17 19:45:41 by jjaniec          ###   ########.fr       */
->>>>>>> develop
+/*   Updated: 2018/09/25 18:45:30 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +115,6 @@ int					lexer(char *line, t_lexeme **lexemes, \
 				break ;
 		}
 	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
-<<<<<<< HEAD
-	script_lexemes(lexemes);
-	return (lexemes);
-=======
+	script_lexemes(*lexemes);
 	return (r);
->>>>>>> develop
 }
