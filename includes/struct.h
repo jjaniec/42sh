@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 17:49:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 21:14:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,23 @@ typedef struct			s_option
 /*
 ** Each environnement entry will be stored in a struct with a
 ** pointer to it's value
+** entry: Key/Value pair for environnement entry,
+**   like "OLDPWD=something"
+** val_begin_ptr: pointer to beginning of value in our key/value pair
+**   example, for "OLDPWD=something", val_begin_ptr will point to
+**   "something", it allows us not to look for the '=' char
+**   everytime we the value of
+**   the variable
+** ptr_to_pos_in_environ_tab: pointer to t_environ->environ entry position.
+**   for not having to search through all variables
+**   when we want to delete the entry
 */
 
 typedef struct		s_env_entry
 {
-	char			entry[MAX_ENV_ENTRY_LEN + 1];
+	char				entry[MAX_ENV_ENTRY_LEN + 1];
 	char				*val_begin_ptr;
+	char				**ptr_to_pos_in_environ_tab;
 	struct s_env_entry	*next;
 }					t_env_entry;
 
@@ -102,9 +113,9 @@ typedef struct		s_environ
 	t_env_entry		*env_entries_list;
 	int				entry_count;
 	char			*(*add_var)(struct s_environ *, char *, char *);
-	char			(*upt_var)();
-	char			(*del_var)();
-	char			(*get_var)();
+	char			*(*upt_var)(struct s_environ *, char *, char *);
+	int				(*del_var)(struct s_environ *, char *);
+	char			*(*get_var)();
 }					t_environ;
 
 #endif

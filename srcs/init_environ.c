@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:41:25 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 17:51:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 21:27:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ t_environ		*init_environ(char **env)
 	new_env->add_var = add_env_var;
 	init_env_entries_list(new_env, env);
 	new_env->upt_var = NULL;
-	new_env->del_var = NULL;
+	new_env->del_var = del_env_var;
 	new_env->get_var = NULL;
+	/**/new_env->del_var(new_env, "TMPDIR");
+	new_env->del_var(new_env, "ZSH");
+	new_env->add_var(new_env, "MDR=LOL", NULL);
 	return (new_env);
 }
