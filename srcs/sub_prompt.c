@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 17:16:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 19:13:56 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	t_lexeme	*new;
 	t_lexeme	*save;
 
-	input = line_edition(need_subprompt);
-	ft_putchar('\n');
+	input = get_valid_input(&new, need_subprompt);
 	lexer(input, &new, NULL);
 	if (!lex)
 		return (new);
