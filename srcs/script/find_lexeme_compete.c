@@ -6,11 +6,15 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 19:15:02 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 19:45:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:47:19 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** Find the end_lexeme for all end_token[]
+*/
 
 static t_lexeme	**loop_find_tokens(const size_t end_token[], \
 				size_t size_end_token, t_lexeme *lex)
@@ -29,6 +33,10 @@ static t_lexeme	**loop_find_tokens(const size_t end_token[], \
 	}
 	return (end);
 }
+
+/*
+** Calculating the path length for all tokens.
+*/
 
 static unsigned int	*loop_paths(const size_t end_token[], \
 					size_t size_end_token, t_lexeme *lex, t_lexeme **end)
@@ -53,6 +61,10 @@ static unsigned int	*loop_paths(const size_t end_token[], \
 	}
 	return (paths);
 }
+
+/*
+** Choose the closest path.
+*/
 
 static unsigned int	loop_closest(const size_t end_token[], unsigned int *paths)
 {

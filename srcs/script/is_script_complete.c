@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 17:30:32 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 18:01:39 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ static t_lexeme *return_error(t_lexeme *lex)
 	return (NULL);
 }
 
-static t_lexeme	*next_token_found(t_lexeme *lex, size_t next_token)
+static t_lexeme	*end_of_loop(t_lexeme *lex, t_lexeme *tmp, size_t next_token)
 {
-	t_lexeme	*tmp;
-
-	tmp = lex->next;
+	if (lex && lex->type_details == next_token && next_token != 0)
+	{
 		if (next_token == TK_SCRIPT_ELIF)
 			return (is_script_complete(lex->next, tmp, TK_SCRIPT_CONDITION_IF));
 		if (next_token == TK_SCRIPT_THEN)
@@ -50,21 +49,9 @@ static t_lexeme	*next_token_found(t_lexeme *lex, size_t next_token)
 			return (lex);
 		if (next_token == TK_SCRIPT_DONE)
 			return (lex);
-	return (lex);
-}
-
-static t_lexeme	*end_of_loop(t_lexeme *lex, t_lexeme *tmp, size_t next_token)
-{
-	//The next_token is found
-	if (lex && lex->type_details == next_token && next_token != 0)
-		return (next_token_found(lex, next_token));
-	//The next_token is not here
-	else if (next_token != 0)
-	{
-		log_warn("Token: %d", next_token);
-		return (NULL);
 	}
-	//We are at the end
+	else if (next_token != 0)
+		return (NULL);
 	return (tmp);
 }
 
@@ -78,6 +65,10 @@ static t_lexeme	*is_start_of_new_script(t_lexeme *lex)
 		TK_SCRIPT_CONDITION_WHILE));
 	return (lex);
 }
+
+/*
+** Check if a script got all of his tokens needed.
+*/
 
 t_lexeme	*is_script_complete(t_lexeme *lex, t_lexeme *tmp, size_t next_token)
 {

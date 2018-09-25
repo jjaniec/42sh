@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 16:31:02 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 18:04:23 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ t_exec		*exec_script(t_ast *node, t_exec *exe)
 		exec_script_while(node, exe);
 	return (exe);
 }
+
+/*
+** Exec a subast script node
+*/
 
 void		script_in_exec(t_ast *node, t_exec *exe)
 {

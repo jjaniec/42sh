@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 11:55:55 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/07 15:49:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:03:07 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ static char	**node_data(t_lexeme *lex)
 	return (data);
 }
 
+/*
+** Construct a node specially when it's a token node
+*/
+
 t_ast	*script_create_node(t_lexeme *lex)
 {
 	t_ast	*node;
 
-	log_debug("Node constructed - node->type = %zd - %zd", lex->type, lex->type_details);
 	if (lex->type < T_SCRIPT_LOGICAL)
 		return (NULL);
 	log_info("AST: Creating scripting node: %s.", lex->data);
