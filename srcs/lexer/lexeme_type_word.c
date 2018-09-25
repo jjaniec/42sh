@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 16:00:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 14:51:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,30 @@ static int	skip_quotes_substring(char *s, int *pos)
 	return (0);
 }
 
+/*
+** Determines if string should be passed to handle_quotes_expansions
+** to remove quotes / backslashes / replace expansion specifiers
+*/
+
+static int	is_clean_needed_expansions(char **data)
+{
+	char	*ptr;
+
+	ptr = EXPANSIONS_SPECIFIERS;
+	while (*ptr)
+		if (ft_strchr(*data, *ptr++))
+			return (1);
+	return (0);
+}
+
+static int	is_clean_needed(char **data)
+{
+	if (*data && (ft_strchr(*data, '\'') || \
+			ft_strchr(*data, '"') || ft_strchr(*data, '\\') || \
+			is_clean_needed_expansions(data)))
+		return (1);
+	return (0);
+}
 /*
 ** Parse word operators (default type),
 ** if string $s do not contains quotes,
@@ -56,12 +80,9 @@ size_t		lexeme_type_word(char *s, int *pos, char **data)
 	}
 	if (start != *pos)
 	{
-		log_fatal("Before clean: |%s|", s + start);
 		*data = ft_strsub(s, start, *pos - start);
-		if (*data && (ft_strchr(*data, '\'') || \
-			ft_strchr(*data, '"') || ft_strchr(*data, '\\') || \
-			ft_strchr(*data, '$')))
-			clean_word_lexeme(data);
+		if (is_clean_needed(data))
+			handle_quotes_expansions(data);
 	}
 	else
 		*data = NULL;

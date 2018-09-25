@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_word_lexeme.c                                :+:      :+:    :+:   */
+/*   handle_quotes_expansions.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 22:34:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 14:56:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ static int		is_quote_removable(char *s, char **jump_ptr,
 ** otherwise return 0
 */
 
-static int		is_expansion_char(char c, void **expansion_handler_ptr)
+static int		is_expansion_char(char *ptr, int in_quote_type, void **expansion_handler_ptr)
 {
 	*expansion_handler_ptr = NULL;
-	if (c == '$')
+	if (*ptr == '$')
 		*expansion_handler_ptr = handle_dollar_expansion;
-	/*else if (c == '~')
-		*expansion_handler_ptr = handle_tild_expansion;*/
+	else if (*ptr == '~' && \
+		in_quote_type == NOT_IN_QUOTES && \
+		(!(*(ptr + 1)) || *(ptr + 1) == '/'))
+		*expansion_handler_ptr = handle_tild_expansion;
 	return ((*expansion_handler_ptr) ? (1) : (0));
 }
 
@@ -76,8 +78,10 @@ static void		fill_new_data_str(t_lexeme_clean_data *l)
 	ptr = l->raw_lexeme_data;
 	l->raw_lexeme_read_ptr = &ptr;
 	jump_ptr = ptr;
+	in_quote_type = NOT_IN_QUOTES;
 	while (ptr && *ptr)
-		if (is_expansion_char(*ptr, &expansion_handler))
+	{
+		if (is_expansion_char(ptr, in_quote_type, &expansion_handler))
 			(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
 				(l, g_envp);
 		else if (*ptr == '\\')
@@ -92,33 +96,34 @@ static void		fill_new_data_str(t_lexeme_clean_data *l)
 			log_fatal("Jump ptr |%s| - ptr |%s|", jump_ptr, ptr);
 			while (*ptr && ptr != jump_ptr)
 			{
-				if (in_quote_type == IN_DQUOTES && is_expansion_char(*ptr, &expansion_handler))
-				{	(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
+				if (in_quote_type == IN_DQUOTES && is_expansion_char(ptr, in_quote_type, &expansion_handler))
+				{
+					(*(void (*)(t_lexeme_clean_data *, char **))(expansion_handler))\
 						(l, g_envp);
 					continue ;
 				}
 				else if (*ptr == '\\')
 					ptr += \
 						sizeof(char) * handle_escape_offset(ptr, in_quote_type);
-				//else
-					(*(l->clean_data_write_ptr++)) = *(ptr++);
-				//printf("lol |%s| %p\n", ptr, ptr);
+				(*(l->clean_data_write_ptr++)) = *(ptr++);
 			}
 			if (*ptr)
 				ptr++;
 		}
 		else
 			(*(l->clean_data_write_ptr++)) = *(ptr++);
+	}
 	*(l->clean_data_write_ptr) = '\0';
 }
 
 /*
-** Removes ' and " characters from given string by calculating
-** count of characters to remove, creating a new string and filling it
-** without escaping characters '\' and quotes pairs
+** Removes ' and " characters from given string,
+** creating a new string and filling it
+** without escaping characters '\', quotes pairs
+** and expansing '$' or '~' expansions when needed
 */
 
-void			clean_word_lexeme(char **data)
+void			handle_quotes_expansions(char **data)
 {
 	t_lexeme_clean_data		new_lex_data;
 
@@ -126,10 +131,9 @@ void			clean_word_lexeme(char **data)
 	new_lex_data.clean_data_size = ft_strlen(*data) * sizeof(char) + 1;
 	new_lex_data.clean_data = malloc(new_lex_data.clean_data_size);
 	new_lex_data.clean_data_write_ptr = new_lex_data.clean_data;
-	log_trace("Filling new clean str of |%s|", *data);
+	//log_trace("Filling new clean str of |%s|", *data);
 	fill_new_data_str(&new_lex_data);
 	free(*data);
 	*data = new_lex_data.clean_data;
-	log_debug("Replaced old data w/ |%s|", *data);
-
+	log_trace("Replaced old data w/ after quotes & expansions handling |%s|", *data);
 }

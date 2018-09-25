@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 19:18:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/25 14:30:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,18 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, char **env)
 	else
 		free(env_var_value);
 	(*(l->raw_lexeme_read_ptr)) += (expansion_name_len + 1) * sizeof(char);
+}
+
+void			handle_tild_expansion(t_lexeme_clean_data *l, char **env)
+{
+	char	*home_path;
+
+	home_path = get_env("HOME", (const char **)env);
+	log_trace("Got env var value of |%s| for HOME env variable expansion", home_path);
+
+	if (home_path && *home_path)
+		concat_expansion_data(l, home_path);
+	else
+		free(home_path);
+	(*(l->raw_lexeme_read_ptr)) += sizeof(char);
 }
