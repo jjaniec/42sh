@@ -6,45 +6,47 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 16:55:58 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 16:31:02 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static t_exec	*exec_script(t_ast *node, t_exec *exe)
+static void	exec_script_else(t_ast *node, t_exec *exe)
+{
+	script_in_exec(node->sub_ast, exe);
+}
+
+static void	exec_script_if(t_ast *node, t_exec *exe)
+{
+	log_debug("EXEC->actual node : %s - exe->ret = %d", node->data[0], exe->ret);
+	if (exe->ret == 0)
+		script_in_exec(node->left->left->sub_ast, exe);
+	else if (node->right)
+		exec_script(node->right, exe);
+}
+
+static void	exec_script_while(t_ast *node, t_exec *exe)
+{
+	script_in_exec(node->left->left->sub_ast, exe);
+	exec_script(node, exe);
+}
+
+t_exec		*exec_script(t_ast *node, t_exec *exe)
 {
 	if (!node->sub_ast)
-	{
-		//Go to the condition
-		node = node->left;
-		exe = ast_explore(node->sub_ast, exe);
-		node = node->parent;
-	}
-	//If the script is an IF
+		exe = ast_explore(node->left->sub_ast, exe);
 	if (node->type_details == TK_SCRIPT_IF
 	|| node->type_details == TK_SCRIPT_ELIF)
-	{
-		log_debug("EXEC->actual node : %s - exe->ret = %d", node->data[0], exe->ret);
-		if (exe->ret == 0)
-			script_in_exec(node->left->left->sub_ast, exe);
-		else if (node->right)
-			exec_script(node->right, exe);
-	}
+		exec_script_if(node, exe);
 	if (node->sub_ast)
-		script_in_exec(node->sub_ast, exe);
-	if (node->type_details == TK_SCRIPT_WHILE)
-	{
-		if (exe->ret == 0)
-		{
-			script_in_exec(node->left->left->sub_ast, exe);
-			exec_script(node, exe);
-		}
-	}
+		exec_script_else(node, exe);
+	if (node->type_details == TK_SCRIPT_WHILE && exe->ret == 0)
+		exec_script_while(node, exe);
 	return (exe);
 }
 
-void	script_in_exec(t_ast *node, t_exec *exe)
+void		script_in_exec(t_ast *node, t_exec *exe)
 {
 	if (node->left && node->left->type == T_SCRIPT_LOGICAL)
 		exe = exec_script(node->left, exe);

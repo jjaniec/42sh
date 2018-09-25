@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 19:29:38 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 19:29:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 15:59:56 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ static t_lexeme	*to_end(t_lexeme *lex)
 
 t_lexeme	*find_end_lexeme_solo(t_lexeme *start, const size_t end_token)
 {
-	int			i;
 	t_lexeme	*lex;
 
-	i = 0;
 	start = start->next;
 	lex = start;
 	while (lex && lex->type_details != end_token)

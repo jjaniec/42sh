@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/20 19:47:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 16:34:25 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ t_lexeme	*find_end_lexeme_solo(t_lexeme *start, const size_t end_token);
 */
 
 void		script_in_exec(t_ast *node, t_exec *exe);
+t_exec		*exec_script(t_ast *node, t_exec *exe);
 
 #endif
