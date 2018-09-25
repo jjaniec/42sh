@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 18:08:45 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 18:35:31 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,25 @@ void waitFor (unsigned int secs)
     while (time(0) < retTime);               // Loop until it arrives.
 }
 
+t_option		g_sh_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
+	{{"G"}, "Disable syntax highlighting", false},
+	{{"v", "-verbose"}, "Enable verbose mode", false},
+	{{NULL}, NULL, false}
+};
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	//plan(66);
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	//lexer_tests();
-	//ast_tests();
-	//exec_tests(envp);
-	script_tests(envp);
+	g_sh_opts[1].opt_status = true;
+	lexer_tests();
+	ast_tests();
+	exec_tests(&envp);
+	syntax_highlighting_tests(envp);
+	//script_tests(envp);
 	done_testing();
 }

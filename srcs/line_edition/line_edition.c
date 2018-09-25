@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/08/20 14:47:20 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/19 19:51:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,37 @@
 FILE *tty_debug = NULL; // debug
 #define FOOLOL // debug
 
-#include "../../includes/line_edition.h"
+
+#include <twenty_one_sh.h>
 #undef FOOLOL // debug
+
+// debug function
+static void		le_debug_infos(void)
+{
+	struct s_line	*le = access_le_main_datas();
+
+	le_debug("%s", "--------------------------------------\n");
+	le_debug("PID du 42sh = %d\n", (int)getpid());
+	le_debug("key number = %llu\n", (unsigned long long)(le->key_no));
+	le_debug("cmd = |%s|\n", le->cmd);
+	le_debug("cmd size = %zu\n", le->cmd_size);
+	le_debug("cmd len = %u\n", le->cmd_len);
+	le_debug("cursor index = %u - %c\n", \
+	le->cursor_index, le->cmd[le->cursor_index]);
+	le_debug("start pos = %u\n", le->start_pos);
+	le_debug("cursor pos = %u\ncursor line = %u\n", \
+	le->cursor_pos, le->cursor_line);
+	le_debug("term line size = %zu\n", le->term_line_size);
+	le_debug("nb lines written = %u\n", le->nb_lines_written);
+	le_debug("nb char on last line = %u\n", \
+	le->nb_char_on_last_line);
+	le_debug("clipboard = |%s|\n", le->clipboard);
+	le_debug("clipboard size = %zu\nclipboard len = %zu\n", \
+	le->clipboard_size, le->clipboard_len);
+	le_debug("save tmp cmd = |%s|\n", le->save_tmp_cmd);
+	le_debug("%s","--------------------------------------\n");
+}
+
 
 static void		read_key(char key[LE_KEY_SIZE])
 {
@@ -28,7 +57,7 @@ static void		read_key(char key[LE_KEY_SIZE])
 		perror("read() - perror() report");
 	}
 
-	// if (read_ret == 0) ?  ctrl + d causes EOF ? think about that later ... 
+	// check les differentes erreurs de read(), une coupure a cause d'un signal ...
 }
 
 static t_kno	get_key_number(const char *key)
@@ -46,39 +75,46 @@ static t_kno	get_key_number(const char *key)
 	return (key_no);
 }
 
-char			*line_edition(void)
+char			*line_edition(int prompt_type)
 {
-	char			*final_line;
-	char			key[LE_KEY_SIZE];
-	struct s_line	le;
-	t_kno			key_no;
+	char					*final_line;
+	char					key[LE_KEY_SIZE];
+	static struct s_line	*le;
+	t_kno					key_no;
 
+	le = access_le_main_datas();
 	set_term_attr(LE_SET_NEW);
-	init_line_edition_attributes(&le);
+	init_line_edition_attributes(le, prompt_type);
 
-	while ("cest ta mere la jjaniec")
+	le_debug_infos(); // debug
+	while ("cest ta merge la jjaniec")
 	{
 		ft_memset(key, '\0', LE_KEY_SIZE);
 		read_key(key);
+
 		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
 		key_no = get_key_number(key);
 
-		if (key_no >= 32 && key_no >= 126)
-			fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
+		//if (key_no >= 32 && key_no >= 126)
+			//fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
 
-		process_key(key_no, &le);
+		process_key(key_no, le);
+		le_debug_infos(); // debug
 
 		if (key_no == '\n')
 		{
 			set_term_attr(LE_SET_OLD);
 			break ;
-			// need more things to do in the future when line is finished
-		} 
-
+		}
 	}
 
-	if ((final_line = ft_strdup(le.line)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc");
+	actionk_move_cursor_end(le);
+	reset_history_on_first_elem(le);
+
+	if ((final_line = ft_strdup(le->cmd)) == NULL)
+		le_exit("Memory allocation failed\n", "malloc", errno);
+	free(le->cmd);
+	le->cmd = NULL;
 	return (final_line);
 }
 
@@ -87,10 +123,12 @@ char			*line_edition(void)
 /*
 void	prompt(void)
 {
-	printf("SERGE   $> ");
+	printf("PROMPT  $> ");
 	fflush(stdout);
 }
+*/
 
+/*
 void	prepare_test(void)
 {
 	tty_debug = fopen(TTY_DEBUG, "w");
@@ -100,17 +138,40 @@ void	prepare_test(void)
 		exit(123);
 	}
 }
+*/
 
+/*
 int	 main(void)
 {
+	char	*input;
+
 	prepare_test();
-	prompt();
 	
-	char * s = line_edition();
-	printf("\ninput = %s", s);
-	free(s);
+	while ("\x1b\x5b\x48\x1b\x5b\x32\x4a\x00\x66\x75\x63\x6b")
+	{
+		prompt();
+		
+		input = line_edition();
+		//printf("\ninput = |%s|\n", s);
+		
+		if ( strcmp(input, "q\n") == 0 )
+			break ;
+		
+		//printf("\nINPUT = |%s|", input);
+
+		free(input);
+
+#define TERPRI putchar('\n')
+		if (TERPRI, TERPRI, TERPRI)
+			;
+	}
+	
 	fclose(tty_debug);
 
-	return 0;
-}
-*/
+	return
+	!!!!!!!!!!!!! 
+	"patate + licorne = patatorne"
+	+ !!!
+	TERPRI
+	;;;
+}*/

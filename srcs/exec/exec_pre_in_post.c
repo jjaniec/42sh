@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 16:47:28 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/25 18:32:53 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@
 
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
-	void	(*builtin_fun_ptr)(char **, char **, t_exec *);
-
-	builtin_fun_ptr = NULL;
 	if (ft_strchr(argv[0], '/'))
 		exec_local(argv, envp, exe, node);
-	else if (is_builtin(argv[0], &builtin_fun_ptr))
-		exec_builtin(argv, envp, exe, &builtin_fun_ptr);
+	else if (exec_builtin(argv, envp, exe, node))
+		return ;
 	else
 		exec_binary(argv, envp, exe, node);
 }

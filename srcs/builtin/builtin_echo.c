@@ -6,11 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/03 16:47:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:30:28 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** https://www.unix.com/man-page/posix/1posix/echo
+*/
 
 static void	expanse_var(const char *str, const char **envp)
 {
@@ -34,4 +38,5 @@ void		builtin_echo(char **argv, char **envp, t_exec *exe)
 		argv++;
 	}
 	ft_putchar('\n');
+	exit(0);
 }

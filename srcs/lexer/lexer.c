@@ -6,7 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/08/24 21:32:13 by sebastien        ###   ########.fr       */
+=======
+/*   Updated: 2018/09/17 19:45:41 by jjaniec          ###   ########.fr       */
+>>>>>>> develop
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +63,7 @@ static int			make_next_lexeme(char *line, int *pos, \
 	size_t		type;
 	size_t		type_details;
 	char		*data;
+	char		*lexeme_begin_end_ptrs[2];
 	t_lexeme	*e;
 
 	type_details = TK_DEFAULT;
@@ -67,10 +72,12 @@ static int			make_next_lexeme(char *line, int *pos, \
 		*pos += 1;
 	if (line[*pos])
 	{
+		lexeme_begin_end_ptrs[0] = &(line[*pos]);
 		type = get_lexeme(line, pos, &data, &type_details);
 		if ((int)type == UNMATCHED_QUOTE_ERR)
 			return (UNMATCHED_QUOTE_ERR);
-		e = create_lexeme(type, data, type_details);
+		lexeme_begin_end_ptrs[1] = &(line[*pos]);
+		e = create_lexeme(type, data, type_details, lexeme_begin_end_ptrs);
 		if (add_lexeme_to_list(e, lexemes, cur_lexeme))
 			return (1);
 		return (0);
@@ -83,31 +90,39 @@ static int			make_next_lexeme(char *line, int *pos, \
 ** line: input received from user
 */
 
-t_lexeme			*lexer(char *line)
+int					lexer(char *line, t_lexeme **lexemes, \
+						char **unmatched_quote_err_ptr)
 {
-	t_lexeme	*lexemes;
 	t_lexeme	*cur_elem;
 	int			i;
 	int			r;
 
+	if (unmatched_quote_err_ptr)
+		*unmatched_quote_err_ptr = NULL;
+	*lexemes = NULL;
 	i = 0;
-	lexemes = NULL;
+	r = 0;
 	if (line)
 		while (line[i])
 		{
-			r = make_next_lexeme(line, &i, &lexemes, &cur_elem);
+			r = make_next_lexeme(line, &i, lexemes, &cur_elem);
 			if (r == UNMATCHED_QUOTE_ERR)
 			{
-				free_lexemes(lexemes);
-				i = 0;
-				r = 1;
-				lexemes = NULL;
-				subp_string(&line);
+				if (unmatched_quote_err_ptr)
+				{
+					*unmatched_quote_err_ptr = &(line[i]);
+					log_fatal("Unmatched_quote_err_ptr: |%s|", *unmatched_quote_err_ptr);
+				}
+				break ;
 			}
 			else if (r == 0)
 				break ;
 		}
 	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
+<<<<<<< HEAD
 	script_lexemes(lexemes);
 	return (lexemes);
+=======
+	return (r);
+>>>>>>> develop
 }
