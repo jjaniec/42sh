@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 13:49:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/26 13:50:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ t_option		g_tests_opts[] = {
 	{{NULL}, NULL, false}
 };
 
-static int	right_format_builtin(char **argv, int argc)
+static int	right_format_builtin(char **argv, int *argc)
 {
 	if (ft_strequ(argv[0], "test"))
 		return (1);
-	else if (ft_strequ(argv[0], "[") && ft_strequ(argv[argc - 1], "]"))
+	else if (ft_strequ(argv[0], "[") && ft_strequ(argv[*argc - 1], "]"))
 	{
-		argv[argc - 1] = NULL;
+		argv[*argc - 1] = NULL;
+		(*argc)--;
 		return (1);
 	}
 	else
@@ -88,7 +89,7 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 		exit (1);
 	else if (is_option_activated("h", opt_list, char_opt_index) || \
 	is_option_activated("--------------------------", opt_list, char_opt_index)\
-	|| !right_format_builtin(argv, ac))
+	|| !right_format_builtin(argv, &ac))
 	{
 		format_help(BUILTIN_TEST_USAGE, opt_list);
 		exit (0);
