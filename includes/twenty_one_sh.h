@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 13:02:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/26 16:06:08 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,5 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 bool	is_option_activated(char *opt_str, \
 			t_option *opt_list, t_option **char_opt_index);
 
+char	autoc_check_path(char *dirname);
 #endif
