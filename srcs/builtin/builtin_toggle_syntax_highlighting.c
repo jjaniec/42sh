@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:30:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/25 14:21:08 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/26 20:30:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ static int			check_args(char **args)
 	}
 	return (0);
 }
+
+/*
+**	syntax [on \ off]
+**	(de)active syntax highlighting.
+*/
 
 void				builtin_toggle_syntax_highlighting(char **argv, char **envp,
 																	t_exec *exe)
