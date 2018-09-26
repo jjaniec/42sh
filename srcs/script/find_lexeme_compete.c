@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 19:15:02 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 11:09:38 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/26 11:53:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,7 @@ t_lexeme			*find_lexeme_compete(t_lexeme *lex, \
 	closest = loop_closest(end_token, paths);
 	while (lex && closest--)
 		lex = lex->next;
+	free(end);
+	free(paths);
 	return (lex);
 }
