@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 19:40:45 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/26 19:11:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ extern char			**g_envp;
 # define BUILTIN_CD_USAGE \
 	"cd [-L | -P] [-] [directory]"
 
+# define BUILTIN_HISTORY_USAGE \
+	"Usage : history [n | -d n | --clear | --save]\n"
 
 extern const char	*g_prompts[10];
 
@@ -87,6 +89,6 @@ bool	is_option_activated(char *opt_str, \
 			t_option *opt_list, t_option **char_opt_index);
 
 bool    check_42shrc(void);
-
+void	load_history_file(struct s_line *le);
 
 #endif
