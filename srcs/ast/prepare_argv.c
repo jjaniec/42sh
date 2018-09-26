@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 15:52:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 18:30:12 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:28:05 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static char		**fill_argv_tab(char ***argv, t_lexeme *lexemes)
 ** containing an argument of the current command to be passed to execve()
 */
 
-char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_EOF)
+char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_eof)
 {
 	char	**argv;
 
@@ -100,7 +100,7 @@ char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_EOF)
 			exit(MALLOC_ERROR);
 		return (fill_argv_tab(&argv, lexemes));
 	}
-	if (lexemes->type != T_WORD || flag_heredoc_EOF)
+	if (lexemes->type != T_WORD || flag_heredoc_eof)
 		return (prepare_argv_operator(lexemes));
 	if (!(argv = malloc(sizeof(char *) * count_argv(lexemes) + 1)))
 		exit(MALLOC_ERROR);

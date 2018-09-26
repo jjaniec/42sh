@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:28:34 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:23:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_ast	*ast(t_lexeme *lex)
 	int		check;
 
 	root = NULL;
-
 	check = NEED_SUBPROMPT_NEWLINE;
 	while (check < 0)
 	{
@@ -37,7 +36,6 @@ t_ast	*ast(t_lexeme *lex)
 		printf("There is an error in your script.\n");
 		return (NULL);
 	}
-	//print_lexeme(lex);
 	root = create_node(T_CTRL_OPT, TK_SEMICOLON, NULL);
 	root = ast_constructor(&lex, root, NULL, &node_placer_classic);
 	if (!root)

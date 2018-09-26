@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:36:10 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 16:39:32 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:27:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static int	manage_heredoc(t_lexeme *lex)
 	return (0);
 }
 
-int		put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
-		void(* const node_placer)(t_ast *, t_ast *))
+int			put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
+			void(*const node_placer)(t_ast *, t_ast *))
 {
-	int		flag_heredoc_EOF;
+	int		flag_heredoc_eof;
 
-	flag_heredoc_EOF = manage_heredoc(*lex);
+	flag_heredoc_eof = manage_heredoc(*lex);
 	if (!is_bypass_token(new))
 	{
 		log_trace("Put_node: %s", new->data[0]);
@@ -56,5 +56,5 @@ int		put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 			*lex = lex[0]->next;
 	else
 		*lex = lex[0]->next;
-	return (flag_heredoc_EOF);
+	return (flag_heredoc_eof);
 }

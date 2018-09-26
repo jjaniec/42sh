@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 17:31:27 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:20:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** change it to a TK_SCRIPT_FI (for a parsing error every time)
 */
 
-static t_lexeme		*next_lex_condition(t_lexeme *lex, size_t token)
+static t_lexeme	*next_lex_condition(t_lexeme *lex, size_t token)
 {
 	if (lex->next)
 		lex->next = is_keyword(lex->next);
@@ -63,15 +63,15 @@ static t_lexeme	*associate_token(t_lexeme *lex, const char *original, \
 ** Defines the lexeme type and type_details.
 */
 
-t_lexeme	*is_keyword(t_lexeme *lex)
+t_lexeme		*is_keyword(t_lexeme *lex)
 {
 	if (lex->next)
 		lex = associate_token(lex, "IF", T_SCRIPT_LOGICAL, TK_SCRIPT_IF);
 	if (lex->next)
 		lex = associate_token(lex, "ELIF", T_SCRIPT_LOGICAL, TK_SCRIPT_ELIF);
-	lex = associate_token(lex, "ELSE", T_SCRIPT_LOGICAL, TK_SCRIPT_ELSE);
 	if (lex->next)
 		lex = associate_token(lex, "WHILE", T_SCRIPT_LOGICAL, TK_SCRIPT_WHILE);
+	lex = associate_token(lex, "ELSE", T_SCRIPT_LOGICAL, TK_SCRIPT_ELSE);
 	lex = associate_token(lex, "THEN", T_SCRIPT_CONTAINER, TK_SCRIPT_THEN);
 	lex = associate_token(lex, "FI", T_SCRIPT_CONTAINER, TK_SCRIPT_FI);
 	lex = associate_token(lex, "DO", T_SCRIPT_CONTAINER, TK_SCRIPT_DO);

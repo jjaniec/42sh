@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 11:55:55 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 18:03:07 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:08:44 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	**node_data(t_lexeme *lex)
 	size = -1;
 	log_debug("count_data: %d", size);
 	if (!(data = (char **)malloc(sizeof(char *) * (size + 1))))
-		exit (MALLOC_ERROR);
+		exit(MALLOC_ERROR);
 	while (i < size)
 	{
 		data[i] = lex->data;
@@ -38,7 +38,7 @@ static char	**node_data(t_lexeme *lex)
 ** Construct a node specially when it's a token node
 */
 
-t_ast	*script_create_node(t_lexeme *lex)
+t_ast		*script_create_node(t_lexeme *lex)
 {
 	t_ast	*node;
 

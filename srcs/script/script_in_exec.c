@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:04:23 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:10:09 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	exec_script_else(t_ast *node, t_exec *exe)
 
 static void	exec_script_if(t_ast *node, t_exec *exe)
 {
-	log_debug("EXEC->actual node : %s - exe->ret = %d", node->data[0], exe->ret);
 	if (exe->ret == 0)
 		script_in_exec(node->left->left->sub_ast, exe);
 	else if (node->right)

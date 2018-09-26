@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 18:01:39 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:20:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_lexeme	*next_token_then(t_lexeme *lex)
 	return (NULL);
 }
 
-static t_lexeme *return_error(t_lexeme *lex)
+static t_lexeme	*return_error(t_lexeme *lex)
 {
 	log_error("There is an error here: %s", lex->data);
 	return (NULL);
@@ -57,20 +57,22 @@ static t_lexeme	*end_of_loop(t_lexeme *lex, t_lexeme *tmp, size_t next_token)
 
 static t_lexeme	*is_start_of_new_script(t_lexeme *lex)
 {
-	if (lex->type_details == TK_SCRIPT_IF) 
+	if (lex->type_details == TK_SCRIPT_IF)
 		return (is_script_complete(lex->next, lex->next, \
 		TK_SCRIPT_CONDITION_IF));
-	else if (lex->type_details == TK_SCRIPT_WHILE) 
+	else if (lex->type_details == TK_SCRIPT_WHILE)
 		return (is_script_complete(lex->next, lex->next, \
 		TK_SCRIPT_CONDITION_WHILE));
-	return (lex);
+	else
+		return (lex);
 }
 
 /*
 ** Check if a script got all of his tokens needed.
 */
 
-t_lexeme	*is_script_complete(t_lexeme *lex, t_lexeme *tmp, size_t next_token)
+t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
+				size_t next_token)
 {
 	if (lex && !good_start(lex))
 		return (NULL);

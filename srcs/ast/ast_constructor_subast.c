@@ -6,13 +6,13 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/25 16:43:05 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:28:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static char	**debug_data_node(char *str)
+static char		**debug_data_node(char *str)
 {
 	char	**tab_;
 
@@ -26,7 +26,7 @@ static char	**debug_data_node(char *str)
 
 static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
 				const size_t next_tokens[],
-				void (* const node_placer)(t_ast *, t_ast *))
+				void (*const node_placer)(t_ast *, t_ast *))
 {
 	t_lexeme	*end_lexeme;
 
@@ -41,10 +41,10 @@ static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
 }
 
 t_lexeme		*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
-				void (* const node_placer)(t_ast *, t_ast *))
+				void (*const node_placer)(t_ast *, t_ast *))
 {
-	int		i;
-	t_ast	*node_subast;
+	int			i;
+	t_ast		*node_subast;
 	t_lexeme	*save;
 
 	i = 0;
@@ -61,11 +61,10 @@ t_lexeme		*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
 			put_node(&save, &(root[0]->sub_ast), new, g_node_placer[i]);
 			while (lex && lex->type == T_WORD)
 				lex = lex->next;
-			return(create_sub_ast(lex, &(root[0]->sub_ast), g_next_tokens[i], \
+			return (create_sub_ast(lex, &(root[0]->sub_ast), g_next_tokens[i], \
 				g_node_placer[i]));
 		}
 		i++;
 	}
 	return (lex);
 }
-

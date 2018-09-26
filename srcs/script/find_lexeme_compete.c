@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 19:15:02 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 17:47:19 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 11:09:38 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 ** Find the end_lexeme for all end_token[]
 */
 
-static t_lexeme	**loop_find_tokens(const size_t end_token[], \
-				size_t size_end_token, t_lexeme *lex)
+static t_lexeme		**loop_find_tokens(const size_t end_token[], \
+					size_t size_end_token, t_lexeme *lex)
 {
 	unsigned int	i;
 	t_lexeme		**end;
@@ -45,7 +45,8 @@ static unsigned int	*loop_paths(const size_t end_token[], \
 	t_lexeme		*save;
 	unsigned int	*paths;
 
-	paths = (unsigned int *)ft_memalloc(sizeof(unsigned int) * (size_end_token + 1));
+	paths = (unsigned int *)ft_memalloc(sizeof(unsigned int) \
+			* (size_end_token + 1));
 	if (!paths)
 		exit(MALLOC_ERROR);
 	i = 0;
@@ -87,7 +88,8 @@ static unsigned int	loop_closest(const size_t end_token[], unsigned int *paths)
 ** t_lexeme *lex from all token proposed in end_token[]
 */
 
-t_lexeme	*find_lexeme_compete(t_lexeme *lex, const size_t end_token[])
+t_lexeme			*find_lexeme_compete(t_lexeme *lex, \
+					const size_t end_token[])
 {
 	size_t			size_end_token;
 	t_lexeme		**end;
