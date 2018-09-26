@@ -6,11 +6,15 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 13:50:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/26 15:27:07 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** WIP IN PROGRESS IN NEW BRANCH !!
+*/
 
 /*
 ** Posix options
@@ -51,7 +55,7 @@ t_option		g_tests_opts[] = {
 	{{"le"}, "-ge n1 n2:\tTrue if the intengers n1 is algebraically less than or equal to the integer n2.", false},
 	{{NULL}, NULL, false}
 };
-
+/*
 static int	right_format_builtin(char **argv, int *argc)
 {
 	if (ft_strequ(argv[0], "test"))
@@ -69,29 +73,35 @@ static int	right_format_builtin(char **argv, int *argc)
 static int	parse_expr(char **argv, t_option *opt_list, \
 			t_option *char_opt_index[CHAR_OPT_INDEX_SIZE])
 {
+	(void)opt_list;
+	(void)char_opt_index;
+	(void)argv;
 	return (0);
-}
+}*/
 
 void		builtin_test(char **argv, char **envp, t_exec *exe)
 {
-	t_option	*opt_list;
-	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	char		**args;
+	//t_option	*opt_list;
+	//t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
+	//char		**args;
 	int			ac;
 
+	(void)envp;
 	ac = 0;
 	while (argv[ac])
 		ac++;
 
-	opt_list = g_tests_opts;
-	args = parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
-	if (!argv[0])
+	exe->ret = ft_atoi(argv[1]);
+	exit (exe->ret);
+	//opt_list = g_tests_opts;
+	//args = parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
+	/*if (!argv[0])
 		exit (1);
 	else if (is_option_activated("h", opt_list, char_opt_index) || \
 	is_option_activated("--------------------------", opt_list, char_opt_index)\
 	|| !right_format_builtin(argv, &ac))
 	{
-		format_help(BUILTIN_TEST_USAGE, opt_list);
+		//format_help(BUILTIN_TEST_USAGE, opt_list);
 		exit (0);
 	}
 	else if (!argv[1] && ft_strlen(argv[0]) > 0)
@@ -99,5 +109,5 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	else if (!argv[1])
 		exit (1);
 	else
-		exit (parse_expr(argv + 1), opt_list, char_opt_index);
+		exit (parse_expr((argv + 1), opt_list, char_opt_index));*/
 }
