@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 13:14:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/26 13:49:28 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ t_option		g_tests_opts[] = {
 			\tThe file is not executable on a read-only file system even if this test indicates true.", false},
 	{{"L"}, "-L file:\tTrue if file exists and is a symbolic link.", false},
 	{{"S"}, "-S file:\tTrue if file exists and is a socket.", false},
-	{{"-----------------------------------------------------------------------"}, "" , false},
+	{{"--------------------------"}, "" , false},
 	{{"n"}, "-n  string:\tTrue if the length of string is nonzero.", false},
 	{{"z"}, "-z  string:\tTrue if the length of string is zero.", false},
 	{{"="}, "-=  s1 s2:\tTrue if the strings s1 and s2 are identical.", false},
 	{{"!="}, "-!= s1 s2:\tTrue if the strings s1 and s2 are not identical.", false},
 	{{"<"}, "-<  s1 s2:\tTrue if the strings s1 comes before s2 based on the binary value of their characters.", false},
 	{{">"}, "->  s1 s2:\tTrue if the strings s1 comes after s2 based on the binary value of their characters.", false},
-	{{"-----------------------------------------------------------------------"}, "" , false},
+	{{"--------------------------"}, "" , false},
 	{{"eq"}, "-eq n1 n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
 	{{"ne"}, "-ne n1 n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
 	{{"gt"}, "-gt n1 n2:\tTrue if the intengers n1 is algebraically greater than the integer n2.", false},
@@ -51,6 +51,25 @@ t_option		g_tests_opts[] = {
 	{{"le"}, "-ge n1 n2:\tTrue if the intengers n1 is algebraically less than or equal to the integer n2.", false},
 	{{NULL}, NULL, false}
 };
+
+static int	right_format_builtin(char **argv, int argc)
+{
+	if (ft_strequ(argv[0], "test"))
+		return (1);
+	else if (ft_strequ(argv[0], "[") && ft_strequ(argv[argc - 1], "]"))
+	{
+		argv[argc - 1] = NULL;
+		return (1);
+	}
+	else
+		return (0);
+}
+
+static int	parse_expr(char **argv, t_option *opt_list, \
+			t_option *char_opt_index[CHAR_OPT_INDEX_SIZE])
+{
+	return (0);
+}
 
 void		builtin_test(char **argv, char **envp, t_exec *exe)
 {
@@ -63,13 +82,21 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	while (argv[ac])
 		ac++;
 
-	(void)envp;
-	if (argv && argv[1])
-		exe->ret = ft_atoi(argv[1]);
-
 	opt_list = g_tests_opts;
 	args = parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
-	if (is_option_activated("h", opt_list, char_opt_index))
+	if (!argv[0])
+		exit (1);
+	else if (is_option_activated("h", opt_list, char_opt_index) || \
+	is_option_activated("--------------------------", opt_list, char_opt_index)\
+	|| !right_format_builtin(argv, ac))
+	{
 		format_help(BUILTIN_TEST_USAGE, opt_list);
-	exit (0);
+		exit (0);
+	}
+	else if (!argv[1] && ft_strlen(argv[0]) > 0)
+		exit (0);
+	else if (!argv[1])
+		exit (1);
+	else
+		exit (parse_expr(argv + 1), opt_list, char_opt_index);
 }
