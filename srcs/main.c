@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 11:58:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/26 12:52:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 			add_history(input, access_le_main_datas());
 		twenty_one_sh(input, envp, opt_list, char_opt_index);
 		free_lexemes(lex);
-		free(input);
 	}
 }
 

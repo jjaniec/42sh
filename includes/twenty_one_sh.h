@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 19:34:19 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/26 13:02:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ extern char			**g_envp;
 # define BUILTIN_CD_USAGE \
 	"cd [-L | -P] [-] [directory]"
 
+# define BUILTIN_TEST_USAGE \
+	"test, [ --\n\t\ttest expression\n\t\t[ expression ]"
 
 
 int			prompt_show(const char *prompt);
