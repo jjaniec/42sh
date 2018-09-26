@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 14:58:27 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:00:50 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static	void exec(char *input)
 	t_exec		*exe;
 
 	log_set_quiet(1);
-	lex = lexer(input);
+	lexer(input, &lex, NULL);
 	ast_root = ast(lex);
 	exe = create_exec((const char **)env);
 	if (!ast_root)
@@ -364,7 +364,7 @@ static void tests(void)
 				echo 3;\
 				if [ 0 ]; then \
 					echo 4;\
-					while cat a > /dev/null; do \
+					while cat a; do \
 						echo 0 && rm a; \
 						if [ 0 ]; then \
 							if [ 0 ]; then \
