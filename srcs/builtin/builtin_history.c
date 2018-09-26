@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/26 20:23:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/26 20:57:57 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ static bool		save_history_in_file(void)
 {
 	int						fd;
 	const struct s_history	*his = access_le_main_datas()->history;
+	char					rc_path[1024];
 
 	if (check_42shrc() == false)
 		return (false);
@@ -132,7 +133,9 @@ static bool		save_history_in_file(void)
 		return (true);
 	while (his->prev != NULL)
 		his = his->prev;
-	if ((fd = open(_42SHRC_PATH "/.42sh_history", O_WRONLY | O_TRUNC)) == -1)
+	ft_strcpy(rc_path, get_parsed_42shrc_path());
+	ft_strcat(rc_path, "/.42sh_history");
+	if ((fd = open(rc_path, O_WRONLY | O_TRUNC)) == -1)
 	{
 		ft_putstr_fd("42sh: error with file .42shrc/.42sh_history\n", 2);
 		return (false);

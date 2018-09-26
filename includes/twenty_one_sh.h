@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 19:11:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/26 21:13:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # include "syntax_highlighting.h"
 # include "get_next_line.h"
 
-# define _42SHRC_PATH "/Users/cyfermie/.42shrc"
+# define _42SHRC_PATH "$HOME/.42shrc"
 
 extern t_option		g_sh_opts[];
 
@@ -85,10 +85,12 @@ void		format_help(char *usage_str, t_option *opts);
 
 t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 
-bool	is_option_activated(char *opt_str, \
-			t_option *opt_list, t_option **char_opt_index);
+bool		is_option_activated(char *opt_str, \
+				t_option *opt_list, t_option **char_opt_index);
 
 bool    check_42shrc(void);
 void	load_history_file(struct s_line *le);
+
+char  *get_parsed_42shrc_path(void);
 
 #endif

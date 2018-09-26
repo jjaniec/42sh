@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:41:01 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/26 20:32:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/26 21:27:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ void	load_history_file(struct s_line *le)
 	int     fd;
 	int     ret;
 	char    *line;
+	char	rc_path[1024];
 
+	//set_term_attr(LE_SET_OLD);
+
+	ft_strcpy(rc_path, get_parsed_42shrc_path());
+	ft_strcat(rc_path, "/.42sh_history");
 	if (check_42shrc() == false
-	|| (fd = open(_42SHRC_PATH "/.42sh_history", O_RDONLY)) == -1
+	|| (fd = open(rc_path, O_RDONLY)) == -1
 	|| le->history == NULL)
 	{
 		ft_putstr_fd("42sh: error while loading .42shrc/.42sh_history\n", \
@@ -39,4 +44,5 @@ void	load_history_file(struct s_line *le)
 			break ;
 		add_history(line, le);
 	}
+	//set_term_attr(LE_SET_NEW);
 }
