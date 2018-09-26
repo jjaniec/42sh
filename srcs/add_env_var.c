@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 18:19:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/26 19:56:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 ** use self->upd_var instead
 */
 
-char		*add_env_var(t_environ *self, char *entry_value, char *name)
+char		*add_env_var(t_environ *self, char *name, char *entry_value)
 {
 	int				i;
 	char			*assign_char_ptr;
@@ -50,15 +50,15 @@ char		*add_env_var(t_environ *self, char *entry_value, char *name)
 	int				entry_name_len;
 	int				entry_value_len;
 
-	if (self->entry_count == MAX_ENV_ENTRIES)
+	if (self->entry_count == MAX_ENV_ENTRIES || !name)
 		return (NULL);
 	new_entry_struct = malloc(sizeof(t_env_entry));
 	new_entry_struct->next = NULL;
 	new_entry_struct->ptr_to_pos_in_environ_tab = NULL;
 	i = 0;
-	if ((assign_char_ptr = ft_strchr(entry_value, '=')) && assign_char_ptr != entry_value)
-		ft_strncpy(new_entry_struct->entry, entry_value, MAX_ENV_ENTRY_LEN);
-	else if (name && *name)
+	if ((assign_char_ptr = ft_strchr(name, '=')) && assign_char_ptr != name)
+		ft_strncpy(new_entry_struct->entry, name, MAX_ENV_ENTRY_LEN);
+	else if (entry_value && *entry_value)
 	{
 		entry_name_len = ft_strlen(name);
 		entry_value_len = ft_strlen(entry_value);

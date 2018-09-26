@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 13:51:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/26 20:11:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # include <errno.h>
 
+# define SH_NAME		"42sh"
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	1
 # define OPT_NOT_FOUND_ERROR 1
@@ -85,13 +86,15 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 bool	is_option_activated(char *opt_str, \
 			t_option *opt_list, t_option **char_opt_index);
 
-char		*add_env_var(t_environ *self, char *entry_value, char *name);
+char		*add_env_var(t_environ *self, char *name, char *entry_value);
 
 int			del_env_var(struct s_environ *self, char *varname);
 
 t_environ	*get_environ_struct(void);
 
 t_env_entry	*get_env_var(t_environ *self, char *varname);
+
+char	*upd_env_var(t_environ *this, char *name, char *new_value);
 
 t_environ	*init_environ(char **env);
 

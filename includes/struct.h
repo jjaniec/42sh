@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 13:52:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/26 20:20:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,15 @@ typedef struct		s_env_entry
 ** environ: environnement to pass to programs
 ** last_used_elem: last environnement entry requested / added / updated,
 **   set to NULL when calling (del_var) and en entry was deleted
+**   example use case in init_environ.c:update_info_env_vars()
+**   (mainly used for optimization)
+** last_entry_ptr: pointer to last element in our linked list,
+**   for way faster element adding
+**  env_entries_list: Linked list of env_entry strucs
+**  entry_count: Current number of elements in our linked list,
+**    also used for speeding up some things while adding/deleting
+**    elements
+**  add/upt/del/get_var: functions to use to control the linked list
 */
 
 typedef struct		s_environ
