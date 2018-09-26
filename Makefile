@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/25 20:41:19 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/26 13:49:31 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,6 +134,7 @@ SRC_NAME = 	is_separator.c \
 			init_environ.c \
 			get_environ_struct.c \
 			del_env_var.c \
+			get_env_var.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \

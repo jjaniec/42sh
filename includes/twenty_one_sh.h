@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 20:43:31 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/26 13:51:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,11 @@ bool	is_option_activated(char *opt_str, \
 
 char		*add_env_var(t_environ *self, char *entry_value, char *name);
 
-int			del_env_var(struct s_environ *self, char *var_name);
+int			del_env_var(struct s_environ *self, char *varname);
 
 t_environ	*get_environ_struct(void);
+
+t_env_entry	*get_env_var(t_environ *self, char *varname);
 
 t_environ	*init_environ(char **env);
 

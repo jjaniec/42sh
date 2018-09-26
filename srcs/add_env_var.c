@@ -6,22 +6,24 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 21:19:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/26 18:19:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-** If $entry_value contains '=', entry will directly be stored, no need to set name
+** Update optimization pointers
 */
 
 static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 {
 	self->last_used_elem = new_entry_struct;
 	self->environ[self->entry_count] = new_entry_struct->entry;
-	new_entry_struct->ptr_to_pos_in_environ_tab = &(self->environ[self->entry_count]);
-	self->environ[++self->entry_count] = NULL;
+	new_entry_struct->ptr_to_pos_in_environ_tab = \
+		&(self->environ[self->entry_count]);
+	self->environ[++self->entry_count] = new_entry_struct->entry;
+	new_entry_struct->prev = self->last_entry_ptr;
 	if (self->last_entry_ptr)
 		self->last_entry_ptr->next = new_entry_struct;
 	self->last_entry_ptr = new_entry_struct;
@@ -30,12 +32,23 @@ static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 		self->env_entries_list = new_entry_struct;
 }
 
+/*
+** Add a new environnement variable in the linked list
+** and append it in our environnement ptr tab,
+** it will not go through all the elements to append it to the end
+** but instead use the self->last_entry_ptr pointer,
+** if it's used to update the value of a variable,
+** it will instead create a duplicate entry as it allows better performances,
+** use self->upd_var instead
+*/
+
 char		*add_env_var(t_environ *self, char *entry_value, char *name)
 {
 	int				i;
 	char			*assign_char_ptr;
 	t_env_entry		*new_entry_struct;
 	int				entry_name_len;
+	int				entry_value_len;
 
 	if (self->entry_count == MAX_ENV_ENTRIES)
 		return (NULL);
@@ -48,14 +61,15 @@ char		*add_env_var(t_environ *self, char *entry_value, char *name)
 	else if (name && *name)
 	{
 		entry_name_len = ft_strlen(name);
-		ft_strncpy(new_entry_struct->entry, name, \
-			(MAX_ENV_ENTRY_LEN < entry_name_len) ? (MAX_ENV_ENTRY_LEN) : (entry_name_len));
+		entry_value_len = ft_strlen(entry_value);
+		ft_strncpy(new_entry_struct->entry, name, MAX_ENV_ENTRY_LEN);
 		new_entry_struct->entry[entry_name_len] = '=';
 		ft_strncpy(new_entry_struct->entry + entry_name_len + 1, entry_value, \
-			(MAX_ENV_ENTRY_LEN < entry_name_len) ? (MAX_ENV_ENTRY_LEN) : (entry_name_len));
+			MAX_ENV_ENTRY_LEN - (entry_name_len + 1));
 	}
 	new_entry_struct->entry[MAX_ENV_ENTRY_LEN] = '\0';
-	log_fatal("new_entry_struct->entry : |%s|", new_entry_struct->entry);
 	upd_self_ptrs(self, new_entry_struct);
+	log_debug("New environnement var created ->entry: |%s| - ->entry_count: %d / ptr pos in env tab: %s - ->env[entry_count]: |%s|", \
+		new_entry_struct->entry, self->entry_count - 1, *(new_entry_struct->ptr_to_pos_in_environ_tab), self->environ[self->entry_count]);
 	return (new_entry_struct->entry);
 }

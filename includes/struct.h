@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 21:14:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/26 13:52:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct		s_env_entry
 	char				entry[MAX_ENV_ENTRY_LEN + 1];
 	char				*val_begin_ptr;
 	char				**ptr_to_pos_in_environ_tab;
+	struct s_env_entry	*prev;
 	struct s_env_entry	*next;
 }					t_env_entry;
 
@@ -115,7 +116,7 @@ typedef struct		s_environ
 	char			*(*add_var)(struct s_environ *, char *, char *);
 	char			*(*upt_var)(struct s_environ *, char *, char *);
 	int				(*del_var)(struct s_environ *, char *);
-	char			*(*get_var)();
+	t_env_entry		*(*get_var)(struct s_environ *, char *);
 }					t_environ;
 
 #endif
