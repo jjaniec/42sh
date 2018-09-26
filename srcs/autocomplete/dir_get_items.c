@@ -35,7 +35,7 @@ static char			*cp_item(char *in, char *item)
 	char *tmp;
 
 	tmp = ft_strjoin(in, item);
-	if (autoc_check_path(tmp) == 'd')
+	if (autoc_check_path(tmp) == 'd' || autoc_check_path(tmp) == 'l')
 		res = ft_strjoin(item, "/");
 	else
 		res = ft_strdup(item);
