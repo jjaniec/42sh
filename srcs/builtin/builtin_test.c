@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 15:34:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/27 16:42:08 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 */
 
 t_option		g_tests_opts[] = {
+	{{"\n"}, "If expression is an integer, it becames the value returned.", false},
 	{{"h"}, "-h:\t\tPrint this help with all the options listed.", false},
 	{{"b"}, "-b file:\tTrue if file exists and is a block special file.", false},
 	{{"c"}, "-c file:\tTrue if file exists and is a character special file.", false},
@@ -38,17 +39,17 @@ t_option		g_tests_opts[] = {
 	{{"L"}, "-L file:\tTrue if file exists and is a symbolic link.", false},
 	{{"S"}, "-S file:\tTrue if file exists and is a socket.", false},
 	{{"--------------------------"}, "" , false},
-	{{"\e="}, "s1 = s2:\tTrue if the strings s1 and s2 are identical.", false},
-	{{"\e!="}, "s1 != s2:\tTrue if the strings s1 and s2 are not identical.", false},
-	{{"\e<"}, "s1 < s2:\tTrue if the strings s1 comes before s2 based on the binary value of their characters.", false},
-	{{"\e>"}, "s1 > s2:\tTrue if the strings s1 comes after s2 based on the binary value of their characters.", false},
+	{{"\n="}, "s1 = s2:\tTrue if the strings s1 and s2 are identical.", false},
+	{{"\n!="}, "s1 != s2:\tTrue if the strings s1 and s2 are not identical.", false},
+	{{"\n<"}, "s1 < s2:\tTrue if the strings s1 comes before s2 based on the binary value of their characters.", false},
+	{{"\n>"}, "s1 > s2:\tTrue if the strings s1 comes after s2 based on the binary value of their characters.", false},
 	{{"--------------------------"}, "" , false},
-	{{"eq"}, "n1 -eq n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
-	{{"ne"}, "n1 -ne n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
-	{{"gt"}, "n1 -gt n2:\tTrue if the intengers n1 is algebraically greater than the integer n2.", false},
-	{{"ge"}, "n1 -ge n2:\tTrue if the intengers n1 is algebraically greater than or equal to the integer n2.", false},
-	{{"lt"}, "n1 -lt n2:\tTrue if the intengers n1 is algebraically less than the integer n2.", false},
-	{{"le"}, "n1 -le n2:\tTrue if the intengers n1 is algebraically less than or equal to the integer n2.", false},
+	{{"-eq"}, "n1 --eq n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
+	{{"-ne"}, "n1 --ne n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
+	{{"-gt"}, "n1 --gt n2:\tTrue if the intengers n1 is algebraically greater than the integer n2.", false},
+	{{"-ge"}, "n1 --ge n2:\tTrue if the intengers n1 is algebraically greater than or equal to the integer n2.", false},
+	{{"-lt"}, "n1 --lt n2:\tTrue if the intengers n1 is algebraically less than the integer n2.", false},
+	{{"-le"}, "n1 --le n2:\tTrue if the intengers n1 is algebraically less than or equal to the integer n2.", false},
 	{{NULL}, NULL, false}
 };
 
@@ -140,22 +141,22 @@ static int	parse_expr_comp(char **argv)
 		return (0);
 	else if (ft_strequ(argv[1], ">") && ft_strcmp(argv[0], argv[2]) > 0)
 		return (0);
-	else if (is_option_activated("eq", opt_list, char_opt_index) \
+	else if (is_option_activated("-eq", opt_list, char_opt_index) \
 	&& ft_atoi(argv[1]) == ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("ne", opt_list, char_opt_index) \
+	else if (is_option_activated("-ne", opt_list, char_opt_index) \
 	&& ft_atoi(argv[1]) != ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("gt", opt_list, char_opt_index) \
+	else if (is_option_activated("-gt", opt_list, char_opt_index) \
 	&& ft_atoi(argv[1]) > ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("ge", opt_list, char_opt_index) \
+	else if (is_option_activated("-ge", opt_list, char_opt_index) \
 	&& ft_atoi(argv[1]) >= ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("lt", opt_list, char_opt_index) \
+	else if (is_option_activated("-lt", opt_list, char_opt_index) \
 	&& ft_atoi(argv[1]) < ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("le", opt_list, char_opt_index) \
+	else if (is_option_activated("-le", opt_list, char_opt_index) \
 	&& ft_atoi(argv[1]) <= ft_atoi(argv[2]))
 		return (0);
 	else
