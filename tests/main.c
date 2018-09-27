@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 15:27:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/27 15:32:23 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ int	main(int argc, char **argv, char **envp)
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
 	g_sh_opts[1].opt_status = true;
-	lexer_tests();
-	ast_tests();
-	exec_tests(&envp);
-	syntax_highlighting_tests(envp);
-	//script_tests(envp);
+	//lexer_tests();
+	//ast_tests();
+	//exec_tests(&envp);
+	//syntax_highlighting_tests(envp);
+	script_tests(envp);
+	//builtin_test_tests(envp);
 	done_testing();
 }

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 20:00:50 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/09/27 15:36:17 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,6 @@ static void tests(void)
 	test_framework("echo ABC; else; echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; while echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; while; echo DEF", error_msg, "ERROR - Token inside statement");
-
-	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Builtin test");
-	test_framework("if [ 0; then echo OK; fi", "OK", "Builtin test");
-	test_framework("if [ 0 ] ]; then echo OK; fi", "OK", "Builtin test");
-	test_framework("if test 0; then echo OK; fi", "OK", "Builtin test");
-	test_framework("if test 1; then echo KO; fi; echo", "", "Builtin test");
-	test_framework("if [ 1 ]; then echo NOTOK; fi; echo", "", "Builtin test");
-	test_framework("if [ 1; then echo NOTOK; fi; echo", "", "Builtin test");
-	test_framework("if [ 1 ] ]; then echo NOTOK; fi; echo", "", "Builtin test");
 
 	test_framework("if [ 0 ]; then echo 'fi'; fi", "fi", "Simple IF with arg like token");
 	test_framework("echo 'if'", "if", "Simple IF with arg like token");

@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/26 16:06:54 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/26 17:23:21 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -162,6 +162,7 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					ast_tests.c \
 					exec_tests.c \
 					script_tests.c \
+					builtin_test_tests.c \
 					main.c
 
 
