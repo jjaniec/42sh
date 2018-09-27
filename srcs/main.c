@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/20 17:38:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:00:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ t_option		g_sh_opts[] = {
 char			**g_envp;
 //struct s_line	*g_le;
 
-static char		*get_valid_input(t_lexeme **lexemes)
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
 	char		*input;
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	input = line_edition(0);
-	ft_putchar('\n');
+	input = line_edition(sub_prompt);
+	ft_putchar('\n'); 
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
 		UNMATCHED_QUOTE_ERR)
 	{
@@ -93,8 +93,8 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 		log_set_quiet(1);
 	while (1)
 	{
-		if (!(input = get_valid_input(&lex)))
-			continue ;
+		if (!(input = get_valid_input(&lex, 0)))
+			return ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		twenty_one_sh(input, envp, opt_list, char_opt_index);
