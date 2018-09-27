@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 19:43:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/27 20:51:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define CHAR_OPT_INDEX_SIZE (126)
 
 # define MAX_ENV_ENTRIES	255
-# define MAX_ENV_ENTRY_LEN	255
+# define MAX_ENV_ENTRY_LEN	1024
 
 # include <ft_printf.h>
 # include "struct.h"
@@ -95,6 +95,8 @@ t_env_entry	*get_env_var(t_environ *self, char *varname);
 char	*upd_env_var(t_environ *this, char *name, char *new_value);
 
 t_environ	*init_environ(char **env);
+
+void	free_env_entries(t_env_entry *env_entries);
 
 void	free_all_shell_data(void);
 
