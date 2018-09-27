@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/26 19:44:16 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/27 19:33:35 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,7 @@ SRC_NAME = 	is_separator.c \
 			del_env_var.c \
 			get_env_var.c \
 			upd_env_var.c \
+			free_all_shell_data.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
@@ -173,7 +174,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0

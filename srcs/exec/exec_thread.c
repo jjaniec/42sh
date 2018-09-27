@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 22:25:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:22:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,13 @@ static int	should_fork(void **cmd)
 	return (1);
 }
 
-t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
+t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 				t_ast *node)
 {
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
 
+	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		!last_pipe_node->data[1])
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
@@ -136,7 +137,7 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 		if (child_pid == -1)
 			log_error("Fork() not working");
 		else if (child_pid == 0)
-			child_process(cmd, envp, exe, node);
+			child_process(cmd, env_struct->environ, exe, node);
 		else
 		{
 			log_trace("Forked process pid: %d", child_pid);
@@ -144,6 +145,6 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 		}
 	}
 	else
-		child_process(cmd, envp, exe, node);
+		child_process(cmd, env_struct->environ, exe, node);
 	return (exe);
 }

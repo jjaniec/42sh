@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 20:20:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/27 18:56:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ typedef struct			s_exec
 {
 	int		ret;
 	int		ready_for_exec;
-	char	**envp;
-	char	**tmp_envp;
+	/*char	**envp;
+	char	**tmp_envp;*/
 }						t_exec;
 
 /*

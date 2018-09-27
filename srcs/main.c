@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 17:52:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/27 19:48:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_option		g_sh_opts[] = {
 	{{NULL}, NULL, false}
 };
 
-char			**g_envp;
 struct s_line	*g_le;
 
 static char		*get_valid_input(t_lexeme **lexemes)
@@ -42,8 +41,8 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	return (input);
 }
 
-static int		twenty_one_sh(char *input, char **envp, \
-					t_option *opt_list, t_option **char_opt_index)
+static int		twenty_one_sh(char *input, t_option *opt_list, \
+					t_option **char_opt_index)
 {
 	t_ast		*ast_root;
 	t_exec		*exe;
@@ -64,7 +63,7 @@ static int		twenty_one_sh(char *input, char **envp, \
 		free_lexemes(lexemes);
 		return (1);
 	}
-	exe = create_exec((const char **)envp);
+	exe = create_exec();
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
 		envp = exe->tmp_envp;
@@ -73,12 +72,13 @@ static int		twenty_one_sh(char *input, char **envp, \
 	else
 		exit(1);
 	free_exec(&exe);*/
+	free(exe);
 	ast_free(ast_root);
 	free_lexemes(lexemes);
 	return (0);
 }
 
-static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_index)
+static void		loop_body(t_option *opt_list, t_option **char_opt_index)
 {
 	t_lexeme	*lex;
 	char		*input;
@@ -92,7 +92,7 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 			return ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		twenty_one_sh(input, envp, opt_list, char_opt_index);
+		twenty_one_sh(input, opt_list, char_opt_index);
 		free_lexemes(lex);
 		free(input);
 	}
@@ -103,11 +103,8 @@ int			main(int ac, char **av, char **envp)
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char		**args;
-	t_environ	*envv;
 
-
-	g_envp = cp_envp((const char **)envp);
-	envv = init_environ(g_envp);
+	init_environ(envp);
 	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
@@ -123,11 +120,11 @@ int			main(int ac, char **av, char **envp)
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
-			twenty_one_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
+			twenty_one_sh(ft_strjoin(*args, "\n"), opt_list, char_opt_index);
 			args++;
 			ac--;
 		}
 	else
-		loop_body(g_envp, opt_list, char_opt_index);
+		loop_body(opt_list, char_opt_index);
 	return (0);
 }

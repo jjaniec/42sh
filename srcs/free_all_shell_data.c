@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_setenv.c                                   :+:      :+:    :+:   */
+/*   free_all_shell_data.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 19:35:39 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/09/27 19:32:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-int		builtin_setenv(char **argv, char **envp, t_exec *exe)
+void	free_all_shell_data(void)
 {
-	(void)argv;
-	(void)envp;
-	(void)exe;
+	t_environ		*env;
 
-	return (0);
-}
+	env = get_environ_struct();
+	//free all env entries & env struct
+}	

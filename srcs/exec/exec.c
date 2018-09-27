@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 15:45:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/27 20:23:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 ** In fail, exit the program with MALLOC_ERROR
 */
 
-t_exec	*create_exec(const char **envp)
+t_exec	*create_exec(void)
 {
 	t_exec	*exe;
 
-	exe = (t_exec *)ft_memalloc(sizeof(t_exec));
-	if (!exe)
+	if (!(exe = (t_exec *)ft_memalloc(sizeof(t_exec))))
 		exit(MALLOC_ERROR);
-	exe->envp = (char **)envp;
+	exe->ret = 0;
+	exe->ready_for_exec = 0;
 	return (exe);
 }
 
@@ -34,7 +34,7 @@ t_exec	*create_exec(const char **envp)
 ** Then send everything to exec_thread().
 */
 
-void			exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
+void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
 	char	*cmd;
 
@@ -51,7 +51,7 @@ void			exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 	}
 	else
 		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
-			envp, exe, node);
+			env_struct, exe, node);
 }
 
 /*
@@ -59,7 +59,7 @@ void			exec_local(char **argv, char **envp, t_exec *exe, t_ast *node)
 ** execute builtin function stored in $builtin_ptr with exec_thread
 */
 
-int				exec_builtin(char **argv, char **envp, t_exec *exe, \
+int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 					t_ast *node)
 {
 	void	(*builtin_fun_ptr)(char **, char **, t_exec *);
@@ -67,12 +67,9 @@ int				exec_builtin(char **argv, char **envp, t_exec *exe, \
 	builtin_fun_ptr = NULL;
 	if (!(is_builtin(argv[0], &builtin_fun_ptr)))
 		return (0);
-	if (builtin_fun_ptr == &builtin_cd)
-		builtin_cd(argv, envp, exe);
-	else
-		exec_thread(\
-			(void *[3]){(void *)EXEC_THREAD_BUILTIN, &builtin_fun_ptr, argv}, \
-			envp, exe, node);
+	exec_thread(\
+		(void *[3]){(void *)EXEC_THREAD_BUILTIN, &builtin_fun_ptr, argv}, \
+		env_struct, exe, node);
 	return (1);
 }
 
@@ -82,17 +79,19 @@ int				exec_builtin(char **argv, char **envp, t_exec *exe, \
 ** Then send everything to exec_thread().
 */
 
-void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
+void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char	*pth;
-	char	**paths;
+	char		*pth;
+	char		**paths;
+	char		*path_entry;
 
+	path_entry = env_struct->get_var(env_struct, "PATH")->entry;
 	exe->ret = -2;
-	paths = get_path(get_env("PATH", (const char**)envp));
+	paths = get_path(path_entry);
 	pth = isin_path(paths, argv[0]);
 	if (pth)
 		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, pth, argv}, \
-			envp, exe, node);
+			env_struct, exe, node);
 	else
 	{
 		ft_putstr_fd("21sh: ", 2);

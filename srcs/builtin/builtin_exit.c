@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 17:17:36 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:32:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,6 @@
 /*
 **  https://www.unix.com/man-page/posix/1posix/exit
 */
-
-/*
-** Free shell malloced data before exiting
-*/
-
-static void	exit_free_sh_data(t_exec *exe)
-{
-	if (exe->tmp_envp)
-		ft_free_argv(exe->tmp_envp);
-	if (exe->envp)
-		ft_free_argv(exe->envp);
-}
-
 
 /*
 ** Check if a string is only composed of numbers
@@ -78,6 +65,6 @@ inline void	builtin_exit(char **argv, char **envp, t_exec *exe)
 	}
 	else
 		exit_val = exe->ret;
-	exit_free_sh_data(exe);
+	free_all_shell_data();
 	exit(exit_val);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 15:37:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/27 20:21:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,14 @@
 # define EXEC_THREAD_BUILTIN		1
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
-void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);
-t_exec	*exec_thread(void **cmd, char **envp, t_exec *exe, \
-			t_ast *node);
+void	exec_argv(char **argv, t_exec *exe, t_ast *node);
+t_exec	*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
-void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node);
-int		exec_builtin(char **argv, char **envp, t_exec *exe, t_ast *node);
-void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
+void	exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
+int		exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
+void	exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd, \
 			void (**builtin_fun_ptr)(char **, char **, t_exec *));
 
@@ -66,9 +65,9 @@ char	*isin_path(char **paths, char *cmd);
 void	builtin_exit(char **argv, char **envp, t_exec *exe);
 void	builtin_echo(char **argv, char **envp, t_exec *exe);
 
-void	builtin_env(char **argv, char **envp, t_exec *exe);
-void	builtin_setenv(char **argv, char **envp, t_exec *exe);
-void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
+int		builtin_env(char **argv, char **envp, t_exec *exe);
+int		builtin_setenv(char **argv, char **envp, t_exec *exe);
+int		builtin_unsetenv(char **argv, char **envp, t_exec *exe);
 void	builtin_cd(char **argv, char **envp, t_exec *exe);
 void	builtin_return(char **argv, char **envp, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, char **envp, \
@@ -85,7 +84,7 @@ void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
 
 void	free_exec(t_exec **exe);
-t_exec	*create_exec(const char **envp);
+t_exec	*create_exec(void);
 
 void	handle_open_error(int errno_code, char *filename);
 void	print_error(char *subject, char *err_str);

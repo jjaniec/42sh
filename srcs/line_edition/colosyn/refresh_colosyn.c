@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refresh_colosyn.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:36:29 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 15:36:32 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:47:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void		refresh_colosyn(struct s_line *le, char *cmd)
 	//fprintf(tty_debug, "UPDATED |%s|\n", cmd);
 	lexer(cmd, &lexemes, &unmatched_quote_err_ptr);
 	actionk_delete_current_input(le);
-	print_colorized_input(cmd, g_envp, lexemes, unmatched_quote_err_ptr);
+	print_colorized_input(cmd, lexemes, unmatched_quote_err_ptr);
 }
