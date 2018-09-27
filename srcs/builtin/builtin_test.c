@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 16:42:08 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/27 18:29:37 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ t_option		g_tests_opts[] = {
 	{{"\n<"}, "s1 < s2:\tTrue if the strings s1 comes before s2 based on the binary value of their characters.", false},
 	{{"\n>"}, "s1 > s2:\tTrue if the strings s1 comes after s2 based on the binary value of their characters.", false},
 	{{"--------------------------"}, "" , false},
-	{{"-eq"}, "n1 --eq n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
-	{{"-ne"}, "n1 --ne n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
-	{{"-gt"}, "n1 --gt n2:\tTrue if the intengers n1 is algebraically greater than the integer n2.", false},
-	{{"-ge"}, "n1 --ge n2:\tTrue if the intengers n1 is algebraically greater than or equal to the integer n2.", false},
-	{{"-lt"}, "n1 --lt n2:\tTrue if the intengers n1 is algebraically less than the integer n2.", false},
-	{{"-le"}, "n1 --le n2:\tTrue if the intengers n1 is algebraically less than or equal to the integer n2.", false},
+	{{"eq"}, "n1 -eq n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
+	{{"ne"}, "n1 -ne n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
+	{{"gt"}, "n1 -gt n2:\tTrue if the intengers n1 is algebraically greater than the integer n2.", false},
+	{{"ge"}, "n1 -ge n2:\tTrue if the intengers n1 is algebraically greater than or equal to the integer n2.", false},
+	{{"lt"}, "n1 -lt n2:\tTrue if the intengers n1 is algebraically less than the integer n2.", false},
+	{{"le"}, "n1 -le n2:\tTrue if the intengers n1 is algebraically less than or equal to the integer n2.", false},
 	{{NULL}, NULL, false}
 };
 
@@ -93,12 +93,6 @@ static int	parse_expr_file(char **argv, t_option *opt_list, \
 	else if (is_option_activated("p", opt_list, char_opt_index) \
 	&& S_ISFIFO(fstat.st_mode))
 		return (0);
-	else if (is_option_activated("L", opt_list, char_opt_index) \
-	&& S_ISLNK(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("S", opt_list, char_opt_index) \
-	&& S_ISSOCK(fstat.st_mode))
-		return (0);
 	else if (is_option_activated("r", opt_list, char_opt_index) \
 	&& fstat.st_mode & S_IRUSR)
 		return (0);
@@ -117,22 +111,47 @@ static int	parse_expr_file(char **argv, t_option *opt_list, \
 	else if (is_option_activated("u", opt_list, char_opt_index) \
 	&& fstat.st_mode & S_ISUID)
 		return (0);
-	else
+	else if (is_option_activated("L", opt_list, char_opt_index) \
+	&& S_ISLNK(fstat.st_mode))
+		return (0);
+	else if (is_option_activated("S", opt_list, char_opt_index) \
+	&& S_ISSOCK(fstat.st_mode))
+		return (0);
+	else if (argv[0][0] != '-')
+	{
+		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(argv[-1], 2);
+		ft_putchar_fd(' ', 2);
+		ft_putchar_fd(argv[0][0], 2);
+		ft_putendl_fd(" : unary operator expected", 2);
+	}
 		return (1);
+}
+
+static void	error_msg_operator(char **argv)
+{
+	if (!ft_strequ(argv[1], "=")
+	 && !ft_strequ(argv[1], "!=")
+	 && !ft_strequ(argv[1], "<")
+	 && !ft_strequ(argv[1], ">")
+	 && !ft_strequ(argv[1], "-eq")
+	 && !ft_strequ(argv[1], "-ne")
+	 && !ft_strequ(argv[1], "-ge")
+	 && !ft_strequ(argv[1], "-gt")
+	 && !ft_strequ(argv[1], "-le")
+	 && !ft_strequ(argv[1], "-lt"))
+	{
+		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(argv[-1], 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putendl_fd(": binary operator expected", 2);
+	}
 }
 
 static int	parse_expr_comp(char **argv)
 {
-	t_option	*opt_list;
-	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	int			ac;
-	char		**args;
-
-	ac = 0;
-	while (argv[ac])
-		ac++;
-	opt_list = g_tests_opts;
-	args = parse_options(&ac, argv + 1, opt_list, (t_option **)char_opt_index);
+	error_msg_operator(argv);
 	if (ft_strequ(argv[1], "=") && ft_strequ(argv[0], argv[2]))
 		return (0);
 	else if (ft_strequ(argv[1], "!=") && !ft_strequ(argv[0], argv[2]))
@@ -141,26 +160,20 @@ static int	parse_expr_comp(char **argv)
 		return (0);
 	else if (ft_strequ(argv[1], ">") && ft_strcmp(argv[0], argv[2]) > 0)
 		return (0);
-	else if (is_option_activated("-eq", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) == ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-eq") && ft_atoi(argv[0]) == ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("-ne", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) != ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-ne") && ft_atoi(argv[0]) != ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("-gt", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) > ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-gt") && ft_atoi(argv[0]) > ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("-ge", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) >= ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-ge") && ft_atoi(argv[0]) >= ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("-lt", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) < ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-lt") && ft_atoi(argv[0]) < ft_atoi(argv[2]))
 		return (0);
-	else if (is_option_activated("-le", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) <= ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-le") && ft_atoi(argv[0]) <= ft_atoi(argv[2]))
 		return (0);
 	else
-		return (1);
+		return (0);
 }
 
 void		builtin_test(char **argv, char **envp, t_exec *exe)
