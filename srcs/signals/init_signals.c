@@ -68,11 +68,3 @@ void	init_signals(void)
 	}
 
 }
-
-
-/*
-	WINCH : on le catch uniquement quand aucune commande est en running,
-	sinon il est juste bloque/mask
-
-
-*/

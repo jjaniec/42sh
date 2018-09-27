@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/20 18:32:42 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/27 21:16:19 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -168,7 +168,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
+CFLAGS = -Wall -Wextra  -g -D_GNU_SOURCE -std=c11 # -Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0

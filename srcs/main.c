@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 19:00:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 21:20:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_option		g_sh_opts[] = {
 };
 
 char			**g_envp;
-//struct s_line	*g_le;
+
 
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
@@ -94,7 +94,7 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 	while (1)
 	{
 		if (!(input = get_valid_input(&lex, 0)))
-			return ;
+			continue ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		twenty_one_sh(input, envp, opt_list, char_opt_index);

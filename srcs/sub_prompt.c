@@ -6,14 +6,14 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 19:19:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 21:21:38 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 int		prompt_show(const char *prompt)
-{le_debug("PROMPT SHOW |%s|\n", prompt);
+{//le_debug("PROMPT SHOW |%s|\n", prompt);
 	//tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
 	ft_putstr(prompt);
 	if (prompt != g_prompts[0])
@@ -37,11 +37,11 @@ int		subpp_string(char **s)
 	input = line_edition(NEED_SUBPROMPT_QUOTES);
 	if (input == NULL)
 	{
-		le_debug("%s", "WHILE QUOTE RETURNS 0\n");
+		//le_debug("%s", "WHILE QUOTE RETURNS 0\n");
 		return (0);
 	}
 //}
-le_debug("%s", "WHILE QUOTE ENDS\n");
+//le_debug("%s", "WHILE QUOTE ENDS\n");
 
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
@@ -55,7 +55,14 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	t_lexeme	*new;
 	t_lexeme	*save;
 
-	input = get_valid_input(&new, need_subprompt);
+	//input = RESIZE_IN_PROGRESS;
+//	while (input == RESIZE_IN_PROGRESS)	
+	//{	
+		input = get_valid_input(&new, need_subprompt);
+ 		if (input == NULL)	
+			return (NULL);	
+ 	///}
+	log_fatal("Input : %s", input);
 	lexer(input, &new, NULL);
 	log_fatal("1st lex type : %zu - td %zu - d %s", new->type, new->type_details, new->data);
 	if (!lex)
