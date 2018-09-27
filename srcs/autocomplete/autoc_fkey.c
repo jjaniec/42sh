@@ -24,10 +24,7 @@ static int		tab_key(char buffer[3], t_autoc *autoc)
 
 static int		return_key(char buffer[3], t_autoc *autoc)
 {
-	int	i;
-
 	(void)buffer;
-	i = 0;
 	if (autoc->menu_selected >= 0)
 		autoc_push_in_line(autoc->le, autoc->items[autoc->menu_selected],
 		autoc->search);

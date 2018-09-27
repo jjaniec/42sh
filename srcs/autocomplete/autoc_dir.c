@@ -15,11 +15,9 @@
 static char		*get_last_path(char *path, t_autoc *autoc)
 {
 	int		i;
-	int		j;
 	char	*res;
 
 	i = ft_strlen(path);
-	j = 0;
 	while (path[i] != '/')
 		i--;
 	autoc->search = ft_strdup(path + i + 1);
