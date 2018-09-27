@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:18:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/25 17:13:56 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:38:22 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char		*get_last_path(char *path, t_autoc *autoc)
 	if (i == 0)
 		return (ft_strdup("/"));
 	res = malloc(sizeof(char) * (i + 2));
-	res = ft_strncpy(res, path, i  + 2);
+	res = ft_strncpy(res, path, (i + 2));
 	res[i + 1] = '\0';
 	return (res);
 }
@@ -93,7 +93,7 @@ char			**autoc_dir(t_autoc *autoc)
 	char		**items;
 	char		*path;
 	char		buff[PATH_MAX];
-	int		cc;
+	int			cc;
 
 	path = autoc_get_path(autoc->le);
 	if (autoc_check_path(path) == 'l')
