@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 15:36:17 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/27 17:47:07 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void tests(void)
 	//char	error_msg2[] = "There is an error in your command line.";
 
 	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Simple IF");
+	test_framework("if test; then echo NOT OK; fi; echo", "", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK; echo ABC; fi", "OK\nABC", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK && echo ABC; fi", "OK\nABC", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK; elif [ 0 ]; then echo NOT OK; fi", "OK", "Simple IF-ELIF");
@@ -95,7 +96,7 @@ static void tests(void)
 	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple IF");
-	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "Simple IF");
+	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "ERROR Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE; elif ;then echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; then echo NEITHER;", error_msg, "ERROR - Simple IF-ELIF");

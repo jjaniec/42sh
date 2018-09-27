@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/26 11:20:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/27 17:44:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static t_lexeme	*is_start_of_new_script(t_lexeme *lex)
 t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
 				size_t next_token)
 {
-	if (lex && !good_start(lex))
+	if (lex && !good_start(lex) && (next_token >= TK_SCRIPT_CONDITION_IF || \
+	next_token == TK_SCRIPT_ELIF || next_token == TK_SCRIPT_DONE))
 		return (NULL);
 	while (lex && \
 	((lex->type_details != next_token && next_token != 0) || next_token == 0))
