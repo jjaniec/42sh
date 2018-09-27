@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/26 20:57:57 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/27 18:43:19 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static unsigned int	get_nb_elem_in_history(void)
 	struct s_history	*his;
 	unsigned int		nb_elem;
 
-	nb_elem = 0;
 	his = access_le_main_datas()->history;
 	while (his->prev != NULL)
 		his = his->prev;
