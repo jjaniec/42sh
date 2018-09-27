@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 15:34:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/27 18:33:53 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 {
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	char		**args;
 	int			ac;
 
 	(void)exe;
@@ -177,7 +176,7 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 		ac++;
 
 	opt_list = g_tests_opts;
-	args = parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
+	parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
 
 	ac = 0;
 	while (argv[ac])
