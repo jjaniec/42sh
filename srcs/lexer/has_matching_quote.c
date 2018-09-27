@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:20:15 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/07/19 15:03:49 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/20 15:46:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,20 @@
 ** to print an "unmatched quote" error and exit
 */
 
-char		*has_matching_quote(char *s, int pos)
+char		*has_matching_quote(char *s, char quote)
 {
-	int		i;
-	char	quote;
+	char	*ptr;
 
-	i = pos + 1;
-	quote = *(s + pos);
-	while (s[i])
+	ptr = s + 1;
+	while (ptr && *ptr)
 	{
-		if (s[i] == quote)
-			return (s + i);
-		else if (s[i] == '\\')
-			handle_backslash_escape(s, &i, \
+		if (*ptr == quote)
+			return (ptr);
+		else if (*ptr == '\\')
+			ptr += sizeof(char) * handle_escape_offset(ptr, \
 				(quote == '"') ? (IN_DQUOTES) : (IN_SQUOTES));
-		if (s[i])
-			i++;
+		if (*ptr)
+			ptr++;
 	}
 	return (NULL);
 }
