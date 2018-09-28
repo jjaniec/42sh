@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 18:48:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 22:07:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,8 @@ void	lexer_tests(char **envp)
 		"<<-", T_REDIR_OPT, TK_DLESSDASH);
 
 	// Add EXPANSION_TESTS_ENVVAR_NAME env var in env
-	char **tmp_new_env = inline_setenv(EXPANSION_TESTS_ENVVAR_NAME, EXPANSION_TESTS_ENVVAR_DATA, g_envp);
-	free(g_envp);
-	g_envp = tmp_new_env;
+	t_environ *env = get_environ_struct();
+	env->add_var(env, EXPANSION_TESTS_ENVVAR_NAME, EXPANSION_TESTS_ENVVAR_DATA);
 	//putenv(EXPANSION_TESTS_ENVVAR_NAME"="EXPANSION_TESTS_ENVVAR_DATA);
 
 	test_ll("Expansions 1 - Basic", "ls $"EXPANSION_TESTS_ENVVAR_NAME, \

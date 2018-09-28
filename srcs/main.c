@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 21:20:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 22:17:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ static void		loop_body(t_environ *env, t_option *opt_list, t_option **char_opt_i
 	char		*input;
 
 	errno = 0;
-	if (!VERBOSE_MODE)
-		log_set_quiet(1);
 	while (1)
 	{
 		if (!(input = get_valid_input(&lex)))
@@ -104,7 +102,6 @@ int			main(int ac, char **av, char **envp)
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char		**args;
 
-	init_environ(envp);
 	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
@@ -117,6 +114,7 @@ int			main(int ac, char **av, char **envp)
 	}
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
+	init_environ(envp);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
