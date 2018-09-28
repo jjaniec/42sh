@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 20:00:22 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 21:00:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,6 +365,9 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 
 	penser a faire ctrl + l
 
+
+	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug
+	(go tester d'autres trucs du genre)
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
 	{
