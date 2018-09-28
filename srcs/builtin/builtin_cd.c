@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 15:59:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 21:07:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,13 @@ t_option		g_cd_opts[] = {
 		components shall not be resolved before dot-dot components are processed", false},
 	{{NULL}, NULL, false}
 };
-
-
-static char	*get_back(char *path)
-{
-	char	*final;
-
-	if (path[0] == '/' && path[1] == '\0')
-		final = ft_strdup(path);
-	else
-	{
-		final = ft_strrchr(path, '/');
-		if (final != path)
-		{
-			*final = '\0';
-			final = ft_strdup(path);
-		}
-		else
-			final = ft_strdup("/");
-	}
-	return (final);
-}
-
+/*
 static char	*create_path(char *path, char *home, char *oldpwd, char *str)
 {
 	char	*final;
 
 	final = NULL;
-	if (str && home && str[0] == '~' && str[1])
-		final = new_path(home, str + 1);
-	else if (str && home && str[0] == '~' && !str[1])
-		final = ft_strdup(home);
-	else if (str && path && str[0] == '.' && str[1] == '\0')
-		final = ft_strdup(path);
-	else if (str && path && str[0] == '.' && str[1] == '.' && str[2] == '\0')
-		final = get_back(path);
-	else if (str && str[0] == '/')
+	if (str && str[0] == '/')
 		final = ft_strdup(str);
 	else if (oldpwd && str && str[0] == '-' && str[1] == '\0')
 	{
@@ -72,27 +43,27 @@ static char	*create_path(char *path, char *home, char *oldpwd, char *str)
 	return (final);
 }
 
-static char	*get_cd_path(char *str, const char **envp)
+static char	*get_cd_path(char *str, t_environ *env)
 {
 	char	*final;
 	char	*path;
 	char	*home;
 	char	*oldpwd;
 
-	home = get_env("HOME", envp);
-	oldpwd = get_env("OLDPWD", envp);
+	home = env->get_var(env, "HOME")->val_begin_ptr;
+	oldpwd = env->get_var(env, "OLDPWD")->val_begin_ptr;
 	path = getcwd(NULL, 0);
 	final = create_path(path, home, oldpwd, str);
-	ft_strdel(&path);
+	//ft_strdel(&path);
 	return (final);
 }
 
-static int	change_dir(char *path, char **envp, t_exec *exe)
+static int	change_dir(char *path, t_environ *env, t_exec *exe)
 {
 	//char	*actual_pwd;
 	//char	**new_envp;
 
-	(void)envp;
+	(void)env;
 	//actual_pwd = getcwd(NULL, 0);
 	if (chdir(path) == -1)
 	{
@@ -114,24 +85,32 @@ static int	change_dir(char *path, char **envp, t_exec *exe)
 	//ft_strdel(&actual_pwd);
 	exe->ret = 0;
 	return (1);
-}
+}*/
 
-void		builtin_cd(char **argv, char **envp, t_exec *exe)
+void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
-	char	*path;
+	(void)argv;
+	(void)env;
+	(void)exe;
 
+/*
 	if (!argv[1])
-		path = ft_strdup(get_env("HOME", (const char **)envp));
+	{
+		if (((void *)path = env->get_var(env, "HOME")))
+			path = (t_env_entry *)path->val_begin_ptr;
+		else
+			path = ".";
+	}
 	else
-		path = get_cd_path(argv[1], (const char **)envp);
+		path = get_cd_path(argv[1], env);
 	if (path)
 	{
-		if (!change_dir(path, envp, exe))
+		if (!change_dir(path, env, exe))
 		{
-			ft_putstr_fd("cd: no such file or directory: ", 2);
+			ft_putstr_fd(SH_NAME": cd: no such file or directory: ", 2);
 			ft_putstr_fd(argv[1], 2);
 			ft_putchar_fd('\n', 2);
 		}
-	}
-	ft_strdel(&path);
+	}*/
+	//ft_strdel(&path);
 }

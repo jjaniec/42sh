@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 19:32:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:09:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ static int	str_is_num(char *str)
 ** otherwise exit with 0 by default
 */
 
-inline void	builtin_exit(char **argv, char **envp, t_exec *exe)
+inline void	builtin_exit(char **argv,t_environ *env, t_exec *exe)
 {
 	int		exit_val;
 	int		first_arg_is_num;
 
-	(void)envp;
+	(void)env;
 	exit_val = 0;
 	first_arg_is_num = 0;
 	if (argv && argv[1])

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 17:38:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:09:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ static void	print_setenv_error(void)
 	ft_putstr_fd("Usage: setenv VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
 }
 
-int		builtin_setenv(char **argv, char **envp, t_exec *exe)
+int		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 {
-	t_environ	*env_struct;
 	char		**ptr;
 	(void)argv;
-	(void)envp;
+	(void)env;
 	(void)exe;
 
 	ptr = argv + 1;
@@ -39,8 +38,7 @@ int		builtin_setenv(char **argv, char **envp, t_exec *exe)
 		print_setenv_error();
 		return (1);
 	}
-	env_struct = get_environ_struct();
 	while (ptr && *ptr)
-		env_struct->add_var(env_struct, *ptr++, NULL);
+		env->add_var(env, *ptr++, NULL);
 	return (0);
 }

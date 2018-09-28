@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 18:56:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:28:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,6 @@ typedef struct			s_ast
 	struct s_ast	*right;
 	struct s_ast	*parent;
 }						t_ast;
-
-/*
-** int	ret: the return value of the last command. Default: 0
-** int	ready_for_exec: if set to one, next execve() will be bypassed Default: 0
-** char	**envp: the environmental var. Default: arg of the main()
-** char	**tmp_envp: environmental var if modified temporarily
-**			(T_ASSIGN_ENVIRONEMENT for instance). Default: NULL
-*/
-
-typedef struct			s_exec
-{
-	int		ret;
-	int		ready_for_exec;
-	/*char	**envp;
-	char	**tmp_envp;*/
-}						t_exec;
 
 /*
 ** Option typedef:
@@ -127,5 +111,19 @@ typedef struct		s_environ
 	int				(*del_var)(struct s_environ *, char *);
 	t_env_entry		*(*get_var)(struct s_environ *, char *);
 }					t_environ;
+
+/*
+** int	ret: the return value of the last command. Default: 0
+** int	ready_for_exec: if set to one, next execve() will be bypassed Default: 0
+** env: environnement
+*/
+
+typedef struct			s_exec
+{
+	int			ret;
+	int			ready_for_exec;
+	t_environ	*env;
+}						t_exec;
+
 
 #endif

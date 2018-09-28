@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 20:23:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:17:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** In fail, exit the program with MALLOC_ERROR
 */
 
-t_exec	*create_exec(void)
+t_exec	*create_exec(t_environ *env)
 {
 	t_exec	*exe;
 
@@ -25,6 +25,7 @@ t_exec	*create_exec(void)
 		exit(MALLOC_ERROR);
 	exe->ret = 0;
 	exe->ready_for_exec = 0;
+	exe->env = env;
 	return (exe);
 }
 

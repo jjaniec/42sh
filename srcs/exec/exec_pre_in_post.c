@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 20:20:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:17:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,12 @@
 
 void	exec_argv(char **argv, t_exec *exe, t_ast *node)
 {
-	t_environ	*env_struct;
-
-	env_struct = get_environ_struct();
 	if (ft_strchr(argv[0], '/'))
-		exec_local(argv, env_struct, exe, node);
-	else if (exec_builtin(argv, env_struct, exe, node))
+		exec_local(argv, exe->env, exe, node);
+	else if (exec_builtin(argv, exe->env, exe, node))
 		return ;
 	else
-		exec_binary(argv, env_struct, exe, node);
+		exec_binary(argv, exe->env, exe, node);
 }
 
 /*

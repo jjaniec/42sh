@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:04:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/15 15:42:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:42:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,6 @@ int		get_env_pos(const char *name, const char **envp)
 	return (-1);
 }
 
-/*
-** Tool.
-** Take in the name of an environment var and the char **envp.
-** Give back the value corresponding to the environment var
-*/
-
-char	*get_env(const char *name, const char **envp)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (envp && envp[i])
-	{
-		j = 0;
-		while (envp[i][j] == name[j])
-			j++;
-		if (envp[i][j] == '=' && name[j] == '\0')
-			return ((char *)envp[i] + j + 1);
-		i++;
-	}
-	return (NULL);
-}
 
 /*
 ** Tool.

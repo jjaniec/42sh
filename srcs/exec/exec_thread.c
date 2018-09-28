@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 18:43:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:13:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 ** without duplicating code)
 */
 
-static void	child_process(void **cmd, char **envp, t_exec *exe, \
+static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 				t_ast *node)
 {
 	handle_pipes(node);
@@ -41,12 +41,12 @@ static void	child_process(void **cmd, char **envp, t_exec *exe, \
 	{
 		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
-			(*(void (**)(char **, char **, t_exec *))(cmd[1]))\
-				(cmd[2], envp, exe);
+			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
+				(cmd[2], env, exe);
 		else
 		{
 			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
-			if (execve(cmd[1], cmd[2], envp) == -1)
+			if (execve(cmd[1], cmd[2], env->environ) == -1)
 				log_error("Execve() not working");
 		}
 	}
@@ -140,7 +140,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 		if (child_pid == -1)
 			log_error("Fork() not working");
 		else if (child_pid == 0)
-			child_process(cmd, env_struct->environ, exe, node);
+			child_process(cmd, env_struct, exe, node);
 		else
 		{
 			log_trace("Forked process pid: %d", child_pid);
@@ -148,6 +148,6 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 		}
 	}
 	else
-		child_process(cmd, env_struct->environ, exe, node);
+		child_process(cmd, env_struct, exe, node);
 	return (exe);
 }

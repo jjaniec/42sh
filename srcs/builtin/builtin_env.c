@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 19:18:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:20:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,37 +44,38 @@ static void	handle_parameters(char **argv, t_environ *env_struct)
 	}
 	else
 		env_struct_to_use = env_struct;
-	tmp_environ_start = &(env_struct_to_use->environ[env_struct_to_use->entry_count]);
+	tmp_environ_start = \
+		&(env_struct_to_use->environ[env_struct_to_use->entry_count]);
 	starting_entry_count = env_struct_to_use->entry_count;
 	while (argv && *argv && ft_strchr(*argv, '='))
 	{
 		if (!(env_struct_to_use->entry_count < MAX_ENV_ENTRIES))
 			break ;
-		env_struct_to_use->environ[env_struct_to_use->entry_count];
+		ft_strncpy(env_struct_to_use->environ[env_struct_to_use->entry_count], \
+			*argv, MAX_ENV_ENTRY_LEN);
 		env_struct_to_use->entry_count += 1;
 		argv += 1;
 	}
 	// here : exec command
 	if (env_struct_to_use != env_struct)
 		free(env_struct_to_use);
+	else
+		while (*tmp_environ_start)
+			*tmp_environ_start++ = NULL;
 }
 
-int		builtin_env(char **argv, char **envp, t_exec *exe)
+int		builtin_env(char **argv, t_environ *env, t_exec *exe)
 {
-	char		**env;
-	t_environ	*env_struct;
-
 	(void)argv;
-	(void)envp;
 	(void)exe;
-	if ((env_struct = get_environ_struct()))
+	if (env)
 	{
 		if (!(argv[1]))
 		{
-			print_env_content(env_struct->environ);
+			print_env_content(env->environ);
 			return (0);
 		}
-		handle_parameters(argv + 1, env_struct);
+		handle_parameters(argv + 1, env);
 	}
 	return (1);
 }

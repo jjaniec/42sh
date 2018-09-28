@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 19:48:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:05:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	return (input);
 }
 
-static int		twenty_one_sh(char *input, t_option *opt_list, \
-					t_option **char_opt_index)
+static int		twenty_one_sh(char *input, t_environ *env,
+					t_option *opt_list, t_option **char_opt_index)
 {
 	t_ast		*ast_root;
 	t_exec		*exe;
@@ -63,7 +63,7 @@ static int		twenty_one_sh(char *input, t_option *opt_list, \
 		free_lexemes(lexemes);
 		return (1);
 	}
-	exe = create_exec();
+	exe = create_exec(env);
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
 		envp = exe->tmp_envp;
@@ -78,7 +78,7 @@ static int		twenty_one_sh(char *input, t_option *opt_list, \
 	return (0);
 }
 
-static void		loop_body(t_option *opt_list, t_option **char_opt_index)
+static void		loop_body(t_environ *env, t_option *opt_list, t_option **char_opt_index)
 {
 	t_lexeme	*lex;
 	char		*input;
@@ -92,7 +92,7 @@ static void		loop_body(t_option *opt_list, t_option **char_opt_index)
 			return ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		twenty_one_sh(input, opt_list, char_opt_index);
+		twenty_one_sh(input, env, opt_list, char_opt_index);
 		free_lexemes(lex);
 		free(input);
 	}
@@ -120,11 +120,11 @@ int			main(int ac, char **av, char **envp)
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
-			twenty_one_sh(ft_strjoin(*args, "\n"), opt_list, char_opt_index);
+			twenty_one_sh(ft_strjoin(*args, "\n"), get_environ_struct(), opt_list, char_opt_index);
 			args++;
 			ac--;
 		}
 	else
-		loop_body(opt_list, char_opt_index);
+		loop_body(get_environ_struct(), opt_list, char_opt_index);
 	return (0);
 }

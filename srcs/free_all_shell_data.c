@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 21:24:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:31:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void		free_environ(void)
 
 	if (!(env_struct = get_environ_struct()))
 		return ;
-	free_env_entries(env_struct->env_entries_list);
+	free_env_entries(env_struct, env_struct->env_entries_list);
 	//free(env_struct);
 	env_struct = NULL;
 }
