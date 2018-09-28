@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 20:51:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 18:40:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,8 @@ t_environ	*init_environ(char **env);
 void	free_env_entries(t_env_entry *env_entries);
 
 void	free_all_shell_data(void);
+
+void		init_environ_struct(t_environ *env_struct);
+
 
 #endif

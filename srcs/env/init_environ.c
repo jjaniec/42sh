@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:41:25 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 18:00:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 19:14:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,8 @@ t_environ		*init_environ(char **env)
 	t_environ	*new_env;
 
 	new_env = get_environ_struct();
-	new_env->environ[0] = NULL;
-	new_env->environ[MAX_ENV_ENTRIES] = NULL;
-	new_env->last_used_elem = NULL;
-	new_env->last_entry_ptr = NULL;
-	new_env->entry_count = 0;
-	new_env->get_var = get_env_var;
-	new_env->add_var = add_env_var;
-	new_env->upt_var = upd_env_var;
-	new_env->del_var = del_env_var;
+	init_environ_struct(new_env);
 	init_env_entries_list(new_env, env);
 	update_info_env_vars(new_env);
-	new_env->del_var(new_env, "USER");
 	return (new_env);
 }

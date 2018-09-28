@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 16:56:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 18:43:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 
 static int	should_fork(void **cmd)
 {
-	if (*cmd == EXEC_THREAD_BUILTIN)
+	if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 		return (0);
 
 	/*if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN && \

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:45:34 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/13 17:17:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 19:37:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ char			**parse_options(int *ac, char **av, \
 	if (char_opt_index && !(i = 0))
 		while (i != CHAR_OPT_INDEX_SIZE)
 			char_opt_index[i++] = NULL;
-	while ((*ac)-- > 1 && **ptr == '-' && ft_strcmp(*ptr, "--"))
+	while ((!ac || (*ac)-- > 1) && *ptr && **ptr == '-' && ft_strcmp(*ptr, "--"))
 	{
 		if ((*ptr)[1] == '-')
 			toggle_str_opt(opt_list, (*ptr) + 1, char_opt_index);
 		else
 			toggle_char_opts(opt_list, (*ptr) + 1, char_opt_index);
-		ptr = (*ac != 0) ? (&ptr[1]) : (NULL);
+		ptr = ((!ac || *ac != 0)) ? (&ptr[1]) : (NULL);
 	}
 	return (ptr);
 }
