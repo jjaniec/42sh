@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 17:22:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 21:47:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,18 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 	new_entry_struct->ptr_to_pos_in_environ_tab = NULL;
 	i = 0;
 	if ((assign_char_ptr = ft_strchr(name, '=')) && assign_char_ptr != name)
+	{
 		ft_strncpy(new_entry_struct->entry, name, MAX_ENV_ENTRY_LEN);
+		new_entry_struct->val_begin_ptr = assign_char_ptr + sizeof(char);
+	}
 	else if (entry_value && *entry_value)
 	{
 		entry_name_len = ft_strlen(name);
 		entry_value_len = ft_strlen(entry_value);
 		ft_strncpy(new_entry_struct->entry, name, MAX_ENV_ENTRY_LEN);
 		new_entry_struct->entry[entry_name_len] = '=';
+		new_entry_struct->val_begin_ptr = \
+			new_entry_struct->entry + sizeof(char) * (entry_name_len + 1);
 		ft_strncpy(new_entry_struct->entry + entry_name_len + 1, entry_value, \
 			MAX_ENV_ENTRY_LEN - (entry_name_len + 1));
 	}
