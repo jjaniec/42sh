@@ -6,28 +6,29 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:41:01 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/26 21:27:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 17:31:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+**	Load the history file into a linked list used by the shell.
+*/
 
 void	load_history_file(struct s_line *le)
 {
 	int     fd;
 	int     ret;
 	char    *line;
-	char	rc_path[1024];
+	char	*his_file_path;
 
-	//set_term_attr(LE_SET_OLD);
-
-	ft_strcpy(rc_path, get_parsed_42shrc_path());
-	ft_strcat(rc_path, "/.42sh_history");
-	if (check_42shrc() == false
-	|| (fd = open(rc_path, O_RDONLY)) == -1
+	his_file_path = get_parsed_history_file_path();
+	if (his_file_path == NULL || check_history_file(his_file_path) == false
+	|| (fd = open(his_file_path, O_RDONLY)) == -1
 	|| le->history == NULL)
 	{
-		ft_putstr_fd("42sh: error while loading .42shrc/.42sh_history\n", \
+		ft_putstr_fd("42sh: error while loading .42sh_history lol\n", \
 		STDERR_FILENO);
 		return ;
 	}
@@ -36,7 +37,7 @@ void	load_history_file(struct s_line *le)
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 		{
-			ft_putstr_fd("42sh: error while loading .42shrc/.42sh_history\n", \
+			ft_putstr_fd("42sh: error while loading .42sh_history mdrß\n", \
 			STDERR_FILENO);
 			return ;
 		}
@@ -44,5 +45,4 @@ void	load_history_file(struct s_line *le)
 			break ;
 		add_history(line, le);
 	}
-	//set_term_attr(LE_SET_NEW);
 }

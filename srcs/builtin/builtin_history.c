@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/27 18:43:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 17:30:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,17 @@ static bool		save_history_in_file(void)
 {
 	int						fd;
 	const struct s_history	*his = access_le_main_datas()->history;
-	char					rc_path[1024];
+	const char				*his_file_path = get_parsed_history_file_path();
 
-	if (check_42shrc() == false)
+	if (check_history_file(his_file_path) == false)
 		return (false);
 	if (his == NULL)
 		return (true);
 	while (his->prev != NULL)
 		his = his->prev;
-	ft_strcpy(rc_path, get_parsed_42shrc_path());
-	ft_strcat(rc_path, "/.42sh_history");
-	if ((fd = open(rc_path, O_WRONLY | O_TRUNC)) == -1)
+	if ((fd = open(his_file_path, O_WRONLY | O_TRUNC)) == -1)
 	{
-		ft_putstr_fd("42sh: error with file .42shrc/.42sh_history\n", 2);
+		ft_putstr_fd("42sh: error with file .42sh_history\n", STDERR_FILENO);
 		return (false);
 	}
 	while (his->cmd != NULL)
@@ -144,7 +142,7 @@ static bool		save_history_in_file(void)
 		if (write(fd, his->cmd, ft_strlen(his->cmd)) == (ssize_t)-1
 		|| write(fd, "\n", sizeof(char)) == (ssize_t)-1)
 		{
-			ft_putstr_fd(".42shrc/.42sh_history: error writing in file\n", 2);
+			ft_putstr_fd(".42sh_history: error writing in file\n", 2);
 			return (false);
 		}
 		his = his->next;

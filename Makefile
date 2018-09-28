@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/26 21:03:49 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/28 17:35:08 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,10 +133,10 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			shellrc_checker.c \
+			history_file_checker.c \
 			load_history_file.c \
 			get_next_line.c \
-			get_parsed_42shrc_path.c \
+			get_parsed_history_file_path.c \
 			main.c \
 
 INCLUDES_NAME = lexer.h \
