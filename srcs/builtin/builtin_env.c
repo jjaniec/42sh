@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 20:25:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 17:02:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ t_option		g_env_opts[] = {
 	{{NULL}, NULL, false}
 };
 
+static void		print_env_content(char **environ)
+{
+	while (environ && *environ)
+		ft_putendl(*environ++);
+}
+
 int		builtin_env(char **argv, char **envp, t_exec *exe)
 {
 	char		**env;
@@ -35,8 +41,7 @@ int		builtin_env(char **argv, char **envp, t_exec *exe)
 	if ((env_struct = get_environ_struct()))
 	{
 		env = env_struct->environ;
-		while (*env)
-			ft_putendl(*env++);
+		print_env_content(env_struct->environ);
 	}
 	return (1);
 }

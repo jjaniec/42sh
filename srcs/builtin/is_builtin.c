@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 16:41:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/15 20:40:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 16:53:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		is_builtin(char *cmd, \
 	else if (ft_strequ(cmd, "setenv"))
 		builtin_ret_ptr = &builtin_setenv;
 	else if (ft_strequ(cmd, "unsetenv"))
-		builtin_ret_ptr = &builtin_setenv;
+		builtin_ret_ptr = &builtin_unsetenv;
 	else if (ft_strequ(cmd, "env"))
 		builtin_ret_ptr = &builtin_env;
 	else if (ft_strequ(cmd, "exit"))

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 19:56:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 17:22:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 	self->environ[self->entry_count] = new_entry_struct->entry;
 	new_entry_struct->ptr_to_pos_in_environ_tab = \
 		&(self->environ[self->entry_count]);
-	self->environ[++self->entry_count] = new_entry_struct->entry;
+	self->environ[self->entry_count] = new_entry_struct->entry;
 	new_entry_struct->prev = self->last_entry_ptr;
 	if (self->last_entry_ptr)
 		self->last_entry_ptr->next = new_entry_struct;
@@ -71,5 +71,6 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 	upd_self_ptrs(self, new_entry_struct);
 	log_debug("New environnement var created ->entry: |%s| - ->entry_count: %d / ptr pos in env tab: %s - ->env[entry_count]: |%s|", \
 		new_entry_struct->entry, self->entry_count - 1, *(new_entry_struct->ptr_to_pos_in_environ_tab), self->environ[self->entry_count]);
+	self->entry_count += 1;
 	return (new_entry_struct->entry);
 }

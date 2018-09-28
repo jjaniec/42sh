@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:41:25 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 20:22:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 18:00:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ t_environ		*init_environ(char **env)
 	new_env->del_var = del_env_var;
 	init_env_entries_list(new_env, env);
 	update_info_env_vars(new_env);
+	new_env->del_var(new_env, "USER");
 	return (new_env);
 }

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/27 20:54:41 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/28 16:43:22 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,14 +130,14 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			add_env_var.c \
-			init_environ.c \
-			get_environ_struct.c \
-			del_env_var.c \
-			get_env_var.c \
-			upd_env_var.c \
+			env/add_env_var.c \
+			env/init_environ.c \
+			env/get_environ_struct.c \
+			env/del_env_var.c \
+			env/get_env_var.c \
+			env/upd_env_var.c \
 			free_all_shell_data.c \
-			free_env_entries.c \
+			env/free_env_entries.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
@@ -163,7 +163,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ 
+			syntax_highlighting/ env/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

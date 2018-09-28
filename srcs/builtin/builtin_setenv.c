@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 21:04:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/28 17:38:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_args(char **argv)
 {
-	while (argv)
+	while (argv && *argv)
 		if (!(ft_strchr(*argv++, '=')))
 			return (1);
 	return (0);
@@ -28,17 +28,19 @@ static void	print_setenv_error(void)
 int		builtin_setenv(char **argv, char **envp, t_exec *exe)
 {
 	t_environ	*env_struct;
+	char		**ptr;
 	(void)argv;
 	(void)envp;
 	(void)exe;
 
-	if (check_args(argv))
+	ptr = argv + 1;
+	if (check_args(ptr))
 	{
 		print_setenv_error();
 		return (1);
 	}
 	env_struct = get_environ_struct();
-	while (argv)
-		env_struct->add_var(env_struct, *argv++, NULL);
+	while (ptr && *ptr)
+		env_struct->add_var(env_struct, *ptr++, NULL);
 	return (0);
 }
