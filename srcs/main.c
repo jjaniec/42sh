@@ -6,14 +6,14 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 21:20:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:43:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep = NULL, .resize_happened = false
+	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
 };
 
 t_option		g_sh_opts[] = {
@@ -34,10 +34,13 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	input = line_edition(sub_prompt);
-	ft_putchar('\n'); 
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+		input = line_edition(sub_prompt);
+	if (g_cmd_status.keep_le_main_datas == NULL)
+		ft_putchar('\n');
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-		UNMATCHED_QUOTE_ERR)
+	UNMATCHED_QUOTE_ERR)
 	{
 		free_lexemes(lexemes_ret);
 		if (!subpp_string(&input))

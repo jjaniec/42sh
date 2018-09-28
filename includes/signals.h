@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 12:34:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/20 18:32:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:15:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 
 struct s_cmd_status
 {
-	bool    cmd_running;
-	pid_t   cmd_pid;
-	struct s_line *keep;
-	int keep_prompt_type;
-	bool	resize_happened;
+	bool			cmd_running;
+	pid_t			cmd_pid;
+	struct s_line	*keep_le_main_datas;
+	bool			resize_happened;
 };  
 
 extern struct s_cmd_status  g_cmd_status;

@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/27 21:16:19 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/28 20:10:16 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,13 +133,14 @@ SRC_NAME = 	is_separator.c \
 			syntax_highlighting/print_input_string_end.c \
 			main.c \
 
-INCLUDES_NAME = lexer.h \
-				ast.h \
+INCLUDES_NAME = ast.h \
 				exec.h \
-				twenty_one_sh.h \
+				lexer.h \
 				line_edition.h \
+				signals.h \
+				struct.h \
 				syntax_highlighting.h \
-				log.h
+				twenty_one_sh.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \

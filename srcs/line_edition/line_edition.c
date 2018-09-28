@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/20 17:56:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:17:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,33 +103,53 @@ char			*line_edition(int prompt_type)
 	init_line_edition_attributes(le, prompt_type);
 	g_cmd_status.cmd_running = false;
 
-if (g_cmd_status.keep != NULL)
-{tputs(access_le_main_datas()->tcaps->cl, 1, write_one_char);
-le_debug("%s", "WINCH REWRITE\n");
-	
-	//char *new_cmd = ft_strdup(g_cmd_status.keep->cmd);
-	free(le->cmd); // alloc done in init_le_attributes();
-	memcpy( le, g_cmd_status.keep, sizeof(struct s_line) );
+if (g_cmd_status.keep_le_main_datas != NULL)
+{
+	char *updated_cmd;
 
-	free(g_cmd_status.keep);
-	g_cmd_status.keep = NULL;
+		//tputs(access_le_main_datas()->tcaps->cl, 1, write_one_char);
+	le_debug("%s", "WINCH REWRITE\n");
+		
+		//char *new_cmd = ft_strdup(g_cmd_status.keep->cmd);
 
-le_debug("WINCH REWRITE 3 %i\n", g_cmd_status.keep_prompt_type);
-	prompt_show(g_prompts[/*-prompt_type*/ -(g_cmd_status.keep_prompt_type)]);
-
-le->term_line_size = get_terminal_nb_col();
-	int tmp_pos = 0;
-	for (int i = 0 ; i < (int)le->cmd_len ; ++i)
-	{
-		if (tmp_pos == (int)le->term_line_size - 1)
+		if (le->le_state.opt_colosyn == false)
 		{
-			tputs(le->tcaps->_do, 1, write_one_char);
-			cursor_crosses_screen(le, CROSS_TO_LEFT);
+			free(le->cmd); // alloc done in init_le_attributes();
+			memcpy( le, g_cmd_status.keep_le_main_datas, sizeof(struct s_line) );
 		}
-		print_key(le->cmd[i]);
-		//le_debug("WINCH REWRITE PRINT |%c|\n", le->cmd[i]);
-	}
-le_debug("%s", "WINCH REWRITE END\n");
+		else
+			updated_cmd = ft_strdup(g_cmd_status.keep_le_main_datas->cmd); // check
+
+		free(g_cmd_status.keep_le_main_datas);
+		g_cmd_status.keep_le_main_datas = NULL;
+
+		//prompt_show(g_prompts[/*-prompt_type*/ -(g_cmd_status.keep_prompt_type)]);
+
+	le->term_line_size = get_terminal_nb_col();
+
+		if (le->le_state.opt_colosyn == false)
+		{
+			int tmp_pos = 0;
+			for (int i = 0 ; i < (int)le->cmd_len ; ++i)
+			{
+				if (tmp_pos == (int)le->term_line_size - 1)
+				{
+					tputs(le->tcaps->_do, 1, write_one_char);
+					cursor_crosses_screen(le, CROSS_TO_LEFT);
+				}
+				print_key(le->cmd[i]);
+				//le_debug("WINCH REWRITE PRINT |%c|\n", le->cmd[i]);
+			}
+		}
+		else
+		{
+			//char *updated_cmd = ft_strdup(le->cmd); // check
+			refresh_colosyn(le, updated_cmd);
+			free(updated_cmd);
+		}
+
+
+	le_debug("%s", "WINCH REWRITE END\n");
 }
 
 struct sigaction new;
@@ -188,61 +208,3 @@ sigaction(SIGWINCH, &new, NULL);
 le_debug("%s", "END LE\n");
 	return (final_line);
 }
-
-
-////////////////////////////////////////////////////////////// for tests
-/*
-void	prompt(void)
-{
-	printf("PROMPT  $> ");
-	fflush(stdout);
-}
-*/
-
-/*
-void	prepare_test(void)
-{
-	tty_debug = fopen(TTY_DEBUG, "w");
-	if (tty_debug == NULL)
-	{
-		perror("perror report - fopen() failed in prepare_test()");
-		exit(123);
-	}
-}
-*/
-
-/*
-int	 main(void)
-{
-	char	*input;
-
-	prepare_test();
-	
-	while ("\x1b\x5b\x48\x1b\x5b\x32\x4a\x00\x66\x75\x63\x6b")
-	{
-		prompt();
-		
-		input = line_edition();
-		//printf("\ninput = |%s|\n", s);
-		
-		if ( strcmp(input, "q\n") == 0 )
-			break ;
-		
-		//printf("\nINPUT = |%s|", input);
-
-		free(input);
-
-#define TERPRI putchar('\n')
-		if (TERPRI, TERPRI, TERPRI)
-			;
-	}
-	
-	fclose(tty_debug);
-
-	return
-	!!!!!!!!!!!!! 
-	"patate + licorne = patatorne"
-	+ !!!
-	TERPRI
-	;;;
-}*/

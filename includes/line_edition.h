@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/20 12:43:20 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:00:22 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,17 +355,15 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
 
 
-	dossier caché dans le home
-	dedans ya le fichier historique
-	un .42shrc qui contient des alias
-
-
 	faudra tester la commande clear quand on aura le full prompt sur deux lignes la,
 	possible que ca ne marche pas on veut, auquel cas on fera un builtin clear personnalisé ;)
 
 
 	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
 	remonté trop haut, alors ctrl+u a un affichage un peu bugué
+
+
+	penser a faire ctrl + l
 
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
