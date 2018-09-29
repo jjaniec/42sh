@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/29 18:51:04 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/29 21:27:21 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -165,6 +165,11 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					exec_tests.c \
 					script_tests.c \
 					builtin_test_tests.c \
+					test_lexeme_list.c \
+					compare_sh_21sh_outputs.c \
+					compare_redirected_files_contents.c \
+					compare_fds_with_strings.c \
+					redirect_both_fds.c \
 					main.c
 
 
@@ -264,7 +269,7 @@ $(LIBTAP_DIR):
 clean:
 	rm -rf $(OBJ_DIR)
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
-	rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
+	-rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
 	if [ -d $(FT_PRINTF_DIR) ]; then make clean -C $(FT_PRINTF_DIR); fi
 
 fclean: clean

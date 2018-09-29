@@ -3,29 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_test_tests.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 15:32:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 21:15:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-char **env;
-
-static int		mask_output(int *pipe_input_fd, int *pipe_output_fd)
-{
-	int		r;
-	int		pipe_fds[2];
-
-	r = dup(STDOUT_FILENO);
-	pipe(pipe_fds);
-	*pipe_input_fd = pipe_fds[1];
-	*pipe_output_fd = pipe_fds[0];
-	dup2(*pipe_input_fd, STDOUT_FILENO);
-	return r;
-}
+static char **env;
 
 static	void exec(char *input)
 {
@@ -45,24 +32,16 @@ static	void exec(char *input)
 	free_lexemes(lex);
 }
 
-static void test_framework(char *str_test, char *result, char *test_name)
+static void test_framework(char *str_test, char *expected_stdout, char *test_name)
 {
-	int			stdout_dup;
-	int			pipe_input_fd;
-	int			pipe_output_fd;
-	int			bytes_read;
-	char		buf[BUFSIZ];
+	int		backup_stdout_fd;
+	int		backup_stderr_fd;
+	char	*tmp;
 
-	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
 	exec(ft_strjoin(str_test, " && echo 0 || echo 1\n"));
-	close(pipe_input_fd);
-	if ((bytes_read = read(pipe_output_fd, buf, BUFSIZ)) == -1)
-		printf("Can't read comparison file desc %d!\n", pipe_output_fd);
-	else
-		buf[bytes_read] = '\0';
-	close(pipe_output_fd);
-	dup2(stdout_dup, STDOUT_FILENO);
-	is(buf, ft_strjoin(result, "\n"), ft_strjoin("Builtin test: ", test_name));
+	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), NULL, backup_stdout_fd, backup_stderr_fd);
+	free(tmp);
 }
 
 void		builtin_test_tests(char **envp)
