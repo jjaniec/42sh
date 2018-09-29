@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.h                                            :+:      :+:    :+:   */
+/*   get_expansion_end.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 18:42:02 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/09/19 16:45:12 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/09/24 17:49:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_H
-# define TESTS_H
+#include <twenty_one_sh.h>
 
-# include <twenty_one_sh.h>
-# include "../libtap/tap.h"
+static int	is_expansion_end_char(char c)
+{
+	if (c == '$' || c == '\\' || c == '\'' || c == '"' || is_separator(c))
+		return (1);
+	return (0);
+}
 
-# define SH_TESTS_TMP_FILENAME "/tmp/tmp.txt"
+char		*get_expansion_end(char *str)
+{
+	char		*r;
 
-// Lexer tests
-
-void	lexer_tests(char **envp);
-
-void 	ast_tests(void);
-void	script_tests(char **envp);
-void	exec_tests(char ***envp_ptr);
-void	syntax_highlighting_tests(char **envp);
-void	builtin_test_tests(char **envp);
-
-#endif
+	r = str + 1;
+	while (*r && !is_expansion_end_char(*r))
+		r++;
+	log_fatal("expansion end |%s|", r);
+	return (r);
+}

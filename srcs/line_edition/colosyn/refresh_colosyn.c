@@ -6,15 +6,15 @@
 /*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:36:29 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/26 11:38:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:42:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-**	The command line is checked in order to reprint it with the good colors.
-*/
+ **	The command line is checked in order to reprint it with the good colors.
+ */
 
 void		refresh_colosyn(struct s_line *le, char *cmd)
 {

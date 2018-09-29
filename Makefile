@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/26 17:23:21 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/29 18:46:16 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,13 @@ SRC_NAME = 	is_separator.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
 			lexer/lexeme_type_word.c \
-			lexer/clean_word_lexeme.c \
+			lexer/handle_quotes_expansions.c \
 			lexer/has_matching_quote.c \
 			lexer/env_assigns_status.c \
-			lexer/handle_backslash_escape.c \
+			lexer/handle_escape_offset.c \
 			lexer/free_lexemes.c \
+			lexer/handle_char_expansion.c \
+			lexer/get_expansion_end.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_constructor.c \
@@ -145,8 +147,7 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c \
-			line_edition/ft_realloc.c
+			main.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -186,7 +187,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 #-Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0
@@ -204,7 +205,7 @@ LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
-MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
 
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true

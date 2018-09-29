@@ -4,9 +4,12 @@ notifications:
   email: false
   slack: 42born2code:7VKgN0wy7keo3PVkYmKvkbJf
 before_install:
-    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; else brew update; fi;
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip build-wrapper-linux-x86.zip && cp build-wrapper-linux-x86/libinterceptor-x86_64.so build-wrapper-linux-x86/libinterceptor-haswell.so;
+      else brew update && wget https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip && unzip build-wrapper-macosx-x86.zip;
+      fi;
 after_script:
-    - bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -s https://codecov.io/bash) -F unittests
+    - sonar-scanner -X
 git:
   depth: 3
 addons:
@@ -21,6 +24,10 @@ addons:
     - libncurses-dev
     # - clang-6.0
     # - clang-5.0
+  sonarcloud:
+    organization: "jjaniec-github"
+    token:
+      secure: "YPivDS3PxaHx8LuvzVRP0u57G9Q6zx/SWS/5i2AcnvOngQ71eQ+bXoHPb4xF0PHjpGrkFqU0cp1TR/AoM5twYm04SMDCzNIbkYXTf3CWp+BaO3fK4l/mtVkzxo3/FhE/Scwf/JfCjAxjsLjVnzgosDzLJFQsh/BNkE2C7ioO07GilbIuCgdBG0nY+Tci5onWFzmI2gEgmDBszMMB5+Gw7EgPEYNL18AYmDktZXIs+eCIrSgWjEq5zpuWbSe1XclbZWMBe0GybrK+94ThrkA6YkSHG5BAsP4YILRHIAGL+cSFBhx5phkZCvkTdQ7Hh4Kv01BuCE8+SRnL1o5rvzUOqrb/SDf3Ra7oMbto0NBpsXsdft/W2rFW4jhyjhqSqEyA/jaFL2kgl6p7BHAfKHzPeAdZmVyqpRLM4rwSyKdDuvTJmXmKAFHI7zRGrv7j9OFL3A+OchKGhvC8ZUbqhY/6aYbHp7de2zHaDAdsYc/f4Yrme3Nss+cDVStGxC+JB2oE4tUF1RmFSbfGORdHLMNl9H8d5vDh3TClmL3bcWHNDhXMy81nSOCWTIm+woU4W6+HNLubFjW9B4+QVjrf4PYowiSaudhble//XxSiOP/dr11/JfPGZN0wZEEW8RQISMfGP2G0POQL9hJDOPHl04Tpw6XhQry6MEsdr4VeEulgTEA="
 matrix:
     fast_finish: true
     include:
@@ -102,9 +109,12 @@ matrix:
         #   compiler: clang-5.0
         #   env: CXX=clang-5.0
 script: >
-  make CC=$CXX tests &&
+  if [ $TRAVIS_OS_NAME == linux ];
+  then ./build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output make CC=$CXX tests;
+  else ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make CC=$CXX tests;
+  fi;
   if [ $TRAVIS_OS_NAME == osx ];
-  then ./21sh_tests;
+  then time ./21sh_tests;
   else valgrind --leak-check=full ./21sh_tests;
   fi;
   r=$?;
