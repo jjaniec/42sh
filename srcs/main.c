@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 14:18:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 15:57:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int		twenty_one_sh(char *input, char **envp, \
 		exit(1);
 	}
 	ast_root = ast(lexemes);
+	link_ast_data(ast_root);
 	free_lexemes(lexemes);
 	if (!ast_root)
 		return (1);
