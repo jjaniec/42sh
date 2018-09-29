@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 18:49:51 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:12:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		twenty_one_sh(input, envp, opt_list, char_opt_index);
-		free_lexemes(lex);
 	}
 }
 
