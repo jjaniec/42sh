@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 17:30:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 15:01:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void		delete_element_number_n(unsigned int n)
 	struct s_history	*del;
 	unsigned int		index;
 
-	if ((his = access_le_main_datas()->history) == NULL)
+	if (n == 0 || (his = access_le_main_datas()->history) == NULL)
 		return ;
 	while (his->prev != NULL)
 		his = his->prev;
@@ -164,11 +164,8 @@ static void	clear_history(struct s_line *le)
 		return ;
 	while (his->prev != NULL)
 		his = his->prev;
-	while (his != NULL)
+	while (his->cmd != NULL)
 	{
-		if (his->cmd == NULL)
-			break ;
-
 		free(his->cmd);
 		del = his;
 		his = his->next;
