@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/29 18:46:16 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/29 18:51:04 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_free.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
+			ast/access_ast_data.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
 			line_edition/le_exit.c \

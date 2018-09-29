@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/26 11:28:47 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:59:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char		**debug_data_node(char *str)
 	tab_ = (char **)malloc(sizeof(char *) * 2);
 	if (!tab_)
 		exit(MALLOC_ERROR);
-	tab_[0] = str;
+	tab_[0] = ft_strdup(str);
 	tab_[1] = NULL;
 	return (tab_);
 }

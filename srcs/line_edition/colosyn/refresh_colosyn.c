@@ -6,7 +6,7 @@
 /*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:36:29 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 18:42:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:50:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ void		refresh_colosyn(struct s_line *le, char *cmd)
 		log_set_quiet(0);
 	actionk_delete_current_input(le);
 	print_colorized_input(cmd, g_envp, lexemes, unmatched_quote_err_ptr);
+	free_lexemes(lexemes);
 }
