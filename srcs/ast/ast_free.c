@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 14:17:38 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 15:00:53 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	free_argv(char **argv)
 static void	free_node(t_ast **ast)
 {
 	free_argv(ast[0]->data);
+	free(ast[0]->data);
 	free(*ast);
 	*ast = NULL;
 }
