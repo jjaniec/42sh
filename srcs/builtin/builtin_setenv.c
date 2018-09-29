@@ -6,11 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:09:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 16:25:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
+
+/*
+** Check args format and return 1 to print error messages if any of them is invalid
+*/
 
 static int	check_args(char **argv)
 {
@@ -20,18 +24,26 @@ static int	check_args(char **argv)
 	return (0);
 }
 
+/*
+** Print invalid parameters error message
+*/
+
 static void	print_setenv_error(void)
 {
-	ft_putstr_fd("Usage: setenv VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
+	ft_putstr_fd(SH_NAME": setenv: usage VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
 }
+
+/*
+** Add environnement variables in our t_env_entry linked list w/ add_var
+*/
 
 int		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 {
 	char		**ptr;
+
 	(void)argv;
 	(void)env;
 	(void)exe;
-
 	ptr = argv + 1;
 	if (check_args(ptr))
 	{

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 21:07:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 16:29:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,22 @@ t_option		g_cd_opts[] = {
 		components shall not be resolved before dot-dot components are processed", false},
 	{{NULL}, NULL, false}
 };
+
+/*
+** Refresh PWD env variable
+*/
+
+static void	ft_refresh_cwd_env(t_environ *env)
+{
+	char	cwd_new_fmt[1024];
+
+	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)) == NULL)
+		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
+	else
+		env->upt_var(env, "PWD", cwd_new_fmt);
+}
+
+
 /*
 static char	*create_path(char *path, char *home, char *oldpwd, char *str)
 {

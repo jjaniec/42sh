@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 20:09:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 16:22:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ inline void	builtin_exit(char **argv,t_environ *env, t_exec *exe)
 			exit_val = ft_atoi(argv[1]);
 		if (!first_arg_is_num)
 		{
-			ft_putstr_fd("21sh: exit: numeric argument required\n", 2);
+			ft_putstr_fd(SH_NAME": exit: numeric argument required\n", 2);
 			exit_val = 255;
 		}
 		else if (argv[2])
 		{
-			ft_putstr_fd("21sh: exit: too many arguments\n", 2);
+			ft_putstr_fd(SH_NAME": exit: too many arguments\n", 2);
 			exe->ret = 1;
 			return ;
 		}
