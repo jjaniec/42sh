@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 16:26:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 20:52:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	g_sh_opts[1].opt_status = true;
 	lexer_tests();
 	ast_tests();
-	//exec_tests(&envp);
+	exec_tests(&envp);
 	syntax_highlighting_tests(envp);
 	script_tests(envp);
 	builtin_test_tests(envp);

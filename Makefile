@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/26 17:23:21 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/09/29 20:52:40 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,6 +163,11 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					exec_tests.c \
 					script_tests.c \
 					builtin_test_tests.c \
+					test_lexeme_list.c \
+					compare_sh_21sh_outputs.c \
+					compare_redirected_files_contents.c \
+					compare_fds_with_strings.c \
+					redirect_both_fds.c \
 					main.c
 
 

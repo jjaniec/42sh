@@ -3,29 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   script_tests.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 17:47:07 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 20:42:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
 static char **env;
-
-static int		mask_output(int *pipe_input_fd, int *pipe_output_fd)
-{
-	int		r;
-	int		pipe_fds[2];
-
-	r = dup(STDOUT_FILENO);
-	pipe(pipe_fds);
-	*pipe_input_fd = pipe_fds[1];
-	*pipe_output_fd = pipe_fds[0];
-	dup2(*pipe_input_fd, STDOUT_FILENO);
-	return r;
-}
 
 static	void exec(char *input)
 {
@@ -45,24 +32,14 @@ static	void exec(char *input)
 	free_lexemes(lex);
 }
 
-static void test_framework(char *str_test, char *result, char *test_name)
+static void test_framework(char *str_test, char *expected_stdout, char *test_name)
 {
-	int			stdout_dup;
-	int			pipe_input_fd;
-	int			pipe_output_fd;
-	int			bytes_read;
-	char		buf[BUFSIZ];
+	int		backup_stdout_fd;
+	int		backup_stderr_fd;
 
-	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
 	exec(ft_strjoin(str_test, "\n"));
-	close(pipe_input_fd);
-	if ((bytes_read = read(pipe_output_fd, buf, BUFSIZ)) == -1)
-		printf("Can't read comparison file desc %d!\n", pipe_output_fd);
-	else
-		buf[bytes_read] = '\0';
-	close(pipe_output_fd);
-	dup2(stdout_dup, STDOUT_FILENO);
-	is(buf, ft_strjoin(result, "\n"), test_name);
+	compare_fds_with_strings(test_name, expected_stdout, NULL, backup_stdout_fd, backup_stderr_fd);
 }
 
 static void tests(void)
