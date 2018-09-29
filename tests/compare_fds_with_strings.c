@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:48:52 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 20:51:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 21:10:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void		compare_fds_with_strings(char *test_name, \
 			else
 				buf[bytes_read] = '\0';
 			tmp_test_name = ft_strjoin(test_name, " - stdout");
-			is(buf, ft_strjoin(expected_stdout, "\n"), tmp_test_name);
+			is(buf, expected_stdout, tmp_test_name);
 			free(tmp_test_name);
+			close(fd);
 		}
 		remove(redirect_both_fds_STDOUT_FILENAME);
 	}
@@ -53,8 +54,9 @@ void		compare_fds_with_strings(char *test_name, \
 			else
 				buf[bytes_read] = '\0';
 			tmp_test_name = ft_strjoin(test_name, " - stderr");
-			is(buf, ft_strjoin(expected_stderr, "\n"), tmp_test_name);
+			is(buf, expected_stderr, tmp_test_name);
 			free(tmp_test_name);
+			close(fd);
 		}
 		remove(redirect_both_fds_STDERR_FILENAME);
 	}

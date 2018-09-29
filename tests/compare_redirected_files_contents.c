@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:38:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 19:00:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 20:58:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	compare_redirected_files_contents(char *test_name, char *test, char *data_e
 		return ;
 	}
 	data_in_file[tmp] = '\0';
+	close(fd);
 	is(data_in_file, data_expected, test_name);
 	remove(TESTS_TMP_FILENAME);
 }

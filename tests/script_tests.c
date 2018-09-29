@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 20:42:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 21:07:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ static void test_framework(char *str_test, char *expected_stdout, char *test_nam
 {
 	int		backup_stdout_fd;
 	int		backup_stderr_fd;
+	char	*tmp;
 
 	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
 	exec(ft_strjoin(str_test, "\n"));
-	compare_fds_with_strings(test_name, expected_stdout, NULL, backup_stdout_fd, backup_stderr_fd);
+	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), NULL, backup_stdout_fd, backup_stderr_fd);
+	free(tmp);
 }
 
 static void tests(void)
