@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:36:33 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 18:59:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 21:52:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_
 	tmp_fd = open(filename_sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	dup2(tmp_fd, redirected_fd);
 	if (sh_cmd)
-		cmd_sh = sh_cmd;
+		cmd_sh = ft_strdup(sh_cmd);
 	else
 		asprintf(&cmd_sh, "{ %s ; }", (_21sh_cmd));
 	system(cmd_sh);
+	free(cmd_sh);
 	close(tmp_fd);
 	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	dup2(tmp_fd, redirected_fd);
 	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", _21sh_cmd);
 	system(cmd_sh);
+	free(cmd_sh);
 	close(tmp_fd);
 	dup2(dup_redirected_fd, redirected_fd);
 	close(dup_redirected_fd);

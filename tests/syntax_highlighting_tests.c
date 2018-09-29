@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 21:26:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 22:01:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void		test_syntax_hightlighting(char *test_name, char *test, \
 	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
 	lexer(test, &lexemes, NULL);
 	print_colorized_input(test, g_envp, lexemes, NULL);
+	free_lexemes(lexemes);
 	compare_fds_with_strings(test_name, expected_stdout, NULL, backup_stdout_fd, backup_stderr_fd);
 }
 

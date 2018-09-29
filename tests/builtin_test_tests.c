@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 21:15:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 21:58:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static	void exec(char *input)
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
+	free(exe);
 }
 
 static void test_framework(char *str_test, char *expected_stdout, char *test_name)

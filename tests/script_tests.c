@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 21:07:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 22:03:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static	void exec(char *input)
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
+	free(exe);
 }
 
 static void test_framework(char *str_test, char *expected_stdout, char *test_name)
@@ -39,7 +40,7 @@ static void test_framework(char *str_test, char *expected_stdout, char *test_nam
 	char	*tmp;
 
 	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
-	exec(ft_strjoin(str_test, "\n"));
+	exec((tmp = ft_strjoin(str_test, "\n")));
 	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), NULL, backup_stdout_fd, backup_stderr_fd);
 	free(tmp);
 }
