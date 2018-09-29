@@ -6,15 +6,26 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/19 15:08:20 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 14:17:38 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+static void	free_argv(char **argv)
+{
+	if (!argv)
+		return ;
+	while (*argv)
+	{
+		free(*argv);
+		argv++;
+	}
+}
+
 static void	free_node(t_ast **ast)
 {
-	free(ast[0]->data);
+	free_argv(ast[0]->data);
 	free(*ast);
 	*ast = NULL;
 }
