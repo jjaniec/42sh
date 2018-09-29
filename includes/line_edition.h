@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 21:00:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:19:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		get_le_debug_status(int mode, int new_value);
 **	Sizes
 */
 # define LE_DEFAULT_LINE_SIZE 10//(2048U)
-# define LE_KEY_SIZE (9U)
+# define LE_KEY_BUFFER_SIZE (9U)
 
 /*
 **	Action Keys
@@ -183,6 +183,7 @@ struct s_line
 {
 	struct s_le_state		le_state;
 
+	char					key_buffer[LE_KEY_BUFFER_SIZE];
 	t_kno					key_no;
 	char					*cmd;
 	size_t					cmd_size;
@@ -333,15 +334,13 @@ int				write_one_char(int c);
 */
 struct s_line	*access_le_main_datas(void);
 void			add_history(const char *input, struct s_line *le);
+void    		handle_window_resize(struct s_line *le);
 void			le_exit(const char *msg, const char *func_name, int errno_value);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
 void			process_key(t_kno key, struct s_line *le);
 
-
-
-void *ft_realloc(void *, size_t, size_t); // tmp
 
 
 
@@ -364,6 +363,9 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 
 
 	penser a faire ctrl + l
+
+
+	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
 
 
 	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug

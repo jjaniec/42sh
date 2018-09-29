@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:43:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:05:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 
 	input = RESIZE_IN_PROGRESS;
 	while (input == RESIZE_IN_PROGRESS)
-		input = line_edition(sub_prompt);
-	if (g_cmd_status.keep_le_main_datas == NULL)
+		input = line_edition(sub_prompt);    { le_debug("%s", "- - - - SORTI DU WHILE\n") }
+	//if ( !(input == NULL && g_cmd_status.keep_le_main_datas != NULL) )
+	if (g_cmd_status.resize_happened == false)
 		ft_putchar('\n');
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
 	UNMATCHED_QUOTE_ERR)

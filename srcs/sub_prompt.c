@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 20:40:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 17:55:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	while (input == RESIZE_IN_PROGRESS)	
 	{	
 		input = get_valid_input(&new, need_subprompt);
- 		if (input == NULL)	
+ 		if (input == NULL)
 			return (NULL);	
  	}
 	log_fatal("Input : %s", input);
@@ -89,13 +89,16 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	return (save);
 }
 
-static int	there_is_no_cr(const char *input)
+static int	there_is_no_cr(char *input)
 {
 	size_t	input_len;
 
 	input_len = ft_strlen(input);
 	if (input_len >= 2 && input[input_len - 1] == '\n' && input[input_len - 2] == '\\')
+	{
+		input[ft_strlen(input) - 2] = '\0';
 		return (1);
+	}
 	return (0);
 }
 
@@ -104,6 +107,7 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word)
 	char	*input;
 	char	*final_input;
 	char	*final;
+	t_lexeme	*lexemes;
 
 	input = NULL;
 	final = (char *)ft_memalloc(sizeof(char));
@@ -113,26 +117,31 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word)
 	eof_word = ft_strjoin(eof_word, "\n");
 	while (!input)
 	{
-		input = RESIZE_IN_PROGRESS;
+		/*input = RESIZE_IN_PROGRESS;
 		while (input == RESIZE_IN_PROGRESS)
 		{
 			input = line_edition(NEED_SUBPROMPT_HEREDOC);
 			if (input == NULL)
 				return (0);
 		}
-		ft_putchar('\n');
-		final_input = ft_strjoin(final_input, input);
+		ft_putchar('\n');*/
+		input = get_valid_input(&lexemes, NEED_SUBPROMPT_HEREDOC);
+		free_lexemes(lexemes);
+		if (!input)
+			return (0);
+		//if (!there_is_no_cr(input))
+			
 		while (there_is_no_cr(input))
 		{
-			final_input[ft_strlen(final_input) - 2] = '\0';
-			input = RESIZE_IN_PROGRESS;
-			while (input == RESIZE_IN_PROGRESS)
-				input = line_edition(NEED_SUBPROMPT_NEWLINE);
-			if (input == NULL)
-				return (0);
-			ft_putchar('\n');
 			final_input = ft_strjoin(final_input, input);
+			input = get_valid_input(&lexemes, NEED_SUBPROMPT_NEWLINE);
+			free_lexemes(lexemes);
+			if (!input)
+				return (0);
+			
 		}
+		final_input = ft_strjoin(final_input, input);
+		
 		if (ft_strequ(final_input, eof_word))
 			break ;
 		final = ft_strjoin(final, final_input);

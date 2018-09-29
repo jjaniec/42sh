@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 20:17:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 20:03:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,22 @@ static void		le_debug_infos(void)
 }
 
 
-static int		read_key(char key[LE_KEY_SIZE])
+static int		read_key(char key[LE_KEY_BUFFER_SIZE])
 {
 	ssize_t read_ret;
 
-//le_debug("%s", "- - - - - - - READ FUNC\n");
 	errno = 0;
-	read_ret = read(STDIN_FILENO, key, LE_KEY_SIZE - 1);
-
+	read_ret = read(STDIN_FILENO, key, LE_KEY_BUFFER_SIZE - 1);
 	if (errno == EINTR)
 	{
 		if (g_cmd_status.resize_happened == true
 		&& access_le_main_datas()->le_state.prompt_type != LE_DEFAULT_PROMPT)
-		{
-			g_cmd_status.resize_happened = false;
 			return (2);
-		}
-
-le_debug("%s", " - - - - - RETURN ZERO\n");
-		return 0;
+		return (0);
 	}
-
 	if (read_ret == -1)
-	{
-		write(STDERR_FILENO, "\nError while reading on stdin\n", 30);
-		perror("read() - perror() report");
-	}
-return 1;
-	// check les differentes erreurs de read(), une coupure a cause d'un signal ...
+		le_exit("\nfatal error while reading on stdin\n", "read", errno);
+	return (1);
 }
 
 static t_kno	get_key_number(const char *key)
@@ -83,7 +71,7 @@ static t_kno	get_key_number(const char *key)
 
 	key_no = 0;
 	i = 0;
-	while (i < LE_KEY_SIZE)
+	while (i < LE_KEY_BUFFER_SIZE)
 	{
 		key_no += ((t_kno)key[i]) << i;
 		++i;
@@ -91,99 +79,57 @@ static t_kno	get_key_number(const char *key)
 	return (key_no);
 }
 
-char			*line_edition(int prompt_type)
+static struct s_line	*prepare_line_edition(int prompt_type, \
+											  struct sigaction *le_sig)
 {
-	char					*final_line;
-	char					key[LE_KEY_SIZE];
-	static struct s_line	*le;
-	t_kno					key_no;
+	struct s_line		*le;
 
 	le = access_le_main_datas();
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le, prompt_type);
 	g_cmd_status.cmd_running = false;
 
-if (g_cmd_status.keep_le_main_datas != NULL)
-{
-	char *updated_cmd;
+	if (g_cmd_status.resize_happened == true)
+		handle_window_resize(le);
 
-		//tputs(access_le_main_datas()->tcaps->cl, 1, write_one_char);
-	le_debug("%s", "WINCH REWRITE\n");
-		
-		//char *new_cmd = ft_strdup(g_cmd_status.keep->cmd);
-
-		if (le->le_state.opt_colosyn == false)
-		{
-			free(le->cmd); // alloc done in init_le_attributes();
-			memcpy( le, g_cmd_status.keep_le_main_datas, sizeof(struct s_line) );
-		}
-		else
-			updated_cmd = ft_strdup(g_cmd_status.keep_le_main_datas->cmd); // check
-
-		free(g_cmd_status.keep_le_main_datas);
-		g_cmd_status.keep_le_main_datas = NULL;
-
-		//prompt_show(g_prompts[/*-prompt_type*/ -(g_cmd_status.keep_prompt_type)]);
-
-	le->term_line_size = get_terminal_nb_col();
-
-		if (le->le_state.opt_colosyn == false)
-		{
-			int tmp_pos = 0;
-			for (int i = 0 ; i < (int)le->cmd_len ; ++i)
-			{
-				if (tmp_pos == (int)le->term_line_size - 1)
-				{
-					tputs(le->tcaps->_do, 1, write_one_char);
-					cursor_crosses_screen(le, CROSS_TO_LEFT);
-				}
-				print_key(le->cmd[i]);
-				//le_debug("WINCH REWRITE PRINT |%c|\n", le->cmd[i]);
-			}
-		}
-		else
-		{
-			//char *updated_cmd = ft_strdup(le->cmd); // check
-			refresh_colosyn(le, updated_cmd);
-			free(updated_cmd);
-		}
-
-
-	le_debug("%s", "WINCH REWRITE END\n");
+	sigfillset(&(le_sig->sa_mask));
+	le_sig->sa_flags = 0;
+	le_sig->sa_handler = &(handle_sigwinch);
+	sigaction(SIGWINCH, le_sig, NULL);
+	return (le);
 }
 
-struct sigaction new;
-sigfillset(&(new.sa_mask));
-new.sa_flags = 0;
-new.sa_handler = handle_sigwinch;
-sigaction(SIGWINCH, &new, NULL);
+char			*line_edition(int prompt_type)
+{
+	char					*final_line;
+	static struct s_line	*le;
+	t_kno					key_no;
+	struct sigaction		le_sig;
+	
+
+	le = prepare_line_edition(prompt_type, &le_sig);
 
 	le_debug_infos(); // debug
 	while ("cest ta merge la jjaniec")
 	{
-		ft_memset(key, '\0', LE_KEY_SIZE);
-		int ret = read_key(key); 
+		ft_memset(le->key_buffer, '\0', LE_KEY_BUFFER_SIZE);
+		int ret = read_key(le->key_buffer); 
 		
 		if (ret == 0)
 		{
-			new.sa_handler = SIG_DFL;
-			sigaction(SIGWINCH, &new, NULL);
+			le_sig.sa_handler = SIG_DFL;
+			sigaction(SIGWINCH, &le_sig, NULL);
 			set_term_attr(LE_SET_OLD);
-			return NULL;
+			return (NULL);
 		}
 		else if (ret == 2)
 		{
-			le_debug("%s", "READ EINTR 2\n");
-			//free(le->cmd);
 			set_term_attr(LE_SET_OLD);
 			return (RESIZE_IN_PROGRESS);
 		}
 
 		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
-		key_no = get_key_number(key);
-
-		//if (key_no >= 32 && key_no >= 126)
-			//fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
+		key_no = get_key_number(le->key_buffer);
 
 		process_key(key_no, le);
 		le_debug_infos(); // debug
@@ -200,11 +146,11 @@ sigaction(SIGWINCH, &new, NULL);
 
 	if ((final_line = ft_strdup(le->cmd)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
-	free(le->cmd);
+	free(le->cmd); // or ft_memdel(&(le->cmd));
 	le->cmd = NULL;
-new.sa_handler = SIG_DFL;
-sigaction(SIGWINCH, &new, NULL);
 
-le_debug("%s", "END LE\n");
+le_sig.sa_handler = SIG_DFL;
+sigaction(SIGWINCH, &le_sig, NULL);
+
 	return (final_line);
 }

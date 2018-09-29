@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/28 20:10:16 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/29 16:54:04 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_NAME = 	is_separator.c \
 			ast/create_node.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
+			line_edition/handle_window_resize.c \
 			line_edition/le_exit.c \
 			line_edition/get_le_debug_status.c \
 			line_edition/le_free_datas_and_history.c \

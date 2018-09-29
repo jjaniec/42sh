@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/20 18:36:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:08:38 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void	handle_sigint(int sig)
 	{
 		struct s_line *le = access_le_main_datas();
 		//le_debug("%s", "SIGINT NEW PROMPT\n");
-		if (le->le_state.prompt_type != LE_DEFAULT_PROMPT)
+
+
+		if (le->le_state.prompt_type == NEED_SUBPROMPT_QUOTES)
 			write(1, "\n", 1);
 
 		

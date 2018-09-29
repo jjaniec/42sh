@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 12:34:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 20:15:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:06:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,26 @@ void	handle_sigwinch(int sig);
 void	handle_useless_signals(int sig);
 
 #endif
+
+
+/*
+
+	"$ ", //
+	"AND ", //
+	"OR ", //
+	"... ",
+	"PIPE ", //
+	"QTES ", //
+	"HRDC "
+
+
+
+
+
+
+
+
+
+
+
+*/
