@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 19:51:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 17:12:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ FILE *tty_debug = NULL; // debug
 
 // debug function
 static void		le_debug_infos(void)
-{
+{return ;
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
@@ -83,8 +83,8 @@ char			*line_edition(int prompt_type)
 	t_kno					key_no;
 
 	le = access_le_main_datas();
-	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le, prompt_type);
+	set_term_attr(LE_SET_NEW);
 
 	le_debug_infos(); // debug
 	while ("cest ta merge la jjaniec")

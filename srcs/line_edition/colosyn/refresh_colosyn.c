@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   refresh_colosyn.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:36:29 by cyfermie          #+#    #+#             */
 /*   Updated: 2018/09/29 18:50:04 by sbrucker         ###   ########.fr       */

@@ -71,6 +71,7 @@ void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
 void	builtin_cd(char **argv, char **envp, t_exec *exe);
 void	builtin_return(char **argv, char **envp, t_exec *exe);
 void	builtin_test(char **argv, char **envp, t_exec *exe);
+void	builtin_history(char **argv, char **envp, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, char **envp, \
 														t_exec *exe);
 

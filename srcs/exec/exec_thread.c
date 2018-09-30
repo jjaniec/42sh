@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/17 22:25:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 13:11:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ static int	should_fork(void **cmd)
 		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting))
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting || \
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_history))
 		return (0);
 	return (1);
 }

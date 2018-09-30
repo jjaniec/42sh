@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   twenty_one_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
 /*   Updated: 2018/09/29 18:45:30 by sbrucker         ###   ########.fr       */
@@ -23,6 +23,7 @@
 # include <term.h>
 # include <termios.h>
 # include <stdbool.h>
+# include <dirent.h>
 
 # include <errno.h>
 
@@ -46,6 +47,9 @@
 # include "exec.h"
 # include "syntax_highlighting.h"
 # include "script.h"
+# include "get_next_line.h"
+
+# define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
 extern t_option		g_sh_opts[];
 extern const size_t g_cant_begin_with[];
@@ -58,7 +62,7 @@ extern const char	*g_prompts[10];
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"]"
+	"./21sh [-hcGv] [-c \"command\"] - MAKE 42SH GREAT AGAIN "
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
@@ -68,6 +72,9 @@ extern char			**g_envp;
 
 # define BUILTIN_TEST_USAGE \
 	"test, [ --\n\t\ttest expression\n\t\t[ expression ]"
+
+# define BUILTIN_HISTORY_USAGE \
+	"Usage : history [n | -d n | --clear | --save]\n"
 
 
 int			prompt_show(const char *prompt);
@@ -91,4 +98,11 @@ bool		is_option_activated(char *opt_str, \
 				t_option *opt_list, t_option **char_opt_index);
 
 char	autoc_check_path(char *dirname);
+
+bool		check_history_file(const char *his_file_path);
+
+void	load_history_file(struct s_line *le);
+
+char  	*get_parsed_history_file_path(void);
+
 #endif
