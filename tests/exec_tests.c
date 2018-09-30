@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/30 20:40:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 21:13:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,8 @@ void	exec_tests(char ***envp_ptr)
 	exec_diff("OR w/ AND", "/bin/echo a || pwd && /bin/echo ABC", NULL);
 	exec_diff("AND x2", "/bin/echo a && pwd && /bin/echo ABC", NULL);
 	exec_diff("OR x2", "/bin/echo a || pwd || /bin/echo ABC", NULL);
-	exec_diff("Builtin cd - 1", "cd .. && pwd", NULL);
-	exec_diff("Builtin cd - 2", "cd .. && /bin/echo '-' && cd ~ && pwd", NULL);
-	exec_diff("AND - Long 1", "cd / && pwd && cd ~ && ls && cd /usr && ls && cd - && ls && cd && ls", NULL);
+	exec_diff("AND - Long 1", "cd / && pwd && cd ~ && ls && cd /usr && ls && cd .. && ls && cd && ls", NULL);
+	exec_diff("AND - OR - Long 2", "cd / && pwd || cd ~ || ls && cd /usr || ls && cd .. || ls || cd || ls", NULL);
 
 	exec_diff("Pipes 1 - Simple", "/bin/echo a | cat", NULL);
 	exec_diff("Pipes 2 - Simple", "/bin/echo a | cat | cat", NULL);

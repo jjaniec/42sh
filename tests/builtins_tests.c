@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 20:41:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 21:17:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ static void	exec_diff(char *test_name, char *str, char *custom_sh_cmd)
 	}
 }
 
-static void	env_builtins_tests(char ***envp_ptr)
+static void	env_builtins_tests(t_environ *env)
 {
+	(void)env;
+	/*
 	char		**env;
 
 	env = *envp_ptr;
@@ -88,7 +90,7 @@ static void	env_builtins_tests(char ***envp_ptr)
 		"{ env | grep test____ || export test____=tmp && env | grep test____ ;}");
 	*envp_ptr = NULL;
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp && env\"");
-	ok((*envp_ptr == NULL), "Builtins 19 - unsetenv without env");
+	ok((*envp_ptr == NULL), "Builtins 19 - unsetenv without env");*/
 	/* 15/09: does not work
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp\"");
@@ -102,11 +104,12 @@ static void	env_builtins_tests(char ***envp_ptr)
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp tmp tmp\"");
 	ok((envp_ptr[1] == NULL), "Builtins 21 - unsetenv basic already deleted");*/
-	*envp_ptr = env; //restore env
+/*	*envp_ptr = env; //restore env*/
 }
 
 void		builtins_tests(t_environ *env)
 {
+	(void)env;
 	exec_diff("Builtins 1 - echo", "echo ls", NULL);
 	exec_diff("Builtins 2 - echo multi args", "echo ls ls ls ls ls ls", NULL);
 	exec_diff("Builtins 3 - echo no args", "echo", NULL);
@@ -117,6 +120,8 @@ void		builtins_tests(t_environ *env)
 	exec_diff("Builtins 8 - cd", "cd / && cd dev && pwd", NULL);
 	exec_diff("Builtins 9 - cd", "cd ~ && cd /dev && pwd", NULL);
 	exec_diff("Builtins 10 - cd", "cd ~ && cd /dev && cd .. && pwd", NULL);
+	exec_diff("Builtins 11 - cd -", "cd && cd - && cd /dev && cd - && cd .. && pwd", NULL);
+	exec_diff("Builtins 12 - cd -", "cd / && cd / && cd - && cd && cd - && cd - && echo \"/\" | cd && pwd", NULL);
 
 	exec_diff("Builtins 11 - env", "env | grep -v _", NULL);
 	//exec_diff("Builtins 12 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented
@@ -133,7 +138,7 @@ void		builtins_tests(t_environ *env)
 	ok((ret / 256 == 255), "Builtins 17 - exit 4 - arg not numeric");
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42w 45 12\"");
 	ok((ret / 256 == 255), "Builtins 18 - exit 4 - arg not numeric w/ too many args");
-	env_builtins_tests(envp_ptr);
+	env_builtins_tests(env);
 
 
 }
