@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 16:29:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 14:18:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,68 +40,75 @@ static void	ft_refresh_cwd_env(t_environ *env)
 		env->upt_var(env, "PWD", cwd_new_fmt);
 }
 
+/*
+** Print cd error according to errno
+*/
+
+static void	ft_print_cd_err(char *path)
+{
+	struct stat	path_stats;
+
+	ft_putstr_fd(SH_NAME, 2);
+	ft_putstr_fd(path, 2);
+	if (stat(path, &path_stats))
+		ft_putstr_fd(": no such file or directory\n", 2);
+	else if (!S_ISDIR(path_stats.st_mode))
+		ft_putstr_fd(": not a directory\n", 2);
+	else
+		ft_putstr_fd(": permission denied\n", 2);
+}
 
 /*
-static char	*create_path(char *path, char *home, char *oldpwd, char *str)
-{
-	char	*final;
+** Change current directory
+** here we use MAX_ENV_ENTRY_LEN as max path len
+** so we can update properly the PWD and OLDPWD env variables
+*/
 
-	final = NULL;
-	if (str && str[0] == '/')
-		final = ft_strdup(str);
-	else if (oldpwd && str && str[0] == '-' && str[1] == '\0')
+static void	ft_change_dir(t_environ *env, char *path)
+{
+	char		cwd_path[MAX_ENV_ENTRY_LEN];
+	char		*new_prev_location;
+
+	new_prev_location = getcwd(cwd_path, MAX_ENV_ENTRY_LEN - 1);
+	if (path && !chdir(path) && new_prev_location)
 	{
-		final = ft_strdup(oldpwd);
-		ft_putendl(oldpwd);
+		log_info("Updated cwd to %s", path);
+		env->upt_var(env, "OLDPWD", new_prev_location);
 	}
-	else if (path && str)
-		final = new_path(path, str);
-	return (final);
+	else if (path && chdir(path))
+	{
+		log_error("Failed to change cwd to %s", path);
+		ft_print_cd_err(path);
+	}
 }
 
-static char	*get_cd_path(char *str, t_environ *env)
-{
-	char	*final;
-	char	*path;
-	char	*home;
-	char	*oldpwd;
+/*
+** Inspect cd argument to know if passed argument is a relative/absolute path
+** or if argument is '-', then refresh last previous location
+*/
 
-	home = env->get_var(env, "HOME")->val_begin_ptr;
-	oldpwd = env->get_var(env, "OLDPWD")->val_begin_ptr;
-	path = getcwd(NULL, 0);
-	final = create_path(path, home, oldpwd, str);
-	//ft_strdel(&path);
-	return (final);
+static void	ft_cd_relative_dir(t_environ *env, char *rel_path)
+{
+	char	*new_dir_path;
+	char	cwd_fmt[MAX_ENV_ENTRY_LEN];
+	size_t	cwd_fmt_len;
+	size_t	rel_path_len;
+
+	if (getcwd(cwd_fmt, sizeof(cwd_fmt)))
+	{
+		cwd_fmt_len = ft_strlen(cwd_fmt);
+		rel_path_len = ft_strlen(rel_path);
+		if (cwd_fmt_len + rel_path_len + 1 >= MAX_ENV_ENTRY_LEN)
+			log_error("Oops it seems that your path is too long for our env optimization, \
+				update includes/twenty_one_sh.h:MAX_ENV_ENTRY_LEN");
+		new_dir_path = malloc(sizeof(char) * (cwd_fmt_len + rel_path_len + 1));
+		ft_strcpy(new_dir_path, cwd_fmt);
+		*(new_dir_path + (sizeof(char) * (cwd_fmt_len))) = '/';
+		ft_strcat(new_dir_path, rel_path);
+		ft_change_dir(env, new_dir_path);
+		free(new_dir_path);
+	}
 }
-
-static int	change_dir(char *path, t_environ *env, t_exec *exe)
-{
-	//char	*actual_pwd;
-	//char	**new_envp;
-
-	(void)env;
-	//actual_pwd = getcwd(NULL, 0);
-	if (chdir(path) == -1)
-	{
-		exe->ret = 1;
-		//ft_strdel(&actual_pwd);
-		return (0);
-	}
-	else
-	{
-		//new_envp = inline_setenv("PWD", path, envp);
-		//if (exe->envp)
-		//	ft_free_argv(exe->envp);
-		//exe->envp = inline_setenv("OLDPWD", actual_pwd, new_envp);
-		//if (exe->tmp_envp)
-		//	ft_free_argv(exe->tmp_envp);
-		//exe->tmp_envp = NULL;
-		//ft_free_argv(new_envp);
-	}
-	//ft_strdel(&actual_pwd);
-	exe->ret = 0;
-	return (1);
-}*/
 
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
@@ -109,24 +116,19 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	(void)env;
 	(void)exe;
 
-/*
 	if (!argv[1])
 	{
-		if (((void *)path = env->get_var(env, "HOME")))
-			path = (t_env_entry *)path->val_begin_ptr;
-		else
-			path = ".";
+		if (env->get_var(env, "HOME"))
+			ft_change_dir(env, env->last_used_elem->val_begin_ptr);
 	}
-	else
-		path = get_cd_path(argv[1], env);
-	if (path)
+	else if (ft_strchr(argv[1], '/'))
+		ft_change_dir(env, argv[1]);
+	else if (!ft_strcmp(argv[1], "-"))
 	{
-		if (!change_dir(path, env, exe))
-		{
-			ft_putstr_fd(SH_NAME": cd: no such file or directory: ", 2);
-			ft_putstr_fd(argv[1], 2);
-			ft_putchar_fd('\n', 2);
-		}
-	}*/
-	//ft_strdel(&path);
+		if (env->get_var(env, "OLDPWD"))
+			ft_change_dir(env, env->last_used_elem->val_begin_ptr);
+	}
+	else if (argv[1])
+		ft_cd_relative_dir(env, argv[1]);
+	ft_refresh_cwd_env(env);
 }
