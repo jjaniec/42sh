@@ -97,7 +97,6 @@ void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	if (get_print_infos(autoc))
 	{
-		menu_new_line(autoc);
 		cursor_back(autoc, le);
 		return ;
 	}
