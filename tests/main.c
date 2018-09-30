@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 19:11:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 20:41:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	main(int argc, char **argv, char **envp)
 	g_sh_opts[1].opt_status = true;
 	lexer_tests(g_envp);
 	ast_tests();
-	exec_tests(&envp);
+	builtins_tests(g_envp);
+	//exec_tests(&envp);
 	//syntax_highlighting_tests(envp);
 	done_testing();
 }
