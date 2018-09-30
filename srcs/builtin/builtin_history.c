@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 15:01:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 17:31:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ static void		delete_element_number_n(unsigned int n)
 	del = his;
 	if (access_le_main_datas()->history == del)
 		reset_history_on_first_elem(access_le_main_datas());
-	his->prev->next = his->next;
+	if (his->prev != NULL)
+		his->prev->next = his->next;
 	his->next->prev = his->prev;
 	free(del->cmd);
 	free(del);
