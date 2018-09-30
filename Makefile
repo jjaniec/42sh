@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/25 14:50:38 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/09/28 17:35:08 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,6 +112,7 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
@@ -132,7 +133,11 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			main.c
+			history_file_checker.c \
+			load_history_file.c \
+			get_next_line.c \
+			get_parsed_history_file_path.c \
+			main.c \
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -140,7 +145,9 @@ INCLUDES_NAME = lexer.h \
 				twenty_one_sh.h \
 				line_edition.h \
 				syntax_highlighting.h \
-				log.h
+				log.h \
+				struct.h \
+				get_next_line.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
@@ -169,7 +176,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 #-Werror
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0
