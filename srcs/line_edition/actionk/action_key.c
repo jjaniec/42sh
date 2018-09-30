@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/18 16:43:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:04:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static const struct s_action_key	*get_array_action_key(void)
 
 void						action_key(t_kno key_no, struct s_line *le)
 {
-	const struct s_action_key		*actionk;
-	unsigned int			i;
+	const struct s_action_key	*actionk;
+	unsigned int				i;
 
 	actionk = get_array_action_key();
 	i = 0;

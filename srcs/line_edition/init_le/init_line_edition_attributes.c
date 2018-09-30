@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/30 16:52:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:09:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,18 @@ static void			init_once(struct s_line *le)
 	init_termcaps();
 
 	le->tcaps = init_termcaps_strings();
-
 	if ((le->history = malloc(sizeof(struct s_history))) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	le->history->prev = NULL;
 	le->history->next = NULL;
 	le->history->cmd = NULL;
-
 	le->save_tmp_cmd = NULL;
-
 	if ((le->clipboard = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	ft_memset(le->clipboard, '\0', LE_DEFAULT_LINE_SIZE);
 	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
 	le->clipboard_len = 0;
-
 	le->le_state.opt_colosyn = true;
-
 }
 
 /*
@@ -69,7 +64,6 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
 		init_once(le);
 		already_init = true;
 	}
-	
 	le->key_no = 0;
 	if ((le->cmd = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
@@ -81,7 +75,6 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
     le->cursor_pos = le->start_pos;
 	le->cursor_line = 0;
 	le->term_line_size = get_terminal_nb_col();
-		//le_debug(" - - - - - - - RESIZE %zu\n", le->term_line_size);
 	le->nb_lines_written = 1;
 	le->nb_char_on_last_line = 0;
 	le->le_state.le_is_init = true;

@@ -6,15 +6,26 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 18:31:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/20 18:34:50 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:29:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
+/*
+**	For signals that are not used by the shell.
+**	If a command is running, it is killed, then it restores the terminal's
+**	settings, then restores the default handler function and finally it sends
+**	the signal to the shell.
+**	Basically : the signal is catched so we can restore the terminal's settings,
+**	then the default behavior of the signal is used.
+*/
+
 void	handle_useless_signals(int sig)
 {
-	if ( g_cmd_status.cmd_running == true )
+	struct sigaction	restore_default;
+
+	if (g_cmd_status.cmd_running == true)
 	{
 		if (kill(g_cmd_status.cmd_pid, sig) == -1)
 		{
@@ -23,10 +34,7 @@ void	handle_useless_signals(int sig)
 			write(STDERR_FILENO, "\n", 1);
 		}
 	}
-
 	set_term_attr(LE_SET_OLD);
-
-	struct sigaction restore_default;
 	restore_default.sa_flags = 0;
 	restore_default.sa_handler = SIG_DFL;
 	sigaction(sig, &restore_default, NULL);

@@ -6,18 +6,18 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:55:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/24 13:24:21 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:03:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 const char	*g_prompts[] = {
-	"$ ", //
-	"AND ", //
-	"OR ", //
+	"$ ",
+	"AND ",
+	"OR ",
 	"... ",
-	"PIPE ", //
-	"QTES ", //
+	"PIPE ",
+	"QTES ",
 	"HRDC "
 };

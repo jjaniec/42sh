@@ -35,30 +35,22 @@
 **	Initialize some handlers functions for different signals.
 */
 
-// NOT DONE YET
 void	init_signals(void)
 {
 	struct sigaction	new;
 	unsigned int		i;
-	const int			sig_array[27 - 1] = 
+	const int			sig_array[26] = 
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
 		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
-		SIGTSTP, SIGCONT, /*SIGCHLD,*/ SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
+		SIGTSTP, SIGCONT, SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
 
 	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
-
 	new.sa_handler = &(handle_sigint);
 	sigaction(SIGINT, &new, NULL);
-
-	//new.sa_handler = &(handle_sigwinch);
-	//sigaction(SIGWINCH, &new, NULL);
-
-
-	// others
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
 	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
@@ -66,5 +58,4 @@ void	init_signals(void)
 		sigaction(sig_array[i], &new, NULL);
 		++i;
 	}
-
 }

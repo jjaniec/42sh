@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/30 16:36:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:14:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static bool	key_is_printable(t_kno key)
 
 void			process_key(struct s_line *le)
 {
-	//le->key_no = key;
 	if (key_is_printable(le->key_no) == true)
 	{
 		if (le->le_state.opt_colosyn == true)

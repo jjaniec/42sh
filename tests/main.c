@@ -6,13 +6,13 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 14:14:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:41:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep = NULL, .resize_happened = false
+	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
 };
 
 t_option		g_sh_opts[] = {

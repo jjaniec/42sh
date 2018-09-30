@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 17:30:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:02:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,8 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 	status = -2;
 	errno = 0;
 	waited_pid = waitpid(child_pid, &status, 0);
-	
-	//dprintf(1, "GOOD : %d\n", WIFSIGNALED(status));
-	//dprintf(1, "GOOD : %d\n", WTERMSIG(status));
 	if (waited_pid == -1)
 	{
-		//if (WTERMSIG(status))
 		if (errno != EINTR)
 		{
 			log_error("Wait returned -1");
@@ -104,7 +100,6 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 			return (status);
 		}
 		return (130);
-		//perror("perror waitpid");
 	}
 	if (waited_pid != -1 && waited_pid != child_pid)
 		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);

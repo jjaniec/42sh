@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 17:55:08 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:31:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,20 +117,10 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word)
 	eof_word = ft_strjoin(eof_word, "\n");
 	while (!input)
 	{
-		/*input = RESIZE_IN_PROGRESS;
-		while (input == RESIZE_IN_PROGRESS)
-		{
-			input = line_edition(NEED_SUBPROMPT_HEREDOC);
-			if (input == NULL)
-				return (0);
-		}
-		ft_putchar('\n');*/
 		input = get_valid_input(&lexemes, NEED_SUBPROMPT_HEREDOC);
 		free_lexemes(lexemes);
 		if (!input)
 			return (0);
-		//if (!there_is_no_cr(input))
-			
 		while (there_is_no_cr(input))
 		{
 			final_input = ft_strjoin(final_input, input);
@@ -141,7 +131,6 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word)
 			
 		}
 		final_input = ft_strjoin(final_input, input);
-		
 		if (ft_strequ(final_input, eof_word))
 			break ;
 		final = ft_strjoin(final, final_input);
