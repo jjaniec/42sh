@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_expansion_end.c                                :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 16:45:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/26 21:17:22 by cyfermie         ###   ########.fr       */
+/*   Created: 2017/11/29 09:21:39 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/09/25 18:24:23 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-static int	is_expansion_end_char(char c)
+# include <stdlib.h>
+# include <unistd.h>
+
+# define GNL_BUFF_SIZE 1024
+
+typedef struct        s_slot
 {
-	if (c == '$' || c == '\\' || \
-		c == '\'' || c == '"' || \
-		c == '/' || is_separator(c))
-		return (1);
-	return (0);
-}
+    char            *save;
+    int                fd;
+    struct s_slot    *next;
+}                    t_slot;
 
-char		*get_expansion_end(char *str)
-{
-	char		*r;
+int                    get_next_line(const int fd, char **line);
 
-	r = str + 1;
-	while (*r && !is_expansion_end_char(*r))
-		r++;
-	log_fatal("expansion end |%s|", r);
-	return (r);
-}
+#endif

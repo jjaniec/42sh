@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:38:08 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:30:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/28 17:30:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	le_free_datas(void)
 	free(le->clipboard);
 	free(le->save_tmp_cmd);
 	le_free_history(le);
+	free(get_parsed_history_file_path());
 }

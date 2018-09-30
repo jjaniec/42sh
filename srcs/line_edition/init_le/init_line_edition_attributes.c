@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 17:02:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:19:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void			init_once(struct s_line *le)
 	le->clipboard_len = 0;
 
 	le->le_state.opt_colosyn = true;
+
+	load_history_file(le);
 
 }
 
