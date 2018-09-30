@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:01:49 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/29 18:56:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 21:18:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_sigwinch(int sig)
 	{
 		if ((g_cmd_status.keep_le_main_datas = malloc(sizeof(struct s_line))) == NULL)
 			le_exit("Memory allocation failed\n", "malloc", errno);
-		memcpy(g_cmd_status.keep_le_main_datas, le, sizeof(struct s_line));
+		ft_memcpy(g_cmd_status.keep_le_main_datas, le, sizeof(struct s_line));
 		g_cmd_status.resize_happened = true;
 		tputs(le->tcaps->cl, 1, &write_one_char);
 	}
