@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/30 14:18:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 21:56:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ static void	ft_cd_relative_dir(t_environ *env, char *rel_path)
 		if (cwd_fmt_len + rel_path_len + 1 >= MAX_ENV_ENTRY_LEN)
 			log_error("Oops it seems that your path is too long for our env optimization, \
 				update includes/twenty_one_sh.h:MAX_ENV_ENTRY_LEN");
-		new_dir_path = malloc(sizeof(char) * (cwd_fmt_len + rel_path_len + 1));
+		new_dir_path = malloc(sizeof(char) * (cwd_fmt_len + rel_path_len + 2));
 		ft_strcpy(new_dir_path, cwd_fmt);
 		*(new_dir_path + (sizeof(char) * (cwd_fmt_len))) = '/';
+		*(new_dir_path + (sizeof(char) * (cwd_fmt_len + 1))) = '\0';
 		ft_strcat(new_dir_path, rel_path);
 		ft_change_dir(env, new_dir_path);
 		free(new_dir_path);
@@ -131,4 +132,5 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	else if (argv[1])
 		ft_cd_relative_dir(env, argv[1]);
 	ft_refresh_cwd_env(env);
+	//exe->ret = 0;
 }

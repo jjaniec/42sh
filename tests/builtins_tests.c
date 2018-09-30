@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 21:17:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 21:53:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,62 +83,80 @@ static void	env_builtins_tests(t_environ *env)
 	char		**env;
 
 	env = *envp_ptr;
-	exec_diff("Builtins 17 - setenv basic", "env | grep test____ || setenv test____ tmp && env | grep test____", \
+	exec_diff("Builtin 17 - setenv basic", "env | grep test____ || setenv test____ tmp && env | grep test____", \
 		"{ env | grep test____ || export test____=tmp && env | grep test____ ;}");
 	*envp_ptr = NULL;
-	exec_diff("Builtins 18 - setenv basic without env", "env | grep test____ || setenv test____ tmp && env | grep test____", \
+	exec_diff("Builtin 18 - setenv basic without env", "env | grep test____ || setenv test____ tmp && env | grep test____", \
 		"{ env | grep test____ || export test____=tmp && env | grep test____ ;}");
 	*envp_ptr = NULL;
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp && env\"");
-	ok((*envp_ptr == NULL), "Builtins 19 - unsetenv without env");*/
+	ok((*envp_ptr == NULL), "Builtin 19 - unsetenv without env");*/
 	/* 15/09: does not work
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp\"");
-	ok((envp_ptr[1] == NULL), "Builtins 20 - unsetenv basic");
+	ok((envp_ptr[1] == NULL), "Builtin 20 - unsetenv basic");
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp2\"");
-	ok((envp_ptr[0] == NULL), "Builtins 21 - unsetenv basic multiple elems");
+	ok((envp_ptr[0] == NULL), "Builtin 21 - unsetenv basic multiple elems");
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp2 wwwww\"");
-	ok((envp_ptr[0] == NULL), "Builtins 21 - unsetenv basic multiple elems w/ non-existant");
+	ok((envp_ptr[0] == NULL), "Builtin 21 - unsetenv basic multiple elems w/ non-existant");
 	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp tmp tmp\"");
-	ok((envp_ptr[1] == NULL), "Builtins 21 - unsetenv basic already deleted");*/
+	ok((envp_ptr[1] == NULL), "Builtin 21 - unsetenv basic already deleted");*/
 /*	*envp_ptr = env; //restore env*/
 }
 
 void		builtins_tests(t_environ *env)
 {
 	(void)env;
-	exec_diff("Builtins 1 - echo", "echo ls", NULL);
-	exec_diff("Builtins 2 - echo multi args", "echo ls ls ls ls ls ls", NULL);
-	exec_diff("Builtins 3 - echo no args", "echo", NULL);
-	exec_diff("Builtins 4 - Pipes (w/ echo)", "echo ls | cat", NULL);
-	exec_diff("Builtins 5 - Redirs (w/ echo)", "echo ls > /tmp/a && cat < /tmp/a", NULL);
-	exec_diff("Builtins 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a", NULL);
-	exec_diff("Builtins 7 - cd", "cd / && pwd", NULL);
-	exec_diff("Builtins 8 - cd", "cd / && cd dev && pwd", NULL);
-	exec_diff("Builtins 9 - cd", "cd ~ && cd /dev && pwd", NULL);
-	exec_diff("Builtins 10 - cd", "cd ~ && cd /dev && cd .. && pwd", NULL);
-	exec_diff("Builtins 11 - cd -", "cd && cd - && cd /dev && cd - && cd .. && pwd", NULL);
-	exec_diff("Builtins 12 - cd -", "cd / && cd / && cd - && cd && cd - && cd - && echo \"/\" | cd && pwd", NULL);
-
-	exec_diff("Builtins 11 - env", "env | grep -v _", NULL);
-	//exec_diff("Builtins 12 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented
-	exec_diff("Builtins 13 - env 2", "env | grep -v _ | cat", NULL);
 
 	int		ret;
 	ret = system(SH_EXEC_CMD_PREFIX"exit");
-	ok((ret == 0), "Builtins 14 - exit - no args");
+	ok((ret == 0), "Builtin exit 1 - no args");
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42\"");
-	ok((ret / 256 == 42), "Builtins 15 - exit 2 - passed exit value");
+	ok((ret / 256 == 42), "Builtin exit 2 - passed exit value");
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42 43 44\"");
-	ok((ret / 256 == 0), "Builtins 16 - exit 3 - too many args err");
+	ok((ret / 256 == 0), "Builtin exit 3 - too many args err");
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42w\"");
-	ok((ret / 256 == 255), "Builtins 17 - exit 4 - arg not numeric");
+	ok((ret / 256 == 255), "Builtin exit 4 - arg not numeric");
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42w 45 12\"");
-	ok((ret / 256 == 255), "Builtins 18 - exit 4 - arg not numeric w/ too many args");
+	ok((ret / 256 == 255), "Builtin exit 5 - arg not numeric w/ too many args");
 	env_builtins_tests(env);
 
+	exec_diff("Builtin echo 1 - echo", "echo ls", NULL);
+	exec_diff("Builtin echo 2 - echo multi args", "echo ls ls ls ls ls ls", NULL);
+	exec_diff("Builtin echo 3 - echo no args", "echo", NULL);
+	exec_diff("Builtin echo 4 - Pipes (w/ echo)", "echo ls | cat", NULL);
+	exec_diff("Builtin echo 5 - Redirs (w/ echo)", "echo ls > /tmp/a && cat < /tmp/a", NULL);
+	exec_diff("Builtin echo 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a", NULL);
 
+	exec_diff("Builtin cd 1 - cd", "cd / && pwd", NULL);
+	exec_diff("Builtin cd 2 - cd", "cd / && cd dev && pwd", NULL);
+	exec_diff("Builtin cd 3 - cd", "cd ~ && cd /dev && pwd", NULL);
+	exec_diff("Builtin cd 4 - cd", "cd ~ && cd /dev && cd .. && pwd", NULL);
+	exec_diff("Builtin cd 5 - cd -", "cd && cd - && cd /dev && cd - && cd .. && pwd", NULL);
+	exec_diff("Builtin cd 6 - cd -", "cd / && cd / && cd - && cd && cd - && cd - && echo \"/\" | cd && pwd", NULL);
+
+	exec_diff("Builtin env 1 - env w/o args", "env | grep -v", NULL);
+	//exec_diff("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented
+	exec_diff("Builtin env 3 - env w/ valid args", "env TEST1=TEST__ TEST2=TEST______ | grep -v _", NULL);
+	exec_diff("Builtin env 4 - env -i w/ valid args", "env -i A=B TEST1=TEST__ TEST2=TEST______", NULL);
+	// test env execution ex: env A=B ls - not implemented
+	/*
+	exec_diff("Builtin env 5 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ ls", NULL);
+	exec_diff("Builtin env 6 - env -i w/o valid args", "env -i A", NULL);
+	exec_diff("Builtin env 7 - env -i w/o valid args", "env -i ls", NULL);
+	*/
+
+	exec_diff("Builtin setenv 1 - w/o args", "setenv", NULL);
+	exec_diff("Builtin setenv 2 - w/o valid args 1", "setenv a", NULL);
+	exec_diff("Builtin setenv 3 - w/o valid args 2", "setenv a=b b=c d=e f=g h=", NULL);
+	exec_diff("Builtin setenv 4 - w/o valid args 3", "setenv a=b b=c d=e f=g =i", NULL);
+	exec_diff("Builtin setenv 5 - w/o valid args 4", "setenv a=b b=c d=e f=g h =i", NULL);
+	exec_diff("Builtin setenv 6 - w/o valid args 5", "setenv a=b b=c d=e f=g h= i", NULL);
+	exec_diff("Builtin setenv 7 - w/o valid args 6", "setenv a=b b=c d=e f=gh=i", NULL);
+	exec_diff("Builtin setenv 8 - w/ valid args", "setenv a=b c=d", NULL);
+	exec_diff("Builtin setenv 9 - w/ many valid args", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -v _", NULL);
+	exec_diff("Builtin setenv 10 - valid args w/ re-assignations", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -v _", NULL);
 }
