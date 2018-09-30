@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 21:21:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 18:00:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 extern t_option		g_sh_opts[];
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"]"
+	SH_NAME" [-hcGv] [-c \"command\"]"
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
@@ -94,13 +94,12 @@ t_env_entry	*get_env_var(t_environ *self, char *varname);
 
 char	*upd_env_var(t_environ *this, char *name, char *new_value);
 
-t_environ	*init_environ(char **env);
+t_environ	*init_environ(char **env, t_environ *env_struct);
 
 void	free_env_entries(t_environ *env_struct, t_env_entry *env_entries);
 
 void	free_all_shell_data(void);
 
-void		init_environ_struct(t_environ *env_struct);
-
+void		init_environ_struct_ptrs(t_environ *env_struct);
 
 #endif

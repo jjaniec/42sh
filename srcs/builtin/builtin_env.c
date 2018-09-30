@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:20:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 18:00:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	handle_parameters(char **argv, t_environ *env_struct)
 	if (is_option_activated("i", g_env_opts, NULL))
 	{
 		env_struct_to_use = malloc(sizeof(t_environ));
-		init_environ_struct(env_struct_to_use);
+		init_environ_struct_ptrs(env_struct_to_use);
 	}
 	else
 		env_struct_to_use = env_struct;

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 21:15:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 17:49:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 // Lexer tests
 
-void	lexer_tests(char **envp);
+void	lexer_tests(t_environ *envp);
 
 void 	ast_tests(void);
 

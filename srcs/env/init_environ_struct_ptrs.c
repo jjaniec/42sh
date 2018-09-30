@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_environ_struct.c                              :+:      :+:    :+:   */
+/*   init_environ_struct_ptrs.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/28 18:39:03 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 18:41:21 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/09/30 17:59:37 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/09/30 18:00:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-void		init_environ_struct(t_environ *env_struct)
+/*
+** Init pointers and counters of a t_environ struct
+*/
+
+void		init_environ_struct_ptrs(t_environ *env_struct)
 {
 	if (env_struct)
 	{

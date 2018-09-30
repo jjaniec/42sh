@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:41:25 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 19:14:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 17:59:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,10 @@ static void		update_info_env_vars(t_environ *env_struct)
 ** linked list of environnement variables
 */
 
-t_environ		*init_environ(char **env)
+t_environ		*init_environ(char **env, t_environ *env_struct)
 {
-	t_environ	*new_env;
-
-	new_env = get_environ_struct();
-	init_environ_struct(new_env);
-	init_env_entries_list(new_env, env);
-	update_info_env_vars(new_env);
-	return (new_env);
+	init_environ_struct_ptrs(env_struct);
+	init_env_entries_list(env_struct, env);
+	update_info_env_vars(env_struct);
+	return (env_struct);
 }

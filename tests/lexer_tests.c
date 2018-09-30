@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 22:07:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 20:36:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define EXPANSION_TESTS_ENVVAR_NAME	"EXP_TESTS"
 # define EXPANSION_TESTS_ENVVAR_DATA	"42"
 
-extern char		**g_envp;
+extern t_environ		*g_envp;
 
 static void	test_ll(char *test_name, char *input, ...)
 {
@@ -23,8 +23,8 @@ static void	test_ll(char *test_name, char *input, ...)
 	t_lexeme	*result;
 	t_lexeme	*ll_begin;
 	char		*data_cmp;
-	size_t		type_cmp;
-	size_t		type_details_cmp;
+	int		type_cmp;
+	int		type_details_cmp;
 	int			i;
 	char		*new_test_name;
 
@@ -42,8 +42,8 @@ static void	test_ll(char *test_name, char *input, ...)
 		new_test_name = malloc(sizeof(char) * 100);
 		sprintf(new_test_name, "%s - Elem: %d - ", test_name, i);
 		data_cmp = va_arg(va_ptr, char *);
-		type_cmp = va_arg(va_ptr, size_t);
-		type_details_cmp = va_arg(va_ptr, size_t);
+		type_cmp = va_arg(va_ptr, int);
+		type_details_cmp = va_arg(va_ptr, int);
 		is(result->data, data_cmp, ft_strcat(new_test_name, "data"));
 		ft_strcpy(new_test_name + (ft_strlen(new_test_name) - 4), "type");
 		ok(result->type == type_cmp, new_test_name);
@@ -57,10 +57,11 @@ static void	test_ll(char *test_name, char *input, ...)
 	free_lexemes(ll_begin);
 }
 
-void	lexer_tests(char **envp)
+void	lexer_tests(t_environ *envp)
 {
 	t_lexeme	*tmp;
-
+	(void)tmp;
+	
 	lexer("", &tmp, NULL);
 	ok(tmp == NULL, "Empty string");
 	lexer("''", &tmp, NULL);
@@ -168,8 +169,7 @@ void	lexer_tests(char **envp)
 		"<<-", T_REDIR_OPT, TK_DLESSDASH);
 
 	// Add EXPANSION_TESTS_ENVVAR_NAME env var in env
-	t_environ *env = get_environ_struct();
-	env->add_var(env, EXPANSION_TESTS_ENVVAR_NAME, EXPANSION_TESTS_ENVVAR_DATA);
+	envp->add_var(envp, EXPANSION_TESTS_ENVVAR_NAME, EXPANSION_TESTS_ENVVAR_DATA);
 	//putenv(EXPANSION_TESTS_ENVVAR_NAME"="EXPANSION_TESTS_ENVVAR_DATA);
 
 	test_ll("Expansions 1 - Basic", "ls $"EXPANSION_TESTS_ENVVAR_NAME, \
@@ -211,7 +211,7 @@ void	lexer_tests(char **envp)
 	test_ll("Expansions 19 - Empty expansion element escaping in dquotes", "ls \"\\$IAMEMPTY\"\n", \
 		"ls", T_WORD, TK_DEFAULT, "$IAMEMPTY", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_ll("Expansions 20 - tild expansion", "ls ~\n", \
-		"ls", T_WORD, TK_DEFAULT, getenv("HOME"), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+		"ls", T_WORD, TK_DEFAULT, (g_envp->get_var(g_envp, "HOME"))->val_begin_ptr, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_ll("Expansions 21 - tild expansion escaped", "ls \\~\n", \
 		"ls", T_WORD, TK_DEFAULT, "~", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_ll("Expansions 22 - tild expansion in squotes", "ls '~'\n", \
@@ -222,10 +222,10 @@ void	lexer_tests(char **envp)
 		"ls", T_WORD, TK_DEFAULT, "w~", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	char *tmp_;
 	test_ll("Expansions 25 - tild expansion w/ content after", "ls ~/Desktop\n", \
-		"ls", T_WORD, TK_DEFAULT, (tmp_ = ft_strjoin(getenv("HOME"), "/Desktop")), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+		"ls", T_WORD, TK_DEFAULT, (tmp_ = ft_strjoin((envp->get_var(envp, "HOME"))->val_begin_ptr, "/Desktop")), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	free(tmp_);
 	test_ll("Expansions 26 - tild expansion as prog name", "~\n", \
-		getenv("HOME"), T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+		(envp->get_var(envp, "HOME"))->val_begin_ptr, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_ll("Expansions 27 - Long 1 - only valid expansions", \
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\
 		"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME"$"EXPANSION_TESTS_ENVVAR_NAME\

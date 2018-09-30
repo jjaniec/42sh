@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 22:17:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/30 17:45:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int			main(int ac, char **av, char **envp)
 	}
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
-	init_environ(envp);
+	init_environ(envp, get_environ_struct());
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
