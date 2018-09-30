@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   twenty_one_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 14:04:20 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/09/24 21:22:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		format_help(char *usage_str, t_option *opts);
 
 t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 
-bool	is_option_activated(char *opt_str, \
-			t_option *opt_list, t_option **char_opt_index);
+bool		is_option_activated(char *opt_str, \
+				t_option *opt_list, t_option **char_opt_index);
 
 #endif
