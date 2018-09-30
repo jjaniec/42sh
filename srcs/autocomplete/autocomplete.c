@@ -16,7 +16,7 @@ static int			check_dir(struct s_line *le)
 {
 	int	i;
 
-	i = le->cursor_index - 1;
+	i = le->cursor_index - 1;		
 	if (ft_strchr(le->cmd, ' '))
 	{
 		while (i)

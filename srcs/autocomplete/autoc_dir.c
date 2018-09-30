@@ -96,6 +96,8 @@ char			**autoc_dir(t_autoc *autoc)
 	int			cc;
 
 	path = autoc_get_path(autoc->le);
+	if (ft_strchr(path, '~') || ft_strchr(path, '$'))
+		handle_quotes_expansions(&path);
 	if (autoc_check_path(path) == 'l')
 	{
 		cc = readlink(path, buff, PATH_MAX);

@@ -24,10 +24,13 @@ static int		tab_key(char buffer[3], t_autoc *autoc)
 
 static int		return_key(char buffer[3], t_autoc *autoc)
 {
-	(void)buffer;
 	if (autoc->menu_selected >= 0)
+	{
 		autoc_push_in_line(autoc->le, autoc->items[autoc->menu_selected],
 		autoc->search);
+		if (buffer[0] == 32)
+			insert_and_print_character_into_cmdline(autoc->le, (t_kno)' ');
+	}
 	return (1);
 }
 
@@ -59,6 +62,7 @@ void			init_key_func(t_autoc *autoc)
 	while (++i < 128)
 		autoc->key_function[i] = &other_key;
 	autoc->key_function[27] = &arrow_key;
+	autoc->key_function[32] = &return_key;
 	autoc->key_function[10] = &return_key;
 	autoc->key_function[LE_TAB] = &tab_key;
 }
