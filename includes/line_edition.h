@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 19:19:36 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 16:37:04 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ int		get_le_debug_status(int mode, int new_value);
 **	Data type representing a key number
 */
 typedef uint64_t t_kno;
+
+/*
+**	For read_key() function
+*/
+enum e_read_key
+{
+	INTR_BY_SIGINT = 0,
+	ALL_IS_ALRIGHT = 1,
+	INTR_BY_SIGWINCH = 2
+};
 
 /*
 **	For set_term_attr() function
@@ -339,7 +349,7 @@ void			le_exit(const char *msg, const char *func_name, int errno_value);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
-void			process_key(t_kno key, struct s_line *le);
+void			process_key(struct s_line *le);
 
 
 

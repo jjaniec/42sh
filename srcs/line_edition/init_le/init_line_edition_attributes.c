@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 18:53:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 16:52:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
 		already_init = true;
 	}
 	
+	le->key_no = 0;
 	if ((le->cmd = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	le->cmd_size = LE_DEFAULT_LINE_SIZE;

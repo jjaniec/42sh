@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 20:03:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 16:54:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static void		le_debug_infos(void)
 	le_debug("%s","--------------------------------------\n");
 }
 
-
-static int		read_key(char key[LE_KEY_BUFFER_SIZE])
+static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 {
 	ssize_t read_ret;
 
@@ -56,12 +55,33 @@ static int		read_key(char key[LE_KEY_BUFFER_SIZE])
 	{
 		if (g_cmd_status.resize_happened == true
 		&& access_le_main_datas()->le_state.prompt_type != LE_DEFAULT_PROMPT)
-			return (2);
-		return (0);
+			return (INTR_BY_SIGWINCH);
+		return (INTR_BY_SIGINT);
 	}
 	if (read_ret == -1)
 		le_exit("\nfatal error while reading on stdin\n", "read", errno);
-	return (1);
+	return (ALL_IS_ALRIGHT);
+}
+
+static char	*read_key(char key[LE_KEY_BUFFER_SIZE], struct sigaction *le_sig)
+{
+	enum e_read_key		ret_user_input;
+
+	ft_memset(key, '\0', LE_KEY_BUFFER_SIZE);
+	ret_user_input = get_user_input(key);
+	if (ret_user_input == INTR_BY_SIGINT)
+	{
+		le_sig->sa_handler = SIG_DFL;
+		sigaction(SIGWINCH, le_sig, NULL);
+		set_term_attr(LE_SET_OLD);
+		return (NULL);
+	}
+	else if (ret_user_input == INTR_BY_SIGWINCH)
+	{
+		set_term_attr(LE_SET_OLD);
+		return (RESIZE_IN_PROGRESS);
+	}
+	return (key);
 }
 
 static t_kno	get_key_number(const char *key)
@@ -103,54 +123,28 @@ char			*line_edition(int prompt_type)
 {
 	char					*final_line;
 	static struct s_line	*le;
-	t_kno					key_no;
 	struct sigaction		le_sig;
+	char					*ret_read_key;
 	
-
 	le = prepare_line_edition(prompt_type, &le_sig);
-
-	le_debug_infos(); // debug
-	while ("cest ta merge la jjaniec")
+le_debug_infos(); // debug
+	while (le->key_no != '\n' && "cest ta merge la jjaniec")
 	{
-		ft_memset(le->key_buffer, '\0', LE_KEY_BUFFER_SIZE);
-		int ret = read_key(le->key_buffer); 
-		
-		if (ret == 0)
-		{
-			le_sig.sa_handler = SIG_DFL;
-			sigaction(SIGWINCH, &le_sig, NULL);
-			set_term_attr(LE_SET_OLD);
-			return (NULL);
-		}
-		else if (ret == 2)
-		{
-			set_term_attr(LE_SET_OLD);
-			return (RESIZE_IN_PROGRESS);
-		}
-
-		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
-		key_no = get_key_number(le->key_buffer);
-
-		process_key(key_no, le);
-		le_debug_infos(); // debug
-
-		if (key_no == '\n')
-		{
-			set_term_attr(LE_SET_OLD);
-			break ;
-		}
+		ret_read_key = read_key(le->key_buffer, &le_sig);
+		if(ret_read_key == NULL || ret_read_key == RESIZE_IN_PROGRESS)
+			return (ret_read_key);
+		le->key_no = get_key_number(le->key_buffer);
+		process_key(le);
+le_debug_infos(); // debug
 	}
-
+	set_term_attr(LE_SET_OLD);
 	actionk_move_cursor_end(le);
 	reset_history_on_first_elem(le);
-
 	if ((final_line = ft_strdup(le->cmd)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
-	free(le->cmd); // or ft_memdel(&(le->cmd));
+	free(le->cmd);
 	le->cmd = NULL;
-
-le_sig.sa_handler = SIG_DFL;
-sigaction(SIGWINCH, &le_sig, NULL);
-
+	le_sig.sa_handler = SIG_DFL;
+	sigaction(SIGWINCH, &le_sig, NULL);
 	return (final_line);
 }
