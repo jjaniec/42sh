@@ -33,6 +33,7 @@ static void		columns_arrow(int arrow, t_autoc *autoc)
 	if (arrow == 3)
 	{
 		autoc->menu_selected += autoc->nbr_line;
+		ft_putnbr(autoc->menu_selected);
 		if (autoc->menu_selected >= autoc->nbr_items)
 			autoc->menu_selected -= autoc->nbr_items;
 	}
@@ -40,7 +41,7 @@ static void		columns_arrow(int arrow, t_autoc *autoc)
 	{
 		autoc->menu_selected -= autoc->nbr_line;
 		if (autoc->menu_selected == -autoc->nbr_line)
-			autoc->menu_selected = autoc->nbr_items - 1;
+			autoc->menu_selected = autoc->nbr_items - ;
 		if (autoc->menu_selected < 0)
 			autoc->menu_selected += autoc->nbr_items;
 	}
