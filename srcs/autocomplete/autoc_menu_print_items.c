@@ -98,7 +98,6 @@ void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	if (get_print_infos(autoc))
 	{
 		menu_new_line(autoc);
-		ft_putstr("AUTOC: Too many items");
 		cursor_back(autoc, le);
 		return ;
 	}
