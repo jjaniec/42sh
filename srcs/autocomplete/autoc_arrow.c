@@ -41,7 +41,7 @@ static void		columns_arrow(int arrow, t_autoc *autoc)
 	{
 		autoc->menu_selected -= autoc->nbr_line;
 		if (autoc->menu_selected == -autoc->nbr_line)
-			autoc->menu_selected = autoc->nbr_items - ;
+			autoc->menu_selected = autoc->nbr_items - 1;
 		if (autoc->menu_selected < 0)
 			autoc->menu_selected += autoc->nbr_items;
 	}
