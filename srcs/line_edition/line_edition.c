@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 15:44:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 15:49:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ le_debug_infos(); // debug
 		le->key_no = get_key_number(le->key_buffer);
 		process_key(le);
 le_debug_infos(); // debug
-		if (true && le->key_no == '\n') // false condition
+		if (true && le->key_no == '\n') // 
 		{
 			tputs(le->tcaps->_do, 1, &write_one_char);
 			tputs(le->tcaps->cr, 1, &write_one_char);

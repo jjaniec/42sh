@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   autocomplete.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 19:11:19 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/08/28 19:11:20 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/01 16:03:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,15 @@ void	ft_video(char *str);
 int	autoc_arrow_process(int arrow_mask[3], t_autoc *autoc);
 
 #endif
+
+
+/*
+	Certaines combinaisons de touches produisent jusqu'a 6 octets.
+	Le probleme c'est que en lis que 3, du coup il est facile de planter le truc avec
+	CTRL+FLECHE_UP par exemple qui fait 6 octets ... lis-en 8 et t'es tranquille  ;)
+
+	Quand on selectionne un element dans le menu, le menu devrait disparaitre non ?
+
+
+
+*/
