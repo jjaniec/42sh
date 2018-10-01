@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 20:42:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 11:34:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 int		exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 void	exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd, \
-			void (**builtin_fun_ptr)(char **, char **, t_exec *));
+			void (**builtin_fun_ptr)(char **, t_environ *, t_exec *));
 
 void	io_manager_in(t_ast *node, t_exec *exe);
 void	io_manager_pre(t_ast *node, t_exec *exe);
@@ -63,14 +63,17 @@ char	*isin_path(char **paths, char *cmd);
 
 void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
 void	builtin_echo(char **argv, t_environ *env, t_exec *exe);
-
 int		builtin_env(char **argv, t_environ *env, t_exec *exe);
 int		builtin_setenv(char **argv, t_environ *env, t_exec *exe);
 int		builtin_unsetenv(char **argv, t_environ *env, t_exec *exe);
 void	builtin_cd(char **argv, t_environ *env, t_exec *exe);
 void	builtin_return(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, \
-														t_exec *exe);
+			t_exec *exe);
+void	builtin_test(char **argv, t_environ *env, t_exec *exe);
+void	builtin_history(char **argv, t_environ *env, t_exec *exe);
+void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
+			t_exec *exe);
 
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);

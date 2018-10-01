@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 22:28:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 17:22:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ static void	his_debug(void)
 
 	while (h->prev != NULL)
 		h = h->prev;
-
-	le_debug("%s", "HIS linked list\n");
+	//le_debug("%s", "HIS linked list\n");
 	while (h != NULL)
 	{
-		le_debug("|%s|\n", h->cmd);
+		//le_debug("|%s|\n", h->cmd);
 		h = h->next;
 	}
-	le_debug("%s","HIS END\n");
+	//le_debug("%s","HIS END\n");
 }
 
 /*

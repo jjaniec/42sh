@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 17:45:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 11:38:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ static int		twenty_one_sh(char *input, t_environ *env,
 		exit(1);
 	}
 	ast_root = ast(lexemes);
+	link_ast_data(ast_root);
+	free_lexemes(lexemes);
 	if (!ast_root)
-	{
-		free_lexemes(lexemes);
 		return (1);
-	}
 	exe = create_exec(env);
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
@@ -70,11 +69,10 @@ static int		twenty_one_sh(char *input, t_environ *env,
 	else if (exe)
 		envp = exe->envp;
 	else
-		exit(1);
-	free_exec(&exe);*/
-	free(exe);
+		exit(1);*/
 	ast_free(ast_root);
-	free_lexemes(lexemes);
+	free_exec(&exe);
+	free(input);
 	return (0);
 }
 
@@ -88,11 +86,10 @@ static void		loop_body(t_environ *env, t_option *opt_list, t_option **char_opt_i
 	{
 		if (!(input = get_valid_input(&lex)))
 			return ;
+		free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		twenty_one_sh(input, env, opt_list, char_opt_index);
-		free_lexemes(lex);
-		free(input);
 	}
 }
 

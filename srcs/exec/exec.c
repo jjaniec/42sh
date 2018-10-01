@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/28 20:17:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 11:53:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 					t_ast *node)
 {
-	void	(*builtin_fun_ptr)(char **, char **, t_exec *);
+	void	(*builtin_fun_ptr)(char **, t_environ *, t_exec *);
 
 	builtin_fun_ptr = NULL;
 	if (!(is_builtin(argv[0], &builtin_fun_ptr)))
@@ -112,8 +112,8 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
 	exe = ast_explore(root, exe);
-	if (VERBOSE_MODE)
-		ast_debug(root);
+	/*if (VERBOSE_MODE)
+		ast_debug(root);*/
 	if (!exe)
 		return (NULL);
 	return (exe);

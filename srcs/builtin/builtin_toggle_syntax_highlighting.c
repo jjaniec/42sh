@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:30:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 20:07:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 11:22:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@ void				builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
 	(void)env;
 	(void)exe;
 	if (check_args(argv + 1) == -1)
+	{
+		exe->ret = 1;
 		return ;
+	}
 	if (argv[1][1] == 'n' || argv[1][1] == 'N')
 		access_le_main_datas()->le_state.opt_colosyn = true;
 	else
 		access_le_main_datas()->le_state.opt_colosyn = false;
+	exe->ret = 0;
 }

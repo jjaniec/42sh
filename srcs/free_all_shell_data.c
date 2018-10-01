@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:31:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 11:21:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ static void		free_environ(void)
 void			free_all_shell_data(void)
 {
 	free_environ();
+	ast_free(*(access_ast_data()));
 }

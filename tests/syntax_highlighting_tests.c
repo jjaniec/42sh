@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 18:09:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 11:51:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,40 +16,18 @@
 
 char	**g_envp;
 
-static int		mask_output(int *pipe_input_fd, int *pipe_output_fd)
+static void		test_syntax_hightlighting(char *test_name, char *test, \
+					char *expected_stdout)
 {
-	int		r;
-	int		pipe_fds[2];
+	int			backup_stdout_fd;
+	int			backup_stderr_fd;
+	t_lexeme	*lexemes = NULL;
 
-	r = dup(STDOUT_FILENO);
-	pipe(pipe_fds);
-	*pipe_input_fd = pipe_fds[1];
-	*pipe_output_fd = pipe_fds[0];
-	dup2(*pipe_input_fd, STDOUT_FILENO);
-	return r;
-}
-
-static void		test_syntax_hightlighting(char *testname, char *test, \
-					char *rslt_expected)
-{
-	int			stdout_dup;
-	int			pipe_input_fd;
-	int			pipe_output_fd;
-	t_lexeme	*lexemes;
-	int			bytes_read;
-	char		buf[MAX_BUF_SIZE];
-
-	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
 	lexer(test, &lexemes, NULL);
 	print_colorized_input(test, lexemes, NULL);
-	close(pipe_input_fd);
-	if ((bytes_read = read(pipe_output_fd, buf, MAX_BUF_SIZE)) == -1)
-		printf("Can't read comparison file desc %d!\n", pipe_output_fd);
-	else
-		buf[bytes_read] = '\0';
-	close(pipe_output_fd);
-	dup2(stdout_dup, STDOUT_FILENO);
-	is(buf, rslt_expected, testname);
+	free_lexemes(lexemes);
+	compare_fds_with_strings(test_name, expected_stdout, NULL, backup_stdout_fd, backup_stderr_fd);
 }
 
 void			syntax_highlighting_tests(char **envp)
