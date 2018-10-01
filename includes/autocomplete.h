@@ -21,7 +21,7 @@
 
 typedef struct			s_autoc
 {
-	int					(*key_function[128])(char buffer[3], struct s_autoc *aut);
+	int					(*key_function[128])(char buffer[8], struct s_autoc *aut);
 	struct s_line		*le;
 	struct winsize		win;
 	char					**items;
