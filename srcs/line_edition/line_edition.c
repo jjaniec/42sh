@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 16:28:51 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 19:37:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static struct s_line	*prepare_line_edition(int prompt_type, \
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le, prompt_type);
 	g_cmd_status.cmd_running = false;
-	
+	g_cmd_status.sigint_happened = false;
 
 	if (g_cmd_status.resize_happened == true)
 		handle_window_resize(le);
@@ -136,6 +136,15 @@ le_debug_infos(); // debug
 			return (ret_read_key);
 		le->key_no = get_key_number(le->key_buffer);
 		process_key(le);
+
+		// check si un des 2 flags est actif pour retourner la bonne valeur
+		if (g_cmd_status.resize_happened == true || g_cmd_status.sigint_happened == true)
+			set_term_attr(LE_SET_OLD);
+		if (g_cmd_status.resize_happened == true)
+			return (RESIZE_IN_PROGRESS);
+		if (g_cmd_status.sigint_happened == true)
+			return (NULL);
+
 le_debug_infos(); // debug
 		if (true && le->key_no == '\n') // 
 		{

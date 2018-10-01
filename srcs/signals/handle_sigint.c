@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/30 18:21:43 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 19:42:04 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ void	handle_sigint(int sig)
 	}
 	else
 	{
+		g_cmd_status.sigint_happened = true;
 		le = access_le_main_datas();
 		if (le->le_state.prompt_type == NEED_SUBPROMPT_QUOTES)
 			write(1, "\n", 1);
 		i = 0;
 		while (i++ < le->cursor_pos)
 			tputs(le->tcaps->le, 1, &write_one_char);
-		free(le->cmd);		
+		free(le->cmd);
+
+		tputs(le->tcaps->_do, 1, &write_one_char);
+		tputs(le->tcaps->cd, 1, &write_one_char);
+		tputs(le->tcaps->up, 1, &write_one_char);
 	}
 }

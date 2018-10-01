@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 12:34:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 19:06:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 19:26:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ struct s_cmd_status
 	pid_t			cmd_pid;
 	struct s_line	*keep_le_main_datas;
 	bool			resize_happened;
+	bool			sigint_happened;
 };  
 
 extern struct s_cmd_status  g_cmd_status;
