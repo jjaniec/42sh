@@ -30,6 +30,7 @@ static int		return_key(char buffer[3], t_autoc *autoc)
 		autoc->search);
 		if (buffer[0] == 32)
 			insert_and_print_character_into_cmdline(autoc->le, (t_kno)' ');
+		tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	}
 	return (1);
 }
