@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 10:33:26 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 10:36:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ static void	multiline_merge(t_lexeme *last, t_lexeme *new)
 	{
 		tmp = ft_strdup(last->data);
 		free(last->data);
-		last->data = ft_strjoin(tmp, new->data);
+		last->data = ft_strjoin_free(tmp, new->data);
 		last->next = new->next;
+		free(new);
 	}
 	else
 		last->next = new;

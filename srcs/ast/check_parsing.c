@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 18:44:42 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 10:58:06 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ int			check_parsing(t_lexeme *lex)
 	{
 		if (lvl_lex(lex) == 4 && !ft_strchr(lex->next->data, '\n'))
 		{
-			subp_heredoc(lex, lex->next->data);
-			if (!ft_strchr(lex->next->data, '\n'))
-				lex->next->data = ft_strjoin_free(lex->next->data, ft_strdup("\n"));
+			if (is_option_activated("c", g_sh_opts, NULL))
+			{
+				free(lex->next->data);
+				lex->next->data = ft_strdup("");
+			}
+			else
+				subp_heredoc(lex, lex->next->data);
 		}
 		if (!lex->next && lex->type_details != TK_NEWLINE)
 			return (NEED_SUBPROMPT_NEWLINE);
