@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:36:10 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/01 10:53:10 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 11:46:09 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ int			put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 			*lex = lex[0]->next;
 	else
 		*lex = lex[0]->next;
+	if (is_bypass_token(new))
+		free_node(&new);
 	return (flag_heredoc_eof);
 }
