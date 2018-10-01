@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/30 17:31:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 14:49:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ static void	print_history_with_indexes(void)
 {
 	const struct s_history	*his = access_le_main_datas()->history;
 	unsigned int			index;
-	unsigned int			nb_elem;
 
-	nb_elem = get_nb_elem_in_history();
-	if ((index = 1) && his != NULL)
+	index = 1;
+	if (his != NULL)
 	{
 		while (his->prev != NULL)
 			his = his->prev;

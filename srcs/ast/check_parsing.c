@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 14:40:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 14:43:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 	else if (lex2 && (lvl_lex(lex1) != 5) && (lvl_lex(lex2) != 5) \
 	&& lex2->type_details != TK_NEWLINE)
 		return (0);
-	else if (is_op3(lex1) && lex2->type != T_WORD)
+	else if (lex2 && is_op3(lex1) && lex2->type != T_WORD)
 		return (0);
 	return (1);
 }
@@ -46,7 +46,7 @@ int			check_parsing(t_lexeme *lex)
 
 	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
-	if ((lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5))
+	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
 		return (0);
 	lex = lex->next;
 	if (!lex)
