@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   autocomplete.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 19:23:25 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/08/28 19:23:28 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/01 16:30:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,9 @@ void				autocomplete(struct s_line *le)
 	if (autoc && autoc->items)
 		autoc_menu(autoc, le);
 	autoc_mem_free(autoc);
+/*
+	tputs(le->tcaps->_do, 1, &write_one_char);
+	tputs(le->tcaps->cr, 1, &write_one_char);
+	tputs(le->tcaps->cd, 1, &write_one_char);
+	tputs(le->tcaps->up, 1, &write_one_char); */
 }
