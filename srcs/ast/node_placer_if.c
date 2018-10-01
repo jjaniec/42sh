@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_free.c                                         :+:      :+:    :+:   */
+/*   node_placer_if.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 16:03:03 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/09/10 12:43:39 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/09/26 11:26:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static void	free_argv(char **argv)
+void	node_placer_if(t_ast *root, t_ast *new)
 {
-	if (!argv)
-		return ;
-	while (*argv)
+	if (!root)
+		log_error("!ROOT");
+	if (!new)
+		log_error("!NEW");
+	if (root->parent && root->parent->type == T_WORD)
 	{
-		free(*argv);
-		argv++;
+		root = root->parent->parent;
+		root->right = new;
+		new->parent = root;
 	}
-}
-
-static void	free_node(t_ast **ast)
-{
-	free_argv(ast[0]->data);
-	free(ast[0]->data);
-	free(*ast);
-	*ast = NULL;
-}
-
-void		ast_free(t_ast *ast)
-{
-	if (!ast)
-		return ;
-	//ast_free(ast->sub_ast);
-	ast_free(ast->left);
-	ast_free(ast->right);
-	free_node(&ast);
+	else
+	{
+		root->left = new;
+		new->parent = root;
+	}
 }

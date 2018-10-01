@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/18 19:08:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:26:12 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ char	*isin_path(char **paths, char *cmd);
 
 void	builtin_exit(char **argv, char **envp, t_exec *exe);
 void	builtin_echo(char **argv, char **envp, t_exec *exe);
-
 void	builtin_env(char **argv, char **envp, t_exec *exe);
 void	builtin_setenv(char **argv, char **envp, t_exec *exe);
 void	builtin_unsetenv(char **argv, char **envp, t_exec *exe);
 void	builtin_cd(char **argv, char **envp, t_exec *exe);
 void	builtin_return(char **argv, char **envp, t_exec *exe);
+void	builtin_test(char **argv, char **envp, t_exec *exe);
 void	builtin_history(char **argv, char **envp, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, char **envp, \
 														t_exec *exe);

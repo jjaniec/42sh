@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/28 17:35:08 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/09/29 21:27:21 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,12 @@ SRC_NAME = 	is_separator.c \
 			lexer/get_expansion_end.c \
 			ast/ast.c \
 			ast/ast_explore.c \
-			ast/ast_construct.c \
+			ast/ast_constructor.c \
+			ast/ast_constructor_subast.c \
+			ast/put_node.c \
+			ast/node_placer_classic.c \
+			ast/node_placer_if.c \
+			ast/node_placer_while.c \
 			ast/check_parsing.c \
 			ast/lvl_lex.c \
 			ast/is_op.c \
@@ -39,6 +44,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_free.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
+			ast/access_ast_data.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
 			line_edition/le_exit.c \
@@ -121,9 +127,19 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
+			builtin/builtin_test.c \
 			builtin/is_builtin.c \
+			script/script_lexer.c \
+			script/good_start.c \
+			script/script_ast_construct.c \
+			script/find_end_lexeme.c \
+			script/find_end_lexeme_solo.c \
+			script/find_lexeme_compete.c \
+			script/script_in_exec.c \
+			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
+			autocomplete/autoc_check_path.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
@@ -144,6 +160,7 @@ INCLUDES_NAME = lexer.h \
 				exec.h \
 				twenty_one_sh.h \
 				line_edition.h \
+				script.h \
 				syntax_highlighting.h \
 				log.h \
 				struct.h \
@@ -153,6 +170,13 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
 					ast_tests.c \
 					exec_tests.c \
+					script_tests.c \
+					builtin_test_tests.c \
+					test_lexeme_list.c \
+					compare_sh_21sh_outputs.c \
+					compare_redirected_files_contents.c \
+					compare_fds_with_strings.c \
+					redirect_both_fds.c \
 					main.c
 
 
@@ -164,7 +188,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ 
+			syntax_highlighting/ script/ autocomplete/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
@@ -252,7 +276,7 @@ $(LIBTAP_DIR):
 clean:
 	rm -rf $(OBJ_DIR)
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
-	rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
+	-rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
 	if [ -d $(FT_PRINTF_DIR) ]; then make clean -C $(FT_PRINTF_DIR); fi
 
 fclean: clean

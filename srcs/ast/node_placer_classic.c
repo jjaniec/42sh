@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_construct.c                                    :+:      :+:    :+:   */
+/*   node_placer_classic.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/22 09:54:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/14 11:37:54 by sbrucker         ###   ########.fr       */
+/*   Created: 2018/09/10 12:39:26 by sbrucker          #+#    #+#             */
+/*   Updated: 2018/09/29 18:46:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Get the right level of a node, 0 is being high priority, 4 low priority
 */
 
-int				lvl_node(t_ast *ast)
+int		lvl_node(t_ast *ast)
 {
 	int		lvl;
 
@@ -38,9 +38,12 @@ int				lvl_node(t_ast *ast)
 ** Place the node *new in the AST, from the node *root
 */
 
-static t_ast	*place_new_node(t_ast *root, t_ast *new)
+void	node_placer_classic(t_ast *root, t_ast *new)
 {
-	if (lvl_node(new) > lvl_node(root))
+	int		lvl_new;
+
+	lvl_new = lvl_node(new);
+	if (lvl_new > lvl_node(root))
 	{
 		if (root->right)
 			new->left = root->right;
@@ -49,45 +52,13 @@ static t_ast	*place_new_node(t_ast *root, t_ast *new)
 	}
 	else
 	{
-		while (root->parent && lvl_node(new) <= lvl_node(root->parent))
+		while (root->parent && lvl_new <= lvl_node(root->parent))
 			root = root->parent;
 		if (root->parent)
 			root->parent->right = new;
 		new->left = root;
-		if (root->parent && lvl_node(root->parent) < lvl_node(new))
+		if (root->parent && lvl_node(root->parent) < lvl_new)
 			new->parent = root->parent;
 		root->parent = new;
 	}
-	return (new);
-}
-
-/*
-** Construct the AST from the lexer. Need to alway have a root with ';'
-*/
-
-t_ast		*construct_ast(t_lexeme *lex, t_ast *root)
-{
-	t_ast   *new;
-	int		flag_heredoc_EOF;
-
-	flag_heredoc_EOF = 0;
-	while (lex)
-	{
-		new = create_node(lex->type, lex->type_details, \
-				prepare_argv(lex, flag_heredoc_EOF));
-		if (lvl_lex(lex) == 5)
-			while (lex->type == 2 && lex->next && lex->next->type == T_WORD)
-				lex = lex->next;
-		flag_heredoc_EOF = 0;
-		if (lvl_lex(lex) == 4)
-		{
-			flag_heredoc_EOF = 1;
-			subp_heredoc(lex, lex->next->data);
-		}
-		root = place_new_node(root, new);
-		lex = lex->next;
-	}
-	while (root->parent)
-		root = root->parent;
-	return (root);
 }
