@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 15:29:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 20:09:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	compare_redirected_files_contents(char *test_name, char *test, char *data_e
 
 void    compare_fd_with_str(char *test_name, int compared_fd, char *input_str, char *expected_str);
 
-void	redirect_both_fds(int *backup_stdout, int *backup_stderr);
+void	redirect_both_fds(int *backup_stdout, int *backup_stderr, char *stdout_filename, char *stderr_filename);
 
 void	compare_fds_with_strings(char *test_name, \
 				char *expected_stdout, char *expected_stderr, \

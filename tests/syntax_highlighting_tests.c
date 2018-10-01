@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 15:30:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 20:24:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ static void		test_syntax_hightlighting(char *test_name, char *test, \
 	int			backup_stderr_fd;
 	t_lexeme	*lexemes = NULL;
 
-	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd, NULL, NULL);
 	lexer(test, &lexemes, NULL);
 	print_colorized_input(test, lexemes, NULL);
 	free_lexemes(lexemes);
 	compare_fds_with_strings(test_name, expected_stdout, NULL, backup_stdout_fd, backup_stderr_fd);
+	remove(redirect_both_fds_STDOUT_FILENAME);
+	remove(redirect_both_fds_STDERR_FILENAME);
 }
 
 void			syntax_highlighting_tests(t_environ *env)

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 16:04:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 20:29:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	ast_tests(env);
 	builtins_tests(env);
 	exec_tests(env);
-	//syntax_highlighting_tests(env);
+	syntax_highlighting_tests(env);
 	script_tests(env);
 	builtin_test_tests(env);
 

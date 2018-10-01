@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 19:05:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 20:28:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	exec_tests(t_environ *env)
 	compare_sh_21sh_outputs("Pipes 5 - redirs", "/bin/echo a 1>&2 | cat", NULL);
 	compare_sh_21sh_outputs("Pipes 6 - AND", "/bin/echo a | cat && /bin/echo b | cat", NULL);
 	compare_sh_21sh_outputs("Pipes 7 - OR", "/bin/echo a | cat || /bin/echo b | cat", NULL);
-	compare_sh_21sh_outputs("Pipes 8 - AND, OR", "ls | cat && /bin/echo a | cat || /bin/echo b | cat", NULL);
+	compare_sh_21sh_outputs("Pipes 8 - AND, OR", "/bin/echo | cat && /bin/echo a | cat || /bin/echo b | cat", NULL);
 	compare_sh_21sh_outputs("Pipes 9 - AND, OR", "/bin/echo a && /bin/echo b | cat || /bin/echo c", NULL);
-	compare_sh_21sh_outputs("Pipes 10 - AND, OR, redirs", "ls 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null", NULL);
+	compare_sh_21sh_outputs("Pipes 10 - AND, OR, redirs", "ls /dev/thisdoesnotexist 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null", NULL);
 	compare_sh_21sh_outputs("Pipes 11 - Long Mixed", "/bin/echo a 2>&1 | cat | cat || /bin/echo b | cat | cat && /bin/echo c 1>/dev/null | cat ; /bin/echo lol | cat", NULL);
 
 	tk_less_tests_tmp_fd = open(TESTS_TMP_FILENAME, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
