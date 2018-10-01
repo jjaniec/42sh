@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/29 16:54:04 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/10/01 15:31:39 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,13 @@ SRC_NAME = 	is_separator.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
 			lexer/lexeme_type_word.c \
-			lexer/clean_word_lexeme.c \
+			lexer/handle_quotes_expansions.c \
 			lexer/has_matching_quote.c \
 			lexer/env_assigns_status.c \
-			lexer/handle_backslash_escape.c \
+			lexer/handle_escape_offset.c \
 			lexer/free_lexemes.c \
+			lexer/handle_char_expansion.c \
+			lexer/get_expansion_end.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_construct.c \
@@ -43,6 +45,21 @@ SRC_NAME = 	is_separator.c \
 			line_edition/le_exit.c \
 			line_edition/get_le_debug_status.c \
 			line_edition/le_free_datas_and_history.c \
+			autocomplete/autocomplete.c \
+			autocomplete/str_effect.c \
+			autocomplete/autoc_dir.c \
+			autocomplete/dir_get_items.c \
+			autocomplete/autoc_menu.c \
+			autocomplete/order_tab_ascii.c \
+			autocomplete/autoc_mem_free.c \
+			autocomplete/autoc_key_reader.c \
+			autocomplete/autoc_fkey.c \
+			autocomplete/autoc_menu_print_items.c \
+			autocomplete/autoc_menu_print_spaces.c \
+			autocomplete/dir_get_items_search.c \
+			autocomplete/autoc_check_path.c \
+			autocomplete/autoc_push_in_line.c \
+			autocomplete/autoc_arrow.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -108,6 +125,7 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
@@ -132,16 +150,23 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
+			history_file_checker.c \
+			load_history_file.c \
+			get_next_line.c \
+			get_parsed_history_file_path.c \
 			main.c \
 
 INCLUDES_NAME = ast.h \
+				autocomplete.h \
 				exec.h \
+				get_next_line.h \
 				lexer.h \
 				line_edition.h \
 				signals.h \
 				struct.h \
 				syntax_highlighting.h \
 				twenty_one_sh.h
+
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
@@ -158,7 +183,8 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ signals/ 
+			syntax_highlighting/ signals/ autocomplete/ 
+
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

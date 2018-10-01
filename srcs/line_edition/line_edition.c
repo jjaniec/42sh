@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/30 16:54:51 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 15:44:55 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ FILE *tty_debug = NULL; // debug
 
 // debug function
 static void		le_debug_infos(void)
-{
+{return ;
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
@@ -108,6 +108,7 @@ static struct s_line	*prepare_line_edition(int prompt_type, \
 	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le, prompt_type);
 	g_cmd_status.cmd_running = false;
+	
 
 	if (g_cmd_status.resize_happened == true)
 		handle_window_resize(le);
@@ -136,6 +137,13 @@ le_debug_infos(); // debug
 		le->key_no = get_key_number(le->key_buffer);
 		process_key(le);
 le_debug_infos(); // debug
+		if (true && le->key_no == '\n') // false condition
+		{
+			tputs(le->tcaps->_do, 1, &write_one_char);
+			tputs(le->tcaps->cr, 1, &write_one_char);
+			tputs(le->tcaps->cd, 1, &write_one_char);
+			tputs(le->tcaps->up, 1, &write_one_char);
+		}
 	}
 	set_term_attr(LE_SET_OLD);
 	actionk_move_cursor_end(le);

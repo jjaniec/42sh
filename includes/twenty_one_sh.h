@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/27 18:56:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 15:29:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <term.h>
 # include <termios.h>
 # include <stdbool.h>
+# include <dirent.h>
 
 # include <errno.h>
 
@@ -46,13 +47,17 @@
 # include "exec.h"
 # include "syntax_highlighting.h"
 # include "signals.h"
+# include "get_next_line.h"
+# include "autocomplete.h"
+
+# define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
 extern t_option		g_sh_opts[];
 
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"]"
+	"./21sh [-hcGv] [-c \"command\"] - MAKE 42SH GREAT AGAIN "
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
@@ -60,6 +65,8 @@ extern char			**g_envp;
 # define BUILTIN_CD_USAGE \
 	"cd [-L | -P] [-] [directory]"
 
+# define BUILTIN_HISTORY_USAGE \
+	"Usage : history [n | -d n | --clear | --save]\n"
 
 extern const char	*g_prompts[10];
 
@@ -81,7 +88,12 @@ void		format_help(char *usage_str, t_option *opts);
 
 t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 
-bool	is_option_activated(char *opt_str, \
-			t_option *opt_list, t_option **char_opt_index);
+bool		is_option_activated(char *opt_str, \
+				t_option *opt_list, t_option **char_opt_index);
+
+bool		check_history_file(const char *his_file_path);
+void	load_history_file(struct s_line *le);
+
+char  	*get_parsed_history_file_path(void);
 
 #endif

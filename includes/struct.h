@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/20 13:24:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 15:28:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ typedef struct			s_lexeme
 	char				*lexeme_end_ptr;
 	struct s_lexeme		*next;
 }						t_lexeme;
+
+/*
+** Struct used by clean_word_lexeme()
+** to clean a lexeme string of quotes / backslashes,
+** and apply expansions.
+** raw_lexeme_data: raw lexeme data (before cleaning it)
+** new_data: new lexeme data, free of unnecessary quotes/backslashes, w/ expansions
+** new_data_size: size of new_data pointer, required for knowing size of
+**   new data string size when realloc'ing to store an expansion data
+*/
+
+typedef struct			s_lexeme_clean_data
+{
+	char				*raw_lexeme_data;
+	char				**raw_lexeme_read_ptr;
+	char				*clean_data;
+	char				*clean_data_write_ptr;
+	size_t				clean_data_size;
+}						t_lexeme_clean_data;
 
 typedef struct			s_ast
 {
