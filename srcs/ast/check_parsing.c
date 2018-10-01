@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 10:58:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 14:40:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int			check_parsing(t_lexeme *lex)
 			else
 				subp_heredoc(lex, lex->next->data);
 		}
-		if (!lex->next && lex->type_details != TK_NEWLINE)
+		if (!lex->next && lex->type_details != TK_NEWLINE \
+		&& lex->type_details != TK_SCRIPT_FI)
 			return (NEED_SUBPROMPT_NEWLINE);
 		if (!check_lexeme(lex, lex->next))
 			return (0);
