@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 18:00:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:59:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ static void	handle_parameters(char **argv, t_environ *env_struct)
 			*tmp_environ_start++ = NULL;
 }
 
-int		builtin_env(char **argv, t_environ *env, t_exec *exe)
+
+
+int			builtin_env_(char **argv, t_environ *env)
 {
-	(void)argv;
-	(void)exe;
 	if (env)
 	{
 		if (!(argv[1]))
@@ -78,4 +78,12 @@ int		builtin_env(char **argv, t_environ *env, t_exec *exe)
 		handle_parameters(argv + 1, env);
 	}
 	return (1);
+}
+
+void			builtin_env(char **argv, t_environ *env, t_exec *exe)
+{
+	(void)argv;
+	(void)exe;
+
+	exe->ret = builtin_env_(argv, env);
 }

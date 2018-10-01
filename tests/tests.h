@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:46:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:29:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	compare_fds_with_strings(char *test_name, \
 				int backup_stdout_fd, int backup_stderr_fd);
 
 void	lexer_tests(t_environ *envp);
-void 	ast_tests(void);
-void	script_tests(char **envp);
-void	exec_tests(char ***envp_ptr);
+void 	ast_tests(t_environ *env);
+void	script_tests(t_environ *env);
+void	exec_tests(t_environ *env);
 void	builtins_tests(t_environ *env);
-void	syntax_highlighting_tests(char **envp);
-void	builtin_test_tests(char **envp);
+void	syntax_highlighting_tests(t_environ *env);
+void	builtin_test_tests(t_environ *env);
 
 #endif

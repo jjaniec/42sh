@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:27:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 19:28:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,21 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 ** call the parent_process() function to wait the child process,
 ** and the child_process() function to handle pipes, redirs, and process/builtin
 ** execution.
+** Forked builtins should be added to this list
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
 static int	should_fork(void **cmd)
 {
-	if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
-		return (0);
+	void	(*ptr)(char **, t_environ *, t_exec *);
 
-	/*if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN && \
-		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_history))
-		return (0);*/
-	return (1);
+	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
+	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
+		(ptr == builtin_echo || \
+		ptr == builtin_return || \
+		ptr == builtin_test))
+		return (1);
+	return (0);
 }
 
 t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \

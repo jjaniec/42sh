@@ -6,13 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 22:03:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:33:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-static char **env;
+t_environ *g_env_lol;
 
 static	void exec(char *input)
 {
@@ -23,10 +23,10 @@ static	void exec(char *input)
 	log_set_quiet(1);
 	lexer(input, &lex, NULL);
 	ast_root = ast(lex);
-	exe = create_exec((const char **)env);
+	exe = create_exec(g_env_lol);
 	if (!ast_root)
 		return ;
-	exe = create_exec((const char **)env);
+	exe = create_exec(g_env_lol);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
@@ -45,8 +45,9 @@ static void test_framework(char *str_test, char *expected_stdout, char *test_nam
 	free(tmp);
 }
 
-static void tests(void)
+static void tests(t_environ *env)
 {
+	g_env_lol = env;
 	char	error_msg[] = "There is an error in your script.";
 	//char	error_msg2[] = "There is an error in your command line.";
 
@@ -369,10 +370,9 @@ static void tests(void)
 		", "1\n2\n3\n4\n0\n5\n6\n7\n8\n9\n9.5\n10\n11", "WHILE inside ultimate IF-ELIF-ELSE");
 }
 
-void script_tests(char **envp)
+void script_tests(t_environ *env)
 {
-	env = envp;
-	tests();
+	tests(env);
 }
 /*
 				*/

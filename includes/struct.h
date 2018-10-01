@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:31:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 19:18:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct			s_lexeme_clean_data
 
 typedef struct			s_ast
 {
-	size_t			type;
-	size_t			type_details;
+	int				type;
+	int				type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
 	struct s_ast	*left;

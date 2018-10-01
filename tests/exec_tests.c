@@ -6,15 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:42:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 19:05:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-void	exec_tests(char ***envp_ptr)
+void	exec_tests(t_environ *env)
 {
-	(void)envp_ptr;
+	(void)env;
 	int		tk_less_tests_tmp_fd;
 
 	compare_sh_21sh_outputs("Simple OR", "/bin/echo a || /bin/echo b", NULL);
@@ -26,7 +26,7 @@ void	exec_tests(char ***envp_ptr)
 	compare_sh_21sh_outputs("OR x2", "/bin/echo a || pwd || /bin/echo ABC", NULL);
 	compare_sh_21sh_outputs("Builtin cd - 1", "cd .. && pwd", NULL);
 	compare_sh_21sh_outputs("Builtin cd - 2", "cd .. && /bin/echo '-' && cd ~ && pwd", NULL);
-	compare_sh_21sh_outputs("AND - Long 1", "cd / && pwd && cd ~ && ls && cd /usr && ls && cd - && ls && cd && ls", NULL);
+	compare_sh_21sh_outputs("AND - Long 1", "cd / && pwd && cd ~ && ls && cd /usr && ls && ls && cd && ls", NULL);
 
 	compare_sh_21sh_outputs("Pipes 1 - Simple", "/bin/echo a | cat", NULL);
 	compare_sh_21sh_outputs("Pipes 2 - Simple", "/bin/echo a | cat | cat", NULL);

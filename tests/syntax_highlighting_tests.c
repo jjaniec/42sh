@@ -6,15 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 21:10:22 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:51:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:30:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
 # define MAX_BUF_SIZE	50000
-
-char	**g_envp;
 
 static void		test_syntax_hightlighting(char *test_name, char *test, \
 					char *expected_stdout)
@@ -30,10 +28,9 @@ static void		test_syntax_hightlighting(char *test_name, char *test, \
 	compare_fds_with_strings(test_name, expected_stdout, NULL, backup_stdout_fd, backup_stderr_fd);
 }
 
-void			syntax_highlighting_tests(char **envp)
+void			syntax_highlighting_tests(t_environ *env)
 {
-	g_envp = envp;
-
+	(void)env;
 	test_syntax_hightlighting("Simple - progname found", "ls", COL_PROG_NAME_FOUND"ls"COL_DEFAULT);
 	test_syntax_hightlighting("Simple 2 - progname not found", "ls_", COL_PROG_NAME_NOT_FOUND"ls_"COL_DEFAULT);
 	test_syntax_hightlighting("Simple 3 - options", "ls -la", COL_PROG_NAME_FOUND"ls"COL_DEFAULT COL_PROG_OPT" -la"COL_DEFAULT);

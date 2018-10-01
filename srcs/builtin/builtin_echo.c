@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:20:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 18:59:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
 		argv++;
 	}
 	ft_putchar('\n');
-	return ;
+	exit(0);
 }

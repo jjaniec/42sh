@@ -6,13 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 21:58:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:34:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-static char **env;
+t_environ *g_env;
 
 static	void exec(char *input)
 {
@@ -23,10 +23,10 @@ static	void exec(char *input)
 	log_set_quiet(1);
 	lexer(input, &lex, NULL);
 	ast_root = ast(lex);
-	exe = create_exec((const char **)env);
+	exe = create_exec(g_env);
 	if (!ast_root)
 		return ;
-	exe = create_exec((const char **)env);
+	exe = create_exec(g_env);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
@@ -45,9 +45,9 @@ static void test_framework(char *str_test, char *expected_stdout, char *test_nam
 	free(tmp);
 }
 
-void		builtin_test_tests(char **envp)
+void		builtin_test_tests(t_environ *env)
 {
-	env = envp;
+	g_env = env;
 	test_framework("[ -b /dev/disk0 ]", "0", "Block special file /dev/disk0");
 	test_framework("[ -b /dev/disk0s1 ]", "0", "Block special file /dev/disk0s1");
 	test_framework("[ -b /dev/null ]", "1", "Block special file /dev/null");

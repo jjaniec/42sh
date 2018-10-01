@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:34:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:44:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ char	*isin_path(char **paths, char *cmd);
 
 void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
 void	builtin_echo(char **argv, t_environ *env, t_exec *exe);
-int		builtin_env(char **argv, t_environ *env, t_exec *exe);
-int		builtin_setenv(char **argv, t_environ *env, t_exec *exe);
-int		builtin_unsetenv(char **argv, t_environ *env, t_exec *exe);
+void	builtin_env(char **argv, t_environ *env, t_exec *exe);
+void	builtin_setenv(char **argv, t_environ *env, t_exec *exe);
+void	builtin_unsetenv(char **argv, t_environ *env, t_exec *exe);
 void	builtin_cd(char **argv, t_environ *env, t_exec *exe);
 void	builtin_return(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, \

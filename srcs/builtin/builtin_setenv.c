@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 16:25:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/01 15:48:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	print_setenv_error(void)
 ** Add environnement variables in our t_env_entry linked list w/ add_var
 */
 
-int		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
+void		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 {
 	char		**ptr;
 
@@ -48,9 +48,9 @@ int		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 	if (check_args(ptr))
 	{
 		print_setenv_error();
-		return (1);
+		//return (1);
 	}
 	while (ptr && *ptr)
 		env->add_var(env, *ptr++, NULL);
-	return (0);
+	//return (0);
 }
