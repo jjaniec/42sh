@@ -98,13 +98,6 @@ char			**autoc_dir(t_autoc *autoc)
 	path = autoc_get_path(autoc->le);
 	if (ft_strchr(path, '~') || ft_strchr(path, '$'))
 		handle_quotes_expansions(&path);
-	if (autoc_check_path(path) == 'l')
-	{
-		cc = readlink(path, buff, PATH_MAX);
-		buff[cc] = '\0';
-		free(path);
-		path = ft_strdup(buff);
-	}
 	if (autoc_check_path(path) == 'd')
 		items = get_autoc_list(path, autoc);
 	else
