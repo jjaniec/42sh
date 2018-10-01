@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 18:50:49 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 11:08:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		check_parsing(t_lexeme *lex);
 
 t_exec	*ast_explore(t_ast *ast, t_exec *exe);
 void	ast_free(t_ast *ast);
+void	free_node(t_ast **ast);
 
 void	ast_debug(t_ast *root);
 void	print_ast_tree(t_ast *node, int level);

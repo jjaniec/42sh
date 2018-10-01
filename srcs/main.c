@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 19:12:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 11:36:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ static int		twenty_one_sh(char *input, char **envp, \
 		lexer(input, &lexemes, NULL) == UNMATCHED_QUOTE_ERR)
 	{
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
+		free(input);
 		exit(1);
 	}
+	free(input);
 	ast_root = ast(lexemes);
 	link_ast_data(ast_root);
 	free_lexemes(lexemes);
@@ -73,7 +75,6 @@ static int		twenty_one_sh(char *input, char **envp, \
 		exit(1);*/
 	ast_free(ast_root);
 	free_exec(&exe);
-	free(input);
 	return (0);
 }
 
