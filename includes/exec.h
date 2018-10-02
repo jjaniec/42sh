@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 11:33:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 11:53:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define EXEC_THREAD_NOT_BUILTIN	0
 # define EXEC_THREAD_BUILTIN		1
 
+// Binary finding & execution
+
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, t_exec *exe, t_ast *node);
 t_exec	*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, t_ast *node);
@@ -50,15 +52,26 @@ void	exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd, \
 			void (**builtin_fun_ptr)(char **, t_environ *, t_exec *));
 
+//
+
 void	io_manager_in(t_ast *node, t_exec *exe);
 void	io_manager_pre(t_ast *node, t_exec *exe);
+
+void	free_exec(t_exec **exe);
+t_exec	*create_exec(t_environ *env);
+
+// Environnement handling
 
 int		get_env_pos(const char *name, const char **envp);
 size_t	size_envp(const char **envp);
 char	**cp_envp(const char **envp);
 void	show_envp(char **envp);
 
+// Path parsing
+
 char	*isin_path(char *path_entry, char *cmd);
+
+// Builtins
 
 void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
 void	builtin_echo(char **argv, t_environ *env, t_exec *exe);
@@ -74,18 +87,18 @@ void	builtin_history(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
 			t_exec *exe);
 
-char	**inline_setenv(char *name, char *value, char **envp);
-char	**inline_unsetenv(char *name, char **envp);
+// Redirects
 
 void	handle_redirs(t_ast *redir_ast_node);
 void	handle_redir_fd(int input_fd, int target_fd);
+
+// Pipes
 
 void	handle_pipes(t_ast *node);
 void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
 
-void	free_exec(t_exec **exe);
-t_exec	*create_exec(t_environ *env);
+// Error Handling
 
 void	handle_open_error(int errno_code, char *filename);
 void	print_error(char *subject, char *err_str);
