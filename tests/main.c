@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 20:29:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 18:34:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,25 @@ t_option		g_sh_opts[] = {
 
 t_environ		*g_envp;
 
+static void		init_shell_vars(char **env, t_shell_vars *vars)
+{
+	static t_environ			env_vars;
+	static t_local_vars			local_vars;
+	static t_internal_vars		internal_vars;
+
+	vars->env = &env_vars;
+	vars->locals = &local_vars;
+	vars->internals = &internal_vars;
+	init_environ(env, vars->env);
+	init_environ_struct_ptrs(&local_vars);
+	init_environ_struct_ptrs(&internal_vars);
+	internal_vars.add_var(&internal_vars, "$", ft_itoa(getpid()));
+	internal_vars.add_var(&internal_vars, "!", "0");
+	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
+	internal_vars.add_var(&internal_vars, "UID", ft_itoa(getuid()));
+	internal_vars.add_var(&internal_vars, "IFS", IFS);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
     clock_t 	start, end;
@@ -32,8 +51,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
-	t_environ	*env = get_environ_struct();
-	g_envp = init_environ(envp, env);
+	init_shell_vars(envp, get_shell_vars());
+	t_environ	*env = get_shell_vars()->env;
 	g_sh_opts[1].opt_status = true;
 	/*backup_stdout = dup(STDOUT_FILENO);
 	backup_stderr = dup(STDERR_FILENO);*/

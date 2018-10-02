@@ -6,75 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 16:02:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 17:27:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
-
-static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_fd, char *str, char *custom_sh_cmd)
-{
-	char	*cmd_sh;
-	int		tmp_fd;
-	int		dup_redirected_fd;
-
-	dup_redirected_fd = dup(redirected_fd);
-	tmp_fd = open(filename_sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
-	dup2(tmp_fd, redirected_fd);
-	if (custom_sh_cmd)
-		cmd_sh = custom_sh_cmd;
-	else
-		asprintf(&cmd_sh, "{ %s ; }", (str));
-	system(cmd_sh);
-	close(tmp_fd);
-	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
-	dup2(tmp_fd, redirected_fd);
-	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", str);
-	system(cmd_sh);
-	close(tmp_fd);
-	dup2(dup_redirected_fd, redirected_fd);
-	close(dup_redirected_fd);
-}
-
-static void	exec_diff_fd(char *test_name, char *str, int redirected_fd, char *custom_sh_cmd)
-{
-	int		ret;
-
-	exec_fd_test("/tmp/exec_sh.txt", "/tmp/exec_21sh.txt", redirected_fd, str, custom_sh_cmd);
-	//system("cat /tmp/exec_21sh.txt");
-	//system("cat /tmp/exec_sh.txt");
-	ret = system("diff /tmp/exec_21sh.txt /tmp/exec_sh.txt");
-	ok(!ret, test_name);
-	remove("/tmp/exec_sh.txt");
-	remove("/tmp/exec_21sh.txt");
-}
-
-static void	exec_diff(char *test_name, char *str, char *custom_sh_cmd)
-{
-	int		test_name_str_len;
-	char	*new_test_name;
-	int		tmp;
-
-	if (!(*MODE == 'L' && ft_strstr(str, "<<<")))
-	{
-		test_name_str_len = ft_strlen(test_name);
-		new_test_name = malloc(test_name_str_len * sizeof(char) + 10);
-		ft_strcpy(new_test_name, test_name);
-
-		ft_strcpy(new_test_name + test_name_str_len, " - stdout");
-		tmp = dup(STDERR_FILENO);
-		freopen("/dev/null", "w", stderr);
-		exec_diff_fd(new_test_name, str, STDOUT_FILENO, custom_sh_cmd);
-		dup2(tmp, STDERR_FILENO);
-
-		ft_strcpy(new_test_name + test_name_str_len, " - stderr");
-		tmp = dup(STDOUT_FILENO);
-		freopen("/dev/null", "w", stdout);
-		exec_diff_fd(new_test_name, str, STDERR_FILENO, custom_sh_cmd);
-		dup2(tmp, STDOUT_FILENO);
-		free(new_test_name);
-	}
-}
 
 void		builtins_tests(t_environ *env)
 {

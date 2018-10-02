@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 11:35:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 19:06:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,11 @@ static void	ft_change_dir(t_environ *env, char *path)
 	new_prev_location = getcwd(cwd_path, MAX_ENV_ENTRY_LEN - 1);
 	if (path && !chdir(path) && new_prev_location)
 	{
-		log_info("Updated cwd to %s", path);
-		env->upt_var(env, "OLDPWD", new_prev_location);
+		if (!(env->get_var(env, "OLDPWD")))
+			env->add_var(env, "OLDPWD", new_prev_location);
+		else
+			env->upt_var(env, "OLDPWD", new_prev_location);
+		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
 	}
 	else if (path && chdir(path))
 	{
@@ -109,6 +112,10 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	(void)argv;
 	(void)env;
 	(void)exe;
+	// ??/??/
+	exit(0);
+
+	//builtin_env((char *[2]){"", NULL}, env, exe);
 
 	if (!argv[1])
 	{
@@ -120,10 +127,13 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	else if (!ft_strcmp(argv[1], "-"))
 	{
 		if (env->get_var(env, "OLDPWD"))
+		{
+			ft_putendl(env->last_used_elem->val_begin_ptr);
 			ft_change_dir(env, env->last_used_elem->val_begin_ptr);
+		}
 	}
 	else if (argv[1])
 		ft_cd_relative_dir(env, argv[1]);
 	ft_refresh_cwd_env(env);
-	//exe->ret = 0;
+	exe->ret = 0;
 }

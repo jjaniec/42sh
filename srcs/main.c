@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 14:17:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 17:02:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ int			main(int ac, char **av, char **envp)
 	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char			**args;
 
-	init_shell_vars(envp, get_shell_vars());
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);
+	init_shell_vars(envp, get_shell_vars());
 	if (is_option_activated("h", opt_list, char_opt_index))
 	{
 		format_help(SH_USAGE, opt_list);
