@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:38:26 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:48:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 14:25:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		print_colorized_input(char *input_str, t_lexeme *lexemes, char *unmatched_
 	char			*ptr;
 	t_environ		*env;
 
-	env = get_environ_struct();
+	env = get_shell_vars()->env;
 	cur_lexeme = lexemes;
 	ptr = input_str;
 	while (ptr && cur_lexeme && *ptr)

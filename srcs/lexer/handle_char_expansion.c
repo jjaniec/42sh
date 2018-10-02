@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 21:45:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 14:09:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,25 @@ static void		concat_expansion_data(t_lexeme_clean_data *l, char *expansion_value
 ** w/ substitute_data()
 */
 
-void			handle_dollar_expansion(t_lexeme_clean_data *l, t_environ *env)
+void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 {
 	char	*env_var_value;
 	int		expansion_name_len;
 
-	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr) + 1, env, &expansion_name_len);
+	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr) + 1, \
+		vars->env, &expansion_name_len);
 	if (env_var_value && *env_var_value)
 		concat_expansion_data(l, env_var_value);
-	//else
-	//	free(env_var_value);
 	(*(l->raw_lexeme_read_ptr)) += (expansion_name_len + 1) * sizeof(char);
 }
 
-void			handle_tild_expansion(t_lexeme_clean_data *l, t_environ *env)
+void			handle_tild_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 {
 	char	*home_path;
 
 	home_path = NULL;
-	if (env->get_var(env, "HOME"))
-		home_path = env->last_used_elem->val_begin_ptr;
+	if (vars->env->get_var(vars->env, "HOME"))
+		home_path = vars->env->last_used_elem->val_begin_ptr;
 	log_trace("Got env var value of |%s| for HOME env variable expansion", home_path);
 	if (home_path && *home_path)
 		concat_expansion_data(l, home_path);

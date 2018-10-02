@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 11:49:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 14:28:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value);
 
 int			del_env_var(struct s_environ *self, char *varname);
 
-t_environ	*get_environ_struct(void);
-
 t_env_entry	*get_env_var(t_environ *self, char *varname);
 
 char	*upd_env_var(t_environ *this, char *name, char *new_value);
@@ -126,5 +124,7 @@ void	load_history_file(struct s_line *le);
 char	*get_parsed_history_file_path(void);
 
 char	*ft_strjoin_path(char *path1, char *path2);
+
+t_shell_vars	*get_shell_vars(void);
 
 #endif

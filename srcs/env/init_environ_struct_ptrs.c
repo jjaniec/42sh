@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 17:59:37 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 18:00:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 14:11:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		init_environ_struct_ptrs(t_environ *env_struct)
 		env_struct->last_used_elem = NULL;
 		env_struct->last_entry_ptr = NULL;
 		env_struct->entry_count = 0;
+		env_struct->env_entries_list = NULL;
 		env_struct->get_var = get_env_var;
 		env_struct->add_var = add_env_var;
 		env_struct->upt_var = upd_env_var;

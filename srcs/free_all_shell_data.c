@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:21:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 14:30:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 
 static void		free_environ(void)
 {
-	t_environ	*env_struct;
+	t_shell_vars	*vars;
 
-	if (!(env_struct = get_environ_struct()))
+	if (!(vars = get_shell_vars()))
 		return ;
-	free_env_entries(env_struct, env_struct->env_entries_list);
+	free_env_entries(vars->env, vars->env->env_entries_list);
+	free_env_entries(vars->locals, vars->locals->env_entries_list);
+	free_env_entries(vars->internals, vars->internals->env_entries_list);
 	//free(env_struct);
-	env_struct = NULL;
+	vars = NULL;
 }
 
 /*

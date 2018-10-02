@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_environ_struct.c                               :+:      :+:    :+:   */
+/*   get_shell_vars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/25 17:43:02 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 17:46:12 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/02 13:53:29 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/02 13:55:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-t_environ	*get_environ_struct(void)
+t_shell_vars	*get_shell_vars(void)
 {
-	static t_environ	environ;
+	static t_shell_vars	vars;
 
-	return (&environ);
+	return (&vars);
 }

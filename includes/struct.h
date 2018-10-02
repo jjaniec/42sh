@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 19:18:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 14:01:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,17 @@ typedef struct		s_environ
 	int				(*del_var)(struct s_environ *, char *);
 	t_env_entry		*(*get_var)(struct s_environ *, char *);
 }					t_environ;
+
+typedef t_environ	t_local_vars;
+
+typedef t_environ	t_internal_vars;
+
+typedef struct		s_shell_vars
+{
+	t_environ			*env;
+	t_local_vars		*locals;
+	t_internal_vars		*internals;
+}					t_shell_vars;
 
 /*
 ** int	ret: the return value of the last command. Default: 0

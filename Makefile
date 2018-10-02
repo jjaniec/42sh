@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/02 11:37:26 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/02 14:26:50 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,6 @@ SRC_NAME = 	is_separator.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
 			exec/io_manager.c \
-			exec/manage_env.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
 			exec/handle_redir_fd.c \
@@ -152,7 +151,6 @@ SRC_NAME = 	is_separator.c \
 			env/add_env_var.c \
 			env/init_environ.c \
 			env/init_environ_struct_ptrs.c \
-			env/get_environ_struct.c \
 			env/del_env_var.c \
 			env/get_env_var.c \
 			env/upd_env_var.c \
@@ -163,6 +161,7 @@ SRC_NAME = 	is_separator.c \
 			get_next_line.c \
 			get_parsed_history_file_path.c \
 			ft_strjoin_path.c \
+			get_shell_vars.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \
