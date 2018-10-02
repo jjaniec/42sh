@@ -173,7 +173,7 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					script_tests.c \
 					builtin_test_tests.c \
 					test_lexeme_list.c \
-					compare_sh_21sh_outputs.c \
+					compare_sh_42sh_outputs.c \
 					compare_redirected_files_contents.c \
 					compare_fds_with_strings.c \
 					redirect_both_fds.c \

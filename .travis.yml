@@ -115,8 +115,8 @@ script: >
   else ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make CC=$CXX tests;
   fi;
   if [ $TRAVIS_OS_NAME == osx ];
-  then ./21sh_tests;
-  else valgrind --leak-check=full ./21sh_tests 2> Leaks.log;
+  then ./42sh_tests;
+  else valgrind --leak-check=full ./42sh_tests 2> Leaks.log;
   fi;
   r=$?;
   make coverage;

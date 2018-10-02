@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.h                                     :+:      :+:    :+:   */
+/*   forty_two_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -62,7 +62,7 @@ extern const char	*g_prompts[10];
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"] - MAKE 42SH GREAT AGAIN "
+	"./42sh [-hcGv] [-c \"command\"]"
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
