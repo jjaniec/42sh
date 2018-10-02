@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#ifndef FORTY_TWO_SH_H
+# define FORTY_TWO_SH_H
 
 # include <stdint.h>
 # include <inttypes.h>

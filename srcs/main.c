@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -42,7 +42,7 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	return (input);
 }
 
-static int		twenty_one_sh(char *input, char **envp, \
+static int		forty_two_sh(char *input, char **envp, \
 					t_option *opt_list, t_option **char_opt_index)
 {
 	t_ast		*ast_root;
@@ -92,7 +92,7 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 		free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		twenty_one_sh(input, envp, opt_list, char_opt_index);
+		forty_two_sh(input, envp, opt_list, char_opt_index);
 	}
 }
 
@@ -118,7 +118,7 @@ int			main(int ac, char **av, char **envp)
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
-			twenty_one_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
+			forty_two_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
 			args++;
 			ac--;
 		}

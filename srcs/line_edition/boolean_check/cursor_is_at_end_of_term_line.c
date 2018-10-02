@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
 **	Returns 'true' if 'cursorpos' corresponds to the end of a window line.

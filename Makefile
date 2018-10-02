@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 ###### EXEC ######
-NAME = 21sh
+NAME = 42sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 ###### FILES ######
@@ -158,7 +158,7 @@ SRC_NAME = 	is_separator.c \
 INCLUDES_NAME = lexer.h \
 				ast.h \
 				exec.h \
-				twenty_one_sh.h \
+				forty_two_sh.h \
 				line_edition.h \
 				script.h \
 				syntax_highlighting.h \
