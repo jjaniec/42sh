@@ -12,11 +12,11 @@
 
 #include <twenty_one_sh.h>
 
-int				autoc_menu(t_autoc *autoc, struct s_line *le)
+int							autoc_menu(t_autoc *autoc, struct s_line *le)
 {
-	autoc_menu_print_items(autoc, le);
-	init_key_func(autoc);
-	while (autoc_key_reader(autoc))
 		autoc_menu_print_items(autoc, le);
-	return (1);
+		init_key_func(autoc);
+		while (autoc_key_reader(autoc))
+			autoc_menu_print_items(autoc, le);
+		return (1);
 }

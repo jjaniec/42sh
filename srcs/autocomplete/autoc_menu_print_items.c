@@ -79,7 +79,7 @@ static void		print_col_items(int i, t_autoc *autoc)
 			ft_putstr(COL_PROG_ARG_DIR);
 		(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
 		(ft_putstr(autoc->items[i]));
-		autoc_menu_print_spaces(autoc->max_item_len + 1,
+		autoc_menu_print_spaces(autoc->max_item_len,
 			ft_strlen(autoc->items[i]), autoc->le);
 		ft_putstr(COL_DEFAULT);
 		count++;
@@ -96,13 +96,7 @@ void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	line = 0;
 	ioctl(2, TIOCGWINSZ, &autoc->win);
 	if (get_print_infos(autoc))
-	{
-		tputs(autoc->le->tcaps->cl, 1, &write_one_char);
-		prompt_show(g_prompts[-(autoc->le->le_state.prompt_type)]);
-		ft_putstr(autoc->le->cmd);
-		cursor_back(autoc, le);
 		return ;
-	}
 	menu_new_line(autoc);
 	while (line < autoc->nbr_line)
 	{
