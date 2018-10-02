@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 11:53:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 12:06:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,6 @@ void	io_manager_pre(t_ast *node, t_exec *exe);
 
 void	free_exec(t_exec **exe);
 t_exec	*create_exec(t_environ *env);
-
-// Environnement handling
-
-int		get_env_pos(const char *name, const char **envp);
-size_t	size_envp(const char **envp);
-char	**cp_envp(const char **envp);
-void	show_envp(char **envp);
 
 // Path parsing
 
