@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:46:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 11:35:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ extern t_option		g_sh_opts[];
 static int		elem_path_found(struct stat *elem_stats, \
 					char *lexeme_data, t_environ *env, int item_nb)
 {
-	char		**paths;
+	char		*path_entry;
 	char		*tmp;
 	int			r;
 
@@ -37,15 +37,20 @@ static int		elem_path_found(struct stat *elem_stats, \
 	}
 	else
 	{
-		paths = get_path((env->get_var(env, "PATH"))->entry);
-		if ((tmp = isin_path(paths, lexeme_data)))
+		path_entry = NULL;
+		if (env->get_var(env, "PATH"))
+			path_entry = env->last_used_elem->val_begin_ptr;
+		if (path_entry)
 		{
-			lstat(tmp, elem_stats);
-			r = 1;
+			if ((tmp = isin_path(path_entry, lexeme_data)))
+			{
+				lstat(tmp, elem_stats);
+				r = 1;
+			}
+			else if (!r && is_builtin(lexeme_data, NULL))
+				r = 1;
+			ft_strdel(&tmp);
 		}
-		else if (!r && is_builtin(lexeme_data, NULL))
-			r = 1;
-		ft_strdel(&tmp);
 	}
 	return (r);
 }

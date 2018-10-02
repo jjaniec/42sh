@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/30 21:56:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 11:35:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,28 +87,21 @@ static void	ft_change_dir(t_environ *env, char *path)
 ** or if argument is '-', then refresh last previous location
 */
 
-static void	ft_cd_relative_dir(t_environ *env, char *rel_path)
+static int	ft_cd_relative_dir(t_environ *env, char *rel_path)
 {
 	char	*new_dir_path;
 	char	cwd_fmt[MAX_ENV_ENTRY_LEN];
-	size_t	cwd_fmt_len;
-	size_t	rel_path_len;
 
 	if (getcwd(cwd_fmt, sizeof(cwd_fmt)))
 	{
-		cwd_fmt_len = ft_strlen(cwd_fmt);
-		rel_path_len = ft_strlen(rel_path);
-		if (cwd_fmt_len + rel_path_len + 1 >= MAX_ENV_ENTRY_LEN)
-			log_error("Oops it seems that your path is too long for our env optimization, \
-				update includes/twenty_one_sh.h:MAX_ENV_ENTRY_LEN");
-		new_dir_path = malloc(sizeof(char) * (cwd_fmt_len + rel_path_len + 2));
-		ft_strcpy(new_dir_path, cwd_fmt);
-		*(new_dir_path + (sizeof(char) * (cwd_fmt_len))) = '/';
-		*(new_dir_path + (sizeof(char) * (cwd_fmt_len + 1))) = '\0';
-		ft_strcat(new_dir_path, rel_path);
-		ft_change_dir(env, new_dir_path);
-		free(new_dir_path);
+		if ((new_dir_path = ft_strjoin_path(cwd_fmt, rel_path)))
+		{
+			ft_change_dir(env, new_dir_path);
+			free(new_dir_path);
+			return (0);
+		}
 	}
+	return (1);
 }
 
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)

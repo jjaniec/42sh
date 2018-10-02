@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/01 11:36:58 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/02 11:37:26 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -162,6 +162,7 @@ SRC_NAME = 	is_separator.c \
 			load_history_file.c \
 			get_next_line.c \
 			get_parsed_history_file_path.c \
+			ft_strjoin_path.c \
 			main.c
 
 INCLUDES_NAME = lexer.h \

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 15:44:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 11:33:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ int		get_env_pos(const char *name, const char **envp);
 size_t	size_envp(const char **envp);
 char	**cp_envp(const char **envp);
 void	show_envp(char **envp);
-char	*new_path(char *s1, char *s2);
-char	**get_path(char *str);
-char	*isin_path(char **paths, char *cmd);
+
+char	*isin_path(char *path_entry, char *cmd);
 
 void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
 void	builtin_echo(char **argv, t_environ *env, t_exec *exe);

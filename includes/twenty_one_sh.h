@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 12:00:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/02 11:30:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,7 @@ bool		check_history_file(const char *his_file_path);
 void	load_history_file(struct s_line *le);
 
 char  	*get_parsed_history_file_path(void);
+
+char	*ft_strjoin_path(char *path1, char *path2);
 
 #endif
