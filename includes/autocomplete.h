@@ -19,20 +19,11 @@
 # include <sys/ioctl.h>
 # include <sys/syslimits.h>
 
-/*typedef struct			s_menu
-{
-	int								col_id;
-	char							**items;
-	struct s_menu			*next;
-	struct s_menu			*prev;
-}										t_menu;*/
-
 typedef struct			s_autoc
 {
 	int					(*key_function[128])(char buffer[8], struct s_autoc *aut);
 	struct s_line		*le;
 	struct winsize		win;
-	struct s_menu		*menu;
 	char				**items;
 	char				*search;
 	int					nbr_items;
