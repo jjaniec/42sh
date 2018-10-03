@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tests.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/24 21:15:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/03 17:32:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@ void 	ast_tests(void);
 void	exec_tests(char ***envp_ptr);
 
 void	syntax_highlighting_tests(char **envp);
+
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
+;
 
 #endif

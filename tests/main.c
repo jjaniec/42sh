@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 15:33:23 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/03 17:32:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,28 @@ t_option		g_sh_opts[] = {
 };
 
 char		**g_envp;
+
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
+{
+	char		*input;
+	char		*unmatched_quote_err_ptr;
+	t_lexeme	*lexemes_ret;
+
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+		input = line_edition(sub_prompt);
+	if (g_cmd_status.resize_happened == false)
+		ft_putchar('\n');
+	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+	UNMATCHED_QUOTE_ERR)
+	{
+		free_lexemes(lexemes_ret);
+		if (!subpp_string(&input))
+			return (NULL);
+	}
+	*lexemes = lexemes_ret;
+	return (input);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
