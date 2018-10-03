@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   refresh_colosyn.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:36:29 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/26 11:38:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:50:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
 /*
-**	The command line is checked in order to reprint it with the good colors.
-*/
+ **	The command line is checked in order to reprint it with the good colors.
+ */
 
 void		refresh_colosyn(struct s_line *le, char *cmd)
 {
@@ -28,4 +28,5 @@ void		refresh_colosyn(struct s_line *le, char *cmd)
 		log_set_quiet(0);
 	actionk_delete_current_input(le);
 	print_colorized_input(cmd, g_envp, lexemes, unmatched_quote_err_ptr);
+	free_lexemes(lexemes);
 }

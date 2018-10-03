@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 18:29:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/03 15:46:32 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ t_option		g_tests_opts[] = {
 	{{"--------------------------"}, "" , false},
 	{{"\n="}, "s1 = s2:\tTrue if the strings s1 and s2 are identical.", false},
 	{{"\n!="}, "s1 != s2:\tTrue if the strings s1 and s2 are not identical.", false},
-	{{"\n<"}, "s1 < s2:\tTrue if the strings s1 comes before s2 based on the binary value of their characters.", false},
-	{{"\n>"}, "s1 > s2:\tTrue if the strings s1 comes after s2 based on the binary value of their characters.", false},
 	{{"--------------------------"}, "" , false},
 	{{"eq"}, "n1 -eq n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
 	{{"ne"}, "n1 -ne n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
@@ -55,11 +53,17 @@ t_option		g_tests_opts[] = {
 
 static int	right_format_builtin(char **argv, int *argc)
 {
-	if (ft_strequ(argv[0], "test"))
+	int		ac;
+
+	ac = 0;
+	while (argv[ac])
+		ac++;
+	if (ac > 0 && ft_strequ(argv[0], "test"))
 		return (1);
-	else if (ft_strequ(argv[0], "[") && ft_strequ(argv[*argc - 1], "]"))
+	else if (ft_strequ(argv[0], "[") && ft_strequ(argv[ac - 1], "]"))
 	{
-		argv[*argc - 1] = NULL;
+		free(argv[ac - 1]);
+		argv[ac - 1] = NULL;
 		(*argc)--;
 		return (1);
 	}
@@ -156,31 +160,26 @@ static int	parse_expr_comp(char **argv)
 		return (0);
 	else if (ft_strequ(argv[1], "!=") && !ft_strequ(argv[0], argv[2]))
 		return (0);
-	else if (ft_strequ(argv[1], "<") && ft_strcmp(argv[0], argv[2]) < 0)
+	else if (ft_strequ(argv[1], "-eq") && ft_atoll(argv[0]) == ft_atoll(argv[2]))
 		return (0);
-	else if (ft_strequ(argv[1], ">") && ft_strcmp(argv[0], argv[2]) > 0)
+	else if (ft_strequ(argv[1], "-ne") && ft_atoll(argv[0]) != ft_atoll(argv[2]))
 		return (0);
-	else if (ft_strequ(argv[1], "-eq") && ft_atoi(argv[0]) == ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-gt") && ft_atoll(argv[0]) > ft_atoll(argv[2]))
 		return (0);
-	else if (ft_strequ(argv[1], "-ne") && ft_atoi(argv[0]) != ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-ge") && ft_atoll(argv[0]) >= ft_atoll(argv[2]))
 		return (0);
-	else if (ft_strequ(argv[1], "-gt") && ft_atoi(argv[0]) > ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-lt") && ft_atoll(argv[0]) < ft_atoll(argv[2]))
 		return (0);
-	else if (ft_strequ(argv[1], "-ge") && ft_atoi(argv[0]) >= ft_atoi(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-lt") && ft_atoi(argv[0]) < ft_atoi(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-le") && ft_atoi(argv[0]) <= ft_atoi(argv[2]))
+	else if (ft_strequ(argv[1], "-le") && ft_atoll(argv[0]) <= ft_atoll(argv[2]))
 		return (0);
 	else
-		return (0);
+		return (1);
 }
 
 void		builtin_test(char **argv, char **envp, t_exec *exe)
 {
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	char		**args;
 	int			ac;
 
 	(void)exe;
@@ -190,8 +189,16 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	while (argv[ac])
 		ac++;
 
+	if (!right_format_builtin(argv, &ac))
+	{
+		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
+		exit (1);
+	}
+	if (ac == 4 && argv[3] && !argv[4])
+		exit (parse_expr_comp(argv + 1));
+
 	opt_list = g_tests_opts;
-	args = parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
+	parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
 
 	ac = 0;
 	while (argv[ac])
@@ -200,8 +207,7 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	if (!argv[0])
 		exit (0);
 	else if (is_option_activated("h", opt_list, char_opt_index) || \
-	is_option_activated("--------------------------", opt_list, char_opt_index)\
-	|| !right_format_builtin(argv, &ac))
+	is_option_activated("--------------------------", opt_list, char_opt_index))
 	{
 		format_help(BUILTIN_TEST_USAGE, opt_list);
 		exit (1);
@@ -212,8 +218,6 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 		exit (ft_atoi(argv[1]));
 	else if (argv[2] && !argv[3])
 		exit (parse_expr_file((argv + 1), opt_list, char_opt_index));
-	else if (argv[3] && !argv[4])
-		exit (parse_expr_comp(argv + 1));
 	else
 	{
 		format_help(BUILTIN_TEST_USAGE, opt_list);

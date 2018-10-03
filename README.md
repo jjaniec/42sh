@@ -7,3 +7,8 @@ Code reviews: [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d30c3b
 Coverage: [![codecov](https://codecov.io/gh/jjaniec/21sh/branch/develop/graph/badge.svg)](https://codecov.io/gh/jjaniec/21sh)
 
 ---
+
+[![Open in Cloud Shell][shell_img]][shell_link]
+
+[shell_img]: http://gstatic.com/cloudssh/images/open-btn.png
+[shell_link]: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/jjaniec/21sh&page=editor&open_in_editor=./README.md

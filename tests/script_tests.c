@@ -3,29 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   script_tests.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 15:36:17 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/01 14:26:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
 static char **env;
-
-static int		mask_output(int *pipe_input_fd, int *pipe_output_fd)
-{
-	int		r;
-	int		pipe_fds[2];
-
-	r = dup(STDOUT_FILENO);
-	pipe(pipe_fds);
-	*pipe_input_fd = pipe_fds[1];
-	*pipe_output_fd = pipe_fds[0];
-	dup2(*pipe_input_fd, STDOUT_FILENO);
-	return r;
-}
 
 static	void exec(char *input)
 {
@@ -43,26 +30,19 @@ static	void exec(char *input)
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
+	free(exe);
 }
 
-static void test_framework(char *str_test, char *result, char *test_name)
+static void test_framework(char *str_test, char *expected_stdout, char *test_name)
 {
-	int			stdout_dup;
-	int			pipe_input_fd;
-	int			pipe_output_fd;
-	int			bytes_read;
-	char		buf[BUFSIZ];
+	int		backup_stdout_fd;
+	int		backup_stderr_fd;
+	char	*tmp;
 
-	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
-	exec(ft_strjoin(str_test, "\n"));
-	close(pipe_input_fd);
-	if ((bytes_read = read(pipe_output_fd, buf, BUFSIZ)) == -1)
-		printf("Can't read comparison file desc %d!\n", pipe_output_fd);
-	else
-		buf[bytes_read] = '\0';
-	close(pipe_output_fd);
-	dup2(stdout_dup, STDOUT_FILENO);
-	is(buf, ft_strjoin(result, "\n"), test_name);
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
+	exec((tmp = ft_strjoin(str_test, "\n")));
+	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), NULL, backup_stdout_fd, backup_stderr_fd);
+	free(tmp);
 }
 
 static void tests(void)
@@ -71,6 +51,7 @@ static void tests(void)
 	//char	error_msg2[] = "There is an error in your command line.";
 
 	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Simple IF");
+	test_framework("if test; then echo NOT OK; fi; echo", "", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK; echo ABC; fi", "OK\nABC", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK && echo ABC; fi", "OK\nABC", "Simple IF");
 	test_framework("if [ 0 ]; then echo OK; elif [ 0 ]; then echo NOT OK; fi", "OK", "Simple IF-ELIF");
@@ -95,7 +76,11 @@ static void tests(void)
 	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple IF");
-	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "Simple IF");
+	test_framework("echo", "", "------------------------------");
+	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ]; then echo NOT OK && fi", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ] && then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if && [ 0 ]; then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE; elif ;then echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; then echo NEITHER;", error_msg, "ERROR - Simple IF-ELIF");
@@ -108,11 +93,17 @@ static void tests(void)
 	test_framework("else echo NOPE", error_msg, "ERROR - Simple ELSE");
 	
 	test_framework("if if [ 0 ]; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
 	test_framework("if [ 0 ]; then; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
 	test_framework("if [ 0 ]; then echo NOPE; fi; fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then fi; echo NOPE; fi; echo", error_msg, "ERROR - Duplicate token");
-	
+	test_framework("if [ 0 ]; then fi; echo OK; fi", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then then echo NOPE; echo OK; fi", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then if [ 0 ]; then echo OK; fi; echo OK2 ;fi", "OK\nOK2", "GOOD - Duplicate token");
+	test_framework("if [ 0 ]; then echo OK && fi", error_msg, "ERROR - Token &&");
+	test_framework("if [ 0 ] && then echo OK && fi", error_msg, "ERROR - Token &&");
+	test_framework("if [ 0 ] && then echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if [ 0 ] ; then && echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if && [ 0 ] ; then echo OK ; fi", error_msg, "ERROR - Token &&");
+
 	test_framework("echo ABC; then; echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; then echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; do; echo DEF", error_msg, "ERROR - Token inside statement");

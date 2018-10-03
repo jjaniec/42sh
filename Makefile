@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/09/26 17:23:21 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/10/03 15:18:29 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,13 @@ SRC_NAME = 	is_separator.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
 			lexer/lexeme_type_word.c \
-			lexer/clean_word_lexeme.c \
+			lexer/handle_quotes_expansions.c \
 			lexer/has_matching_quote.c \
 			lexer/env_assigns_status.c \
-			lexer/handle_backslash_escape.c \
+			lexer/handle_escape_offset.c \
 			lexer/free_lexemes.c \
+			lexer/handle_char_expansion.c \
+			lexer/get_expansion_end.c \
 			ast/ast.c \
 			ast/ast_explore.c \
 			ast/ast_constructor.c \
@@ -42,6 +44,7 @@ SRC_NAME = 	is_separator.c \
 			ast/ast_free.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
+			ast/access_ast_data.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
 			line_edition/le_exit.c \
@@ -115,6 +118,7 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
@@ -138,6 +142,7 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_check_path.c \
 			log.c \
 			ft_free_argv.c \
+			ft_atoll.c \
 			sub_prompt.c \
 			init_globals_config.c \
 			parse_options.c \
@@ -145,8 +150,11 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
+			history_file_checker.c \
+			load_history_file.c \
+			get_next_line.c \
+			get_parsed_history_file_path.c \
 			main.c \
-			line_edition/ft_realloc.c
 
 INCLUDES_NAME = lexer.h \
 				ast.h \
@@ -155,7 +163,9 @@ INCLUDES_NAME = lexer.h \
 				line_edition.h \
 				script.h \
 				syntax_highlighting.h \
-				log.h
+				log.h \
+				struct.h \
+				get_next_line.h
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
@@ -163,6 +173,11 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					exec_tests.c \
 					script_tests.c \
 					builtin_test_tests.c \
+					test_lexeme_list.c \
+					compare_sh_21sh_outputs.c \
+					compare_redirected_files_contents.c \
+					compare_fds_with_strings.c \
+					redirect_both_fds.c \
 					main.c
 
 
@@ -186,7 +201,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE -std=c11
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0
@@ -204,7 +219,7 @@ LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
 CFLAGS += $(VERBOSE_MODE_FLAGS)
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
-MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status")
+MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
 
 define ui_line
 	$(MAKEFILE_STATUS) $(1) $(2) || true
@@ -262,7 +277,7 @@ $(LIBTAP_DIR):
 clean:
 	rm -rf $(OBJ_DIR)
 	rm -rf $(addprefix $(TESTS_DIR),*.o)
-	rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
+	-rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
 	if [ -d $(FT_PRINTF_DIR) ]; then make clean -C $(FT_PRINTF_DIR); fi
 
 fclean: clean

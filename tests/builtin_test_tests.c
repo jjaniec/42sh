@@ -3,29 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_test_tests.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/27 15:32:00 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/03 15:47:25 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-char **env;
-
-static int		mask_output(int *pipe_input_fd, int *pipe_output_fd)
-{
-	int		r;
-	int		pipe_fds[2];
-
-	r = dup(STDOUT_FILENO);
-	pipe(pipe_fds);
-	*pipe_input_fd = pipe_fds[1];
-	*pipe_output_fd = pipe_fds[0];
-	dup2(*pipe_input_fd, STDOUT_FILENO);
-	return r;
-}
+static char **env;
 
 static	void exec(char *input)
 {
@@ -43,26 +30,19 @@ static	void exec(char *input)
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
+	free(exe);
 }
 
-static void test_framework(char *str_test, char *result, char *test_name)
+static void test_framework(char *str_test, char *expected_stdout, char *test_name)
 {
-	int			stdout_dup;
-	int			pipe_input_fd;
-	int			pipe_output_fd;
-	int			bytes_read;
-	char		buf[BUFSIZ];
+	int		backup_stdout_fd;
+	int		backup_stderr_fd;
+	char	*tmp;
 
-	stdout_dup = mask_output(&pipe_input_fd, &pipe_output_fd);
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd);
 	exec(ft_strjoin(str_test, " && echo 0 || echo 1\n"));
-	close(pipe_input_fd);
-	if ((bytes_read = read(pipe_output_fd, buf, BUFSIZ)) == -1)
-		printf("Can't read comparison file desc %d!\n", pipe_output_fd);
-	else
-		buf[bytes_read] = '\0';
-	close(pipe_output_fd);
-	dup2(stdout_dup, STDOUT_FILENO);
-	is(buf, ft_strjoin(result, "\n"), ft_strjoin("Builtin test: ", test_name));
+	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), NULL, backup_stdout_fd, backup_stderr_fd);
+	free(tmp);
 }
 
 void		builtin_test_tests(char **envp)
@@ -117,4 +97,49 @@ void		builtin_test_tests(char **envp)
 	test_framework("[ -S notafile ]", "1", "Socket notafile");
 	test_framework("[ -S a ]", "1", "Socket a");
 	test_framework("rm a c;[ -S . ]", "1", "Socket .");
+	test_framework("test [ 0 ]", "1", "Format error");
+	test_framework("test 0 ]", "1", "Format error");
+	test_framework("test 0", "0", "Simple value");
+	test_framework("test 1", "1", "Simple value");
+	test_framework("[ 1 ]", "1", "Simple value");
+	test_framework("[ 0 ]", "0", "Simple value");
+	test_framework("[ str = str ]", "0", "String equal");
+	test_framework("[ str != str ]", "1", "String equal");
+	test_framework("[ str != sstr ]", "0", "String equal");
+	test_framework("[ str = sstr ]", "1", "String equal");
+	test_framework("[ 1234 != 1234 ]", "1", "String equal");
+	test_framework("[ 0 -eq 0 ]", "0", "Integer equal");
+	test_framework("[ 0 -eq 1 ]", "1", "Integer equal");
+	test_framework("[ 1 -eq -1 ]", "1", "Integer equal");
+	test_framework("[ -1 -eq -1 ]", "0", "Integer equal");
+	test_framework("[ 186438734383745315 -eq 99634384348452425 ]", "1", "Integer equal");
+	test_framework("[ 1864387348161383745315 -eq 1864387348161383745315 ]", "0", "Integer equal");
+	test_framework("[ -1 -ne -1 ]", "1", "Integer not equal");
+	test_framework("[ 1 -ne 1 ]", "1", "Integer not equal");
+	test_framework("[ 0 -ne 1 ]", "0", "Integer not equal");
+	test_framework("[ 0 -ne 0 ]", "1", "Integer not equal");
+	test_framework("[ 186438734383745315 -ne 99634384348452425 ]", "0", "Integer not equal");
+	test_framework("[ 1864387348161383745315 -ne 1864387348161383745315 ]", "1", "Integer not equal");
+	test_framework("[ 0 -gt 0 ]", "1", "Integer greater than");
+	test_framework("[ 0 -gt -1 ]", "0", "Integer greater than");
+	test_framework("[ -1 -gt 0 ]", "1", "Integer greater than");
+	test_framework("[ 1 -gt 0 ]", "0", "Integer greater than");
+	test_framework("[ 0 -gt 1 ]", "1", "Integer greater than");
+	test_framework("[ 1 -gt 1 ]", "1", "Integer greater than");
+	test_framework("[ -0 -gt -0 ]", "1", "Integer greater than");
+	test_framework("[ 14835341415364151 -gt 00096541542241542 ]", "0", "Integer greater than");
+	test_framework("[ 0 -ge 0 ]", "0", "Integer greater or equal than");
+	test_framework("[ 1 -ge 0 ]", "0", "Integer greater or equal than");
+	test_framework("[ 0 -ge 1 ]", "1", "Integer greater or equal than");
+	test_framework("[ 1 -ge 1 ]", "0", "Integer greater or equal than");
+	test_framework("[ 0 -lt 0 ]", "1", "Integer lower than");
+	test_framework("[ -1 -lt 0 ]", "0", "Integer lower than");
+	test_framework("[ 0 -lt -1 ]", "1", "Integer lower than");
+	test_framework("[ 1 -lt 0 ]", "1", "Integer lower than");
+	test_framework("[ 0 -lt 1 ]", "0", "Integer lower than");
+	test_framework("[ 1 -lt 1 ]", "1", "Integer lower than");
+	test_framework("[ 0 -le 0 ]", "0", "Integer lower or equal than");
+	test_framework("[ 1 -le 0 ]", "1", "Integer lower or equal than");
+	test_framework("[ 0 -le 1 ]", "0", "Integer lower or equal than");
+	test_framework("[ 1 -le 1 ]", "0", "Integer lower or equal than");
 }
