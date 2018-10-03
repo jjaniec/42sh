@@ -6,13 +6,13 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 16:26:37 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/01 15:44:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/03 20:13:21 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <twenty_one_sh.h>
 
-static int		tab_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
+static int	tab_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	(void)buffer;
 	autoc->menu_selected++;
@@ -22,20 +22,21 @@ static int		tab_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 	return (0);
 }
 
-static int		return_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
+static int	return_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	if (autoc->menu_selected >= 0)
 	{
 		autoc_push_in_line(autoc->le, autoc->items[autoc->menu_selected],
 		autoc->search);
 		if (buffer[0] == 32)
-			insert_and_print_character_into_cmdline(autoc->le, (t_kno)' ');
+			insert_and_print_character_into_cmdline(autoc->le,
+			get_key_number(buffer));
 		tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	}
 	return (1);
 }
 
-static int		arrow_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
+static int	arrow_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	int	arrow_mask[3];
 
@@ -49,7 +50,7 @@ static int		arrow_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 	return (autoc_arrow_process(arrow_mask, autoc));
 }
 
-static int		other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
+static int	other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	autoc->le->key_no = get_key_number(buffer);
 	process_key(autoc->le);
@@ -57,7 +58,7 @@ static int		other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 	return (1);
 }
 
-void			init_key_func(t_autoc *autoc)
+void		init_key_func(t_autoc *autoc)
 {
 	int		i;
 

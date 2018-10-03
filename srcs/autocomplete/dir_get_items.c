@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 21:27:30 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/25 16:01:29 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/03 19:41:12 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ static char			*cp_item(char *in, char *item)
 	return (res);
 }
 
-static char	**get_file(char *in, DIR *dir, t_autoc *autoc)
+static char			**get_file(char *in, DIR *dir, t_autoc *autoc)
 {
 	struct dirent	*file;
-	int						i;
-	char					**res;
+	int				i;
+	char			**res;
 
 	i = 0;
 	res = (char**)malloc(sizeof(char*) * nbr_tab(in, autoc) + 1);
