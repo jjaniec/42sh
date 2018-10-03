@@ -13,7 +13,7 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
-# include <twenty_one_sh.h>
+# include <forty_two_sh.h>
 
 /*
 ** Struct in linked list to store type of lexeme and data pointer

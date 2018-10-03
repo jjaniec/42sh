@@ -4,8 +4,8 @@ ft_printf
 /libtap/
 /ft_printf/
 
-21sh
-21sh_tests
+42sh
+42sh_tests
 
 *.gcno
 *.gcda

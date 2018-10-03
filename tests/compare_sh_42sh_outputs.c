@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compare_sh_21sh_outputs.c                          :+:      :+:    :+:   */
+/*   compare_sh_42sh_outputs.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,12 +13,12 @@
 #include "tests.h"
 
 /*
-** Compares output of 21sh and sh by redirecting file descs in files and reading it,
+** Compares output of 42sh and sh by redirecting file descs in files and reading it,
 ** as sh does not support '<<<' redirs on linux,
 ** compare w/ output of bash instead, which handles '<<<' tokens
 */
 
-static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_fd, char *_21sh_cmd, char *sh_cmd)
+static void	exec_fd_test(char *filename_sh, char *filename_42sh, int redirected_fd, char *_42sh_cmd, char *sh_cmd)
 {
 	char	*cmd_sh;
 	int		tmp_fd;
@@ -30,13 +30,13 @@ static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_
 	if (sh_cmd)
 		cmd_sh = ft_strdup(sh_cmd);
 	else
-		asprintf(&cmd_sh, "{ %s ; }", (_21sh_cmd));
+		asprintf(&cmd_sh, "{ %s ; }", (_42sh_cmd));
 	system(cmd_sh);
 	free(cmd_sh);
 	close(tmp_fd);
-	tmp_fd = open(filename_21sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
+	tmp_fd = open(filename_42sh, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	dup2(tmp_fd, redirected_fd);
-	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", _21sh_cmd);
+	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", _42sh_cmd);
 	system(cmd_sh);
 	free(cmd_sh);
 	close(tmp_fd);
@@ -44,26 +44,26 @@ static void	exec_fd_test(char *filename_sh, char *filename_21sh, int redirected_
 	close(dup_redirected_fd);
 }
 
-static void	exec_diff_fd(char *test_name, char *_21sh_cmd, int redirected_fd, char *sh_cmd)
+static void	exec_diff_fd(char *test_name, char *_42sh_cmd, int redirected_fd, char *sh_cmd)
 {
 	int		ret;
 
-	exec_fd_test("/tmp/exec_sh.txt", "/tmp/exec_21sh.txt", redirected_fd, _21sh_cmd, sh_cmd);
-	//system("cat /tmp/exec_21sh.txt");
+	exec_fd_test("/tmp/exec_sh.txt", "/tmp/exec_42sh.txt", redirected_fd, _42sh_cmd, sh_cmd);
+	//system("cat /tmp/exec_42sh.txt");
 	//system("cat /tmp/exec_sh.txt");
-	ret = system("diff /tmp/exec_21sh.txt /tmp/exec_sh.txt");
+	ret = system("diff /tmp/exec_42sh.txt /tmp/exec_sh.txt");
 	ok(!ret, test_name);
 	remove("/tmp/exec_sh.txt");
-	remove("/tmp/exec_21sh.txt");
+	remove("/tmp/exec_42sh.txt");
 }
 
-void	compare_sh_21sh_outputs(char *test_name, char *_21sh_cmd, char *sh_cmd)
+void	compare_sh_42sh_outputs(char *test_name, char *_42sh_cmd, char *sh_cmd)
 {
 	int		test_name_str_len;
 	char	*new_test_name;
 	int		tmp;
 
-	if (!(*MODE == 'L' && ft_strstr(_21sh_cmd, "<<<")))
+	if (!(*MODE == 'L' && ft_strstr(_42sh_cmd, "<<<")))
 	{
 		test_name_str_len = ft_strlen(test_name);
 		new_test_name = malloc(test_name_str_len * sizeof(char) + 10);
@@ -73,7 +73,7 @@ void	compare_sh_21sh_outputs(char *test_name, char *_21sh_cmd, char *sh_cmd)
 		tmp = dup(STDERR_FILENO);
 
 		//freopen("/tmp/mdr1", "w", stderr);
-		exec_diff_fd(new_test_name, _21sh_cmd, STDOUT_FILENO, sh_cmd);
+		exec_diff_fd(new_test_name, _42sh_cmd, STDOUT_FILENO, sh_cmd);
 
 		dup2(STDERR_FILENO, tmp);
 		close(tmp);
@@ -82,7 +82,7 @@ void	compare_sh_21sh_outputs(char *test_name, char *_21sh_cmd, char *sh_cmd)
 		tmp = dup(STDOUT_FILENO);
 
 		//freopen("/tmp/mdr2", "w", stdout);
-		exec_diff_fd(new_test_name, _21sh_cmd, STDERR_FILENO, sh_cmd);
+		exec_diff_fd(new_test_name, _42sh_cmd, STDERR_FILENO, sh_cmd);
 
 		dup2(STDOUT_FILENO, tmp);
 		close(tmp);

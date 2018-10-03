@@ -12,7 +12,7 @@
 
 #ifndef SCRIPT_H
 # define SCRIPT_H
-# include <twenty_one_sh.h>
+# include <forty_two_sh.h>
 
 # define T_SCRIPT_LOGICAL 5
 
