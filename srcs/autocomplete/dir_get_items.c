@@ -49,6 +49,7 @@ static char	**get_file(char *in, DIR *dir, t_autoc *autoc)
 {
 	struct dirent	*file;
 	int						i;
+	char					**res;
 
 	i = 0;
 	res = (char**)malloc(sizeof(char*) * nbr_tab(in, autoc) + 1);
@@ -68,13 +69,13 @@ static char	**get_file(char *in, DIR *dir, t_autoc *autoc)
 		}
 	}
 	res[i] = NULL;
+	return (res);
 }
 
 char				**dir_get_items(char *in, t_autoc *autoc)
 {
 	DIR				*dir;
 	char			**res;
-	int				i;
 
 	dir = opendir(in);
 	if (dir == NULL)
