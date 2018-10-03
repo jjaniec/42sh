@@ -45,20 +45,15 @@ static char			*cp_item(char *in, char *item)
 	return (res);
 }
 
-char				**dir_get_items(char *in, t_autoc *autoc)
+static char	**get_file(char *in, DIR *dir, t_autoc *autoc)
 {
-	DIR				*dir;
 	struct dirent	*file;
-	char			**res;
-	int				i;
+	int						i;
 
-	dir = opendir(in);
-	if (dir == NULL)
-		return (NULL);
+	i = 0;
 	res = (char**)malloc(sizeof(char*) * nbr_tab(in, autoc) + 1);
 	if (res == NULL)
 		return (NULL);
-	i = 0;
 	while ((file = readdir(dir)))
 	{
 		if (autoc->dot)
@@ -73,6 +68,18 @@ char				**dir_get_items(char *in, t_autoc *autoc)
 		}
 	}
 	res[i] = NULL;
+}
+
+char				**dir_get_items(char *in, t_autoc *autoc)
+{
+	DIR				*dir;
+	char			**res;
+	int				i;
+
+	dir = opendir(in);
+	if (dir == NULL)
+		return (NULL);
+	res = get_file(in, dir, autoc);
 	closedir(dir);
 	return (order_tab_ascii(res));
 }
