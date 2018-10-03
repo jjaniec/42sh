@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 15:48:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/03 16:53:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ void		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 	(void)env;
 	(void)exe;
 	ptr = argv + 1;
+	if (!(argv[1]))
+	{
+		builtin_env((char *[2]){"env", NULL}, env, exe);
+		return ;
+	}
 	if (check_args(ptr))
 	{
 		print_setenv_error();

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:45:34 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:29:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/03 16:19:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ char			**parse_options(int *ac, char **av, \
 			toggle_char_opts(opt_list, (*ptr) + 1, char_opt_index);
 		ptr = ((!ac || *ac != 0)) ? (&ptr[1]) : (NULL);
 	}
+	//log_debug("End of options ptr %s", *ptr);
 	return (ptr);
 }
