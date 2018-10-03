@@ -12,7 +12,21 @@
 
 #include <twenty_one_sh.h>
 
-char	autoc_check_path(char *dirname)
+bool					autoc_check_dot(char *path)
+{
+	int		i;
+
+	if (!ft_strcmp(path, "."))
+		return (true);
+	i = ft_strlen(path);
+	while (path[i] != '/' && path[i] != ' ')
+		i--;
+	if (path[i + 1] == '.')
+		return (true);
+	return (false);
+}
+
+char					autoc_check_path(char *dirname)
 {
 	struct stat fstat;
 
@@ -22,14 +36,6 @@ char	autoc_check_path(char *dirname)
 		return ('d');
 	else if (S_ISLNK(fstat.st_mode))
 		return ('l');
-	else if (S_ISSOCK(fstat.st_mode))
-		return ('s');
-	else if (S_ISFIFO(fstat.st_mode))
-		return ('p');
-	else if (S_ISCHR(fstat.st_mode))
-		return ('c');
-	else if (S_ISBLK(fstat.st_mode))
-		return ('b');
 	else if (S_ISREG(fstat.st_mode))
 		return ('-');
 	return (1);

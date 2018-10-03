@@ -16,7 +16,7 @@ static int			check_dir(struct s_line *le)
 {
 	int	i;
 
-	i = le->cursor_index - 1;		
+	i = le->cursor_index - 1;
 	if (ft_strchr(le->cmd, ' '))
 	{
 		while (i)
@@ -59,9 +59,4 @@ void				autocomplete(struct s_line *le)
 	if (autoc && autoc->items)
 		autoc_menu(autoc, le);
 	autoc_mem_free(autoc);
-/*
-	tputs(le->tcaps->_do, 1, &write_one_char);
-	tputs(le->tcaps->cr, 1, &write_one_char);
-	tputs(le->tcaps->cd, 1, &write_one_char);
-	tputs(le->tcaps->up, 1, &write_one_char); */
 }

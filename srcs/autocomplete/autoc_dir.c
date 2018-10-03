@@ -83,7 +83,7 @@ static char		**get_autoc_list(char *path, t_autoc *autoc)
 	}
 	else
 		final_path = ft_strdup(path);
-	res = dir_get_items(final_path);
+	res = dir_get_items(final_path, autoc);
 	free(final_path);
 	return (res);
 }
@@ -96,7 +96,8 @@ char			**autoc_dir(t_autoc *autoc)
 	path = autoc_get_path(autoc->le);
 	if (ft_strchr(path, '~') || ft_strchr(path, '$'))
 		handle_quotes_expansions(&path);
-	if (autoc_check_path(path) == 'd')
+	autoc->dot = autoc_check_dot(path);
+	if (!autoc->dot && autoc_check_path(path) == 'd')
 		items = get_autoc_list(path, autoc);
 	else
 		items = get_autoc_search_list(path, autoc);

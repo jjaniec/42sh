@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-static int			nbr_tab(char *dirname)
+static int			nbr_tab(char *dirname, t_autoc *autoc)
 {
 	int				i;
 	DIR				*dir;
@@ -22,7 +22,9 @@ static int			nbr_tab(char *dirname)
 	dir = opendir(dirname);
 	while ((file = readdir(dir)))
 	{
-		if (file->d_name[0] != '.')
+		if (autoc->dot)
+			i++;
+		else if (file->d_name[0] != '.')
 			i++;
 	}
 	closedir(dir);
@@ -43,7 +45,7 @@ static char			*cp_item(char *in, char *item)
 	return (res);
 }
 
-char				**dir_get_items(char *in)
+char				**dir_get_items(char *in, t_autoc *autoc)
 {
 	DIR				*dir;
 	struct dirent	*file;
@@ -51,13 +53,18 @@ char				**dir_get_items(char *in)
 	int				i;
 
 	dir = opendir(in);
-	res = (char**)malloc(sizeof(char*) * nbr_tab(in) + 1);
+	res = (char**)malloc(sizeof(char*) * nbr_tab(in, autoc) + 1);
 	if (res == NULL)
 		return (NULL);
 	i = 0;
 	while ((file = readdir(dir)))
 	{
-		if (file->d_name[0] != '.')
+		if (autoc->dot)
+		{
+			res[i] = cp_item(in, file->d_name);
+			i++;
+		}
+		else if (file->d_name[0] != '.')
 		{
 			res[i] = cp_item(in, file->d_name);
 			i++;

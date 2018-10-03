@@ -57,7 +57,7 @@ char			**dir_get_items_search(char *in, t_autoc *autoc)
 	int		match_result;
 
 	res = NULL;
-	items = dir_get_items(in);
+	items = dir_get_items(in, autoc);
 	match_result = get_matching(items, autoc->search);
 	if (match_result)
 	{
