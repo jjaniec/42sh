@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 17:01:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/03 17:10:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void		builtins_tests(t_environ *env)
 	//compare_sh_21sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_21sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
 	
-/*	compare_sh_21sh_outputs("Builtin setenv 1 - w/o args", "setenv", "export | cut -d ' ' -f 2");
+/*
+	compare_sh_21sh_outputs("Builtin setenv 1 - w/o args", "setenv", "export | cut -d ' ' -f 2");
 	compare_sh_21sh_outputs("Builtin setenv 2 - w/o valid args 1", "setenv a", "export a");
 	compare_sh_21sh_outputs("Builtin setenv 3 - w/o valid args 2", "setenv a=b b=c d=e f=g h=", "export a=b b=c d=e f=g h=");
 	compare_sh_21sh_outputs("Builtin setenv 4 - w/o valid args 3", "setenv a=b b=c d=e f=g =i", "export a=b b=c d=e f=g =i");
