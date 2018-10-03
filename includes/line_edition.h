@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/03 17:38:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/03 18:13:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,6 +397,8 @@ void			process_key(struct s_line *le);
 
 
 	LA COMMANDE "srcs" est not found, mais "srcs/" CA RALE PAS ??????? GO CORRIGER CA
+
+	./21sh -c "history"   CA SEGFAULT LOL GO REGLER CA
 
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
