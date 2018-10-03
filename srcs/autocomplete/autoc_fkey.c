@@ -53,6 +53,7 @@ static int		other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	autoc->le->key_no = get_key_number(buffer);
 	process_key(autoc->le);
+	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	return (1);
 }
 
