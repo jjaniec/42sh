@@ -84,7 +84,7 @@ static char	*read_key(char key[LE_KEY_BUFFER_SIZE], struct sigaction *le_sig)
 	return (key);
 }
 
-static t_kno	get_key_number(const char *key)
+t_kno	get_key_number(const char *key)
 {
 	t_kno	key_no;
 	t_kno	i;
@@ -126,7 +126,7 @@ char			*line_edition(int prompt_type)
 	static struct s_line	*le;
 	struct sigaction		le_sig;
 	char					*ret_read_key;
-	
+
 	le = prepare_line_edition(prompt_type, &le_sig);
 le_debug_infos(); // debug
 	while (le->key_no != '\n' && "cest ta merge la jjaniec")
@@ -146,12 +146,12 @@ le_debug_infos(); // debug
 			return (NULL);
 
 le_debug_infos(); // debug
-		if (true && le->key_no == '\n') // 
+		if (true && le->key_no == '\n') //
 		{
 			tputs(le->tcaps->_do, 1, &write_one_char);
 			tputs(le->tcaps->cr, 1, &write_one_char);
 			tputs(le->tcaps->cd, 1, &write_one_char);
-			tputs(le->tcaps->up, 1, &write_one_char);  
+			tputs(le->tcaps->up, 1, &write_one_char);
 		}
 	}
 	set_term_attr(LE_SET_OLD);

@@ -362,6 +362,7 @@ void			le_exit(const char *msg, const char *func_name, int errno_value);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
+t_kno			get_key_number(const char *key);
 void			process_key(struct s_line *le);
 
 

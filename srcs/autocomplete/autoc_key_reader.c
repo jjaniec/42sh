@@ -14,20 +14,15 @@
 
 int		autoc_key_reader(t_autoc *autoc)
 {
-	char		buffer[3];
+	char		buffer[8];
 
 	errno = 0;
-	if (read(1, buffer, 3))
+	if (read(1, buffer, 8))
 	{
 		if (errno == EINTR)
-		{
-			//tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 			return (0);
-		}
-
 		if (((autoc->key_function)[(int)buffer[0]])(buffer, autoc))
 			return (0);
 	}
-
 	return (1);
 }
