@@ -53,6 +53,8 @@ char				**dir_get_items(char *in, t_autoc *autoc)
 	int				i;
 
 	dir = opendir(in);
+	if (dir == NULL)
+		return (NULL);
 	res = (char**)malloc(sizeof(char*) * nbr_tab(in, autoc) + 1);
 	if (res == NULL)
 		return (NULL);
