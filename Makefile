@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 ###### EXEC ######
-NAME = 21sh
+NAME = 42sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 ###### FILES ######
@@ -167,7 +167,7 @@ SRC_NAME = 	is_separator.c \
 INCLUDES_NAME = lexer.h \
 				ast.h \
 				exec.h \
-				twenty_one_sh.h \
+				forty_two_sh.h \
 				line_edition.h \
 				script.h \
 				syntax_highlighting.h \
@@ -183,7 +183,7 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					script_tests.c \
 					builtin_test_tests.c \
 					test_lexeme_list.c \
-					compare_sh_21sh_outputs.c \
+					compare_sh_42sh_outputs.c \
 					compare_redirected_files_contents.c \
 					compare_fds_with_strings.c \
 					redirect_both_fds.c \

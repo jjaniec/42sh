@@ -6,11 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 17:02:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/03 18:15:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -41,7 +41,7 @@ static char		*get_valid_input(t_lexeme **lexemes)
 	return (input);
 }
 
-static int		twenty_one_sh(char *input, t_shell_vars *vars,
+static int		forty_two_sh(char *input, t_shell_vars *vars, \
 					t_option *opt_list, t_option **char_opt_index)
 {
 	t_ast		*ast_root;
@@ -89,7 +89,7 @@ static void		loop_body(t_shell_vars *vars, t_option *opt_list, t_option **char_o
 		free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		twenty_one_sh(input, vars, opt_list, char_opt_index);
+		forty_two_sh(input, vars, opt_list, char_opt_index);
 	}
 }
 
@@ -142,7 +142,7 @@ int			main(int ac, char **av, char **envp)
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
-			twenty_one_sh(ft_strjoin(*args, "\n"), get_shell_vars(), opt_list, char_opt_index);
+			forty_two_sh(ft_strjoin(*args, "\n"), get_shell_vars(), opt_list, char_opt_index);
 			args++;
 			ac--;
 		}
