@@ -12,7 +12,7 @@
 
 #include <twenty_one_sh.h>
 
-static int		tab_key(char buffer[8], t_autoc *autoc)
+static int		tab_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	(void)buffer;
 	autoc->menu_selected++;
@@ -22,7 +22,7 @@ static int		tab_key(char buffer[8], t_autoc *autoc)
 	return (0);
 }
 
-static int		return_key(char buffer[8], t_autoc *autoc)
+static int		return_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	if (autoc->menu_selected >= 0)
 	{
@@ -35,7 +35,7 @@ static int		return_key(char buffer[8], t_autoc *autoc)
 	return (1);
 }
 
-static int		arrow_key(char buffer[8], t_autoc *autoc)
+static int		arrow_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	int	arrow_mask[3];
 
@@ -49,7 +49,7 @@ static int		arrow_key(char buffer[8], t_autoc *autoc)
 	return (autoc_arrow_process(arrow_mask, autoc));
 }
 
-static int		other_key(char buffer[8], t_autoc *autoc)
+static int		other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	autoc->le->key_no = get_key_number(buffer);
 	process_key(autoc->le);

@@ -14,10 +14,11 @@
 
 int		autoc_key_reader(t_autoc *autoc)
 {
-	char		buffer[8];
+	char		buffer[LE_KEY_BUFFER_SIZE];
 
 	errno = 0;
-	if (read(1, buffer, 8))
+	ft_bzero(buffer, LE_KEY_BUFFER_SIZE);
+	if (read(1, buffer, LE_KEY_BUFFER_SIZE - 1))
 	{
 		if (errno == EINTR)
 			return (0);
