@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/03 15:46:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/03 16:17:37 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,24 @@ static int	parse_expr_comp(char **argv)
 		return (1);
 }
 
+static int	test_expression(char **argv)
+{
+	if (!argv[0])
+		return (0);
+	else if (is_option_activated("h", opt_list, char_opt_index) || \
+	is_option_activated("--------------------------", opt_list, char_opt_index))
+		format_help(BUILTIN_TEST_USAGE, opt_list);
+	else if (!argv[1] && ft_strlen(argv[0]) > 0)
+		return (1);
+	else if (argv[1] && !argv[2])
+		return (ft_atoi(argv[1]));
+	else if (argv[2] && !argv[3])
+		return (parse_expr_file((argv + 1), opt_list, char_opt_index));
+	else
+		format_help(BUILTIN_TEST_USAGE, opt_list);
+	return (1);
+}
+
 void		builtin_test(char **argv, char **envp, t_exec *exe)
 {
 	t_option	*opt_list;
@@ -204,23 +222,4 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	while (argv[ac])
 		ac++;
 
-	if (!argv[0])
-		exit (0);
-	else if (is_option_activated("h", opt_list, char_opt_index) || \
-	is_option_activated("--------------------------", opt_list, char_opt_index))
-	{
-		format_help(BUILTIN_TEST_USAGE, opt_list);
-		exit (1);
-	}
-	else if (!argv[1] && ft_strlen(argv[0]) > 0)
-		exit (1);
-	else if (argv[1] && !argv[2])
-		exit (ft_atoi(argv[1]));
-	else if (argv[2] && !argv[3])
-		exit (parse_expr_file((argv + 1), opt_list, char_opt_index));
-	else
-	{
-		format_help(BUILTIN_TEST_USAGE, opt_list);
-		exit (1);
-	}
 }

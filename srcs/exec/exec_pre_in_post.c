@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:32:53 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/03 17:11:50 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,20 @@
 
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
+	int		not;
+
+	not = 0;
+	if (ft_strequ(argv[0], "!"))
+	{
+		not = 1;
+		argv++;
+	}
 	if (ft_strchr(argv[0], '/'))
 		exec_local(argv, envp, exe, node);
-	else if (exec_builtin(argv, envp, exe, node))
-		return ;
-	else
+	else if (!exec_builtin(argv, envp, exe, node))
 		exec_binary(argv, envp, exe, node);
+	if (not)
+		exe->ret = (exe->ret == 0) ? 1 : 0;
 }
 
 /*
