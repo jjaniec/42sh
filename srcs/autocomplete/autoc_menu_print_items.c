@@ -89,14 +89,14 @@ static void		print_col_items(int i, t_autoc *autoc)
 	}
 }
 
-void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
+int						autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 {
 	int line;
 
 	line = 0;
 	ioctl(1, TIOCGWINSZ, &autoc->win);
 	if (get_print_infos(autoc))
-		return ;
+		return (1);
 	menu_new_line(autoc);
 	while (line < autoc->nbr_line)
 	{
@@ -105,4 +105,5 @@ void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 		line++;
 	}
 	cursor_back(autoc, le);
+	return (0);
 }

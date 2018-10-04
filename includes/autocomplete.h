@@ -42,7 +42,7 @@ char				**autoc_dir(t_autoc *autoc);
 int					autoc_menu(t_autoc *autoc, struct s_line *le);
 int					autoc_arrow_process(int arrow_mask[3], t_autoc *autoc);
 int					autoc_key_reader(t_autoc *autoc);
-void				autoc_menu_print_items(t_autoc *autoc,
+int					autoc_menu_print_items(t_autoc *autoc,
 					struct s_line *le);
 void				autoc_menu_print_spaces(int longest, int len,
 					struct s_line *le);
