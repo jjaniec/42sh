@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 16:53:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 14:50:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ void		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 	if (check_args(ptr))
 	{
 		print_setenv_error();
-		//return (1);
+		exe->ret = 1;
+		return ;
 	}
 	while (ptr && *ptr)
 		env->add_var(env, *ptr++, NULL);
-	//return (0);
+	exe->ret = 0;
 }

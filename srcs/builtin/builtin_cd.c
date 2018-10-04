@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 19:06:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 14:47:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,6 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	(void)argv;
 	(void)env;
 	(void)exe;
-	// ??/??/
-	exit(0);
-
-	//builtin_env((char *[2]){"", NULL}, env, exe);
 
 	if (!argv[1])
 	{
