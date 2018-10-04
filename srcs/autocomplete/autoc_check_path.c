@@ -18,8 +18,10 @@ bool					autoc_check_dot(char *path)
 
 	if (!ft_strcmp(path, "."))
 		return (true);
+	if (!ft_strchr(path, '.'))
+		return (false);
 	i = ft_strlen(path);
-	while (path[i] != '/' && path[i] != ' ')
+	while (path[i] != '/' && i >= 0)
 		i--;
 	if (path[i + 1] && path[i + 1] == '.')
 		return (true);
