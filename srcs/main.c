@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:36:15 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/04 12:23:16 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static int		twenty_one_sh(char *input, char **envp, \
 	}
 	free(input);
 	ast_root = ast(lexemes);
-	link_ast_data(ast_root);
 	free_lexemes(lexemes);
 	if (!ast_root)
-		return (1);
+		return (-1);
+	link_ast_data(ast_root);
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
