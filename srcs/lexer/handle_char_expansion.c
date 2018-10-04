@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/04 15:43:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 20:30:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static char		*get_env_var_value(char *ptr, t_environ *env, int *expansion_name_l
 	char	exp_end_ptr_char;
 	char	*env_var_value;
 
+	if (!(ptr && *ptr))
+		return (NULL);
 	env_var_value = NULL;
 	exp_end_ptr = get_expansion_end(ptr);
 	exp_end_ptr_char = *(exp_end_ptr);
@@ -29,7 +31,7 @@ static char		*get_env_var_value(char *ptr, t_environ *env, int *expansion_name_l
 	*expansion_name_len = ft_strlen(ptr);
 	if (env->get_var(env, ptr))
 		env_var_value = env->last_used_elem->val_begin_ptr;// get_env(ptr, (const char **)env);
-	log_trace("Got env var value of |%s| for %s env variable expansion", env_var_value, ptr);
+	log_trace("Got env var value of |%s| - entry %s val begin %s for %s env variable expansion", env_var_value, env->last_used_elem->entry, env->last_used_elem->val_begin_ptr, ptr);
 	*(exp_end_ptr) = exp_end_ptr_char;
 	return (env_var_value);
 }
@@ -68,6 +70,11 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 	char	*env_var_value;
 	int		expansion_name_len;
 
+	if (!(*(l->raw_lexeme_read_ptr)))
+	{
+		*(l->raw_lexeme_read_ptr) += 1;
+		return ;
+	}
 	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr) + 1, \
 		vars->env, &expansion_name_len);
 	if (env_var_value && *env_var_value)

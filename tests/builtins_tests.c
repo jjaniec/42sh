@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/04 14:54:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 18:25:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ void		builtins_tests(t_environ *env)
 	//compare_sh_42sh_outputs("Builtin env 7 - env -i w/o valid args", "env -i A", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
-	
+
+	compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL\" \"echo $LOL", "export LOL=LAL; echo $LOL");
 /*
 	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv", "export | cut -d ' ' -f 2");
 	compare_sh_42sh_outputs("Builtin setenv 1 - w/o valid args", "setenv lol", "export | cut -d ' ' -f 2");
 	compare_sh_42sh_outputs("Builtin setenv 1", "setenv lol=", "export | cut -d ' ' -f 2");
+	//compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL; echo $LOL", "export LOL=LAL; echo $LOL");
 	compare_sh_42sh_outputs("Builtin setenv 2 - w/o valid args 1", "setenv a", "export a");
 	compare_sh_42sh_outputs("Builtin setenv 3 - w/o valid args 2", "setenv a=b b=c d=e f=g h=", "export a=b b=c d=e f=g h=");
 	compare_sh_42sh_outputs("Builtin setenv 4 - w/o valid args 3", "setenv a=b b=c d=e f=g =i", "export a=b b=c d=e f=g =i");

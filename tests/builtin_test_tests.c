@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 10:46:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 15:54:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static	void exec(char *input)
 	t_ast		*ast_root;
 	t_exec		*exe;
 
-	log_set_quiet(1);
 	lexer(input, &lex, NULL);
 	ast_root = ast(lex);
 	exe = create_exec(g_env);
