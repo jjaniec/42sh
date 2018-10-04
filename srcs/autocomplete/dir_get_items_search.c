@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 13:38:10 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/25 16:03:39 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/04 12:59:00 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char		**get_search_result(char **items, char *search, int match_res)
 
 	i = 0;
 	j = 0;
-	res = (char**)malloc(sizeof(char*) * match_res + 1);
+	res = (char**)malloc(sizeof(char*) * (match_res + 1));
 	while (items[i])
 	{
 		if (ft_strnstr(items[i], search, ft_strlen(search)))

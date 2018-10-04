@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:18:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/27 20:38:22 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/04 13:19:24 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ static char		*autoc_get_path(struct s_line *le)
 		count++;
 		i--;
 	}
-	res = malloc(sizeof(char) * count + 1);
+	res = malloc(sizeof(char) * (count + 1));
 	ft_bzero(res, count + 1);
 	ft_strncpy(res, &le->cmd[i + 1], count);
+	res[count] = '\0';
 	return (res);
 }
 

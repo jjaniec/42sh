@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 16:26:37 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/03 20:13:21 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/04 13:05:06 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,27 @@ static int	tab_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 	return (0);
 }
 
+static int	other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
+{
+	autoc->le->key_no = get_key_number(buffer);
+	process_key(autoc->le);
+	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
+	return (1);
+}
+
 static int	return_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 {
 	if (autoc->menu_selected >= 0)
 	{
 		autoc_push_in_line(autoc->le, autoc->items[autoc->menu_selected],
-		autoc->search);
+				autoc->search);
 		if (buffer[0] == 32)
 			insert_and_print_character_into_cmdline(autoc->le,
-			get_key_number(buffer));
+					get_key_number(buffer));
 		tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	}
+	else if (buffer[0] == 32)
+		other_key(buffer, autoc);
 	return (1);
 }
 
@@ -48,14 +58,6 @@ static int	arrow_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
 	if (autoc->nbr_line > 1)
 		arrow_mask[2] = 1;
 	return (autoc_arrow_process(arrow_mask, autoc));
-}
-
-static int	other_key(char buffer[LE_KEY_BUFFER_SIZE], t_autoc *autoc)
-{
-	autoc->le->key_no = get_key_number(buffer);
-	process_key(autoc->le);
-	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
-	return (1);
 }
 
 void		init_key_func(t_autoc *autoc)

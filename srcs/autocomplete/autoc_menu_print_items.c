@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 10:45:08 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/25 18:11:23 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/04 13:43:37 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int		get_print_infos(t_autoc *autoc)
 		i++;
 	}
 	autoc->max_item_len = longest;
-	words = (int)autoc->win.ws_col / (longest + 1);
+	words = ((int)autoc->win.ws_col / (longest + 1));
 	if (!words)
 		return (1);
 	i = 0;

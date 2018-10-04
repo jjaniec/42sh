@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 21:27:30 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/03 19:41:12 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/04 13:08:07 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char			**get_file(char *in, DIR *dir, t_autoc *autoc)
 	char			**res;
 
 	i = 0;
-	res = (char**)malloc(sizeof(char*) * nbr_tab(in, autoc) + 1);
+	res = (char**)malloc(sizeof(char*) * (nbr_tab(in, autoc) + 1));
 	if (res == NULL)
 		return (NULL);
 	while ((file = readdir(dir)))
