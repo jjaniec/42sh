@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 14:49:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/04 12:03:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	Return he number of elements in the history.
 */
-
+/*
 static unsigned int	get_nb_elem_in_history(void)
 {
 	struct s_history	*his;
@@ -32,7 +32,7 @@ static unsigned int	get_nb_elem_in_history(void)
 	}
 	return (nb_elem);
 }
-
+*/
 /*
 **	Print all history's elements with an index.
 */
