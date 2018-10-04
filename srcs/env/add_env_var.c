@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:16:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 20:46:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 	}
 	new_entry_struct->entry[MAX_ENV_ENTRY_LEN] = '\0';
 	upd_self_ptrs(self, new_entry_struct);
-	log_debug("New environnement var created ->entry: |%s| - ->entry_count: %d / ptr pos in env tab: %s - ->env[entry_count]: |%s|", \
-		new_entry_struct->entry, self->entry_count - 1, *(new_entry_struct->ptr_to_pos_in_environ_tab), self->environ[self->entry_count]);
+	log_debug("New environnement var created ->entry: |%s| - ->entry_count: %d / ptr pos in env tab: %s - ->env[entry_count]: |%s| - ->val_begin_ptr |%s|", \
+		new_entry_struct->entry, self->entry_count - 1, *(new_entry_struct->ptr_to_pos_in_environ_tab), self->environ[self->entry_count], new_entry_struct->val_begin_ptr);
 	self->entry_count += 1;
 	return (new_entry_struct->entry);
 }
