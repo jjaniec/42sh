@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:50:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/04 15:41:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,11 @@ void	lexer_tests(t_environ *envp)
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA"EMPTY"EXPANSION_TESTS_ENVVAR_DATA"$"EXPANSION_TESTS_ENVVAR_NAME""EXPANSION_TESTS_ENVVAR_DATA\
 		""EXPANSION_TESTS_ENVVAR_DATA""EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
-	
+	test_lexeme_list("Expansions 31 - Particular cases 1 - empty expansion", "echo $",
+		"echo", T_WORD, TK_DEFAULT, "$", T_WORD, TK_DEFAULT);
+	test_lexeme_list("Expansions 32 - Particular cases 2 - empty expansion", "echo $; ls",
+		"echo", T_WORD, TK_DEFAULT, "$", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT);
+		
 	test_lexeme_list("Other - Fixed 1 - Empty elem break", "ls \"\"\n", \
 		"ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 }
