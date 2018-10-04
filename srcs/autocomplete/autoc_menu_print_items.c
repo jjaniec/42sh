@@ -94,7 +94,7 @@ void			autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	int line;
 
 	line = 0;
-	ioctl(2, TIOCGWINSZ, &autoc->win);
+	ioctl(1, TIOCGWINSZ, &autoc->win);
 	if (get_print_infos(autoc))
 		return ;
 	menu_new_line(autoc);

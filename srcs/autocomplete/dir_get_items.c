@@ -52,6 +52,8 @@ static char			**get_file(char *in, DIR *dir, t_autoc *autoc)
 	char			**res;
 
 	i = 0;
+	if (!nbr_tab(in, autoc))
+		return (NULL);
 	res = (char**)malloc(sizeof(char*) * (nbr_tab(in, autoc) + 1));
 	if (res == NULL)
 		return (NULL);
@@ -82,5 +84,7 @@ char				**dir_get_items(char *in, t_autoc *autoc)
 		return (NULL);
 	res = get_file(in, dir, autoc);
 	closedir(dir);
-	return (order_tab_ascii(res));
+	if (res)
+		return (order_tab_ascii(res));
+	return (NULL);
 }
