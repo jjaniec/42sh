@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 11:33:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 19:35:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*isin_path(char *path_entry, char *cmd)
 	char	*prog_path;
 	char	**paths;
 
-	if (!(paths = ft_strsplit(path_entry, ':')))
+	if (!path_entry || !(paths = ft_strsplit(path_entry, ':')))
 		return (NULL);
 	i = 0;
 	while (paths[i])

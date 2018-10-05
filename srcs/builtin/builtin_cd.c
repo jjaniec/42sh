@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/05 17:32:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 19:29:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static void	ft_change_dir(t_environ *env, char *path, char *cwd)
 {
 	if (path && !chdir(path))
 	{
-		env->upt_var(env, "OLDPWD", cwd);
+		if (env->get_var(env, "OLDPWD"))
+			ft_strncpy(env->last_used_elem->val_begin_ptr, cwd, MAX_ENV_ENTRY_LEN - 7);
+		else
+			env->add_var(env, "OLDPWD", cwd);
 		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
 	}
 	else

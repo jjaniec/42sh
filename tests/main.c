@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 18:34:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 18:03:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		log_set_quiet(1);
 	init_shell_vars(envp, get_shell_vars());
 	t_environ	*env = get_shell_vars()->env;
+	//builtin_env((char *[2]){"env", NULL}, env, NULL);
 	g_sh_opts[1].opt_status = true;
 	/*backup_stdout = dup(STDOUT_FILENO);
 	backup_stderr = dup(STDERR_FILENO);*/

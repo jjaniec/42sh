@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/05 16:47:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 19:24:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void		builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a", NULL);
 	compare_sh_42sh_outputs("Builtin echo 7 - Particular cases 1", "echo $", NULL);
 
-
 	compare_sh_42sh_outputs("Builtin cd 1 - cd", "cd / && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 2 - cd", "cd / && cd dev && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 3 - cd", "cd ~ && cd /dev && pwd", NULL);
@@ -46,8 +45,9 @@ void		builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin cd 7 - cd -", "cd .. && pwd && cd - && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 8 - cd -", "cd ft_printf && pwd && cd - && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 9 - cd -", "cd ft_printf && pwd && cd .. && pwd && cd - && pwd", NULL);
-	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "mkdir janiec; cd janiec && pwd && cd .. && pwd && cd - && pwd; rmdir janiec", NULL);
-	compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec && pwd && chmod 000 . && cd && pwd && cd -; rmdir janiec", NULL);
+	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "cd srcs && pwd && cd .. && pwd && cd - && pwd && cd - && pwd;", NULL);
+	//compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec ; pwd ; chmod 000 . ; cd ; pwd ; cd - 2> /dev/null; pwd", NULL);
+	//compare_sh_42sh_outputs("Builtin cd 12 - cd", "cd janiec; pwd; chmod 777 janiec; rm -rf janiec", NULL);
 
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
