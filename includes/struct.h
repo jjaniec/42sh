@@ -6,14 +6,14 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 15:28:25 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/05 11:43:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-# include <twenty_one_sh.h>
+# include <forty_two_sh.h>
 
 /*
 ** Struct in linked list to store type of lexeme and data pointer
@@ -58,6 +58,7 @@ typedef struct			s_ast
 	size_t			type;
 	size_t			type_details;
 	char			**data;
+	struct s_ast	*sub_ast;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*parent;

@@ -8,6 +8,7 @@ before_install:
       else brew update && wget https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip && unzip build-wrapper-macosx-x86.zip;
       fi;
 after_script:
+    - if [ $TRAVIS_OS_NAME = linux ]; then echo " --- Leaks --- " && cat Leaks.log | tail -n 20 | grep -A5 'LEAK SUMMARY' && echo " ---Leaks Full log $(cat Leaks.log | curl -F 'f:1=<-' ix.io)"; fi;
     - bash <(curl -s https://codecov.io/bash) -F unittests
     - sonar-scanner -X
 git:
@@ -114,8 +115,8 @@ script: >
   else ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make CC=$CXX tests;
   fi;
   if [ $TRAVIS_OS_NAME == osx ];
-  then time ./21sh_tests;
-  else valgrind --leak-check=full ./21sh_tests;
+  then ./42sh_tests;
+  else valgrind --leak-check=full ./42sh_tests 2> Leaks.log;
   fi;
   r=$?;
   make coverage;

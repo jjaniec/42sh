@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 16:41:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/18 20:27:24 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:31:52 by sebastien        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
 ** Check if function is a builtin
@@ -40,6 +40,8 @@ int		is_builtin(char *cmd, \
 		builtin_ret_ptr = &builtin_history;
 	else if (ft_strequ(cmd, "syntax"))
 		builtin_ret_ptr = &builtin_toggle_syntax_highlighting;
+	else if (ft_strequ(cmd, "[") || ft_strequ(cmd, "test"))
+		builtin_ret_ptr = &builtin_test;
 	if (builtin_fun_ptr)
 		*builtin_fun_ptr = builtin_ret_ptr;
 	return ((builtin_ret_ptr) ? (1) : (0));

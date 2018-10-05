@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   autoc_push_in_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 17:02:20 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/19 17:02:22 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:54:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 static char		*get_final_line(struct s_line *le, char *str, char *search)
 {

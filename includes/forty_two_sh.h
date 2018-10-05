@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   forty_two_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 15:29:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:45:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#ifndef FORTY_TWO_SH_H
+# define FORTY_TWO_SH_H
 
 # include <stdint.h>
 # include <inttypes.h>
@@ -47,17 +47,24 @@
 # include "exec.h"
 # include "syntax_highlighting.h"
 # include "signals.h"
+# include "script.h"
 # include "get_next_line.h"
 # include "autocomplete.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
 extern t_option		g_sh_opts[];
+extern const size_t g_cant_begin_with[];
+extern const size_t	g_token_bypass[];
+extern const size_t	g_tokens[];
+extern const size_t	g_next_tokens[][4];
+extern void			(* const g_node_placer[])(t_ast *, t_ast *);
+extern const char	*g_prompts[10];
 
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"] - MAKE 42SH GREAT AGAIN "
+	"./42sh [-hcGv] [-c \"command\"]"
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
@@ -65,10 +72,12 @@ extern char			**g_envp;
 # define BUILTIN_CD_USAGE \
 	"cd [-L | -P] [-] [directory]"
 
+# define BUILTIN_TEST_USAGE \
+	"test, [ --\n\t\ttest expression\n\t\t[ expression ]"
+
 # define BUILTIN_HISTORY_USAGE \
 	"Usage : history [n | -d n | --clear | --save]\n"
 
-extern const char	*g_prompts[10];
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
@@ -91,7 +100,10 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
 bool		is_option_activated(char *opt_str, \
 				t_option *opt_list, t_option **char_opt_index);
 
+char	autoc_check_path(char *dirname);
+
 bool		check_history_file(const char *his_file_path);
+
 void	load_history_file(struct s_line *le);
 
 char  	*get_parsed_history_file_path(void);

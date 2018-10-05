@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   autoc_check_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 10:19:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/18 10:19:08 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:53:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 bool					autoc_check_dot(char *path)
 {

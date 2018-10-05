@@ -6,12 +6,12 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:16:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/29 19:14:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:27:42 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
 #include <sys/ioctl.h>
+#include <forty_two_sh.h>
 
 /*
 **	Get the number of columns for the current terminal window.

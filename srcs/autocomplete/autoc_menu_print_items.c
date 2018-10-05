@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   autoc_print_items.c                                :+:      :+:    :+:   */
+/*   autoc_menu_print_items.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 10:45:08 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/04 13:43:37 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:56:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 static int		get_print_infos(t_autoc *autoc)
 {
@@ -94,7 +94,8 @@ int						autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 	int line;
 
 	line = 0;
-	ioctl(1, TIOCGWINSZ, &autoc->win);
+	if (ioctl(1, TIOCGWINSZ, &autoc->win) == -1)
+		le_exit("Error while getting window sizes\n", "ioctl", errno);
 	if (get_print_infos(autoc))
 		return (1);
 	menu_new_line(autoc);

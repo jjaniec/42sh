@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   autoc_mem_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 20:08:28 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/25 16:04:19 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:54:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 void	autoc_free_items(char **items)
 {

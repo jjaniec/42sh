@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   autoc_dir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:18:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/04 13:19:24 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:54:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 static char		*get_last_path(char *path, t_autoc *autoc)
 {

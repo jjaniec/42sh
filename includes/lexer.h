@@ -6,13 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 14:47:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 18:45:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-# include <twenty_one_sh.h>
+# include <forty_two_sh.h>
 
 # define UNMATCHED_QUOTE_ERR	-1
 
@@ -42,6 +42,7 @@
 # define T_WORD				2
 
 # define TK_DEFAULT			0
+# define TK_SUBAST			1
 
 /*
 ** Control operators:

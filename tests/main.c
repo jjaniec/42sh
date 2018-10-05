@@ -6,14 +6,22 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/10/03 17:32:14 by cyfermie         ###   ########.fr       */
+=======
+/*   Updated: 2018/09/30 16:42:40 by jjaniec          ###   ########.fr       */
+>>>>>>> develop
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
+<<<<<<< HEAD
 struct s_cmd_status	g_cmd_status = {
 	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
 };
+=======
+#include <time.h>
+>>>>>>> develop
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -49,15 +57,35 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 
 int	main(int argc, char **argv, char **envp)
 {
+    clock_t 	start, end;
+	id_t		backup_stdout, backup_stderr;
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	if (!VERBOSE_MODE)
 		log_set_quiet(1);
+
 	g_envp = cp_envp((const char **)envp);
 	g_sh_opts[1].opt_status = true;
-	lexer_tests(g_envp);
+	/*backup_stdout = dup(STDOUT_FILENO);
+	backup_stderr = dup(STDERR_FILENO);*/
+
+	//start = clock();
+	lexer_tests();
 	ast_tests();
 	exec_tests(&envp);
 	syntax_highlighting_tests(envp);
+	script_tests(envp);
+	builtin_test_tests(envp);
+
+	/*
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	dup2(backup_stdout, STDOUT_FILENO);
+	dup2(backup_stderr, STDERR_FILENO);*/
 	done_testing();
+	//end = clock();
+
+
+    //printf("Took %f seconds\n", ((double) (end - start)) / CLOCKS_PER_SEC);
 }

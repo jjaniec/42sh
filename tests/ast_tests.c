@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/13 17:10:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/09/29 22:02:37 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	tests_multi_ok(char *test_name, int nbr_tests, ...)
 	char	*str;
 	int		result;
 	t_lexeme	*tmp;
+	char	*a_mort_brubru_qui_free_jamais; //tkt jtm
 
 	i = 0;
 	va_start(va_ptr, nbr_tests);
@@ -26,11 +27,13 @@ static void	tests_multi_ok(char *test_name, int nbr_tests, ...)
 	{
 		str = va_arg(va_ptr, char *);
 		result = va_arg(va_ptr, int);
-		lexer(ft_strdup(str), &tmp, NULL);
+		lexer((a_mort_brubru_qui_free_jamais = ft_strdup(str)), &tmp, NULL);
 		if (result == 1)
 			ok(check_parsing(tmp), test_name);
 		else
 			ok(!check_parsing(tmp), test_name);
+		free_lexemes(tmp);
+		free(a_mort_brubru_qui_free_jamais);
 		i++;
 	}
 	va_end(va_ptr);
