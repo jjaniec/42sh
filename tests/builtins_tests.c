@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/04 18:25:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 15:58:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,19 @@ void		builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 4 - Pipes (w/ echo)", "echo ls | cat", NULL);
 	compare_sh_42sh_outputs("Builtin echo 5 - Redirs (w/ echo)", "echo ls > /tmp/a && cat < /tmp/a", NULL);
 	compare_sh_42sh_outputs("Builtin echo 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a", NULL);
+	compare_sh_42sh_outputs("Builtin echo 7 - Particular cases 1", "echo $", NULL);
+
 
 	compare_sh_42sh_outputs("Builtin cd 1 - cd", "cd / && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 2 - cd", "cd / && cd dev && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 3 - cd", "cd ~ && cd /dev && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 4 - cd", "cd ~ && cd /dev && cd .. && pwd", NULL);
-	compare_sh_42sh_outputs("Builtin cd 5 - cd -", "cd && cd - && cd /dev && cd - && cd .. && pwd", NULL);
-	compare_sh_42sh_outputs("Builtin cd 6 - cd -", "cd / && cd / && cd - && cd && cd - && cd - && echo \"/\" | cd && pwd", NULL);
+	compare_sh_42sh_outputs("Builtin cd 5 - cd -", "cd && pwd && cd - && pwd && cd /dev && pwd && cd - && pwd && cd .. && pwd", NULL);
+	compare_sh_42sh_outputs("Builtin cd 6 - cd -", "cd / && pwd && cd / && pwd && cd - && pwd && cd  && pwd && cd - && pwd && cd - && pwd && echo \"/\" | cd && pwd", NULL);
+	compare_sh_42sh_outputs("Builtin cd 7 - cd -", "cd .. && pwd && cd - && pwd", NULL);
+	compare_sh_42sh_outputs("Builtin cd 8 - cd -", "cd ft_printf && pwd && cd - && pwd", NULL);
+	compare_sh_42sh_outputs("Builtin cd 9 - cd -", "cd ft_printf && pwd && cd .. && pwd && cd - && pwd", NULL);
+	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "mkdir janiec; cd janiec && pwd && cd .. && pwd && cd - && pwd; rmdir janiec", NULL);
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
 	//compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented yet
