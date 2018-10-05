@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/05 15:58:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 16:47:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void		builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin cd 8 - cd -", "cd ft_printf && pwd && cd - && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 9 - cd -", "cd ft_printf && pwd && cd .. && pwd && cd - && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "mkdir janiec; cd janiec && pwd && cd .. && pwd && cd - && pwd; rmdir janiec", NULL);
+	compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec && pwd && chmod 000 . && cd && pwd && cd -; rmdir janiec", NULL);
+
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
 	//compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented yet
