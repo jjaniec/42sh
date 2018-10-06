@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/05 13:47:52 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/10/06 19:25:10 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,6 +169,9 @@ SRC_NAME = 	is_separator.c \
 			load_history_file.c \
 			get_next_line.c \
 			get_parsed_history_file_path.c \
+			handle_exclamation_mark_in_lexer.c \
+			parse_exclamation_mark_shortcuts.c \
+			str_is_positive_numeric.c \
 			main.c \
 
 INCLUDES_NAME = ast.h \

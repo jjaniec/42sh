@@ -108,4 +108,10 @@ void	load_history_file(struct s_line *le);
 
 char  	*get_parsed_history_file_path(void);
 
+int		handle_exclamation_mark_in_lexer(t_lexeme *lex);
+
+const char      *parse_exclamation_mark_shortcuts(const char *excla);
+
+bool	str_is_positive_numeric(const char *str); // ira dans libft
+
 #endif

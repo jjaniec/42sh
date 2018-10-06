@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 16:02:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/06 19:14:52 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_ast	*ast(t_lexeme *lex)
 	error = NULL;
 	root = NULL;
 	check = NEED_SUBPROMPT_NEWLINE;
+	if (!handle_exclamation_mark_in_lexer(lex))
+		return (NULL);
 	while (check < 0)
 	{
 		if (lex)

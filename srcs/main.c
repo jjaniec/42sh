@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/06 15:45:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/06 19:41:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static int		forty_two_sh(char *input, char **envp, \
 		free(input);
 		exit(1);
 	}
-	free(input);
 	ast_root = ast(lexemes);
+	free(input);
 	free_lexemes(lexemes);
 	if (!ast_root)
 		return (-1);

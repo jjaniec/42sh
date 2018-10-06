@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/04 12:03:47 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/06 19:24:52 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,6 @@ static void	print_history_with_indexes(void)
 			++index;
 		}
 	}
-}
-
-/*
-**	Return 'true' if 'str' represents a positive number.
-*/
-
-static bool	str_is_positive_numeric(const char *str)
-{
-	while (*str != '\0')
-	{
-		if (*str < '0' || *str > '9')
-			return (false);
-		++str;
-	}
-	return (true);
 }
 
 /*

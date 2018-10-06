@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/05 14:06:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/06 20:07:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,10 +395,13 @@ void			process_key(struct s_line *le);
 	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug
 	(go tester d'autres trucs du genre)
 
-
 	LA COMMANDE "srcs" est not found, mais "srcs/" CA RALE PAS ??????? GO CORRIGER CA
 
 	./21sh -c "history"   CA SEGFAULT LOL GO REGLER CA
+
+	valgrind ./42sh -c "history --save"
+
+	fleche haut bas pour l'histo quand c multiligne genre vaec des quotes
 
 
 	le resize ne replace pas le cursseur la ou il etait, go le faire
