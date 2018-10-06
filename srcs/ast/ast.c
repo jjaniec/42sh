@@ -6,11 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/10/05 11:52:17 by cyfermie         ###   ########.fr       */
-=======
-/*   Updated: 2018/10/04 12:21:30 by sbrucker         ###   ########.fr       */
->>>>>>> fix
+/*   Updated: 2018/10/06 16:02:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +30,8 @@ t_ast	*ast(t_lexeme *lex)
 	{
 		if (lex)
 			check = check_parsing(lex, &error);
+		if (check == -1 && error == (t_lexeme *)-1) //Retour du heredoc avec ctrl C
+			return (NULL);
 		if (check < 0 && is_option_activated("c", g_sh_opts, NULL))
 		{
 			ft_putendl_fd("Non-interactive mode: unexpected end of file, exiting.", 2);
@@ -41,10 +39,8 @@ t_ast	*ast(t_lexeme *lex)
 		}
 		else if (check < 0)
 			lex = subp_lexeme(lex, check);
-<<<<<<< HEAD
 		if (!lex)
 			return (NULL);
-=======
 		else if (check == 0)
 		{
 			ft_putstr_fd("21sh: syntax error near unexpected token '", 2);
@@ -55,7 +51,6 @@ t_ast	*ast(t_lexeme *lex)
 			ft_putendl_fd("'", 2);
 			return (NULL);
 		}
->>>>>>> fix
 	}
 	if (!is_script_complete(lex, lex, 0))
 	{
