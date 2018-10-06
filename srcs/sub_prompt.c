@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/30 18:31:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/06 15:45:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,22 @@ int		subpp_string(char **s)
 	return (1);
 }
 
+static void	multiline_merge(t_lexeme *last, t_lexeme *new)
+{
+	char	*tmp;
+
+	if (!last->lexeme_end_ptr[0]  && new->pos == (int)ft_strlen(new->data))
+	{
+		tmp = ft_strdup(last->data);
+		free(last->data);
+		last->data = ft_strjoin_free(tmp, new->data);
+		last->next = new->next;
+		free(new);
+	}
+	else
+		last->next = new;
+}
+
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 {
 	char		*input;
@@ -71,19 +87,14 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 		lex->next = new;
 	}
 	else if (lex->next && lex->next->type_details != TK_NEWLINE)
-	{
 		lex->next->next = new;
-	}
 	else if (lex->next && !lex->next->next && lex->next->type == T_WORD && new->type == T_WORD)
 	{
 		lex->next->data = ft_strjoin(lex->next->data, new->data);
 		lex->next->next = new->next;
 	}
 	else if (lex && !lex->next && lex->type == T_WORD && new && new->type == T_WORD)
-	{
-		lex->data = ft_strjoin(lex->data, new->data);
-		lex->next = new->next;
-	}
+		multiline_merge(lex, new);
 	else if (lex)
 		lex->next = new;
 	return (save);

@@ -6,22 +6,16 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/10/03 17:32:14 by cyfermie         ###   ########.fr       */
-=======
-/*   Updated: 2018/09/30 16:42:40 by jjaniec          ###   ########.fr       */
->>>>>>> develop
+/*   Updated: 2018/10/06 15:44:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "tests.h"
-<<<<<<< HEAD
+#include <time.h>
 struct s_cmd_status	g_cmd_status = {
 	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
 };
-=======
-#include <time.h>
->>>>>>> develop
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
