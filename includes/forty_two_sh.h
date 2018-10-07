@@ -52,6 +52,7 @@
 # include "autocomplete.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
+# define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
 
 extern t_option		g_sh_opts[];
 extern const size_t g_cant_begin_with[];
@@ -78,6 +79,9 @@ extern char			**g_envp;
 # define BUILTIN_HISTORY_USAGE \
 	"Usage : history [n | -d n | --clear | --save]\n"
 
+# define BUILTIN_ALIAS_USAGE \
+	"usage: alias key value [--save]\n"
+
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
@@ -102,16 +106,22 @@ bool		is_option_activated(char *opt_str, \
 
 char	autoc_check_path(char *dirname);
 
-bool		check_history_file(const char *his_file_path);
+bool		check_backup_file(const char *file_path);
 
 void	load_history_file(struct s_line *le);
 
 char  	*get_parsed_history_file_path(void);
+char	*get_parsed_aliases_file_path(void);
 
 int		handle_exclamation_mark_in_lexer(t_lexeme *lex);
 
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
+struct s_alias	*access_alias_datas(void);
+
+
+
 bool	str_is_positive_numeric(const char *str); // ira dans libft
+unsigned int	count_elem_2d_array(char **array); // ira dans libft
 
 #endif

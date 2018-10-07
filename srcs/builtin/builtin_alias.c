@@ -1,0 +1,120 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_alias.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/10/07 17:50:41 by cyfermie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <forty_two_sh.h>
+
+static bool			save_aliases_in_file(struct s_alias *alias)
+{
+
+
+
+	return (true);
+}
+
+static void			add_next_tmp_alias(struct s_alias *alias, const char *new_key, const char *new_value)
+{
+	while (alias->next != NULL)
+	{
+		if (ft_strequ(alias->key, new_key))
+		{
+			free((void *)(alias->value));
+			alias->value = new_value;
+			return ;
+		}
+		alias = alias->next;
+	}
+	if (ft_strequ(alias->key, new_key))
+	{
+		free((void *)(alias->value));
+		alias->value = new_value;
+		return ;
+	}
+	if ((alias->next = malloc(sizeof(struct s_alias))) == NULL)
+		exit(MALLOC_ERROR);
+	alias->next->key = new_key;
+	alias->next->value = new_value;
+	alias->next->next = NULL;
+}
+
+static void			add_tmp_alias(const char *key, const char *value, struct s_alias *alias)
+{  						//{ le_debug("%s\n", "ADD TMP ALIAS") }
+	char	*new_key;
+	char	*new_value;
+
+	new_key = ft_strdup(key);
+	new_value = ft_strdup(value);
+	if (new_key == NULL || new_value == NULL)
+		exit(MALLOC_ERROR);
+	if (alias->key == NULL && "aliases linked list is empty")
+	{
+		alias->key = new_key;
+		alias->value = new_value;
+		return ;
+	}
+	else if ("aliases linked list is not empty - and because of the norminette")
+		add_next_tmp_alias(alias, new_key, new_value);
+}
+
+static void			print_aliases(struct s_alias *alias)
+{  						//{ le_debug("%s\n", "PRINT ALIAS") }
+	if (alias->key == NULL) // si la liste est vide
+		return ;
+
+	while (alias != NULL)
+	{
+		ft_printf("'%s' = '%s'\n", alias->key, alias->value);
+		alias = alias->next;
+	}
+}
+
+void				builtin_alias(char **argv, char **envp, t_exec *exe)
+{
+	unsigned int	nb_args;
+	struct s_alias	*alias;
+
+	(void)envp;
+	exe->ret = 0;
+	alias = access_alias_datas();
+	nb_args = count_elem_2d_array(argv + 1);
+	if (nb_args != 0 && nb_args != 1 && nb_args != 2)
+	{
+		ft_putstr_fd(BUILTIN_ALIAS_USAGE, STDERR_FILENO);
+		exe->ret = 1;
+	}
+	if (nb_args == 0)
+		print_aliases(alias);
+	else if (nb_args == 1)
+	{
+		if (!ft_strequ("--save", argv[1]))
+		{
+			ft_putstr_fd(BUILTIN_ALIAS_USAGE, STDERR_FILENO);
+			exe->ret = 1;
+		}
+		else
+			exe->ret = save_aliases_in_file(alias) == true ? (0) : (1);
+	}
+	else if (nb_args == 2)
+		add_tmp_alias(argv[1], argv[2], alias);
+}
+
+
+/*
+	alias un deux
+	alias --save
+
+t un gro pd
+
+jj est 1 codeur de pakotiye
+
+
+
+*/

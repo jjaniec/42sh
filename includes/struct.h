@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 15:45:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:50:19 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,14 @@ typedef struct			s_option
 }						t_option;
 
 typedef t_option		*t_opt_list;
+
+
+struct s_alias
+{
+	const char			*key;
+	const char			*value;
+	struct s_alias		*next;
+};
+
 
 #endif

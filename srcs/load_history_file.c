@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:41:01 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/30 14:41:50 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:28:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	load_history_file(struct s_line *le)
 	char	*his_file_path;
 
 	his_file_path = get_parsed_history_file_path();
-	if (his_file_path == NULL || check_history_file(his_file_path) == false
+	if (his_file_path == NULL || check_backup_file(his_file_path) == false
 	|| (fd = open(his_file_path, O_RDONLY)) == -1
 	|| le->history == NULL)
 	{

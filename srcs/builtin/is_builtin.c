@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 16:41:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 18:31:52 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/07 16:08:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int		is_builtin(char *cmd, \
 		builtin_ret_ptr = &builtin_toggle_syntax_highlighting;
 	else if (ft_strequ(cmd, "[") || ft_strequ(cmd, "test"))
 		builtin_ret_ptr = &builtin_test;
+	else if (ft_strequ(cmd, "alias"))
+		builtin_ret_ptr = &builtin_alias;
 	if (builtin_fun_ptr)
 		*builtin_fun_ptr = builtin_ret_ptr;
 	return ((builtin_ret_ptr) ? (1) : (0));

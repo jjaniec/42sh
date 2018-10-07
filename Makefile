@@ -6,11 +6,9 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/07 14:37:00 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/10/07 17:30:26 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-MAKEFLAGS += -j8 -s
 
 ###### EXEC ######
 NAME = 42sh
@@ -133,6 +131,7 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
@@ -167,13 +166,15 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			history_file_checker.c \
+			backup_files_checker.c \
 			load_history_file.c \
 			get_next_line.c \
-			get_parsed_history_file_path.c \
+			get_parsed_backup_files_path.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
+			access_alias_datas.c \
 			str_is_positive_numeric.c \
+			count_elem_2d_array.c \
 			main.c \
 
 INCLUDES_NAME = ast.h \

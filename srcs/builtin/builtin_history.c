@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/06 19:24:52 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:27:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static bool		save_history_in_file(void)
 	const struct s_history	*his = access_le_main_datas()->history;
 	const char				*his_file_path = get_parsed_history_file_path();
 
-	if (check_history_file(his_file_path) == false)
+	if (check_backup_file(his_file_path) == false)
 		return (false);
 	if (his == NULL)
 		return (true);
@@ -194,20 +194,6 @@ static void		print_n_last_elem(struct s_line *le, unsigned int n)
 }
 
 /*
-**	Return the number of elements in 'args'.
-*/
-
-static unsigned int		get_nb_args(char **args)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (args[i] != NULL)
-		++i;
-	return (i);
-}
-
-/*
 **	Without option : print the history list with an index.
 **	--clear : empty the history.
 **	--save : save the history into a file.
@@ -219,9 +205,9 @@ void    builtin_history(char **argv, char **envp, t_exec *exe)
 {
 	(void)envp;
 	exe->ret = 0;
-	if (get_nb_args(argv + 1) == 0)
+	if (count_elem_2d_array(argv + 1) == 0)
 		print_history_with_indexes();
-	else if (get_nb_args(argv + 1) == 1)
+	else if (count_elem_2d_array(argv + 1) == 1)
 	{
 		if (ft_strequ(argv[1], "--clear"))
 			clear_history(access_le_main_datas());
@@ -232,7 +218,7 @@ void    builtin_history(char **argv, char **envp, t_exec *exe)
 		else
 			ft_putstr_fd(BUILTIN_HISTORY_USAGE, STDERR_FILENO);
 	}
-	else if (get_nb_args(argv + 1) == 2)
+	else if (count_elem_2d_array(argv + 1) == 2)
 	{
 		if (ft_strequ(argv[1], "-d") && str_is_positive_numeric(argv[2]))
 			delete_element_number_n(ft_atoi(argv[2]));

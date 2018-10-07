@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 15:34:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 16:15:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,15 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd)
+static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
 {
 	if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN && \
 		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv || \
 		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_history))
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_history || \
+		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_alias))
 		return (0);
 	return (1);
 }
