@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:15:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 18:05:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 19:29:39 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@ static t_lexeme	*lex_history_input(t_lexeme *old, const char *input, \
 {
 	t_lexeme	*new;
 	t_lexeme	*save;
-	t_lexeme	*next;
 
 	*end = NULL;
 	if (!lexer((char *)input, &new, NULL))
 		return (NULL);
-	next = old->next;
 	save = new;
 	free(old->data);
 	old->data = NULL;
