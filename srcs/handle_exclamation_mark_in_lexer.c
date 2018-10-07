@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:15:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 17:48:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 18:05:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex)
 			lex = tmp;
 			save = tmp;
 		}
-		while (end && lex != end->next)
+		while (end && lex != end)
 			lex = lex->next;
 		if (lex)
 		{
