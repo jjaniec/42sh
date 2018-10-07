@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 17:50:41 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 19:37:19 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,36 @@
 
 static bool			save_aliases_in_file(struct s_alias *alias)
 {
+	int						fd;
+	const char				*aliases_file_path = get_parsed_aliases_file_path();
 
-
-
-	return (true);
+	if (check_backup_file(aliases_file_path) == false)
+		return (false);
+	if ((fd = open(aliases_file_path, O_WRONLY | O_TRUNC)) == -1)
+	{
+		ft_putstr_fd("42sh: error with file .42sh_aliases\n", STDERR_FILENO);
+		return (false);
+	}
+	if (alias->key == NULL)
+		return (true);
+	while (alias != NULL)
+	{
+		if (write(fd, alias->key, ft_strlen(alias->key)) == (ssize_t)-1
+		|| write(fd, " ", sizeof(char)) == (ssize_t)-1
+		|| write(fd, alias->value, ft_strlen(alias->value)) == (ssize_t)-1
+		|| write(fd, "\n", sizeof(char)) == (ssize_t)-1)
+		{
+			ft_putstr_fd(".42sh_aliases: error writing in file\n", 2);
+			return (close(fd) ? (false) : (false));
+		}
+		alias = alias->next;
+	}
+	return (close(fd) ? (true) : (true));
 }
 
-static void			add_next_tmp_alias(struct s_alias *alias, const char *new_key, const char *new_value)
+static void			add_next_tmp_alias(struct s_alias *alias, \
+									   const char *new_key, \
+									   const char *new_value)
 {
 	while (alias->next != NULL)
 	{
@@ -105,16 +128,3 @@ void				builtin_alias(char **argv, char **envp, t_exec *exe)
 	else if (nb_args == 2)
 		add_tmp_alias(argv[1], argv[2], alias);
 }
-
-
-/*
-	alias un deux
-	alias --save
-
-t un gro pd
-
-jj est 1 codeur de pakotiye
-
-
-
-*/
