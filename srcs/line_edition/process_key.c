@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:32:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:14:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,25 @@ static bool	key_is_printable(t_kno key)
 **	the cursor, delete a character, etc ...)
 */
 
-void			process_key(t_kno key, struct s_line *le)
+void			process_key(struct s_line *le)
 {
-	le->key_no = key;
-	if (key_is_printable(key) == true)
+	if (key_is_printable(le->key_no) == true)
 	{
 		if (le->le_state.opt_colosyn == true)
-			colosyn_add_char(le, key);
+			colosyn_add_char(le, le->key_no);
 		else if (le->le_state.opt_colosyn == false)
 		{
 			if (cursor_is_at_end_of_cmd(le) == true)
-				print_key_at_end(le, key);
+				print_key_at_end(le, le->key_no);
 			else
-				insert_and_print_character_into_cmdline(le, key);
+				insert_and_print_character_into_cmdline(le, le->key_no);
 		}
 	}
-	else if (key == '\n')
+	else if (le->key_no == '\n')
 	{
 		check_cmd_storage(le, 1);
-		le->cmd[le->cmd_len] = key;
+		le->cmd[le->cmd_len] = le->key_no;
 	}
 	else
-		action_key(key, le);
+		action_key(le->key_no, le);
 }

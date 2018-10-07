@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.h                                    :+:      :+:    :+:   */
+/*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 18:45:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 15:35:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@
 # include "line_edition.h"
 # include "exec.h"
 # include "syntax_highlighting.h"
+# include "signals.h"
 # include "script.h"
 # include "get_next_line.h"
+# include "autocomplete.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
@@ -78,10 +80,11 @@ extern char			**g_envp;
 
 
 int			prompt_show(const char *prompt);
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
 
-void		subp_string(char **s);
+int			subpp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
-void		subp_heredoc(t_lexeme *lex, char *eof_word);
+int			subp_heredoc(t_lexeme *lex, char *eof_word);
 
 void		ft_free_argv(char **tab_);
 
@@ -104,5 +107,11 @@ bool		check_history_file(const char *his_file_path);
 void	load_history_file(struct s_line *le);
 
 char  	*get_parsed_history_file_path(void);
+
+t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
+
+const char      *parse_exclamation_mark_shortcuts(const char *excla);
+
+bool	str_is_positive_numeric(const char *str); // ira dans libft
 
 #endif

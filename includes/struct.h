@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/29 18:45:44 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/06 15:45:00 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct			s_lexeme
 	void				*data;
 	char				*lexeme_begin_ptr;
 	char				*lexeme_end_ptr;
+	int					pos;
 	struct s_lexeme		*next;
 }						t_lexeme;
 
@@ -78,6 +79,7 @@ typedef struct			s_exec
 	int		ready_for_exec;
 	char	**envp;
 	char	**tmp_envp;
+
 }						t_exec;
 
 /*

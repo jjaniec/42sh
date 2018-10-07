@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 17:12:32 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 19:37:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		le_debug_infos(void)
 	le_debug("key number = %llu\n", (unsigned long long)(le->key_no));
 	le_debug("cmd = |%s|\n", le->cmd);
 	le_debug("cmd size = %zu\n", le->cmd_size);
-	le_debug("cmd len = %u\n", le->cmd_len);
+	le_debug("cmd len = %zu\n", le->cmd_len);
 	le_debug("cursor index = %u - %c\n", \
 	le->cursor_index, le->cmd[le->cursor_index]);
 	le_debug("start pos = %u\n", le->start_pos);
@@ -45,29 +45,53 @@ static void		le_debug_infos(void)
 	le_debug("%s","--------------------------------------\n");
 }
 
-
-static void		read_key(char key[LE_KEY_SIZE])
+static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 {
 	ssize_t read_ret;
 
-	read_ret = read(STDIN_FILENO, key, LE_KEY_SIZE - 1);
-	if (read_ret == -1)
+	errno = 0;
+	read_ret = read(STDIN_FILENO, key, LE_KEY_BUFFER_SIZE - 1);
+	if (errno == EINTR)
 	{
-		write(STDERR_FILENO, "\nError while reading on stdin\n", 30);
-		perror("read() - perror() report");
+		if (g_cmd_status.resize_happened == true
+		&& access_le_main_datas()->le_state.prompt_type != LE_DEFAULT_PROMPT)
+			return (INTR_BY_SIGWINCH);
+		return (INTR_BY_SIGINT);
 	}
-
-	// check les differentes erreurs de read(), une coupure a cause d'un signal ...
+	if (read_ret == -1)
+		le_exit("\nfatal error while reading on stdin\n", "read", errno);
+	return (ALL_IS_ALRIGHT);
 }
 
-static t_kno	get_key_number(const char *key)
+static char	*read_key(char key[LE_KEY_BUFFER_SIZE], struct sigaction *le_sig)
+{
+	enum e_read_key		ret_user_input;
+
+	ft_memset(key, '\0', LE_KEY_BUFFER_SIZE);
+	ret_user_input = get_user_input(key);
+	if (ret_user_input == INTR_BY_SIGINT)
+	{
+		le_sig->sa_handler = SIG_DFL;
+		sigaction(SIGWINCH, le_sig, NULL);
+		set_term_attr(LE_SET_OLD);
+		return (NULL);
+	}
+	else if (ret_user_input == INTR_BY_SIGWINCH)
+	{
+		set_term_attr(LE_SET_OLD);
+		return (RESIZE_IN_PROGRESS);
+	}
+	return (key);
+}
+
+t_kno	get_key_number(const char *key)
 {
 	t_kno	key_no;
 	t_kno	i;
 
 	key_no = 0;
 	i = 0;
-	while (i < LE_KEY_SIZE)
+	while (i < LE_KEY_BUFFER_SIZE)
 	{
 		key_no += ((t_kno)key[i]) << i;
 		++i;
@@ -75,103 +99,69 @@ static t_kno	get_key_number(const char *key)
 	return (key_no);
 }
 
+static struct s_line	*prepare_line_edition(int prompt_type, \
+											  struct sigaction *le_sig)
+{
+	struct s_line		*le;
+
+	le = access_le_main_datas();
+	set_term_attr(LE_SET_NEW);
+	init_line_edition_attributes(le, prompt_type);
+	g_cmd_status.cmd_running = false;
+	g_cmd_status.sigint_happened = false;
+
+	if (g_cmd_status.resize_happened == true)
+		handle_window_resize(le);
+
+	sigfillset(&(le_sig->sa_mask));
+	le_sig->sa_flags = 0;
+	le_sig->sa_handler = &(handle_sigwinch);
+	sigaction(SIGWINCH, le_sig, NULL);
+	return (le);
+}
+
 char			*line_edition(int prompt_type)
 {
 	char					*final_line;
-	char					key[LE_KEY_SIZE];
 	static struct s_line	*le;
-	t_kno					key_no;
+	struct sigaction		le_sig;
+	char					*ret_read_key;
 
-	le = access_le_main_datas();
-	init_line_edition_attributes(le, prompt_type);
-	set_term_attr(LE_SET_NEW);
-
-	le_debug_infos(); // debug
-	while ("cest ta merge la jjaniec")
+	le = prepare_line_edition(prompt_type, &le_sig);
+le_debug_infos(); // debug
+	while (le->key_no != '\n' && "cest ta merge la jjaniec")
 	{
-		ft_memset(key, '\0', LE_KEY_SIZE);
-		read_key(key);
+		ret_read_key = read_key(le->key_buffer, &le_sig);
+		if (ret_read_key == NULL || ret_read_key == RESIZE_IN_PROGRESS)
+			return (ret_read_key);
+		le->key_no = get_key_number(le->key_buffer);
+		process_key(le);
 
-		//for (int i = 0 ; key[i] ; ++i) printf("pp = %d||\n", key[i]);
-		key_no = get_key_number(key);
-
-		//if (key_no >= 32 && key_no >= 126)
-			//fprintf(tty_debug, "key = %" PRIu64 "\n" , key_no); // debug
-
-		process_key(key_no, le);
-		le_debug_infos(); // debug
-
-		if (key_no == '\n')
-		{
+		// check si un des 2 flags est actif pour retourner la bonne valeur
+		if (g_cmd_status.resize_happened == true || g_cmd_status.sigint_happened == true)
 			set_term_attr(LE_SET_OLD);
-			break ;
+		if (g_cmd_status.resize_happened == true)
+			return (RESIZE_IN_PROGRESS);
+		if (g_cmd_status.sigint_happened == true)
+			return (NULL);
+
+le_debug_infos(); // debug
+		if (true && le->key_no == '\n') //
+		{
+			tputs(le->tcaps->_do, 1, &write_one_char);
+			tputs(le->tcaps->cr, 1, &write_one_char);
+			tputs(le->tcaps->cd, 1, &write_one_char);
+			tputs(le->tcaps->up, 1, &write_one_char);
 		}
 	}
-
+	set_term_attr(LE_SET_OLD);
 	actionk_move_cursor_end(le);
 	reset_history_on_first_elem(le);
-
 	if ((final_line = ft_strdup(le->cmd)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	free(le->cmd);
 	le->cmd = NULL;
+	le_sig.sa_handler = SIG_DFL;
+	sigaction(SIGWINCH, &le_sig, NULL);
 	return (final_line);
 }
-
-
-////////////////////////////////////////////////////////////// for tests
-/*
-void	prompt(void)
-{
-	printf("PROMPT  $> ");
-	fflush(stdout);
-}
-*/
-
-/*
-void	prepare_test(void)
-{
-	tty_debug = fopen(TTY_DEBUG, "w");
-	if (tty_debug == NULL)
-	{
-		perror("perror report - fopen() failed in prepare_test()");
-		exit(123);
-	}
-}
-*/
-
-/*
-int	 main(void)
-{
-	char	*input;
-
-	prepare_test();
-	
-	while ("\x1b\x5b\x48\x1b\x5b\x32\x4a\x00\x66\x75\x63\x6b")
-	{
-		prompt();
-		
-		input = line_edition();
-		//printf("\ninput = |%s|\n", s);
-		
-		if ( strcmp(input, "q\n") == 0 )
-			break ;
-		
-		//printf("\nINPUT = |%s|", input);
-
-		free(input);
-
-#define TERPRI putchar('\n')
-		if (TERPRI, TERPRI, TERPRI)
-			;
-	}
-	
-	fclose(tty_debug);
-
-	return
-	!!!!!!!!!!!!! 
-	"patate + licorne = patatorne"
-	+ !!!
-	TERPRI
-	;;;
-}*/

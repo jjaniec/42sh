@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_sigwinch.c                                  :+:      :+:    :+:   */
+/*   str_is_positive_numeric.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/28 16:01:49 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 13:05:08 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/10/06 19:23:15 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/10/06 19:23:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <stdbool.h>
 
 /*
-**	Handler function for the WINCH signal.
-**	The window is cleared, then the prompt is reprinted and
-**	the current command line is reprinted too.
+**	Return 'true' if 'str' represents a positive number.
 */
 
-// NOT DONE YET
-void	handle_sigwinch(int sig)
+bool	str_is_positive_numeric(const char *str)
 {
-	if (sig != SIGWINCH)
-		return ;
-	
+	while (*str != '\0')
+	{
+		if (*str < '0' || *str > '9')
+			return (false);
+		++str;
+	}
+	return (true);
 }
-
