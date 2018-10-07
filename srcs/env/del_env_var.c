@@ -57,6 +57,11 @@ static void			remove_env_entry(t_environ *self, \
 	update_environ_ptr_tab(entry_to_del_ptr);
 	free(entry_to_del_ptr);
 	self->entry_count -= 1;
+	if (self->entry_count == 0)
+	{
+		self->last_entry_ptr = NULL;
+		self->env_entries_list = NULL;
+	}
 }
 
 /*
@@ -75,6 +80,6 @@ int					del_env_var(struct s_environ *self, char *varname)
 		return (1);
 	}
 	remove_env_entry(self, cur_env_var_struct, cur_env_var_struct->prev);
-	log_debug("Removed %s environnement variable", varname);
+	log_debug("Removed %s environnement variable - ->env_entry_list: %p -> last_entry_ptr : %p", varname, self->env_entries_list, self->last_entry_ptr);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/05 18:02:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/05 20:28:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ t_option		g_env_opts[] = {
 static int		print_env_content(char **environ)
 {
 	while (environ && *environ)
-		ft_putendl(*environ++);
+	{
+		ft_putstr(*environ++);
+		write(STDOUT_FILENO, "\n", 1);
+	}
 	return (0);
 }
 
