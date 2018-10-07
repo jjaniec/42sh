@@ -17,7 +17,6 @@
 # include <sys/types.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
-# include <sys/syslimits.h>
 # include <stdbool.h>
 
 typedef struct		s_autoc
