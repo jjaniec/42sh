@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/05 19:29:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/07 20:43:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	ft_print_cd_err(char *path, int errno_err)
 ** so we can update properly the PWD and OLDPWD env variables
 */
 
-static void	ft_change_dir(t_environ *env, char *path, char *cwd)
+static int	ft_change_dir(t_environ *env, char *path, char *cwd)
 {
 	if (path && !chdir(path))
 	{
@@ -73,35 +73,15 @@ static void	ft_change_dir(t_environ *env, char *path, char *cwd)
 		else
 			env->add_var(env, "OLDPWD", cwd);
 		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
+		return (0);
 	}
 	else
 	{
 		log_error("Failed to change cwd to %s", path);
 		ft_print_cd_err(path, errno);
+		return (1);
 	}
 }
-
-/*
-** Inspect cd argument to know if passed argument is a relative/absolute path
-** or if argument is '-', then refresh last previous location
-*/
-/*
-static int	ft_cd_relative_dir(t_environ *env, char *rel_path, int getcwd_ret, char *cwd)
-{
-	char	*new_dir_path;
-	char	cwd_fmt[MAX_ENV_ENTRY_LEN];
-
-	if (getcwd_ret)
-	{
-		if ((new_dir_path = ft_strjoin_path(cwd, rel_path)))
-		{
-			ft_change_dir(env, new_dir_path);
-			free(new_dir_path);
-			return (0);
-		}
-	}
-	return (1);
-}*/
 
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
@@ -134,8 +114,8 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	{
 		if (env->get_var(env, "OLDPWD"))
 		{
-			ft_putendl(env->last_used_elem->val_begin_ptr);
-			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+			if (!ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
+				ft_putendl(env->last_used_elem->val_begin_ptr);
 		}
 		else
 		{
