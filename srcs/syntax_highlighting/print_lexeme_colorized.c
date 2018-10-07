@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 11:35:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/07 21:02:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static int		elem_path_found(struct stat *elem_stats, \
 {
 	char		*path_entry;
 	char		*tmp;
-	int			r;
 
-	r = 0;
 	if (ft_strchr(lexeme_data, '/') || item_nb > 0)
 	{
 		if (lstat(lexeme_data, elem_stats) != -1)
 			return (1);
 		return (0);
 	}
+	else if (is_builtin(lexeme_data, NULL))
+		return (1);
 	else
 	{
 		path_entry = NULL;
@@ -45,14 +45,13 @@ static int		elem_path_found(struct stat *elem_stats, \
 			if ((tmp = isin_path(path_entry, lexeme_data)))
 			{
 				lstat(tmp, elem_stats);
-				r = 1;
+				ft_strdel(&tmp);
+				return (1);
 			}
-			else if (!r && is_builtin(lexeme_data, NULL))
-				r = 1;
 			ft_strdel(&tmp);
 		}
 	}
-	return (r);
+	return (0);
 }
 
 /*
