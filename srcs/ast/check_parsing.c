@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 19:55:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 14:30:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			check_parsing(t_lexeme *lex, t_lexeme **error)
 	int		need_subpropmt;
 
 	*error = NULL;
-	if (lex->type_details == TK_NEWLINE)
+	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
 	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
 	{
