@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 15:21:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 14:11:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ extern char			**g_envp;
 	"cd [-L | -P] [-] [directory]"
 
 # define BUILTIN_TEST_USAGE \
-	"test, [ --\n\t\ttest expression\n\t\t[ expression ]"
+	"test, [ --\n\t\ttest expression\n\t\t[ expression ]\n\t\t! expression"
 
 # define BUILTIN_HISTORY_USAGE \
 	"Usage : history [n | -d n | --clear | --save]\n"

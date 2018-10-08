@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/08 14:09:44 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 14:31:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,111 +69,6 @@ static int	right_format_builtin(char **argv, int *argc)
 	}
 	else
 		return (0);
-}
-
-static int	parse_expr_file(char **argv, t_option *opt_list, \
-			t_option *char_opt_index[CHAR_OPT_INDEX_SIZE])
-{
-	struct stat	fstat;
-
-	errno = 0;
-	stat(argv[1], &fstat);
-	if (errno != ENOENT && is_option_activated("e", opt_list, char_opt_index))
-		return (0);
-	else if (errno != 0)
-		return (1);
-	else if (is_option_activated("b", opt_list, char_opt_index) \
-	&& S_ISBLK(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("c", opt_list, char_opt_index) \
-	&& S_ISCHR(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("d", opt_list, char_opt_index) \
-	&& S_ISDIR(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("f", opt_list, char_opt_index) \
-	&& S_ISREG(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("p", opt_list, char_opt_index) \
-	&& S_ISFIFO(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("r", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_IRUSR)
-		return (0);
-	else if (is_option_activated("w", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_IWUSR)
-		return (0);
-	else if (is_option_activated("x", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_IXUSR)
-		return (0);
-	else if (is_option_activated("s", opt_list, char_opt_index) \
-	&& fstat.st_size > 0)
-		return (0);
-	else if (is_option_activated("k", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_ISVTX)
-		return (0);
-	else if (is_option_activated("u", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_ISUID)
-		return (0);
-	else if (is_option_activated("L", opt_list, char_opt_index) \
-	&& S_ISLNK(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("S", opt_list, char_opt_index) \
-	&& S_ISSOCK(fstat.st_mode))
-		return (0);
-	else if (argv[0][0] != '-')
-	{
-		ft_putstr_fd("21sh: ", 2);
-		ft_putstr_fd(argv[-1], 2);
-		ft_putchar_fd(' ', 2);
-		ft_putchar_fd(argv[0][0], 2);
-		ft_putendl_fd(" : unary operator expected", 2);
-	}
-		return (1);
-}
-
-static void	error_msg_operator(char **argv)
-{
-	if (!ft_strequ(argv[1], "=")
-	 && !ft_strequ(argv[1], "!=")
-	 && !ft_strequ(argv[1], "<")
-	 && !ft_strequ(argv[1], ">")
-	 && !ft_strequ(argv[1], "-eq")
-	 && !ft_strequ(argv[1], "-ne")
-	 && !ft_strequ(argv[1], "-ge")
-	 && !ft_strequ(argv[1], "-gt")
-	 && !ft_strequ(argv[1], "-le")
-	 && !ft_strequ(argv[1], "-lt"))
-	{
-		ft_putstr_fd("21sh: ", 2);
-		ft_putstr_fd(argv[-1], 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putendl_fd(": binary operator expected", 2);
-	}
-}
-
-static int	parse_expr_comp(char **argv)
-{
-	error_msg_operator(argv);
-	if (ft_strequ(argv[1], "=") && ft_strequ(argv[0], argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "!=") && !ft_strequ(argv[0], argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-eq") && ft_atoll(argv[0]) == ft_atoll(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-ne") && ft_atoll(argv[0]) != ft_atoll(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-gt") && ft_atoll(argv[0]) > ft_atoll(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-ge") && ft_atoll(argv[0]) >= ft_atoll(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-lt") && ft_atoll(argv[0]) < ft_atoll(argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "-le") && ft_atoll(argv[0]) <= ft_atoll(argv[2]))
-		return (0);
-	else
-		return (1);
 }
 
 static int	test_expression(char **argv, \
