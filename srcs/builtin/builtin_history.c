@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 19:35:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:49:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ static bool		save_history_in_file(struct s_history *his)
 	}
 	while (his->cmd != NULL)
 	{
-		if (write(fd, his->cmd, ft_strlen(his->cmd)) == (ssize_t)-1
-		|| write(fd, "\n", sizeof(char)) == (ssize_t)-1)
+		if (write(fd, his->cmd, ft_strlen(his->cmd)) == (ssize_t)(-1)
+		|| write(fd, "\n", sizeof(char)) == (ssize_t)(-1))
 		{
 			ft_putstr_fd(".42sh_history: error writing in file\n", 2);
 			return (close(fd) ? (false) : (false));

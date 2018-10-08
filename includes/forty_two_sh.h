@@ -80,7 +80,7 @@ extern char			**g_envp;
 	"Usage : history [n | -d n | --clear | --save]\n"
 
 # define BUILTIN_ALIAS_USAGE \
-	"usage: alias key value [--save]\n"
+	"usage: alias key value | --save\n"
 
 
 int			prompt_show(const char *prompt);
@@ -109,6 +109,7 @@ char	autoc_check_path(char *dirname);
 bool		check_backup_file(const char *file_path);
 
 void	load_history_file(struct s_line *le);
+void	load_aliases_file(struct s_alias *alias);
 
 char  	*get_parsed_history_file_path(void);
 char	*get_parsed_aliases_file_path(void);

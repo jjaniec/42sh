@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 19:37:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/08 17:00:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static bool			save_aliases_in_file(struct s_alias *alias)
 		return (true);
 	while (alias != NULL)
 	{
-		if (write(fd, alias->key, ft_strlen(alias->key)) == (ssize_t)-1
-		|| write(fd, " ", sizeof(char)) == (ssize_t)-1
-		|| write(fd, alias->value, ft_strlen(alias->value)) == (ssize_t)-1
-		|| write(fd, "\n", sizeof(char)) == (ssize_t)-1)
+		if (write(fd, alias->key, ft_strlen(alias->key)) == (ssize_t)(-1)
+		|| write(fd, " ", sizeof(char)) == (ssize_t)(-1)
+		|| write(fd, alias->value, ft_strlen(alias->value)) == (ssize_t)(-1)
+		|| write(fd, "\n", sizeof(char)) == (ssize_t)(-1))
 		{
 			ft_putstr_fd(".42sh_aliases: error writing in file\n", 2);
 			return (close(fd) ? (false) : (false));
@@ -42,8 +42,8 @@ static bool			save_aliases_in_file(struct s_alias *alias)
 }
 
 static void			add_next_tmp_alias(struct s_alias *alias, \
-									   const char *new_key, \
-									   const char *new_value)
+										const char *new_key, \
+										const char *new_value)
 {
 	while (alias->next != NULL)
 	{
@@ -68,11 +68,20 @@ static void			add_next_tmp_alias(struct s_alias *alias, \
 	alias->next->next = NULL;
 }
 
-static void			add_tmp_alias(const char *key, const char *value, struct s_alias *alias)
-{  						//{ le_debug("%s\n", "ADD TMP ALIAS") }
-	char	*new_key;
-	char	*new_value;
+static bool			add_tmp_alias(const char *key, const char *value, \
+												struct s_alias *alias)
+{
+	char			*new_key;
+	char			*new_value;
+	unsigned int	i;
 
+	i = 0;
+	while (key[i] != '\0')
+		if (is_separator(key[i++]))
+		{
+			ft_putstr_fd("42sh: alias: invalid alias name\n", STDERR_FILENO);
+			return (false);
+		}
 	new_key = ft_strdup(key);
 	new_value = ft_strdup(value);
 	if (new_key == NULL || new_value == NULL)
@@ -81,17 +90,17 @@ static void			add_tmp_alias(const char *key, const char *value, struct s_alias *
 	{
 		alias->key = new_key;
 		alias->value = new_value;
-		return ;
+		return (true);
 	}
 	else if ("aliases linked list is not empty - and because of the norminette")
 		add_next_tmp_alias(alias, new_key, new_value);
+	return (true);
 }
 
 static void			print_aliases(struct s_alias *alias)
-{  						//{ le_debug("%s\n", "PRINT ALIAS") }
-	if (alias->key == NULL) // si la liste est vide
+{
+	if (alias->key == NULL && "list is empty")
 		return ;
-
 	while (alias != NULL)
 	{
 		ft_printf("'%s' = '%s'\n", alias->key, alias->value);
@@ -104,8 +113,7 @@ void				builtin_alias(char **argv, char **envp, t_exec *exe)
 	unsigned int	nb_args;
 	struct s_alias	*alias;
 
-	(void)envp;
-	exe->ret = 0;
+	exe->ret = ((envp) ? (0) : (0));
 	alias = access_alias_datas();
 	nb_args = count_elem_2d_array(argv + 1);
 	if (nb_args != 0 && nb_args != 1 && nb_args != 2)
@@ -126,5 +134,5 @@ void				builtin_alias(char **argv, char **envp, t_exec *exe)
 			exe->ret = save_aliases_in_file(alias) == true ? (0) : (1);
 	}
 	else if (nb_args == 2)
-		add_tmp_alias(argv[1], argv[2], alias);
+		exe->ret = add_tmp_alias(argv[1], argv[2], alias) == true ? (0) : (1);
 }
