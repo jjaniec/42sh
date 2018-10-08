@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/03 16:17:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 14:09:44 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,22 +176,50 @@ static int	parse_expr_comp(char **argv)
 		return (1);
 }
 
-static int	test_expression(char **argv)
+static int	test_expression(char **argv, \
+			t_option *char_opt_index[CHAR_OPT_INDEX_SIZE])
 {
 	if (!argv[0])
 		return (0);
-	else if (is_option_activated("h", opt_list, char_opt_index) || \
-	is_option_activated("--------------------------", opt_list, char_opt_index))
-		format_help(BUILTIN_TEST_USAGE, opt_list);
+	else if (is_option_activated("h", g_tests_opts, char_opt_index) || \
+	is_option_activated("--------------------------", g_tests_opts, char_opt_index))
+		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
 	else if (!argv[1] && ft_strlen(argv[0]) > 0)
 		return (1);
 	else if (argv[1] && !argv[2])
 		return (ft_atoi(argv[1]));
 	else if (argv[2] && !argv[3])
-		return (parse_expr_file((argv + 1), opt_list, char_opt_index));
+		return (parse_expr_file((argv + 1), g_tests_opts, char_opt_index));
 	else
-		format_help(BUILTIN_TEST_USAGE, opt_list);
+		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
 	return (1);
+}
+
+static int	return_value(int ret, int flag_not)
+{
+	if (flag_not)
+	{
+		if (ret == 0)
+			return (1);
+		else
+			return (0);
+	}
+	else
+		return (ret);
+}
+
+static void	remove_operator_not(char **argv)
+{
+	int		i;
+
+	ft_strdel(argv + 1);
+	i = 2;
+	while (argv[i])
+	{
+		argv[i - 1] = argv[i];
+		i++;
+	}
+	argv[i - 1] = NULL;
 }
 
 void		builtin_test(char **argv, char **envp, t_exec *exe)
@@ -199,6 +227,7 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	int			ac;
+	int			flag_not;
 
 	(void)exe;
 	(void)envp;
@@ -206,20 +235,21 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	ac = 0;
 	while (argv[ac])
 		ac++;
-
+	flag_not = 0;
+	if (ac >= 2 && ft_strequ(argv[1], "!"))
+	{
+		ac--;
+		flag_not = 1;
+		remove_operator_not(argv);
+	}
 	if (!right_format_builtin(argv, &ac))
 	{
 		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
-		exit (1);
+		exit (return_value(1, flag_not));
 	}
 	if (ac == 4 && argv[3] && !argv[4])
-		exit (parse_expr_comp(argv + 1));
-
+		exit (return_value(parse_expr_comp(argv + 1), flag_not));
 	opt_list = g_tests_opts;
 	parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
-
-	ac = 0;
-	while (argv[ac])
-		ac++;
-
+	exit (return_value(test_expression(argv, char_opt_index), flag_not));
 }
