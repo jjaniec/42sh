@@ -21,7 +21,9 @@ static int		malloc_len(char *str)
 	count = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' || str[i] == '\t')
+		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' ||
+		str[i] == '\t' || str[i] == '\\' || str[i] == ';' ||
+		str[i] == '&' || str[i] == '|' || str[i] == '>' || str[i] == '<')
 			count++;
 		i++;
 	}
@@ -39,7 +41,9 @@ static char		*add_backslash(char *str)
 	res = malloc(sizeof(char) * (ft_strlen(str) + malloc_len(str)));
 	while (str[i])
 	{
-		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' || str[i] == '\t')
+		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' ||
+		str[i] == '\t' || str[i] == '\\' || str[i] == ';' ||
+		str[i] == '&' || str[i] == '|' || str[i] == '>' || str[i] == '<')
 		{
 			res[j] = '\\';
 			j++;

@@ -95,6 +95,8 @@ char			**autoc_dir(t_autoc *autoc)
 	char		*path;
 
 	path = autoc_get_path(autoc->le);
+	if (ft_strlen(path) == 1 && path[0] == '\\')
+		return (NULL);
 	if (ft_strchr(path, '~') || ft_strchr(path, '$') || ft_strchr(path, '\\'))
 		handle_quotes_expansions(&path);
 	autoc->dot = autoc_check_dot(path);
