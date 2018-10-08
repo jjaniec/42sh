@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/03 17:11:50 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 17:07:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 	int		not;
 
 	not = 0;
-	if (ft_strequ(argv[0], "!"))
+	if (ft_strequ(argv[0], "!") && argv[1])
 	{
 		not = 1;
 		argv++;
