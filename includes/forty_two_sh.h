@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 14:46:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:31:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
 extern t_option		g_sh_opts[];
-extern const size_t g_cant_begin_with[];
-extern const size_t	g_token_bypass[];
-extern const size_t	g_tokens[];
-extern const size_t	g_next_tokens[][4];
+extern const int  g_cant_begin_with[];
+extern const int 	g_token_bypass[];
+extern const int 	g_tokens[];
+extern const int 	g_next_tokens[][4];
 extern void			(* const g_node_placer[])(t_ast *, t_ast *);
 extern const char	*g_prompts[10];
 

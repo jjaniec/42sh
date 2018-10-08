@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 15:45:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:24:42 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 typedef struct			s_lexeme
 {
-	size_t				type;
-	size_t				type_details;
+	int					type;
+	int					type_details;
 	void				*data;
 	char				*lexeme_begin_ptr;
 	char				*lexeme_end_ptr;
@@ -56,8 +56,8 @@ typedef struct			s_lexeme_clean_data
 
 typedef struct			s_ast
 {
-	size_t			type;
-	size_t			type_details;
+	int				type;
+	int				type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
 	struct s_ast	*left;

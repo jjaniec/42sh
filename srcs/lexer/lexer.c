@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 10:25:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:25:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 ** if something other than separators is found
 */
 
-static size_t		get_lexeme(char *str, int *pos, \
-						char **evaluated_str, size_t *type_details)
+static int			get_lexeme(char *str, int *pos, \
+						char **evaluated_str, int *type_details)
 {
-	size_t	r;
+	int		r;
 
 	r = 0;
 	if (str[*pos])
@@ -56,7 +56,7 @@ static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
 static int			make_next_lexeme(char *line, int *pos, \
 						t_lexeme **lexemes, t_lexeme **cur_lexeme)
 {
-	size_t		type[2];
+	int			type[2];
 	char		*data;
 	char		*lexeme_begin_end_ptrs[2];
 	t_lexeme	*e;

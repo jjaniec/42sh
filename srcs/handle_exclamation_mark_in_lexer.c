@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:15:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 19:29:39 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:58:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end)
 	const char	*tmp;
 	int			size;
 
-	if (((char *)lex->data)[0] == '!' && lex->lexeme_begin_ptr[0] == '!')
+	if (((char *)lex->data)[0] == '!' && !is_separator(((char *)lex->data)[1]) \
+	&& lex->lexeme_begin_ptr[0] == '!')
 	{
 		size = lex->lexeme_end_ptr - lex->lexeme_begin_ptr;
 		search_str = (char *)ft_memalloc(sizeof(char) * (size + 1));
