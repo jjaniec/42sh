@@ -61,9 +61,13 @@ static char		*get_final_line(struct s_line *le, char *str, char *search)
 
 	i = 0;
 	check = 0;
-	if (!search)
-		return (ft_strjoin(le->cmd, str));
 	res = add_backslash(str);
+	if (!search)
+	{
+		tmp = ft_strjoin(le->cmd, res);
+		free(res);
+		return (tmp);
+	}
 	if (res[0] == '\\')
 		check++;
 	while (res[i + check])
