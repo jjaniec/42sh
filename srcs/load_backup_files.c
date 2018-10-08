@@ -6,13 +6,13 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/08 16:40:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/08 17:17:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static bool	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
+static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 {
 	int		ret;
 	char	*line;
@@ -45,7 +45,7 @@ void		load_aliases_file(struct s_alias *alias)
 		ft_putstr_fd("42sh: error while loading .42sh_aliases\n", 2);
 		return ;
 	}
-	return (copy_file_datas_in_aliases_list(alias, fd));
+	copy_file_datas_in_aliases_list(alias, fd);
 }
 
 /*

@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/07 17:30:26 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/10/08 17:15:51 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,7 +167,7 @@ SRC_NAME = 	is_separator.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
 			backup_files_checker.c \
-			load_history_file.c \
+			load_backup_files.c \
 			get_next_line.c \
 			get_parsed_backup_files_path.c \
 			handle_exclamation_mark_in_lexer.c \
