@@ -56,22 +56,14 @@ static char		*add_backslash(char *str)
 	return (res);
 }
 
-static char		*get_final_line(struct s_line *le, char *str, char *search)
+static char		*get_final_line_s(struct s_line *le, char *res, char *search)
 {
-	char	*res;
 	char	*tmp;
 	int		i;
 	int		check;
 
 	i = 0;
 	check = 0;
-	res = add_backslash(str);
-	if (!search)
-	{
-		tmp = ft_strjoin(le->cmd, res);
-		free(res);
-		return (tmp);
-	}
 	if (res[0] == '\\')
 		check++;
 	while (res[i + check])
@@ -85,6 +77,21 @@ static char		*get_final_line(struct s_line *le, char *str, char *search)
 		i++;
 	}
 	return (NULL);
+}
+
+static char		*get_final_line(struct s_line *le, char *str, char *search)
+{
+	char	*res;
+	char	*tmp;
+
+	res = add_backslash(str);
+	if (!search)
+	{
+		tmp = ft_strjoin(le->cmd, res);
+		free(res);
+		return (tmp);
+	}
+	return (get_final_line_s(le, res, search));
 }
 
 void			autoc_push_in_line(struct s_line *le, char *str, char *search)
