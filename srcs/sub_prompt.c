@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 10:36:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/06 19:53:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 int		prompt_show(const char *prompt)
 {
@@ -25,15 +25,22 @@ int		prompt_show(const char *prompt)
 		return (ft_strlen(g_prompts[0]));
 }
 
-void	subp_string(char **s)
+int		subpp_string(char **s)
 {
 	char	*new;
 	char	*input;
 
-	input = line_edition(NEED_SUBPROMPT_QUOTES);
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+	{
+		input = line_edition(NEED_SUBPROMPT_QUOTES);
+		if (input == NULL)
+			return (0);
+	}
 	ft_putchar('\n');
 	new = ft_strjoin(*s, input);
 	*s = new;
+	return (1);
 }
 
 static void	multiline_merge(t_lexeme *last, t_lexeme *new)
@@ -58,9 +65,16 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	t_lexeme	*new;
 	t_lexeme	*save;
 
-	input = line_edition(need_subprompt);
-	ft_putchar('\n');
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)	
+	{	
+		input = get_valid_input(&new, need_subprompt);
+ 		if (input == NULL)
+			return (NULL);	
+ 	}
+	log_fatal("Input : %s", input);
 	lexer(input, &new, NULL);
+	log_fatal("1st lex type : %zu - td %zu - d %s", new->type, new->type_details, new->data);
 	if (!lex)
 		return (new);
 	save = lex;
@@ -86,21 +100,25 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	return (save);
 }
 
-static int	there_is_no_cr(const char *input)
+static int	there_is_no_cr(char *input)
 {
 	size_t	input_len;
 
 	input_len = ft_strlen(input);
 	if (input_len >= 2 && input[input_len - 1] == '\n' && input[input_len - 2] == '\\')
+	{
+		input[ft_strlen(input) - 2] = '\0';
 		return (1);
+	}
 	return (0);
 }
 
-void	subp_heredoc(t_lexeme *lex, char *eof_word)
+int		subp_heredoc(t_lexeme *lex, char *eof_word)
 {
 	char	*input;
 	char	*final_input;
 	char	*final;
+	t_lexeme	*lexemes;
 
 	input = NULL;
 	final = (char *)ft_memalloc(sizeof(char));
@@ -110,16 +128,20 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	eof_word = ft_strjoin(eof_word, "\n");
 	while (!input)
 	{
-		input = line_edition(NEED_SUBPROMPT_HEREDOC);
-		ft_putchar('\n');
-		final_input = ft_strjoin(final_input, input);
+		input = get_valid_input(&lexemes, NEED_SUBPROMPT_HEREDOC);
+		free_lexemes(lexemes);
+		if (!input)
+			return (0);
 		while (there_is_no_cr(input))
 		{
-			final_input[ft_strlen(final_input) - 2] = '\0';
-			input = line_edition(NEED_SUBPROMPT_NEWLINE);
-			ft_putchar('\n');
 			final_input = ft_strjoin(final_input, input);
+			input = get_valid_input(&lexemes, NEED_SUBPROMPT_NEWLINE);
+			free_lexemes(lexemes);
+			if (!input)
+				return (0);
+			
 		}
+		final_input = ft_strjoin(final_input, input);
 		if (ft_strequ(final_input, eof_word))
 			break ;
 		final = ft_strjoin(final, final_input);
@@ -129,4 +151,7 @@ void	subp_heredoc(t_lexeme *lex, char *eof_word)
 	}
 	//final[ft_strlen(final) - 1] = '\0';
 	lex->next->data = final;
+	return(1);
 }
+
+// { le_debug("%s", "\n") }

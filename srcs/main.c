@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:36:15 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:10:28 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
+
+struct s_cmd_status	g_cmd_status = {
+	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false, .sigint_happened = false
+};
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -22,27 +26,31 @@ t_option		g_sh_opts[] = {
 };
 
 char			**g_envp;
-struct s_line	*g_le;
 
-static char		*get_valid_input(t_lexeme **lexemes)
+
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
 	char		*input;
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	input = line_edition(0);
-	ft_putchar('\n'); 
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+		input = line_edition(sub_prompt);
+	if (g_cmd_status.resize_happened == false)
+		ft_putchar('\n');
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-		UNMATCHED_QUOTE_ERR)
+	UNMATCHED_QUOTE_ERR)
 	{
 		free_lexemes(lexemes_ret);
-		subp_string(&input);
+		if (!subpp_string(&input))
+			return (NULL);
 	}
 	*lexemes = lexemes_ret;
 	return (input);
 }
 
-static int		twenty_one_sh(char *input, char **envp, \
+static int		forty_two_sh(char *input, char **envp, \
 					t_option *opt_list, t_option **char_opt_index)
 {
 	t_ast		*ast_root;
@@ -59,12 +67,12 @@ static int		twenty_one_sh(char *input, char **envp, \
 		free(input);
 		exit(1);
 	}
+	ast_root = ast(&lexemes);
 	free(input);
-	ast_root = ast(lexemes);
-	link_ast_data(ast_root);
 	free_lexemes(lexemes);
 	if (!ast_root)
-		return (1);
+		return (-1);
+	link_ast_data(ast_root);
 	exe = create_exec((const char **)envp);
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
@@ -88,12 +96,11 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 		log_set_quiet(1);
 	while (1)
 	{
-		if (!(input = get_valid_input(&lex)))
-			return ;
-		free_lexemes(lex);
+		if (!(input = get_valid_input(&lex, 0)))
+			continue ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		twenty_one_sh(input, envp, opt_list, char_opt_index);
+		forty_two_sh(input, envp, opt_list, char_opt_index);
 	}
 }
 
@@ -114,12 +121,13 @@ int			main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(0);
 	}
+	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
-			twenty_one_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
+			forty_two_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
 			args++;
 			ac--;
 		}

@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/25 18:19:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/01 15:34:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
 **	Initialize the termcaps library for the terminal.
@@ -35,23 +35,19 @@ static void		init_termcaps(void)
 static void			init_once(struct s_line *le)
 {
 	init_termcaps();
-	init_signals();
-	le->tcaps = init_termcaps_strings();
 
+	le->tcaps = init_termcaps_strings();
 	if ((le->history = malloc(sizeof(struct s_history))) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	le->history->prev = NULL;
 	le->history->next = NULL;
 	le->history->cmd = NULL;
-
 	le->save_tmp_cmd = NULL;
-
 	if ((le->clipboard = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	ft_memset(le->clipboard, '\0', LE_DEFAULT_LINE_SIZE);
 	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
 	le->clipboard_len = 0;
-
 	le->le_state.opt_colosyn = true;
 
 	load_history_file(le);
@@ -71,7 +67,7 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
 		init_once(le);
 		already_init = true;
 	}
-	
+	le->key_no = 0;
 	if ((le->cmd = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
 		le_exit("Memory allocation failed\n", "malloc", errno);
 	le->cmd_size = LE_DEFAULT_LINE_SIZE;

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 10:24:58 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/06 15:45:00 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-# include <twenty_one_sh.h>
+# include <forty_two_sh.h>
 
 /*
 ** Struct in linked list to store type of lexeme and data pointer
@@ -79,6 +79,7 @@ typedef struct			s_exec
 	int		ready_for_exec;
 	char	**envp;
 	char	**tmp_envp;
+
 }						t_exec;
 
 /*

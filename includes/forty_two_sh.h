@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
+/*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 14:11:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 14:46:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TWENTY_ONE_SH_H
-# define TWENTY_ONE_SH_H
+#ifndef FORTY_TWO_SH_H
+# define FORTY_TWO_SH_H
 
 # include <stdint.h>
 # include <inttypes.h>
@@ -46,8 +46,10 @@
 # include "line_edition.h"
 # include "exec.h"
 # include "syntax_highlighting.h"
+# include "signals.h"
 # include "script.h"
 # include "get_next_line.h"
+# include "autocomplete.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
@@ -62,7 +64,7 @@ extern const char	*g_prompts[10];
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./21sh [-hcGv] [-c \"command\"] - MAKE 42SH GREAT AGAIN "
+	"./42sh [-hcGv] [-c \"command\"]"
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
@@ -78,10 +80,11 @@ extern char			**g_envp;
 
 
 int			prompt_show(const char *prompt);
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
 
-void		subp_string(char **s);
+int			subpp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
-void		subp_heredoc(t_lexeme *lex, char *eof_word);
+int			subp_heredoc(t_lexeme *lex, char *eof_word);
 
 void		ft_free_argv(char **tab_);
 
@@ -106,5 +109,10 @@ void	load_history_file(struct s_line *le);
 char  	*get_parsed_history_file_path(void);
 
 long long	ft_atoll(const char *str);
+t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
+
+const char      *parse_exclamation_mark_shortcuts(const char *excla);
+
+bool	str_is_positive_numeric(const char *str); // ira dans libft
 
 #endif

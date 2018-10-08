@@ -6,16 +6,16 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 14:49:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/06 19:24:52 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
 **	Return he number of elements in the history.
 */
-
+/*
 static unsigned int	get_nb_elem_in_history(void)
 {
 	struct s_history	*his;
@@ -32,7 +32,7 @@ static unsigned int	get_nb_elem_in_history(void)
 	}
 	return (nb_elem);
 }
-
+*/
 /*
 **	Print all history's elements with an index.
 */
@@ -63,21 +63,6 @@ static void	print_history_with_indexes(void)
 			++index;
 		}
 	}
-}
-
-/*
-**	Return 'true' if 'str' represents a positive number.
-*/
-
-static bool	str_is_positive_numeric(const char *str)
-{
-	while (*str != '\0')
-	{
-		if (*str < '0' || *str > '9')
-			return (false);
-		++str;
-	}
-	return (true);
 }
 
 /*

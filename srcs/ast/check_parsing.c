@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 14:43:49 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 14:30:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
 ** Check if lex1 and lex2 can be neighbour on the commandline
@@ -32,6 +32,8 @@ static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 		return (0);
 	else if (lex2 && is_op3(lex1) && lex2->type != T_WORD)
 		return (0);
+	else if (lex2 && is_op2(lex1) && lex2->type_details == TK_NEWLINE)
+		return (0);
 	return (1);
 }
 
@@ -40,14 +42,18 @@ static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 ** If there is an error, make the ast() function return NULL to the main()
 */
 
-int			check_parsing(t_lexeme *lex)
+int			check_parsing(t_lexeme *lex, t_lexeme **error)
 {
 	int		need_subpropmt;
 
+	*error = NULL;
 	if (!lex || lex->type_details == TK_NEWLINE)
 		return (1);
 	if (lex->type != T_WORD && lex->type != T_ENV_ASSIGN && lex->type < 5)
+	{
+		*error = lex;
 		return (0);
+	}
 	lex = lex->next;
 	if (!lex)
 		return (NEED_SUBPROMPT_NEWLINE);
@@ -60,14 +66,20 @@ int			check_parsing(t_lexeme *lex)
 				free(lex->next->data);
 				lex->next->data = ft_strdup("");
 			}
-			else
-				subp_heredoc(lex, lex->next->data);
+			else if (*((char *)lex->next->data) && !subp_heredoc(lex, lex->next->data))
+			{
+				*error = (t_lexeme *)-1;
+				return (-1);
+			}
 		}
 		if (!lex->next && lex->type_details != TK_NEWLINE \
 		&& lex->type_details != TK_SCRIPT_FI)
 			return (NEED_SUBPROMPT_NEWLINE);
 		if (!check_lexeme(lex, lex->next))
+		{
+			*error = lex->next;
 			return (0);
+		}
 		else if ((need_subpropmt = check_lexeme(lex, lex->next)) < 0)
 			return (need_subpropmt);
 		lex = lex->next;

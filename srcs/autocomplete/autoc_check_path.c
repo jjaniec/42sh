@@ -3,16 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   autoc_check_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 10:19:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/26 16:05:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/05 13:53:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
-char	autoc_check_path(char *dirname)
+bool					autoc_check_dot(char *path)
+{
+	int		i;
+
+	if (!ft_strcmp(path, "."))
+		return (true);
+	if (!ft_strchr(path, '.'))
+		return (false);
+	i = ft_strlen(path);
+	while (path[i] != '/' && i >= 0)
+		i--;
+	if (path[i + 1] && path[i + 1] == '.')
+		return (true);
+	return (false);
+}
+
+char					autoc_check_path(char *dirname)
 {
 	struct stat fstat;
 
@@ -22,14 +38,6 @@ char	autoc_check_path(char *dirname)
 		return ('d');
 	else if (S_ISLNK(fstat.st_mode))
 		return ('l');
-	else if (S_ISSOCK(fstat.st_mode))
-		return ('s');
-	else if (S_ISFIFO(fstat.st_mode))
-		return ('p');
-	else if (S_ISCHR(fstat.st_mode))
-		return ('c');
-	else if (S_ISBLK(fstat.st_mode))
-		return ('b');
 	else if (S_ISREG(fstat.st_mode))
 		return ('-');
 	return (1);

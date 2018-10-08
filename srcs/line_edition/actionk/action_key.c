@@ -6,20 +6,20 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 17:05:47 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/18 16:43:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:04:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
-**	Initialization of an array containing the correspondences between 
+**	Initialization of an array containing the correspondences between
 **	the action keys and their functions.
 */
 
-static	struct s_action_key	*get_array_action_key(void)
+static const struct s_action_key	*get_array_action_key(void)
 {
-	static struct s_action_key	actionk[LE_NB_KEYS] =
+	static const struct s_action_key	actionk[LE_NB_KEYS] =
 	{
 		{LE_ARROW_RIGHT, &actionk_cursor_move_right},
 		{LE_ARROW_LEFT, &actionk_cursor_move_left},
@@ -44,7 +44,8 @@ static	struct s_action_key	*get_array_action_key(void)
 		{LE_ARROW_UP, &actionk_history_up},
 		{LE_ARROW_DOWN, &actionk_history_down},
 		{LE_CTRL_D, &actionk_eof},
-		{LE_CTRL_L, &actionk_clear_screen}
+		{LE_CTRL_L, &actionk_clear_screen},
+		{LE_TAB, &autocomplete}
 	};
 
 	return (actionk);
@@ -56,8 +57,8 @@ static	struct s_action_key	*get_array_action_key(void)
 
 void						action_key(t_kno key_no, struct s_line *le)
 {
-	struct s_action_key		*actionk;
-	unsigned int			i;
+	const struct s_action_key	*actionk;
+	unsigned int				i;
 
 	actionk = get_array_action_key();
 	i = 0;

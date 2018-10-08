@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 19:10:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/06 20:07:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ int		get_le_debug_status(int mode, int new_value);
 
 ////////////////////////////////////////////////////////
 
-# include <twenty_one_sh.h>
+# include <forty_two_sh.h>
 
 /*
 **	Sizes
 */
 # define LE_DEFAULT_LINE_SIZE 10//(2048U)
-# define LE_KEY_SIZE (9U)
+# define LE_KEY_BUFFER_SIZE (9U)
 
 /*
 **	Action Keys
 */
-# define LE_NB_KEYS (24)
+# define LE_NB_KEYS (25)
 # define LE_ARROW_UP ((27) + (91 << 1) + (65 << 2))
 # define LE_ARROW_DOWN ((27) + (91 << 1) + (66 << 2))
 # define LE_ARROW_RIGHT ((27) + (91 << 1) + (67 << 2))
@@ -55,6 +55,7 @@ int		get_le_debug_status(int mode, int new_value);
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
+# define LE_TAB (9)
 # define LE_DELETE ((27) + (91 << 1) + (51 << 2) + (126 << 3))
 # define LE_CTRL_B (2)
 # define LE_CTRL_F (6)
@@ -78,6 +79,7 @@ int		get_le_debug_status(int mode, int new_value);
 /*
 **	Things
 */
+# define RESIZE_IN_PROGRESS ((char *)(-1))
 # define LE_DEFAULT_PROMPT (0)
 # define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
@@ -87,6 +89,16 @@ int		get_le_debug_status(int mode, int new_value);
 **	Data type representing a key number
 */
 typedef uint64_t t_kno;
+
+/*
+**	For read_key() function
+*/
+enum e_read_key
+{
+	INTR_BY_SIGINT = 0,
+	ALL_IS_ALRIGHT = 1,
+	INTR_BY_SIGWINCH = 2
+};
 
 /*
 **	For set_term_attr() function
@@ -125,26 +137,38 @@ struct s_le_state
 };
 
 /*
-**	nd : cursor moves one step right
+**	cl : clear screen
+**	md : begin bold mode
 **	le : cursor moves one step left
+**	nd : cursor moves one step right
 **	_do : (because 'do' is a standard keyword) cursor moves one line down
 **	up : cursor moves one line up
 **	dc : delete character under the cursor
-**	cl : clear screen
-**	md : begin bold mode
 **	me : end bold mode
+**	cr : cursor_pos 0
+**	sc : save cursor_pos
+**	rc : restore cursor from last save
+**	cd : clear all after cursor
+**	dl : Delete a line
+**	al : add a line
 */
 
 struct s_le_termcaps
 {
-	const char	*nd;
+	const char	*cl;
+	const char	*md;
 	const char	*le;
+	const char	*nd;
 	const char	*_do;
 	const char	*up;
 	const char	*dc;
-	const char	*cl;
-	const char	*md;
 	const char	*me;
+	const char	*cr;
+	const char	*sc;
+	const char	*rc;
+	const char	*cd;
+	const char	*dl;
+	const char	*al;
 };
 
 /*
@@ -156,7 +180,7 @@ struct s_le_termcaps
 **	cmd_size : size in bytes of the buffer 'cmd'.
 **	cmd_len : number of characters stored in the buffer 'cmd'.
 **	cursor_index : position of the cursor for the buffer 'cmd'.
-**	start_pos : starting position of the command line, 
+**	start_pos : starting position of the command line,
 **				depending on the prompt's length.
 **	cursor_pos : position of the cursor on its line (0 is the first position,
 **				 'term_line_size - 1' is the last position on the line).
@@ -164,15 +188,15 @@ struct s_le_termcaps
 **				  the first line, 'nb_lines_written - 1' is the last one).
 **	term_line_size : size of a line for the current window
 **					 (same as the number of columns).
-**	nb_lines_written : number of lines currently written for the 
+**	nb_lines_written : number of lines currently written for the
 **					   current command line.
-**	nb_char_on_last_line : number of characters currently written on the last 
+**	nb_char_on_last_line : number of characters currently written on the last
 **						   line of the current command line.
 **	clipboard : buffer containing the shell's clipboard.
 **	clipboard_size : size in bytes of the buffer 'clipboard'.
 **	clipboard_len : number of characters stored in the buffer 'clipboard'.
 **	tcaps : termcaps strings
-**	history : currently pointed element of the linked list representing 
+**	history : currently pointed element of the linked list representing
 **			  the shell's history.
 **	save_tmp_cmd : buffer useful to save the command line when navigating
 **				   into the shell's history.
@@ -182,10 +206,11 @@ struct s_line
 {
 	struct s_le_state		le_state;
 
+	char					key_buffer[LE_KEY_BUFFER_SIZE];
 	t_kno					key_no;
 	char					*cmd;
 	size_t					cmd_size;
-	unsigned int			cmd_len;
+	size_t					cmd_len;
 
 	unsigned int			cursor_index;
 	unsigned int			start_pos;
@@ -298,7 +323,7 @@ void	refresh_colosyn(struct s_line *le, char *cmd);
 /*
 **	init_le
 */
-void					init_line_edition_attributes(struct s_line *le, 
+void					init_line_edition_attributes(struct s_line *le,
 													 int prompt_type);
 struct s_le_termcaps	*init_termcaps_strings(void);
 void					set_term_attr(t_set_term mode);
@@ -314,11 +339,6 @@ unsigned int	print_str_on_term(const char *str,
 								  unsigned int tmp_current_cursor_pos,
 								  struct s_line *le, int foo);
 
-
-/*
-**	signals
-*/
-void    init_signals(void);
 
 /*
 **	tools
@@ -337,15 +357,14 @@ int				write_one_char(int c);
 */
 struct s_line	*access_le_main_datas(void);
 void			add_history(const char *input, struct s_line *le);
+void    		handle_window_resize(struct s_line *le);
 void			le_exit(const char *msg, const char *func_name, int errno_value);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
-void			process_key(t_kno key, struct s_line *le);
+t_kno			get_key_number(const char *key);
+void			process_key(struct s_line *le);
 
-
-
-void *ft_realloc(void *, size_t, size_t); // tmp
 
 
 
@@ -359,11 +378,6 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
 
 
-	dossier caché dans le home
-	dedans ya le fichier historique
-	un .42shrc qui contient des alias
-
-
 	faudra tester la commande clear quand on aura le full prompt sur deux lignes la,
 	possible que ca ne marche pas on veut, auquel cas on fera un builtin clear personnalisé ;)
 
@@ -371,6 +385,26 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
 	remonté trop haut, alors ctrl+u a un affichage un peu bugué
 
+
+	penser a faire ctrl + l
+
+
+	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
+
+
+	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug
+	(go tester d'autres trucs du genre)
+
+	LA COMMANDE "srcs" est not found, mais "srcs/" CA RALE PAS ??????? GO CORRIGER CA
+
+	./21sh -c "history"   CA SEGFAULT LOL GO REGLER CA
+
+	valgrind ./42sh -c "history --save"
+
+	fleche haut bas pour l'histo quand c multiligne genre vaec des quotes
+
+
+	le resize ne replace pas le cursseur la ou il etait, go le faire
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
 	{
@@ -380,7 +414,7 @@ void *ft_realloc(void *, size_t, size_t); // tmp
 		history
 		!
 	}
-	
+
 
 */
 

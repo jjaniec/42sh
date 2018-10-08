@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 21:18:37 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 18:20:31 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/09/29 17:06:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <twenty_one_sh.h>
+#include <forty_two_sh.h>
 
 /*
 **	Print a string on the terminal's window, using the cursor position 
@@ -25,12 +25,8 @@ unsigned int	print_str_on_term(const char *str,
 {
 	bool foofoo; 
 	
-	foofoo = false;
-	if (foo == LE_SPECIAL_CASE)
-	{
-		foo = 2;
-		foofoo = true;
-	}
+	foofoo = (foo == LE_SPECIAL_CASE) ? (true) : (false);
+	foo = (foo == LE_SPECIAL_CASE) ? (2) : (foo);
 	while (*str != '\0')
 	{
 		++tmp_cursor_pos;
