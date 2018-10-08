@@ -37,9 +37,9 @@ static char		*autoc_get_path(struct s_line *le)
 
 	i = le->cursor_index - 1;
 	count = 0;
-	if (le->cmd[i] == ' ')
+	if (le->cmd[i] == ' ' && le->cmd[i - 1] != '\\')
 		return (ft_strdup("./"));
-	while (le->cmd[i] != ' ')
+	while (le->cmd[i] != ' ' || le->cmd[i - 1] == '\\')
 	{
 		count++;
 		i--;
@@ -95,7 +95,7 @@ char			**autoc_dir(t_autoc *autoc)
 	char		*path;
 
 	path = autoc_get_path(autoc->le);
-	if (ft_strchr(path, '~') || ft_strchr(path, '$'))
+	if (ft_strchr(path, '~') || ft_strchr(path, '$') || ft_strchr(path, '\\'))
 		handle_quotes_expansions(&path);
 	autoc->dot = autoc_check_dot(path);
 	if (!autoc->dot && autoc_check_path(path) == 'd')
