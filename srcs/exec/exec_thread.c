@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 21:08:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 16:03:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@
 static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 				t_ast *node)
 {
-	handle_pipes(node);
+	int		backup_stdout;
+	int		pipe_stdout_fd;
+
+	backup_stdout = dup(STDOUT_FILENO);
+	pipe_stdout_fd = handle_pipes(node);
 	handle_redirs(node);
 	if (cmd)
 	{
@@ -49,6 +53,12 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 			if (execve(cmd[1], cmd[2], env->environ) == -1)
 				log_error("Execve() not working");
 		}
+	}
+	if (pipe_stdout_fd)
+	{
+		//close(pipe_stdout_fd);
+		dup2(backup_stdout, STDOUT_FILENO);
+		close(backup_stdout);
 	}
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
 		exit(1);

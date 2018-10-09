@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 12:06:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 16:02:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handle_redir_fd(int input_fd, int target_fd);
 
 // Pipes
 
-void	handle_pipes(t_ast *node);
+int		handle_pipes(t_ast *node);
 void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
 
