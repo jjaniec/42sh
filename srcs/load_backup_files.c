@@ -6,11 +6,30 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/08 21:18:40 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/09 16:21:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+static void	do_the_copy(const char *separator_sign_pos, bool *first_elem, \
+								struct s_alias **alias, const char *line)
+{
+	if (*first_elem == false)
+	{
+		(*alias)->next = malloc(sizeof(struct s_alias));
+		(*alias) = (*alias)->next;
+		(*alias)->next = NULL;
+	}
+	(*alias)->key = malloc(separator_sign_pos - line + 1);
+	ft_memcpy((*alias)->key, line, separator_sign_pos - line);
+	(*alias)->key[separator_sign_pos - line] = '\0';
+	(*alias)->value = malloc(ft_strlen(separator_sign_pos));
+	ft_memcpy((*alias)->value, separator_sign_pos + 1, \
+	ft_strlen(separator_sign_pos + 1));
+	(*alias)->value[ft_strlen(separator_sign_pos + 1)] = '\0';
+	*first_elem = false;
+}
 
 static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 {
@@ -30,33 +49,11 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		}
 		else if (ret == 0)
 			break ;
-
 		separator_sign_pos = ft_strchr(line, ' ');
 		if (separator_sign_pos != NULL)
-		{
-			if (first_elem == false)
-			{
-				alias->next = malloc(sizeof(struct s_alias));
-				alias = alias->next;
-				alias->next = NULL;
-			}
-			
-			//{ le_debug("ALLOC KEY %ld\n", separator_sign_pos - line + 1) }
-			alias->key = malloc( separator_sign_pos - line + 1 );
-			ft_memcpy(alias->key, line, separator_sign_pos - line);
-			alias->key[separator_sign_pos - line] = '\0';
-
-			//{ le_debug("ALLOC VALUE %lu\n", ft_strlen(separator_sign_pos)) }
-			alias->value = malloc( ft_strlen(separator_sign_pos) );
-			ft_memcpy(alias->value, separator_sign_pos + 1, ft_strlen(separator_sign_pos + 1));
-			alias->value[ft_strlen(separator_sign_pos + 1)] = '\0';
-
-			first_elem = false;
-		}
-
+			do_the_copy(separator_sign_pos, &first_elem, &alias, line);
 		free(line);
 	}
-
 }
 
 void		load_aliases_file(struct s_alias *alias)
