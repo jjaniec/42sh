@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 17:02:20 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/05 13:54:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/09 18:36:32 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,22 @@ static char		*get_final_line(struct s_line *le, char *str, char *search)
 void			autoc_push_in_line(struct s_line *le, char *str, char *search)
 {
 	char	*final_line;
+	int		i;
 
+	i = 0;
 	final_line = get_final_line(le, str, search);
 	if (final_line == NULL)
 		return ;
-	refresh_colosyn(le, final_line);
+	if (le->le_state.opt_colosyn)
+		refresh_colosyn(le, final_line);
+	else
+	{
+		actionk_delete_current_input(le);
+		while (final_line[i])
+		{
+			print_key_at_end(le, final_line[i]);
+			i++;
+		}
+	}
 	free(final_line);
 }
