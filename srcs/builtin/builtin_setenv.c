@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/04 20:24:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 13:16:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,35 @@
 ** Check args format and return 1 to print error messages if any of them is invalid
 */
 
+static int	is_identifier_invalid(char *str, char *assign_ptr)
+{
+	char	*identifier_begin;
+
+	if (!(str))
+		return (1);
+	identifier_begin = str;
+	while (*identifier_begin && \
+		identifier_begin != assign_ptr && \
+		!ft_strchr(IFS""EXPANSIONS_SPECIFIERS, *identifier_begin))
+	{
+		identifier_begin++;
+	}
+	log_debug("identifier begin: %s - assign_ptr %s", identifier_begin, assign_ptr);
+	if (identifier_begin == assign_ptr && assign_ptr != str)
+		return (0);
+	return (1);
+}
+
 static int	check_args(char **argv)
 {
+	char	*assign_ptr;
+
 	while (argv && *argv)
-		if (!(ft_strchr(*argv++, '=')))
+		if (!(assign_ptr = ft_strchr(*argv, '=')))
 			return (1);
+		else if (is_identifier_invalid(*argv, assign_ptr))
+			return (2);
+		else argv++;
 	return (0);
 }
 
@@ -28,9 +52,12 @@ static int	check_args(char **argv)
 ** Print invalid parameters error message
 */
 
-static void	print_setenv_error(void)
+static void	print_setenv_error(int err)
 {
-	ft_putstr_fd(SH_NAME": setenv: usage VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
+	if (err == 1)
+		ft_putstr_fd(SH_NAME": setenv: usage VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
+	else if (err == 2)
+		ft_putstr_fd(SH_NAME": invalid identifiers\n", 2);
 }
 
 /*
@@ -40,6 +67,7 @@ static void	print_setenv_error(void)
 void		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 {
 	char		**ptr;
+	int			err;
 
 	(void)argv;
 	(void)env;
@@ -50,9 +78,9 @@ void		builtin_setenv(char **argv, t_environ *env, t_exec *exe)
 		builtin_env((char *[2]){"env", NULL}, env, exe);
 		return ;
 	}
-	if (check_args(ptr))
+	if ((err = check_args(ptr)))
 	{
-		print_setenv_error();
+		print_setenv_error(err);
 		exe->ret = 1;
 		return ;
 	}

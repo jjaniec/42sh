@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/04 20:45:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 01:13:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,19 @@ static char		*get_env_var_value(char *ptr, t_shell_vars *vars, int *expansion_na
 	if (!(ptr && *ptr))
 		return (NULL);
 	var_value = NULL;
-	exp_end_ptr = get_expansion_end(ptr);
+	exp_end_ptr = get_expansion_end(ptr + 1);
+	if (exp_end_ptr == ptr + 1)
+		return (ptr);
 	exp_end_ptr_char = *(exp_end_ptr);
 	(*exp_end_ptr) = '\0';
-	*expansion_name_len = ft_strlen(ptr);
-	if (vars->env->get_var(vars->env, ptr))
+	*expansion_name_len = ft_strlen(ptr + 1);
+	if (vars->env->get_var(vars->env, ptr + 1))
 		var_value = vars->env->last_used_elem->val_begin_ptr;
-	else if (vars->internals->get_var(vars->internals, ptr))
+	else if (vars->internals->get_var(vars->internals, ptr + 1))
 		var_value = vars->internals->last_used_elem->val_begin_ptr;
-	else if (vars->locals->get_var(vars->locals, ptr))
+	else if (vars->locals->get_var(vars->locals, ptr + 1))
 		var_value = vars->locals->last_used_elem->val_begin_ptr;
-	log_trace("Got env var value of |%s| for %s env variable expansion", var_value, ptr);
+	log_trace("Got env var value of |%s| for %s env variable expansion", var_value, ptr + 1);
 	*(exp_end_ptr) = exp_end_ptr_char;
 	return (var_value);
 }
@@ -79,7 +81,7 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 		*(l->raw_lexeme_read_ptr) += 1;
 		return ;
 	}
-	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr) + 1, \
+	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr), \
 		vars, &expansion_name_len);
 	if (env_var_value && *env_var_value)
 		concat_expansion_data(l, env_var_value);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 14:01:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 13:20:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@
 */
 
 # define EXPANSIONS_SPECIFIERS	"$~"
+# define EXPANSIONS_END_CHARS	"$\\/=" // + \' \" & IFS
 
 int						lexer(char *line, t_lexeme **lexemes, \
 							char **unmatched_quote_err_ptr);
