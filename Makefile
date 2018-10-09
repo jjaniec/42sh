@@ -66,6 +66,8 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_check_path.c \
 			autocomplete/autoc_push_in_line.c \
 			autocomplete/autoc_arrow.c \
+			hash_table/ht_setup.c \
+			hash_table/ht_mem_free.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -185,6 +187,7 @@ INCLUDES_NAME = ast.h \
 				signals.h \
 				struct.h \
 				syntax_highlighting.h \
+				hash_table.h \
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -209,7 +212,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ signals/ 
+			syntax_highlighting/ script/ autocomplete/ signals/ hash_table/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

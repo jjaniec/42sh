@@ -111,6 +111,7 @@ int			main(int ac, char **av, char **envp)
 	char		**args;
 
 	g_envp = cp_envp((const char **)envp);
+	ht_setup(envp);
 	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);

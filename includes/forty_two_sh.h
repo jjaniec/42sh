@@ -50,6 +50,7 @@
 # include "script.h"
 # include "get_next_line.h"
 # include "autocomplete.h"
+# include "hash_table.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
