@@ -125,6 +125,8 @@ char	*get_parsed_history_file_path(void);
 
 char	*ft_strjoin_path(char *path1, char *path2);
 
+int		is_identifier_invalid(char *str, char *assign_ptr);
+
 t_shell_vars	*get_shell_vars(void);
 
 #endif

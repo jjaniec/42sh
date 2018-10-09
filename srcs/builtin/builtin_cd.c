@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 20:43:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 15:11:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,36 @@ static int	ft_change_dir(t_environ *env, char *path, char *cwd)
 	}
 }
 
+/*
+** Handle cd -
+*/
+
+static int	builtin_cd_dash(t_environ *env, char *cwd)
+{
+	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
+
+	if (env->get_var(env, "OLDPWD"))
+	{
+		ft_strcpy(old_oldpwd, env->last_used_elem->val_begin_ptr);
+		if (!ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
+			ft_putendl(old_oldpwd);
+		return (0);
+	}
+	ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
+	return (1);
+}
+
+/*
+** Change current directory and update PWD & OLDPWD env
+** variables
+*/
+
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
 	char		cwd[MAX_ENV_ENTRY_LEN];
 	(void)exe;
 
+	exe->ret = 0;
 	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)))
 	{
 		if (errno == EACCES)
@@ -97,9 +122,8 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 		}
 		else
 			exit(MALLOC_ERROR);
-		return ;
 	}
-	if (!argv[1])
+	if (!exe->ret && !argv[1])
 	{
 		if (env->get_var(env, "HOME"))
 			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
@@ -110,24 +134,12 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 			return ;
 		}
 	}
-	else if (!ft_strcmp(argv[1], "-"))
+	else if (!exe->ret && !ft_strcmp(argv[1], "-"))
 	{
-		if (env->get_var(env, "OLDPWD"))
-		{
-			if (!ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
-				ft_putendl(env->last_used_elem->val_begin_ptr);
-		}
-		else
-		{
-			ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
-			exe->ret = 1;
+		if ((exe->ret = builtin_cd_dash(env, cwd)))
 			return ;
-		}
 	}
-	else if (argv[1]) //	//else if (ft_strchr(argv[1], '/')
+	else if (!exe->ret && argv[1])
 		ft_change_dir(env, argv[1], cwd);
-	//else if (argv[1])
-	//	ft_cd_relative_dir(env, argv[1], getcwd_ret, cwd);
 	ft_refresh_cwd_env(env);
-	exe->ret = 0;
 }

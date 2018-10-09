@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 13:16:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 15:23:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,6 @@
 /*
 ** Check args format and return 1 to print error messages if any of them is invalid
 */
-
-static int	is_identifier_invalid(char *str, char *assign_ptr)
-{
-	char	*identifier_begin;
-
-	if (!(str))
-		return (1);
-	identifier_begin = str;
-	while (*identifier_begin && \
-		identifier_begin != assign_ptr && \
-		!ft_strchr(IFS""EXPANSIONS_SPECIFIERS, *identifier_begin))
-	{
-		identifier_begin++;
-	}
-	log_debug("identifier begin: %s - assign_ptr %s", identifier_begin, assign_ptr);
-	if (identifier_begin == assign_ptr && assign_ptr != str)
-		return (0);
-	return (1);
-}
 
 static int	check_args(char **argv)
 {
@@ -55,7 +36,7 @@ static int	check_args(char **argv)
 static void	print_setenv_error(int err)
 {
 	if (err == 1)
-		ft_putstr_fd(SH_NAME": setenv: usage VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
+		ft_putstr_fd(SH_NAME": setenv: usage setenv VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
 	else if (err == 2)
 		ft_putstr_fd(SH_NAME": invalid identifiers\n", 2);
 }

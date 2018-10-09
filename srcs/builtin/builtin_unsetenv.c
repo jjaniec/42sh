@@ -6,21 +6,63 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:36:08 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 15:49:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 15:34:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
+/*
+** Check validity of unsetenv parameters
+*/
+
+static int	check_args(char **argv)
+{
+	while (argv && *argv)
+		if (ft_strchr(*argv, '='))
+			return (1);
+		else if (is_identifier_invalid(*argv, NULL))
+			return (2);
+		else argv++;
+	return (0);
+}
+
+/*
+** Print invalid parameters error messages
+*/
+
+static void	print_unsetenv_error(int err)
+{
+	if (err == 1)
+		ft_putstr_fd(SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n", 2);
+	else if (err == 2)
+		ft_putstr_fd(SH_NAME": invalid identifiers\n", 2);
+}
+
+/*
+** Unset environnement variables passed as parameters
+*/
+
 void		builtin_unsetenv(char **argv, t_environ *env, t_exec *exe)
 {
-	(void)argv;
-	(void)exe;
+	int		err;
+
+	if (!(argv[1]))
+	{
+		print_unsetenv_error(1);
+		return ;
+	}
+	if ((err = check_args(argv + 1)))
+	{
+		print_unsetenv_error(err);
+		exe->ret = 1;
+		return ;
+	}
 	if (env && argv && *argv)
 	{
 		argv++;
 		while (*argv)
 			env->del_var(env, *argv++);
 	}
-	//return (0);
+	exe->ret = 0;
 }

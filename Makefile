@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/02 14:26:50 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/09 15:25:09 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,6 +154,7 @@ SRC_NAME = 	is_separator.c \
 			env/del_env_var.c \
 			env/get_env_var.c \
 			env/upd_env_var.c \
+			builtin/is_identifier_invalid.c \
 			free_all_shell_data.c \
 			env/free_env_entries.c \
 			history_file_checker.c \
