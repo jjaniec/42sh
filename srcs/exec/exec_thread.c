@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/09 16:03:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 17:18:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 	}
 	if (pipe_stdout_fd)
 	{
-		//close(pipe_stdout_fd);
-		dup2(backup_stdout, STDOUT_FILENO);
-		close(backup_stdout);
+		close(pipe_stdout_fd);
+		handle_redir_fd(STDOUT_FILENO, backup_stdout);
+		//dup2(backup_stdout, STDOUD_FILENO);
+		//close(backup_stdout);
 	}
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
 		exit(1);
@@ -129,8 +130,8 @@ static int	should_fork(void **cmd)
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		(ptr == builtin_echo || \
 		ptr == builtin_return || \
-		ptr == builtin_test || \
-		ptr == builtin_env))
+		ptr == builtin_test /*|| \
+		ptr == builtin_env*/))
 		return (1);
 	return (0);
 }

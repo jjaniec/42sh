@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/05 19:24:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 20:12:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void		builtins_tests(t_environ *env)
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
 	//compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented yet
-	compare_sh_42sh_outputs("Builtin env 3 - env w/ valid args & pipe", "env TEST1=TEST__ TEST2=TEST______ | grep -v _", "export TEST1=TEST__ TEST2=TEST______ | grep -v _");
+	compare_sh_42sh_outputs("Builtin env 3 - env w/ valid args & pipe", \
+		"env TEST1=TEST__ TEST2=TEST______ | grep -E 'TEST[12]'", "env TEST1=TEST__ TEST2=TEST______ | grep -E 'TEST[12]'");
 	compare_sh_42sh_outputs("Builtin env 4 - env -i w/ valid args", "env -i A=B TEST1=TEST__ TEST2=TEST______", "env -i A=B TEST1=TEST__ TEST2=TEST______");
 	compare_sh_42sh_outputs("Builtin env 5 - env -i w/ valid args & pipe", "env -i A=B TEST1=TEST__ TEST2=TEST______", NULL);
 	compare_sh_42sh_outputs("Builtin env 6 - env -i w/o args w/ pipe", "env -i", NULL);

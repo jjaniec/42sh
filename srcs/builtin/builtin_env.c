@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 21:12:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 17:02:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void			builtin_env(char **argv, t_environ *env, t_exec *exe)
 		print_env_content(env->environ);
 	if (exe)
 		exe->ret = 0;
-	exit(exe->ret);
+	//exit(exe->ret);
 	//exe->ret = (argv[1] && builtin_env_(argv, env)) ??!??! print_env_content(env->environ);
 	//exe->ret = builtin_env_(argv, env);
 }
