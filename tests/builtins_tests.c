@@ -6,13 +6,50 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 20:12:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 21:28:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-void		builtins_tests(t_environ *env)
+#define SETENV_INVALID_IDENTIFIERS_STR_ERR SH_NAME": invalid identifiers\n"
+
+t_environ *g_env_lol;
+
+
+static void		exec(char *input)
+{
+	t_lexeme	*lex;
+	t_ast		*ast_root;
+	t_exec		*exe;
+
+	lexer(input, &lex, NULL);
+	ast_root = ast(lex);
+	exe = create_exec(g_env_lol);
+	if (!ast_root)
+		return ;
+	exe = create_exec(g_env_lol);
+	exe = exec_cmd(ast_root, exe);
+	ast_free(ast_root);
+	free_lexemes(lex);
+	free(exe);
+}
+
+static void		compare_fds_w_strings(char *test_name, char *str_test, char *expected_stdout, char *expected_stderr)
+{
+	int		backup_stdout_fd;
+	int		backup_stderr_fd;
+	char	*tmp;
+
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd, NULL, NULL);
+	exec((tmp = ft_strjoin(str_test, "\n")));
+	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), expected_stderr, backup_stdout_fd, backup_stderr_fd);
+	remove(redirect_both_fds_STDOUT_FILENAME);
+	remove(redirect_both_fds_STDERR_FILENAME);
+	free(tmp);
+}
+
+void			builtins_tests(t_environ *env)
 {
 	(void)env;
 
@@ -66,24 +103,33 @@ void		builtins_tests(t_environ *env)
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
 
-	compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL\" \"echo $LOL", "export LOL=LAL; echo $LOL");
-/*
-	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv", "export | cut -d ' ' -f 2");
-	compare_sh_42sh_outputs("Builtin setenv 1 - w/o valid args", "setenv lol", "export | cut -d ' ' -f 2");
-	compare_sh_42sh_outputs("Builtin setenv 1", "setenv lol=", "export | cut -d ' ' -f 2");
-	//compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL; echo $LOL", "export LOL=LAL; echo $LOL");
-	compare_sh_42sh_outputs("Builtin setenv 2 - w/o valid args 1", "setenv a", "export a");
-	compare_sh_42sh_outputs("Builtin setenv 3 - w/o valid args 2", "setenv a=b b=c d=e f=g h=", "export a=b b=c d=e f=g h=");
-	compare_sh_42sh_outputs("Builtin setenv 4 - w/o valid args 3", "setenv a=b b=c d=e f=g =i", "export a=b b=c d=e f=g =i");
-	compare_sh_42sh_outputs("Builtin setenv 5 - w/o valid args 4", "setenv a=b b=c d=e f=g h =i", "export a=b b=c d=e f=g h =i");
-	compare_sh_42sh_outputs("Builtin setenv 6 - w/o valid args 5", "setenv a=b b=c d=e f=g h= i", "export a=b b=c d=e f=g h= i");
-	compare_sh_42sh_outputs("Builtin setenv 7 - w/o valid args 6", "setenv a=b b=c d=e f=gh=i", "export a=b b=c d=e f=gh=i");
-	compare_sh_42sh_outputs("Builtin setenv 8 - w/ valid args", "setenv a=b c=d", "export a=b c=d");
-	compare_sh_42sh_outputs("Builtin setenv 9 - w/ many valid args", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -v _", \
-		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -v _");
-	compare_sh_42sh_outputs("Builtin setenv 10 - valid args w/ re-assignations", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -v _", \
-		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -v _");
-*/
+	//compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv", "export | cut -d ' ' -f 2");
+	compare_fds_w_strings("Builtin setenv 2 - err check 1", "setenv =", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 3 - err check 2", "setenv ==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 4 - err check 3", "setenv $=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 5 - err check 4", "setenv $==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 6 - err check 5", "setenv $\\=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 7 - err check 6", "setenv \\=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 8 - err check 7", "setenv $wdwadadaw=", NULL, NULL);
+	compare_fds_w_strings("Builtin setenv 9 - err check 8", "setenv $$wdwadadaw=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 10 - err check 9", "setenv lol", NULL, BUILTIN_SETENV_USAGE);
+	compare_fds_w_strings("Builtin setenv 11 - err check 10 - invalid arg in large list", \
+		"setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r r1 =s && env | grep -v _", \
+		NULL, BUILTIN_SETENV_USAGE);
+	compare_fds_w_strings("Builtin setenv 12 - w/o valid args 3", "setenv a=b b=c d=e f=g =i", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 13 - w/o valid args 4", "setenv a=b b=c d=e f=g h =i", NULL, BUILTIN_SETENV_USAGE);
+	compare_fds_w_strings("Builtin setenv 14 - w/o valid args 5", "setenv a=b b=c d=e f=g h= i", NULL, BUILTIN_SETENV_USAGE);
+	//compare_fds_w_strings("Builtin setenv 15 - w/o valid args 6", "setenv a=b b=c d=e f=gh=i", NULL, BUILTIN_SETENV_USAGE);
+
+	compare_sh_42sh_outputs("Builtin setenv 16 - Simple assign", "setenv lol= && env | grep 'lol='", "export lol= && env | cut -d ' ' -f 2 | grep 'lol='");
+	//compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL; echo $LOL", "export LOL=LAL; echo $LOL"); waiting ast expansions rework
+	compare_sh_42sh_outputs("Builtin setenv 17 - w/ valid args 2", "setenv a=b c=d | grep -E '[a-b]=", "export a=b c=d | grep -E '[a-b]=");
+	compare_sh_42sh_outputs("Builtin setenv 18 - w/ valid args 3", "setenv a=b b=c d=e f=g h= | grep -E '[a-h]='", "export a=b b=c d=e f=g h= | grep -E '[a-h]='");
+	compare_sh_42sh_outputs("Builtin setenv 19 - w/ many valid args", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '[a-z][1]?='", \
+		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '[a-z][1]?='");
+	compare_sh_42sh_outputs("Builtin setenv 20 - valid args w/ re-assignations", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '[a-z]='", \
+		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '[a-z]='");
+
 /*
 	compare_sh_42sh_outputs("Builtins 17 - setenv basic", "env | grep test____ || setenv test____ tmp && env | grep test____", \
 		"{ env | grep test____ || export test____=tmp && env | grep test____ ;}");

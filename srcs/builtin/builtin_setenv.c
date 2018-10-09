@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:34:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 15:23:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 21:07:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	check_args(char **argv)
 static void	print_setenv_error(int err)
 {
 	if (err == 1)
-		ft_putstr_fd(SH_NAME": setenv: usage setenv VAR1=VALUE1 VAR2=VALUE2 ...\n", 2);
+		ft_putstr_fd(BUILTIN_SETENV_USAGE, 2);
 	else if (err == 2)
 		ft_putstr_fd(SH_NAME": invalid identifiers\n", 2);
 }

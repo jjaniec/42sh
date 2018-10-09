@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:36:08 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 15:34:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 21:08:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	check_args(char **argv)
 static void	print_unsetenv_error(int err)
 {
 	if (err == 1)
-		ft_putstr_fd(SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n", 2);
+		ft_putstr_fd(BUILTIN_UNSETENV_USAGE, 2);
 	else if (err == 2)
 		ft_putstr_fd(SH_NAME": invalid identifiers\n", 2);
 }

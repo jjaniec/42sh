@@ -78,6 +78,11 @@ extern const char	*g_prompts[10];
 # define BUILTIN_HISTORY_USAGE \
 	"Usage : history [n | -d n | --clear | --save]\n"
 
+# define BUILTIN_SETENV_USAGE \
+	SH_NAME": setenv: usage setenv VAR1=VALUE1 VAR2=VALUE2 ...\n"
+
+# define BUILTIN_UNSETENV_USAGE \
+	SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n"
 
 int			prompt_show(const char *prompt);
 
