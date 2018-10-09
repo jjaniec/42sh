@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:41:25 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:17:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/09 13:39:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ static void		update_info_env_vars(t_environ *env_struct)
 
 	if ((tmp = env_struct->get_var(env_struct, "SHLVL")))
 	{
-		old_sh_lvl = ft_atoi(tmp->entry + 6);
-		old_sh_lvl_str = ft_itoa(old_sh_lvl);
+		if ((old_sh_lvl = ft_atoi(tmp->entry + 6)) < 1)
+			old_sh_lvl = 0;
+		old_sh_lvl_str = ft_itoa(old_sh_lvl + 1);
 		ft_strncpy(env_struct->last_used_elem->entry + 6, old_sh_lvl_str, \
 			(MAX_ENV_ENTRY_LEN - 6));
 		free(old_sh_lvl_str);
