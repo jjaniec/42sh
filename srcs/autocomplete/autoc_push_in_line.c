@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 17:02:20 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/09 18:36:32 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/10 15:48:16 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int		malloc_len(char *str)
 	{
 		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' ||
 		str[i] == '\t' || str[i] == '\\' || str[i] == ';' ||
-		str[i] == '&' || str[i] == '|' || str[i] == '>' || str[i] == '<')
+		str[i] == '&' || str[i] == '|' || str[i] == '>' ||
+		str[i] == '<' || str[i] == '"' || str[i] == '\'')
 			count++;
 		i++;
 	}
@@ -43,7 +44,8 @@ static char		*add_backslash(char *str)
 	{
 		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' ||
 		str[i] == '\t' || str[i] == '\\' || str[i] == ';' ||
-		str[i] == '&' || str[i] == '|' || str[i] == '>' || str[i] == '<')
+		str[i] == '&' || str[i] == '|' || str[i] == '>' ||
+		str[i] == '<' || str[i] == '"' || str[i] == '\'')
 		{
 			res[j] = '\\';
 			j++;
