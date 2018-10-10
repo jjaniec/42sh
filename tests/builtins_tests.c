@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 16:16:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:39:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #define SETENV_INVALID_IDENTIFIERS_STR_ERR SH_NAME": invalid identifiers\n"
 #define UNSETENV_INVALID_IDENTIFIERS_STR_ERR SH_NAME": invalid identifiers\n"
 
-t_environ *g_env_lol;
-
+extern t_environ *g_envp;
 
 static void		exec(char *input)
 {
@@ -25,11 +24,11 @@ static void		exec(char *input)
 	t_exec		*exe;
 
 	lexer(input, &lex, NULL);
-	ast_root = ast(lex);
+	ast_root = ast(&lex);
 	//exe = create_exec(g_env_lol);
 	if (!ast_root)
 		return ;
-	exe = create_exec(g_env_lol);
+	exe = create_exec(g_envp);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
 	free_lexemes(lex);
@@ -138,22 +137,4 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin unsetenv 4 - basic unset w/ many vars", \
 		"setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unsetenv a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='", \
 		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unset a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='");
-
-
-	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp && env\"");
-	//ok((*envp_ptr == NULL), "Builtins 19 - unsetenv without env");
-	/* 15/09: does not work
-	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
-	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp\"");
-	ok((envp_ptr[1] == NULL), "Builtins 20 - unsetenv basic");
-	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
-	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp2\"");
-	ok((envp_ptr[0] == NULL), "Builtins 21 - unsetenv basic multiple elems");
-	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
-	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp2 wwwww\"");
-	ok((envp_ptr[0] == NULL), "Builtins 21 - unsetenv basic multiple elems w/ non-existant");
-	*envp_ptr = (char **)cp_envp((const char *[3]){"tmp=LOL", "tmp2=LOL", NULL});
-	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp tmp tmp tmp\"");
-	ok((envp_ptr[1] == NULL), "Builtins 21 - unsetenv basic already deleted");*/
-	//*envp_ptr = env; //restore env
 }

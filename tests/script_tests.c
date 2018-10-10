@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/04 15:54:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:07:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	void exec(char *input)
 	t_exec		*exe;
 
 	lexer(input, &lex, NULL);
-	ast_root = ast(lex);
+	ast_root = ast(&lex);
 	exe = create_exec(g_env_lol);
 	if (!ast_root)
 		return ;
@@ -78,7 +78,11 @@ static void tests(t_environ *env)
 	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple IF");
-	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "ERROR Simple IF");
+	test_framework("echo", "", "------------------------------");
+	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ]; then echo NOT OK && fi", error_msg, "ERROR - Simple IF");
+	test_framework("if [ 0 ] && then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if && [ 0 ]; then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE; elif ;then echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
 	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; then echo NEITHER;", error_msg, "ERROR - Simple IF-ELIF");
@@ -91,11 +95,17 @@ static void tests(t_environ *env)
 	test_framework("else echo NOPE", error_msg, "ERROR - Simple ELSE");
 	
 	test_framework("if if [ 0 ]; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
 	test_framework("if [ 0 ]; then; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
 	test_framework("if [ 0 ]; then echo NOPE; fi; fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then fi; echo NOPE; fi; echo", error_msg, "ERROR - Duplicate token");
-	
+	test_framework("if [ 0 ]; then fi; echo OK; fi", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then then echo NOPE; echo OK; fi", error_msg, "ERROR - Duplicate token");
+	test_framework("if [ 0 ]; then if [ 0 ]; then echo OK; fi; echo OK2 ;fi", "OK\nOK2", "GOOD - Duplicate token");
+	test_framework("if [ 0 ]; then echo OK && fi", error_msg, "ERROR - Token &&");
+	test_framework("if [ 0 ] && then echo OK && fi", error_msg, "ERROR - Token &&");
+	test_framework("if [ 0 ] && then echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if [ 0 ] ; then && echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if && [ 0 ] ; then echo OK ; fi", error_msg, "ERROR - Token &&");
+
 	test_framework("echo ABC; then; echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; then echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; do; echo DEF", error_msg, "ERROR - Token inside statement");

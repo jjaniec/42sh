@@ -6,12 +6,16 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/05 18:03:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:06:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "tests.h"
 #include <time.h>
+struct s_cmd_status	g_cmd_status = {
+	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
+};
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -40,6 +44,28 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
 	internal_vars.add_var(&internal_vars, "UID", ft_itoa(getuid()));
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
+}
+
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
+{
+	char		*input;
+	char		*unmatched_quote_err_ptr;
+	t_lexeme	*lexemes_ret;
+
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+		input = line_edition(sub_prompt);
+	if (g_cmd_status.resize_happened == false)
+		ft_putchar('\n');
+	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
+	UNMATCHED_QUOTE_ERR)
+	{
+		free_lexemes(lexemes_ret);
+		if (!subpp_string(&input))
+			return (NULL);
+	}
+	*lexemes = lexemes_ret;
+	return (input);
 }
 
 int	main(int argc, char **argv, char **envp)

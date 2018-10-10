@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:29:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:07:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,8 @@ void	exec_tests(t_environ *env);
 void	builtins_tests(t_environ *env);
 void	syntax_highlighting_tests(t_environ *env);
 void	builtin_test_tests(t_environ *env);
+
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
+;
 
 #endif

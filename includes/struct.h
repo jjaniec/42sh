@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 14:01:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 16:58:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct			s_lexeme
 	void				*data;
 	char				*lexeme_begin_ptr;
 	char				*lexeme_end_ptr;
+	int					pos;
 	struct s_lexeme		*next;
 }						t_lexeme;
 

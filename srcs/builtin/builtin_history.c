@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 11:34:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 16:59:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	Return he number of elements in the history.
 */
-
+/*
 static unsigned int	get_nb_elem_in_history(void)
 {
 	struct s_history	*his;
@@ -32,7 +32,7 @@ static unsigned int	get_nb_elem_in_history(void)
 	}
 	return (nb_elem);
 }
-
+*/
 /*
 **	Print all history's elements with an index.
 */
@@ -41,10 +41,9 @@ static void	print_history_with_indexes(void)
 {
 	const struct s_history	*his = access_le_main_datas()->history;
 	unsigned int			index;
-	unsigned int			nb_elem;
 
-	nb_elem = get_nb_elem_in_history();
-	if ((index = 1) && his != NULL)
+	index = 1;
+	if (his != NULL)
 	{
 		while (his->prev != NULL)
 			his = his->prev;
@@ -64,21 +63,6 @@ static void	print_history_with_indexes(void)
 			++index;
 		}
 	}
-}
-
-/*
-**	Return 'true' if 'str' represents a positive number.
-*/
-
-static bool	str_is_positive_numeric(const char *str)
-{
-	while (*str != '\0')
-	{
-		if (*str < '0' || *str > '9')
-			return (false);
-		++str;
-	}
-	return (true);
 }
 
 /*

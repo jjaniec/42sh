@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/09 15:25:09 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/10 17:08:37 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,25 @@ SRC_NAME = 	is_separator.c \
 			ast/access_ast_data.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
+			line_edition/handle_window_resize.c \
 			line_edition/le_exit.c \
 			line_edition/get_le_debug_status.c \
 			line_edition/le_free_datas_and_history.c \
+			autocomplete/autocomplete.c \
+			autocomplete/str_effect.c \
+			autocomplete/autoc_dir.c \
+			autocomplete/dir_get_items.c \
+			autocomplete/autoc_menu.c \
+			autocomplete/order_tab_ascii.c \
+			autocomplete/autoc_mem_free.c \
+			autocomplete/autoc_key_reader.c \
+			autocomplete/autoc_fkey.c \
+			autocomplete/autoc_menu_print_items.c \
+			autocomplete/autoc_menu_print_spaces.c \
+			autocomplete/dir_get_items_search.c \
+			autocomplete/autoc_check_path.c \
+			autocomplete/autoc_push_in_line.c \
+			autocomplete/autoc_arrow.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -87,9 +103,6 @@ SRC_NAME = 	is_separator.c \
 			line_edition/actionk/delete_char_into_cmdline_delete_mode.c \
 			line_edition/tools/get_terminal_nb_col.c \
 			line_edition/init_le/init_line_edition_attributes.c \
-			line_edition/signals/init_signals.c \
-			line_edition/signals/handle_sigint.c \
-			line_edition/signals/handle_sigwinch.c \
 			line_edition/init_le/init_termcaps_strings.c \
 			line_edition/print/insert_and_print_character_into_cmdline.c \
 			line_edition/tools/insert_char_into_array.c \
@@ -138,7 +151,10 @@ SRC_NAME = 	is_separator.c \
 			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
-			autocomplete/autoc_check_path.c \
+			signals/init_signals.c \
+			signals/handle_sigint.c \
+			signals/handle_sigwinch.c \
+			signals/handle_useless_signals.c \
 			log.c \
 			ft_free_argv.c \
 			sub_prompt.c \
@@ -161,20 +177,25 @@ SRC_NAME = 	is_separator.c \
 			load_history_file.c \
 			get_next_line.c \
 			get_parsed_history_file_path.c \
+			handle_exclamation_mark_in_lexer.c \
+			parse_exclamation_mark_shortcuts.c \
+			str_is_positive_numeric.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
 			main.c
 
-INCLUDES_NAME = lexer.h \
-				ast.h \
+INCLUDES_NAME = ast.h \
+				autocomplete.h \
 				exec.h \
 				forty_two_sh.h \
+				get_next_line.h \
+				lexer.h \
 				line_edition.h \
 				script.h \
-				syntax_highlighting.h \
-				log.h \
+				signals.h \
 				struct.h \
-				get_next_line.h
+				syntax_highlighting.h \
+
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
@@ -199,7 +220,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/
+			syntax_highlighting/ script/ autocomplete/ env/ signals/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
@@ -211,7 +232,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror
+CFLAGS = -Wall -Wextra  -g -D_GNU_SOURCE -std=c11 # -Werror
 
 ### FLAGS ###
 VERBOSE_MODE = 0

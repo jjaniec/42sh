@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/01 11:59:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 16:56:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@
 */
 
 void		script_lexemes(t_lexeme *lexemes);
-t_lexeme	*is_keyword(t_lexeme *lex);
+t_lexeme	*is_keyword(t_lexeme *lex, int last_lex_lvl);
+//t_lexeme	*is_keyword(t_lexeme *lex);
 
 
 /*

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 16:15:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:00:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,17 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 	if (node && last_pipe_node)
 		close_child_pipe_fds(node, last_pipe_node);
 	status = -2;
+	errno = 0;
 	waited_pid = waitpid(child_pid, &status, 0);
 	if (waited_pid == -1)
 	{
-		log_error("Wait returned -1");
-		ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+		if (errno != EINTR)
+		{
+			log_error("Wait returned -1");
+			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+			return (status);
+		}
+		return (130);
 	}
 	if (waited_pid != -1 && waited_pid != child_pid)
 		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
@@ -154,8 +160,11 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 			child_process(cmd, env_struct, exe, node);
 		else
 		{
+			g_cmd_status.cmd_running = true;
+			g_cmd_status.cmd_pid = child_pid;
 			log_trace("Forked process pid: %d", child_pid);
 			exe->ret = parent_process(child_pid, node, last_pipe_node);
+			//dprintf(1, "-> %d\n", exe->ret);
 		}
 	}
 	else

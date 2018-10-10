@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.h                                    :+:      :+:    :+:   */
+/*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/02 14:28:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 16:56:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@
 # include "line_edition.h"
 # include "exec.h"
 # include "syntax_highlighting.h"
+# include "signals.h"
 # include "script.h"
 # include "get_next_line.h"
+# include "autocomplete.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 
@@ -85,10 +87,11 @@ extern const char	*g_prompts[10];
 	SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n"
 
 int			prompt_show(const char *prompt);
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
 
-void		subp_string(char **s);
+int			subpp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
-void		subp_heredoc(t_lexeme *lex, char *eof_word);
+int			subp_heredoc(t_lexeme *lex, char *eof_word);
 
 void		ft_free_argv(char **tab_);
 
@@ -133,5 +136,11 @@ char	*ft_strjoin_path(char *path1, char *path2);
 int		is_identifier_invalid(char *str, char *assign_ptr);
 
 t_shell_vars	*get_shell_vars(void);
+
+t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
+
+const char      *parse_exclamation_mark_shortcuts(const char *excla);
+
+bool	str_is_positive_numeric(const char *str); // ira dans libft
 
 #endif

@@ -6,11 +6,15 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:15:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:08:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+struct s_cmd_status	g_cmd_status = {
+	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false, .sigint_happened = false
+};
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -21,21 +25,25 @@ t_option		g_sh_opts[] = {
 	{{NULL}, NULL, false}
 };
 
-struct s_line	*g_le;
+//struct s_line	*g_le;
 
-static char		*get_valid_input(t_lexeme **lexemes)
+char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
 	char		*input;
 	char		*unmatched_quote_err_ptr;
 	t_lexeme	*lexemes_ret;
 
-	input = line_edition(0);
-	ft_putchar('\n'); 
+	input = RESIZE_IN_PROGRESS;
+	while (input == RESIZE_IN_PROGRESS)
+		input = line_edition(sub_prompt);
+	if (g_cmd_status.resize_happened == false)
+		ft_putchar('\n');
 	while (lexer(input, &lexemes_ret, &unmatched_quote_err_ptr) == \
-		UNMATCHED_QUOTE_ERR)
+	UNMATCHED_QUOTE_ERR)
 	{
 		free_lexemes(lexemes_ret);
-		subp_string(&input);
+		if (!subpp_string(&input))
+			return (NULL);
 	}
 	*lexemes = lexemes_ret;
 	return (input);
@@ -55,13 +63,15 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 		lexer(input, &lexemes, NULL) == UNMATCHED_QUOTE_ERR)
 	{
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
+		free(input);
 		exit(1);
 	}
-	ast_root = ast(lexemes);
-	link_ast_data(ast_root);
+	ast_root = ast(&lexemes);
+	free(input);
 	free_lexemes(lexemes);
 	if (!ast_root)
-		return (1);
+		return (-1);
+	link_ast_data(ast_root);
 	exe = create_exec(vars->env);
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
@@ -72,7 +82,6 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 		exit(1);*/
 	ast_free(ast_root);
 	free_exec(&exe);
-	free(input);
 	return (0);
 }
 
@@ -84,9 +93,8 @@ static void		loop_body(t_shell_vars *vars, t_option *opt_list, t_option **char_o
 	errno = 0;
 	while (1)
 	{
-		if (!(input = get_valid_input(&lex)))
-			return ;
-		free_lexemes(lex);
+		if (!(input = get_valid_input(&lex, 0)))
+			continue ;
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		forty_two_sh(input, vars, opt_list, char_opt_index);
@@ -134,6 +142,7 @@ int			main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(0);
 	}
+	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 	{
 		tty_debug = fopen(TTY_DEBUG, "w");
