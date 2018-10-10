@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 16:56:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:49:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@
 # include <dirent.h>
 
 # include <errno.h>
+
+# ifdef __linux__
+	// Some linux specific tasks here
+#  define _OS_ "Linux"
+# endif
+# ifdef __APPLE__
+#  	// Some macos specific tasks here
+#  define _OS_ "Darwin"
+# endif
+# ifndef _OS_
+#  define _OS_ "?"
+# endif
 
 # define SH_NAME		"42sh"
 # define IFS			"\t\n "

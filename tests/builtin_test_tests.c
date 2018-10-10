@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 17:06:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 20:02:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,11 @@ static void test_framework(char *str_test, char *expected_stdout, char *test_nam
 void		builtin_test_tests(t_environ *env)
 {
 	g_env = env;
-	test_framework("[ -b /dev/disk0 ]", "0", "Block special file /dev/disk0");
-	test_framework("[ -b /dev/disk0s1 ]", "0", "Block special file /dev/disk0s1");
+	if (*_OS_ == 'D')
+	{
+		test_framework("[ -b /dev/disk0 ]", "0", "Block special file /dev/disk0");
+		test_framework("[ -b /dev/disk0s1 ]", "0", "Block special file /dev/disk0s1");
+	}
 	test_framework("[ -b /dev/null ]", "1", "Block special file /dev/null");
 	//test_framework("mknod "TESTS_FILENAME" c 89 1; [ -c /dev/null ]", "0", "Character special file /dev/null");
 	test_framework("[ -c /dev/null ]", "0", "Character special file /dev/null");

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 17:39:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 20:03:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ void			builtins_tests(t_environ *env)
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
 
-	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD' | tr -d '\\\"'");
+	if (*_OS_ == 'D')
+		compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI' | tr -d '\\\"'");
+	//else
+	//	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | usort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI'", "export | cut -d ' ' -f 2 | usort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI' | tr -d '\\\"'");
 	compare_fds_w_strings("Builtin setenv 2 - err check 1", "setenv =", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 3 - err check 2", "setenv ==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 4 - err check 3", "setenv $=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
@@ -121,7 +124,7 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin setenv 15 - Simple assign", "setenv lol= && env | grep 'lol='", "export lol= && env | cut -d ' ' -f 2 | grep 'lol='");
 	//compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL; echo $LOL", "export LOL=LAL; echo $LOL"); waiting ast expansions rework
 	compare_sh_42sh_outputs("Builtin setenv 16 - w/ valid args 2", "setenv a=b c=d && env | grep -E '^[ac]=' | sort", "export a=b c=d && env | grep -E '^[ac]=' | sort");
-	compare_sh_42sh_outputs("Builtin setenv 17 - w/ valid args 3", "setenv a=b b=c d=e f=g h= && env | grep -E '^[a-h]='", "export a=b b=c d=e f=g h= && env | grep -E '^[a-h]='");
+	compare_sh_42sh_outputs("Builtin setenv 17 - w/ valid args 3", "setenv a=b b=c d=e f=g h= && env | grep -E '^[a-h]=' | sort", "export a=b b=c d=e f=g h= && env | grep -E '^[a-h]=' | sort");
 	compare_sh_42sh_outputs("Builtin setenv 18 - w/ many valid args", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '^[a-z][1]?=' | sort", \
 		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '^[a-z][1]?=' | sort");
 	compare_sh_42sh_outputs("Builtin setenv 19 - valid args w/ re-assignations", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '^[a-z]=' | sort", \

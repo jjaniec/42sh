@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 17:07:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 17:52:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void tests(t_environ *env)
 	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple IF");
-	test_framework("echo", "", "------------------------------");
+	//test_framework("echo", "", "------------------------------");
 	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ]; then echo NOT OK && fi", error_msg, "ERROR - Simple IF");
 	test_framework("if [ 0 ] && then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
