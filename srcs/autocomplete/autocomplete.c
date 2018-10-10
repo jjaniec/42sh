@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 19:23:25 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/10 17:39:46 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:56:31 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int			check_dir(struct s_line *le)
 	i = le->cursor_index - 1;
 	if (ft_strchr(le->cmd, ' '))
 	{
-		while (i)
+		while (i >= 0)
 		{
 			if (le->cmd[i] > 40)
 				return (1);
