@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 14:14:34 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/08 14:47:34 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:25:06 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		parse_expr_file(char **argv, t_option *opt_list, \
 
 	ret = 1;
 	errno = 0;
-	stat(argv[1], &fstat);
+	lstat(argv[1], &fstat);
 	if (errno != 0)
 		return (1);
 	ret -= test_expr_file(opt_list, char_opt_index, "e", errno != ENOENT);
