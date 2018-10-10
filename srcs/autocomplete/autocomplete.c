@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 19:23:25 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/05 13:55:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:39:46 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void				autocomplete(struct s_line *le)
 {
 	t_autoc	*autoc;
 
+	if (!cursor_is_at_end_of_cmd(le))
+		return ;
 	autoc = autoc_setup(le);
 	if (autoc && autoc->items)
 		autoc_menu(autoc, le);
