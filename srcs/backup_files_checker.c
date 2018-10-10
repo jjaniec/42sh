@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 17:21:26 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 17:39:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/10 20:06:40 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool		create_backup_file(const char *file_path)
 	ret = open(file_path, O_CREAT, 00644);
 	if (ret == -1)
 	{
-		ft_putstr_fd(file_path, STDERR_FILENO);
+		ft_putstr_fd(file_path + 1, STDERR_FILENO);
 		ft_putstr_fd(": Failure while creating file\n", STDERR_FILENO);
 		return (false);
 	}
