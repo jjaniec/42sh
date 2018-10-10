@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/09 17:18:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 16:15:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,7 @@ static int	should_fork(void **cmd)
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		(ptr == builtin_echo || \
 		ptr == builtin_return || \
-		ptr == builtin_test /*|| \
-		ptr == builtin_env*/))
+		ptr == builtin_test))
 		return (1);
 	return (0);
 }

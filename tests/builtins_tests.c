@@ -6,13 +6,14 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 21:28:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/10 16:16:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
 #define SETENV_INVALID_IDENTIFIERS_STR_ERR SH_NAME": invalid identifiers\n"
+#define UNSETENV_INVALID_IDENTIFIERS_STR_ERR SH_NAME": invalid identifiers\n"
 
 t_environ *g_env_lol;
 
@@ -25,7 +26,7 @@ static void		exec(char *input)
 
 	lexer(input, &lex, NULL);
 	ast_root = ast(lex);
-	exe = create_exec(g_env_lol);
+	//exe = create_exec(g_env_lol);
 	if (!ast_root)
 		return ;
 	exe = create_exec(g_env_lol);
@@ -83,9 +84,8 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin cd 8 - cd -", "cd ft_printf && pwd && cd - && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 9 - cd -", "cd ft_printf && pwd && cd .. && pwd && cd - && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "cd srcs && pwd && cd .. && pwd && cd - && pwd && cd - && pwd;", NULL);
-	//compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec ; pwd ; chmod 000 . ; cd ; pwd ; cd - 2> /dev/null; pwd", NULL);
+	//compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec ; pwd ; chmod 000 . ; cd ; pwd ; cd - 2> /dev/null; pwd; rm -rf janiec", NULL);
 	//compare_sh_42sh_outputs("Builtin cd 12 - cd", "cd janiec; pwd; chmod 777 janiec; rm -rf janiec", NULL);
-
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
 	//compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented yet
@@ -96,14 +96,13 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin env 6 - env -i w/o args w/ pipe", "env -i", NULL);
 	compare_sh_42sh_outputs("Builtin env 7 - env -i empty assignations", "env -i LS=     AAAA=   ", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i invalid assignations", "env -i LS=     AAAA  AAAAAA  LOL=   | grep -v _", NULL); -> should say command not found -> exec not yet handled
-
 	// test env execution ex: env A=B ls - not yet implemented
 	//compare_sh_42sh_outputs("Builtin env 6 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 7 - env -i w/o valid args", "env -i A", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
 
-	//compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv", "export | cut -d ' ' -f 2");
+	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD' | tr -d '\\\"'");
 	compare_fds_w_strings("Builtin setenv 2 - err check 1", "setenv =", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 3 - err check 2", "setenv ==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 4 - err check 3", "setenv $=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
@@ -119,23 +118,28 @@ void			builtins_tests(t_environ *env)
 	compare_fds_w_strings("Builtin setenv 12 - w/o valid args 3", "setenv a=b b=c d=e f=g =i", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 13 - w/o valid args 4", "setenv a=b b=c d=e f=g h =i", NULL, BUILTIN_SETENV_USAGE);
 	compare_fds_w_strings("Builtin setenv 14 - w/o valid args 5", "setenv a=b b=c d=e f=g h= i", NULL, BUILTIN_SETENV_USAGE);
-	//compare_fds_w_strings("Builtin setenv 15 - w/o valid args 6", "setenv a=b b=c d=e f=gh=i", NULL, BUILTIN_SETENV_USAGE);
 
-	compare_sh_42sh_outputs("Builtin setenv 16 - Simple assign", "setenv lol= && env | grep 'lol='", "export lol= && env | cut -d ' ' -f 2 | grep 'lol='");
+	compare_sh_42sh_outputs("Builtin setenv 15 - Simple assign", "setenv lol= && env | grep 'lol='", "export lol= && env | cut -d ' ' -f 2 | grep 'lol='");
 	//compare_sh_42sh_outputs("Builtin setenv 1 - Expansions of new variables", "setenv LOL=LAL; echo $LOL", "export LOL=LAL; echo $LOL"); waiting ast expansions rework
-	compare_sh_42sh_outputs("Builtin setenv 17 - w/ valid args 2", "setenv a=b c=d | grep -E '[a-b]=", "export a=b c=d | grep -E '[a-b]=");
-	compare_sh_42sh_outputs("Builtin setenv 18 - w/ valid args 3", "setenv a=b b=c d=e f=g h= | grep -E '[a-h]='", "export a=b b=c d=e f=g h= | grep -E '[a-h]='");
-	compare_sh_42sh_outputs("Builtin setenv 19 - w/ many valid args", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '[a-z][1]?='", \
-		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '[a-z][1]?='");
-	compare_sh_42sh_outputs("Builtin setenv 20 - valid args w/ re-assignations", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '[a-z]='", \
-		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '[a-z]='");
+	compare_sh_42sh_outputs("Builtin setenv 16 - w/ valid args 2", "setenv a=b c=d && env | grep -E '^[ac]=' | sort", "export a=b c=d && env | grep -E '^[ac]=' | sort");
+	compare_sh_42sh_outputs("Builtin setenv 17 - w/ valid args 3", "setenv a=b b=c d=e f=g h= && env | grep -E '^[a-h]='", "export a=b b=c d=e f=g h= && env | grep -E '^[a-h]='");
+	compare_sh_42sh_outputs("Builtin setenv 18 - w/ many valid args", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '^[a-z][1]?=' | sort", \
+		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r && env | grep -E '^[a-z][1]?=' | sort");
+	compare_sh_42sh_outputs("Builtin setenv 19 - valid args w/ re-assignations", "setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '^[a-z]=' | sort", \
+		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && env | grep -E '^[a-z]=' | sort");
+	compare_sh_42sh_outputs("Builtin setenv 20 - w/o valid args 6", "setenv a=b b=c d=e f=gh=i && env | grep -E '^[a-f]=' | sort", \
+		"export a=b b=c d=e f=gh=i && env | grep -E '^[a-f]=' | sort");
 
-/*
-	compare_sh_42sh_outputs("Builtins 17 - setenv basic", "env | grep test____ || setenv test____ tmp && env | grep test____", \
-		"{ env | grep test____ || export test____=tmp && env | grep test____ ;}");
-	compare_sh_42sh_outputs("Builtins 18 - setenv basic without env", "env | grep test____ || setenv test____ tmp && env | grep test____", \
-		"{ env | grep test____ || export test____=tmp && env | grep test____ ;}");
-*/
+	compare_fds_w_strings("Builtin unsetenv 1 - w/o args", "unsetenv", NULL, BUILTIN_UNSETENV_USAGE);
+	compare_fds_w_strings("Builtin unsetenv 2 - err check 1", "unsetenv ==", NULL, BUILTIN_UNSETENV_USAGE);
+	compare_sh_42sh_outputs("Builtin unsetenv 3 - basic unset", \
+		"setenv a=b && unsetenv a && env | grep -E '^a='", \
+		"export a=b && unset a && env | grep -E '^a='");
+	compare_sh_42sh_outputs("Builtin unsetenv 4 - basic unset w/ many vars", \
+		"setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unsetenv a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='", \
+		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unset a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='");
+
+
 	system(SH_EXEC_CMD_PREFIX"\"unsetenv tmp && env\"");
 	//ok((*envp_ptr == NULL), "Builtins 19 - unsetenv without env");
 	/* 15/09: does not work
