@@ -80,7 +80,7 @@ extern char			**g_envp;
 	"Usage : history [n | -d n | --clear | --save]\n"
 
 # define BUILTIN_ALIAS_USAGE \
-	"usage: alias key value | --save\n"
+	"usage: alias [-d] key value | --save\n"
 
 
 int			prompt_show(const char *prompt);
