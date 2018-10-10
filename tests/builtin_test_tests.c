@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/08 14:45:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:59:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void		builtin_test_tests(char **envp)
 	test_framework("chmod 000 b; [ -w b ]", "1", "Writeable file b");
 	test_framework("chmod 777 b; [ -x b ]", "0", "Executable file b");
 	test_framework("chmod 000 b; [ -x b ]", "1", "Executable file b");
-	test_framework("chmod 644 b; rm -rf b; ln -s . c; [ -L c ]", "1", "Symbolic link c");
+	test_framework("chmod 644 b; rm -rf b; ln -s . c; [ -L c ]", "0", "Symbolic link c");
 	test_framework("[ -L a ]", "1", "Symbolic link a");
 	test_framework("[ -L notafile ]", "1", "Symbolic link notafile");
 	test_framework("[ -S notafile ]", "1", "Socket notafile");
