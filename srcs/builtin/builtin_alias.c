@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/10 17:08:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:43:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static bool			add_tmp_alias(const char *key, const char *value, \
 
 	i = 0;
 	while (key[i] != '\0')
-		if (is_separator(key[i++]))
+		if (is_separator(key[i++]) || key[0] == '=')
 		{
 			ft_putstr_fd("42sh: alias: invalid alias name\n", STDERR_FILENO);
 			return (false);

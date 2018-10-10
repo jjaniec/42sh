@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/09 16:21:56 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:33:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 static void	do_the_copy(const char *separator_sign_pos, bool *first_elem, \
 								struct s_alias **alias, const char *line)
 {
+	const char	*check_equal = line;
+	while (*check_equal && is_separator(*check_equal))
+		++check_equal;
+	if (*check_equal == '=')
+		return ;
 	if (*first_elem == false)
 	{
 		(*alias)->next = malloc(sizeof(struct s_alias));
