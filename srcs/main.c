@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 17:10:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 15:05:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int		forty_two_sh(char *input, char **envp, \
 	{
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
 		free(input);
+		free_lexemes(lexemes);
 		exit(1);
 	}
 	ast_root = ast(&lexemes);
@@ -98,6 +99,8 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 	{
 		if (!(input = get_valid_input(&lex, 0)))
 			continue ;
+		else
+			free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		forty_two_sh(input, envp, opt_list, char_opt_index);
