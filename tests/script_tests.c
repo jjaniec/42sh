@@ -6,11 +6,14 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 19:31:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 18:54:57 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
+
+#define TRUE "[ 0 ]"
+#define FALSE "[ ]"
 
 static char **env;
 
@@ -50,59 +53,60 @@ static void tests(void)
 	char	error_msg[] = "There is an error in your script.";
 	//char	error_msg2[] = "There is an error in your command line.";
 
-	test_framework("if [ 0 ]; then echo OK; fi", "OK", "Simple IF");
+	test_framework("if "TRUE"; then echo OK; fi", "OK", "Simple IF");
+	test_framework("if "TRUE"; then echo OK; fi", "OK", "Simple IF");
 	test_framework("if test; then echo NOT OK; fi; echo", "", "Simple IF");
-	test_framework("if [ 0 ]; then echo OK; echo ABC; fi", "OK\nABC", "Simple IF");
-	test_framework("if [ 0 ]; then echo OK && echo ABC; fi", "OK\nABC", "Simple IF");
-	test_framework("if [ 0 ]; then echo OK; elif [ 0 ]; then echo NOT OK; fi", "OK", "Simple IF-ELIF");
-	test_framework("if [ 1 ]; then echo NOT OK; elif [ 0 ]; then echo OK; fi", "OK", "Simple IF-ELIF");
-	test_framework("if [ 1 ]; then echo NOT OK; elif [ 1 ]; then echo NOT OK; fi; echo", "", "Simple IF-ELIF");
-	test_framework("if [ 1 ]; then echo NOT OK; elif [ 1 ]; then echo NOT OK; else echo OK; fi", "OK", "Simple IF-ELIF-ELSE");
-	test_framework("if [ 0 ]; then echo OK; elif [ 0 ]; then echo NOT OK; else echo NOT OK neither....; fi", "OK", "Simple IF-ELIF-ELSE");
-	test_framework("if [ 1 ]; then echo NOT OK; elif [ 1 ]; then echo NOT OK; else echo OK; fi", "OK", "Simple IF-ELIF-ELSE");
-	test_framework("if [ 0 ]; then if [ 0 ]; then echo OK; fi; echo OK; fi", "OK\nOK", "Simple IF nested");
-	test_framework("if [ 1 ]; then if [ 0 ]; then echo NOT OK; fi; echo NOT OK2; fi; echo", "", "Simple IF nested");
-	test_framework("if [ 0 ]; then if [ 1 ]; then echo NOT OK; fi; echo OK; fi", "OK", "Simple IF nested");
-	test_framework("if [ 1 ]; then if [ 1 ]; then echo NOT OK; fi; echo NOT OK2; fi; echo", "", "Simple IF nested");
+	test_framework("if "TRUE"; then echo OK; echo ABC; fi", "OK\nABC", "Simple IF");
+	test_framework("if "TRUE"; then echo OK && echo ABC; fi", "OK\nABC", "Simple IF");
+	test_framework("if "TRUE"; then echo OK; elif [ 0 ]; then echo NOT OK; fi", "OK", "Simple IF-ELIF");
+	test_framework("if "FALSE"; then echo NOT OK; elif "TRUE"; then echo OK; fi", "OK", "Simple IF-ELIF");
+	test_framework("if "FALSE"; then echo NOT OK; elif [ 1 ]; then echo NOT OK; fi; echo", "", "Simple IF-ELIF");
+	test_framework("if "FALSE"; then echo NOT OK; elif [ 1 ]; then echo NOT OK; else echo OK; fi", "OK", "Simple IF-ELIF-ELSE");
+	test_framework("if "TRUE"; then echo OK; elif [ 0 ]; then echo NOT OK; else echo NOT OK neither....; fi", "OK", "Simple IF-ELIF-ELSE");
+	test_framework("if "FALSE"; then echo NOT OK; elif [ 1 ]; then echo NOT OK; else echo OK; fi", "OK", "Simple IF-ELIF-ELSE");
+	test_framework("if "TRUE"; then if [ 0 ]; then echo OK; fi; echo OK; fi", "OK\nOK", "Simple IF nested");
+	test_framework("if "FALSE"; then if "TRUE"; then echo NOT OK; fi; echo NOT OK2; fi; echo", "", "Simple IF nested");
+	test_framework("if "TRUE"; then if "FALSE"; then echo NOT OK; fi; echo OK; fi", "OK", "Simple IF nested");
+	test_framework("if "FALSE"; then if [ 1 ]; then echo NOT OK; fi; echo NOT OK2; fi; echo", "", "Simple IF nested");
 
 	test_framework("if", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; echo NOPE; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ] echo NOPE; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ] then echo NOPE; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; then echo NOPE fi", error_msg, "ERROR - Simple IF");
-	test_framework("if; [ 0 ]; then echo NOPE; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; then; echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE"; echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE" echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE" then echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE"; then echo NOPE fi", error_msg, "ERROR - Simple IF");
+	test_framework("if; "TRUE"; then echo NOPE; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE"; then; echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if ; then echo NOPE; fi", error_msg, "ERROR - Simple IF");
 	test_framework("if ; then", error_msg, "ERROR - Simple IF");
 	test_framework("if ; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE"; then echo NOPE;", error_msg, "ERROR - Simple IF");
 	test_framework("echo", "", "------------------------------");
-	test_framework("if if [ 0 ]; echo OK; fi; then echo OK; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; then echo NOT OK && fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ] && then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if && [ 0 ]; then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
-	test_framework("if [ 0 ]; then echo NOPE; elif ;then echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
-	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
-	test_framework("if [ 0 ]; then echo NOPE; elif [ 0 ]; then echo NEITHER;", error_msg, "ERROR - Simple IF-ELIF");
-	test_framework("elif [ 0 ]; then echo NOPE;", error_msg, "ERROR - Simple ELIF");
-	test_framework("elif [ 0 ]; then echo NOPE; fi", error_msg, "ERROR - Simple ELIF");
+	test_framework("if if "TRUE"; echo OK; fi; then echo OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE"; then echo NOT OK && fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE" && then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if && "TRUE"; then echo NOT OK; fi", error_msg, "ERROR - Simple IF");
+	test_framework("if "TRUE"; then echo NOPE; elif ;then echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
+	test_framework("if "TRUE"; then echo NOPE; elif [ 0 ]; echo NEITHER; fi", error_msg, "ERROR - Simple IF-ELIF");
+	test_framework("if "TRUE"; then echo NOPE; elif [ 0 ]; then echo NEITHER;", error_msg, "ERROR - Simple IF-ELIF");
+	test_framework("elif "TRUE"; then echo NOPE;", error_msg, "ERROR - Simple ELIF");
+	test_framework("elif "TRUE"; then echo NOPE; fi", error_msg, "ERROR - Simple ELIF");
 	test_framework("elif; then echo NOPE; fi", error_msg, "ERROR - Simple ELIF");
 	test_framework("else; then echo NOPE; fi", error_msg, "ERROR - Simple ELSE");
 	test_framework("else then echo NOPE; fi", error_msg, "ERROR - Simple ELSE");
 	test_framework("else echo NOPE; fi", error_msg, "ERROR - Simple ELSE");
 	test_framework("else echo NOPE", error_msg, "ERROR - Simple ELSE");
 	
-	test_framework("if if [ 0 ]; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then echo NOPE; fi; fi; echo", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then fi; echo OK; fi", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then then echo NOPE; echo OK; fi", error_msg, "ERROR - Duplicate token");
-	test_framework("if [ 0 ]; then if [ 0 ]; then echo OK; fi; echo OK2 ;fi", "OK\nOK2", "GOOD - Duplicate token");
-	test_framework("if [ 0 ]; then echo OK && fi", error_msg, "ERROR - Token &&");
-	test_framework("if [ 0 ] && then echo OK && fi", error_msg, "ERROR - Token &&");
-	test_framework("if [ 0 ] && then echo OK ; fi", error_msg, "ERROR - Token &&");
-	test_framework("if [ 0 ] ; then && echo OK ; fi", error_msg, "ERROR - Token &&");
-	test_framework("if && [ 0 ] ; then echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if if "TRUE"; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if "TRUE"; then; then echo NOPE;fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if "TRUE"; then echo NOPE; fi; fi; echo", error_msg, "ERROR - Duplicate token");
+	test_framework("if "TRUE"; then fi; echo OK; fi", error_msg, "ERROR - Duplicate token");
+	test_framework("if "TRUE"; then then echo NOPE; echo OK; fi", error_msg, "ERROR - Duplicate token");
+	test_framework("if "TRUE"; then if [ 0 ]; then echo OK; fi; echo OK2 ;fi", "OK\nOK2", "GOOD - Duplicate token");
+	test_framework("if "TRUE"; then echo OK && fi", error_msg, "ERROR - Token &&");
+	test_framework("if "TRUE" && then echo OK && fi", error_msg, "ERROR - Token &&");
+	test_framework("if "TRUE" && then echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if "TRUE" ; then && echo OK ; fi", error_msg, "ERROR - Token &&");
+	test_framework("if && "TRUE" ; then echo OK ; fi", error_msg, "ERROR - Token &&");
 
 	test_framework("echo ABC; then; echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; then echo DEF", error_msg, "ERROR - Token inside statement");
@@ -121,12 +125,12 @@ static void tests(void)
 	test_framework("echo ABC; while echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; while; echo DEF", error_msg, "ERROR - Token inside statement");
 
-	test_framework("if [ 0 ]; then echo 'fi'; fi", "fi", "Simple IF with arg like token");
+	test_framework("if "TRUE"; then echo 'fi'; fi", "fi", "Simple IF with arg like token");
 	test_framework("echo 'if'", "if", "Simple IF with arg like token");
-	test_framework("if [ 0 ]; then echo 'else'; fi", "else", "Simple IF with arg like token");
+	test_framework("if "TRUE"; then echo 'else'; fi", "else", "Simple IF with arg like token");
 
 	test_framework("touch a; while cat a > /dev/null; do echo OK && rm a; done", "OK", "Simple WHILE");
-	test_framework("while [ 1 ]; do echo KO; done; echo", "", "Simple WHILE");
+	test_framework("while "FALSE"; do echo KO; done; echo", "", "Simple WHILE");
 
 	test_framework("\
 			touch a b; while cat a > /dev/null; do \
@@ -137,22 +141,22 @@ static void tests(void)
 			done", "OK\nOK2", "Nested WHILE");
 
 	test_framework("while", error_msg, "ERROR - Simple WHILE");
-	test_framework("while [ 0 ]", error_msg, "ERROR - Simple WHILE");
-	test_framework("while [ 0 ]; do lol", error_msg, "ERROR - Simple WHILE");
-	test_framework("while [ 0 ] do lol; done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while "TRUE"", error_msg, "ERROR - Simple WHILE");
+	test_framework("while "TRUE"; do lol", error_msg, "ERROR - Simple WHILE");
+	test_framework("while "TRUE" do lol; done", error_msg, "ERROR - Simple WHILE");
 	test_framework("while ; do lol; done", error_msg, "ERROR - Simple WHILE");
-	test_framework("while [ 0 ]; do lol done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while "TRUE"; do lol done", error_msg, "ERROR - Simple WHILE");
 	test_framework("while while; do lol; done", error_msg, "ERROR - Simple WHILE");
-	test_framework("while [ 0 ]; then lol; done", error_msg, "ERROR - Simple WHILE");
-	test_framework("while [ 0 ]; do lol; fi", error_msg, "ERROR - Simple WHILE");
-	test_framework("while if [ 0 ]; then lol; fi", error_msg, "ERROR - Simple WHILE");
+	test_framework("while "TRUE"; then lol; done", error_msg, "ERROR - Simple WHILE");
+	test_framework("while "TRUE"; do lol; fi", error_msg, "ERROR - Simple WHILE");
+	test_framework("while if "TRUE"; then lol; fi", error_msg, "ERROR - Simple WHILE");
 
 	test_framework("\
-		if [ 0 ] && [ 0 ]; then \
+		if "TRUE" && [ 0 ]; then \
 			echo OK1; \
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo OK2; \
-				if [ 1 ]; then \
+				if "FALSE"; then \
 					echo NOPE; \
 				fi; \
 				echo OK3; \
@@ -160,11 +164,11 @@ static void tests(void)
 			echo OK4; \
 		fi", "OK1\nOK2\nOK3\nOK4", "Complex IF");
 	test_framework("\
-		if [ 0 ] && [ 0 ]; then \
+		if "TRUE" && [ 0 ]; then \
 			echo OK1; \
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo OK2; \
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo OK2.5; \
 				fi; \
 				echo OK3; \
@@ -172,11 +176,11 @@ static void tests(void)
 			echo OK4; \
 		fi", "OK1\nOK2\nOK2.5\nOK3\nOK4", "Complex IF");
 	test_framework("\
-		if [ 0 ] && [ 0 ]; then \
+		if "TRUE" && [ 0 ]; then \
 			echo OK1; \
-			if [ 1 ]; then \
+			if "FALSE"; then \
 				echo OK2; \
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo OK2.5; \
 				fi; \
 				echo OK3; \
@@ -184,11 +188,11 @@ static void tests(void)
 			echo OK4; \
 		fi", "OK1\nOK4", "Complex IF");
 	test_framework("\
-		if [ 0 ] && [ 1 ]; then \
+		if "TRUE" && "FALSE"; then \
 			echo OK1; \
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo OK2; \
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo OK2.5; \
 				fi; \
 				echo OK3; \
@@ -196,11 +200,11 @@ static void tests(void)
 			echo OK4; \
 		fi; echo", "", "Complex IF");
 	test_framework("\
-		if [ 0 ] && [ 0 ]; then \
+		if "TRUE" && [ 0 ]; then \
 			echo OK1; \
-			if [ 1 ]; then \
+			if "FALSE"; then \
 				echo OK2; \
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo OK2.5; \
 				fi; \
 				echo OK3; \
@@ -209,11 +213,11 @@ static void tests(void)
 		fi; echo ABC", "OK1\nOK4\nABC", "Complex IF");
 	test_framework("\
 		echo OKK; \
-		if [ 0 ] && [ 1 ]; then \
+		if "TRUE" && "FALSE"; then \
 			echo OK1; \
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo OK2; \
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo OK2.5; \
 				fi; \
 				echo OK3; \
@@ -222,10 +226,10 @@ static void tests(void)
 		fi;", "OKK", "Complex IF");
 	test_framework("\
 		echo OKK; \
-		if [ 0 ] && [ 0 ]; then \
-			if [ 1 ]; then \
+		if "TRUE" && [ 0 ]; then \
+			if "FALSE"; then \
 				echo OK2; \
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo OK2.5; \
 				fi; \
 				echo OK3; \
@@ -235,10 +239,10 @@ static void tests(void)
 
 	test_framework("\
 		echo OKK\n \
-		if [ 0 ] && [ 0 ]\n then \
-			if [ 1 ]\n then \
+		if "TRUE" && [ 0 ]\n then \
+			if "FALSE"\n then \
 				echo OK2\n \
-				if [ 0 ]\n then \
+				if "TRUE"\n then \
 					echo OK2.5\n \
 				fi\n \
 				echo OK3\n \
@@ -247,10 +251,10 @@ static void tests(void)
 		fi", "OKK\nOK4", "Complex IF \\n");
 	test_framework("\
 		echo OKK\n \
-		if [ 0 ] && [ 0 ]\n then \
-			if [ 1 ]\n then \
+		if "TRUE" && [ 0 ]\n then \
+			if "FALSE"\n then \
 				echo OK2\n \
-				if [ 0 ] then \
+				if "TRUE" then \
 					echo OK2.5\n \
 				fi\n \
 				echo OK3\n \
@@ -259,10 +263,10 @@ static void tests(void)
 		fi", error_msg, "Complex IF error");
 	test_framework("\
 		echo OKK\n \
-		if [ 0 ] && [ 0 ]\n then \
-			if [ 1 ]\n then \
+		if "TRUE" && [ 0 ]\n then \
+			if "FALSE"\n then \
 				echo OK2\n \
-				if [ 0 ] then\n \
+				if "TRUE" then\n \
 				fi\n \
 				echo OK3\n \
 			fi\n \
@@ -271,16 +275,16 @@ static void tests(void)
 
 	test_framework("\
 		echo 1 && echo 2; \
-		if [ 0 ]; then \
+		if "TRUE"; then \
 			echo 3;\
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo 4;\
-				if [ 0 ]; then \
-					if [ 0 ]; then \
+				if "TRUE"; then \
+					if "TRUE"; then \
 						echo 5;\
-						if [ 1 ]; then\
+						if "FALSE"; then\
 							echo -1; \
-						elif [ 0 ]; then \
+						elif "TRUE"; then \
 							echo 6; echo 7; \
 						else \
 							echo -2; \
@@ -290,14 +294,14 @@ static void tests(void)
 					else \
 						echo -3; \
 					fi; \
-				elif [ 1 ]; then\
+				elif "FALSE"; then\
 					echo -4; \
-				elif [ 0 ]; then \
+				elif "TRUE"; then \
 					echo -5; \
 				fi; \
 				echo 10;\
 			fi; \
-		elif [ 0 ]; then \
+		elif "TRUE"; then \
 			echo -6; \
 		fi; \
 		echo 11;\
@@ -307,16 +311,16 @@ static void tests(void)
 		touch a; \
 		while cat a > /dev/null; do \
 			echo 0 && rm a; \
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo 3;\
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo 4;\
-					if [ 0 ]; then \
-						if [ 0 ]; then \
+					if "TRUE"; then \
+						if "TRUE"; then \
 							echo 5;\
-							if [ 1 ]; then\
+							if "FALSE"; then\
 								echo -1; \
-							elif [ 0 ]; then \
+							elif "TRUE"; then \
 								echo 6; echo 7; \
 							else \
 								echo -2; \
@@ -326,14 +330,14 @@ static void tests(void)
 						else \
 							echo -3; \
 						fi; \
-					elif [ 1 ]; then\
+					elif "FALSE"; then\
 						echo -4; \
-					elif [ 0 ]; then \
+					elif "TRUE"; then \
 						echo -5; \
 					fi; \
 					echo 10;\
 				fi; \
-			elif [ 0 ]; then \
+			elif "TRUE"; then \
 				echo -6; \
 			fi; \
 		done; \
@@ -342,18 +346,18 @@ static void tests(void)
 	test_framework("\
 		echo 1 && echo 2; \
 		touch a; \
-			if [ 0 ]; then \
+			if "TRUE"; then \
 				echo 3;\
-				if [ 0 ]; then \
+				if "TRUE"; then \
 					echo 4;\
 					while cat a; do \
 						echo 0 && rm a; \
-						if [ 0 ]; then \
-							if [ 0 ]; then \
+						if "TRUE"; then \
+							if "TRUE"; then \
 								echo 5;\
-								if [ 1 ]; then\
+								if "FALSE"; then\
 									echo -1; \
-								elif [ 0 ]; then \
+								elif "TRUE"; then \
 									echo 6; echo 7; \
 								else \
 									echo -2; \
@@ -363,16 +367,16 @@ static void tests(void)
 							else \
 								echo -3; \
 							fi; \
-						elif [ 1 ]; then\
+						elif "FALSE"; then\
 							echo -4; \
-						elif [ 0 ]; then \
+						elif "TRUE"; then \
 							echo -5; \
 						fi; \
 						echo 9.5; \
 					done; \
 					echo 10;\
 				fi; \
-			elif [ 0 ]; then \
+			elif "TRUE"; then \
 				echo -6; \
 			fi; \
 		echo 11;\
