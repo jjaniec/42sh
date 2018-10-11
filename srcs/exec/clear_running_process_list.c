@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 19:09:47 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 20:02:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 21:01:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	clear_running_process_list(t_process *process_list)
 		ptr = process_list;
 		process_list = process_list->next;
 		kill(ptr->pid, SIGKILL);
+		log_debug("Killing pid : %zu (process %s)", ptr->pid, ptr->cmd[0]);
 		free(ptr);
 	}
 }

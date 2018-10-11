@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 20:10:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 21:00:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,33 +80,47 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 ** Wait child process to end
 */
 
+static int	handle_wait_error(int waited_pid, int *status, pid_t child_pid)
+{
+	if (waited_pid == -1)
+	{
+		if (errno != EINTR)
+		{
+			log_error("Wait returned -1");
+			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+			return (*status);
+		}
+		return (130);
+	}
+	if (waited_pid != -1 && waited_pid != child_pid)
+		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
+	return (0);
+}
+
 static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 				t_ast *last_pipe_node)
 {
-	int		status;
 	int		waited_pid;
+	int		status;
 
+	add_running_process((char **)cmd[2], child_pid); //->
+	debug_running_processes(g_running_processes);
 	status = -2;
 	if (node && last_pipe_node)
 	{
 		close_child_pipe_fds(node, last_pipe_node);
 		errno = 0;
-		add_running_process((char **)cmd[2], child_pid); //->
-		debug_running_processes(g_running_processes); //->
-		//clear_running_process_list(g_running_processes); //->
-		/*waited_pid = waitpid(child_pid, &status, 0);
-		if (waited_pid == -1)
+		// //->
+		log_fatal("Last pipe node : %p", last_pipe_node);
+		if (node == last_pipe_node->right && \
+			last_pipe_node->parent->type == T_CTRL_OPT && \
+			last_pipe_node->parent->type_details != TK_PIPE)
 		{
-			if (errno != EINTR)
-			{
-				log_error("Wait returned -1");
-				ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
-				return (status);
-			}
-			return (130);
+			waited_pid = waitpid(child_pid, &status, 0);
+			if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
+				return (handle_wait_error(waited_pid, &status, child_pid));
+			clear_running_process_list(g_running_processes);
 		}
-		if (waited_pid != -1 && waited_pid != child_pid)
-			ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);*/
 	}
 	return (status);
 }
