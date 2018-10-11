@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:26:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:16:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 17:55:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ static void			update_environ_ptr_tab(t_env_entry *entry_to_del_ptr)
 	while (*environ_ptr && entry_to_replace_ptr_to_env)
 	{
 		*environ_ptr = *(environ_ptr + 1);
-		if (entry_to_replace_ptr_to_env)
-		{
-			entry_to_replace_ptr_to_env->ptr_to_pos_in_environ_tab -= 1;
-			entry_to_replace_ptr_to_env = entry_to_replace_ptr_to_env->next;
-		}
+		entry_to_replace_ptr_to_env->ptr_to_pos_in_environ_tab -= 1;
+		entry_to_replace_ptr_to_env = entry_to_replace_ptr_to_env->next;
 		environ_ptr++;
 	}
 }

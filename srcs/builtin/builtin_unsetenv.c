@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:36:08 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 21:08:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 17:52:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	check_args(char **argv)
 			return (1);
 		else if (is_identifier_invalid(*argv, NULL))
 			return (2);
-		else argv++;
+		else
+			argv++;
 	return (0);
 }
 
@@ -47,7 +48,7 @@ void		builtin_unsetenv(char **argv, t_environ *env, t_exec *exe)
 {
 	int		err;
 
-	if (!(argv[1]))
+	if (!(argv && argv[1]))
 	{
 		print_unsetenv_error(1);
 		return ;
@@ -58,7 +59,7 @@ void		builtin_unsetenv(char **argv, t_environ *env, t_exec *exe)
 		exe->ret = 1;
 		return ;
 	}
-	if (env && argv && *argv)
+	if (env && *argv)
 	{
 		argv++;
 		while (*argv)

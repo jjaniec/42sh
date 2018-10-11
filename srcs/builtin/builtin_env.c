@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 16:15:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 17:51:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,19 @@ static int		print_env_content(char **environ)
 static char	*handle_parameters(char **argv, t_environ *env_struct, \
 				t_environ **env_struct_to_use, char ***tmp_environ_start)
 {
-	int				starting_entry_count;
-
+	if (!(argv && *argv))
+		return (NULL);
 	argv = parse_options(NULL, argv, g_env_opts, NULL);
 	if (is_option_activated("i", g_env_opts, NULL))
 	{
 		(*env_struct_to_use) = malloc(sizeof(t_environ));
-		init_environ_struct_ptrs((*env_struct_to_use));
+		init_environ_struct_ptrs(*env_struct_to_use);
 	}
 	else
 		(*env_struct_to_use) = env_struct;
 	*tmp_environ_start = \
 		&((*env_struct_to_use)->environ[(*env_struct_to_use)->entry_count]);
-	starting_entry_count = (*env_struct_to_use)->entry_count;
-	while (argv && *argv && ft_strchr(*argv, '='))
+	while (*argv && ft_strchr(*argv, '='))
 	{
 		if (!((*env_struct_to_use)->entry_count < MAX_ENV_ENTRIES))
 			break ;
@@ -64,7 +63,7 @@ static char	*handle_parameters(char **argv, t_environ *env_struct, \
 		argv += 1;
 	}
 	(*env_struct_to_use)->environ[(*env_struct_to_use)->entry_count] = NULL;
-	return *argv;
+	return (*argv);
 }
 
 
@@ -102,6 +101,4 @@ void			builtin_env(char **argv, t_environ *env, t_exec *exe)
 		print_env_content(env->environ);
 	if (exe)
 		exe->ret = 0;
-	//exe->ret = (argv[1] && builtin_env_(argv, env)) ??!??! print_env_content(env->environ);
-	//exe->ret = builtin_env_(argv, env);
 }

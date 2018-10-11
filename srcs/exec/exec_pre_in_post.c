@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:26:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 17:58:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 	if (((node->type == T_WORD && node->type_details == TK_DEFAULT) || \
 		node->type_details == TK_SCRIPT_CONDITION_IF || \
 		node->type_details == TK_SCRIPT_CONDITION_WHILE) && \
-		!exe->ready_for_exec)
-	{
-		if (!(node->parent->type == T_REDIR_OPT && node == node->parent->right))
-			exec_argv(node->data, exe, node);
-	}
+		!exe->ready_for_exec && \
+		!(node->parent->type == T_REDIR_OPT && node == node->parent->right))
+		exec_argv(node->data, exe, node);
 	return (exe);
 }
 

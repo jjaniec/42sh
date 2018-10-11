@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 17:08:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 18:01:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_option		g_sh_opts[] = {
 	{{"-le-debug"}, "Enable line edition debugging in "TTY_DEBUG, false},
 	{{NULL}, NULL, false}
 };
-
-//struct s_line	*g_le;
 
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
