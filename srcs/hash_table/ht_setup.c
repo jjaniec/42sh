@@ -6,7 +6,7 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:58:44 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/11 14:16:48 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/11 14:39:41 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ static int		get_table_size(char **path)
 	return (res);
 }
 
-void			ht_setup(char **env)
+t_hashtable		*ht_setup(char **env)
 {
-	hashtable_t		*hashtable;
+	t_hashtable		*hashtable;
 	char			**path;
 	int				size;
 	int				i;
@@ -104,8 +104,9 @@ void			ht_setup(char **env)
 		return (NULL);
 	if ((hashtable = malloc(sizeof(t_hashtable))) == NULL)
 		return (NULL);
-	if ((hashtable->table = malloc(sizeof(*t_entry) * size)) == NULL)
+	if ((hashtable->table = malloc(sizeof(t_entry*) * size)) == NULL)
 		return (NULL);
+	hashtable->path = path;
 	while (i < size)
 	{
 		hashtable->table[i] = NULL;

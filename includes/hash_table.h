@@ -25,10 +25,13 @@ typedef struct    s_entry
 typedef struct    s_hashtable
 {
 	int		          size;
+	char						**path;
 	t_entry	        **table;
 }                 t_hashtable;
 
-void              ht_setup(char **env);
-void		          free_tab(char **items);
+t_hashtable				*ht_setup(char **env);
+t_hashtable				*ht_create(char **env);
+void							free_tab(char **items);
+int								ht_hash(t_hashtable *hashtable, char *key);
 
 #endif

@@ -67,7 +67,9 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_push_in_line.c \
 			autocomplete/autoc_arrow.c \
 			hash_table/ht_setup.c \
+			hash_table/ht_create.c \
 			hash_table/ht_mem_free.c \
+			hash_table/ht_hash.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
