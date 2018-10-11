@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/07 15:15:33 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/10/11 14:44:43 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -178,7 +178,6 @@ INCLUDES_NAME = ast.h \
 				autocomplete.h \
 				exec.h \
 				forty_two_sh.h \
-				get_next_line.h \
 				lexer.h \
 				line_edition.h \
 				script.h \

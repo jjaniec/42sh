@@ -3,85 +3,117 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sebrucke <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/09 14:51:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/11 14:39:27 by sbrucker         ###   ########.fr       */
+/*   Created: 2017/11/10 09:43:08 by sebrucke          #+#    #+#             */
+/*   Updated: 2018/10/11 14:46:08 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static t_slot    *get_slot(t_slot *first, int fd)
+static t_fd	*get_struct(t_fd *head, int fd)
 {
-    t_slot    *slot;
+	t_fd		*lst;
 
-    slot = first;
-    while (slot && slot->fd != fd)
-        slot = slot->next;
-    if (!slot)
-    {
-        if (!(slot = malloc(sizeof(t_slot))) ||
-        !(slot->save = ft_strnew(0)))
-            return (0);
-        slot->fd = fd;
-        slot->next = NULL;
-        while (first && first->next)
-            first = first->next;
-        if (first)
-            first->next = slot;
-    }
-    return (slot);
+	if (head->fd == fd)
+		return (head);
+	if (head->next == NULL)
+	{
+		if (!(lst = (t_fd*)malloc(sizeof(t_fd))))
+			return (0);
+		lst->fd = fd;
+		lst->content = ft_strnew(BUFF_SIZE);
+		if (!lst->content)
+			return (0);
+		head->next = lst;
+		lst->next = NULL;
+		lst->ret_read = 1;
+		return (lst);
+	}
+	else
+		lst = get_struct(head->next, fd);
+	return (lst);
 }
 
-static int        process_slot(t_slot *slot, char **line)
+static int	free_lst(t_fd *head, t_fd *lst)
 {
-    char    *tmp;
-    char    *new;
-
-    if (!(tmp = ft_strdup(slot->save)))
-        return (-1);
-    free(slot->save);
-    if (*tmp == '\n')
-    {
-        if (!(slot->save = ft_strdup(tmp + 1)) ||
-        !(*line = ft_strnew(0)))
-            return (-1);
-        free(tmp);
-        return (1);
-    }
-    if (!(slot->save = ft_strchr(tmp, '\n') ?
-    ft_strdup(ft_strchr(tmp, '\n') + 1) : ft_strnew(0)))
-        return (-1);
-    if (ft_strchr(tmp, '\n'))
-        *ft_strchr(tmp, '\n') = '\0';
-    if (!(new = *tmp ? tmp : ft_strnew(0)))
-        return (-1);
-    *line = new;
-    if (new != tmp)
-        free(tmp);
-    return (*new ? 1 : 0);
+	if (head->next != lst)
+		free_lst(head->next, lst);
+	else
+	{
+		head->next = lst->next;
+		if (lst && lst->content)
+		{
+			ft_strdel(&lst->content);
+		}
+		if (lst)
+		{
+			free(lst);
+		}
+	}
+	return (0);
 }
 
-int                get_next_line(const int fd, char **line)
+static char	*ft_strdup_free(char *s1, char **s2)
 {
-    static t_slot    *first;
-    t_slot            *slot;
-    int                rd;
-    char            buff[GNL_BUFF_SIZE + 1];
-    char            *tmp;
+	char	*str;
 
-    if (!line || !(slot = get_slot(first, fd)))
-        return (-1);
-    first = first ? first : slot;
-    while ((rd = read(fd, buff, GNL_BUFF_SIZE)) && rd != -1)
-    {
-        buff[rd] = '\0';
-        tmp = ft_strjoin(slot->save, buff);
-        free(slot->save);
-        slot->save = tmp;
-        if (ft_strchr(slot->save, '\n'))
-            return (process_slot(slot, line));
-    }
-    return (rd == -1 ? -1 : process_slot(slot, line));
+	if ((str = ft_strnew(ft_strlen(s1))))
+		ft_strcpy(str, s1);
+	if (s2 && *s2)
+		ft_strdel(s2);
+	return (str);
+}
+
+static t_fd	*while_read(t_fd *head, int fd)
+{
+	char		*tmp;
+	char		buff[BUFF_SIZE + 1];
+	t_fd		*lst;
+
+	lst = get_struct(head, fd);
+	while ((lst->ret_read = read(lst->fd, buff, BUFF_SIZE)))
+	{
+		buff[lst->ret_read] = '\0';
+		tmp = ft_strjoin(lst->content, buff);
+		if (!tmp)
+			return (0);
+		ft_strdel(&lst->content);
+		lst->content = ft_strdup(tmp);
+		if (!lst)
+			return (0);
+		ft_strdel(&tmp);
+		if (ft_strchr(lst->content, '\n'))
+			break ;
+	}
+	return (lst);
+}
+
+int			get_next_line(const int fd, char **line)
+{
+	static t_fd	head;
+	t_fd		*lst;
+	char		*aft_nb;
+
+	head.fd = -1;
+	aft_nb = 0;
+	if (line && fd >= 0 && read(fd, aft_nb, 0) != -1)
+	{
+		if (!(lst = while_read(&head, fd)))
+			return (-1);
+		if (lst->content && ft_strlen(lst->content))
+			aft_nb = ft_strchr(lst->content, '\n');
+		if (aft_nb)
+		{
+			*line = ft_strsub(lst->content, 0, aft_nb - lst->content);
+			lst->content = ft_strdup_free(aft_nb + 1, &lst->content);
+		}
+		else if (lst->content && ft_strlen(lst->content) > 0)
+			*line = ft_strdup_free(lst->content, &lst->content);
+		else
+			return (free_lst(&head, lst));
+		return (1);
+	}
+	return (-1);
 }

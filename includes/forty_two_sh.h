@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 15:35:20 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 14:47:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@
 # include "syntax_highlighting.h"
 # include "signals.h"
 # include "script.h"
-# include "get_next_line.h"
 # include "autocomplete.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
@@ -78,6 +77,8 @@ extern char			**g_envp;
 # define BUILTIN_HISTORY_USAGE \
 	"Usage : history [n | -d n | --clear | --save]\n"
 
+
+int			get_next_line(const int fd, char **line);
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
