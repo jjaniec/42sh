@@ -25,7 +25,7 @@ typedef struct    s_entry
 typedef struct    s_hashtable
 {
 	int		          size;
-	t_entry	        *table;
+	t_entry	        **table;
 }                 t_hashtable;
 
 void              ht_setup(char **env);

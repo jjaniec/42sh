@@ -6,15 +6,15 @@
 /*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:58:44 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/09 16:58:47 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/11 14:16:48 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <forty_two_sh.h>
+#include <forty_two_sh.h>
 
-static char **add_path_slash(char **path)
+static char		**add_path_slash(char **path)
 {
-  char 	**res;
+	char	**res;
 	int		i;
 
 	i = 0;
@@ -32,9 +32,9 @@ static char **add_path_slash(char **path)
 	return (res);
 }
 
-static char **ht_get_path(char **env)
+static char		**ht_get_path(char **env)
 {
-  int		i;
+	int		i;
 	char	*tmp;
 	char	**res;
 
@@ -51,11 +51,30 @@ static char **ht_get_path(char **env)
 	return (add_path_slash(res));
 }
 
-int		get_table_size(char **path)
+static int		get_number_binary(char *path, DIR *dir)
 {
-	DIR				*dir;
 	struct dirent	*file;
 	char			*tmp;
+	int				res;
+
+	res = 0;
+	while ((file = readdir(dir)))
+	{
+		if (file->d_name[0] != '.')
+		{
+			tmp = ft_strjoin(path, file->d_name);
+			if (access(tmp, X_OK) == 0)
+				res++;
+			free(tmp);
+		}
+	}
+	closedir(dir);
+	return (res);
+}
+
+static int		get_table_size(char **path)
+{
+	DIR				*dir;
 	int				i;
 	int				res;
 
@@ -64,31 +83,34 @@ int		get_table_size(char **path)
 	while (path[i])
 	{
 		dir = opendir(path[i]);
-		if (dir != NULL)
-		{
-			while ((file = readdir(dir)))
-			{
-				if (file->d_name[0] != '.')
-				{
-					tmp = ft_strjoin(path[i], file->d_name);
-					if (access(tmp, X_OK) == 0)
-						res++;
-					free(tmp);
-				}
-			}
-			closedir(dir);
-		}
+		if (dir)
+			res += get_number_binary(path[i], dir);
 		i++;
 	}
 	return (res);
 }
 
-void         ht_setup(char **env)
+void			ht_setup(char **env)
 {
-  char **path;
+	hashtable_t		*hashtable;
+	char			**path;
+	int				size;
+	int				i;
 
-  path = ht_get_path(env);
-  ft_putstr("Binary files found: ");
-  ft_putnbr(get_table_size(path));
-  ft_putchar('\n');
+	i = 0;
+	path = ht_get_path(env);
+	size = get_table_size(path);
+	if (size < 1)
+		return (NULL);
+	if ((hashtable = malloc(sizeof(t_hashtable))) == NULL)
+		return (NULL);
+	if ((hashtable->table = malloc(sizeof(*t_entry) * size)) == NULL)
+		return (NULL);
+	while (i < size)
+	{
+		hashtable->table[i] = NULL;
+		i++;
+	}
+	hashtable->size = size;
+	return (hashtable);
 }
