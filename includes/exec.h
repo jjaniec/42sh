@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:26:12 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/11 19:45:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,9 @@ t_exec	*create_exec(const char **envp);
 void	handle_open_error(int errno_code, char *filename);
 void	print_error(char *subject, char *err_str);
 
+void		debug_running_processes(t_process *process_list);
+
+t_process		*add_running_process(char **cmd, pid_t process_pid);
+
+void	clear_running_process_list(t_process *process_list);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 15:34:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/11 20:10:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,29 +80,34 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 ** Wait child process to end
 */
 
-static int	parent_process(pid_t child_pid, t_ast *node, \
+static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 				t_ast *last_pipe_node)
 {
 	int		status;
 	int		waited_pid;
 
-	if (node && last_pipe_node)
-		close_child_pipe_fds(node, last_pipe_node);
 	status = -2;
-	errno = 0;
-	waited_pid = waitpid(child_pid, &status, 0);
-	if (waited_pid == -1)
+	if (node && last_pipe_node)
 	{
-		if (errno != EINTR)
+		close_child_pipe_fds(node, last_pipe_node);
+		errno = 0;
+		add_running_process((char **)cmd[2], child_pid); //->
+		debug_running_processes(g_running_processes); //->
+		//clear_running_process_list(g_running_processes); //->
+		/*waited_pid = waitpid(child_pid, &status, 0);
+		if (waited_pid == -1)
 		{
-			log_error("Wait returned -1");
-			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
-			return (status);
+			if (errno != EINTR)
+			{
+				log_error("Wait returned -1");
+				ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+				return (status);
+			}
+			return (130);
 		}
-		return (130);
+		if (waited_pid != -1 && waited_pid != child_pid)
+			ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);*/
 	}
-	if (waited_pid != -1 && waited_pid != child_pid)
-		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
 	return (status);
 }
 
@@ -143,14 +148,13 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 		if (child_pid == -1)
 			log_error("Fork() not working");
 		else if (child_pid == 0)
-			child_process(cmd, envp, exe, node);
+			child_process((void **)cmd, envp, exe, node);
 		else
 		{
 			g_cmd_status.cmd_running = true;
 			g_cmd_status.cmd_pid = child_pid;
 			log_trace("Forked process pid: %d", child_pid);
-			exe->ret = parent_process(child_pid, node, last_pipe_node);
-			//dprintf(1, "-> %d\n", exe->ret);
+			exe->ret = parent_process((char **)cmd, child_pid, node, last_pipe_node);
 		}
 	}
 	else

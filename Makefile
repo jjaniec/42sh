@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/07 15:15:33 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/10/11 19:44:40 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,6 +131,9 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			exec/clear_running_process_list.c \
+			exec/debug_running_processes.c \
+			exec/add_running_process.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 15:45:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/11 19:45:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,16 @@ typedef struct			s_option
 }						t_option;
 
 typedef t_option		*t_opt_list;
+
+/*
+** Running processes linked list:
+*/
+
+typedef struct			s_process
+{
+	char				**cmd; // exec_ve parameters
+	pid_t				pid;
+	struct s_process	*next;
+}						t_process;
 
 #endif

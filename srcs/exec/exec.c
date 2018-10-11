@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:32:29 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/11 20:26:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void			exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node)
 t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
 	exe = ast_explore(root, exe);
-	/*if (VERBOSE_MODE)
-		ast_debug(root);*/
+	if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))
+		ast_debug(root);
 	if (!exe)
 		return (NULL);
 	return (exe);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 17:10:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 19:05:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_option		g_sh_opts[] = {
 
 char			**g_envp;
 
+t_process		*g_running_processes;
 
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {

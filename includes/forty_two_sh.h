@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 15:35:20 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 19:06:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ extern void			(* const g_node_placer[])(t_ast *, t_ast *);
 extern const char	*g_prompts[10];
 
 extern char			**g_envp;
+
+extern t_process	*g_running_processes;
 
 # define SH_USAGE \
 	"./42sh [-hcGv] [-c \"command\"]"
