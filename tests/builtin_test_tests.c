@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 17:59:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 19:48:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,6 @@ void		builtin_test_tests(char **envp)
 	test_framework("rm a c;[ -S . ]", "1", "Socket .");
 	test_framework("test [ 0 ]", "1", "Format error");
 	test_framework("test 0 ]", "1", "Format error");
-	test_framework("test 0", "0", "Simple value");
-	test_framework("test 1", "1", "Simple value");
-	test_framework("[ 1 ]", "1", "Simple value");
-	test_framework("[ 0 ]", "0", "Simple value");
 	test_framework("[ str = str ]", "0", "String equal");
 	test_framework("[ str != str ]", "1", "String equal");
 	test_framework("[ str != sstr ]", "0", "String equal");
@@ -142,8 +138,6 @@ void		builtin_test_tests(char **envp)
 	test_framework("[ 1 -le 0 ]", "1", "Integer lower or equal than");
 	test_framework("[ 0 -le 1 ]", "0", "Integer lower or equal than");
 	test_framework("[ 1 -le 1 ]", "0", "Integer lower or equal than");
-	test_framework("[ ! 0 ]", "1", "Operator NOT");
-	test_framework("[ ! 1 ]", "0", "Operator NOT");
 	test_framework("[ ! -e . ]", "1", "Operator NOT");
 	test_framework("[ ! -e notafile ]", "0", "Operator NOT");
 	test_framework("[ ! str = str ]", "1", "Operator NOT");

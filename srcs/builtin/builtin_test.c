@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/08 14:31:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 19:33:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	test_expression(char **argv, \
 	else if (!argv[1] && ft_strlen(argv[0]) > 0)
 		return (1);
 	else if (argv[1] && !argv[2])
-		return (ft_atoi(argv[1]));
+		return (0);
 	else if (argv[2] && !argv[3])
 		return (parse_expr_file((argv + 1), g_tests_opts, char_opt_index));
 	else
