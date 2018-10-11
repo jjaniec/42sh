@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 17:10:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 18:00:16 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,44 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 	}
 }
 
+static int	open_error_print_msg(char *file)
+{
+	ft_putstr_fd("42sh: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putendl_fd(": No such file or directory", 2);
+	return (1);
+}
+
+static char	*read_file(int fd)
+{
+	char	*line;
+
+	while(get_next_line(fd, &line))
+	{
+		dprintf(1, "%s\n", line);
+	}
+	return (line);
+}
+
+static int	interpret_file(char **argv, t_option **char_opt_index, char **envp)
+{
+	int		fd;
+
+	argv++;
+	while(*argv && **argv == '-')
+		argv++;
+	if (*argv && !is_option_activated("c", g_sh_opts, char_opt_index))
+	{
+		if ((fd = open(*argv, O_RDONLY)) <= 0)
+			exit(open_error_print_msg(*argv));
+		//ACTIVATE OPT
+		forty_two_sh(read_file(fd), envp, g_sh_opts, char_opt_index);
+		close(fd);
+		return (1);
+	}
+	return (0);
+}
+
 int			main(int ac, char **av, char **envp)
 {
 	t_option	*opt_list;
@@ -124,6 +162,8 @@ int			main(int ac, char **av, char **envp)
 	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
+	if (interpret_file(av, char_opt_index, envp))
+		return (0);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 		while (ac > 0)
 		{
