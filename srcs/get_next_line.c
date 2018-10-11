@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/09 14:51:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/09/25 16:57:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/11 14:33:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ static int        process_slot(t_slot *slot, char **line)
     if (ft_strchr(tmp, '\n'))
         *ft_strchr(tmp, '\n') = '\0';
     if (!(new = *tmp ? tmp : ft_strnew(0)))
+	{
+		free(tmp);
         return (-1);
+	}
     *line = new;
     if (new != tmp)
         free(tmp);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/15 20:41:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/11 14:30:44 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int		elem_path_found(struct stat *elem_stats, \
 		else if (!r && is_builtin(lexeme_data, NULL))
 			r = 1;
 		ft_strdel(&tmp);
+		ft_free_argv(paths);
 	}
 	return (r);
 }
