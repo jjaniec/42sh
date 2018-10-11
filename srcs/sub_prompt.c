@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 19:53:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/11 15:25:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	while (input == RESIZE_IN_PROGRESS)	
 	{	
 		input = get_valid_input(&new, need_subprompt);
+		free_lexemes(new);
  		if (input == NULL)
 			return (NULL);	
  	}
@@ -113,43 +114,50 @@ static int	there_is_no_cr(char *input)
 	return (0);
 }
 
-int		subp_heredoc(t_lexeme *lex, char *eof_word)
+static int	get_full_line(char **final_input)
 {
-	char	*input;
-	char	*final_input;
-	char	*final;
-	t_lexeme	*lexemes;
+	t_lexeme	*lex;
+	char		*input;
 
-	input = NULL;
-	final = (char *)ft_memalloc(sizeof(char));
-	final_input = (char *)ft_memalloc(sizeof(char));
-	if (!final || !final_input)
-		exit(MALLOC_ERROR);
-	eof_word = ft_strjoin(eof_word, "\n");
-	while (!input)
+	input = get_valid_input(&lex, NEED_SUBPROMPT_HEREDOC);
+	free_lexemes(lex);
+	if (!input)
+		return (0);
+	while (there_is_no_cr(input))
 	{
-		input = get_valid_input(&lexemes, NEED_SUBPROMPT_HEREDOC);
-		free_lexemes(lexemes);
+		*final_input = ft_strjoin_free(*final_input, input);
+		input = get_valid_input(&lex, NEED_SUBPROMPT_NEWLINE);
+		free_lexemes(lex);
 		if (!input)
 			return (0);
-		while (there_is_no_cr(input))
-		{
-			final_input = ft_strjoin(final_input, input);
-			input = get_valid_input(&lexemes, NEED_SUBPROMPT_NEWLINE);
-			free_lexemes(lexemes);
-			if (!input)
-				return (0);
-			
-		}
-		final_input = ft_strjoin(final_input, input);
+	}
+	*final_input = ft_strjoin_free(*final_input, input);
+	return (1);
+}
+
+int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
+{
+	char	*final_input;
+	char	*final;
+	char	*eof_word;
+
+	final = (char *)ft_memalloc(sizeof(char));
+	if (!final)
+		exit(MALLOC_ERROR);
+	eof_word = ft_strjoin(eof_word_tmp, "\n");
+	while (1)
+	{
+		final_input = (char *)ft_memalloc(sizeof(char));
+		if (!get_full_line(&final_input))
+			return (0);
 		if (ft_strequ(final_input, eof_word))
 			break ;
-		final = ft_strjoin(final, final_input);
-		final_input[0] = '\0';
-		free(input);
-		input = NULL;
+		final = ft_strjoin_free(final, final_input);
 	}
 	//final[ft_strlen(final) - 1] = '\0';
+	free(final_input);
+	free(eof_word);
+	free(lex->next->data);
 	lex->next->data = final;
 	return(1);
 }
