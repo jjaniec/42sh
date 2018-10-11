@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 10:45:08 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/05 13:56:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/08 11:47:33 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static void		print_col_items(int i, t_autoc *autoc)
 		if (ft_strchr(autoc->items[i], '/'))
 			ft_putstr(COL_PROG_ARG_DIR);
 		(autoc->menu_selected == i) ? (ft_video(autoc->items[i])) :
-		(ft_putstr(autoc->items[i]));
+			(ft_putstr(autoc->items[i]));
 		autoc_menu_print_spaces(autoc->max_item_len,
-			ft_strlen(autoc->items[i]), autoc->le);
+				ft_strlen(autoc->items[i]), autoc->le);
 		ft_putstr(COL_DEFAULT);
 		count++;
 		i = i + autoc->nbr_line;
@@ -89,7 +89,7 @@ static void		print_col_items(int i, t_autoc *autoc)
 	}
 }
 
-int						autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
+int				autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 {
 	int line;
 

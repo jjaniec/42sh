@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.h                                    :+:      :+:    :+:   */
+/*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 18:45:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 15:35:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	load_aliases_file(struct s_alias *alias);
 char  	*get_parsed_history_file_path(void);
 char	*get_parsed_aliases_file_path(void);
 
-int		handle_exclamation_mark_in_lexer(t_lexeme *lex);
+t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
 
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/04 12:14:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:11:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define NEED_SUBPROMPT_QUOTES -5
 # define NEED_SUBPROMPT_HEREDOC -6
 
-t_ast	*ast(t_lexeme *lex);
+t_ast	*ast(t_lexeme **old_lex);
 t_ast	*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 		void(*node_placer)(t_ast *, t_ast *));
 t_ast	*create_node(size_t type, size_t type_details, char **data);
