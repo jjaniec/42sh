@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 18:05:26 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 18:41:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ static int	interpret_file(char **argv, t_option **char_opt_index, char **envp)
 	{
 		if ((fd = open(*argv, O_RDONLY)) <= 0)
 			exit(open_error_print_msg(*argv));
-		//ACTIVATE OPT
+		g_sh_opts[1].opt_status = true;
 		forty_two_sh(read_file(fd), envp, g_sh_opts, char_opt_index);
 		close(fd);
 		return (1);
