@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 15:39:46 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 15:58:18 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,14 +150,18 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 	{
 		final_input = (char *)ft_memalloc(sizeof(char));
 		if (!get_full_line(&final_input))
+		{
+			free(final_input);
+			free(final);
+			free(eof_word);
 			return (0);
+		}
 		if (ft_strequ(final_input, eof_word))
 			break ;
 		final = ft_strjoin_free(final, final_input);
 	}
 	//final[ft_strlen(final) - 1] = '\0';
 	free(final_input);
-	free(eof_word);
 	free(lex->next->data);
 	lex->next->data = final;
 	return(1);
