@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 18:00:16 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 18:05:26 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,15 @@ static int	open_error_print_msg(char *file)
 static char	*read_file(int fd)
 {
 	char	*line;
+	char	*final;
 
+	final = ft_strnew(0);
 	while(get_next_line(fd, &line))
 	{
-		dprintf(1, "%s\n", line);
+		final = ft_strjoin_free(final, line);
+		final = ft_strjoin_free(final, ft_strdup("\n"));
 	}
-	return (line);
+	return (final);
 }
 
 static int	interpret_file(char **argv, t_option **char_opt_index, char **envp)
