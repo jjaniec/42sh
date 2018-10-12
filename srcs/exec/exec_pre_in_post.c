@@ -6,59 +6,16 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 15:22:51 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/12 15:34:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-** Distribute the **argv to the rigth processing function
+** In use for return of keyword BREAK and CONTINUE.
+** Check if the code is inside an inner while.
 */
-
-void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
-{
-	if (ft_strchr(argv[0], '/'))
-		exec_local(argv, envp, exe, node);
-	else if (exec_builtin(argv, envp, exe, node))
-		return ;
-	else
-		exec_binary(argv, envp, exe, node);
-}
-
-/*
-** Is executed at the first passage of a node in the AST
-*/
-
-t_exec	*pre_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
-	return (exe);
-}
-
-/*
-** Is executed at the second passage of a node in the AST
-*/
-/*
-#include <execinfo.h>
-void
-print_trace (void)
-{
-  void *array[10];
-  size_t size;
-  char **strings;
-  size_t i;
-
-  size = backtrace (array, 10);
-  strings = backtrace_symbols (array, size);
-
-  printf ("Obtained %zd stack frames.\n", size);
-
-  for (i = 0; i < size; i++)
-     printf ("%s\n", strings[i]);
-
-  free (strings);
-}*/
 
 static t_exec	*look_for_loop_node(t_ast *node, int statement)
 {
@@ -79,6 +36,34 @@ static t_exec	*look_for_loop_node(t_ast *node, int statement)
 	return (NULL);
 }
 
+/*
+** Distribute the **argv to the rigth processing function
+*/
+
+void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
+{
+	if (ft_strchr(argv[0], '/'))
+		exec_local(argv, envp, exe, node);
+	else if (exec_builtin(argv, envp, exe, node))
+		return ;
+	else if (exec_binary(argv, envp, exe, node) == STATEMENT_NOCMD)
+		exe->ret = -1;
+}
+
+/*
+** Is executed at the first passage of a node in the AST
+*/
+
+t_exec	*pre_exec(t_ast *node, t_exec *exe)
+{
+	(void)node;
+	return (exe);
+}
+
+/*
+** Is executed at the second passage of a node in the AST
+*/
+
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
@@ -89,13 +74,9 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT)
 	{
-		statement = (t_exec *)look_for_loop_node(node, node->type_details);
-		if (statement)
+		if ((statement = (t_exec *)look_for_loop_node(node, node->type_details)))
 			return (statement);
 	}
-		//try to fetch inner loop, then position node on the [sub_ast] of the
-		//inner while. Then return and let it do his stuff
-		//For continue statement, return to the node while
 	if (node->sub_ast)
 		script_in_exec(node->sub_ast, exe);
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)

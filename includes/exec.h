@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 13:55:13 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/12 15:35:25 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
 void	exec_local(char **argv, char **envp, t_exec *exe, t_ast *node);
 int		exec_builtin(char **argv, char **envp, t_exec *exe, t_ast *node);
-void	exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
+int		exec_binary(char **argv, char **envp, t_exec *exe, t_ast *node);
 int		is_builtin(char *cmd, \
 			void (**builtin_fun_ptr)(char **, char **, t_exec *));
 
