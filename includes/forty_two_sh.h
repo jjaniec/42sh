@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 14:47:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/12 15:44:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ extern const char	*g_prompts[10];
 extern char			**g_envp;
 
 # define SH_USAGE \
-	"./42sh [-hcGv] [-c \"command\"]"
+	"./42sh [-hcGv] [-c \"command\"] [file]"
 
 # define BUILTIN_ENV_USAGE \
 	"env [-i][name=value]...	[utility [argument...]]"
