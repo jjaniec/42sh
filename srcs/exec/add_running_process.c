@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 19:02:35 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 20:10:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/12 11:47:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_process		*add_running_process(char **cmd, pid_t process_pid)
 		ptr->next->cmd = cmd;
 		ptr->next->next = NULL;
 	}
+	g_running_processes = ptr;
 	log_info("New process created w/ pid: %zu", process_pid);
 	return (ptr);
 }

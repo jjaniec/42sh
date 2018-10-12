@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 19:45:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/12 16:10:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,26 @@ typedef struct			s_option
 typedef t_option		*t_opt_list;
 
 /*
+** Current jobs linked list
+** https://www.gnu.org/software/libc/manual/html_node/Data-Structures.html#Data-Structures
+*/
+
+typedef struct 			s_job
+{
+  struct s_job		*next;
+  char				*command;
+  t_process			*first_process;
+  pid_t				pgid;
+  //char				notified;
+  struct termios	tmodes;
+  //int stdin, stdout, stderr;  /* standard i/o channels */
+} 						t_job;
+
+/*
 ** Running processes linked list:
+** cmd: exec_ve parameters
+** pid: process pid
+** next: next process in pipeline / job
 */
 
 typedef struct			s_process

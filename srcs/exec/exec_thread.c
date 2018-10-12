@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 21:00:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/12 11:59:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	handle_wait_error(int waited_pid, int *status, pid_t child_pid)
 		}
 		return (130);
 	}
-	if (waited_pid != -1 && waited_pid != child_pid)
+	if (waited_pid != -1)
 		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
 	return (0);
 }
@@ -112,15 +112,16 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 		errno = 0;
 		// //->
 		log_fatal("Last pipe node : %p", last_pipe_node);
-		if (node == last_pipe_node->right && \
-			last_pipe_node->parent->type == T_CTRL_OPT && \
-			last_pipe_node->parent->type_details != TK_PIPE)
-		{
-			waited_pid = waitpid(child_pid, &status, 0);
-			if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
-				return (handle_wait_error(waited_pid, &status, child_pid));
-			clear_running_process_list(g_running_processes);
-		}
+	}
+	if (!last_pipe_node ||  (node == last_pipe_node->right && \
+		last_pipe_node->parent->type == T_CTRL_OPT && \
+		last_pipe_node->parent->type_details != TK_PIPE))
+	{
+		log_fatal("Waiting pid : %zu , process %s", child_pid, (char *)(((char **)cmd[2])[0]));
+		waited_pid = waitpid(child_pid, &status, 0);
+		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
+			return (handle_wait_error(waited_pid, &status, child_pid));
+		clear_running_process_list(g_running_processes);
 	}
 	return (status);
 }
