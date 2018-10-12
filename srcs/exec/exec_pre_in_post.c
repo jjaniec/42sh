@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:32:53 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/12 13:28:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,46 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe)
 /*
 ** Is executed at the second passage of a node in the AST
 */
+/*
+#include <execinfo.h>
+void
+print_trace (void)
+{
+  void *array[10];
+  size_t size;
+  char **strings;
+  size_t i;
+
+  size = backtrace (array, 10);
+  strings = backtrace_symbols (array, size);
+
+  printf ("Obtained %zd stack frames.\n", size);
+
+  for (i = 0; i < size; i++)
+     printf ("%s\n", strings[i]);
+
+  free (strings);
+}*/
+
+static void	look_for_loop_node(t_ast *node)
+{
+	while (node && node->type != TK_SCRIPT_WHILE)
+	{
+		dprintf(1, "node -> %s\n", node->data[0]);
+		getchar();
+		if (node && node->top_ast)
+			node = node->top_ast;
+		else
+			node = node->parent;
+		if (node && node->type == TK_SCRIPT_WHILE)
+		{
+			dprintf(1, "LOOP\n");
+			getchar();
+			return ;
+		}
+	}
+	dprintf(1, "NO\n");
+}
 
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
@@ -47,6 +87,11 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 	if (!node->data)
 		return (exe);
 	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
+	if (node->type == T_SCRIPT_STATEMENT)
+		look_for_loop_node(node);
+		//try to fetch inner loop, then position node on the [sub_ast] of the
+		//inner while. Then return and let it do his stuff
+		//For continue statement, return to the node while
 	if (node->sub_ast)
 		script_in_exec(node->sub_ast, exe);
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)

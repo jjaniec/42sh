@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 14:44:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/12 13:16:02 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct			s_ast
 	size_t			type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
+	struct s_ast	*top_ast;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*parent;
