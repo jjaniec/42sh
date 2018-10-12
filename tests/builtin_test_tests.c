@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 17:16:41 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 19:31:23 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/11 19:48:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,55 @@ void		builtin_test_tests(char **envp)
 	test_framework("chmod 000 b; [ -w b ]", "1", "Writeable file b");
 	test_framework("chmod 777 b; [ -x b ]", "0", "Executable file b");
 	test_framework("chmod 000 b; [ -x b ]", "1", "Executable file b");
-	test_framework("chmod 644 b; rm -rf b; ln -s . c; [ -L c ]", "1", "Symbolic link c");
+	test_framework("chmod 644 b; rm -rf b; ln -s . c; [ -L c ]", "0", "Symbolic link c");
 	test_framework("[ -L a ]", "1", "Symbolic link a");
 	test_framework("[ -L notafile ]", "1", "Symbolic link notafile");
 	test_framework("[ -S notafile ]", "1", "Socket notafile");
 	test_framework("[ -S a ]", "1", "Socket a");
 	test_framework("rm a c;[ -S . ]", "1", "Socket .");
+	test_framework("test [ 0 ]", "1", "Format error");
+	test_framework("test 0 ]", "1", "Format error");
+	test_framework("[ str = str ]", "0", "String equal");
+	test_framework("[ str != str ]", "1", "String equal");
+	test_framework("[ str != sstr ]", "0", "String equal");
+	test_framework("[ str = sstr ]", "1", "String equal");
+	test_framework("[ 1234 != 1234 ]", "1", "String equal");
+	test_framework("[ 0 -eq 0 ]", "0", "Integer equal");
+	test_framework("[ 0 -eq 1 ]", "1", "Integer equal");
+	test_framework("[ 1 -eq -1 ]", "1", "Integer equal");
+	test_framework("[ -1 -eq -1 ]", "0", "Integer equal");
+	test_framework("[ 186438734383745315 -eq 99634384348452425 ]", "1", "Integer equal");
+	test_framework("[ 1864387348161383745315 -eq 1864387348161383745315 ]", "0", "Integer equal");
+	test_framework("[ -1 -ne -1 ]", "1", "Integer not equal");
+	test_framework("[ 1 -ne 1 ]", "1", "Integer not equal");
+	test_framework("[ 0 -ne 1 ]", "0", "Integer not equal");
+	test_framework("[ 0 -ne 0 ]", "1", "Integer not equal");
+	test_framework("[ 186438734383745315 -ne 99634384348452425 ]", "0", "Integer not equal");
+	test_framework("[ 1864387348161383745315 -ne 1864387348161383745315 ]", "1", "Integer not equal");
+	test_framework("[ 0 -gt 0 ]", "1", "Integer greater than");
+	test_framework("[ 0 -gt -1 ]", "0", "Integer greater than");
+	test_framework("[ -1 -gt 0 ]", "1", "Integer greater than");
+	test_framework("[ 1 -gt 0 ]", "0", "Integer greater than");
+	test_framework("[ 0 -gt 1 ]", "1", "Integer greater than");
+	test_framework("[ 1 -gt 1 ]", "1", "Integer greater than");
+	test_framework("[ -0 -gt -0 ]", "1", "Integer greater than");
+	test_framework("[ 14835341415364151 -gt 00096541542241542 ]", "0", "Integer greater than");
+	test_framework("[ 0 -ge 0 ]", "0", "Integer greater or equal than");
+	test_framework("[ 1 -ge 0 ]", "0", "Integer greater or equal than");
+	test_framework("[ 0 -ge 1 ]", "1", "Integer greater or equal than");
+	test_framework("[ 1 -ge 1 ]", "0", "Integer greater or equal than");
+	test_framework("[ 0 -lt 0 ]", "1", "Integer lower than");
+	test_framework("[ -1 -lt 0 ]", "0", "Integer lower than");
+	test_framework("[ 0 -lt -1 ]", "1", "Integer lower than");
+	test_framework("[ 1 -lt 0 ]", "1", "Integer lower than");
+	test_framework("[ 0 -lt 1 ]", "0", "Integer lower than");
+	test_framework("[ 1 -lt 1 ]", "1", "Integer lower than");
+	test_framework("[ 0 -le 0 ]", "0", "Integer lower or equal than");
+	test_framework("[ 1 -le 0 ]", "1", "Integer lower or equal than");
+	test_framework("[ 0 -le 1 ]", "0", "Integer lower or equal than");
+	test_framework("[ 1 -le 1 ]", "0", "Integer lower or equal than");
+	test_framework("[ ! -e . ]", "1", "Operator NOT");
+	test_framework("[ ! -e notafile ]", "0", "Operator NOT");
+	test_framework("[ ! str = str ]", "1", "Operator NOT");
+	test_framework("[ ! str != str ]", "0", "Operator NOT");
 }

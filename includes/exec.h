@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:26:12 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/08 14:30:39 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ void	builtin_test(char **argv, char **envp, t_exec *exe);
 void	builtin_history(char **argv, char **envp, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, char **envp, \
 														t_exec *exe);
+int		parse_expr_file(char **argv, t_option *opt_list, \
+		t_option *char_opt_index[CHAR_OPT_INDEX_SIZE]);
+int		parse_expr_comp(char **argv);
 
 char	**inline_setenv(char *name, char *value, char **envp);
 char	**inline_unsetenv(char *name, char **envp);
