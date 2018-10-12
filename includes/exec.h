@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/25 18:26:12 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/12 13:55:13 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 
 # define EXEC_THREAD_NOT_BUILTIN	0
 # define EXEC_THREAD_BUILTIN		1
+# define STATEMENT_BREAK			-1
+# define STATEMENT_CONTINUE			-2
+# define STATEMENT_NOCMD			-3
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node);

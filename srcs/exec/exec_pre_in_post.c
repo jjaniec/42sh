@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 13:28:49 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/12 15:22:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,35 +60,39 @@ print_trace (void)
   free (strings);
 }*/
 
-static void	look_for_loop_node(t_ast *node)
+static t_exec	*look_for_loop_node(t_ast *node, int statement)
 {
-	while (node && node->type != TK_SCRIPT_WHILE)
+	while (node && node->type_details != TK_SCRIPT_WHILE)
 	{
-		dprintf(1, "node -> %s\n", node->data[0]);
-		getchar();
 		if (node && node->top_ast)
 			node = node->top_ast;
 		else
 			node = node->parent;
-		if (node && node->type == TK_SCRIPT_WHILE)
-		{
-			dprintf(1, "LOOP\n");
-			getchar();
-			return ;
-		}
 	}
-	dprintf(1, "NO\n");
+	if (node && node->type_details == TK_SCRIPT_WHILE)
+	{
+		if (statement == TK_SCRIPT_BREAK)
+			return ((t_exec *)STATEMENT_BREAK);
+		if (statement == TK_SCRIPT_CONTINUE)
+			return ((t_exec *)STATEMENT_CONTINUE);
+	}
+	return (NULL);
 }
 
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
+	t_exec	*statement;
 
 	if (!node->data)
 		return (exe);
 	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT)
-		look_for_loop_node(node);
+	{
+		statement = (t_exec *)look_for_loop_node(node, node->type_details);
+		if (statement)
+			return (statement);
+	}
 		//try to fetch inner loop, then position node on the [sub_ast] of the
 		//inner while. Then return and let it do his stuff
 		//For continue statement, return to the node while
