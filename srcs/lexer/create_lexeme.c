@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:48:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 16:36:57 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:58:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Creates a lexeme struct with type and data
 */
 
-t_lexeme		*create_lexeme(int  type[2], char *data, \
+t_lexeme		*create_lexeme(int type[2], char *data, \
 					int pos, char **lexeme_begin_end_ptrs)
 {
 	t_lexeme	*e;

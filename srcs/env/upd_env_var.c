@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   upd_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 18:59:16 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/09/26 18:08:19 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/11 17:57:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+char	*upd_env_var(t_environ *self, char *name, char *new_value)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
-	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
-	}
-	ft_putchar('\n');
-	exit(0);
+	t_env_entry		*var_ptr;
+	int				var_name_len;
+
+	if (!(var_ptr = self->get_var(self, name)))
+		return (NULL);
+	var_name_len = ft_strlen(name);
+	ft_strncpy(var_ptr->entry + var_name_len + 1, new_value, \
+		MAX_ENV_ENTRY_LEN - (var_name_len + 1));
+	self->last_used_elem = var_ptr;
+	return (var_ptr->entry);
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 16:25:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:59:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 ** if something other than separators is found
 */
 
-static int			get_lexeme(char *str, int *pos, \
+static int		get_lexeme(char *str, int *pos, \
 						char **evaluated_str, int *type_details)
 {
-	int		r;
+	int	r;
 
 	r = 0;
 	if (str[*pos])
@@ -56,23 +56,24 @@ static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
 static int			make_next_lexeme(char *line, int *pos, \
 						t_lexeme **lexemes, t_lexeme **cur_lexeme)
 {
-	int			type[2];
+	int			type;
+	int			type_details;
 	char		*data;
 	char		*lexeme_begin_end_ptrs[2];
 	t_lexeme	*e;
 
-	type[1] = TK_DEFAULT;
+	type_details = TK_DEFAULT;
 	while (line[*pos] && line[*pos] != '\\' && line[*pos] != '\n' && \
 			is_separator(line[*pos]))
 		*pos += 1;
 	if (line[*pos])
 	{
 		lexeme_begin_end_ptrs[0] = &(line[*pos]);
-		type[0] = get_lexeme(line, pos, &data, &(type[1]));
-		if ((int)type[0] == UNMATCHED_QUOTE_ERR)
+		type = get_lexeme(line, pos, &data, &(type_details));
+		if ((int)type == UNMATCHED_QUOTE_ERR)
 			return (UNMATCHED_QUOTE_ERR);
 		lexeme_begin_end_ptrs[1] = &(line[*pos]);
-		if ((e = create_lexeme(type, data, *pos, lexeme_begin_end_ptrs)))
+		if ((e = create_lexeme((int [2]){type, type_details}, data, *pos, lexeme_begin_end_ptrs)))
 			add_lexeme_to_list(e, lexemes, cur_lexeme);
 		return (1);
 	}

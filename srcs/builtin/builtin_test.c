@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 19:33:46 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 20:08:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static void	remove_operator_not(char **argv)
 	argv[i - 1] = NULL;
 }
 
-void		builtin_test(char **argv, char **envp, t_exec *exe)
+void		builtin_test(char **argv, t_environ *env, t_exec *exe)
 {
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
@@ -125,7 +125,7 @@ void		builtin_test(char **argv, char **envp, t_exec *exe)
 	int			flag_not;
 
 	(void)exe;
-	(void)envp;
+	(void)env;
 
 	ac = 0;
 	while (argv[ac])

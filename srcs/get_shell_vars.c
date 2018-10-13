@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   get_shell_vars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 18:59:16 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/02 13:53:29 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/03 18:17:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+t_shell_vars	*get_shell_vars(void)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
-	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
-	}
-	ft_putchar('\n');
-	exit(0);
+	static t_shell_vars	vars;
+
+	return (&vars);
 }
