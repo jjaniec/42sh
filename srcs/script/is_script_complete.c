@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/11 19:59:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:13:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_lexeme	*return_error(t_lexeme *lex)
 	return (NULL);
 }
 
-static t_lexeme	*end_of_loop(t_lexeme *lex, t_lexeme *tmp, size_t next_token)
+static t_lexeme	*end_of_loop(t_lexeme *lex, t_lexeme *tmp, int  next_token)
 {
 	if (lex && lex->type_details == next_token && next_token != 0)
 	{
@@ -72,7 +72,7 @@ static t_lexeme	*is_start_of_new_script(t_lexeme *lex)
 */
 
 t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
-				size_t next_token)
+				int  next_token)
 {
 	if (lex && !good_start(lex) && (next_token >= TK_SCRIPT_CONDITION_IF || \
 	next_token == TK_SCRIPT_ELIF || next_token == TK_SCRIPT_DONE))

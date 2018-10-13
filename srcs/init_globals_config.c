@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:55:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/05 13:29:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:30:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ const char	*g_prompts[] = {
 ** Need to be NULL-terminated.
 */
 
-const size_t	g_token_bypass[] = {
+const int 	g_token_bypass[] = {
 	TK_SCRIPT_THEN,
 	TK_SCRIPT_ELSE,
 	TK_SCRIPT_FI,
@@ -44,7 +44,7 @@ const size_t	g_token_bypass[] = {
 ** from this node to the next corresponding node from g_next_tokens[].
 */
 
-const size_t	g_tokens[] = {
+const int 	g_tokens[] = {
 	TK_SCRIPT_IF,
 	TK_SCRIPT_THEN,
 	TK_SCRIPT_ELSE,
@@ -63,7 +63,7 @@ const size_t	g_tokens[] = {
 ** opened by the array g_tokens[].
 */
 
-const size_t	g_next_tokens[][4] = {
+const int 	g_next_tokens[][4] = {
 	{TK_SCRIPT_FI, 0, 0, 0},
 	{TK_SCRIPT_ELIF, TK_SCRIPT_ELSE, TK_SCRIPT_FI, 0},
 	{TK_SCRIPT_FI, 0, 0, 0},
@@ -95,7 +95,7 @@ void	(* const g_node_placer[])(t_ast *, t_ast *) = {
 ** It defines all the tokens a command_line cannot begin with.
 */
 
-const size_t g_cant_begin_with[7] = {
+const int  g_cant_begin_with[7] = {
 	TK_SCRIPT_THEN,
 	TK_SCRIPT_ELIF,
 	TK_SCRIPT_ELSE,

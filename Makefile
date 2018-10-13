@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/11 14:44:43 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/10/13 19:18:01 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -141,6 +141,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
 			builtin/builtin_test.c \
+			builtin/builtin_test_parse.c \
 			builtin/is_builtin.c \
 			script/script_lexer.c \
 			script/good_start.c \
@@ -158,6 +159,7 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_useless_signals.c \
 			log.c \
 			ft_free_argv.c \
+			ft_atoll.c \
 			sub_prompt.c \
 			init_globals_config.c \
 			parse_options.c \

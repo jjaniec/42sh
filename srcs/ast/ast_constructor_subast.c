@@ -6,7 +6,7 @@
 /*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/12 13:50:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:16:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char		**debug_data_node(char *str)
 */
 
 static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
-				const size_t next_tokens[],
+				const int  next_tokens[],
 				void (*const node_placer)(t_ast *, t_ast *))
 {
 	t_lexeme	*end_lexeme;

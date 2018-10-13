@@ -6,14 +6,14 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 15:39:30 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:13:24 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-#define FT_TRUE "[ 0 ]"
-#define FT_FALSE "[ ]"
+#define FT_TRUE " [ 0 ] "
+#define FT_FALSE " [ ] "
 
 static char **env;
 
@@ -54,8 +54,6 @@ static void tests(void)
 	//char	error_msg2[] = "There is an error in your command line.";
 
 	test_framework("if "FT_TRUE"; then echo OK; fi", "OK", "Simple IF");
-	test_framework("if "FT_TRUE"; then echo OK; fi", "OK", "Simple IF");
-	test_framework("if test; then echo NOT OK; fi; echo", "", "Simple IF");
 	test_framework("if "FT_TRUE"; then echo OK; echo ABC; fi", "OK\nABC", "Simple IF");
 	test_framework("if "FT_TRUE"; then echo OK && echo ABC; fi", "OK\nABC", "Simple IF");
 	test_framework("if "FT_TRUE"; then echo OK; elif "FT_TRUE"; then echo NOT OK; fi", "OK", "Simple IF-ELIF");
@@ -388,5 +386,3 @@ void script_tests(char **envp)
 	env = envp;
 	tests();
 }
-/*
-				*/

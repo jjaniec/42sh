@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 13:16:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:17:13 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 typedef struct			s_lexeme
 {
-	size_t				type;
-	size_t				type_details;
+	int					type;
+	int					type_details;
 	void				*data;
 	char				*lexeme_begin_ptr;
 	char				*lexeme_end_ptr;
@@ -56,8 +56,8 @@ typedef struct			s_lexeme_clean_data
 
 typedef struct			s_ast
 {
-	size_t			type;
-	size_t			type_details;
+	int				type;
+	int				type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
 	struct s_ast	*top_ast;
@@ -105,12 +105,12 @@ typedef t_option		*t_opt_list;
 ** Needed for multi fd support
 */
 
-typedef struct		s_fd
+typedef struct		s_fd_GNL
 {
 	int				ret_read;
 	int				fd;
 	char			*content;
-	struct s_fd		*next;
-}					t_fd;
+	struct s_fd_GNL	*next;
+}					t_fd_GNL;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 15:34:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:15:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,21 @@ static t_exec	*look_for_loop_node(t_ast *node, int statement)
 
 void	exec_argv(char **argv, char **envp, t_exec *exe, t_ast *node)
 {
+	int		not;
+
+	not = 0;
+	if (ft_strequ(argv[0], "!") && argv[1])
+	{
+		not = 1;
+		argv++;
+	}
 	if (ft_strchr(argv[0], '/'))
 		exec_local(argv, envp, exe, node);
-	else if (exec_builtin(argv, envp, exe, node))
-		return ;
-	else if (exec_binary(argv, envp, exe, node) == STATEMENT_NOCMD)
-		exe->ret = -1;
+	else if (!exec_builtin(argv, envp, exe, node))
+		if (exec_binary(argv, envp, exe, node) == STATEMENT_NOCMD)
+			exe->ret = -1;
+	if (not)
+		exe->ret = (exe->ret == 0) ? 1 : 0;
 }
 
 /*
