@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 17:49:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/13 19:54:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ extern const int	g_cant_begin_with[];
 extern const int	g_token_bypass[];
 extern const int	g_tokens[];
 extern const int	g_next_tokens[][4];
+
 extern void			(* const g_node_placer[])(t_ast *, t_ast *);
 extern const char	*g_prompts[10];
 
@@ -87,7 +88,7 @@ extern const char	*g_prompts[10];
 	"cd [-L | -P] [-] [directory]"
 
 # define BUILTIN_TEST_USAGE \
-	"test, [ --\n\t\ttest expression\n\t\t[ expression ]"
+	"test, [ --\n\t\ttest expression\n\t\t[ expression ]\n\t\t! expression"
 
 # define BUILTIN_HISTORY_USAGE \
 	"Usage : history [n | -d n | --clear | --save]\n"
@@ -149,6 +150,7 @@ int		is_identifier_invalid(char *str, char *assign_ptr);
 
 t_shell_vars	*get_shell_vars(void);
 
+long long	ft_atoll(const char *str);
 t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
 
 const char      *parse_exclamation_mark_shortcuts(const char *excla);

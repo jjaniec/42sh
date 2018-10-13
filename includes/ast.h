@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 17:11:51 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:22:33 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 t_ast	*ast(t_lexeme **old_lex);
 t_ast	*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 		void(*node_placer)(t_ast *, t_ast *));
-t_ast	*create_node(size_t type, size_t type_details, char **data);
+t_ast	*create_node(int type, int type_details, char **data);
 t_ast	*place_new_node(t_ast *root, t_ast *new, int lvl_new);
 char	**prepare_argv(t_lexeme *lex, int flag_heredoc_EOF);
 char	**prepare_argv_simple(t_lexeme *lex);

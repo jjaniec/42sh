@@ -12,7 +12,7 @@
 
 #ifndef AUTOCOMPLETE_H
 # define AUTOCOMPLETE_H
-#include <forty_two_sh.h>
+# include <forty_two_sh.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <dirent.h>

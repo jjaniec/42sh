@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:48:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 17:18:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/13 19:58:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_lexeme		*create_lexeme(int type[2], char *data, \
 		e->lexeme_end_ptr = lexeme_begin_end_ptrs[1];
 		e->pos = pos;
 		e->next = NULL;
-		log_info("Created elem w/ data |%s| - type : %d (type_details: %d) - begin |%5s| - end |%5s|", data, type[0], type[1], e->lexeme_begin_ptr, e->lexeme_end_ptr);
+		log_info("Created elem w/ data |%s| - type : %d - begin |%5s| - end |%5s|", data, type[0], e->lexeme_begin_ptr, e->lexeme_end_ptr);
 	}
 	else
 	{

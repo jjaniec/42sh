@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 16:59:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/13 20:08:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 */
 
 t_option		g_tests_opts[] = {
+	{{"\n"}, "If expression is an integer, it becames the value returned.", false},
 	{{"h"}, "-h:\t\tPrint this help with all the options listed.", false},
 	{{"b"}, "-b file:\tTrue if file exists and is a block special file.", false},
 	{{"c"}, "-c file:\tTrue if file exists and is a character special file.", false},
@@ -38,10 +39,8 @@ t_option		g_tests_opts[] = {
 	{{"L"}, "-L file:\tTrue if file exists and is a symbolic link.", false},
 	{{"S"}, "-S file:\tTrue if file exists and is a socket.", false},
 	{{"--------------------------"}, "" , false},
-	{{"\e="}, "s1 = s2:\tTrue if the strings s1 and s2 are identical.", false},
-	{{"\e!="}, "s1 != s2:\tTrue if the strings s1 and s2 are not identical.", false},
-	{{"\e<"}, "s1 < s2:\tTrue if the strings s1 comes before s2 based on the binary value of their characters.", false},
-	{{"\e>"}, "s1 > s2:\tTrue if the strings s1 comes after s2 based on the binary value of their characters.", false},
+	{{"\n="}, "s1 = s2:\tTrue if the strings s1 and s2 are identical.", false},
+	{{"\n!="}, "s1 != s2:\tTrue if the strings s1 and s2 are not identical.", false},
 	{{"--------------------------"}, "" , false},
 	{{"eq"}, "n1 -eq n2:\tTrue if the intengers n1 and n2 are algebraically equal.", false},
 	{{"ne"}, "n1 -ne n2:\tTrue if the intengers n1 and n2 are not algebraically equal.", false},
@@ -72,99 +71,50 @@ static int	right_format_builtin(char **argv, int *argc)
 		return (0);
 }
 
-static int	parse_expr_file(char **argv, t_option *opt_list, \
+static int	test_expression(char **argv, \
 			t_option *char_opt_index[CHAR_OPT_INDEX_SIZE])
 {
-	struct stat	fstat;
-
-	errno = 0;
-	stat(argv[1], &fstat);
-	if (errno != ENOENT && is_option_activated("e", opt_list, char_opt_index))
+	if (!argv[0])
 		return (0);
-	else if (errno != 0)
+	else if (is_option_activated("h", g_tests_opts, char_opt_index) || \
+	is_option_activated("--------------------------", g_tests_opts, char_opt_index))
+		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
+	else if (!argv[1] && ft_strlen(argv[0]) > 0)
 		return (1);
-	else if (is_option_activated("b", opt_list, char_opt_index) \
-	&& S_ISBLK(fstat.st_mode))
+	else if (argv[1] && !argv[2])
 		return (0);
-	else if (is_option_activated("c", opt_list, char_opt_index) \
-	&& S_ISCHR(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("d", opt_list, char_opt_index) \
-	&& S_ISDIR(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("f", opt_list, char_opt_index) \
-	&& S_ISREG(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("p", opt_list, char_opt_index) \
-	&& S_ISFIFO(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("L", opt_list, char_opt_index) \
-	&& S_ISLNK(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("S", opt_list, char_opt_index) \
-	&& S_ISSOCK(fstat.st_mode))
-		return (0);
-	else if (is_option_activated("r", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_IRUSR)
-		return (0);
-	else if (is_option_activated("w", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_IWUSR)
-		return (0);
-	else if (is_option_activated("x", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_IXUSR)
-		return (0);
-	else if (is_option_activated("s", opt_list, char_opt_index) \
-	&& fstat.st_size > 0)
-		return (0);
-	else if (is_option_activated("k", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_ISVTX)
-		return (0);
-	else if (is_option_activated("u", opt_list, char_opt_index) \
-	&& fstat.st_mode & S_ISUID)
-		return (0);
+	else if (argv[2] && !argv[3])
+		return (parse_expr_file((argv + 1), g_tests_opts, char_opt_index));
 	else
-		return (1);
+		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
+	return (1);
 }
 
-static int	parse_expr_comp(char **argv)
+static int	return_value(int ret, int flag_not)
 {
-	t_option	*opt_list;
-	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	int			ac;
-
-	ac = 0;
-	while (argv[ac])
-		ac++;
-	opt_list = g_tests_opts;
-	parse_options(&ac, argv + 1, opt_list, (t_option **)char_opt_index);
-	if (ft_strequ(argv[1], "=") && ft_strequ(argv[0], argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "!=") && !ft_strequ(argv[0], argv[2]))
-		return (0);
-	else if (ft_strequ(argv[1], "<") && ft_strcmp(argv[0], argv[2]) < 0)
-		return (0);
-	else if (ft_strequ(argv[1], ">") && ft_strcmp(argv[0], argv[2]) > 0)
-		return (0);
-	else if (is_option_activated("eq", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) == ft_atoi(argv[2]))
-		return (0);
-	else if (is_option_activated("ne", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) != ft_atoi(argv[2]))
-		return (0);
-	else if (is_option_activated("gt", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) > ft_atoi(argv[2]))
-		return (0);
-	else if (is_option_activated("ge", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) >= ft_atoi(argv[2]))
-		return (0);
-	else if (is_option_activated("lt", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) < ft_atoi(argv[2]))
-		return (0);
-	else if (is_option_activated("le", opt_list, char_opt_index) \
-	&& ft_atoi(argv[1]) <= ft_atoi(argv[2]))
-		return (0);
+	if (flag_not)
+	{
+		if (ret == 0)
+			return (1);
+		else
+			return (0);
+	}
 	else
-		return (1);
+		return (ret);
+}
+
+static void	remove_operator_not(char **argv)
+{
+	int		i;
+
+	ft_strdel(argv + 1);
+	i = 2;
+	while (argv[i])
+	{
+		argv[i - 1] = argv[i];
+		i++;
+	}
+	argv[i - 1] = NULL;
 }
 
 void		builtin_test(char **argv, t_environ *env, t_exec *exe)
@@ -172,6 +122,7 @@ void		builtin_test(char **argv, t_environ *env, t_exec *exe)
 	t_option	*opt_list;
 	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	int			ac;
+	int			flag_not;
 
 	(void)exe;
 	(void)env;
@@ -179,31 +130,21 @@ void		builtin_test(char **argv, t_environ *env, t_exec *exe)
 	ac = 0;
 	while (argv[ac])
 		ac++;
-
+	flag_not = 0;
+	if (ac >= 2 && ft_strequ(argv[1], "!"))
+	{
+		ac--;
+		flag_not = 1;
+		remove_operator_not(argv);
+	}
+	if (!right_format_builtin(argv, &ac))
+	{
+		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
+		exit (return_value(1, flag_not));
+	}
+	if (ac == 4 && argv[3] && !argv[4])
+		exit (return_value(parse_expr_comp(argv + 1), flag_not));
 	opt_list = g_tests_opts;
 	parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
-
-	ac = 0;
-	while (argv[ac])
-		ac++;
-
-	if (!argv[0])
-		exit (0);
-	else if (is_option_activated("h", opt_list, char_opt_index) || \
-	is_option_activated("--------------------------", opt_list, char_opt_index)\
-	|| !right_format_builtin(argv, &ac))
-	{
-		format_help(BUILTIN_TEST_USAGE, opt_list);
-		exit (1);
-	}
-	else if (!argv[1] && ft_strlen(argv[0]) > 0)
-		exit (1);
-	else if (argv[1] && !argv[2])
-		exit (ft_atoi(argv[1]));
-	else if (argv[2] && !argv[3])
-		exit (parse_expr_file((argv + 1), opt_list, char_opt_index));
-	else if (argv[3] && !argv[4])
-		exit (parse_expr_comp(argv + 1));
-	format_help(BUILTIN_TEST_USAGE, opt_list);
-	exit (1);
+	exit (return_value(test_expression(argv, char_opt_index), flag_not));
 }

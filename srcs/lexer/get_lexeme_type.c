@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/30 18:56:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/13 19:59:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static int	lexeme_type_ctrlopt(char *s, int *pos, \
 ** and create a substring of it in *data
 */
 
-static int	lexeme_type_rediropt(char *s, int *pos, \
-					char **data, int *type_details)
+static int 	lexeme_type_rediropt(char *s, int *pos, \
+					char **data, int  *type_details)
 {
 	int		data_len;
 
@@ -126,8 +126,8 @@ static int	lexeme_type_rediropt(char *s, int *pos, \
 ** remake data string and *pos offset
 */
 
-static int	is_redir_inputfd(char *s, int *pos, \
-					char **data, int *type_details)
+static int 	is_redir_inputfd(char *s, int *pos, \
+					char **data, int  *type_details)
 {
 	int		i;
 	int		start;
