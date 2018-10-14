@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/11 19:44:40 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/14 19:33:44 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,7 +121,6 @@ SRC_NAME = 	is_separator.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
 			exec/io_manager.c \
-			exec/manage_env.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
 			exec/handle_redir_fd.c \
@@ -134,6 +133,7 @@ SRC_NAME = 	is_separator.c \
 			exec/clear_running_process_list.c \
 			exec/debug_running_processes.c \
 			exec/add_running_process.c \
+			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
@@ -144,6 +144,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
 			builtin/builtin_test.c \
+			builtin/builtin_test_parse.c \
 			builtin/is_builtin.c \
 			script/script_lexer.c \
 			script/good_start.c \
@@ -161,6 +162,7 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_useless_signals.c \
 			log.c \
 			ft_free_argv.c \
+			ft_atoll.c \
 			sub_prompt.c \
 			init_globals_config.c \
 			parse_options.c \
@@ -168,14 +170,27 @@ SRC_NAME = 	is_separator.c \
 			get_opt_elem.c \
 			is_option_activated.c \
 			syntax_highlighting/print_input_string_end.c \
-			history_file_checker.c \
-			load_history_file.c \
+			backup_files_checker.c \
+			load_backup_files.c \
+			env/add_env_var.c \
+			env/init_environ.c \
+			env/init_environ_struct_ptrs.c \
+			env/del_env_var.c \
+			env/get_env_var.c \
+			env/upd_env_var.c \
+			builtin/is_identifier_invalid.c \
+			free_all_shell_data.c \
+			env/free_env_entries.c \
 			get_next_line.c \
-			get_parsed_history_file_path.c \
+			get_parsed_backup_files_path.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
+			access_alias_datas.c \
 			str_is_positive_numeric.c \
-			main.c \
+			count_elem_2d_array.c \
+			ft_strjoin_path.c \
+			get_shell_vars.c \
+			main.c
 
 INCLUDES_NAME = ast.h \
 				autocomplete.h \
@@ -194,6 +209,7 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
 					ast_tests.c \
 					exec_tests.c \
+					builtins_tests.c \
 					script_tests.c \
 					builtin_test_tests.c \
 					test_lexeme_list.c \
@@ -212,7 +228,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ signals/ 
+			syntax_highlighting/ script/ autocomplete/ env/ signals/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
@@ -298,15 +314,15 @@ $(LIBTAP_DIR):
 
 ###### CLEAN RULES ######
 clean:
-	rm -rf $(OBJ_DIR)
-	rm -rf $(addprefix $(TESTS_DIR),*.o)
+	-rm -rf $(OBJ_DIR)
+	-rm -rf $(addprefix $(TESTS_DIR),*.o)
 	-rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
-	if [ -d $(FT_PRINTF_DIR) ]; then make clean -C $(FT_PRINTF_DIR); fi
+	-make clean -C $(FT_PRINTF_DIR)
 
 fclean: clean
-	rm -f $(NAME)
-	if [ -d $(FT_PRINTF_DIR) ]; then make fclean -C $(FT_PRINTF_DIR); fi
+	-rm -f $(NAME)
+	-make fclean -C $(FT_PRINTF_DIR)
 
 ffclean: fclean
-	rm -rf $(FT_PRINTF_DIR)
-	rm -rf $(LIBTAP_DIR)
+	-rm -rf $(FT_PRINTF_DIR)
+	-rm -rf $(LIBTAP_DIR)
