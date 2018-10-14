@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/14 15:19:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/14 18:35:55 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void			add_next_tmp_alias(struct s_alias *alias, \
 	{
 		if (ft_strequ(alias->key, new_key))
 		{
-			free((void *)(alias->value));
+			free(alias->value);
+			free(new_key);
 			alias->value = new_value;
 			return ;
 		}
@@ -56,7 +57,8 @@ static void			add_next_tmp_alias(struct s_alias *alias, \
 	}
 	if (ft_strequ(alias->key, new_key))
 	{
-		free((void *)(alias->value));
+		free(alias->value);
+		free(new_key);
 		alias->value = new_value;
 		return ;
 	}
