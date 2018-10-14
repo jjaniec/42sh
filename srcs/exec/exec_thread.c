@@ -126,7 +126,7 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd)
+static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
 {
 	void	(*ptr)(char **, t_environ *, t_exec *);
 

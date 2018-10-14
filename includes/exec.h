@@ -79,14 +79,10 @@ void	builtin_test(char **argv, t_environ *env, t_exec *exe);
 void	builtin_history(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
 			t_exec *exe);
-
+void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
 
 char	*get_env(const char *name, const char **envp);
 int		get_env_pos(const char *name, const char **envp);
-//size_t	size_envp(const char **envp);
-//char	**cp_envp(const char **envp);
-//void	show_envp(char **envp);
-//char	**get_path(char *str);
 
 int		parse_expr_file(char **argv, t_option *opt_list, \
 		t_option *char_opt_index[CHAR_OPT_INDEX_SIZE]);

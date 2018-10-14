@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_parsed_history_file_path.c                     :+:      :+:    :+:   */
+/*   get_parsed_backup_files_path.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/28 17:34:00 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/28 17:34:02 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/10/07 17:14:37 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/10/07 17:23:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,25 @@ char	*get_parsed_history_file_path(void)
 	{
 		already_done = true;
 		parsed_path = ft_strdup(HISTORY_FILE_PATH);
-  //  printf("LOL PTDR |%s|\n", parsed_path);
+  		//  printf("LOL PTDR |%s|\n", parsed_path);
 		handle_quotes_expansions(&parsed_path);
+   		// printf("LOL PTDR |%s|\n", parsed_path);
+	}
+	return (parsed_path);
+}
 
-   // printf("LOL PTDR |%s|\n", parsed_path);
+char	*get_parsed_aliases_file_path(void)
+{
+	static bool		already_done = false;
+	static char		*parsed_path = NULL;
+
+	if (!already_done)
+	{
+		already_done = true;
+		parsed_path = ft_strdup(ALIASES_FILE_PATH);
+  		//  printf("LOL PTDR |%s|\n", parsed_path);
+		handle_quotes_expansions(&parsed_path);
+   		// printf("LOL PTDR |%s|\n", parsed_path);
 	}
 	return (parsed_path);
 }

@@ -158,4 +158,13 @@ typedef struct			s_exec
 }						t_exec;
 
 
+
+struct s_alias
+{
+	char			*key;
+	char			*value;
+	struct s_alias	*next;
+};
+
+
 #endif
