@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 16:53:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 19:30:25 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/14 20:12:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handle_window_resize(struct s_line *le)
 	g_cmd_status.keep_le_main_datas = NULL;
 	le->term_line_size = get_terminal_nb_col();
 	if (le->le_state.opt_colosyn == false)
-		print_str_on_term(le->cmd, 0, le, 0);
+		print_str_on_term(le->cmd, le->start_pos, le, 1);
 	else
 	{
 		refresh_colosyn(le, updated_cmd);
