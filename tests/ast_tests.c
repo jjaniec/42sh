@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 14:30:08 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/10 17:06:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,9 @@ void ast_check(void)
 	system("rm tests/ast_tree/A.txt");
 }*/
 
-void ast_tests(void)
+void ast_tests(t_environ *env)
 {
+	(void)env;
 	ast_check();
 	//ast_tree();
 }

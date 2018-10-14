@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/10 17:43:32 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/14 15:19:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,13 @@ static void			delete_alias(const char *key, struct s_alias *alias)
 	}
 }
 
-void				builtin_alias(char **argv, char **envp, t_exec *exe)
+void				builtin_alias(char **argv, t_environ *env, t_exec *exe)
 {
 	unsigned int	nb_args;
 	struct s_alias	*alias;
 
-	exe->ret = ((envp) ? (0) : (0));
+	(void)env;
+	exe->ret = 0;
 	alias = access_alias_datas();
 	nb_args = count_elem_2d_array(argv + 1);
 	if ((nb_args != 0 && nb_args != 1 && nb_args != 2) \

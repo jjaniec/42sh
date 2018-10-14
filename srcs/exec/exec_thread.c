@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/07 16:15:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/11 17:59:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,32 @@
 ** without duplicating code)
 */
 
-static void	child_process(void **cmd, char **envp, t_exec *exe, \
+static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 				t_ast *node)
 {
-	handle_pipes(node);
+	int		backup_stdout;
+	int		pipe_stdout_fd;
+
+	backup_stdout = dup(STDOUT_FILENO);
+	pipe_stdout_fd = handle_pipes(node);
 	handle_redirs(node);
 	if (cmd)
 	{
 		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
-			(*(void (**)(char **, char **, t_exec *))(cmd[1]))\
-				(cmd[2], envp, exe);
+			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
+				(cmd[2], env, exe);
 		else
 		{
 			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
-			if (execve(cmd[1], cmd[2], envp) == -1)
+			if (execve(cmd[1], cmd[2], env->environ) == -1)
 				log_error("Execve() not working");
 		}
+	}
+	if (pipe_stdout_fd)
+	{
+		close(pipe_stdout_fd);
+		handle_redir_fd(STDOUT_FILENO, backup_stdout);
 	}
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
 		exit(1);
@@ -113,28 +122,30 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 ** call the parent_process() function to wait the child process,
 ** and the child_process() function to handle pipes, redirs, and process/builtin
 ** execution.
+** Forked builtins should be added to this list
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
 static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
 {
-	if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN && \
-		((*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_exit || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_setenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_unsetenv || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_toggle_syntax_highlighting || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_history || \
-		(*(void (**)(char **, char **, t_exec *))(cmd[1])) == builtin_alias))
-		return (0);
-	return (1);
+	void	(*ptr)(char **, t_environ *, t_exec *);
+
+	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
+	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
+		(ptr == &builtin_echo || \
+		ptr == &builtin_return || \
+		ptr == &builtin_test))
+		return (1);
+	return (0);
 }
 
-t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
+t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 				t_ast *node)
 {
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
 
+	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		!last_pipe_node->data[1])
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
@@ -144,7 +155,7 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 		if (child_pid == -1)
 			log_error("Fork() not working");
 		else if (child_pid == 0)
-			child_process(cmd, envp, exe, node);
+			child_process(cmd, env_struct, exe, node);
 		else
 		{
 			g_cmd_status.cmd_running = true;
@@ -155,6 +166,6 @@ t_exec		*exec_thread(void **cmd, char **envp, t_exec *exe, \
 		}
 	}
 	else
-		child_process(cmd, envp, exe, node);
+		child_process(cmd, env_struct, exe, node);
 	return (exe);
 }

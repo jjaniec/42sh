@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 17:06:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 11:56:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/08 16:30:05 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Malloc and create an AST node
 */
 
-t_ast	*create_node(size_t type, size_t type_details, char **data)
+t_ast	*create_node(int  type, int  type_details, char **data)
 {
 	t_ast	*node;
 

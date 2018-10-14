@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_history.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/08 16:49:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/10 16:59:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,9 +200,9 @@ static void		print_n_last_elem(struct s_line *le, unsigned int n)
 **	-d n : deletes the element with the index 'n'.
 */
 
-void    builtin_history(char **argv, char **envp, t_exec *exe)
+void    builtin_history(char **argv, t_environ *env, t_exec *exe)
 {
-	(void)envp;
+	(void)env;
 	exe->ret = 0;
 	if (count_elem_2d_array(argv + 1) == 0)
 		print_history_with_indexes();
