@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 16:59:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/14 18:59:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ inline void	builtin_exit(char **argv,t_environ *env, t_exec *exe)
 			return ;
 		}
 	}
-	else
+	else if (exe)
 		exit_val = exe->ret;
 	free_all_shell_data();
 	exit(exit_val);
