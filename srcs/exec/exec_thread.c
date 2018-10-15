@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/14 19:32:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 17:26:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,16 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 	handle_redirs(node);
 	if (cmd)
 	{
-		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (intptr_t)cmd[0]);
+		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
 				(cmd[2], env, exe);
 		else
 		{
-			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
+			log_debug("PID %zu -> child process path : cmd[1] : %s", getpid(), cmd[1]);
 			if (execve(cmd[1], cmd[2], env->environ) == -1)
-				log_error("Execve() not working");
+				log_error("PID %zu - Execve() not working", getpid());
+			log_debug("PID %zu terminated --- ", getpid());
 		}
 	}
 	if (pipe_stdout_fd)
@@ -76,12 +77,19 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 		ptr = ptr->parent;
 	if (ptr == last_pipe->right)
 	{
+		log_debug("PID %zu: Closing pipe output fd : %d", getpid(), last_pipe->data[1][0]);
 		close(*(&(last_pipe->data[1][0])));
 		if (last_pipe->parent && last_pipe->parent->type_details == TK_PIPE)
+		{
 			close(*(&(last_pipe->parent->data[1][sizeof(int)])));
+			log_debug("PID %zu: Closing pipe input fd : %d", getpid(), last_pipe->parent->data[1][sizeof(int)]);
+		}
 	}
 	else if (ptr == last_pipe->left)
+	{
 		close(*(&(last_pipe->data[1][sizeof(int)])));
+		log_debug("PID %zu: Closing pipe input fd : %d", getpid(), last_pipe->data[1][sizeof(int)]);
+	}
 }
 
 /*
@@ -119,14 +127,13 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 	{
 		close_child_pipe_fds(node, last_pipe_node);
 		errno = 0;
-		// //->
-		log_fatal("Last pipe node : %p", last_pipe_node);
+		log_fatal("PID %zu ----- Last pipe node : %p", getpid(), last_pipe_node);
 	}
 	if (!last_pipe_node ||  (node == last_pipe_node->right && \
 		last_pipe_node->parent->type == T_CTRL_OPT && \
 		last_pipe_node->parent->type_details != TK_PIPE))
 	{
-		log_fatal("Waiting pid : %zu , process %s", child_pid, (char *)(((char **)cmd[2])[0]));
+		log_trace("PID %zu ----- Waiting last process pid : %zu , process %s", getpid(), child_pid, (char *)(((char **)cmd[2])[0]));
 		waited_pid = waitpid(child_pid, &status, 0);
 		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
 			return (handle_wait_error(waited_pid, &status, child_pid));
