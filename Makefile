@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/13 19:52:47 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/15 16:54:46 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -176,7 +176,7 @@ SRC_NAME = 	is_separator.c \
 			env/get_env_var.c \
 			env/upd_env_var.c \
 			builtin/is_identifier_invalid.c \
-			free_all_shell_data.c \
+			free_all_shell_datas.c \
 			env/free_env_entries.c \
 			get_next_line.c \
 			get_parsed_backup_files_path.c \
