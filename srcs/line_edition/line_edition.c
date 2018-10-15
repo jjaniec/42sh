@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/14 20:08:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/15 14:51:23 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,13 @@ le_debug_infos(); // debug
 
 		// check si un des 2 flags est actif pour retourner la bonne valeur
 		if (g_cmd_status.resize_happened == true || g_cmd_status.sigint_happened == true)
+		{
 			set_term_attr(LE_SET_OLD);
+
+			le_sig.sa_handler = SIG_DFL;
+			sigaction(SIGWINCH, &le_sig, NULL);
+		}
+
 		if (g_cmd_status.resize_happened == true)
 			return (RESIZE_IN_PROGRESS);
 		if (g_cmd_status.sigint_happened == true)

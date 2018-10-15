@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 18:01:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 16:29:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false, .sigint_happened = false
+	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, .sigint_happened = false
 };
 
 t_option		g_sh_opts[] = {
