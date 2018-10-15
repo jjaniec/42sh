@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/14 18:59:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/15 16:38:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ inline void	builtin_exit(char **argv,t_environ *env, t_exec *exe)
 	}
 	else if (exe)
 		exit_val = exe->ret;
-	free_all_shell_data();
+	free_all_shell_datas();
 	exit(exit_val);
 }

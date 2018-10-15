@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/14 19:10:25 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/15 16:35:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void		free_aliases_list(void)
 ** Free all shell datas before exiting
 */
 
-void			free_all_shell_data(void) // dataS 
+void			free_all_shell_datas(void)
 {
 	t_ast	**ast_ptr;
 

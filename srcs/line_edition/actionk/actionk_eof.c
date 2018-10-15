@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 16:02:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/14 19:12:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/15 16:37:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	eof_on_default_prompt(struct s_line *le)
 	if (le->cmd_len == 0)  //le_exit(NULL, NULL, 0);
 	{
 		set_term_attr(LE_SET_OLD);
-		free_all_shell_data();
+		free_all_shell_datas();
 		exit(0);
 	}
 
