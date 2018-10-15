@@ -130,9 +130,10 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
-			exec/clear_running_process_list.c \
-			exec/debug_running_processes.c \
 			exec/add_running_process.c \
+			exec/create_job.c \
+			exec/debug_jobs.c \
+			exec/free_job.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \

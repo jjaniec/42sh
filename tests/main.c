@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:53:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:51:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 struct s_cmd_status	g_cmd_status = {
 	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
 };
+
+t_job	*g_jobs;
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},

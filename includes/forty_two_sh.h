@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/14 19:32:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:27:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ extern const int	g_next_tokens[][4];
 extern void			(* const g_node_placer[])(t_ast *, t_ast *);
 extern const char	*g_prompts[10];
 
-extern t_process	*g_running_processes;
+extern t_job		*g_jobs;
 
 # define SH_USAGE \
 	SH_NAME" [-hcGv] [-c \"command\"]"

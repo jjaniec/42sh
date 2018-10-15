@@ -6,35 +6,35 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 19:02:35 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/12 11:47:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:43:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-t_process		*add_running_process(char **cmd, pid_t process_pid)
+static t_process	*create_new_process(char **cmd, pid_t process_pid, pid_t pgroup)
+{
+	t_process	*new;
+
+	new = malloc(sizeof(t_process));
+	new->next = NULL;
+	new->pid = process_pid;
+	new->cmd = cmd;
+	log_info("New process created w/ pid: %zu to process group %zu", process_pid, pgroup);
+	return (new);
+}
+
+t_process		*add_running_process(char **cmd, pid_t process_pid, t_job **job)
 {
 	t_process	*ptr;
 
-	ptr = g_running_processes;
+	if (!(*job))
+		*job = create_job(NULL);
+	if (!(ptr = (*job)->first_process))
+		return (((*job)->first_process = \
+			create_new_process(cmd, process_pid, (*job)->pgid)));
 	while (ptr && ptr->next)
 		ptr = ptr->next;
-	if (!ptr)
-	{
-		ptr = malloc(sizeof(t_process));
-		g_running_processes = ptr;
-		ptr->pid = process_pid;
-		ptr->cmd = cmd;
-		ptr->next = NULL;
-	}
-	else
-	{
-		ptr->next = malloc(sizeof(t_process));
-		ptr->next->pid = process_pid;
-		ptr->next->cmd = cmd;
-		ptr->next->next = NULL;
-	}
-	g_running_processes = ptr;
-	log_info("New process created w/ pid: %zu", process_pid);
-	return (ptr);
+	ptr->next = create_new_process(cmd, process_pid, (*job)->pgid);
+	return (ptr->next);
 }

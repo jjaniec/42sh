@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_running_process_list.c                       :+:      :+:    :+:   */
+/*   create_job.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/11 19:09:47 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/12 11:47:18 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/15 20:21:41 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/15 20:35:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-void	clear_running_process_list(t_process *process_list)
+t_job		*create_job(char *command)
 {
-	t_process *ptr;
+	t_job		*new;
 
-	while (process_list)
-	{
-		ptr = process_list;
-		process_list = process_list->next;
-		kill(ptr->pid, SIGKILL);
-		log_debug("Killing pid : %zu (process %s)", ptr->pid, ptr->cmd[0]);
-		free(ptr);
-	}
-	g_running_processes = NULL;
+	new = malloc(sizeof(t_job));
+	new->next = NULL;
+	new->command = command;
+	new->first_process = NULL;
+	new->pgid = 0;
+	//new->tmode = ....
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/14 19:33:22 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:27:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_option		g_sh_opts[] = {
 	{{NULL}, NULL, false}
 };
 
-t_process		*g_running_processes;
+t_job			*g_jobs;
 
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
@@ -74,14 +74,9 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	link_ast_data(ast_root);
 	exe = create_exec(vars->env);
 	exe = exec_cmd(ast_root, exe);
-	/*if (exe && exe->tmp_envp)
-		envp = exe->tmp_envp;
-	else if (exe)
-		envp = exe->envp;
-	else
-		exit(1);*/
 	ast_free(ast_root);
 	free_exec(&exe);
+	free_job(g_jobs);
 	return (0);
 }
 
@@ -133,6 +128,7 @@ int			main(int ac, char **av, char **envp)
 	char			**args;
 
 	opt_list = g_sh_opts;
+	g_jobs = NULL;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);

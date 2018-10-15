@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_running_processes.c                          :+:      :+:    :+:   */
+/*   free_job.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/11 19:07:11 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 20:12:05 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/15 19:45:40 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/15 20:36:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-void		debug_running_processes(t_process *process_list)
+static void		free_job_processes(t_process *processes)
 {
-	int		i;
+	t_process	*process_ptr;
+	t_process	*prev_ptr;
 
-	i = 0;
-	while (process_list)
+	process_ptr = processes;
+	while (processes)
 	{
-		log_trace("Running process %d : %s - pid: %zu", i++, process_list->cmd[0], process_list->pid);
-		process_list = process_list->next;
+		if (!(processes->next))
+		{
+			free(processes);
+			return ;
+		}
+		prev_ptr = processes;
+		processes = processes->next;
+		free(prev_ptr);
 	}
+}
+
+void	free_job(t_job *job)
+{
+	if (!job)
+		return ;
+	free_job_processes(job->first_process);
+	job->first_process = NULL;
+	//free(job->command);
+	free(job);
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/15 16:54:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:29:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,16 @@ t_ast	*get_last_pipe_node(t_ast *node);
 
 // Error Handling
 
-void	handle_open_error(int errno_code, char *filename);
-void	print_error(char *subject, char *err_str);
+void			handle_open_error(int errno_code, char *filename);
+void			print_error(char *subject, char *err_str);
 
-void		debug_running_processes(t_process *process_list);
+t_job		*create_job(char *command);
 
-t_process		*add_running_process(char **cmd, pid_t process_pid);
+void			debug_jobs(t_job *jobs);
 
-void	clear_running_process_list(t_process *process_list);
+t_process		*add_running_process(char **cmd, pid_t process_pid, t_job **job);
+
+void			free_job(t_job *job);
+
+void			clear_running_process_list(t_process *process_list);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/15 17:26:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:32:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 	int		waited_pid;
 	int		status;
 
-	add_running_process((char **)cmd[2], child_pid); //->
-	debug_running_processes(g_running_processes);
+	add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
+	debug_jobs(g_jobs);
 	status = -2;
 	if (node && last_pipe_node)
 	{
@@ -137,7 +137,8 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 		waited_pid = waitpid(child_pid, &status, 0);
 		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
 			return (handle_wait_error(waited_pid, &status, child_pid));
-		clear_running_process_list(g_running_processes);
+		free_job(g_jobs);
+		g_jobs = NULL;
 	}
 	return (status);
 }

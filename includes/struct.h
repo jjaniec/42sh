@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/15 16:50:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/15 18:14:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,18 +152,20 @@ typedef struct		s_shell_vars
 
 typedef struct			s_exec
 {
-	int			ret;
-	int			ready_for_exec;
-	t_environ	*env;
+	int					ret;
+	int					ready_for_exec;
+	t_environ			*env;
 }						t_exec;
 
+/*
+** Aliases struct
+*/
 
-
-struct s_alias
+struct					s_alias
 {
-	char			*key;
-	char			*value;
-	struct s_alias	*next;
+	char				*key;
+	char				*value;
+	struct s_alias		*next;
 };
 
 /*
