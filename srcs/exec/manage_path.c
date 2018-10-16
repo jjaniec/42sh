@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/05 19:35:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/16 19:42:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ char	*isin_path(char *path_entry, char *cmd)
 		prog_path = new_path(paths[i], cmd);
 		if (access(prog_path, F_OK) == 0)
 		{
-			ft_free_argv(paths);
+			ft_free_2d_array(paths);
 			return (prog_path);
 		}
 		ft_strdel(&prog_path);
 		i++;
 	}
-	ft_free_argv(paths);
+	ft_free_2d_array(paths);
 	return (NULL);
 }

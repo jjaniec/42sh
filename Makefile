@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/15 16:54:46 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/10/16 19:37:38 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,8 +158,6 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
 			log.c \
-			ft_free_argv.c \
-			ft_atoll.c \
 			sub_prompt.c \
 			init_globals_config.c \
 			parse_options.c \
@@ -183,8 +181,6 @@ SRC_NAME = 	is_separator.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
 			access_alias_datas.c \
-			str_is_positive_numeric.c \
-			count_elem_2d_array.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
 			main.c

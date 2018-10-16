@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/14 18:35:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/16 19:39:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void				builtin_alias(char **argv, t_environ *env, t_exec *exe)
 	(void)env;
 	exe->ret = 0;
 	alias = access_alias_datas();
-	nb_args = count_elem_2d_array(argv + 1);
+	nb_args = ft_count_elem_2d_array(argv + 1);
 	if ((nb_args != 0 && nb_args != 1 && nb_args != 2) \
 	|| (nb_args == 2 && check_option(argv[1]) == false))
 	{
