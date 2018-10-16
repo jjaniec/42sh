@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 18:51:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:32:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:03:40 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	actionk_delete_current_input(struct s_line *le)
 	le->le_state.opt_colosyn = false;
 	while (stop_loop > 0)
 	{
-		actionk_delete_character(le);
+		actionk_delete_character(le);  //{ le_debug("%s\n", "- - - DEL") }
 		--stop_loop;
 	}
 	le->key_no = keep_key;
