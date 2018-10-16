@@ -14,7 +14,7 @@
 #include <forty_two_sh.h>
 
 /*
-	int sigemptyset(sigset_t +set);
+	int sigemptyset(sigset_t *set);
 	int sigfillset(sigset_t *set);
 	int sigadset(sigset_t *set, int sig);
 	int sigdelset(sigset_t *set, int sig);

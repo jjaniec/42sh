@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_history.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/06 19:24:52 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/10 16:59:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,33 +105,32 @@ static void		delete_element_number_n(unsigned int n)
 **	Return 'false' if an error occurs.
 */
 
-static bool		save_history_in_file(void)
+static bool		save_history_in_file(struct s_history *his)
 {
-	int						fd;
-	const struct s_history	*his = access_le_main_datas()->history;
-	const char				*his_file_path = get_parsed_history_file_path();
+	int		fd;
 
-	if (check_history_file(his_file_path) == false)
+	if (check_backup_file(get_parsed_history_file_path()) == false)
 		return (false);
 	if (his == NULL)
 		return (true);
 	while (his->prev != NULL)
 		his = his->prev;
-	if ((fd = open(his_file_path, O_WRONLY | O_TRUNC)) == -1)
+	if ((fd = open(get_parsed_history_file_path(), O_WRONLY | O_TRUNC)) == -1)
 	{
 		ft_putstr_fd("42sh: error with file .42sh_history\n", STDERR_FILENO);
 		return (false);
 	}
 	while (his->cmd != NULL)
 	{
-		if (write(fd, his->cmd, ft_strlen(his->cmd)) == (ssize_t)-1
-		|| write(fd, "\n", sizeof(char)) == (ssize_t)-1)
+		if (write(fd, his->cmd, ft_strlen(his->cmd)) == (ssize_t)(-1)
+		|| write(fd, "\n", sizeof(char)) == (ssize_t)(-1))
 		{
 			ft_putstr_fd(".42sh_history: error writing in file\n", 2);
-			return (false);
+			return (close(fd) ? (false) : (false));
 		}
 		his = his->next;
 	}
+	close(fd);
 	return (true);
 }
 
@@ -194,20 +193,6 @@ static void		print_n_last_elem(struct s_line *le, unsigned int n)
 }
 
 /*
-**	Return the number of elements in 'args'.
-*/
-
-static unsigned int		get_nb_args(char **args)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (args[i] != NULL)
-		++i;
-	return (i);
-}
-
-/*
 **	Without option : print the history list with an index.
 **	--clear : empty the history.
 **	--save : save the history into a file.
@@ -215,24 +200,25 @@ static unsigned int		get_nb_args(char **args)
 **	-d n : deletes the element with the index 'n'.
 */
 
-void    builtin_history(char **argv, char **envp, t_exec *exe)
+void    builtin_history(char **argv, t_environ *env, t_exec *exe)
 {
-	(void)envp;
+	(void)env;
 	exe->ret = 0;
-	if (get_nb_args(argv + 1) == 0)
+	if (count_elem_2d_array(argv + 1) == 0)
 		print_history_with_indexes();
-	else if (get_nb_args(argv + 1) == 1)
+	else if (count_elem_2d_array(argv + 1) == 1)
 	{
 		if (ft_strequ(argv[1], "--clear"))
 			clear_history(access_le_main_datas());
 		else if (ft_strequ(argv[1], "--save"))
-			exe->ret = save_history_in_file() == true ? (0) : (1);
+			exe->ret = save_history_in_file(access_le_main_datas()->history) \
+			== true ? (0) : (1);
 		else if ( str_is_positive_numeric(argv[1]) == true )
 			print_n_last_elem(access_le_main_datas(), ft_atoi(argv[1]));
 		else
 			ft_putstr_fd(BUILTIN_HISTORY_USAGE, STDERR_FILENO);
 	}
-	else if (get_nb_args(argv + 1) == 2)
+	else if (count_elem_2d_array(argv + 1) == 2)
 	{
 		if (ft_strequ(argv[1], "-d") && str_is_positive_numeric(argv[2]))
 			delete_element_number_n(ft_atoi(argv[2]));

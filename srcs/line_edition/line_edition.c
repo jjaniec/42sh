@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 19:37:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:37:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ static struct s_line	*prepare_line_edition(int prompt_type, \
 	struct s_line		*le;
 
 	le = access_le_main_datas();
-	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le, prompt_type);
+	set_term_attr(LE_SET_NEW);
 	g_cmd_status.cmd_running = false;
 	g_cmd_status.sigint_happened = false;
 
