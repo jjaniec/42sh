@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/17 15:41:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/17 20:30:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 ** Wait child process to end
 */
 
-static int	handle_wait_error(int waited_pid, int *status, pid_t child_pid)
+static int	handle_wait_error(pid_t waited_pid, int *status, pid_t child_pid)
 {
 	if (waited_pid == -1)
 	{
@@ -123,8 +123,8 @@ static int	handle_wait_error(int waited_pid, int *status, pid_t child_pid)
 static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 				t_ast *last_pipe_node)
 {
-	int		waited_pid;
-	int		status;
+	pid_t		waited_pid;
+	int			status;
 
 	add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
 	debug_jobs(g_jobs);

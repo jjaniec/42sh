@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/15 20:29:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/17 17:38:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 // Binary finding & execution
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
-void	exec_argv(char **argv, t_exec *exe, t_ast *node);
 t_exec	*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
