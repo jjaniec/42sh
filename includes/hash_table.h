@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_table.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:53:26 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/09 16:53:31 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/17 12:21:45 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,22 @@
 
 typedef struct    s_entry
 {
-	char            *key;
-	char			      *value;
+	char			*key;
+	char			*value;
 	struct s_entry	*next;
-}					        t_entry;
+	struct s_entry	*sub;
+}					t_entry;
 
-typedef struct    s_hashtable
+typedef struct		s_hashtable
 {
-	int		          size;
-	char						**path;
-	t_entry	        **table;
-}                 t_hashtable;
+	int				size;
+	char			**path;
+	t_entry			**table;
+}					t_hashtable;
 
 t_hashtable				*ht_setup(char **env);
 t_hashtable				*ht_create(char **env);
-void							free_tab(char **items);
-int								ht_hash(t_hashtable *hashtable, char *key);
+void					free_tab(char **items);
+int						ht_hash(t_hashtable *hashtable, char *key);
 
 #endif

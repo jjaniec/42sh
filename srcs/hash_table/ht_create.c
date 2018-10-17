@@ -3,20 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ht_create.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/11 14:25:44 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/17 12:36:24 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-void						ht_set(t_hashtable *ht, char *key, char *value)
+t_entry				*ht_newnode(char *key, char *value)
 {
-	(void)value;
-	ft_putstr("\n | ");
-	ft_putnbr(ht_hash(ht, key));
+	t_entry	*newnode;
+
+	if ((newnode = malloc( sizeof(t_entry))) == NULL)
+		return NULL;
+	if ((newnode->key = ft_strdup(key)) == NULL)
+		return NULL;
+	if ((newnode->value = ft_strdup(value)) == NULL)
+		return NULL;
+	newnode->next = NULL;
+	return (newnode);
+}
+
+void				ht_set(t_hashtable *ht, char *key, char *value)
+{
+	int 	bin;
+	t_entry	*newnode;
+	t_entry	*next;
+	t_entry	*last;
+
+	bin = ht_hash(ht, key);
+	next = ht->table[bin];
+	while(next != NULL && next->key != NULL && ft_strcmp(key, next->key) > 0 )
+	{
+		last = next;
+		next = next->next;
+	}
+	if (next != NULL && next->key != NULL && ft_strcmp(key, next->key) == 0)
+		next->sub = ht_newnode(key, value);
+	else
+	{
+		newnode = ht_newnode(key, value);
+		if (next == ht->table[bin])
+		{
+			newnode->next = next;
+			ht->table[bin] = newnode;
+		}
+		else if (next == NULL)
+			last->next = newnode;
+		else
+		{
+			newnode->next = next;
+			last->next = newnode;
+		}
+	}
 }
 
 static void			add_binary_path(char *path, t_hashtable *hashtable)
