@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 18:46:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 19:25:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,6 +370,8 @@ void			process_key(struct s_line *le);
 
 
 
+bool	still_enough_space_for_cmd(struct s_line *le);
+
 #endif
 
 
@@ -379,16 +381,9 @@ void			process_key(struct s_line *le);
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
 
-
-	faudra tester la commande clear quand on aura le full prompt sur deux lignes la,
-	possible que ca ne marche pas on veut, auquel cas on fera un builtin clear personnalisé ;)
-
-
-	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
-	remonté trop haut, alors ctrl+u a un affichage un peu bugué
-
-
 	penser a faire ctrl + l
+
+	certains shortcuts ne marchent pas bien lorsque le prompt est trop haut pour etre affiche dansla fenetre
 
 
 	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
@@ -415,8 +410,6 @@ void			process_key(struct s_line *le);
 		read
 		export
 		unset
-		history
-		!
 	}
 
 
