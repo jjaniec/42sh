@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/17 12:36:24 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/17 14:01:40 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_entry				*ht_newnode(char *key, char *value)
 {
 	t_entry	*newnode;
 
-	if ((newnode = malloc( sizeof(t_entry))) == NULL)
+	if ((newnode = malloc(sizeof(t_entry))) == NULL)
 		return NULL;
 	if ((newnode->key = ft_strdup(key)) == NULL)
 		return NULL;
@@ -35,13 +35,13 @@ void				ht_set(t_hashtable *ht, char *key, char *value)
 
 	bin = ht_hash(ht, key);
 	next = ht->table[bin];
-	while(next != NULL && next->key != NULL && ft_strcmp(key, next->key) > 0 )
+	while(next != NULL && next->key != NULL && ft_strcmp(key, next->key) > 0)
 	{
 		last = next;
 		next = next->next;
 	}
 	if (next != NULL && next->key != NULL && ft_strcmp(key, next->key) == 0)
-		next->sub = ht_newnode(key, value);
+		return ;
 	else
 	{
 		newnode = ht_newnode(key, value);
@@ -98,5 +98,6 @@ t_hashtable		*ht_create(char **env)
 		add_binary_path(hashtable->path[i], hashtable);
 		i++;
 	}
+	//ft_putstr(hashtable->table[ht_hash(hashtable, "ls")]->value);
 	return (NULL);
 }
