@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/14 15:31:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/17 15:44:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 			*(&(node->data[1][sizeof(int)])));
 		if (tk_type_details == TK_TLESS)
 			ft_putchar_fd('\n', *(&(node->data[1][sizeof(int)])));
-		close(*(&(node->data[1][sizeof(int)])));
+		log_close(*(&(node->data[1][sizeof(int)])));
 		log_debug("Here-doc: writing %s to pipe input fd: %d", \
 			node->right->data[0], *(&(node->data[1][sizeof(int)])));
 		handle_redir_fd(STDIN_FILENO, *(&(node->data[1][0])));
@@ -117,7 +117,7 @@ void			handle_redirs(t_ast *redir_ast_node)
 	int		prefix_fd;
 
 	node = redir_ast_node->parent;
-	log_trace("Handle redirs of %s(t %zu td %zu)", redir_ast_node->data[0], \
+	log_info("PID %zu: Handle redirs of %s(t %zu td %zu)", getpid(), redir_ast_node->data[0], \
 			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->parent && node->parent->type == T_REDIR_OPT)
 		node = node->parent;

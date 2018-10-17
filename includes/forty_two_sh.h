@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 20:27:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/16 15:14:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
 struct s_alias	*access_alias_datas(void);
 
-
+void		log_close(int fd);
 
 bool	str_is_positive_numeric(const char *str); // ira dans libft
 unsigned int	count_elem_2d_array(char **array); // ira dans libft

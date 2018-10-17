@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/15 20:32:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/17 15:41:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@
 static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 				t_ast *node)
 {
-	int		backup_stdout;
+	int		backup_fds[3];
 	int		pipe_stdout_fd;
 
-	backup_stdout = dup(STDOUT_FILENO);
+	backup_fds[0] = dup(STDIN_FILENO);
+	backup_fds[1] = dup(STDOUT_FILENO);
+	backup_fds[2] = dup(STDERR_FILENO);
 	pipe_stdout_fd = handle_pipes(node);
 	handle_redirs(node);
 	if (cmd)
@@ -52,14 +54,18 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 			log_debug("PID %zu -> child process path : cmd[1] : %s", getpid(), cmd[1]);
 			if (execve(cmd[1], cmd[2], env->environ) == -1)
 				log_error("PID %zu - Execve() not working", getpid());
-			log_debug("PID %zu terminated --- ", getpid());
 		}
 	}
 	if (pipe_stdout_fd)
 	{
-		close(pipe_stdout_fd);
-		handle_redir_fd(STDOUT_FILENO, backup_stdout);
+		log_close(pipe_stdout_fd);
+		dup2(backup_fds[0], STDIN_FILENO);
+		dup2(backup_fds[1], STDOUT_FILENO);
+		dup2(backup_fds[2], STDERR_FILENO);
 	}
+	log_close(backup_fds[0]);
+	log_close(backup_fds[1]);
+	log_close(backup_fds[2]);
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
 		exit(1);
 }
@@ -188,7 +194,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 		{
 			g_cmd_status.cmd_running = true;
 			g_cmd_status.cmd_pid = child_pid;
-			log_trace("Forked process pid: %d", child_pid);
+			log_trace("Forked process pid: %d for cmd: %s", child_pid, node->data[0]);
 			exe->ret = parent_process((char **)cmd, child_pid, node, last_pipe_node);
 		}
 	}
