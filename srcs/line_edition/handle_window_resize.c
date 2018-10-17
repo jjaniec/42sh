@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 16:53:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/15 16:28:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 15:25:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	handle_window_resize(struct s_line *le)
 	unsigned int	i;
 
 	g_cmd_status.resize_happened = false;
+	le->term_nb_lines = get_terminal_nb_lines();
 	le->term_line_size = get_terminal_nb_col();
 	if (le->le_state.opt_colosyn == false)
 	{

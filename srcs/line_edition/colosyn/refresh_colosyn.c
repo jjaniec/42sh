@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:36:29 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/15 20:27:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 15:44:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void		refresh_colosyn(struct s_line *le, char *cmd)
 	//fprintf(tty_debug, "UPDATED |%s|\n", cmd);
 	log_set_quiet(1);
 	lexer(cmd, &lexemes, &unmatched_quote_err_ptr);
-	actionk_delete_current_input(le); //sleep(3);
-//		prompt_show( g_prompts[ -(le->le_state.prompt_type) ] );
-
+	actionk_delete_current_input(le);
 	print_colorized_input(cmd, lexemes, unmatched_quote_err_ptr);
 	free_lexemes(lexemes);
 	if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))

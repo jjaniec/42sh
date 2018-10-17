@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/16 19:37:38 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/10/17 15:28:37 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/boolean_check/cursor_is_at_end_of_term_line.c \
 			line_edition/actionk/delete_char_into_cmdline_backspace_mode.c \
 			line_edition/actionk/delete_char_into_cmdline_delete_mode.c \
-			line_edition/tools/get_terminal_nb_col.c \
+			line_edition/tools/get_terminal_sizes.c \
 			line_edition/init_le/init_line_edition_attributes.c \
 			line_edition/init_le/init_termcaps_strings.c \
 			line_edition/print/insert_and_print_character_into_cmdline.c \

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/09 16:14:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 15:25:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
     le->start_pos = prompt_show(g_prompts[-prompt_type]);
     le->cursor_pos = le->start_pos;
 	le->cursor_line = 0;
+	le->term_nb_lines = get_terminal_nb_lines();
 	le->term_line_size = get_terminal_nb_col();
 	le->nb_lines_written = 1;
 	le->nb_char_on_last_line = 0;

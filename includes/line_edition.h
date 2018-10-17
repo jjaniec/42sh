@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/06 20:07:24 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 18:46:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ struct s_line
 	unsigned int			start_pos;
 	unsigned int			cursor_pos;
 	unsigned int			cursor_line;
+	unsigned int			term_nb_lines;
 	size_t					term_line_size;
 	unsigned int			nb_lines_written;
 	unsigned int			nb_char_on_last_line;
@@ -346,6 +347,7 @@ unsigned int	print_str_on_term(const char *str,
 void			check_cmd_storage(struct s_line *le, unsigned int nb_char);
 void			check_clipboard_storage(struct s_line *le, unsigned int nb_char);
 void			cursor_crosses_screen(struct s_line *le, t_cross_screen direction);
+unsigned int	get_terminal_nb_lines(void);
 unsigned int	get_terminal_nb_col(void);
 void			insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos);
 void    		reset_history_on_first_elem(struct s_line *le);
@@ -391,6 +393,8 @@ void			process_key(struct s_line *le);
 
 	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
 
+	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
+	remonté trop haut, si on efface des caracteres, le prompt quand on le reverra, en fait il s'affiche pas
 
 	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug
 	(go tester d'autres trucs du genre)
@@ -401,10 +405,10 @@ void			process_key(struct s_line *le);
 
 	valgrind ./42sh -c "history --save"
 
-	fleche haut bas pour l'histo quand c multiligne genre vaec des quotes
+	fleche haut bas pour l'histo quand c multiligne genre avec des quotes
 
 
-	le resize ne replace pas le cursseur la ou il etait, go le faire
+	le resize ne replace pas le cursseur la ou il etait, go le faire (same for ctrl L)
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
 	{

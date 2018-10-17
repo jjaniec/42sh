@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/15 19:53:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 18:02:54 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ FILE *tty_debug = NULL; // debug
 
 // debug function
 static void		le_debug_infos(void)
-{return ;
+{		return ;
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
@@ -34,6 +34,7 @@ static void		le_debug_infos(void)
 	le_debug("start pos = %u\n", le->start_pos);
 	le_debug("cursor pos = %u\ncursor line = %u\n", \
 	le->cursor_pos, le->cursor_line);
+	le_debug("term nb lines = %u\n", le->term_nb_lines);
 	le_debug("term line size = %zu\n", le->term_line_size);
 	le_debug("nb lines written = %u\n", le->nb_lines_written);
 	le_debug("nb char on last line = %u\n", \
