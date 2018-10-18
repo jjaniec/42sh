@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/15 19:45:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 20:36:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/18 18:26:37 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_job(t_job *job)
 		return ;
 	free_job_processes(job->first_process);
 	job->first_process = NULL;
+	//kill(-job->pgid, SIGTERM);
 	//free(job->command);
 	free(job);
 }

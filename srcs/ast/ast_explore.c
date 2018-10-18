@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/17 21:00:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/18 19:04:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,32 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 			ft_putstr_fd(SH_NAME": Failed to fork pipeline", 2);
 		else if (pipeline_manager_pid == 0)
 		{
+			//setpgrp(); // -> alias to setpgid(0, 0);
+			//g_jobs->pgid = getpgid(0);
 			log_info("Pipeline manager pid: %zu", getpid());
 			if (*is_in_pipeline == false)
 			{
 				*is_in_pipeline = true;
+				setpgrp();
+				add_running_process((char *[2]){"PIPE MANAGER", NULL}, getpid(), &g_jobs);
+				g_jobs->pgid = getpgid(0);
 				ast_explore(ast, exe);
 				log_info("Exiting pipe manager w/ pid: %zu", getpid());
 				free_all_shell_data();
+				//kill(-g_jobs->pgid, SIGTERM);
+				//free_job(g_jobs);
 				exit(0);
 			}
 		}
 	}
 	else
-		waitpid(pipeline_manager_pid, &status, 0);
+	{
+		//setpgid(pipeline_manager_pid, pipeline_manager_pid);
+		add_running_process((char *[2]){"PIPE MANAGER", NULL}, pipeline_manager_pid, &g_jobs);
+		g_jobs->pgid = getpgid(pipeline_manager_pid);
+		waitpid(-g_jobs->pgid, &status, WUNTRACED);
+		kill(-pipeline_manager_pid, SIGTERM);
+	}
 	return (pipeline_manager_pid);
 }
 

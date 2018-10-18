@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/17 20:30:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/18 19:04:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,11 +140,16 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 		last_pipe_node->parent->type_details != TK_PIPE))
 	{
 		log_trace("PID %zu ----- Waiting last process pid : %zu , process %s", getpid(), child_pid, (char *)(((char **)cmd[2])[0]));
-		waited_pid = waitpid(child_pid, &status, 0);
+		if (1||!last_pipe_node)
+		{waited_pid = waitpid(child_pid, &status, 0);
 		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
 			return (handle_wait_error(waited_pid, &status, child_pid));
-		free_job(g_jobs);
-		g_jobs = NULL;
+		}
+		//if (last_pipe_node)
+		//	kill(-g_jobs->pgid, SIGTERM);
+		if (!last_pipe_node)
+			{free_job(g_jobs);
+		g_jobs = NULL;}
 	}
 	return (status);
 }

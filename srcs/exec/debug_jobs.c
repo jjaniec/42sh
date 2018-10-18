@@ -6,13 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/15 19:40:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 20:37:41 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/18 18:16:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static void	debug_job_processes(t_process *first_process, int job_count)
+static void	debug_job_processes(t_process *first_process, int job_count, pid_t gpid)
 {
 	t_process		*process_ptr;
 	int				process_count;
@@ -21,8 +21,8 @@ static void	debug_job_processes(t_process *first_process, int job_count)
 	process_count = 0;
 	while (process_ptr)
 	{
-		log_debug("Job %d: Running process %d : %s - pid: %zu", \
-			job_count, process_count++, process_ptr->cmd[0], process_ptr->pid);
+		log_debug("Job %d - gpid %zu: Running process %d : %s - pid: %zu", \
+			job_count, (size_t)gpid, process_count++, process_ptr->cmd[0], (size_t)process_ptr->pid);
 		process_ptr = process_ptr->next;
 	}
 }
@@ -36,7 +36,7 @@ void		debug_jobs(t_job *jobs)
 	job_count = 0;
 	while (job_ptr)
 	{
-		debug_job_processes(jobs->first_process, job_count++);
+		debug_job_processes(jobs->first_process, job_count++, job_ptr->pgid);
 		job_ptr = job_ptr->next;
 	}
 }
