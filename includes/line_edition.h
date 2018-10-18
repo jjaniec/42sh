@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 19:25:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/18 16:18:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		get_le_debug_status(int mode, int new_value);
 /*
 **	Sizes
 */
-# define LE_DEFAULT_LINE_SIZE 10//(2048U)
+# define LE_DEFAULT_LINE_SIZE (8192U)
 # define LE_KEY_BUFFER_SIZE (9U)
 
 /*
