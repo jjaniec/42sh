@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/18 14:50:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/18 16:56:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** Check if the code is inside an inner while.
 */
 
-static t_exec	*look_for_loop_node(t_ast *node, int statement)
+static int		look_for_loop_node(t_ast *node, int statement)
 {
 	while (node && node->type_details != TK_SCRIPT_WHILE)
 	{
@@ -29,11 +29,11 @@ static t_exec	*look_for_loop_node(t_ast *node, int statement)
 	if (node && node->type_details == TK_SCRIPT_WHILE)
 	{
 		if (statement == TK_SCRIPT_BREAK)
-			return ((t_exec *)STATEMENT_BREAK);
+			return (STATEMENT_BREAK);
 		if (statement == TK_SCRIPT_CONTINUE)
-			return ((t_exec *)STATEMENT_CONTINUE);
+			return (STATEMENT_CONTINUE);
 	}
-	return (NULL);
+	return (0);
 }
 
 /*
@@ -76,18 +76,25 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe)
 t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	char	**envp;
-	t_exec	*statement;
 
 	if (!node->data)
 		return (exe);
 	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT && !exe->ready_for_exec)
 	{
-		if ((statement = (t_exec *)look_for_loop_node(node, node->type_details)))
-			return (statement);
+		exe->statement = look_for_loop_node(node, node->type_details);
+		if (exe->statement)
+			return (exe);
 	}
 	if (node->sub_ast)
+	{
 		script_in_exec(node->sub_ast, exe);
+		if (exe->statement && node->sub_ast->left && \
+		node->sub_ast->left->type_details != TK_SCRIPT_WHILE)
+			return (exe);
+		else
+			exe->statement = 0;
+	}
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)
 	{
 		io_manager_in(node, exe);

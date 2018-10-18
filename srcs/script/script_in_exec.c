@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/12 15:20:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/18 16:43:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,30 @@ static void	exec_script_if(t_ast *node, t_exec *exe)
 {
 	if (exe->ret == 0)
 		script_in_exec(node->left->left->sub_ast, exe);
-	else if (node->right)
+	else if (node->right && !exe->statement)
 		exec_script(node->right, exe);
 }
 
-static int	exec_script_while(t_ast *node, t_exec *exe)
+static void	exec_script_while(t_ast *node, t_exec *exe)
 {
-	t_exec	*tmp;
-
-	tmp = ast_explore(node->left->left->sub_ast, exe);
-	if (tmp == (t_exec *)STATEMENT_BREAK)
-		return ((int)tmp);
-	exec_script(node, exe);
-	return (1);
+	exe = ast_explore(node->left->left->sub_ast, exe);
+	if (exe->statement != STATEMENT_BREAK)
+		exec_script(node, exe);
 }
 
 t_exec		*exec_script(t_ast *node, t_exec *exe)
 {
 	if (!node->sub_ast)
 		exe = ast_explore(node->left->sub_ast, exe);
+	if (exe->statement)
+		return (exe);
 	if (node->type_details == TK_SCRIPT_IF
 	|| node->type_details == TK_SCRIPT_ELIF)
 		exec_script_if(node, exe);
 	if (node->sub_ast)
 		exec_script_else(node, exe);
 	if (node->type_details == TK_SCRIPT_WHILE && exe->ret == 0)
-		if (exec_script_while(node, exe) == STATEMENT_BREAK)
-			return (exe);
+		exec_script_while(node, exe);
 	return (exe);
 }
 
