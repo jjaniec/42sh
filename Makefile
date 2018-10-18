@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/17 15:28:37 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/10/18 16:37:06 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
+			builtin/builtin_unalias.c \
 			builtin/builtin_unsetenv.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
