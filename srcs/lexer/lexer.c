@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:14:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/18 17:52:33 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int			make_next_lexeme(char *line, int *pos, \
 	while (line[*pos] && line[*pos] != '\\' && line[*pos] != '\n' && \
 			is_separator(line[*pos]))
 		*pos += 1;
-	if (line[*pos] && line[*pos] == '#')
+	if (line[*pos] == '#')
 		while(line[*pos] && line[*pos] != '\n')
 			(*pos)++;
 	if (line[*pos])

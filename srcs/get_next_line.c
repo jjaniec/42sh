@@ -6,7 +6,7 @@
 /*   By: sebrucke <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 09:43:08 by sebrucke          #+#    #+#             */
-/*   Updated: 2018/10/13 19:21:25 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/18 17:57:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static t_fd_GNL	*get_struct(t_fd_GNL *head, int fd)
 	if (head->next == NULL)
 	{
 		if (!(lst = (t_fd_GNL *)malloc(sizeof(t_fd_GNL))))
-			return (0);
+			return (NULL);
 		lst->fd = fd;
 		lst->content = ft_strnew(BUFF_SIZE);
 		if (!lst->content)
-			return (0);
+			return (NULL);
 		head->next = lst;
 		lst->next = NULL;
 		lst->ret_read = 1;
@@ -44,13 +44,9 @@ static int		free_lst(t_fd_GNL *head, t_fd_GNL *lst)
 	{
 		head->next = lst->next;
 		if (lst && lst->content)
-		{
 			ft_strdel(&lst->content);
-		}
 		if (lst)
-		{
 			free(lst);
-		}
 	}
 	return (0);
 }
@@ -73,16 +69,16 @@ static t_fd_GNL	*while_read(t_fd_GNL *head, int fd)
 	t_fd_GNL	*lst;
 
 	lst = get_struct(head, fd);
+	if (!lst)
+		return (NULL);
 	while ((lst->ret_read = read(lst->fd, buff, BUFF_SIZE)))
 	{
 		buff[lst->ret_read] = '\0';
 		tmp = ft_strjoin(lst->content, buff);
 		if (!tmp)
-			return (0);
+			return (NULL);
 		ft_strdel(&lst->content);
 		lst->content = ft_strdup(tmp);
-		if (!lst)
-			return (0);
 		ft_strdel(&tmp);
 		if (ft_strchr(lst->content, '\n'))
 			break ;
