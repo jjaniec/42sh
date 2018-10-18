@@ -1,1582 +1,1562 @@
-
-2to3-2|1035
-2to3-2.7|881
-brew|1452
-callgrind_annotate|1266
-callgrind_control|1017
-cg_annotate|1266
-cg_diff|655
-cg_merge|1284
-easy_install|344
-easy_install-2.7|931
-gdbm_dump|75
-gdbm_load|920
-gdbmtool|1111
-idle|210
-idle2|56
-idle2.7|1279
-makedepend|67
-ms_print|774
-node|1085
-npm|1504
-npx|1515
-pip|1145
-pip2|685
-pip2.7|429
-pkg-config|1288
-pydoc|1308
-pydoc2|1307
-pydoc2.7|898
-python|62
-python-config|1550
-python2|112
-python2-config|1337
-python2.7|560
-python2.7-config|169
-pythonw|181
-pythonw2|537
-pythonw2.7|1221
-smtpd.py|66
-smtpd2.7.py|1356
-smtpd2.py|715
-valgrind|702
-valgrind-di-server|1374
-valgrind-listener|921
-vgdb|419
-wheel|1553
-2to3-2|1035
-2to3-2.7|881
-brew|1452
-callgrind_annotate|1266
-callgrind_control|1017
-cg_annotate|1266
-cg_diff|655
-cg_merge|1284
-easy_install|344
-easy_install-2.7|931
-gdbm_dump|75
-gdbm_load|920
-gdbmtool|1111
-idle|210
-idle2|56
-idle2.7|1279
-makedepend|67
-ms_print|774
-node|1085
-npm|1504
-npx|1515
-pip|1145
-pip2|685
-pip2.7|429
-pkg-config|1288
-pydoc|1308
-pydoc2|1307
-pydoc2.7|898
-python|62
-python-config|1550
-python2|112
-python2-config|1337
-python2.7|560
-python2.7-config|169
-pythonw|181
-pythonw2|537
-pythonw2.7|1221
-smtpd.py|66
-smtpd2.7.py|1356
-smtpd2.py|715
-valgrind|702
-valgrind-di-server|1374
-valgrind-listener|921
-vgdb|419
-wheel|1553
-2to3|328
-2to3-|220
-2to3-2.7|881
-2to3-3.4|12
-2to32.6|376
-a2p|55
-a2p5.16|614
-a2p5.18|616
-addftinfo|642
-afclip|1490
-afconvert|1534
-afhash|721
-afida|399
-afinfo|15
-afmtodit|1570
-afplay|1147
-afscexpand|446
-agentxtrap|682
-agvtool|1325
-alias|675
-applesingle|1514
-appletviewer|569
-apply|754
-apropos|7
-apt|121
-ar|1231
-arch|1281
-as|1232
-asa|870
-asctl|331
-AssetCacheActivatorUtil|1005
-AssetCacheLocatorUtil|1005
-AssetCacheTetheratorUtil|1005
-assetutil|179
-at|1233
-atos|1051
-atq|1142
-atrm|232
-atsutil|1335
-audiodevice|687
-automator|279
-auval|435
-auvaltool|937
-avbdiagnose|26
-avbutil|1269
-avconvert|326
-avmetareadwrite|649
-awk|323
-banner|1497
-base64|160
-basename|1287
-bashbug|1140
-batch|871
-bc|1472
-bg|1476
-biff|1580
-binhex|128
-binhex.pl|398
-binhex5.18.pl|1100
-bioutil|913
-bison|386
-bitesize.d|1469
-brctl|1249
-bsdtar|1048
-bspatch|741
-btmmdiagnose|26
-BuildStrings|183
-bunzip2|357
-bzcat|1450
-bzcmp|1356
-bzdiff|1547
-bzegrep|1006
-bzfgrep|1568
-bzgrep|344
-bzip2|28
-bzip2recover|196
-bzless|761
-bzmore|961
-c++|1205
-c++filt|667
-c2ph|824
-c2ph5.16|1179
-c2ph5.18|1181
-c89|1385
-c99|60
-c_rehash|421
-caffeinate|1548
-cal|865
-calendar|1081
-cancel|1532
-cap_mkdb|664
-captoinfo|354
-cc|147
-ccmake|1530
-cd|148
-certtool|876
-checknr|1550
-chflags|1034
-chfn|517
-chgrp|1399
-chpass|591
-chsh|677
-cksum|190
-clang|976
-clang++|603
-clear|519
-cmake|1431
-cmakexbuild|550
-cmp|779
-cmpdylib|1107
-codesign|79
-codesign_allocate|480
-col|1287
-colcrt|800
-colldef|1290
-colrm|898
-column|1317
-comm|989
-command|72
-compress|519
-compression_tool|663
-config_data|254
-config_data5.16|510
-config_data5.18|512
-corebrightnessdiag|1254
-corelist|920
-corelist5.16|1564
-corelist5.18|1566
-cpack|1483
-cpan|214
-cpan2dist|1366
-cpan2dist5.16|587
-cpan2dist5.18|589
-cpan5.16|1436
-cpan5.18|1438
-cpanp|1142
-cpanp-run-perl|872
-cpanp-run-perl5.16|484
-cpanp-run-perl5.18|486
-cpanp5.16|123
-cpanp5.18|125
-cpio|682
-CpMac|299
-cpp|1547
-cpu_profiler.d|787
-cpuwalk.d|1163
-crc32|923
-crc325.16|363
-crc325.18|365
-creatbyproc.d|1260
-crlrefresh|502
-crontab|31
-csdiagnose|26
-csgather|441
-csplit|1012
-csreq|440
-csrutil|1284
-ctags|1091
-ctest|700
-ctf_insert|1572
-cu|165
-cups-config|382
-cupstestdsc|826
-cupstestppd|734
-curl|234
-curl-config|120
-cut|1250
-cvaffinity|552
-cvcp|275
-cvmkdir|89
-cvmkfile|84
-dappprof|299
-dapptrace|950
-darwinup|670
-db_archive|272
-db_checkpoint|1524
-db_codegen|1381
-db_deadlock|262
-db_dump|221
-db_hotbackup|1010
-db_load|1066
-db_printlog|63
-db_recover|751
-db_stat|584
-db_upgrade|74
-db_verify|140
-dbicadmin|1129
-dbicadmin5.16|1391
-dbicadmin5.18|1393
-dbilogstrip|425
-dbilogstrip5.16|1006
-dbilogstrip5.18|1008
-dbiprof|1507
-dbiprof5.16|437
-dbiprof5.18|439
-dbiproxy|14
-dbiproxy5.16|719
-dbiproxy5.18|721
-dc|403
-debinhex.pl|398
-debinhex5.18.pl|1100
-defaults|754
-DeRez|1494
-desdp|120
-diff|868
-diff3|919
-diffstat|1414
-dig|461
-dirname|940
-diskhits|408
-dispqlen.d|193
-ditto|344
-dns-sd|483
-dockutil|761
-drutil|1221
-dscacheutil|82
-dscl|932
-dserr|1360
-dsexport|124
-dsimport|270
-dsmemberutil|1480
-dsymutil|1350
-dtruss|371
-du|421
-dwarfdump|1533
-easy_install|344
-easy_install-2.6|930
-easy_install-2.7|931
-easy_install-3.4|62
-egrep|1092
-emacs|521
-emacs-26.0.50|696
-emacs-undumped|1427
-emacsclient|1210
-enc2xs|1564
-enc2xs5.16|1045
-enc2xs5.18|1047
-encode_keychange|1499
-env|890
-eqn|69
-erb|313
-errinfo|1012
-etags|634
-ex|680
-examshell|1168
-execsnoop|63
-expand|385
-expect|445
-extcheck|1153
-eyapp|1155
-eyapp5.16|236
-eyapp5.18|238
-false|1492
-fc|915
-fddist|434
-fdesetup|1578
-fg|919
-fgrep|73
-file|110
-filebyproc.d|1260
-filtercalltree|1252
-find|621
-find2perl|188
-find2perl5.16|484
-find2perl5.18|486
-findrule|857
-findrule5.16|489
-findrule5.18|491
-finger|992
-fixproc|967
-flex|482
-flex++|1537
-fmt|1347
-fold|1237
-fontrestore|735
-footprint|1201
-format-sql|1174
-format-sql5.16|430
-format-sql5.18|432
-from|997
-fs_usage|182
-ftp|1554
-funzip|209
-fuser|549
-fwkdp|183
-fwkpfv|813
-g++|903
-gatherheaderdoc|1486
-gcc|1066
-gcore|69
-gcov|992
-gdiffmk|1493
-gem|7
-gen_bridge_metadata|629
-gencat|1187
-genstrings|1296
-getconf|1201
-GetFileInfo|831
-getopt|404
-getopts|774
-git|1038
-git-cvsserver|131
-git-receive-pack|631
-git-shell|1567
-git-upload-archive|885
-git-upload-pack|1125
-gm4|417
-gnuattach|1315
-gnuclient|101
-gnudoit|150
-gnumake|81
-gnuserv|1033
-gperf|940
-grep|1246
-grn|174
-grodvi|1569
-groff|1144
-groffer|1257
-grog|635
-grolbp|595
-grolj4|1002
-grops|555
-grotty|1446
-groups|1131
-gunzip|210
-gzcat|1098
-gzexe|496
-gzip|85
-h2ph|625
-h2ph5.16|11
-h2ph5.18|13
-h2xs|1103
-h2xs5.16|1458
-h2xs5.18|1460
-hash|216
-hdid|1378
-hdiutil|653
-hdxml2manxml|1117
-head|45
-headerdoc2html|1256
-heap|57
-heap32|107
-hexdump|1069
-hidutil|1010
-hiutil|910
-host|752
-hostinfo|7
-hotspot.d|1337
-hpftodit|1223
-hpmdiagnose|26
-htmltree|206
-htmltree5.16|1144
-htmltree5.18|1146
-htop|137
-httpdstat.d|445
-ibtool|37
-iconutil|1381
-iconv|186
-ictool|599
-id|103
-idle|210
-idle2.6|1278
-idle2.7|1279
-idle3|57
-idle3.4|410
-idlj|215
-imptrace|1159
-indent|336
-indxbib|1552
-info|1091
-infocmp|1309
-infokey|247
-infotocap|195
-install|402
-install-info|174
-install_name_tool|746
-instmodsh|166
-instmodsh5.16|428
-instmodsh5.18|430
-instruments|949
-IOAccelMemory|485
-iofile.d|1135
-iofileb.d|414
-iopattern|1132
-iopending|546
-iosnoop|673
-iotop|1320
-ip2cc|1281
-ip2cc5.16|1327
-ip2cc5.18|1329
-ipcount|107
-ipcount5.16|452
-ipcount5.18|454
-ipcrm|641
-ipcs|176
-ippfind|440
-ipptool|10
-iprofiler|102
-iptab|528
-iptab5.16|268
-iptab5.18|270
-irb|11
-iscsictl|46
-jar|1133
-jarsigner|1114
-java|265
-javac|1537
-javadoc|932
-javah|1542
-javap|1550
-javapackager|983
-javaws|295
-jcmd|975
-jconsole|1575
-jcontrol|977
-jdb|304
-jdeps|75
-jhat|1494
-jhsdb|829
-jimage|723
-jinfo|585
-jjs|276
-jmap|322
-jmc|1028
-jobs|430
-join|636
-jot|1557
-jps|231
-jrunscript|21
-jsadebugd|423
-jshell|1203
-json_pp|149
-json_pp5.16|1345
-json_pp5.18|1347
-jstack|1252
-jstat|40
-jstatd|854
-jvisualvm|326
-kcc|764
-kdestroy|18
-kextutil|380
-keytool|826
-kgetcred|76
-kill.d|676
-killall|1404
-kinit|339
-klist|1418
-kpasswd|510
-krb5-config|320
-kswitch|969
-lam|977
-last|385
-lastcomm|762
-lastwords|1091
-latency|1415
-layerutil|369
-ld|871
-ldapadd|1479
-ldapcompare|1059
-ldapdelete|275
-ldapexop|759
-ldapmodify|143
-ldapmodrdn|1312
-ldappasswd|0
-ldapsearch|1247
-ldapurl|399
-ldapwhoami|1007
-leaks|1446
-leaks32|374
-leave|1086
-less|82
-lessecho|140
-lex|431
-libnetcfg|885
-libnetcfg5.16|10
-libnetcfg5.18|12
-libtool|808
-lipo|589
-lkbib|1077
-lldb|1230
-llvm-g++|932
-llvm-gcc|1095
-loads.d|65
-locale|1032
-localedef|921
-locate|1499
-lockstat|410
-log|1393
-logger|538
-login|78
-logname|1555
-look|1457
-lookbib|483
-lorder|801
-lp|883
-lpoptions|586
-lpq|78
-lpr|79
-lprm|1361
-lpstat|358
-lsappinfo|456
-lsbom|1357
-lskq|137
-lsm|842
-lsmp|648
-lsvfs|711
-lwp-download|40
-lwp-download5.16|414
-lwp-download5.18|416
-lwp-dump|465
-lwp-dump5.16|1405
-lwp-dump5.18|1407
-lwp-mirror|416
-lwp-mirror5.16|706
-lwp-mirror5.18|708
-lwp-request|108
-lwp-request5.16|651
-lwp-request5.18|653
-m4|1079
-macbinary|1453
-macerror|1420
-macerror5.16|706
-macerror5.18|708
-machine|1337
-mail|623
-mailq|1501
-mailx|1508
-make|1128
-makeinfo|1046
-malloc_history|575
-malloc_history32|1548
-man|112
-manpath|490
-mcxquery|690
-mcxrefresh|1177
-mddiagnose|26
-mdfind|14
-mdimport|1284
-mdimport32|1176
-mdls|381
-mdutil|1267
-memory_pressure|940
-MergePef|1136
-mesg|1295
-mib2c|920
-mib2c-update|226
-mig|572
-mkbom|24
-mkdep|478
-mkfifo|330
-mklocale|432
-mktemp|603
-mmroff|1463
-mnthome|709
-moo-outdated|1266
-moo-outdated5.18|159
-moose-outdated|1266
-moose-outdated5.16|157
-moose-outdated5.18|159
-more|282
-mp2bug|1507
-msgs|340
-MvMac|621
-nano|1550
-nasm|1247
-native2ascii|280
-nbdst|1508
-nc|1382
-ncal|1230
-ncctl|685
-ncdestroy|622
-ncinit|696
-nclist|194
-ncurses5.4-config|1186
-ndisasm|1363
-neqn|434
-net-server|1334
-net-server5.16|139
-net-server5.18|141
-net-snmp-cert|602
-net-snmp-config|1399
-net-snmp-create-v3-user|910
-nettop|564
-newaliases|806
-newgrp|455
-newproc.d|1312
-nfsstat|159
-nice|1282
-nl|1391
-nm|1392
-nmedit|590
-nohup|248
-norminette|1484
-notifyutil|1145
-nroff|335
-nscurl|153
-nslookup|483
-nsupdate|715
-ntp-keygen|1055
-ntpq|1420
-objdump|1314
-od|58
-odutil|1269
-open|128
-opendiff|78
-opensnoop|678
-openssl|1384
-orbd|780
-osacompile|842
-osadecompile|540
-osalang|1506
-osascript|6
-otool|914
-pack200|1122
-package-stash-conflicts|713
-package-stash-conflicts5.16|484
-package-stash-conflicts5.18|486
-pagesize|1162
-pagestuff|1363
-par.pl|1405
-par5.16.pl|684
-par5.18.pl|1553
-parl|278
-parl5.16|1041
-parl5.18|1043
-parldyn|456
-parldyn5.16|80
-parldyn5.18|82
-passwd|1576
-paste|1306
-patch|834
-pathchk|1096
-pathopens.d|1156
-pbcopy|41
-pbpaste|37
-pcap-config|1399
-pcsctest|312
-perl|1557
-perl5.16|484
-perl5.18|486
-perlbug|1161
-perlbug5.16|373
-perlbug5.18|375
-perldoc|1051
-perldoc5.16|212
-perldoc5.18|214
-perlivp|107
-perlivp5.16|900
-perlivp5.18|902
-perlthanks|616
-perlthanks5.16|733
-perlthanks5.18|735
-pfbtops|511
-pgrep|950
-phar|937
-phar.phar|1196
-php|889
-php-config|1399
-phpize|197
-pic|1132
-pico|580
-piconv|298
-piconv5.16|946
-piconv5.18|948
-pidpersec.d|788
-pip3|686
-pip3.4|1141
-pkgbuild|901
-pkill|1203
-pl|322
-pl2pm|491
-pl2pm5.16|938
-pl2pm5.18|940
-plockstat|410
-pluginkit|1381
-plutil|1023
-pmset|1114
-pod2html|351
-pod2html5.16|180
-pod2html5.18|182
-pod2latex|1364
-pod2latex5.16|330
-pod2latex5.18|332
-pod2man|893
-pod2man5.16|415
-pod2man5.18|417
-pod2readme|619
-pod2readme5.16|1374
-pod2readme5.18|1376
-pod2text|826
-pod2text5.16|1522
-pod2text5.18|1524
-pod2usage|1151
-pod2usage5.16|822
-pod2usage5.18|824
-podchecker|1182
-podchecker5.16|827
-podchecker5.18|829
-podselect|1310
-podselect5.16|524
-podselect5.18|526
-policytool|63
-post-grohtml|504
-power_report.sh|1227
-powermetrics|669
-pp|326
-pp5.16|1140
-pp5.18|1142
-ppdc|1086
-ppdhtml|812
-ppdi|1092
-ppdmerge|240
-ppdpo|37
-pr|328
-pre-grohtml|504
-priclass.d|1091
-pridist.d|36
-printenv|1141
-printf|863
-procsystime|677
-productbuild|860
-productsign|1273
-profiles|103
-prove|811
-prove5.16|544
-prove5.18|546
-psed|326
-psed5.16|1140
-psed5.18|1142
-pstopdf|564
-pstruct|1248
-pstruct5.16|1005
-pstruct5.18|1007
-ptar|31
-ptar5.16|1355
-ptar5.18|1357
-ptardiff|899
-ptardiff5.16|611
-ptardiff5.18|613
-ptargrep|1277
-ptargrep5.16|1193
-ptargrep5.18|1195
-pubsub|963
-pwhich|847
-pwhich5.16|1430
-pwhich5.18|1432
-pwpolicy|1142
-pydoc|1308
-pydoc2.6|897
-pydoc2.7|898
-pydoc3|1308
-pydoc3.4|29
-python|62
-python-config|1550
-python2.6|559
-python2.6-config|1035
-python2.7|560
-python2.7-config|169
-python3|113
-python3-32|995
-python3-config|471
-python3.4|1272
-python3.4-32|516
-python3.4-config|1186
-python3.4m|444
-python3.4m-config|835
-pythonw|181
-pythonw2.6|1220
-pythonw2.7|1221
-pyvenv|119
-pyvenv-3.4|233
-qc2movie|551
-qlmanage|1552
-qtdefaults|754
-qtmodernizer|1122
-quota|1370
-rails|1151
-rake|929
-ranlib|1091
-rbx|791
-rdoc|934
-read|1228
-readlink|893
-rebase|728
-redo_prebinding|883
-refer|532
-renice|1242
-reset|343
-ResMerger|928
-resolveLinks|840
-rev|1557
-Rez|815
-RezDet|1049
-RezWack|134
-ri|831
-rmic|1090
-rmid|1091
-rmiregistry|634
-rnano|797
-rpcgen|945
-rs|841
-rsync|355
-ruby|297
-runocc.d|31
-rvictl|1578
-rview|1373
-rvim|1211
-rwbypid.d|1056
-rwbytype.d|1529
-rwsnoop|1404
-s2p|277
-s2p5.16|479
-s2p5.18|481
-safaridriver|463
-sample|336
-sampleproc|1223
-sandbox-exec|489
-say|1251
-sc_usage|638
-scandeps.pl|1467
-scandeps5.16.pl|1399
-scandeps5.18.pl|687
-schemagen|926
-scp|173
-screen|1099
-script|457
-sdef|1183
-sdiff|677
-sdp|429
-sdx|437
-security|1092
-sed|673
-seeksize.d|185
-segedit|1353
-seq|686
-serialver|246
-servertool|587
-SetFile|21
-setregion|1218
-setuids.d|1361
-sfltool|312
-sftp|139
-shar|1450
-shasum|351
-shasum5.16|232
-shasum5.18|234
-shlock|32
-showmount|999
-sigdist.d|994
-sips|1263
-size|647
-slogin|193
-smbutil|1125
-smtpd.py|66
-smtpd2.6.py|131
-smtpd2.7.py|1356
-snfsdefrag|120
-snmp-bridge-mib|1378
-snmpbulkget|1423
-snmpbulkwalk|1575
-snmpconf|766
-snmpdelta|1516
-snmpdf|852
-snmpget|358
-snmpgetnext|63
-snmpinform|566
-snmpnetstat|169
-snmpset|1033
-snmpstatus|591
-snmptable|1157
-snmptest|1506
-snmptranslate|960
-snmptrap|1446
-snmpusm|1297
-snmpvacm|155
-snmpwalk|520
-sntp|1116
-soelim|1108
-sort|1323
-spfd|531
-spfd5.16|937
-spfd5.18|939
-spfquery|385
-spfquery5.16|298
-spfquery5.18|300
-splain|800
-splain5.16|877
-splain5.18|879
-split|913
-SplitForks|1203
-sqlite3|454
-ssh|1099
-ssh-add|1033
-ssh-agent|1148
-ssh-copy-id|687
-ssh-keygen|78
-ssh-keyscan|642
-stat|546
-stringdups|1335
-stringdups32|248
-strings|115
-strip|613
-stty.pl|1091
-stty5.16.pl|946
-stty5.18.pl|234
-su|1099
-sudo|443
-sum|35
-svn|292
-svnadmin|813
-svndumpfilter|612
-svnlook|1137
-svnserve|76
-svnsync|788
-svnversion|119
-sw_vers|165
-swift|251
-swiftc|1115
-symbols|216
-symbolscache|1242
-syscallbypid.d|1096
-syscallbyproc.d|1260
-syscallbysysc.d|611
-sysdiagnose|26
-syslog|112
-systriage|1433
-tab2space|616
-tabs|1089
-tail|1293
-tailspin|715
-talk|479
-tar|378
-taskinfo|1526
-tbl|628
-tbtdiagnose|26
-tccutil|352
-tclsh|746
-tclsh8.4|1308
-tclsh8.5|1309
-tee|1389
-telnet|1315
-testrb|99
-tethered-caching|915
-texi2dvi|560
-texi2pdf|1367
-texindex|159
-textutil|491
-tfmtodit|926
-tftp|1364
-thermal|239
-tic|830
-tidy|1003
-tiff2icns|1349
-tiffutil|1534
-tig|834
-time|125
-timer_analyser.d|1006
-timerfires|504
-tkcon|1512
-tkmib|790
-tkpp|753
-tkpp5.16|802
-tkpp5.18|804
-tmdiagnose|26
-tmutil|8
-tnameserv|1171
-toe|787
-top|798
-tops|454
-topsyscall|569
-topsysproc|950
-touch|394
-tput|869
-tr|1352
-trace|833
-traptoemail|1267
-treereg|1566
-treereg5.16|1029
-treereg5.18|1031
-trimforce|855
-troff|545
-true|703
-tset|499
-tsort|113
-tty|506
-type|1266
-ul|21
-ulimit|303
-umask|953
-unalias|698
-uname|636
-uncompress|519
-unexpand|1530
-unifdef|23
-unifdefall|670
-uniq|751
-units|257
-unpack200|722
-UnRezWack|1315
-unvis|412
-unzip|107
-unzipsfx|801
-update_dyld_shared_cache|1510
-uptime|1527
-usbkdp|853
-users|1429
-uucp|1057
-uudecode|1560
-uuencode|295
-uuidgen|1314
-uulog|199
-uuname|753
-uupick|45
-uustat|15
-uuto|665
-uux|1476
-vi|274
-view|545
-vim|689
-vimdiff|741
-vimtutor|1314
-vis|695
-vm_stat|460
-vmmap|749
-vmmap32|34
-w|119
-wait|233
-wall|993
-wc|524
-wdutil|1277
-weblatency.d|1198
-what|28
-whatis|1166
-whereis|504
-which|735
-who|1150
-whoami|1002
-whois|248
-wish|596
-wish8.4|954
-wish8.5|955
-write|1524
-wsgen|650
-wsimport|1207
-xar|76
-xargs|192
-xattr|206
-xattr-2.6|332
-xattr-2.7|333
-xcode-select|633
-xcodebuild|1554
-xcrun|1478
-xcscontrol|1088
-xcsdiagnose|26
-xed|1086
-xgettext.pl|1345
-xgettext5.16.pl|533
-xgettext5.18.pl|1402
-xip|541
-xjc|784
-xml2-config|1337
-xml2man|1111
-xmlcatalog|329
-xmllint|1490
-xpath|243
-xpath5.16|376
-xpath5.18|378
-xslt-config|1097
-xsltproc|895
-xsubpp|215
-xsubpp5.16|794
-xsubpp5.18|796
-xxd|1207
-yacc|1130
-yes|235
-ypcat|545
-ypmatch|197
-ypwhich|203
-zcat|128
-zcmp|34
-zdiff|1449
-zegrep|1214
-zfgrep|195
-zforce|1567
-zgrep|246
-zip|390
-zipcloak|147
-zipdetails|548
-zipdetails5.16|1035
-zipdetails5.18|1037
-zipgrep|667
-zipinfo|512
-zipnote|1440
-zipsplit|1303
-zless|663
-zmore|863
-znew|1115
-zprint|934
-[|91
-bash|771
-cat|873
-chmod|166
-cp|160
-csh|726
-date|312
-dd|404
-df|406
-domainname|1552
-echo|1486
-ed|660
-expr|1161
-hostname|200
-kill|1499
-ksh|122
-launchctl|442
-link|73
-ln|881
-ls|886
-mkdir|1504
-mv|1145
-pax|686
-ps|329
-pwd|1555
-rm|835
-rmdir|440
-sh|1086
-sleep|1047
-stty|672
-sync|1108
-syslog.py|1092
-tcsh|536
-test|397
-unlink|351
-wait4path|1462
-zsh|1361
-ab|1215
-ac|1216
-accept|1338
-accton|734
-amt|934
-apachectl|428
-AppleFileServer|432
-appsleepd|606
-apxs|495
-arp|629
-aslmanager|1298
-asr|887
-audit|688
-auditd|737
-auditreduce|1159
-automount|499
-avbdeviced|108
-bless|1404
-blued|1340
-bluetoothaudiod|1513
-bnepd|1490
-BootCacheControl|277
-cfprefsd|1508
-chat|824
-checkgid|665
-chown|492
-chroot|961
-coreaudiod|896
-createhomedir|1406
-cron|485
-cupsaccept|188
-cupsaddsmb|132
-cupsctl|1021
-cupsdisable|278
-cupsenable|740
-cupsfilter|363
-cupsreject|252
-cvadmin|687
-cvdb|517
-cvdbset|33
-cvfsck|232
-cvfsdb|479
-cvfsid|180
-cvgather|1209
-cvlabel|627
-cvmkfs|701
-cvupdatefs|1166
-cvversions|175
-dbmmanage|569
-ddns-confgen|934
-defragcli|1390
-dev_mkdb|828
-DevToolsSecurity|346
-DirectoryService|1199
-disktool|720
-diskutil|822
-distnoted|262
-dnctl|635
-dnsextd|813
-dot_clean|582
-dsconfigad|1235
-dsconfigldap|990
-dseditgroup|725
-dsenableroot|448
-dtrace|933
-edquota|449
-fcgistarter|1388
-fdisk|1447
-filecoordinationd|38
-FileStatsAgent|313
-firmwarepasswd|1434
-gpt|1249
-graphicssession|326
-gssd|790
-hdik|1385
-htcacheclean|3
-htdbm|17
-htdigest|605
-htpasswd|1286
-httpd|803
-httpd-wrapper|49
-httxt2dbm|723
-installer|1379
-ioalloccount|1381
-ioclasscount|880
-ioreg|483
-iostat|1374
-ipconfig|898
-kadmin|628
-kadmin.local|427
-kdcsetup|408
-KernelEventAgent|57
-kextcache|327
-kextfind|708
-kextlibs|258
-kextstat|633
-krbservicesetup|305
-ktutil|771
-languagesetup|352
-localemanager|1036
-logresolve|4
-lpadmin|1404
-lpc|64
-lpinfo|903
-lpmove|1118
-lsof|1150
-mDNSResponder|1119
-mDNSResponderHelper|1333
-mkextunpack|1541
-mkfile|275
-mkpassdb|853
-mtree|949
-ndp|16
-netbiosd|397
-NetBootClientStatus|717
-netstat|720
-networksetup|536
-newsyslog|26
-nfs4mapid|639
-nlcontrol|826
-notifyd|408
-ntpd|1407
-ntpdate|1415
-ntpdc|1404
-ntptrace|202
-nvram|1364
-ocspd|588
-PasswordService|413
-pdisk|743
-periodic|1102
-php-fpm|339
-pictd|1246
-pkgutil|3
-postalias|507
-postcat|817
-postconf|1131
-postdrop|24
-postfix|271
-postkick|668
-postlock|1440
-postlog|1337
-postmap|58
-postmulti|1560
-postqueue|636
-postsuper|799
-pppd|997
-praudit|1016
-purge|1210
-pwd_mkdb|1350
-quotaoff|461
-quotaon|979
-racoon|795
-raidutil|97
-rarpd|690
-reject|1402
-repairHomePermissions|1089
-repquota|1340
-rotatelogs|1224
-rpc.lockd|425
-rpc.statd|291
-rpcbind|24
-rpcinfo|651
-rtadvd|1359
-rtsold|256
-sa|1079
-sc_auth|590
-screencapture|1529
-scselect|752
-scutil|711
-securityd|1230
-sendmail|590
-serverinfo|1487
-setkey|1069
-setquota|478
-setregproptool|181
-sharing|1360
-slapacl|1450
-slapadd|117
-slapauth|458
-slapcat|795
-slapconfig|1502
-slapdn|846
-slapindex|1312
-slappasswd|0
-slapschema|375
-slaptest|982
-smbd|524
-smbdiagnose|26
-sncfginstall|1321
-sncfgquery|615
-sncfgremove|961
-sncfgtemplate|146
-sncfgvalidate|1046
-sndiskmove|254
-snmpd|954
-snmptrapd|156
-softwareupdate|1572
-spctl|448
-spindump|676
-spray|1579
-sshd|26
-sso_util|1035
-sysadminctl|487
-sysctl|1286
-syslogd|314
-system_profiler|102
-systemkeychain|844
-systemsetup|785
-systemsoundserverd|98
-systemstats|579
-taskpolicy|215
-tcpdump|1224
-timed|480
-timedc|1242
-traceroute|397
-traceroute6|252
-uasysdiagnose|26
-universalaccessd|1191
-unsetpassword|373
-usernoted|664
-uuchk|1462
-uucico|1515
-uuconv|723
-uusched|90
-uuxqt|1399
-vifs|797
-vipw|199
-visudo|1074
-vpnd|1511
-vsdbutil|112
-wirelessproxd|327
-WirelessRadioManagerd|136
-xartutil|740
-xsanctl|1326
-xscertadmin|852
-ypbind|289
-yppoll|672
-ypset|361
-zdump|764
-zic|377
-apfs_hfs_convert|1272
-autodiskmount|1145
-disklabel|737
-dmesg|579
-dynamic_pager|877
-emond|684
-fibreconfig|1355
-fsck|219
-fsck_apfs|434
-fsck_cs|1191
-fsck_exfat|1500
-fsck_hfs|125
-fsck_msdos|443
-fsck_udf|990
-fstyp|770
-fstyp_hfs|1441
-fstyp_msdos|62
-fstyp_ntfs|275
-fstyp_udf|725
-halt|17
-ifconfig|1500
-kextload|1115
-kextunload|1389
-launchd|72
-md5|823
-mknod|690
-mount|869
-mount_acfs|137
-mount_afp|809
-mount_apfs|1527
-mount_cd9660|1286
-mount_cddafs|620
-mount_devfs|551
-mount_exfat|602
-mount_fdesc|1093
-mount_ftp|63
-mount_hfs|1074
-mount_msdos|1126
-mount_nfs|621
-mount_ntfs|1340
-mount_smbfs|1319
-mount_udf|358
-mount_webdav|1201
-mpioutil|220
-newfs_apfs|908
-newfs_exfat|950
-newfs_hfs|190
-newfs_msdos|1474
-newfs_udf|1055
-nfsd|70
-nfsiod|1510
-nologin|1472
-pfctl|741
-ping|226
-ping6|994
-quotacheck|936
-reboot|243
-route|457
-rtsol|717
-shutdown|280
-umount|986
-2to3|328
-2to3-3.6|14
-bq|1486
-brew|1452
-bundle|1042
-bundler|1258
-dev_appserver.py|725
-easy_install-3.6|64
-endpointscfg.py|355
-facter|221
-gcloud|230
-git-credential-gcloud.sh|1412
-gsutil|205
-idle3|57
-idle3.6|412
-installBrew.rb|52
-pip3|686
-pip3.6|1143
-pydoc3|1308
-pydoc3.6|31
-python3|113
-python3-32|995
-python3-config|471
-python3.6|1274
-python3.6-32|1385
-python3.6-config|1035
-python3.6m|956
-python3.6m-config|835
-pyvenv|119
-pyvenv-3.6|235
-vagrant|1367
-vbox-img|44
-VBoxAutostart|1463
-VBoxBalloonCtrl|1406
-VBoxBugReport|91
-VBoxDTrace|1304
-VBoxHeadless|911
-VBoxManage|0
-VBoxVRDP|138
-vboxwebsrv|131
-VirtualBox|747
-app_usage_monitor|1024
-authrestartd|1230
-iconimporter|1392
-launchapp|1154
-logouthelper|669
-makecatalogs|1050
-makepkginfo|290
-managedsoftwareupdate|1572
-manifestutil|1543
-munkiimport|1134
-munkilib|961
-ptyexec|260
-removepackages|984
-supervisor|686
+2to3-2 | /Users/cgaspart/.brew/bin/2to3-2
+2to3-2.7 | /Users/cgaspart/.brew/bin/2to3-2.7
+brew | /Users/cgaspart/.brew/bin/brew
+callgrind_annotate | /Users/cgaspart/.brew/bin/callgrind_annotate
+callgrind_control | /Users/cgaspart/.brew/bin/callgrind_control
+cg_annotate | /Users/cgaspart/.brew/bin/cg_annotate
+cg_diff | /Users/cgaspart/.brew/bin/cg_diff
+cg_merge | /Users/cgaspart/.brew/bin/cg_merge
+easy_install | /Users/cgaspart/.brew/bin/easy_install
+easy_install-2.7 | /Users/cgaspart/.brew/bin/easy_install-2.7
+gdbm_dump | /Users/cgaspart/.brew/bin/gdbm_dump
+gdbm_load | /Users/cgaspart/.brew/bin/gdbm_load
+gdbmtool | /Users/cgaspart/.brew/bin/gdbmtool
+idle | /Users/cgaspart/.brew/bin/idle
+idle2 | /Users/cgaspart/.brew/bin/idle2
+idle2.7 | /Users/cgaspart/.brew/bin/idle2.7
+makedepend | /Users/cgaspart/.brew/bin/makedepend
+ms_print | /Users/cgaspart/.brew/bin/ms_print
+node | /Users/cgaspart/.brew/bin/node
+npm | /Users/cgaspart/.brew/bin/npm
+npx | /Users/cgaspart/.brew/bin/npx
+pip | /Users/cgaspart/.brew/bin/pip
+pip2 | /Users/cgaspart/.brew/bin/pip2
+pip2.7 | /Users/cgaspart/.brew/bin/pip2.7
+pkg-config | /Users/cgaspart/.brew/bin/pkg-config
+pydoc | /Users/cgaspart/.brew/bin/pydoc
+pydoc2 | /Users/cgaspart/.brew/bin/pydoc2
+pydoc2.7 | /Users/cgaspart/.brew/bin/pydoc2.7
+python | /Users/cgaspart/.brew/bin/python
+python-config | /Users/cgaspart/.brew/bin/python-config
+python2 | /Users/cgaspart/.brew/bin/python2
+python2-config | /Users/cgaspart/.brew/bin/python2-config
+python2.7 | /Users/cgaspart/.brew/bin/python2.7
+python2.7-config | /Users/cgaspart/.brew/bin/python2.7-config
+pythonw | /Users/cgaspart/.brew/bin/pythonw
+pythonw2 | /Users/cgaspart/.brew/bin/pythonw2
+pythonw2.7 | /Users/cgaspart/.brew/bin/pythonw2.7
+smtpd.py | /Users/cgaspart/.brew/bin/smtpd.py
+smtpd2.7.py | /Users/cgaspart/.brew/bin/smtpd2.7.py
+smtpd2.py | /Users/cgaspart/.brew/bin/smtpd2.py
+valgrind | /Users/cgaspart/.brew/bin/valgrind
+valgrind-di-server | /Users/cgaspart/.brew/bin/valgrind-di-server
+valgrind-listener | /Users/cgaspart/.brew/bin/valgrind-listener
+vgdb | /Users/cgaspart/.brew/bin/vgdb
+wheel | /Users/cgaspart/.brew/bin/wheel
+2to3-2 | /Users/cgaspart/.brew/bin/2to3-2
+2to3-2.7 | /Users/cgaspart/.brew/bin/2to3-2.7
+brew | /Users/cgaspart/.brew/bin/brew
+callgrind_annotate | /Users/cgaspart/.brew/bin/callgrind_annotate
+callgrind_control | /Users/cgaspart/.brew/bin/callgrind_control
+cg_annotate | /Users/cgaspart/.brew/bin/cg_annotate
+cg_diff | /Users/cgaspart/.brew/bin/cg_diff
+cg_merge | /Users/cgaspart/.brew/bin/cg_merge
+easy_install | /Users/cgaspart/.brew/bin/easy_install
+easy_install-2.7 | /Users/cgaspart/.brew/bin/easy_install-2.7
+gdbm_dump | /Users/cgaspart/.brew/bin/gdbm_dump
+gdbm_load | /Users/cgaspart/.brew/bin/gdbm_load
+gdbmtool | /Users/cgaspart/.brew/bin/gdbmtool
+idle | /Users/cgaspart/.brew/bin/idle
+idle2 | /Users/cgaspart/.brew/bin/idle2
+idle2.7 | /Users/cgaspart/.brew/bin/idle2.7
+makedepend | /Users/cgaspart/.brew/bin/makedepend
+ms_print | /Users/cgaspart/.brew/bin/ms_print
+node | /Users/cgaspart/.brew/bin/node
+npm | /Users/cgaspart/.brew/bin/npm
+npx | /Users/cgaspart/.brew/bin/npx
+pip | /Users/cgaspart/.brew/bin/pip
+pip2 | /Users/cgaspart/.brew/bin/pip2
+pip2.7 | /Users/cgaspart/.brew/bin/pip2.7
+pkg-config | /Users/cgaspart/.brew/bin/pkg-config
+pydoc | /Users/cgaspart/.brew/bin/pydoc
+pydoc2 | /Users/cgaspart/.brew/bin/pydoc2
+pydoc2.7 | /Users/cgaspart/.brew/bin/pydoc2.7
+python | /Users/cgaspart/.brew/bin/python
+python-config | /Users/cgaspart/.brew/bin/python-config
+python2 | /Users/cgaspart/.brew/bin/python2
+python2-config | /Users/cgaspart/.brew/bin/python2-config
+python2.7 | /Users/cgaspart/.brew/bin/python2.7
+python2.7-config | /Users/cgaspart/.brew/bin/python2.7-config
+pythonw | /Users/cgaspart/.brew/bin/pythonw
+pythonw2 | /Users/cgaspart/.brew/bin/pythonw2
+pythonw2.7 | /Users/cgaspart/.brew/bin/pythonw2.7
+smtpd.py | /Users/cgaspart/.brew/bin/smtpd.py
+smtpd2.7.py | /Users/cgaspart/.brew/bin/smtpd2.7.py
+smtpd2.py | /Users/cgaspart/.brew/bin/smtpd2.py
+valgrind | /Users/cgaspart/.brew/bin/valgrind
+valgrind-di-server | /Users/cgaspart/.brew/bin/valgrind-di-server
+valgrind-listener | /Users/cgaspart/.brew/bin/valgrind-listener
+vgdb | /Users/cgaspart/.brew/bin/vgdb
+wheel | /Users/cgaspart/.brew/bin/wheel
+2to3 | /usr/bin/2to3
+2to3- | /usr/bin/2to3-
+2to3-2.7 | /Users/cgaspart/.brew/bin/2to3-2.7
+2to3-3.4 | /usr/bin/2to3-3.4
+2to32.6 | /usr/bin/2to32.6
+a2p | /usr/bin/a2p
+a2p5.16 | /usr/bin/a2p5.16
+a2p5.18 | /usr/bin/a2p5.18
+addftinfo | /usr/bin/addftinfo
+afclip | /usr/bin/afclip
+afconvert | /usr/bin/afconvert
+afhash | /usr/bin/afhash
+afida | /usr/bin/afida
+afinfo | /usr/bin/afinfo
+afmtodit | /usr/bin/afmtodit
+afplay | /usr/bin/afplay
+afscexpand | /usr/bin/afscexpand
+agentxtrap | /usr/bin/agentxtrap
+agvtool | /usr/bin/agvtool
+alias | /usr/bin/alias
+applesingle | /usr/bin/applesingle
+appletviewer | /usr/bin/appletviewer
+apply | /usr/bin/apply
+apropos | /usr/bin/apropos
+apt | /usr/bin/apt
+ar | /usr/bin/ar
+arch | /usr/bin/arch
+as | /usr/bin/as
+asa | /usr/bin/asa
+asctl | /usr/bin/asctl
+AssetCacheActivatorUtil | /usr/bin/AssetCacheActivatorUtil
+AssetCacheLocatorUtil | /usr/bin/AssetCacheLocatorUtil
+AssetCacheTetheratorUtil | /usr/bin/AssetCacheTetheratorUtil
+assetutil | /usr/bin/assetutil
+at | /usr/bin/at
+atos | /usr/bin/atos
+atq | /usr/bin/atq
+atrm | /usr/bin/atrm
+atsutil | /usr/bin/atsutil
+audiodevice | /usr/bin/audiodevice
+automator | /usr/bin/automator
+auval | /usr/bin/auval
+auvaltool | /usr/bin/auvaltool
+avbdiagnose | /usr/bin/avbdiagnose
+avbutil | /usr/bin/avbutil
+avconvert | /usr/bin/avconvert
+avmetareadwrite | /usr/bin/avmetareadwrite
+awk | /usr/bin/awk
+banner | /usr/bin/banner
+base64 | /usr/bin/base64
+basename | /usr/bin/basename
+bashbug | /usr/bin/bashbug
+batch | /usr/bin/batch
+bc | /usr/bin/bc
+bg | /usr/bin/bg
+biff | /usr/bin/biff
+binhex | /usr/bin/binhex
+binhex.pl | /usr/bin/binhex.pl
+binhex5.18.pl | /usr/bin/binhex5.18.pl
+bioutil | /usr/bin/bioutil
+bison | /usr/bin/bison
+bitesize.d | /usr/bin/bitesize.d
+brctl | /usr/bin/brctl
+bsdtar | /usr/bin/bsdtar
+bspatch | /usr/bin/bspatch
+btmmdiagnose | /usr/bin/btmmdiagnose
+BuildStrings | /usr/bin/BuildStrings
+bunzip2 | /usr/bin/bunzip2
+bzcat | /usr/bin/bzcat
+bzcmp | /usr/bin/bzcmp
+bzdiff | /usr/bin/bzdiff
+bzegrep | /usr/bin/bzegrep
+bzfgrep | /usr/bin/bzfgrep
+bzgrep | /usr/bin/bzgrep
+bzip2 | /usr/bin/bzip2
+bzip2recover | /usr/bin/bzip2recover
+bzless | /usr/bin/bzless
+bzmore | /usr/bin/bzmore
+c++ | /usr/bin/c++
+c++filt | /usr/bin/c++filt
+c2ph | /usr/bin/c2ph
+c2ph5.16 | /usr/bin/c2ph5.16
+c2ph5.18 | /usr/bin/c2ph5.18
+c89 | /usr/bin/c89
+c99 | /usr/bin/c99
+c_rehash | /usr/bin/c_rehash
+caffeinate | /usr/bin/caffeinate
+cal | /usr/bin/cal
+calendar | /usr/bin/calendar
+cancel | /usr/bin/cancel
+cap_mkdb | /usr/bin/cap_mkdb
+captoinfo | /usr/bin/captoinfo
+cc | /usr/bin/cc
+ccmake | /usr/bin/ccmake
+cd | /usr/bin/cd
+certtool | /usr/bin/certtool
+checknr | /usr/bin/checknr
+chflags | /usr/bin/chflags
+chfn | /usr/bin/chfn
+chgrp | /usr/bin/chgrp
+chpass | /usr/bin/chpass
+chsh | /usr/bin/chsh
+cksum | /usr/bin/cksum
+clang | /usr/bin/clang
+clang++ | /usr/bin/clang++
+clear | /usr/bin/clear
+cmake | /usr/bin/cmake
+cmakexbuild | /usr/bin/cmakexbuild
+cmp | /usr/bin/cmp
+cmpdylib | /usr/bin/cmpdylib
+codesign | /usr/bin/codesign
+codesign_allocate | /usr/bin/codesign_allocate
+col | /usr/bin/col
+colcrt | /usr/bin/colcrt
+colldef | /usr/bin/colldef
+colrm | /usr/bin/colrm
+column | /usr/bin/column
+comm | /usr/bin/comm
+command | /usr/bin/command
+compress | /usr/bin/compress
+compression_tool | /usr/bin/compression_tool
+config_data | /usr/bin/config_data
+config_data5.16 | /usr/bin/config_data5.16
+config_data5.18 | /usr/bin/config_data5.18
+corebrightnessdiag | /usr/bin/corebrightnessdiag
+corelist | /usr/bin/corelist
+corelist5.16 | /usr/bin/corelist5.16
+corelist5.18 | /usr/bin/corelist5.18
+cpack | /usr/bin/cpack
+cpan | /usr/bin/cpan
+cpan2dist | /usr/bin/cpan2dist
+cpan2dist5.16 | /usr/bin/cpan2dist5.16
+cpan2dist5.18 | /usr/bin/cpan2dist5.18
+cpan5.16 | /usr/bin/cpan5.16
+cpan5.18 | /usr/bin/cpan5.18
+cpanp | /usr/bin/cpanp
+cpanp-run-perl | /usr/bin/cpanp-run-perl
+cpanp-run-perl5.16 | /usr/bin/cpanp-run-perl5.16
+cpanp-run-perl5.18 | /usr/bin/cpanp-run-perl5.18
+cpanp5.16 | /usr/bin/cpanp5.16
+cpanp5.18 | /usr/bin/cpanp5.18
+cpio | /usr/bin/cpio
+CpMac | /usr/bin/CpMac
+cpp | /usr/bin/cpp
+cpu_profiler.d | /usr/bin/cpu_profiler.d
+cpuwalk.d | /usr/bin/cpuwalk.d
+crc32 | /usr/bin/crc32
+crc325.16 | /usr/bin/crc325.16
+crc325.18 | /usr/bin/crc325.18
+creatbyproc.d | /usr/bin/creatbyproc.d
+crlrefresh | /usr/bin/crlrefresh
+crontab | /usr/bin/crontab
+csdiagnose | /usr/bin/csdiagnose
+csgather | /usr/bin/csgather
+csplit | /usr/bin/csplit
+csreq | /usr/bin/csreq
+csrutil | /usr/bin/csrutil
+ctags | /usr/bin/ctags
+ctest | /usr/bin/ctest
+ctf_insert | /usr/bin/ctf_insert
+cu | /usr/bin/cu
+cups-config | /usr/bin/cups-config
+cupstestdsc | /usr/bin/cupstestdsc
+cupstestppd | /usr/bin/cupstestppd
+curl | /usr/bin/curl
+curl-config | /usr/bin/curl-config
+cut | /usr/bin/cut
+cvaffinity | /usr/bin/cvaffinity
+cvcp | /usr/bin/cvcp
+cvmkdir | /usr/bin/cvmkdir
+cvmkfile | /usr/bin/cvmkfile
+dappprof | /usr/bin/dappprof
+dapptrace | /usr/bin/dapptrace
+darwinup | /usr/bin/darwinup
+db_archive | /usr/bin/db_archive
+db_checkpoint | /usr/bin/db_checkpoint
+db_codegen | /usr/bin/db_codegen
+db_deadlock | /usr/bin/db_deadlock
+db_dump | /usr/bin/db_dump
+db_hotbackup | /usr/bin/db_hotbackup
+db_load | /usr/bin/db_load
+db_printlog | /usr/bin/db_printlog
+db_recover | /usr/bin/db_recover
+db_stat | /usr/bin/db_stat
+db_upgrade | /usr/bin/db_upgrade
+db_verify | /usr/bin/db_verify
+dbicadmin | /usr/bin/dbicadmin
+dbicadmin5.16 | /usr/bin/dbicadmin5.16
+dbicadmin5.18 | /usr/bin/dbicadmin5.18
+dbilogstrip | /usr/bin/dbilogstrip
+dbilogstrip5.16 | /usr/bin/dbilogstrip5.16
+dbilogstrip5.18 | /usr/bin/dbilogstrip5.18
+dbiprof | /usr/bin/dbiprof
+dbiprof5.16 | /usr/bin/dbiprof5.16
+dbiprof5.18 | /usr/bin/dbiprof5.18
+dbiproxy | /usr/bin/dbiproxy
+dbiproxy5.16 | /usr/bin/dbiproxy5.16
+dbiproxy5.18 | /usr/bin/dbiproxy5.18
+dc | /usr/bin/dc
+debinhex.pl | /usr/bin/debinhex.pl
+debinhex5.18.pl | /usr/bin/debinhex5.18.pl
+defaults | /usr/bin/defaults
+DeRez | /usr/bin/DeRez
+desdp | /usr/bin/desdp
+diff | /usr/bin/diff
+diff3 | /usr/bin/diff3
+diffstat | /usr/bin/diffstat
+dig | /usr/bin/dig
+dirname | /usr/bin/dirname
+diskhits | /usr/bin/diskhits
+dispqlen.d | /usr/bin/dispqlen.d
+ditto | /usr/bin/ditto
+dns-sd | /usr/bin/dns-sd
+dockutil | /usr/bin/dockutil
+drutil | /usr/bin/drutil
+dscacheutil | /usr/bin/dscacheutil
+dscl | /usr/bin/dscl
+dserr | /usr/bin/dserr
+dsexport | /usr/bin/dsexport
+dsimport | /usr/bin/dsimport
+dsmemberutil | /usr/bin/dsmemberutil
+dsymutil | /usr/bin/dsymutil
+dtruss | /usr/bin/dtruss
+du | /usr/bin/du
+dwarfdump | /usr/bin/dwarfdump
+easy_install | /Users/cgaspart/.brew/bin/easy_install
+easy_install-2.6 | /usr/bin/easy_install-2.6
+easy_install-2.7 | /Users/cgaspart/.brew/bin/easy_install-2.7
+easy_install-3.4 | /usr/bin/easy_install-3.4
+egrep | /usr/bin/egrep
+emacs | /usr/bin/emacs
+emacs-26.0.50 | /usr/bin/emacs-26.0.50
+emacs-undumped | /usr/bin/emacs-undumped
+emacsclient | /usr/bin/emacsclient
+enc2xs | /usr/bin/enc2xs
+enc2xs5.16 | /usr/bin/enc2xs5.16
+enc2xs5.18 | /usr/bin/enc2xs5.18
+encode_keychange | /usr/bin/encode_keychange
+env | /usr/bin/env
+eqn | /usr/bin/eqn
+erb | /usr/bin/erb
+errinfo | /usr/bin/errinfo
+etags | /usr/bin/etags
+ex | /usr/bin/ex
+examshell | /usr/bin/examshell
+execsnoop | /usr/bin/execsnoop
+expand | /usr/bin/expand
+expect | /usr/bin/expect
+extcheck | /usr/bin/extcheck
+eyapp | /usr/bin/eyapp
+eyapp5.16 | /usr/bin/eyapp5.16
+eyapp5.18 | /usr/bin/eyapp5.18
+false | /usr/bin/false
+fc | /usr/bin/fc
+fddist | /usr/bin/fddist
+fdesetup | /usr/bin/fdesetup
+fg | /usr/bin/fg
+fgrep | /usr/bin/fgrep
+file | /usr/bin/file
+filebyproc.d | /usr/bin/filebyproc.d
+filtercalltree | /usr/bin/filtercalltree
+find | /usr/bin/find
+find2perl | /usr/bin/find2perl
+find2perl5.16 | /usr/bin/find2perl5.16
+find2perl5.18 | /usr/bin/find2perl5.18
+findrule | /usr/bin/findrule
+findrule5.16 | /usr/bin/findrule5.16
+findrule5.18 | /usr/bin/findrule5.18
+finger | /usr/bin/finger
+fixproc | /usr/bin/fixproc
+flex | /usr/bin/flex
+flex++ | /usr/bin/flex++
+fmt | /usr/bin/fmt
+fold | /usr/bin/fold
+fontrestore | /usr/bin/fontrestore
+footprint | /usr/bin/footprint
+format-sql | /usr/bin/format-sql
+format-sql5.16 | /usr/bin/format-sql5.16
+format-sql5.18 | /usr/bin/format-sql5.18
+from | /usr/bin/from
+fs_usage | /usr/bin/fs_usage
+ftp | /usr/bin/ftp
+funzip | /usr/bin/funzip
+fuser | /usr/bin/fuser
+fwkdp | /usr/bin/fwkdp
+fwkpfv | /usr/bin/fwkpfv
+g++ | /usr/bin/g++
+gatherheaderdoc | /usr/bin/gatherheaderdoc
+gcc | /usr/bin/gcc
+gcore | /usr/bin/gcore
+gcov | /usr/bin/gcov
+gdiffmk | /usr/bin/gdiffmk
+gem | /usr/bin/gem
+gen_bridge_metadata | /usr/bin/gen_bridge_metadata
+gencat | /usr/bin/gencat
+genstrings | /usr/bin/genstrings
+getconf | /usr/bin/getconf
+GetFileInfo | /usr/bin/GetFileInfo
+getopt | /usr/bin/getopt
+getopts | /usr/bin/getopts
+git | /usr/bin/git
+git-cvsserver | /usr/bin/git-cvsserver
+git-receive-pack | /usr/bin/git-receive-pack
+git-shell | /usr/bin/git-shell
+git-upload-archive | /usr/bin/git-upload-archive
+git-upload-pack | /usr/bin/git-upload-pack
+gm4 | /usr/bin/gm4
+gnuattach | /usr/bin/gnuattach
+gnuclient | /usr/bin/gnuclient
+gnudoit | /usr/bin/gnudoit
+gnumake | /usr/bin/gnumake
+gnuserv | /usr/bin/gnuserv
+gperf | /usr/bin/gperf
+grep | /usr/bin/grep
+grn | /usr/bin/grn
+grodvi | /usr/bin/grodvi
+groff | /usr/bin/groff
+groffer | /usr/bin/groffer
+grog | /usr/bin/grog
+grolbp | /usr/bin/grolbp
+grolj4 | /usr/bin/grolj4
+grops | /usr/bin/grops
+grotty | /usr/bin/grotty
+groups | /usr/bin/groups
+gunzip | /usr/bin/gunzip
+gzcat | /usr/bin/gzcat
+gzexe | /usr/bin/gzexe
+gzip | /usr/bin/gzip
+h2ph | /usr/bin/h2ph
+h2ph5.16 | /usr/bin/h2ph5.16
+h2ph5.18 | /usr/bin/h2ph5.18
+h2xs | /usr/bin/h2xs
+h2xs5.16 | /usr/bin/h2xs5.16
+h2xs5.18 | /usr/bin/h2xs5.18
+hash | /usr/bin/hash
+hdid | /usr/bin/hdid
+hdiutil | /usr/bin/hdiutil
+hdxml2manxml | /usr/bin/hdxml2manxml
+head | /usr/bin/head
+headerdoc2html | /usr/bin/headerdoc2html
+heap | /usr/bin/heap
+heap32 | /usr/bin/heap32
+hexdump | /usr/bin/hexdump
+hidutil | /usr/bin/hidutil
+hiutil | /usr/bin/hiutil
+host | /usr/bin/host
+hostinfo | /usr/bin/hostinfo
+hotspot.d | /usr/bin/hotspot.d
+hpftodit | /usr/bin/hpftodit
+hpmdiagnose | /usr/bin/hpmdiagnose
+htmltree | /usr/bin/htmltree
+htmltree5.16 | /usr/bin/htmltree5.16
+htmltree5.18 | /usr/bin/htmltree5.18
+htop | /usr/bin/htop
+httpdstat.d | /usr/bin/httpdstat.d
+ibtool | /usr/bin/ibtool
+iconutil | /usr/bin/iconutil
+iconv | /usr/bin/iconv
+ictool | /usr/bin/ictool
+id | /usr/bin/id
+idle | /Users/cgaspart/.brew/bin/idle
+idle2.6 | /usr/bin/idle2.6
+idle2.7 | /Users/cgaspart/.brew/bin/idle2.7
+idle3 | /usr/bin/idle3
+idle3.4 | /usr/bin/idle3.4
+idlj | /usr/bin/idlj
+imptrace | /usr/bin/imptrace
+indent | /usr/bin/indent
+indxbib | /usr/bin/indxbib
+info | /usr/bin/info
+infocmp | /usr/bin/infocmp
+infokey | /usr/bin/infokey
+infotocap | /usr/bin/infotocap
+install | /usr/bin/install
+install-info | /usr/bin/install-info
+install_name_tool | /usr/bin/install_name_tool
+instmodsh | /usr/bin/instmodsh
+instmodsh5.16 | /usr/bin/instmodsh5.16
+instmodsh5.18 | /usr/bin/instmodsh5.18
+instruments | /usr/bin/instruments
+IOAccelMemory | /usr/bin/IOAccelMemory
+iofile.d | /usr/bin/iofile.d
+iofileb.d | /usr/bin/iofileb.d
+iopattern | /usr/bin/iopattern
+iopending | /usr/bin/iopending
+iosnoop | /usr/bin/iosnoop
+iotop | /usr/bin/iotop
+ip2cc | /usr/bin/ip2cc
+ip2cc5.16 | /usr/bin/ip2cc5.16
+ip2cc5.18 | /usr/bin/ip2cc5.18
+ipcount | /usr/bin/ipcount
+ipcount5.16 | /usr/bin/ipcount5.16
+ipcount5.18 | /usr/bin/ipcount5.18
+ipcrm | /usr/bin/ipcrm
+ipcs | /usr/bin/ipcs
+ippfind | /usr/bin/ippfind
+ipptool | /usr/bin/ipptool
+iprofiler | /usr/bin/iprofiler
+iptab | /usr/bin/iptab
+iptab5.16 | /usr/bin/iptab5.16
+iptab5.18 | /usr/bin/iptab5.18
+irb | /usr/bin/irb
+iscsictl | /usr/bin/iscsictl
+jar | /usr/bin/jar
+jarsigner | /usr/bin/jarsigner
+java | /usr/bin/java
+javac | /usr/bin/javac
+javadoc | /usr/bin/javadoc
+javah | /usr/bin/javah
+javap | /usr/bin/javap
+javapackager | /usr/bin/javapackager
+javaws | /usr/bin/javaws
+jcmd | /usr/bin/jcmd
+jconsole | /usr/bin/jconsole
+jcontrol | /usr/bin/jcontrol
+jdb | /usr/bin/jdb
+jdeps | /usr/bin/jdeps
+jhat | /usr/bin/jhat
+jhsdb | /usr/bin/jhsdb
+jimage | /usr/bin/jimage
+jinfo | /usr/bin/jinfo
+jjs | /usr/bin/jjs
+jmap | /usr/bin/jmap
+jmc | /usr/bin/jmc
+jobs | /usr/bin/jobs
+join | /usr/bin/join
+jot | /usr/bin/jot
+jps | /usr/bin/jps
+jrunscript | /usr/bin/jrunscript
+jsadebugd | /usr/bin/jsadebugd
+jshell | /usr/bin/jshell
+json_pp | /usr/bin/json_pp
+json_pp5.16 | /usr/bin/json_pp5.16
+json_pp5.18 | /usr/bin/json_pp5.18
+jstack | /usr/bin/jstack
+jstat | /usr/bin/jstat
+jstatd | /usr/bin/jstatd
+jvisualvm | /usr/bin/jvisualvm
+kcc | /usr/bin/kcc
+kdestroy | /usr/bin/kdestroy
+kextutil | /usr/bin/kextutil
+keytool | /usr/bin/keytool
+kgetcred | /usr/bin/kgetcred
+kill.d | /usr/bin/kill.d
+killall | /usr/bin/killall
+kinit | /usr/bin/kinit
+klist | /usr/bin/klist
+kpasswd | /usr/bin/kpasswd
+krb5-config | /usr/bin/krb5-config
+kswitch | /usr/bin/kswitch
+lam | /usr/bin/lam
+last | /usr/bin/last
+lastcomm | /usr/bin/lastcomm
+lastwords | /usr/bin/lastwords
+latency | /usr/bin/latency
+layerutil | /usr/bin/layerutil
+ld | /usr/bin/ld
+ldapadd | /usr/bin/ldapadd
+ldapcompare | /usr/bin/ldapcompare
+ldapdelete | /usr/bin/ldapdelete
+ldapexop | /usr/bin/ldapexop
+ldapmodify | /usr/bin/ldapmodify
+ldapmodrdn | /usr/bin/ldapmodrdn
+ldappasswd | /usr/bin/ldappasswd
+ldapsearch | /usr/bin/ldapsearch
+ldapurl | /usr/bin/ldapurl
+ldapwhoami | /usr/bin/ldapwhoami
+leaks | /usr/bin/leaks
+leaks32 | /usr/bin/leaks32
+leave | /usr/bin/leave
+less | /usr/bin/less
+lessecho | /usr/bin/lessecho
+lex | /usr/bin/lex
+libnetcfg | /usr/bin/libnetcfg
+libnetcfg5.16 | /usr/bin/libnetcfg5.16
+libnetcfg5.18 | /usr/bin/libnetcfg5.18
+libtool | /usr/bin/libtool
+lipo | /usr/bin/lipo
+lkbib | /usr/bin/lkbib
+lldb | /usr/bin/lldb
+llvm-g++ | /usr/bin/llvm-g++
+llvm-gcc | /usr/bin/llvm-gcc
+loads.d | /usr/bin/loads.d
+locale | /usr/bin/locale
+localedef | /usr/bin/localedef
+locate | /usr/bin/locate
+lockstat | /usr/bin/lockstat
+log | /usr/bin/log
+logger | /usr/bin/logger
+login | /usr/bin/login
+logname | /usr/bin/logname
+look | /usr/bin/look
+lookbib | /usr/bin/lookbib
+lorder | /usr/bin/lorder
+lp | /usr/bin/lp
+lpoptions | /usr/bin/lpoptions
+lpq | /usr/bin/lpq
+lpr | /usr/bin/lpr
+lprm | /usr/bin/lprm
+lpstat | /usr/bin/lpstat
+lsappinfo | /usr/bin/lsappinfo
+lsbom | /usr/bin/lsbom
+lskq | /usr/bin/lskq
+lsm | /usr/bin/lsm
+lsmp | /usr/bin/lsmp
+lsvfs | /usr/bin/lsvfs
+lwp-download | /usr/bin/lwp-download
+lwp-download5.16 | /usr/bin/lwp-download5.16
+lwp-download5.18 | /usr/bin/lwp-download5.18
+lwp-dump | /usr/bin/lwp-dump
+lwp-dump5.16 | /usr/bin/lwp-dump5.16
+lwp-dump5.18 | /usr/bin/lwp-dump5.18
+lwp-mirror | /usr/bin/lwp-mirror
+lwp-mirror5.16 | /usr/bin/lwp-mirror5.16
+lwp-mirror5.18 | /usr/bin/lwp-mirror5.18
+lwp-request | /usr/bin/lwp-request
+lwp-request5.16 | /usr/bin/lwp-request5.16
+lwp-request5.18 | /usr/bin/lwp-request5.18
+m4 | /usr/bin/m4
+macbinary | /usr/bin/macbinary
+macerror | /usr/bin/macerror
+macerror5.16 | /usr/bin/macerror5.16
+macerror5.18 | /usr/bin/macerror5.18
+machine | /usr/bin/machine
+mail | /usr/bin/mail
+mailq | /usr/bin/mailq
+mailx | /usr/bin/mailx
+make | /usr/bin/make
+makeinfo | /usr/bin/makeinfo
+malloc_history | /usr/bin/malloc_history
+malloc_history32 | /usr/bin/malloc_history32
+man | /usr/bin/man
+manpath | /usr/bin/manpath
+mcxquery | /usr/bin/mcxquery
+mcxrefresh | /usr/bin/mcxrefresh
+mddiagnose | /usr/bin/mddiagnose
+mdfind | /usr/bin/mdfind
+mdimport | /usr/bin/mdimport
+mdimport32 | /usr/bin/mdimport32
+mdls | /usr/bin/mdls
+mdutil | /usr/bin/mdutil
+memory_pressure | /usr/bin/memory_pressure
+MergePef | /usr/bin/MergePef
+mesg | /usr/bin/mesg
+mib2c | /usr/bin/mib2c
+mib2c-update | /usr/bin/mib2c-update
+mig | /usr/bin/mig
+mkbom | /usr/bin/mkbom
+mkdep | /usr/bin/mkdep
+mkfifo | /usr/bin/mkfifo
+mklocale | /usr/bin/mklocale
+mktemp | /usr/bin/mktemp
+mmroff | /usr/bin/mmroff
+mnthome | /usr/bin/mnthome
+moo-outdated | /usr/bin/moo-outdated
+moo-outdated5.18 | /usr/bin/moo-outdated5.18
+moose-outdated | /usr/bin/moose-outdated
+moose-outdated5.16 | /usr/bin/moose-outdated5.16
+moose-outdated5.18 | /usr/bin/moose-outdated5.18
+more | /usr/bin/more
+mp2bug | /usr/bin/mp2bug
+msgs | /usr/bin/msgs
+MvMac | /usr/bin/MvMac
+nano | /usr/bin/nano
+nasm | /usr/bin/nasm
+native2ascii | /usr/bin/native2ascii
+nbdst | /usr/bin/nbdst
+nc | /usr/bin/nc
+ncal | /usr/bin/ncal
+ncctl | /usr/bin/ncctl
+ncdestroy | /usr/bin/ncdestroy
+ncinit | /usr/bin/ncinit
+nclist | /usr/bin/nclist
+ncurses5.4-config | /usr/bin/ncurses5.4-config
+ndisasm | /usr/bin/ndisasm
+neqn | /usr/bin/neqn
+net-server | /usr/bin/net-server
+net-server5.16 | /usr/bin/net-server5.16
+net-server5.18 | /usr/bin/net-server5.18
+net-snmp-cert | /usr/bin/net-snmp-cert
+net-snmp-config | /usr/bin/net-snmp-config
+net-snmp-create-v3-user | /usr/bin/net-snmp-create-v3-user
+nettop | /usr/bin/nettop
+newaliases | /usr/bin/newaliases
+newgrp | /usr/bin/newgrp
+newproc.d | /usr/bin/newproc.d
+nfsstat | /usr/bin/nfsstat
+nice | /usr/bin/nice
+nl | /usr/bin/nl
+nm | /usr/bin/nm
+nmedit | /usr/bin/nmedit
+nohup | /usr/bin/nohup
+norminette | /usr/bin/norminette
+notifyutil | /usr/bin/notifyutil
+nroff | /usr/bin/nroff
+nscurl | /usr/bin/nscurl
+nslookup | /usr/bin/nslookup
+nsupdate | /usr/bin/nsupdate
+ntp-keygen | /usr/bin/ntp-keygen
+ntpq | /usr/bin/ntpq
+objdump | /usr/bin/objdump
+od | /usr/bin/od
+odutil | /usr/bin/odutil
+open | /usr/bin/open
+opendiff | /usr/bin/opendiff
+opensnoop | /usr/bin/opensnoop
+openssl | /usr/bin/openssl
+orbd | /usr/bin/orbd
+osacompile | /usr/bin/osacompile
+osadecompile | /usr/bin/osadecompile
+osalang | /usr/bin/osalang
+osascript | /usr/bin/osascript
+otool | /usr/bin/otool
+pack200 | /usr/bin/pack200
+package-stash-conflicts | /usr/bin/package-stash-conflicts
+package-stash-conflicts5.16 | /usr/bin/package-stash-conflicts5.16
+package-stash-conflicts5.18 | /usr/bin/package-stash-conflicts5.18
+pagesize | /usr/bin/pagesize
+pagestuff | /usr/bin/pagestuff
+par.pl | /usr/bin/par.pl
+par5.16.pl | /usr/bin/par5.16.pl
+par5.18.pl | /usr/bin/par5.18.pl
+parl | /usr/bin/parl
+parl5.16 | /usr/bin/parl5.16
+parl5.18 | /usr/bin/parl5.18
+parldyn | /usr/bin/parldyn
+parldyn5.16 | /usr/bin/parldyn5.16
+parldyn5.18 | /usr/bin/parldyn5.18
+passwd | /usr/bin/passwd
+paste | /usr/bin/paste
+patch | /usr/bin/patch
+pathchk | /usr/bin/pathchk
+pathopens.d | /usr/bin/pathopens.d
+pbcopy | /usr/bin/pbcopy
+pbpaste | /usr/bin/pbpaste
+pcap-config | /usr/bin/pcap-config
+pcsctest | /usr/bin/pcsctest
+perl | /usr/bin/perl
+perl5.16 | /usr/bin/perl5.16
+perl5.18 | /usr/bin/perl5.18
+perlbug | /usr/bin/perlbug
+perlbug5.16 | /usr/bin/perlbug5.16
+perlbug5.18 | /usr/bin/perlbug5.18
+perldoc | /usr/bin/perldoc
+perldoc5.16 | /usr/bin/perldoc5.16
+perldoc5.18 | /usr/bin/perldoc5.18
+perlivp | /usr/bin/perlivp
+perlivp5.16 | /usr/bin/perlivp5.16
+perlivp5.18 | /usr/bin/perlivp5.18
+perlthanks | /usr/bin/perlthanks
+perlthanks5.16 | /usr/bin/perlthanks5.16
+perlthanks5.18 | /usr/bin/perlthanks5.18
+pfbtops | /usr/bin/pfbtops
+pgrep | /usr/bin/pgrep
+phar | /usr/bin/phar
+phar.phar | /usr/bin/phar.phar
+php | /usr/bin/php
+php-config | /usr/bin/php-config
+phpize | /usr/bin/phpize
+pic | /usr/bin/pic
+pico | /usr/bin/pico
+piconv | /usr/bin/piconv
+piconv5.16 | /usr/bin/piconv5.16
+piconv5.18 | /usr/bin/piconv5.18
+pidpersec.d | /usr/bin/pidpersec.d
+pip3 | /usr/bin/pip3
+pip3.4 | /usr/bin/pip3.4
+pkgbuild | /usr/bin/pkgbuild
+pkill | /usr/bin/pkill
+pl | /usr/bin/pl
+pl2pm | /usr/bin/pl2pm
+pl2pm5.16 | /usr/bin/pl2pm5.16
+pl2pm5.18 | /usr/bin/pl2pm5.18
+plockstat | /usr/bin/plockstat
+pluginkit | /usr/bin/pluginkit
+plutil | /usr/bin/plutil
+pmset | /usr/bin/pmset
+pod2html | /usr/bin/pod2html
+pod2html5.16 | /usr/bin/pod2html5.16
+pod2html5.18 | /usr/bin/pod2html5.18
+pod2latex | /usr/bin/pod2latex
+pod2latex5.16 | /usr/bin/pod2latex5.16
+pod2latex5.18 | /usr/bin/pod2latex5.18
+pod2man | /usr/bin/pod2man
+pod2man5.16 | /usr/bin/pod2man5.16
+pod2man5.18 | /usr/bin/pod2man5.18
+pod2readme | /usr/bin/pod2readme
+pod2readme5.16 | /usr/bin/pod2readme5.16
+pod2readme5.18 | /usr/bin/pod2readme5.18
+pod2text | /usr/bin/pod2text
+pod2text5.16 | /usr/bin/pod2text5.16
+pod2text5.18 | /usr/bin/pod2text5.18
+pod2usage | /usr/bin/pod2usage
+pod2usage5.16 | /usr/bin/pod2usage5.16
+pod2usage5.18 | /usr/bin/pod2usage5.18
+podchecker | /usr/bin/podchecker
+podchecker5.16 | /usr/bin/podchecker5.16
+podchecker5.18 | /usr/bin/podchecker5.18
+podselect | /usr/bin/podselect
+podselect5.16 | /usr/bin/podselect5.16
+podselect5.18 | /usr/bin/podselect5.18
+policytool | /usr/bin/policytool
+post-grohtml | /usr/bin/post-grohtml
+power_report.sh | /usr/bin/power_report.sh
+powermetrics | /usr/bin/powermetrics
+pp | /usr/bin/pp
+pp5.16 | /usr/bin/pp5.16
+pp5.18 | /usr/bin/pp5.18
+ppdc | /usr/bin/ppdc
+ppdhtml | /usr/bin/ppdhtml
+ppdi | /usr/bin/ppdi
+ppdmerge | /usr/bin/ppdmerge
+ppdpo | /usr/bin/ppdpo
+pr | /usr/bin/pr
+pre-grohtml | /usr/bin/pre-grohtml
+priclass.d | /usr/bin/priclass.d
+pridist.d | /usr/bin/pridist.d
+printenv | /usr/bin/printenv
+printf | /usr/bin/printf
+procsystime | /usr/bin/procsystime
+productbuild | /usr/bin/productbuild
+productsign | /usr/bin/productsign
+profiles | /usr/bin/profiles
+prove | /usr/bin/prove
+prove5.16 | /usr/bin/prove5.16
+prove5.18 | /usr/bin/prove5.18
+psed | /usr/bin/psed
+psed5.16 | /usr/bin/psed5.16
+psed5.18 | /usr/bin/psed5.18
+pstopdf | /usr/bin/pstopdf
+pstruct | /usr/bin/pstruct
+pstruct5.16 | /usr/bin/pstruct5.16
+pstruct5.18 | /usr/bin/pstruct5.18
+ptar | /usr/bin/ptar
+ptar5.16 | /usr/bin/ptar5.16
+ptar5.18 | /usr/bin/ptar5.18
+ptardiff | /usr/bin/ptardiff
+ptardiff5.16 | /usr/bin/ptardiff5.16
+ptardiff5.18 | /usr/bin/ptardiff5.18
+ptargrep | /usr/bin/ptargrep
+ptargrep5.16 | /usr/bin/ptargrep5.16
+ptargrep5.18 | /usr/bin/ptargrep5.18
+pubsub | /usr/bin/pubsub
+pwhich | /usr/bin/pwhich
+pwhich5.16 | /usr/bin/pwhich5.16
+pwhich5.18 | /usr/bin/pwhich5.18
+pwpolicy | /usr/bin/pwpolicy
+pydoc | /Users/cgaspart/.brew/bin/pydoc
+pydoc2.6 | /usr/bin/pydoc2.6
+pydoc2.7 | /Users/cgaspart/.brew/bin/pydoc2.7
+pydoc3 | /usr/bin/pydoc3
+pydoc3.4 | /usr/bin/pydoc3.4
+python | /Users/cgaspart/.brew/bin/python
+python-config | /Users/cgaspart/.brew/bin/python-config
+python2.6 | /usr/bin/python2.6
+python2.6-config | /usr/bin/python2.6-config
+python2.7 | /Users/cgaspart/.brew/bin/python2.7
+python2.7-config | /Users/cgaspart/.brew/bin/python2.7-config
+python3 | /usr/bin/python3
+python3-32 | /usr/bin/python3-32
+python3-config | /usr/bin/python3-config
+python3.4 | /usr/bin/python3.4
+python3.4-32 | /usr/bin/python3.4-32
+python3.4-config | /usr/bin/python3.4-config
+python3.4m | /usr/bin/python3.4m
+python3.4m-config | /usr/bin/python3.4m-config
+pythonw | /Users/cgaspart/.brew/bin/pythonw
+pythonw2.6 | /usr/bin/pythonw2.6
+pythonw2.7 | /Users/cgaspart/.brew/bin/pythonw2.7
+pyvenv | /usr/bin/pyvenv
+pyvenv-3.4 | /usr/bin/pyvenv-3.4
+qc2movie | /usr/bin/qc2movie
+qlmanage | /usr/bin/qlmanage
+qtdefaults | /usr/bin/qtdefaults
+qtmodernizer | /usr/bin/qtmodernizer
+quota | /usr/bin/quota
+rails | /usr/bin/rails
+rake | /usr/bin/rake
+ranlib | /usr/bin/ranlib
+rbx | /usr/bin/rbx
+rdoc | /usr/bin/rdoc
+read | /usr/bin/read
+readlink | /usr/bin/readlink
+rebase | /usr/bin/rebase
+redo_prebinding | /usr/bin/redo_prebinding
+refer | /usr/bin/refer
+renice | /usr/bin/renice
+reset | /usr/bin/reset
+ResMerger | /usr/bin/ResMerger
+resolveLinks | /usr/bin/resolveLinks
+rev | /usr/bin/rev
+Rez | /usr/bin/Rez
+RezDet | /usr/bin/RezDet
+RezWack | /usr/bin/RezWack
+ri | /usr/bin/ri
+rmic | /usr/bin/rmic
+rmid | /usr/bin/rmid
+rmiregistry | /usr/bin/rmiregistry
+rnano | /usr/bin/rnano
+rpcgen | /usr/bin/rpcgen
+rs | /usr/bin/rs
+rsync | /usr/bin/rsync
+ruby | /usr/bin/ruby
+runocc.d | /usr/bin/runocc.d
+rvictl | /usr/bin/rvictl
+rview | /usr/bin/rview
+rvim | /usr/bin/rvim
+rwbypid.d | /usr/bin/rwbypid.d
+rwbytype.d | /usr/bin/rwbytype.d
+rwsnoop | /usr/bin/rwsnoop
+s2p | /usr/bin/s2p
+s2p5.16 | /usr/bin/s2p5.16
+s2p5.18 | /usr/bin/s2p5.18
+safaridriver | /usr/bin/safaridriver
+sample | /usr/bin/sample
+sampleproc | /usr/bin/sampleproc
+sandbox-exec | /usr/bin/sandbox-exec
+say | /usr/bin/say
+sc_usage | /usr/bin/sc_usage
+scandeps.pl | /usr/bin/scandeps.pl
+scandeps5.16.pl | /usr/bin/scandeps5.16.pl
+scandeps5.18.pl | /usr/bin/scandeps5.18.pl
+schemagen | /usr/bin/schemagen
+scp | /usr/bin/scp
+screen | /usr/bin/screen
+script | /usr/bin/script
+sdef | /usr/bin/sdef
+sdiff | /usr/bin/sdiff
+sdp | /usr/bin/sdp
+sdx | /usr/bin/sdx
+security | /usr/bin/security
+sed | /usr/bin/sed
+seeksize.d | /usr/bin/seeksize.d
+segedit | /usr/bin/segedit
+seq | /usr/bin/seq
+serialver | /usr/bin/serialver
+servertool | /usr/bin/servertool
+SetFile | /usr/bin/SetFile
+setregion | /usr/bin/setregion
+setuids.d | /usr/bin/setuids.d
+sfltool | /usr/bin/sfltool
+sftp | /usr/bin/sftp
+shar | /usr/bin/shar
+shasum | /usr/bin/shasum
+shasum5.16 | /usr/bin/shasum5.16
+shasum5.18 | /usr/bin/shasum5.18
+shlock | /usr/bin/shlock
+showmount | /usr/bin/showmount
+sigdist.d | /usr/bin/sigdist.d
+sips | /usr/bin/sips
+size | /usr/bin/size
+slogin | /usr/bin/slogin
+smbutil | /usr/bin/smbutil
+smtpd.py | /Users/cgaspart/.brew/bin/smtpd.py
+smtpd2.6.py | /usr/bin/smtpd2.6.py
+smtpd2.7.py | /Users/cgaspart/.brew/bin/smtpd2.7.py
+snfsdefrag | /usr/bin/snfsdefrag
+snmp-bridge-mib | /usr/bin/snmp-bridge-mib
+snmpbulkget | /usr/bin/snmpbulkget
+snmpbulkwalk | /usr/bin/snmpbulkwalk
+snmpconf | /usr/bin/snmpconf
+snmpdelta | /usr/bin/snmpdelta
+snmpdf | /usr/bin/snmpdf
+snmpget | /usr/bin/snmpget
+snmpgetnext | /usr/bin/snmpgetnext
+snmpinform | /usr/bin/snmpinform
+snmpnetstat | /usr/bin/snmpnetstat
+snmpset | /usr/bin/snmpset
+snmpstatus | /usr/bin/snmpstatus
+snmptable | /usr/bin/snmptable
+snmptest | /usr/bin/snmptest
+snmptranslate | /usr/bin/snmptranslate
+snmptrap | /usr/bin/snmptrap
+snmpusm | /usr/bin/snmpusm
+snmpvacm | /usr/bin/snmpvacm
+snmpwalk | /usr/bin/snmpwalk
+sntp | /usr/bin/sntp
+soelim | /usr/bin/soelim
+sort | /usr/bin/sort
+spfd | /usr/bin/spfd
+spfd5.16 | /usr/bin/spfd5.16
+spfd5.18 | /usr/bin/spfd5.18
+spfquery | /usr/bin/spfquery
+spfquery5.16 | /usr/bin/spfquery5.16
+spfquery5.18 | /usr/bin/spfquery5.18
+splain | /usr/bin/splain
+splain5.16 | /usr/bin/splain5.16
+splain5.18 | /usr/bin/splain5.18
+split | /usr/bin/split
+SplitForks | /usr/bin/SplitForks
+sqlite3 | /usr/bin/sqlite3
+ssh | /usr/bin/ssh
+ssh-add | /usr/bin/ssh-add
+ssh-agent | /usr/bin/ssh-agent
+ssh-copy-id | /usr/bin/ssh-copy-id
+ssh-keygen | /usr/bin/ssh-keygen
+ssh-keyscan | /usr/bin/ssh-keyscan
+stat | /usr/bin/stat
+stringdups | /usr/bin/stringdups
+stringdups32 | /usr/bin/stringdups32
+strings | /usr/bin/strings
+strip | /usr/bin/strip
+stty.pl | /usr/bin/stty.pl
+stty5.16.pl | /usr/bin/stty5.16.pl
+stty5.18.pl | /usr/bin/stty5.18.pl
+su | /usr/bin/su
+sudo | /usr/bin/sudo
+sum | /usr/bin/sum
+svn | /usr/bin/svn
+svnadmin | /usr/bin/svnadmin
+svndumpfilter | /usr/bin/svndumpfilter
+svnlook | /usr/bin/svnlook
+svnserve | /usr/bin/svnserve
+svnsync | /usr/bin/svnsync
+svnversion | /usr/bin/svnversion
+sw_vers | /usr/bin/sw_vers
+swift | /usr/bin/swift
+swiftc | /usr/bin/swiftc
+symbols | /usr/bin/symbols
+symbolscache | /usr/bin/symbolscache
+syscallbypid.d | /usr/bin/syscallbypid.d
+syscallbyproc.d | /usr/bin/syscallbyproc.d
+syscallbysysc.d | /usr/bin/syscallbysysc.d
+sysdiagnose | /usr/bin/sysdiagnose
+syslog | /usr/bin/syslog
+systriage | /usr/bin/systriage
+tab2space | /usr/bin/tab2space
+tabs | /usr/bin/tabs
+tail | /usr/bin/tail
+tailspin | /usr/bin/tailspin
+talk | /usr/bin/talk
+tar | /usr/bin/tar
+taskinfo | /usr/bin/taskinfo
+tbl | /usr/bin/tbl
+tbtdiagnose | /usr/bin/tbtdiagnose
+tccutil | /usr/bin/tccutil
+tclsh | /usr/bin/tclsh
+tclsh8.4 | /usr/bin/tclsh8.4
+tclsh8.5 | /usr/bin/tclsh8.5
+tee | /usr/bin/tee
+telnet | /usr/bin/telnet
+testrb | /usr/bin/testrb
+tethered-caching | /usr/bin/tethered-caching
+texi2dvi | /usr/bin/texi2dvi
+texi2pdf | /usr/bin/texi2pdf
+texindex | /usr/bin/texindex
+textutil | /usr/bin/textutil
+tfmtodit | /usr/bin/tfmtodit
+tftp | /usr/bin/tftp
+thermal | /usr/bin/thermal
+tic | /usr/bin/tic
+tidy | /usr/bin/tidy
+tiff2icns | /usr/bin/tiff2icns
+tiffutil | /usr/bin/tiffutil
+tig | /usr/bin/tig
+time | /usr/bin/time
+timer_analyser.d | /usr/bin/timer_analyser.d
+timerfires | /usr/bin/timerfires
+tkcon | /usr/bin/tkcon
+tkmib | /usr/bin/tkmib
+tkpp | /usr/bin/tkpp
+tkpp5.16 | /usr/bin/tkpp5.16
+tkpp5.18 | /usr/bin/tkpp5.18
+tmdiagnose | /usr/bin/tmdiagnose
+tmutil | /usr/bin/tmutil
+tnameserv | /usr/bin/tnameserv
+toe | /usr/bin/toe
+top | /usr/bin/top
+tops | /usr/bin/tops
+topsyscall | /usr/bin/topsyscall
+topsysproc | /usr/bin/topsysproc
+touch | /usr/bin/touch
+tput | /usr/bin/tput
+tr | /usr/bin/tr
+trace | /usr/bin/trace
+traptoemail | /usr/bin/traptoemail
+treereg | /usr/bin/treereg
+treereg5.16 | /usr/bin/treereg5.16
+treereg5.18 | /usr/bin/treereg5.18
+trimforce | /usr/bin/trimforce
+troff | /usr/bin/troff
+true | /usr/bin/true
+tset | /usr/bin/tset
+tsort | /usr/bin/tsort
+tty | /usr/bin/tty
+type | /usr/bin/type
+ul | /usr/bin/ul
+ulimit | /usr/bin/ulimit
+umask | /usr/bin/umask
+unalias | /usr/bin/unalias
+uname | /usr/bin/uname
+uncompress | /usr/bin/uncompress
+unexpand | /usr/bin/unexpand
+unifdef | /usr/bin/unifdef
+unifdefall | /usr/bin/unifdefall
+uniq | /usr/bin/uniq
+units | /usr/bin/units
+unpack200 | /usr/bin/unpack200
+UnRezWack | /usr/bin/UnRezWack
+unvis | /usr/bin/unvis
+unzip | /usr/bin/unzip
+unzipsfx | /usr/bin/unzipsfx
+update_dyld_shared_cache | /usr/bin/update_dyld_shared_cache
+uptime | /usr/bin/uptime
+usbkdp | /usr/bin/usbkdp
+users | /usr/bin/users
+uucp | /usr/bin/uucp
+uudecode | /usr/bin/uudecode
+uuencode | /usr/bin/uuencode
+uuidgen | /usr/bin/uuidgen
+uulog | /usr/bin/uulog
+uuname | /usr/bin/uuname
+uupick | /usr/bin/uupick
+uustat | /usr/bin/uustat
+uuto | /usr/bin/uuto
+uux | /usr/bin/uux
+vi | /usr/bin/vi
+view | /usr/bin/view
+vim | /usr/bin/vim
+vimdiff | /usr/bin/vimdiff
+vimtutor | /usr/bin/vimtutor
+vis | /usr/bin/vis
+vm_stat | /usr/bin/vm_stat
+vmmap | /usr/bin/vmmap
+vmmap32 | /usr/bin/vmmap32
+w | /usr/bin/w
+wait | /usr/bin/wait
+wall | /usr/bin/wall
+wc | /usr/bin/wc
+wdutil | /usr/bin/wdutil
+weblatency.d | /usr/bin/weblatency.d
+what | /usr/bin/what
+whatis | /usr/bin/whatis
+whereis | /usr/bin/whereis
+which | /usr/bin/which
+who | /usr/bin/who
+whoami | /usr/bin/whoami
+whois | /usr/bin/whois
+wish | /usr/bin/wish
+wish8.4 | /usr/bin/wish8.4
+wish8.5 | /usr/bin/wish8.5
+write | /usr/bin/write
+wsgen | /usr/bin/wsgen
+wsimport | /usr/bin/wsimport
+xar | /usr/bin/xar
+xargs | /usr/bin/xargs
+xattr | /usr/bin/xattr
+xattr-2.6 | /usr/bin/xattr-2.6
+xattr-2.7 | /usr/bin/xattr-2.7
+xcode-select | /usr/bin/xcode-select
+xcodebuild | /usr/bin/xcodebuild
+xcrun | /usr/bin/xcrun
+xcscontrol | /usr/bin/xcscontrol
+xcsdiagnose | /usr/bin/xcsdiagnose
+xed | /usr/bin/xed
+xgettext.pl | /usr/bin/xgettext.pl
+xgettext5.16.pl | /usr/bin/xgettext5.16.pl
+xgettext5.18.pl | /usr/bin/xgettext5.18.pl
+xip | /usr/bin/xip
+xjc | /usr/bin/xjc
+xml2-config | /usr/bin/xml2-config
+xml2man | /usr/bin/xml2man
+xmlcatalog | /usr/bin/xmlcatalog
+xmllint | /usr/bin/xmllint
+xpath | /usr/bin/xpath
+xpath5.16 | /usr/bin/xpath5.16
+xpath5.18 | /usr/bin/xpath5.18
+xslt-config | /usr/bin/xslt-config
+xsltproc | /usr/bin/xsltproc
+xsubpp | /usr/bin/xsubpp
+xsubpp5.16 | /usr/bin/xsubpp5.16
+xsubpp5.18 | /usr/bin/xsubpp5.18
+xxd | /usr/bin/xxd
+yacc | /usr/bin/yacc
+yes | /usr/bin/yes
+ypcat | /usr/bin/ypcat
+ypmatch | /usr/bin/ypmatch
+ypwhich | /usr/bin/ypwhich
+zcat | /usr/bin/zcat
+zcmp | /usr/bin/zcmp
+zdiff | /usr/bin/zdiff
+zegrep | /usr/bin/zegrep
+zfgrep | /usr/bin/zfgrep
+zforce | /usr/bin/zforce
+zgrep | /usr/bin/zgrep
+zip | /usr/bin/zip
+zipcloak | /usr/bin/zipcloak
+zipdetails | /usr/bin/zipdetails
+zipdetails5.16 | /usr/bin/zipdetails5.16
+zipdetails5.18 | /usr/bin/zipdetails5.18
+zipgrep | /usr/bin/zipgrep
+zipinfo | /usr/bin/zipinfo
+zipnote | /usr/bin/zipnote
+zipsplit | /usr/bin/zipsplit
+zless | /usr/bin/zless
+zmore | /usr/bin/zmore
+znew | /usr/bin/znew
+zprint | /usr/bin/zprint
+[ | /bin/[
+bash | /bin/bash
+cat | /bin/cat
+chmod | /bin/chmod
+cp | /bin/cp
+csh | /bin/csh
+date | /bin/date
+dd | /bin/dd
+df | /bin/df
+domainname | /bin/domainname
+echo | /bin/echo
+ed | /bin/ed
+expr | /bin/expr
+hostname | /bin/hostname
+kill | /bin/kill
+ksh | /bin/ksh
+launchctl | /bin/launchctl
+link | /bin/link
+ln | /bin/ln
+ls | /bin/ls
+mkdir | /bin/mkdir
+mv | /bin/mv
+pax | /bin/pax
+ps | /bin/ps
+pwd | /bin/pwd
+rm | /bin/rm
+rmdir | /bin/rmdir
+sh | /bin/sh
+sleep | /bin/sleep
+stty | /bin/stty
+sync | /bin/sync
+syslog.py | /bin/syslog.py
+tcsh | /bin/tcsh
+test | /bin/test
+unlink | /bin/unlink
+wait4path | /bin/wait4path
+zsh | /bin/zsh
+ab | /usr/sbin/ab
+ac | /usr/sbin/ac
+accept | /usr/sbin/accept
+accton | /usr/sbin/accton
+amt | /usr/sbin/amt
+apachectl | /usr/sbin/apachectl
+AppleFileServer | /usr/sbin/AppleFileServer
+appsleepd | /usr/sbin/appsleepd
+apxs | /usr/sbin/apxs
+arp | /usr/sbin/arp
+aslmanager | /usr/sbin/aslmanager
+asr | /usr/sbin/asr
+audit | /usr/sbin/audit
+auditd | /usr/sbin/auditd
+auditreduce | /usr/sbin/auditreduce
+automount | /usr/sbin/automount
+avbdeviced | /usr/sbin/avbdeviced
+bless | /usr/sbin/bless
+blued | /usr/sbin/blued
+bluetoothaudiod | /usr/sbin/bluetoothaudiod
+bnepd | /usr/sbin/bnepd
+BootCacheControl | /usr/sbin/BootCacheControl
+cfprefsd | /usr/sbin/cfprefsd
+chat | /usr/sbin/chat
+checkgid | /usr/sbin/checkgid
+chown | /usr/sbin/chown
+chroot | /usr/sbin/chroot
+coreaudiod | /usr/sbin/coreaudiod
+createhomedir | /usr/sbin/createhomedir
+cron | /usr/sbin/cron
+cupsaccept | /usr/sbin/cupsaccept
+cupsaddsmb | /usr/sbin/cupsaddsmb
+cupsctl | /usr/sbin/cupsctl
+cupsdisable | /usr/sbin/cupsdisable
+cupsenable | /usr/sbin/cupsenable
+cupsfilter | /usr/sbin/cupsfilter
+cupsreject | /usr/sbin/cupsreject
+cvadmin | /usr/sbin/cvadmin
+cvdb | /usr/sbin/cvdb
+cvdbset | /usr/sbin/cvdbset
+cvfsck | /usr/sbin/cvfsck
+cvfsdb | /usr/sbin/cvfsdb
+cvfsid | /usr/sbin/cvfsid
+cvgather | /usr/sbin/cvgather
+cvlabel | /usr/sbin/cvlabel
+cvmkfs | /usr/sbin/cvmkfs
+cvupdatefs | /usr/sbin/cvupdatefs
+cvversions | /usr/sbin/cvversions
+dbmmanage | /usr/sbin/dbmmanage
+ddns-confgen | /usr/sbin/ddns-confgen
+defragcli | /usr/sbin/defragcli
+dev_mkdb | /usr/sbin/dev_mkdb
+DevToolsSecurity | /usr/sbin/DevToolsSecurity
+DirectoryService | /usr/sbin/DirectoryService
+disktool | /usr/sbin/disktool
+diskutil | /usr/sbin/diskutil
+distnoted | /usr/sbin/distnoted
+dnctl | /usr/sbin/dnctl
+dnsextd | /usr/sbin/dnsextd
+dot_clean | /usr/sbin/dot_clean
+dsconfigad | /usr/sbin/dsconfigad
+dsconfigldap | /usr/sbin/dsconfigldap
+dseditgroup | /usr/sbin/dseditgroup
+dsenableroot | /usr/sbin/dsenableroot
+dtrace | /usr/sbin/dtrace
+edquota | /usr/sbin/edquota
+fcgistarter | /usr/sbin/fcgistarter
+fdisk | /usr/sbin/fdisk
+filecoordinationd | /usr/sbin/filecoordinationd
+FileStatsAgent | /usr/sbin/FileStatsAgent
+firmwarepasswd | /usr/sbin/firmwarepasswd
+gpt | /usr/sbin/gpt
+graphicssession | /usr/sbin/graphicssession
+gssd | /usr/sbin/gssd
+hdik | /usr/sbin/hdik
+htcacheclean | /usr/sbin/htcacheclean
+htdbm | /usr/sbin/htdbm
+htdigest | /usr/sbin/htdigest
+htpasswd | /usr/sbin/htpasswd
+httpd | /usr/sbin/httpd
+httpd-wrapper | /usr/sbin/httpd-wrapper
+httxt2dbm | /usr/sbin/httxt2dbm
+installer | /usr/sbin/installer
+ioalloccount | /usr/sbin/ioalloccount
+ioclasscount | /usr/sbin/ioclasscount
+ioreg | /usr/sbin/ioreg
+iostat | /usr/sbin/iostat
+ipconfig | /usr/sbin/ipconfig
+kadmin | /usr/sbin/kadmin
+kadmin.local | /usr/sbin/kadmin.local
+kdcsetup | /usr/sbin/kdcsetup
+KernelEventAgent | /usr/sbin/KernelEventAgent
+kextcache | /usr/sbin/kextcache
+kextfind | /usr/sbin/kextfind
+kextlibs | /usr/sbin/kextlibs
+kextstat | /usr/sbin/kextstat
+krbservicesetup | /usr/sbin/krbservicesetup
+ktutil | /usr/sbin/ktutil
+languagesetup | /usr/sbin/languagesetup
+localemanager | /usr/sbin/localemanager
+logresolve | /usr/sbin/logresolve
+lpadmin | /usr/sbin/lpadmin
+lpc | /usr/sbin/lpc
+lpinfo | /usr/sbin/lpinfo
+lpmove | /usr/sbin/lpmove
+lsof | /usr/sbin/lsof
+mDNSResponder | /usr/sbin/mDNSResponder
+mDNSResponderHelper | /usr/sbin/mDNSResponderHelper
+mkextunpack | /usr/sbin/mkextunpack
+mkfile | /usr/sbin/mkfile
+mkpassdb | /usr/sbin/mkpassdb
+mtree | /usr/sbin/mtree
+ndp | /usr/sbin/ndp
+netbiosd | /usr/sbin/netbiosd
+NetBootClientStatus | /usr/sbin/NetBootClientStatus
+netstat | /usr/sbin/netstat
+networksetup | /usr/sbin/networksetup
+newsyslog | /usr/sbin/newsyslog
+nfs4mapid | /usr/sbin/nfs4mapid
+nlcontrol | /usr/sbin/nlcontrol
+notifyd | /usr/sbin/notifyd
+ntpd | /usr/sbin/ntpd
+ntpdate | /usr/sbin/ntpdate
+ntpdc | /usr/sbin/ntpdc
+ntptrace | /usr/sbin/ntptrace
+nvram | /usr/sbin/nvram
+ocspd | /usr/sbin/ocspd
+PasswordService | /usr/sbin/PasswordService
+pdisk | /usr/sbin/pdisk
+periodic | /usr/sbin/periodic
+php-fpm | /usr/sbin/php-fpm
+pictd | /usr/sbin/pictd
+pkgutil | /usr/sbin/pkgutil
+postalias | /usr/sbin/postalias
+postcat | /usr/sbin/postcat
+postconf | /usr/sbin/postconf
+postdrop | /usr/sbin/postdrop
+postfix | /usr/sbin/postfix
+postkick | /usr/sbin/postkick
+postlock | /usr/sbin/postlock
+postlog | /usr/sbin/postlog
+postmap | /usr/sbin/postmap
+postmulti | /usr/sbin/postmulti
+postqueue | /usr/sbin/postqueue
+postsuper | /usr/sbin/postsuper
+pppd | /usr/sbin/pppd
+praudit | /usr/sbin/praudit
+purge | /usr/sbin/purge
+pwd_mkdb | /usr/sbin/pwd_mkdb
+quotaoff | /usr/sbin/quotaoff
+quotaon | /usr/sbin/quotaon
+racoon | /usr/sbin/racoon
+raidutil | /usr/sbin/raidutil
+rarpd | /usr/sbin/rarpd
+reject | /usr/sbin/reject
+repairHomePermissions | /usr/sbin/repairHomePermissions
+repquota | /usr/sbin/repquota
+rotatelogs | /usr/sbin/rotatelogs
+rpc.lockd | /usr/sbin/rpc.lockd
+rpc.statd | /usr/sbin/rpc.statd
+rpcbind | /usr/sbin/rpcbind
+rpcinfo | /usr/sbin/rpcinfo
+rtadvd | /usr/sbin/rtadvd
+rtsold | /usr/sbin/rtsold
+sa | /usr/sbin/sa
+sc_auth | /usr/sbin/sc_auth
+screencapture | /usr/sbin/screencapture
+scselect | /usr/sbin/scselect
+scutil | /usr/sbin/scutil
+securityd | /usr/sbin/securityd
+sendmail | /usr/sbin/sendmail
+serverinfo | /usr/sbin/serverinfo
+setkey | /usr/sbin/setkey
+setquota | /usr/sbin/setquota
+setregproptool | /usr/sbin/setregproptool
+sharing | /usr/sbin/sharing
+slapacl | /usr/sbin/slapacl
+slapadd | /usr/sbin/slapadd
+slapauth | /usr/sbin/slapauth
+slapcat | /usr/sbin/slapcat
+slapconfig | /usr/sbin/slapconfig
+slapdn | /usr/sbin/slapdn
+slapindex | /usr/sbin/slapindex
+slappasswd | /usr/sbin/slappasswd
+slapschema | /usr/sbin/slapschema
+slaptest | /usr/sbin/slaptest
+smbd | /usr/sbin/smbd
+smbdiagnose | /usr/sbin/smbdiagnose
+sncfginstall | /usr/sbin/sncfginstall
+sncfgquery | /usr/sbin/sncfgquery
+sncfgremove | /usr/sbin/sncfgremove
+sncfgtemplate | /usr/sbin/sncfgtemplate
+sncfgvalidate | /usr/sbin/sncfgvalidate
+sndiskmove | /usr/sbin/sndiskmove
+snmpd | /usr/sbin/snmpd
+snmptrapd | /usr/sbin/snmptrapd
+softwareupdate | /usr/sbin/softwareupdate
+spctl | /usr/sbin/spctl
+spindump | /usr/sbin/spindump
+spray | /usr/sbin/spray
+sshd | /usr/sbin/sshd
+sso_util | /usr/sbin/sso_util
+sysadminctl | /usr/sbin/sysadminctl
+sysctl | /usr/sbin/sysctl
+syslogd | /usr/sbin/syslogd
+system_profiler | /usr/sbin/system_profiler
+systemkeychain | /usr/sbin/systemkeychain
+systemsetup | /usr/sbin/systemsetup
+systemsoundserverd | /usr/sbin/systemsoundserverd
+systemstats | /usr/sbin/systemstats
+taskpolicy | /usr/sbin/taskpolicy
+tcpdump | /usr/sbin/tcpdump
+timed | /usr/sbin/timed
+timedc | /usr/sbin/timedc
+traceroute | /usr/sbin/traceroute
+traceroute6 | /usr/sbin/traceroute6
+uasysdiagnose | /usr/sbin/uasysdiagnose
+universalaccessd | /usr/sbin/universalaccessd
+unsetpassword | /usr/sbin/unsetpassword
+usernoted | /usr/sbin/usernoted
+uuchk | /usr/sbin/uuchk
+uucico | /usr/sbin/uucico
+uuconv | /usr/sbin/uuconv
+uusched | /usr/sbin/uusched
+uuxqt | /usr/sbin/uuxqt
+vifs | /usr/sbin/vifs
+vipw | /usr/sbin/vipw
+visudo | /usr/sbin/visudo
+vpnd | /usr/sbin/vpnd
+vsdbutil | /usr/sbin/vsdbutil
+wirelessproxd | /usr/sbin/wirelessproxd
+WirelessRadioManagerd | /usr/sbin/WirelessRadioManagerd
+xartutil | /usr/sbin/xartutil
+xsanctl | /usr/sbin/xsanctl
+xscertadmin | /usr/sbin/xscertadmin
+ypbind | /usr/sbin/ypbind
+yppoll | /usr/sbin/yppoll
+ypset | /usr/sbin/ypset
+zdump | /usr/sbin/zdump
+zic | /usr/sbin/zic
+apfs_hfs_convert | /sbin/apfs_hfs_convert
+autodiskmount | /sbin/autodiskmount
+disklabel | /sbin/disklabel
+dmesg | /sbin/dmesg
+dynamic_pager | /sbin/dynamic_pager
+emond | /sbin/emond
+fibreconfig | /sbin/fibreconfig
+fsck | /sbin/fsck
+fsck_apfs | /sbin/fsck_apfs
+fsck_cs | /sbin/fsck_cs
+fsck_exfat | /sbin/fsck_exfat
+fsck_hfs | /sbin/fsck_hfs
+fsck_msdos | /sbin/fsck_msdos
+fsck_udf | /sbin/fsck_udf
+fstyp | /sbin/fstyp
+fstyp_hfs | /sbin/fstyp_hfs
+fstyp_msdos | /sbin/fstyp_msdos
+fstyp_ntfs | /sbin/fstyp_ntfs
+fstyp_udf | /sbin/fstyp_udf
+halt | /sbin/halt
+ifconfig | /sbin/ifconfig
+kextload | /sbin/kextload
+kextunload | /sbin/kextunload
+launchd | /sbin/launchd
+md5 | /sbin/md5
+mknod | /sbin/mknod
+mount | /sbin/mount
+mount_acfs | /sbin/mount_acfs
+mount_afp | /sbin/mount_afp
+mount_apfs | /sbin/mount_apfs
+mount_cd9660 | /sbin/mount_cd9660
+mount_cddafs | /sbin/mount_cddafs
+mount_devfs | /sbin/mount_devfs
+mount_exfat | /sbin/mount_exfat
+mount_fdesc | /sbin/mount_fdesc
+mount_ftp | /sbin/mount_ftp
+mount_hfs | /sbin/mount_hfs
+mount_msdos | /sbin/mount_msdos
+mount_nfs | /sbin/mount_nfs
+mount_ntfs | /sbin/mount_ntfs
+mount_smbfs | /sbin/mount_smbfs
+mount_udf | /sbin/mount_udf
+mount_webdav | /sbin/mount_webdav
+mpioutil | /sbin/mpioutil
+newfs_apfs | /sbin/newfs_apfs
+newfs_exfat | /sbin/newfs_exfat
+newfs_hfs | /sbin/newfs_hfs
+newfs_msdos | /sbin/newfs_msdos
+newfs_udf | /sbin/newfs_udf
+nfsd | /sbin/nfsd
+nfsiod | /sbin/nfsiod
+nologin | /sbin/nologin
+pfctl | /sbin/pfctl
+ping | /sbin/ping
+ping6 | /sbin/ping6
+quotacheck | /sbin/quotacheck
+reboot | /sbin/reboot
+route | /sbin/route
+rtsol | /sbin/rtsol
+shutdown | /sbin/shutdown
+umount | /sbin/umount
+bq | /usr/local/bin/bq
+brew | /Users/cgaspart/.brew/bin/brew
+bundle | /usr/local/bin/bundle
+bundler | /usr/local/bin/bundler
+dev_appserver.py | /usr/local/bin/dev_appserver.py
+endpointscfg.py | /usr/local/bin/endpointscfg.py
+facter | /usr/local/bin/facter
+gcloud | /usr/local/bin/gcloud
+git-credential-gcloud.sh | /usr/local/bin/git-credential-gcloud.sh
+gsutil | /usr/local/bin/gsutil
+installBrew.rb | /usr/local/bin/installBrew.rb
+vagrant | /usr/local/bin/vagrant
+vbox-img | /usr/local/bin/vbox-img
+VBoxAutostart | /usr/local/bin/VBoxAutostart
+VBoxBalloonCtrl | /usr/local/bin/VBoxBalloonCtrl
+VBoxBugReport | /usr/local/bin/VBoxBugReport
+VBoxDTrace | /usr/local/bin/VBoxDTrace
+VBoxHeadless | /usr/local/bin/VBoxHeadless
+VBoxManage | /usr/local/bin/VBoxManage
+VBoxVRDP | /usr/local/bin/VBoxVRDP
+vboxwebsrv | /usr/local/bin/vboxwebsrv
+VirtualBox | /usr/local/bin/VirtualBox
+app_usage_monitor | /usr/local/munki/app_usage_monitor
+authrestartd | /usr/local/munki/authrestartd
+iconimporter | /usr/local/munki/iconimporter
+launchapp | /usr/local/munki/launchapp
+logouthelper | /usr/local/munki/logouthelper
+makecatalogs | /usr/local/munki/makecatalogs
+makepkginfo | /usr/local/munki/makepkginfo
+managedsoftwareupdate | /usr/local/munki/managedsoftwareupdate
+manifestutil | /usr/local/munki/manifestutil
+munkiimport | /usr/local/munki/munkiimport
+munkilib | /usr/local/munki/munkilib
+ptyexec | /usr/local/munki/ptyexec
+removepackages | /usr/local/munki/removepackages
+supervisor | /usr/local/munki/supervisor

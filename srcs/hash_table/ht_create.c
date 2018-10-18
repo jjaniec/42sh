@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/17 14:01:40 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/18 18:03:26 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void				ht_set(t_hashtable *ht, char *key, char *value)
 
 	bin = ht_hash(ht, key);
 	next = ht->table[bin];
+	/*ft_putstr(" N ");
+	if (next && next->key)
+	{
+		ft_putstr(" C ");
+	}*/
 	while(next != NULL && next->key != NULL && ft_strcmp(key, next->key) > 0)
 	{
 		last = next;
@@ -81,6 +86,47 @@ static void			add_binary_path(char *path, t_hashtable *hashtable)
 	}
 }
 
+static void		debug_check_ht(char *path, t_hashtable *hashtable)
+{
+	DIR						*dir;
+	struct dirent	*file;
+	char					*tmp;
+	t_entry					*node;
+
+	dir = opendir(path);
+	if (!dir)
+		return ;
+	while ((file = readdir(dir)))
+	{
+		if (file->d_name[0] != '.')
+		{
+			tmp = ft_strjoin(path, file->d_name);
+			if (access(tmp, X_OK) == 0)
+			{
+				ft_putstr(file->d_name);
+				ft_putstr(" | ");
+				node = hashtable->table[ht_hash(hashtable, file->d_name)];
+				if (!ft_strcmp(file->d_name, node->key))
+					ft_putstr(node->value);
+				else
+				{
+					while (node)
+					{
+						if (!ft_strcmp(node->key, file->d_name))
+						{
+							ft_putstr(node->value);
+							break ;
+						}
+						node = node->next;
+					}
+				}
+				ft_putchar('\n');
+			}
+			free(tmp);
+		}
+	}
+}
+
 t_hashtable		*ht_create(char **env)
 {
 	t_hashtable		*hashtable;
@@ -96,6 +142,12 @@ t_hashtable		*ht_create(char **env)
 	while (hashtable->path[i])
 	{
 		add_binary_path(hashtable->path[i], hashtable);
+		i++;
+	}
+	i = 0;
+	while (hashtable->path[i])
+	{
+		debug_check_ht(hashtable->path[i], hashtable);
 		i++;
 	}
 	//ft_putstr(hashtable->table[ht_hash(hashtable, "ls")]->value);

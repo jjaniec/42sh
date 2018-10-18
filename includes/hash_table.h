@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:53:26 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/17 12:21:45 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/18 17:56:53 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct    s_entry
 	char			*key;
 	char			*value;
 	struct s_entry	*next;
-	struct s_entry	*sub;
 }					t_entry;
 
 typedef struct		s_hashtable

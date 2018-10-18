@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ht_mem_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 17:05:31 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/11 14:17:48 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/17 20:30:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,9 @@ void	free_tab(char **items)
 		i++;
 	}
 	free(items);
+}
+
+void	free_hashtable(t_hashtable *hashtable)
+{
+	
 }
