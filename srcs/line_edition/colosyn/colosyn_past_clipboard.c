@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:06:22 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/18 14:54:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 16:38:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	colosyn_past_clipboard(struct s_line *le)
 {
 	char			*updated_cmd;
 	unsigned int	nb_move_to_replace_cursor;
-	void			*tmp_realloc;
+	//void			*tmp_realloc;
 
 	//updated_cmd = ft_strdup(le->cmd);
 	//if (updated_cmd == NULL)

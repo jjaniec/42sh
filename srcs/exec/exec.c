@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 11:14:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:32:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ t_exec	*create_exec(t_environ *env)
 {
 	t_exec	*exe;
 
-	if (!(exe = (t_exec *)ft_memalloc(sizeof(t_exec))))
-		exit(MALLOC_ERROR);
+	exe = (t_exec *)ft_xmemalloc(sizeof(t_exec));
 	exe->ret = 0;
 	exe->ready_for_exec = 0;
 	exe->env = env;

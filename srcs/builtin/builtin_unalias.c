@@ -6,11 +6,16 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 16:29:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/18 16:43:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 18:53:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+**	$ unalias key1 key2 key3 ...
+**	call builtin alias like  => $ alias -d key
+*/
 
 void	builtin_unalias(char **argv, t_environ *env, t_exec *exe)
 {

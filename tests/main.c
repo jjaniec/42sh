@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:53:03 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 15:09:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "tests.h"
 #include <time.h>
+
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
+	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, .sigint_happened = false
 };
 
 t_option		g_sh_opts[] = {

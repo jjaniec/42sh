@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   script_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/10 17:04:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:50:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_lexeme	*associate_token(t_lexeme *lex, const char *original, \
 {
 	char	*word;
 
-	word = ft_str_capitalize(ft_strdup(lex->data));
+	word = ft_str_capitalize(ft_xstrdup(lex->data));
 	if (ft_strequ(original, word))
 	{
 		lex->type = type;

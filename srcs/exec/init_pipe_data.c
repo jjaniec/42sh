@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_pipe_data.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:19:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 20:27:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:34:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr)
 	int		*pipe_fds;
 	char	*old_pipe_data_0;
 
-	pipe_fds = malloc(sizeof(int) * 2);
+	pipe_fds = ft_xmalloc(sizeof(int) * 2);
 	old_pipe_data_0 = (*node_data)[0];
 	free((*node_data)[1]);
 	free(*node_data);
-	(*node_data) = malloc(sizeof(char *) * 3);
+	(*node_data) = ft_xmalloc(sizeof(char *) * 3);
 	(*node_data)[0] = old_pipe_data_0;
 	(*node_data)[1] = (char *)(pipe_fds);
 	(*node_data)[2] = NULL;

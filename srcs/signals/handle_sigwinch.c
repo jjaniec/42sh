@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:01:49 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/15 16:30:08 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:50:57 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_sigwinch(int sig)
 		return ;
 	else
 	{
-		g_cmd_status.keep_le_cmd = ft_strdup(le->cmd);
+		g_cmd_status.keep_le_cmd = ft_xstrdup(le->cmd);
 		free(le->cmd);
 		le->cmd = NULL;
 		g_cmd_status.resize_happened = true;

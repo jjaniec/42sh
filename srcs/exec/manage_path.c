@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/16 19:42:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:36:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ char	*isin_path(char *path_entry, char *cmd)
 	char	*prog_path;
 	char	**paths;
 
-	if (!path_entry || !(paths = ft_strsplit(path_entry, ':')))
+	if (!path_entry)
 		return (NULL);
+	if (!(paths = ft_strsplit(path_entry, ':')))
+		exit(MALLOC_ERROR);
 	i = 0;
 	while (paths[i])
 	{

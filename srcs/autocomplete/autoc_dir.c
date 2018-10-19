@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:18:05 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/05 13:54:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 16:59:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static char		*get_last_path(char *path, t_autoc *autoc)
 	i = ft_strlen(path);
 	while (path[i] != '/')
 		i--;
-	autoc->search = ft_strdup(path + i + 1);
+	autoc->search = ft_xstrdup(path + i + 1);
 	if (i == 0)
-		return (ft_strdup("/"));
+		return (ft_xstrdup("/"));
 	res = malloc(sizeof(char) * (i + 2));
 	res = ft_strncpy(res, path, (i + 2));
 	res[i + 1] = '\0';
@@ -38,13 +38,13 @@ static char		*autoc_get_path(struct s_line *le)
 	i = le->cursor_index - 1;
 	count = 0;
 	if (le->cmd[i] == ' ' && le->cmd[i - 1] != '\\')
-		return (ft_strdup("./"));
+		return (ft_xstrdup("./"));
 	while (le->cmd[i] != ' ' || le->cmd[i - 1] == '\\')
 	{
 		count++;
 		i--;
 	}
-	res = malloc(sizeof(char) * (count + 1));
+	res = ft_xmalloc(sizeof(char) * (count + 1));
 	ft_bzero(res, count + 1);
 	ft_strncpy(res, &le->cmd[i + 1], count);
 	res[count] = '\0';
@@ -65,7 +65,7 @@ static char		**get_autoc_search_list(char *path, t_autoc *autoc)
 	}
 	else
 	{
-		autoc->search = ft_strdup(path);
+		autoc->search = ft_xstrdup(path);
 		res = dir_get_items_search("./", autoc);
 	}
 	return (res);
@@ -79,11 +79,11 @@ static char		**get_autoc_list(char *path, t_autoc *autoc)
 	res = NULL;
 	if (path[ft_strlen(path) - 1] != '/')
 	{
-		insert_and_print_character_into_cmdline(autoc->le, (uint64_t)('/'));
-		final_path = ft_strjoin(path, "/");
+		insert_and_print_character_into_cmdline(autoc->le, (t_kno)('/'));
+		final_path = ft_xstrjoin(path, "/");
 	}
 	else
-		final_path = ft_strdup(path);
+		final_path = ft_xstrdup(path);
 	res = dir_get_items(final_path, autoc);
 	free(final_path);
 	return (res);

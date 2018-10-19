@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2018/10/17 19:52:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 16:26:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ static void		free_environ(void)
 	//free(env_struct);
 	vars = NULL;
 }
+
+/*
+**	Just read the function's name you idiot
+*/
 
 static void		free_aliases_list(void)
 {

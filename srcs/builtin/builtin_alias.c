@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/18 16:34:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 18:51:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static void			add_next_tmp_alias(struct s_alias *alias, \
 		alias->value = new_value;
 		return ;
 	}
-	if ((alias->next = malloc(sizeof(struct s_alias))) == NULL)
-		exit(MALLOC_ERROR);
+	alias->next = ft_xmalloc(sizeof(struct s_alias));
 	alias->next->key = new_key;
 	alias->next->value = new_value;
 	alias->next->next = NULL;
@@ -83,10 +82,8 @@ static bool			add_tmp_alias(const char *key, const char *value, \
 			ft_putstr_fd("42sh: alias: invalid alias name\n", STDERR_FILENO);
 			return (false);
 		}
-	new_key = ft_strdup(key);
-	new_value = ft_strdup(value);
-	if (new_key == NULL || new_value == NULL)
-		exit(MALLOC_ERROR);
+	new_key = ft_xstrdup(key);
+	new_value = ft_xstrdup(value);
 	if (alias->key == NULL && "aliases linked list is empty")
 	{
 		alias->key = new_key;
@@ -140,6 +137,13 @@ static void			delete_alias(const char *key, struct s_alias *alias)
 		alias = alias->next;
 	}
 }
+
+/*
+**	$ alias key value  => create a new entry
+**	$ alias --save  => save the aliases list into a file
+**	$ alias -d key  => delete an entry
+**	$ alias  => display the aliases list
+*/
 
 void				builtin_alias(char **argv, t_environ *env, t_exec *exe)
 {

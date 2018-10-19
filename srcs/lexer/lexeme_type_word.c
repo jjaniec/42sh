@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexeme_type_word.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:59:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:42:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int 		lexeme_type_word(char *s, int *pos, char **data)
 	if (start != *pos)
 	{
 		*data = ft_strsub(s, start, *pos - start);
+		if (*data == NULL)
+			exit(MALLOC_ERROR);
 		if (is_clean_needed(data))
 			handle_quotes_expansions(data);
 	}

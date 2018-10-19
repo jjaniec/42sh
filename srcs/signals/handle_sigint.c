@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/05 13:55:40 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/18 18:08:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,6 @@ void	handle_sigint(int sig)
 		tputs(le->tcaps->cd, 1, &write_one_char);
 		tputs(le->tcaps->up, 1, &write_one_char);
 	}
+
+	{ le_debug("%s - %d\n", "END SIGINT HANDLER", getpid()) }
 }
