@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 14:14:34 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 17:25:06 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 15:42:09 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int		parse_expr_file(char **argv, t_option *opt_list, \
 	lstat(argv[1], &fstat);
 	if (errno != 0)
 		return (1);
+	ret -= test_expr_file(opt_list, char_opt_index, "L", fstat.st_mode & S_IFLNK);
+	if (ret == 0)
+		stat(argv[1], &fstat);
 	ret -= test_expr_file(opt_list, char_opt_index, "e", errno != ENOENT);
 	ret -= test_expr_file(opt_list, char_opt_index, "b", S_ISBLK(fstat.st_mode));
 	ret -= test_expr_file(opt_list, char_opt_index, "c", S_ISCHR(fstat.st_mode));
@@ -66,7 +69,6 @@ int		parse_expr_file(char **argv, t_option *opt_list, \
 	ret -= test_expr_file(opt_list, char_opt_index, "s", fstat.st_size > 0);
 	ret -= test_expr_file(opt_list, char_opt_index, "k", fstat.st_mode & S_ISVTX);
 	ret -= test_expr_file(opt_list, char_opt_index, "u", fstat.st_mode & S_ISUID);
-	ret -= test_expr_file(opt_list, char_opt_index, "L", S_ISLNK(fstat.st_mode));
 	ret -= test_expr_file(opt_list, char_opt_index, "S", S_ISSOCK(fstat.st_mode));
 	if (argv[0][0] != '-')
 	{
