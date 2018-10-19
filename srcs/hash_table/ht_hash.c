@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 17:24:39 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/18 16:44:00 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/19 22:14:32 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,27 @@ int		ht_hash(t_hashtable *hashtable, char *key)
 		i++;
 	}
 	return (hashval % hashtable->size);
+}
+
+char	*ht_get_key_value(t_hashtable *hashtable, char *key)
+{
+	t_entry *node;
+
+	if (!hashtable)
+		return (NULL);
+	node = hashtable->table[ht_hash(hashtable, key)];
+	if (!node)
+		return (NULL);
+	if (!ft_strcmp(key, node->key))
+		return (node->value);
+	else
+	{
+		while (node)
+		{
+			if (!ft_strcmp(key, node->key))
+				return (node->value);
+			node = node->next;
+		}
+	}
+	return (NULL);
 }

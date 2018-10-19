@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 18:01:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 22:23:31 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,10 @@ int			main(int ac, char **av, char **envp)
 {
 	t_option		*opt_list;
 	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
+	t_hashtable		*hashtable;
 	char			**args;
 
-	ht_create(envp);
+	hashtable = ht_create(envp);
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
