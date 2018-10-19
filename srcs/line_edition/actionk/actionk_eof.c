@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 16:02:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/15 16:37:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:58:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	eof_on_default_prompt(struct s_line *le)
 	{
 		set_term_attr(LE_SET_OLD);
 		free_all_shell_datas();
+		ft_putstr_fd("exit\n", 2);
 		exit(0);
 	}
 
