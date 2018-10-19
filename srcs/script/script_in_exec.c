@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/18 16:43:14 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 15:32:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static void	exec_script_while(t_ast *node, t_exec *exe)
 {
 	exe = ast_explore(node->left->left->sub_ast, exe);
 	if (exe->statement != STATEMENT_BREAK)
+	{
+		exe->statement = 0;
 		exec_script(node, exe);
+	}
 }
 
 t_exec		*exec_script(t_ast *node, t_exec *exe)
