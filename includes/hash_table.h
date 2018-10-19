@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:53:26 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/19 22:12:24 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/19 23:12:50 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_hashtable
 t_hashtable				*ht_setup(char **env);
 t_hashtable				*ht_create(char **env);
 void					free_tab(char **items);
+void					free_hashtable(t_hashtable *hashtable);
 int						ht_hash(t_hashtable *hashtable, char *key);
 char					*ht_get_key_value(t_hashtable *hashtable, char *key);
 

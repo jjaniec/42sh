@@ -6,13 +6,13 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 17:05:31 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/19 22:20:38 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/19 23:44:00 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static void	free_tab(char **items)
+void		free_tab(char **items)
 {
 	int	i;
 
@@ -28,7 +28,17 @@ static void	free_tab(char **items)
 
 static void	free_entry(t_entry *node)
 {
+	t_entry *tmp;
 
+	while (node)
+	{
+		tmp = node->next;
+		free(node->key);
+		free(node->value);
+		free(node);
+		node = tmp;
+	}
+	free(node);
 }
 
 void		free_hashtable(t_hashtable *hashtable)
@@ -42,4 +52,6 @@ void		free_hashtable(t_hashtable *hashtable)
 		free_entry(hashtable->table[i]);
 		i++;
 	}
+	free(hashtable->table);
+	free(hashtable);
 }
