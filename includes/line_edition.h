@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 18:34:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 18:40:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ struct s_le_state
 **	cd : clear all after cursor
 **	dl : Delete a line
 **	al : add a line
-**	us : 
-**	mr : 
-**	ue : 
+**	us : begin underline mode
+**	mr : begin reverse mode
+**	ue : end underline mode
 */
 
 struct s_le_termcaps
