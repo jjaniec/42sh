@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 18:40:56 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 19:00:52 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int		get_le_debug_status(int mode, int new_value);
 */
 # define RESIZE_IN_PROGRESS ((char *)(-1))
 # define LE_DEFAULT_PROMPT (0)
-//# define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 # define LE_SPECIAL_CASE (42)
 
@@ -362,7 +361,6 @@ int				write_one_char(int c);
 struct s_line	*access_le_main_datas(void);
 void			add_history(const char *input, struct s_line *le);
 void    		handle_window_resize(struct s_line *le);
-void			le_exit(const char *msg, const char *func_name, int errno_value);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
@@ -383,30 +381,11 @@ bool	still_enough_space_for_cmd(struct s_line *le);
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
 
-	penser a faire ctrl + l
-
-	certains shortcuts ne marchent pas bien lorsque le prompt est trop haut pour etre affiche dansla fenetre
-
-
 	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
-
-	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
-	remonté trop haut, si on efface des caracteres, le prompt quand on le reverra, en fait il s'affiche pas
-
-	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug
-	(go tester d'autres trucs du genre)
 
 	LA COMMANDE "srcs" est not found, mais "srcs/" CA RALE PAS ??????? GO CORRIGER CA
 
-	./21sh -c "history"   CA SEGFAULT LOL GO REGLER CA
-
-	valgrind ./42sh -c "history --save"
-
 	fleche haut bas pour l'histo quand c multiligne genre avec des quotes
-
-
-	le resize ne replace pas le cursseur la ou il etait, go le faire (same for ctrl L)
-
 
 	TESTER  (echo line1; echo line2) | ./42sh
 
