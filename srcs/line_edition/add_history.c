@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/30 17:22:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:20:40 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,9 @@ void	add_history(const char *input, struct s_line *le)
 	size_t				input_len;
 	struct s_history	*tmp;
 
-	if ((new = malloc(sizeof(struct s_history))) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	new = ft_xmalloc(sizeof(struct s_history));
 	input_len = ft_strlen(input);
-	if ((new->cmd = ft_strdup(input)) == NULL)
-	{
-		free(new);
-		le_exit("Memory allocation failed\n", "malloc", errno);
-	}
+	new->cmd = ft_xstrdup(input);
 	if (new->cmd[input_len - 1] == '\n')
 		new->cmd[input_len - 1] = '\0';
 	tmp = le->history;

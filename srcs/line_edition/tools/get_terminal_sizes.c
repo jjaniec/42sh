@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_terminal_sizes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:27:59 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 15:28:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:55:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ unsigned int	get_terminal_nb_lines(void)
 
 	ws.ws_row = 0;
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) == -1)
-		le_exit("Error while getting window sizes\n", "ioctl", errno);
+	{
+		ft_putstr_fd("Error while getting window sizes\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	return (ws.ws_row);
 }
 
@@ -33,6 +36,9 @@ unsigned int	get_terminal_nb_col(void)
 
 	ws.ws_col = 0;
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) == -1)
-		le_exit("Error while getting window sizes\n", "ioctl", errno);
+	{
+		ft_putstr_fd("Error while getting window sizes\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	return (ws.ws_col);
 }

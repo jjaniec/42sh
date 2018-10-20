@@ -6,11 +6,15 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 16:53:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 15:25:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:22:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+**	After a resize, this function reprints the current command line
+*/
 
 void	handle_window_resize(struct s_line *le)
 {

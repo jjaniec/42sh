@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:06:22 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/19 16:38:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:45:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	colosyn_past_clipboard(struct s_line *le)
 	//updated_cmd = tmp_realloc;
 	//ft_memset(updated_cmd + le->cmd_len, '\0', \
 	//le->cmd_len + le->clipboard_len + 1 - le->cmd_len);
-	updated_cmd = malloc(le->cmd_len + le->clipboard_len + 2);
+	updated_cmd = ft_xmalloc(le->cmd_len + le->clipboard_len + 2);
 
-	{ le_debug("ALLOC COLO PAST CLIP %lu\n", le->cmd_len + le->clipboard_len + 2) }
+	//{ le_debug("ALLOC COLO PAST CLIP %lu\n", le->cmd_len + le->clipboard_len + 2) }
 
 	ft_memset(updated_cmd, '\0', le->cmd_len + le->clipboard_len + 2);
 	ft_strcpy(updated_cmd, le->cmd);

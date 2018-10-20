@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 16:29:51 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:27:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	{
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
 		free(input);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ast_root = ast(&lexemes);
 	free(input);
@@ -77,7 +77,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	else if (exe)
 		envp = exe->envp;
 	else
-		exit(1);*/
+		exit(EXIT_FAILURE);*/
 	ast_free(ast_root);
 	free_exec(&exe);
 	return (0);
@@ -138,7 +138,7 @@ int			main(int ac, char **av, char **envp)
 	if (is_option_activated("h", opt_list, char_opt_index))
 	{
 		format_help(SH_USAGE, opt_list);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
@@ -155,5 +155,5 @@ int			main(int ac, char **av, char **envp)
 		}
 	else
 		loop_body(get_shell_vars(), opt_list, char_opt_index);
-	return (0);
+	return (EXIT_SUCCESS);
 }

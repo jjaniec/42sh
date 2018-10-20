@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 17:59:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/20 15:25:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 		handle_redir_fd(STDOUT_FILENO, backup_stdout);
 	}
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
-		exit(1);
+		exit(EXIT_FAILURE);
 }
 
 /*

@@ -6,13 +6,15 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/16 19:41:43 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 16:59:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORTY_TWO_SH_H
 # define FORTY_TWO_SH_H
 
+# include <stddef.h>
+# include <stdlib.h>
 # include <stdint.h>
 # include <inttypes.h>
 # include <sys/wait.h>
@@ -41,7 +43,7 @@
 
 # define SH_NAME		"42sh"
 # define IFS			"\t\n "
-# define MALLOC_ERROR 	1
+# define MALLOC_ERROR 	(EXIT_FAILURE)
 # define OPT_NOT_FOUND_ERROR 1
 
 # ifndef VERBOSE_MODE

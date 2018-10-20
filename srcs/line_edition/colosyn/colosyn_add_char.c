@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 14:56:58 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 19:31:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:42:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	colosyn_add_char(struct s_line *le, t_kno key)
 		return ;
 	need_replace_cursor = false;
 	keep_cursor_index = le->cursor_index;
-	if ((updated_cmd = malloc(le->cmd_len + 2)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	updated_cmd = ft_xmalloc(le->cmd_len + 2);
 	ft_strcpy(updated_cmd, le->cmd);
 	if (cursor_is_at_end_of_cmd(le) == true)
 		ft_strcpy(updated_cmd + le->cmd_len, (char [2]){key, '\0'}  );

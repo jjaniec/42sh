@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/18 18:01:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:31:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 		return (INTR_BY_SIGINT);
 	}
 	if (read_ret == -1)
-		le_exit("\nfatal error while reading on stdin\n", "read", errno);
+		exit(EXIT_FAILURE);
 	return (ALL_IS_ALRIGHT);
 }
 
@@ -164,8 +164,7 @@ le_debug_infos(); // debug
 	set_term_attr(LE_SET_OLD);
 	actionk_move_cursor_end(le);
 	reset_history_on_first_elem(le);
-	if ((final_line = ft_strdup(le->cmd)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	final_line = ft_xstrdup(le->cmd);
 	free(le->cmd);
 	le->cmd = NULL;
 	le_sig.sa_handler = SIG_DFL;

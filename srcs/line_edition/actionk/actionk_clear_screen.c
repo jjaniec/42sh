@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:34:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 18:49:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:34:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,7 @@ void	actionk_clear_screen(struct s_line *le)
 	prompt_show( g_prompts[ -(le->le_state.prompt_type) ] );
 	set_term_attr(LE_SET_NEW);
 
-	int foo = 0;
-	if (le->cursor_pos == 0)
-		foo = /*2*/ LE_SPECIAL_CASE;
-	else
-		foo = LE_SPECIAL_CASE;
-
-	print_str_on_term(le->cmd, le->start_pos, le, foo);  //sleep(5);
+	print_str_on_term(le->cmd, le->start_pos, le, LE_SPECIAL_CASE);
 
 	if (le->cursor_pos == 0)
 	{
@@ -44,7 +38,7 @@ void	actionk_clear_screen(struct s_line *le)
 
 	if (le->le_state.opt_colosyn == true)
 	{
-		updated_cmd = ft_strdup(le->cmd);
+		updated_cmd = ft_xstrdup(le->cmd);
 		refresh_colosyn(le, updated_cmd);
 		free(updated_cmd);
 	}

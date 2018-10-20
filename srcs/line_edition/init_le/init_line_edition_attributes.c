@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 15:25:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:48:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static void		init_termcaps(void)
 	if ((term = getenv("TERM")) == NULL)
 		term = "xterm-256color";
 	if (tgetent(NULL, term) != 1)
-		le_exit("Error while getting terminal attributes\n", "tgetent", errno);
+	{
+		ft_putstr_fd("Error while getting terminal attributes\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 /*
@@ -37,14 +40,12 @@ static void			init_once(struct s_line *le)
 	init_termcaps();
 
 	le->tcaps = init_termcaps_strings();
-	if ((le->history = malloc(sizeof(struct s_history))) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	le->history = ft_xmalloc(sizeof(struct s_history));
 	le->history->prev = NULL;
 	le->history->next = NULL;
 	le->history->cmd = NULL;
 	le->save_tmp_cmd = NULL;
-	if ((le->clipboard = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	le->clipboard = ft_xmalloc(sizeof(char) * LE_DEFAULT_LINE_SIZE);
 	ft_memset(le->clipboard, '\0', LE_DEFAULT_LINE_SIZE);
 	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
 	le->clipboard_len = 0;
@@ -69,8 +70,7 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
 		already_init = true;
 	}
 	le->key_no = 0;
-	if ((le->cmd = malloc(sizeof(char) * LE_DEFAULT_LINE_SIZE)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	le->cmd = ft_xmalloc(sizeof(char) * LE_DEFAULT_LINE_SIZE);
 	le->cmd_size = LE_DEFAULT_LINE_SIZE;
 	ft_memset(le->cmd, '\0', le->cmd_size);
 	le->cmd_len = 0;

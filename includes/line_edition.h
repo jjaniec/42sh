@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/18 16:18:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 18:34:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		get_le_debug_status(int mode, int new_value);
 */
 # define RESIZE_IN_PROGRESS ((char *)(-1))
 # define LE_DEFAULT_PROMPT (0)
-# define LE_FATAL_ERROR (2) // for le_exit()
+//# define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 # define LE_SPECIAL_CASE (42)
 
@@ -137,38 +137,40 @@ struct s_le_state
 };
 
 /*
-**	cl : clear screen
-**	md : begin bold mode
-**	le : cursor moves one step left
 **	nd : cursor moves one step right
+**	le : cursor moves one step left
 **	_do : (because 'do' is a standard keyword) cursor moves one line down
 **	up : cursor moves one line up
 **	dc : delete character under the cursor
+**	cl : clear screen
+**	md : begin bold mode
 **	me : end bold mode
 **	cr : cursor_pos 0
-**	sc : save cursor_pos
-**	rc : restore cursor from last save
 **	cd : clear all after cursor
 **	dl : Delete a line
 **	al : add a line
+**	us : 
+**	mr : 
+**	ue : 
 */
 
 struct s_le_termcaps
 {
-	const char	*cl;
-	const char	*md;
-	const char	*le;
 	const char	*nd;
+	const char	*le;
 	const char	*_do;
 	const char	*up;
 	const char	*dc;
+	const char	*cl;
+	const char	*md;
 	const char	*me;
 	const char	*cr;
-	const char	*sc;
-	const char	*rc;
 	const char	*cd;
 	const char	*dl;
 	const char	*al;
+	const char	*us;
+	const char	*mr;
+	const char	*ue;
 };
 
 /*
@@ -404,6 +406,9 @@ bool	still_enough_space_for_cmd(struct s_line *le);
 
 
 	le resize ne replace pas le cursseur la ou il etait, go le faire (same for ctrl L)
+
+
+	TESTER  (echo line1; echo line2) | ./42sh
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
 	{
