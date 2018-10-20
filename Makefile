@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/16 15:13:48 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/20 15:15:46 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,6 +134,8 @@ SRC_NAME = 	is_separator.c \
 			exec/create_job.c \
 			exec/debug_jobs.c \
 			exec/free_job.c \
+			exec/handle_wait_error.c \
+			exec/remove_task_pid_from_job.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
