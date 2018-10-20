@@ -44,7 +44,7 @@ static void		handle_sigchild(int sig)
 
        /* retrieve child process ID (if any) */
        p = waitpid(-1, &status, WNOHANG);
-		log_info("PID %zu GOT SIGCHILD for process %zu", getpid(), p);
+		log_info("PID %zu GOT SIGCHILD for process %d", getpid(), (size_t)p);
 
 
        /* check for conditions causing the loop to terminate */
@@ -63,8 +63,17 @@ static void		handle_sigchild(int sig)
 
        /* valid child process ID retrieved, process accordingly */
        remove_task_pid_from_job(g_jobs, p);
-	   debug_jobs(g_jobs);
+	   if (!(g_jobs->first_process))
+			g_jobs = NULL;
+		if (g_jobs)
+		   debug_jobs(g_jobs);
     }
+}
+
+void		do_nothing(int sig)
+{
+	(void)sig;
+	return ;
 }
 
 void	init_signals(void)
@@ -85,11 +94,14 @@ void	init_signals(void)
 	sigaction(SIGINT, &new, NULL);
 	new.sa_handler = &(handle_sigchild);
 	sigaction(SIGCHLD, &new, NULL);
+
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
-/*	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
+	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
 	{
 		sigaction(sig_array[i], &new, NULL);
 		++i;
-	}*/
+	}
+	//new.sa_handler = &(do_nothing);
+	//sigaction(SIGPIPE, &new, NULL);
 }

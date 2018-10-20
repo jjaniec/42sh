@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/20 20:56:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 00:48:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 		log_fatal("PID %zu: Forcing exit of child process, this shoud not append", getpid());
 		exit(1);
 	}
+	exit(0);
 }
 
 /*
@@ -115,17 +116,13 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 	add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
 	debug_jobs(g_jobs);
 	status = -2;
-	if (node && last_pipe_node)
+	if (last_pipe_node)
 	{
 		close_child_pipe_fds(node, last_pipe_node);
 		errno = 0;
-		log_fatal("PID %zu ----- Last pipe node : %p", getpid(), last_pipe_node);
 	}
-	if (!last_pipe_node /*||  (node == last_pipe_node->right && \
-		last_pipe_node->parent->type == T_CTRL_OPT && \
-		last_pipe_node->parent->type_details != TK_PIPE)*/)
+	else
 	{
-		log_trace("PID %zu ----- Waiting last process pid : %zu , process %s", getpid(), child_pid, (char *)(((char **)cmd[2])[0]));
 		waited_pid = waitpid(child_pid, &status, 0);
 		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
 			return (handle_wait_error(waited_pid, &status, child_pid));
@@ -169,7 +166,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		!last_pipe_node->data[1])
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
-	if (should_fork(cmd))
+	if (last_pipe_node || should_fork(cmd))
 	{
 		child_pid = fork();
 		if (child_pid == -1)

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 13:04:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/20 21:12:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 00:25:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 ** which side is our element compared to the pipe node (right/left)
 */
 
-static void		redir_output_to_pipe(t_ast *last_pipe, int take_parent)
+static void		redir_output_to_pipe(t_ast *last_pipe, bool take_parent)
 {
 	log_debug("PID %zu: Pipe on left", getpid());
 	if (take_parent)
 	{
 		handle_redir_fd(STDOUT_FILENO, *(&(last_pipe->parent->data[1][sizeof(int)])));
-		//log_close(last_pipe->data[1][]);
+		log_close(last_pipe->parent->data[1][0]);
 	}
 	else
 	{
 		handle_redir_fd(STDOUT_FILENO, *(&(last_pipe->data[1][sizeof(int)])));
-		//log_close(last_pipe->data[1][0]);//-> Doing this causes issues with piped builtins
+		log_close(last_pipe->data[1][0]);//-> Doing this causes issues with piped builtins
 	}
 }
 
@@ -38,7 +38,7 @@ static void		redir_pipe_output_as_stdin(t_ast *last_pipe)
 	handle_redir_fd(STDIN_FILENO, *(&(last_pipe->data[1][0])));
 	log_close(last_pipe->data[1][sizeof(int)]);
 	if (last_pipe->parent && last_pipe->parent->type_details == TK_PIPE)
-		redir_output_to_pipe(last_pipe, 1);
+		redir_output_to_pipe(last_pipe, true);
 }
 
 /*
@@ -68,7 +68,7 @@ int			handle_pipes(t_ast *node)
 		}
 		else if (ptr == last_pipe_node->left)
 		{
-			redir_output_to_pipe(last_pipe_node, 0);
+			redir_output_to_pipe(last_pipe_node, false);
 			r = *(&(last_pipe_node->data[1][sizeof(int)]));
 		}
 	}

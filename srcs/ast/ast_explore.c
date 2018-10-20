@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/20 20:55:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 00:51:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int		is_a_process_running(t_job *job)
 
 	r = 0;
 	ptr = job->first_process;
+	if (!ptr)
+		return 0;
 	while (ptr)
 	{
 		if ((killr = kill(ptr->pid, 0)) == -1)

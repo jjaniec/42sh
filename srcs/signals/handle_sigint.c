@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/20 21:14:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 00:34:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,20 @@ void	handle_sigint(int sig)
 {
 	struct s_line	*le;
 	unsigned int	i;
+	pid_t			killtarget;
 
 	if (sig != SIGINT)
 		return ;
-	if (g_jobs->first_process)
+	if (g_jobs && g_jobs->first_process)
 	{
-		if (kill(g_jobs->first_process->pid, sig) == -1)
+		if (g_jobs->first_process->next)
+			killtarget = -g_jobs->pgid;
+		else
+			killtarget = g_jobs->first_process->pid;
+		if (kill(killtarget, sig) == -1)
 		{
 			write(STDERR_FILENO, "21sh: Cannot kill pid:", 22);
-			ft_putnbr_fd(g_jobs->first_process->pid, STDERR_FILENO);
+			ft_putnbr_fd(killtarget, STDERR_FILENO);
 			write(STDERR_FILENO, "\n", 1);
 		}
 		write(STDOUT_FILENO, "\n", sizeof(char));
@@ -48,8 +53,11 @@ void	handle_sigint(int sig)
 			tputs(le->tcaps->le, 1, &write_one_char);
 		//free(le->cmd);
 
-		tputs(le->tcaps->_do, 1, &write_one_char);
-		tputs(le->tcaps->cd, 1, &write_one_char);
-		tputs(le->tcaps->up, 1, &write_one_char);
+		if (le->tcaps)
+		{
+			tputs(le->tcaps->_do, 1, &write_one_char);
+			tputs(le->tcaps->cd, 1, &write_one_char);
+			tputs(le->tcaps->up, 1, &write_one_char);
+		}
 	}
 }
