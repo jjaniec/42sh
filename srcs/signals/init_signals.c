@@ -35,11 +35,43 @@
 **	Initialize some handlers functions for different signals.
 */
 
+static void		handle_sigchild(int sig)
+{
+	pid_t p;
+    int status;
+
+    while (1) {
+
+       /* retrieve child process ID (if any) */
+       p = waitpid(-1, &status, WNOHANG);
+		log_info("PID %zu GOT SIGCHILD for process %zu", getpid(), p);
+
+
+       /* check for conditions causing the loop to terminate */
+       if (p == -1) {
+           /* continue on interruption (EINTR) */
+           if (errno == EINTR) {
+               continue;
+           }
+           /* break on anything else (EINVAL or ECHILD according to manpage) */
+           break;
+       }
+       else if (p == 0) {
+           /* no more children to process, so break */
+           break;
+       }
+
+       /* valid child process ID retrieved, process accordingly */
+       remove_task_pid_from_job(g_jobs, p);
+	   debug_jobs(g_jobs);
+    }
+}
+
 void	init_signals(void)
 {
 	struct sigaction	new;
 	unsigned int		i;
-	const int			sig_array[26] = 
+	const int			sig_array[26] =
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
 		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
@@ -51,11 +83,13 @@ void	init_signals(void)
 	new.sa_flags = 0;
 	new.sa_handler = &(handle_sigint);
 	sigaction(SIGINT, &new, NULL);
+	new.sa_handler = &(handle_sigchild);
+	sigaction(SIGCHLD, &new, NULL);
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
-	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
+/*	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
 	{
 		sigaction(sig_array[i], &new, NULL);
 		++i;
-	}
+	}*/
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/20 15:14:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/20 20:56:37 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 	log_close(backup_fds[1]);
 	log_close(backup_fds[2]);
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
+	{
+		log_fatal("PID %zu: Forcing exit of child process, this shoud not append", getpid());
 		exit(1);
+	}
 }
 
 /*

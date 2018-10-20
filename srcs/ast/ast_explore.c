@@ -6,11 +6,36 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/20 15:24:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/20 20:55:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+static int		is_a_process_running(t_job *job)
+{
+	t_process	*ptr;
+	int			r;
+	int			killr;
+
+	r = 0;
+	ptr = job->first_process;
+	while (ptr)
+	{
+		if ((killr = kill(ptr->pid, 0)) == -1)
+			;
+		else
+		{
+			log_fatal("RUNNING : %zu - kill returned %d", ptr->pid, killr);
+			r = 1;
+			//break ;
+		}
+		ptr = ptr->next;
+	}
+	if (!ptr && !r)
+		return (0);
+	return (r);
+}
 
 /*
 ** When a new pipeline process is needed,
@@ -24,7 +49,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 {
 	pid_t	pipeline_manager_pid;
 	int		status;
-	pid_t	waited_pid;
+	pid_t	waited_pid = 0;
 
 
 	if ((pipeline_manager_pid = fork()) <= 0)
@@ -43,13 +68,11 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 				ast_explore(ast, exe);
 				status = 0;
 				debug_jobs(g_jobs);
-				log_debug("WAITPID on pgid");
-				while ((waited_pid = waitpid(-1, NULL, 0)) > 0)
+				log_trace("Pipe Manager: Waiting pipeline processes");
+				while (is_a_process_running(g_jobs))
 				{
-					log_debug("Waited pid: %zu", (size_t)waited_pid);
-					remove_task_pid_from_job(g_jobs, waited_pid);
+					sleep(5);
 					debug_jobs(g_jobs);
-					continue ;
 				}
 				debug_jobs(g_jobs);
 			}
@@ -62,9 +85,11 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	{
 		g_jobs = create_job("PIPE MANAGER");
 		g_jobs->pgid = getpgid(pipeline_manager_pid);
+		log_trace("MAIN PROCESS : waiting pipe manager");
 		waited_pid = waitpid(pipeline_manager_pid, &status, 0);
 		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != pipeline_manager_pid))
 			return (handle_wait_error(waited_pid, &status, pipeline_manager_pid));
+		log_trace("MAIN PROCESS: Pipe manager terminated w/ status: %d", status);
 		free_job(g_jobs);
 		g_jobs = NULL;
 	}

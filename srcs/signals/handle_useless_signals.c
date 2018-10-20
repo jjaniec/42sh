@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_useless_signals.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 18:31:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/08 17:04:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/20 20:49:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@ void	handle_useless_signals(int sig)
 {
 	struct sigaction	restore_default;
 
-	if (g_cmd_status.cmd_running == true)
+	if (g_jobs->first_process)
 	{
-		if (kill(g_cmd_status.cmd_pid, sig) == -1)
+		if (kill(g_jobs->first_process->pid, sig) == -1)
 		{
 			write(STDERR_FILENO, "21sh: Cannot kill pid:", 22);
-			ft_putnbr_fd(g_cmd_status.cmd_pid, STDERR_FILENO);
+			ft_putnbr_fd(g_jobs->first_process->pid, STDERR_FILENO);
 			write(STDERR_FILENO, "\n", 1);
 		}
 	}
+	log_trace("PID %zu: GOT SIGNAL %d", getpid(), sig);
 	set_term_attr(LE_SET_OLD);
 	restore_default.sa_flags = 0;
 	sigfillset(&(restore_default.sa_mask));
