@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 19:00:52 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/21 14:36:45 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,8 +380,6 @@ bool	still_enough_space_for_cmd(struct s_line *le);
 	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
-
-	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
 
 	LA COMMANDE "srcs" est not found, mais "srcs/" CA RALE PAS ??????? GO CORRIGER CA
 

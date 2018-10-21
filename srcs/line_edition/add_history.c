@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/20 15:20:40 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/21 14:45:40 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,28 @@ static void	his_debug(void)
 }
 
 /*
+**	Cut the command at the first '\n' found (if there is one).
+*/
+
+static void	cut_cmd_at_newline(char *cmd)
+{
+	while (*cmd != '\0')
+	{
+		if (*cmd == '\n')
+		{
+			*cmd = '\0';
+			return ;
+		}
+		++cmd;
+	}
+}
+
+/*
 **	Add a new element at the end of the linked list representing
 **	the history.
 */
 
-void	add_history(const char *input, struct s_line *le)
+void		add_history(const char *input, struct s_line *le)
 {
 	struct s_history	*new;
 	size_t				input_len;
@@ -42,8 +59,9 @@ void	add_history(const char *input, struct s_line *le)
 	new = ft_xmalloc(sizeof(struct s_history));
 	input_len = ft_strlen(input);
 	new->cmd = ft_xstrdup(input);
-	if (new->cmd[input_len - 1] == '\n')
-		new->cmd[input_len - 1] = '\0';
+	//if (new->cmd[input_len - 1] == '\n')
+		//new->cmd[input_len - 1] = '\0';
+	cut_cmd_at_newline(new->cmd);
 	tmp = le->history;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
@@ -53,5 +71,5 @@ void	add_history(const char *input, struct s_line *le)
 		tmp->prev->next = new;
 	tmp->prev = new;
 
-	his_debug(); // debug
+//	his_debug(); // debug
 }
