@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 21:12:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 21:45:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,14 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 		while (1)
 		{
 			waited_pid = waitpid(pipeline_manager_pid, &status, 0);
-			if (waited_pid == -1 && errno == EINTR)
+			if (waited_pid == -1 && errno == EINTR) // Continue while pipeline isn't dead if syscall was interrupted by a signal
 				continue;
-			else
-				break ;
-	/*		if (WIFEXITED(status)||WIFSIGNALED(status))
-				break ;*/
-			le_debug("%s", "LOL MDR JE SUIS DANS LA BOUCLE");
+			break ;
 		}
-		{ le_debug("APRES WAITPID waited_pid = %d\n", waited_pid) }
-		perror("perror");
-		if (WIFSIGNALED(status))
-			ft_printf(SH_NAME": Sending SIGINT to pipeline\n");
-		if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
+		//if WIFEXITED(status)
+		/*if (WIFSIGNALED(status))
+			ft_printf(SH_NAME": Pipeline exited by a signal\n");
+		else */if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
 			(waited_pid == -1 || (waited_pid != pipeline_manager_pid)))
 			return (handle_wait_error(waited_pid, &status, pipeline_manager_pid));
 		log_trace("MAIN PROCESS: Pipe manager terminated w/ status: %d", status);
