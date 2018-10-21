@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/20 15:25:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/21 16:22:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 		{
 			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
 			if (execve(cmd[1], cmd[2], env->environ) == -1)
+			{
 				log_error("Execve() not working");
+			}
 		}
 	}
 	if (pipe_stdout_fd)
