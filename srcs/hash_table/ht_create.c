@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/19 22:02:07 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/21 15:36:51 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,25 @@ t_entry				*ht_newnode(char *key, char *value)
 	t_entry	*newnode;
 
 	if ((newnode = malloc(sizeof(t_entry))) == NULL)
-		return NULL;
+		return (NULL);
 	if ((newnode->key = ft_strdup(key)) == NULL)
-		return NULL;
+		return (NULL);
 	if ((newnode->value = ft_strdup(value)) == NULL)
-		return NULL;
+		return (NULL);
 	newnode->next = NULL;
 	return (newnode);
 }
 
 void				ht_set(t_hashtable *ht, char *key, char *value)
 {
-	int 	bin;
+	int		bin;
 	t_entry	*newnode;
 	t_entry	*next;
 	t_entry	*last;
 
 	bin = ht_hash(ht, key);
 	next = ht->table[bin];
-	while(next != NULL && next->key != NULL && ft_strcmp(key, next->key) > 0)
+	while (next != NULL && next->key != NULL && ft_strcmp(key, next->key) > 0)
 	{
 		last = next;
 		next = next->next;
@@ -63,7 +63,7 @@ void				ht_set(t_hashtable *ht, char *key, char *value)
 static void			add_binary_path(char *path, t_hashtable *hashtable)
 {
 	DIR						*dir;
-	struct dirent	*file;
+	struct dirent			*file;
 	char					*tmp;
 
 	dir = opendir(path);
@@ -79,12 +79,13 @@ static void			add_binary_path(char *path, t_hashtable *hashtable)
 			free(tmp);
 		}
 	}
+	closedir(dir);
 }
 
-t_hashtable		*ht_create(char **env)
+t_hashtable			*ht_create(char **env)
 {
 	t_hashtable		*hashtable;
-	int						i;
+	int				i;
 
 	i = 0;
 	hashtable = ht_setup(env);
