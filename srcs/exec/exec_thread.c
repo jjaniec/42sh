@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 13:31:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 17:36:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 {
 	int		backup_fds[3];
 	int		pipe_stdout_fd;
+	t_ast	*last_pipe_node;
 
 	backup_fds[0] = dup(STDIN_FILENO);
 	backup_fds[1] = dup(STDOUT_FILENO);
 	backup_fds[2] = dup(STDERR_FILENO);
+	last_pipe_node = get_last_pipe_node(node);
 	pipe_stdout_fd = handle_pipes(node);
 	handle_redirs(node);
 	if (cmd)
@@ -66,12 +68,11 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 	log_close(backup_fds[0]);
 	log_close(backup_fds[1]);
 	log_close(backup_fds[2]);
-	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
+	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || last_pipe_node)
 	{
-		log_fatal("PID %zu: Forcing exit of child process, this shoud not append", getpid());
+		log_fatal("PID %zu: Forcing exit of child process", getpid());
 		exit(1);
 	}
-	exit(0);
 }
 
 /*
@@ -120,8 +121,14 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 		close_child_pipe_fds(node, last_pipe_node);
 	else
 	{
-		waited_pid = waitpid(child_pid, &status, 0);
-		if (waited_pid == -1 || (waited_pid != -1 && waited_pid != child_pid))
+		while (1)
+		{
+			waited_pid = waitpid(child_pid, &status, WNOHANG);
+			if (waited_pid != 1 && waited_pid)
+				break ;
+		}
+		if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
+			(waited_pid == -1 || (waited_pid != child_pid)))
 			return (handle_wait_error(waited_pid, &status, child_pid));
 		free_job(g_jobs);
 		g_jobs = NULL;

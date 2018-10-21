@@ -46,22 +46,15 @@ static void		handle_sigchild(int sig)
        p = waitpid(-1, &status, WNOHANG);
 		log_info("PID %zu GOT SIGCHILD for process %d", getpid(), (size_t)p);
 
-
-       /* check for conditions causing the loop to terminate */
        if (p == -1) {
-           /* continue on interruption (EINTR) */
            if (errno == EINTR) {
                continue;
            }
-           /* break on anything else (EINVAL or ECHILD according to manpage) */
            break;
        }
        else if (p == 0) {
-           /* no more children to process, so break */
            break;
        }
-
-       /* valid child process ID retrieved, process accordingly */
        remove_task_pid_from_job(g_jobs, p);
 	   if (!(g_jobs->first_process))
 			g_jobs = NULL;
@@ -80,7 +73,7 @@ void	init_signals(void)
 {
 	struct sigaction	new;
 	unsigned int		i;
-	const int			sig_array[26] =
+	const int			sig_array[] =
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
 		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
@@ -88,12 +81,28 @@ void	init_signals(void)
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
 
+	//setpgrp();
+
 	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
-	new.sa_handler = &(handle_sigint);
-	sigaction(SIGINT, &new, NULL);
+	if (g_jobs && g_jobs->pgid == getpid())
+	{
+
+	new.sa_flags |= SA_RESTART;
+		new.sa_handler = &(handle_useless_signals);
+		sigaction(SIGINT, &new, NULL);
+	}
+	else
+	{
+		new.sa_handler = &(handle_sigint);
+		sigaction(SIGINT, &new, NULL);
+	}
 	new.sa_handler = &(handle_sigchild);
+
+	new.sa_flags |= SA_RESTART;
 	sigaction(SIGCHLD, &new, NULL);
+
+	new.sa_flags = 0;
 
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
@@ -102,6 +111,4 @@ void	init_signals(void)
 		sigaction(sig_array[i], &new, NULL);
 		++i;
 	}
-	//new.sa_handler = &(do_nothing);
-	//sigaction(SIGPIPE, &new, NULL);
 }
