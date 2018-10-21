@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 00:48:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 13:31:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,7 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 	debug_jobs(g_jobs);
 	status = -2;
 	if (last_pipe_node)
-	{
 		close_child_pipe_fds(node, last_pipe_node);
-		errno = 0;
-	}
 	else
 	{
 		waited_pid = waitpid(child_pid, &status, 0);
