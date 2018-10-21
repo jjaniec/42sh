@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/13 19:52:47 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/22 01:19:01 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,8 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_create.c \
 			hash_table/ht_mem_free.c \
 			hash_table/ht_hash.c \
+			hash_table/ht_tab_tools.c \
+			hash_table/ht_update.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \

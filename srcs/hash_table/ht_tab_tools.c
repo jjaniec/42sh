@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ht_mem_free.c                                      :+:      :+:    :+:   */
+/*   ht_tab_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 17:05:31 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/21 23:56:39 by cgaspart         ###   ########.fr       */
+/*   Created: 2018/10/21 23:55:36 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/10/22 01:30:34 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static void	free_entry(t_entry *node)
+void	ht_free_tab(char **items)
 {
-	t_entry *tmp;
+	int	i;
 
-	while (node)
+	i = 0;
+	while (items && items[i])
 	{
-		tmp = node->next;
-		free(node->key);
-		free(node->value);
-		free(node);
-		node = tmp;
+		free(items[i]);
+		items[i] = NULL;
+		i++;
 	}
+	free(items);
 }
 
-void		free_hashtable(t_hashtable *hashtable)
+int		ht_tab_len(char **items)
 {
 	int i;
 
 	i = 0;
-	ht_free_tab(hashtable->path);
-	while (i < hashtable->size)
-	{
-		free_entry(hashtable->table[i]);
+	while (items && items[i])
 		i++;
-	}
-	free(hashtable->table);
-	free(hashtable);
+	return (i);
 }

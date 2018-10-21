@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/21 20:47:56 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 01:16:10 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <curses.h>
 # include <term.h>
+# include <time.h>
 # include <termios.h>
 # include <stdbool.h>
 # include <dirent.h>

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/21 23:39:19 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 01:33:22 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int		elem_path_found(struct stat *elem_stats, \
 			path_entry = env->last_used_elem->val_begin_ptr;
 		if (path_entry)
 		{*/
+		ht_update(env);
 		vars = get_shell_vars();
 		if ((tmp = ht_get_key_value(vars->hashtable, lexeme_data)))
 		{

@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/21 20:35:41 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 01:24:43 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_entry				*ht_newnode(char *key, char *value)
 	return (newnode);
 }
 
-void				ht_set(t_hashtable *ht, char *key, char *value)
+static void			ht_set(t_hashtable *ht, char *key, char *value)
 {
 	int		bin;
 	t_entry	*newnode;
@@ -85,18 +85,20 @@ static void			add_binary_path(char *path, t_hashtable *hashtable)
 t_hashtable			*ht_create(t_environ *env)
 {
 	t_hashtable		*hashtable;
+	struct stat		file_stat;
 	int				i;
 
 	i = 0;
 	hashtable = ht_setup(env);
 	if (!hashtable || !hashtable->path)
-	{
-		ft_putstr("Hashtable error");
 		return (NULL);
-	}
+	hashtable->modifed_time = malloc(sizeof(time_t*) *
+	ht_tab_len(hashtable->path));
 	while (hashtable->path[i])
 	{
 		add_binary_path(hashtable->path[i], hashtable);
+		if (!stat(hashtable->path[i], &file_stat))
+			hashtable->modifed_time[i] = &file_stat.st_mtime;
 		i++;
 	}
 	return (hashtable);

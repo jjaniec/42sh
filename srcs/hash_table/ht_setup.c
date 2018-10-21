@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:58:44 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/21 20:37:50 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 00:39:36 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,24 @@ static char		**add_path_slash(char **path)
 		i++;
 	}
 	res[i] = NULL;
-	free_tab(path);
+	ht_free_tab(path);
 	return (res);
 }
 
-static char		**ht_get_path(t_environ *env)
+char			**ht_get_path(t_environ *env)
 {
 	char	*tmp;
 	char	**res;
 
+	tmp = NULL;
 	if (env->get_var(env, "PATH"))
 		tmp = env->last_used_elem->val_begin_ptr;
-	res = ft_strsplit(tmp, ':');
-	return (add_path_slash(res));
+	if (tmp)
+	{
+		res = ft_strsplit(tmp, ':');
+		return (add_path_slash(res));
+	}
+	return (NULL);
 }
 
 static int		get_number_binary(char *path, DIR *dir)
@@ -91,6 +96,8 @@ t_hashtable		*ht_setup(t_environ *env)
 
 	i = 0;
 	path = ht_get_path(env);
+	if (!path)
+		return (NULL);
 	size = get_table_size(path);
 	if (size < 1)
 		return (NULL);
