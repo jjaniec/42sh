@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:53:26 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/21 15:28:03 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/21 20:50:14 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,8 @@
 # include <forty_two_sh.h>
 # include <dirent.h>
 
-typedef struct			s_entry
-{
-	char				*key;
-	char				*value;
-	struct s_entry		*next;
-}						t_entry;
-
-typedef struct			s_hashtable
-{
-	int					size;
-	char				**path;
-	t_entry				**table;
-}						t_hashtable;
-
-t_hashtable				*ht_setup(char **env);
-t_hashtable				*ht_create(char **env);
+t_hashtable				*ht_setup(t_environ *env);
+t_hashtable				*ht_create(t_environ *env);
 void					free_tab(char **items);
 void					free_hashtable(t_hashtable *hashtable);
 int						ht_hash(t_hashtable *hashtable, char *key);

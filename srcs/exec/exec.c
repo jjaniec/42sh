@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 11:14:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/21 20:59:12 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,17 @@ int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 
 void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char		*prog_path;
+	char			*prog_path;
+	t_shell_vars	*vars;
 	char		*path_entry;
 
 	path_entry = NULL;
-	if (env_struct->get_var(env_struct, "PATH"))
-		path_entry = env_struct->last_used_elem->val_begin_ptr;
+	/*if (env_struct->get_var(env_struct, "PATH"))
+		path_entry = env_struct->last_used_elem->val_begin_ptr;*/
 	exe->ret = -2;
-	prog_path = isin_path(path_entry, argv[0]);
+	//prog_path = isin_path(path_entry, argv[0]);
+	vars = get_shell_vars();
+	prog_path = ht_get_key_value(vars->hashtable, argv[0]);
 	if (prog_path)
 		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, prog_path, argv}, \
 			env_struct, exe, node);
@@ -99,7 +102,7 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
 	}
-	ft_strdel(&prog_path);
+	//ft_strdel(&prog_path);
 }
 
 /*

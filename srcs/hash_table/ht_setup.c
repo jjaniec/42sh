@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:58:44 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/19 23:30:02 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/21 20:37:50 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,14 @@ static char		**add_path_slash(char **path)
 	return (res);
 }
 
-static char		**ht_get_path(char **env)
+static char		**ht_get_path(t_environ *env)
 {
-	int		i;
 	char	*tmp;
 	char	**res;
 
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strstr(env[i], "PATH"))
-			break ;
-		i++;
-	}
-	tmp = ft_strdup(ft_strchr(env[i], '=') + 1);
+	if (env->get_var(env, "PATH"))
+		tmp = env->last_used_elem->val_begin_ptr;
 	res = ft_strsplit(tmp, ':');
-	free(tmp);
 	return (add_path_slash(res));
 }
 
@@ -90,7 +82,7 @@ static int		get_table_size(char **path)
 	return (res);
 }
 
-t_hashtable		*ht_setup(char **env)
+t_hashtable		*ht_setup(t_environ *env)
 {
 	t_hashtable		*hashtable;
 	char			**path;

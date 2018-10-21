@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/21 15:36:51 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/21 20:35:41 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void			add_binary_path(char *path, t_hashtable *hashtable)
 	closedir(dir);
 }
 
-t_hashtable			*ht_create(char **env)
+t_hashtable			*ht_create(t_environ *env)
 {
 	t_hashtable		*hashtable;
 	int				i;
