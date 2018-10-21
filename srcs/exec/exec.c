@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 20:59:12 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/21 23:27:59 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
 	char			*prog_path;
 	t_shell_vars	*vars;
-	char		*path_entry;
+	//char		*path_entry;
 
-	path_entry = NULL;
+	//path_entry = NULL;
 	/*if (env_struct->get_var(env_struct, "PATH"))
 		path_entry = env_struct->last_used_elem->val_begin_ptr;*/
 	exe->ret = -2;
