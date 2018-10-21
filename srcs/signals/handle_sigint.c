@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/18 18:08:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/21 17:49:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_sigint(int sig)
 	{
 		if (kill(g_cmd_status.cmd_pid, sig) == -1)
 		{
-			write(STDERR_FILENO, "21sh: Cannot kill pid:", 22);
+			write(STDERR_FILENO, SH_NAME ": Cannot kill pid:", 22);
 			ft_putnbr_fd(g_cmd_status.cmd_pid, STDERR_FILENO);
 			write(STDERR_FILENO, "\n", 1);
 		}
@@ -53,5 +53,5 @@ void	handle_sigint(int sig)
 		tputs(le->tcaps->up, 1, &write_one_char);
 	}
 
-	{ le_debug("%s - %d\n", "END SIGINT HANDLER", getpid()) }
+	//{ le_debug("%s - %d\n", "END SIGINT HANDLER", getpid()) }
 }
