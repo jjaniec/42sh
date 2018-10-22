@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 17:37:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/22 16:00:31 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char			*line_edition(int prompt_type)
 
 	le = prepare_line_edition(prompt_type, &le_sig);
 le_debug_infos(); // debug
-	while (le->key_no != '\n' && "cest ta merge la jjaniec")
+	while (le->key_no != le->le_state.le_char_delim && "cest ta merge la jjaniec")
 	{
 		ret_read_key = read_key(le->key_buffer, &le_sig);
 		if (ret_read_key == NULL || ret_read_key == RESIZE_IN_PROGRESS)
@@ -146,7 +146,7 @@ le_debug_infos(); // debug
 			return (NULL);
 
 le_debug_infos(); // debug
-		if (true && le->key_no == '\n') //
+		if (true && le->key_no == le->le_state.le_char_delim) //
 		{
 			tputs(le->tcaps->_do, 1, &write_one_char);
 			tputs(le->tcaps->cr, 1, &write_one_char);

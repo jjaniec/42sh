@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/13 19:55:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 14:08:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,15 +156,5 @@ typedef struct			s_exec
 	int			ready_for_exec;
 	t_environ	*env;
 }						t_exec;
-
-
-
-struct s_alias
-{
-	char			*key;
-	char			*value;
-	struct s_alias	*next;
-};
-
 
 #endif

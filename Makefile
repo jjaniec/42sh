@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/13 19:52:47 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/22 16:05:14 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,6 +132,7 @@ SRC_NAME = 	is_separator.c \
 			exec/free_exec.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
+			builtin/builtin_read.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
@@ -191,6 +192,7 @@ SRC_NAME = 	is_separator.c \
 
 INCLUDES_NAME = ast.h \
 				autocomplete.h \
+				builtins.h \
 				exec.h \
 				forty_two_sh.h \
 				get_next_line.h \
@@ -199,7 +201,7 @@ INCLUDES_NAME = ast.h \
 				script.h \
 				signals.h \
 				struct.h \
-				syntax_highlighting.h \
+				syntax_highlighting.h 
 
 
 TESTS_SRC_NAME =	lexer_tests.c \

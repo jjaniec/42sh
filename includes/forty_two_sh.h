@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:54:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 14:54:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@
 # include "script.h"
 # include "get_next_line.h"
 # include "autocomplete.h"
+# include "builtins.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
@@ -82,26 +83,6 @@ extern const char	*g_prompts[10];
 # define SH_USAGE \
 	SH_NAME" [-hcGv] [-c \"command\"]"
 
-# define BUILTIN_ENV_USAGE \
-	"env [-i][name=value]...	[utility [argument...]]"
-
-# define BUILTIN_CD_USAGE \
-	"cd [-L | -P] [-] [directory]"
-
-# define BUILTIN_TEST_USAGE \
-	"test, [ --\n\t\ttest expression\n\t\t[ expression ]\n\t\t! expression"
-
-# define BUILTIN_HISTORY_USAGE \
-	"Usage : history [n | -d n | --clear | --save]\n"
-
-# define BUILTIN_ALIAS_USAGE \
-	"usage: alias [-d] key value | --save\n"
-
-# define BUILTIN_SETENV_USAGE \
-	SH_NAME": setenv: usage setenv VAR1=VALUE1 VAR2=VALUE2 ...\n"
-
-# define BUILTIN_UNSETENV_USAGE \
-	SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n"
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
