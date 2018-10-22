@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:17:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 17:39:56 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void		free_environ(void)
 
 	if (!(vars = get_shell_vars()))
 		return ;
+	if (vars->hashtable)
+		free_hashtable(vars->hashtable);
 	free_env_entries(vars->env, vars->env->env_entries_list);
 	free_env_entries(vars->locals, vars->locals->env_entries_list);
 	free_env_entries(vars->internals, vars->internals->env_entries_list);

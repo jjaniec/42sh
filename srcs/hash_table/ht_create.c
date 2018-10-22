@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/22 16:17:36 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 17:54:11 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ t_entry				*ht_newnode(char *key, char *value)
 		return (NULL);
 	newnode->next = NULL;
 	return (newnode);
+}
+
+static void			ht_sub_node(t_entry *last, t_entry *next, t_entry *newnode)
+{
+	if (next == NULL)
+		last->next = newnode;
+	else
+	{
+		newnode->next = next;
+		last->next = newnode;
+	}
 }
 
 static void			ht_set(t_hashtable *ht, char *key, char *value)
@@ -50,13 +61,8 @@ static void			ht_set(t_hashtable *ht, char *key, char *value)
 			newnode->next = next;
 			ht->table[bin] = newnode;
 		}
-		else if (next == NULL)
-			last->next = newnode;
 		else
-		{
-			newnode->next = next;
-			last->next = newnode;
-		}
+			ht_sub_node(last, next, newnode);
 	}
 }
 
