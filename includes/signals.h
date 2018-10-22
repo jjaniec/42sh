@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 12:34:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/05 13:52:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/22 20:55:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void    init_signals(void);
 void	handle_sigint(int sig);
 void	handle_sigwinch(int sig);
 void	handle_useless_signals(int sig);
+void		handle_sigchild(int sig);
 
 #endif

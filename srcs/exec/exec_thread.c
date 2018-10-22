@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 17:36:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 22:34:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 	backup_fds[0] = dup(STDIN_FILENO);
 	backup_fds[1] = dup(STDOUT_FILENO);
 	backup_fds[2] = dup(STDERR_FILENO);
+	if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
+		log_error("PID %zu: Backup fds duplication failed!", getpid());
 	last_pipe_node = get_last_pipe_node(node);
 	pipe_stdout_fd = handle_pipes(node);
 	handle_redirs(node);
@@ -54,17 +56,23 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 		else
 		{
 			log_debug("PID %zu -> child process path : cmd[1] : %s", getpid(), cmd[1]);
-			if (execve(cmd[1], cmd[2], env->environ) == -1)
+			if (execve(cmd[1], cmd[2], env->environ))
+			{
 				log_error("PID %zu - Execve() not working", getpid());
+				perror("execve");
+			}
+			exit(1);
 		}
 	}
-	if (pipe_stdout_fd)
-	{
-		log_close(pipe_stdout_fd);
+	//if (pipe_stdout_fd)
+	//{
+	//	log_close(pipe_stdout_fd);
 		dup2(backup_fds[0], STDIN_FILENO);
 		dup2(backup_fds[1], STDOUT_FILENO);
 		dup2(backup_fds[2], STDERR_FILENO);
-	}
+//			if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
+//		perror("dup in backup fds");
+//	}
 	log_close(backup_fds[0]);
 	log_close(backup_fds[1]);
 	log_close(backup_fds[2]);

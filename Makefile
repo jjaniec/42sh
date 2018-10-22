@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/20 15:15:46 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/22 21:01:59 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,6 +135,7 @@ SRC_NAME = 	is_separator.c \
 			exec/debug_jobs.c \
 			exec/free_job.c \
 			exec/handle_wait_error.c \
+			exec/refresh_job_running_processes.c \
 			exec/remove_task_pid_from_job.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
@@ -163,6 +164,7 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigint.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
+			signals/handle_sigchild.c \
 			log.c \
 			ft_free_argv.c \
 			ft_atoll.c \
@@ -244,7 +246,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra  -g -D_GNU_SOURCE -std=c11 # -Werror
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror -O3
 
 ### FLAGS ###
 VERBOSE_MODE = 0

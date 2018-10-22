@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/21 21:41:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 22:26:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,14 @@ void	handle_sigint(int sig)
 				ft_putnbr_fd(g_jobs->first_process->pid, STDERR_FILENO);
 				write(STDERR_FILENO, "\n", 1);
 			}
+		}
+		log_debug("REFRESH LIST & DEBUG LIST");
+		refresh_job_running_processes(g_jobs);
+		debug_jobs(g_jobs);
+		if (!g_jobs->first_process)
+		{
+			log_error("EMPTY LIST");
+			kill(g_jobs->pgid, SIGKILL);
 		}
 	}
 	else

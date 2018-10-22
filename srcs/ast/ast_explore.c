@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 21:45:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 22:32:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,8 @@ static int		is_a_process_running(t_job *job)
 
 	r = 0;
 	if (!job || !job->first_process)
-		return 0;
-	ptr = job->first_process;
-	while (ptr)
-	{
-		if ((killr = kill(ptr->pid, 0)) == -1)
-			;
-		else
-		{
-			log_fatal("RUNNING : %zu - kill returned %d", ptr->pid, killr);
-			r = 1;
-			//break ;
-		}
-		ptr = ptr->next;
-	}
-	if (!ptr && !r)
 		return (0);
-	return (r);
+	return (1);
 }
 
 /*
@@ -61,23 +46,24 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 		else if (pipeline_manager_pid == 0)
 		{
 			log_info("Pipeline manager pid: %zu", getpid());
-			if (*is_in_pipeline == false)
+			*is_in_pipeline = true;
+			//setpgrp(); // -> alias to setpgid(0, 0);
+			if (setpgid(0, 0))
+				perror("Setpgid");
+			g_jobs = create_job("PIPE MANAGER");
+			if ((g_jobs->pgid = getpgid(getpid())) == -1)
+				perror("Getpgid in pipeline manager");
+			ast_explore(ast, exe);
+			log_debug("Pipe manager: ast exploration ended");
+			status = 0;
+			debug_jobs(g_jobs);
+			log_trace("Pipe Manager: Waiting pipeline processes");
+			while (is_a_process_running(g_jobs))
 			{
-				*is_in_pipeline = true;
-				setpgrp(); // -> alias to setpgid(0, 0);
-				g_jobs = create_job("PIPE MANAGER");
-				g_jobs->pgid = getpgid(0);
-				ast_explore(ast, exe);
-				status = 0;
-				debug_jobs(g_jobs);
-				log_trace("Pipe Manager: Waiting pipeline processes");
-				while (is_a_process_running(g_jobs))
-				{
-					sleep(1);
-					debug_jobs(g_jobs);
-				}
-				debug_jobs(g_jobs);
+				sleep(1);
+				log_debug("Pipe manager: Waiting for a child");
 			}
+			debug_jobs(g_jobs);
 			log_trace("PIPE MANAGER: All processes terminated: Exiting", waited_pid);
 			free_all_shell_data();
 			exit(0);
@@ -91,7 +77,9 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 		errno = 0;
 		while (1)
 		{
+			{ le_debug(" prefix %s - main b4 waitpit\n", __func__); }
 			waited_pid = waitpid(pipeline_manager_pid, &status, 0);
+			{ le_debug(" prefix %s - main after waitpid\n", __func__); }
 			if (waited_pid == -1 && errno == EINTR) // Continue while pipeline isn't dead if syscall was interrupted by a signal
 				continue;
 			break ;

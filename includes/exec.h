@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/20 15:15:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 21:01:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void			debug_jobs(t_job *jobs);
 t_process		*add_running_process(char **cmd, pid_t process_pid, t_job **job);
 pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid);
 
+
+void		refresh_job_running_processes(t_job *job);
 
 void			free_job(t_job *job);
 
