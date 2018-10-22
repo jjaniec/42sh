@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/22 01:24:43 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 16:17:36 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ t_hashtable			*ht_create(t_environ *env)
 	hashtable = ht_setup(env);
 	if (!hashtable || !hashtable->path)
 		return (NULL);
-	hashtable->modifed_time = malloc(sizeof(time_t*) *
+	hashtable->modif_time = malloc(sizeof(time_t) *
 	ht_tab_len(hashtable->path));
 	while (hashtable->path[i])
 	{
 		add_binary_path(hashtable->path[i], hashtable);
 		if (!stat(hashtable->path[i], &file_stat))
-			hashtable->modifed_time[i] = &file_stat.st_mtime;
+			hashtable->modif_time[i] = file_stat.st_mtime;
 		i++;
 	}
 	return (hashtable);

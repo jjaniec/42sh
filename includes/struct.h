@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/22 01:16:37 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 15:43:00 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ typedef struct			s_hashtable
 {
 	int					size;
 	char				**path;
-	time_t				**modifed_time;
+	time_t				*modif_time;
 	t_entry				**table;
 }						t_hashtable;
 

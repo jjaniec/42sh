@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 17:05:31 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/21 23:56:39 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/22 15:22:57 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void		free_hashtable(t_hashtable *hashtable)
 	int i;
 
 	i = 0;
+	if (hashtable->modif_time)
+		free(hashtable->modif_time);
 	ht_free_tab(hashtable->path);
 	while (i < hashtable->size)
 	{
