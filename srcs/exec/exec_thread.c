@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/22 22:34:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/23 20:03:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,16 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 	//if (pipe_stdout_fd)
 	//{
 	//	log_close(pipe_stdout_fd);
-		dup2(backup_fds[0], STDIN_FILENO);
-		dup2(backup_fds[1], STDOUT_FILENO);
-		dup2(backup_fds[2], STDERR_FILENO);
+
+		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
+		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
+		handle_redir_fd(STDERR_FILENO, backup_fds[2]);
 //			if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
 //		perror("dup in backup fds");
 //	}
-	log_close(backup_fds[0]);
+	/*log_close(backup_fds[0]);
 	log_close(backup_fds[1]);
-	log_close(backup_fds[2]);
+	log_close(backup_fds[2]);*/
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || last_pipe_node)
 	{
 		log_fatal("PID %zu: Forcing exit of child process", getpid());
@@ -87,9 +88,10 @@ static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
 ** Close unessecary pipe inputs
 */
 
-static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
+static int	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 {
 	t_ast	*ptr;
+	int		r = -1;
 
 	ptr = node;
 	while (ptr->parent != last_pipe)
@@ -100,15 +102,18 @@ static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
 		close(*(&(last_pipe->data[1][0])));
 		if (last_pipe->parent && last_pipe->parent->type_details == TK_PIPE)
 		{
+			r = *(&(last_pipe->parent->data[1][sizeof(int)]));
 			close(*(&(last_pipe->parent->data[1][sizeof(int)])));
 			log_debug("PID %zu: Closing pipe input fd : %d", getpid(), last_pipe->parent->data[1][sizeof(int)]);
 		}
 	}
 	else if (ptr == last_pipe->left)
 	{
+		r = last_pipe->data[1][sizeof(int)];
 		close(*(&(last_pipe->data[1][sizeof(int)])));
 		log_debug("PID %zu: Closing pipe input fd : %d", getpid(), last_pipe->data[1][sizeof(int)]);
 	}
+	return (r);
 }
 
 /*
@@ -121,14 +126,16 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 {
 	pid_t		waited_pid;
 	int			status;
+	t_process	*process_ptr;
 
-	add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
+	process_ptr = add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
 	debug_jobs(g_jobs);
 	status = -2;
 	if (last_pipe_node)
-		close_child_pipe_fds(node, last_pipe_node);
+		process_ptr->input_descriptor = close_child_pipe_fds(node, last_pipe_node);
 	else
 	{
+		process_ptr->input_descriptor = -1;
 		while (1)
 		{
 			waited_pid = waitpid(child_pid, &status, WNOHANG);

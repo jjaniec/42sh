@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/22 22:32:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/23 19:10:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int		is_a_process_running(t_job *job)
 	int			killr;
 
 	r = 0;
+	refresh_job_running_processes(g_jobs);
 	if (!job || !job->first_process)
 		return (0);
 	return (1);

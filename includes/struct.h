@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/15 18:14:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/23 15:57:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ typedef struct			s_process
 {
 	char				**cmd; // exec_ve parameters
 	pid_t				pid;
+	int					input_descriptor;
 	struct s_process	*next;
 }						t_process;
 

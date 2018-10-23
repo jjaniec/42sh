@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 20:55:02 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/22 22:26:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/23 16:06:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void		handle_sigchild(int sig)
 {
-	pid_t	p;
+	pid_t		p;
+	t_process	*process;
 
 	log_debug("PID %zu: Got sigchild!", getpid());
 
-	while ((p = waitpid((pid_t)(-1), 0, WNOHANG) > 0)) {
+	while ((p = waitpid((pid_t)(-1), 0, WNOHANG) > 0))
+	{
 		if (p == 1)
 		{
 			if (getpid() < g_jobs->pgid)
@@ -27,8 +29,11 @@ void		handle_sigchild(int sig)
 				g_jobs = NULL;
 				return ;
 			}
-		//	kill(-g_jobs->pgid, SIGCHIL);
-		//	exit(0);
+			else
+			{
+				//free_job(g_jobs);
+				//exit(0);
+			}
 		}
 		log_info("Got SIGCHILD for pid %d", p);
 		remove_task_pid_from_job(g_jobs, p);

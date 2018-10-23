@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 15:15:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/21 00:45:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/23 19:32:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid)
 	{
 		tmp = job->first_process->next;
 		//free(job->first_process);
+		//FD_CLR(job->first_process->input_descriptor, NULL);
+		//if (job->first_process->input_descriptor != -1)
+		//	log_close(job->first_process->input_descriptor);
 		job->first_process = tmp;
 		return process_pid;
 	}
@@ -36,6 +39,8 @@ pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid)
 	if (ptr && ptr->next && (size_t)ptr->next->pid == (size_t)process_pid)
 	{
 		//free(ptr->next->cmd);
+		//if (ptr->next->input_descriptor != -1)
+		//	log_close(ptr->next->input_descriptor);
 		ptr->next = ptr->next->next;
 		free(ptr->next);
 		return (process_pid);
