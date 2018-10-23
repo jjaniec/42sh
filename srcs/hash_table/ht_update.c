@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 23:42:12 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/22 15:47:15 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/23 16:05:47 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static bool	path_update(t_hashtable *hashtable)
 	i = 0;
 	while (hashtable->path[i])
 	{
-		if (!stat(hashtable->path[i], &file_stat))
-			if (file_stat.st_mtime > hashtable->modif_time[i])
-				return (true);
+		if (!stat(hashtable->path[i], &file_stat) &&
+		(file_stat.st_mtime > hashtable->modif_time[i]))
+			return (true);
 		i++;
 	}
 	return (false);
