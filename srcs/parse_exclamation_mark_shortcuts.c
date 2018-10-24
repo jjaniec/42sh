@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:18:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/06 19:20:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/16 19:42:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ const char			*parse_exclamation_mark_shortcuts(const char *excla)
 			return (NULL);
 	if (ft_strequ(excla, "!!") || ft_strequ(excla, "!-1"))
 			ret = get_last_cmd(le->history);
-	else if (str_is_positive_numeric(excla + 1)) // !n
+	else if (ft_str_is_positive_numeric(excla + 1)) // !n
 			ret = get_cmd_at_index_n(le->history, ft_atoi(excla + 1));
-	else if (excla[1] == '-' && str_is_positive_numeric(excla + 2)) // !-n
+	else if (excla[1] == '-' && ft_str_is_positive_numeric(excla + 2)) // !-n
 			ret = get_cmd_at_index_n_reverse(le->history, ft_atoi(excla + 2));
 	else // !str
 		ret = get_last_cmd_beggining_with_str(le->history, excla + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_char_expansion.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 13:33:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:40:50 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void		concat_expansion_data(t_lexeme_clean_data *l, char *expansion_value
 
 	expansion_value_len = ft_strlen(expansion_value);
 	l->clean_data_size += expansion_value_len;
-	new_data_str = malloc(l->clean_data_size);
+	new_data_str = ft_xmalloc(l->clean_data_size);
 	ft_strcpy(new_data_str, l->clean_data);
 	write_ptr_offset = (l->clean_data_write_ptr - l->clean_data) * sizeof(char);
 	ft_strcpy(new_data_str + write_ptr_offset, expansion_value);

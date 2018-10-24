@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:45:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:41:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:40:23 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 static void	update_values(struct s_line *le)
 {
 	ft_memmove(le->cmd + le->cursor_index - 1, \
-		le->cmd + le->cursor_index, \
-		ft_strlen(le->cmd + le->cursor_index));
+	le->cmd + le->cursor_index, \
+	ft_strlen(le->cmd + le->cursor_index));
 	le->cmd[le->cmd_len - 1] = '\0';
 	--(le->cmd_len);
 	if (le->nb_char_on_last_line == 0)

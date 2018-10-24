@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 17:54:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 18:59:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 
 	if (self->entry_count == MAX_ENV_ENTRIES || !name)
 		return (NULL);
-	new_entry_struct = malloc(sizeof(t_env_entry));
+	new_entry_struct = ft_xmalloc(sizeof(t_env_entry));
 	new_entry_struct->next = NULL;
 	new_entry_struct->ptr_to_pos_in_environ_tab = NULL;
 	if ((assign_char_ptr = ft_strchr(name, '=')) && assign_char_ptr != name)

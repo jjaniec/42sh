@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/10 17:33:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 16:36:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static void	do_the_copy(const char *separator_sign_pos, bool *first_elem, \
 		return ;
 	if (*first_elem == false)
 	{
-		(*alias)->next = malloc(sizeof(struct s_alias));
+		(*alias)->next = ft_xmalloc(sizeof(struct s_alias));
 		(*alias) = (*alias)->next;
 		(*alias)->next = NULL;
 	}
-	(*alias)->key = malloc(separator_sign_pos - line + 1);
+	(*alias)->key = ft_xmalloc(separator_sign_pos - line + 1);
 	ft_memcpy((*alias)->key, line, separator_sign_pos - line);
 	(*alias)->key[separator_sign_pos - line] = '\0';
-	(*alias)->value = malloc(ft_strlen(separator_sign_pos));
+	(*alias)->value = ft_xmalloc(ft_strlen(separator_sign_pos));
 	ft_memcpy((*alias)->value, separator_sign_pos + 1, \
 	ft_strlen(separator_sign_pos + 1));
 	(*alias)->value[ft_strlen(separator_sign_pos + 1)] = '\0';
@@ -50,7 +50,7 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		if (ret == -1)
 		{
 			ft_putstr_fd("42sh: error while loading .42sh_aliases\n", 2);
-			return ;
+			exit(MALLOC_ERROR);
 		}
 		else if (ret == 0)
 			break ;
@@ -60,6 +60,10 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		free(line);
 	}
 }
+
+/*
+**	Load the aliases file into a linked list used by the shell.
+*/
 
 void		load_aliases_file(struct s_alias *alias)
 {
@@ -98,7 +102,7 @@ void		load_history_file(struct s_line *le)
 		if (ret == -1)
 		{
 			ft_putstr_fd("42sh: error while loading .42sh_history\n", 2);
-			return ;
+			exit(MALLOC_ERROR);
 		}
 		else if (ret == 0)
 			break ;

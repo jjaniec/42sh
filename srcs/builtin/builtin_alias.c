@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/14 15:19:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 18:51:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void			add_next_tmp_alias(struct s_alias *alias, \
 	{
 		if (ft_strequ(alias->key, new_key))
 		{
-			free((void *)(alias->value));
+			free(alias->value);
+			free(new_key);
 			alias->value = new_value;
 			return ;
 		}
@@ -56,12 +57,12 @@ static void			add_next_tmp_alias(struct s_alias *alias, \
 	}
 	if (ft_strequ(alias->key, new_key))
 	{
-		free((void *)(alias->value));
+		free(alias->value);
+		free(new_key);
 		alias->value = new_value;
 		return ;
 	}
-	if ((alias->next = malloc(sizeof(struct s_alias))) == NULL)
-		exit(MALLOC_ERROR);
+	alias->next = ft_xmalloc(sizeof(struct s_alias));
 	alias->next->key = new_key;
 	alias->next->value = new_value;
 	alias->next->next = NULL;
@@ -81,10 +82,8 @@ static bool			add_tmp_alias(const char *key, const char *value, \
 			ft_putstr_fd("42sh: alias: invalid alias name\n", STDERR_FILENO);
 			return (false);
 		}
-	new_key = ft_strdup(key);
-	new_value = ft_strdup(value);
-	if (new_key == NULL || new_value == NULL)
-		exit(MALLOC_ERROR);
+	new_key = ft_xstrdup(key);
+	new_value = ft_xstrdup(value);
 	if (alias->key == NULL && "aliases linked list is empty")
 	{
 		alias->key = new_key;
@@ -139,6 +138,13 @@ static void			delete_alias(const char *key, struct s_alias *alias)
 	}
 }
 
+/*
+**	$ alias key value  => create a new entry
+**	$ alias --save  => save the aliases list into a file
+**	$ alias -d key  => delete an entry
+**	$ alias  => display the aliases list
+*/
+
 void				builtin_alias(char **argv, t_environ *env, t_exec *exe)
 {
 	unsigned int	nb_args;
@@ -147,7 +153,7 @@ void				builtin_alias(char **argv, t_environ *env, t_exec *exe)
 	(void)env;
 	exe->ret = 0;
 	alias = access_alias_datas();
-	nb_args = count_elem_2d_array(argv + 1);
+	nb_args = ft_count_elem_2d_array(argv + 1);
 	if ((nb_args != 0 && nb_args != 1 && nb_args != 2) \
 	|| (nb_args == 2 && check_option(argv[1]) == false))
 	{

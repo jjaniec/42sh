@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 19:21:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 22:07:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:51:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,22 @@ void			set_term_attr(t_set_term mode)
 	if (mode == LE_SET_NEW)
 	{
 		if (tcgetattr(STDIN_FILENO, &old) == -1)
-			le_exit("Error while getting terminal attributes\n", "tcgetattr", errno);
+		{
+			ft_putstr_fd("Error while getting terminal attributes\n", 2);
+			exit(EXIT_FAILURE);
+		}
 		new = old;
 		init_termios_flags(&new);
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			le_exit("Error while setting terminal attributes\n", "tcsetattr", errno);
+		{
+			ft_putstr_fd("Error while setting terminal attributes\n", 2);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else if (mode == LE_SET_OLD)
-	{
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &old) == -1)
-			le_exit("Error while setting terminal attributes\n", "tcsetattr", errno);
-	}
+		{
+			ft_putstr_fd("Error while setting terminal attributes\n", 2);
+			exit(EXIT_FAILURE);
+		}
 }

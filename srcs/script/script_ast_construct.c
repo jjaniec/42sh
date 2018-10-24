@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   script_ast_construct.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 11:55:55 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/26 11:08:44 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:49:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static char	**node_data(t_lexeme *lex)
 	i = 0;
 	size = -1;
 	log_debug("count_data: %d", size);
-	if (!(data = (char **)malloc(sizeof(char *) * (size + 1))))
-		exit(MALLOC_ERROR);
+	data = (char **)ft_xmalloc(sizeof(char *) * (size + 1));
 	while (i < size)
 	{
 		data[i] = lex->data;
@@ -45,9 +44,7 @@ t_ast		*script_create_node(t_lexeme *lex)
 	if (lex->type < T_SCRIPT_LOGICAL)
 		return (NULL);
 	log_info("AST: Creating scripting node: %s.", lex->data);
-	node = (t_ast *)ft_memalloc(sizeof(t_ast));
-	if (!node)
-		exit(MALLOC_ERROR);
+	node = (t_ast *)ft_xmemalloc(sizeof(t_ast));
 	node->type = lex->type;
 	node->type_details = lex->type_details;
 	node->data = node_data(lex);

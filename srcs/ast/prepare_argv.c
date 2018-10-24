@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 15:52:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/29 18:50:20 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 16:55:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ static char		**prepare_argv_operator(t_lexeme *lexemes)
 {
 	char		**argv;
 
-	if (!(argv = (char **)ft_memalloc(sizeof(char *) * 2)))
-		exit(MALLOC_ERROR);
-	argv[0] = ft_strdup(lexemes->data);
+	argv = (char **)ft_xmemalloc(sizeof(char *) * 2);
+	argv[0] = ft_xstrdup(lexemes->data);
 	argv[1] = NULL;
 	return (argv);
 }
@@ -73,7 +72,7 @@ static char		**fill_argv_tab(char ***argv, t_lexeme *lexemes)
 	while (ptr && should_add_to_argv(ptr))
 	{
 		if (ptr->type == T_WORD)
-			(*argv)[i++] = ft_strdup(ptr->data);
+			(*argv)[i++] = ft_xstrdup(ptr->data);
 		if (ptr->type == T_REDIR_OPT)
 			ptr = ptr->next;
 		if (ptr)
@@ -96,13 +95,11 @@ char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_eof)
 	{
 		log_info("This is a condition !");
 		lexemes->type = T_WORD;
-		if (!(argv = malloc(sizeof(char *) * count_argv(lexemes) + 1)))
-			exit(MALLOC_ERROR);
+		argv = ft_xmalloc(sizeof(char *) * (count_argv(lexemes) + 1));
 		return (fill_argv_tab(&argv, lexemes));
 	}
 	if (lexemes->type != T_WORD || flag_heredoc_eof)
 		return (prepare_argv_operator(lexemes));
-	if (!(argv = malloc(sizeof(char *) * count_argv(lexemes) + 1)))
-		exit(MALLOC_ERROR);
+	argv = ft_xmalloc(sizeof(char *) * (count_argv(lexemes) + 1));
 	return (fill_argv_tab(&argv, lexemes));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_constructor_subast.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/13 19:56:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 16:43:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ static char		**debug_data_node(char *str)
 {
 	char	**tab_;
 
-	tab_ = (char **)malloc(sizeof(char *) * 2);
-	if (!tab_)
-		exit(MALLOC_ERROR);
-	tab_[0] = ft_strdup(str);
+	tab_ = (char **)ft_xmalloc(sizeof(char *) * 2);
+	tab_[0] = ft_xstrdup(str);
 	tab_[1] = NULL;
 	return (tab_);
 }

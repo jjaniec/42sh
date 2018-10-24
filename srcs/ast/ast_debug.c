@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 14:43:10 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 17:05:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void	print_arg(t_ast *node)
 {
-	int		i;
+	unsigned int	i;
 
 	i = 0;
 	while (node->data[i])
@@ -33,7 +33,7 @@ static void	print_arg(t_ast *node)
 
 static void	print_subast(t_ast *node, int *sub_level)
 {
-	int			sl;
+	int		sl;
 
 	sl = 0;
 	(*sub_level)++;

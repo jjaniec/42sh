@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 17:20:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/08/14 17:24:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:37:54 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_error(char *subject, char *err_str)
 {
-	ft_putstr_fd("21sh: ", 2);
+	ft_putstr_fd(SH_NAME ": ", 2);
 	ft_putstr_fd(err_str, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(subject, 2);
