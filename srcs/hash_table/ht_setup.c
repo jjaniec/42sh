@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:58:44 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/22 00:39:36 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/24 19:42:52 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char		**add_path_slash(char **path)
 	i = 0;
 	while (path[i])
 		i++;
-	res = (char**)malloc(sizeof(char*) * (i + 1));
+	res = (char**)ft_xmalloc(sizeof(char*) * (i + 1));
 	i = 0;
 	while (path[i])
 	{
@@ -101,10 +101,8 @@ t_hashtable		*ht_setup(t_environ *env)
 	size = get_table_size(path);
 	if (size < 1)
 		return (NULL);
-	if ((hashtable = malloc(sizeof(t_hashtable))) == NULL)
-		return (NULL);
-	if ((hashtable->table = malloc(sizeof(t_entry*) * size)) == NULL)
-		return (NULL);
+	hashtable = (t_hashtable*)ft_xmalloc(sizeof(t_hashtable));
+	hashtable->table = (t_entry**)ft_xmalloc(sizeof(t_entry*) * size);
 	hashtable->path = path;
 	while (i < size)
 	{

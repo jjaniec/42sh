@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 14:25:42 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/22 18:41:18 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/24 19:40:51 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ t_entry				*ht_newnode(char *key, char *value)
 {
 	t_entry	*newnode;
 
-	if ((newnode = malloc(sizeof(t_entry))) == NULL)
-		return (NULL);
-	if ((newnode->key = ft_strdup(key)) == NULL)
-		return (NULL);
-	if ((newnode->value = ft_strdup(value)) == NULL)
-		return (NULL);
+	newnode = (t_entry*)ft_xmalloc(sizeof(t_entry));
+	newnode->key = ft_xstrdup(key);
+	newnode->value = ft_xstrdup(value);
 	newnode->next = NULL;
 	return (newnode);
 }
@@ -98,7 +95,7 @@ t_hashtable			*ht_create(t_environ *env)
 	hashtable = ht_setup(env);
 	if (!hashtable || !hashtable->path)
 		return (NULL);
-	hashtable->modif_time = malloc(sizeof(time_t) *
+	hashtable->modif_time = (time_t*)ft_xmalloc(sizeof(time_t) *
 	ht_tab_len(hashtable->path));
 	while (hashtable->path[i])
 	{
