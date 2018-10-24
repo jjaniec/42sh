@@ -72,10 +72,12 @@ void	init_signals(void)
 		new.sa_handler = &(handle_sigint);
 		sigaction(SIGINT, &new, NULL);
 	}
+	/*
 	new.sa_handler = &(handle_sigchild);
 	new.sa_flags |= SA_RESTART;
 	sigaction(SIGCHLD, &new, NULL);
-
+*/
+	signal(SIGCHLD, SIG_IGN);
 	new.sa_flags = 0;
 
 	new.sa_handler = &(handle_useless_signals);

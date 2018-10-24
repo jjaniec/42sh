@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/23 19:10:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/24 21:36:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,23 @@ static int		is_a_process_running(t_job *job)
 	t_process	*ptr;
 	int			r;
 	int			killr;
+	int			status;
+	pid_t		waited_pid;
 
 	r = 0;
 	refresh_job_running_processes(g_jobs);
+	while ((waited_pid = waitpid(0, &status, 0)) != -1)
+	{
+		log_info("PID %zu terminated", waited_pid);
+		//remove_task_pid_from_job(g_jobs, waited_pid);
+		//debug_jobs(g_jobs);
+	}
+	//refresh_job_running_processes(g_jobs);
+	return 0;
+	/*
 	if (!job || !job->first_process)
 		return (0);
-	return (1);
+	return (1);*/
 }
 
 /*
@@ -36,7 +47,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 					bool *is_in_pipeline)
 {
 	pid_t	pipeline_manager_pid;
-	int		status;
+	int		status = -2;
 	pid_t	waited_pid = 0;
 
 
@@ -61,7 +72,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 			log_trace("Pipe Manager: Waiting pipeline processes");
 			while (is_a_process_running(g_jobs))
 			{
-				sleep(1);
+				//sleep(1);
 				log_debug("Pipe manager: Waiting for a child");
 			}
 			debug_jobs(g_jobs);
