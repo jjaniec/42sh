@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/11 15:58:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/24 16:32:08 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
  		if (input == NULL)
 			return (NULL);	
  	}
-	log_fatal("Input : %s", input);
 	lexer(input, &new, NULL);
 	free(input);
-	log_fatal("1st lex type : %zu - td %zu - d %s", new->type, new->type_details, new->data);
 	if (!lex)
 		return (new);
 	save = lex;
