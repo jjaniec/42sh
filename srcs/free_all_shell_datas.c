@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2018/10/19 16:26:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/24 16:15:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void			free_all_shell_datas(void)
 		ast_free(*ast_ptr);
 	le_free_datas();
 	free_aliases_list();
-	free(get_parsed_aliases_file_path());
+	if (g_cmd_status.interactive_mode == true)
+		free(get_parsed_aliases_file_path());
 }
