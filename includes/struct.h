@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/23 15:57:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/24 22:26:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ typedef struct 			s_job
   struct s_job		*next;
   char				*command;
   t_process			*first_process;
+  pid_t				last_process_pid;
   pid_t				pgid;
   //char				notified;
   struct termios	tmodes;

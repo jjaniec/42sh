@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:19:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 16:52:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/24 23:18:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr)
 	(*node_data)[2] = NULL;
 	pipe(pipe_fds);
 	//fcntl(pipe_fds[0], F_SETFL, fcntl(pipe_fds[0], F_GETFL) | O_NONBLOCK);
+	//fcntl(pipe_fds[1], F_SETFD, FD_CLOEXEC);
 	log_info("Created pipe w/ fds: %d (out) %d (in)", \
 		pipe_fds[0], pipe_fds[1]);
 	if (pipe_node_ptr && pipe_node_ptr->parent && \

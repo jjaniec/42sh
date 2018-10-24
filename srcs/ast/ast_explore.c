@@ -6,30 +6,34 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/24 21:36:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/24 23:30:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static int		is_a_process_running(t_job *job)
+static int		wait_childs(t_job *job)
 {
-	t_process	*ptr;
-	int			r;
-	int			killr;
 	int			status;
+	int			r = 0;
 	pid_t		waited_pid;
 
-	r = 0;
 	refresh_job_running_processes(g_jobs);
 	while ((waited_pid = waitpid(0, &status, 0)) != -1)
 	{
-		log_info("PID %zu terminated", waited_pid);
+		if (waited_pid == g_jobs->last_process_pid)
+		{
+			if (WIFEXITED(status))
+				r = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				r = WTERMSIG(status);
+		}
+		log_info("PID %zu terminated w/ exitstatus: %d", waited_pid, WEXITSTATUS(status));
 		//remove_task_pid_from_job(g_jobs, waited_pid);
 		//debug_jobs(g_jobs);
 	}
 	//refresh_job_running_processes(g_jobs);
-	return 0;
+	return 0;	return r;
 	/*
 	if (!job || !job->first_process)
 		return (0);
@@ -47,9 +51,9 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 					bool *is_in_pipeline)
 {
 	pid_t	pipeline_manager_pid;
-	int		status = -2;
+	int		status = 0;
 	pid_t	waited_pid = 0;
-
+	int		r = 0;
 
 	if ((pipeline_manager_pid = fork()) <= 0)
 	{
@@ -67,45 +71,37 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 				perror("Getpgid in pipeline manager");
 			ast_explore(ast, exe);
 			log_debug("Pipe manager: ast exploration ended");
-			status = 0;
 			debug_jobs(g_jobs);
 			log_trace("Pipe Manager: Waiting pipeline processes");
-			while (is_a_process_running(g_jobs))
-			{
-				//sleep(1);
-				log_debug("Pipe manager: Waiting for a child");
-			}
-			debug_jobs(g_jobs);
-			log_trace("PIPE MANAGER: All processes terminated: Exiting", waited_pid);
+			r = wait_childs(g_jobs);
+			if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))
+				ast_debug(ast);
 			free_all_shell_data();
-			exit(0);
+			log_trace("PIPE MANAGER: All processes terminated: Exiting w/ code: %d", r);
+			exit(r);
 		}
 	}
+	g_jobs = create_job("PIPE MANAGER");
+	g_jobs->pgid = pipeline_manager_pid;
+	log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
+	errno = 0;
+	{ le_debug(" prefix %s - main b4 waitpit\n", __func__); }
+	waited_pid = waitpid(pipeline_manager_pid, &status, 0);
+	{ le_debug(" prefix %s - main after waitpid\n", __func__); }
+	if (WIFEXITED(status))
+		exe->ret = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		exe->ret = WTERMSIG(status);
 	else
 	{
-		g_jobs = create_job("PIPE MANAGER");
-		g_jobs->pgid = pipeline_manager_pid;
-		log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
-		errno = 0;
-		while (1)
-		{
-			{ le_debug(" prefix %s - main b4 waitpit\n", __func__); }
-			waited_pid = waitpid(pipeline_manager_pid, &status, 0);
-			{ le_debug(" prefix %s - main after waitpid\n", __func__); }
-			if (waited_pid == -1 && errno == EINTR) // Continue while pipeline isn't dead if syscall was interrupted by a signal
-				continue;
-			break ;
-		}
-		//if WIFEXITED(status)
-		/*if (WIFSIGNALED(status))
-			ft_printf(SH_NAME": Pipeline exited by a signal\n");
-		else */if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
+		exe->ret = -1;
+		if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
 			(waited_pid == -1 || (waited_pid != pipeline_manager_pid)))
 			return (handle_wait_error(waited_pid, &status, pipeline_manager_pid));
-		log_trace("MAIN PROCESS: Pipe manager terminated w/ status: %d", status);
-		free_job(g_jobs);
-		g_jobs = NULL;
 	}
+	log_trace("MAIN PROCESS: Pipe manager terminated w/ status: %d - wexitstatus: %d", status, WEXITSTATUS(status));
+	free_job(g_jobs);
+	g_jobs = NULL;
 	return (pipeline_manager_pid);
 }
 
