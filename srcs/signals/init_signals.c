@@ -55,8 +55,8 @@ void	init_signals(void)
 
 	//setpgrp();
 
-	signal(SIGTTIN, SIG_IGN);
-	signal(SIGTTOU, SIG_IGN);
+	signal(SIGTTIN, SIG_DFL);
+	signal(SIGTTOU, SIG_DFL);
 
 	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
@@ -77,7 +77,8 @@ void	init_signals(void)
 	new.sa_flags |= SA_RESTART;
 	sigaction(SIGCHLD, &new, NULL);
 */
-	signal(SIGCHLD, SIG_IGN);
+	//signal(SIGCHLD, SIG_IGN);
+	signal(SIGCHLD, SIG_DFL);
 	new.sa_flags = 0;
 
 	new.sa_handler = &(handle_useless_signals);

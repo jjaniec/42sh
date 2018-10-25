@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/24 23:30:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/25 21:17:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,17 @@ static int		wait_childs(t_job *job)
 	int			status;
 	int			r = 0;
 	pid_t		waited_pid;
+	t_process	*ptr;
 
-	refresh_job_running_processes(g_jobs);
+	ptr = g_jobs->first_process;
+	debug_jobs(g_jobs);
+	//refresh_job_running_processes(g_jobs);
+	while (ptr)
+	{
+		waited_pid = waitpid(ptr->pid, &status, 0);
+		ptr = ptr->next;
+	}
+	/*
 	while ((waited_pid = waitpid(0, &status, 0)) != -1)
 	{
 		if (waited_pid == g_jobs->last_process_pid)
@@ -27,13 +36,14 @@ static int		wait_childs(t_job *job)
 				r = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				r = WTERMSIG(status);
+			log_info("Last process of pipeline terminated: Return code set to %d", r);
 		}
 		log_info("PID %zu terminated w/ exitstatus: %d", waited_pid, WEXITSTATUS(status));
 		//remove_task_pid_from_job(g_jobs, waited_pid);
 		//debug_jobs(g_jobs);
-	}
+	}*/
 	//refresh_job_running_processes(g_jobs);
-	return 0;	return r;
+	return r;
 	/*
 	if (!job || !job->first_process)
 		return (0);

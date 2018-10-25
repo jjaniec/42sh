@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/24 23:20:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/25 21:34:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static void	child_process(void **cmd, t_exec *exe, \
 		backup_fds[0] = dup(STDIN_FILENO);
 		backup_fds[1] = dup(STDOUT_FILENO);
 		backup_fds[2] = dup(STDERR_FILENO);
+		if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
+			log_error("PID %zu: Backup fds duplication failed!", getpid());
 	}
-	if (!pipe_fds && (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1))
-		log_error("PID %zu: Backup fds duplication failed!", getpid());
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
 	if (cmd)
@@ -61,22 +61,18 @@ static void	child_process(void **cmd, t_exec *exe, \
 				log_error("PID %zu - Execve() not working", getpid());
 				perror("execve");
 			}
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
-	//if (pipe_stdout_fd)
-	//{
-	//	log_close(pipe_stdout_fd);
-
+	if (!pipe_fds)
+	{
 		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
 		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
 		handle_redir_fd(STDERR_FILENO, backup_fds[2]);
-//			if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
-//		perror("dup in backup fds");
-//	}
-	/*log_close(backup_fds[0]);
-	log_close(backup_fds[1]);
-	log_close(backup_fds[2]);*/
+		/*log_close(backup_fds[0]);
+		log_close(backup_fds[1]);
+		log_close(backup_fds[2]);*/
+	}
 	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
 		log_fatal("PID %zu: Forcing exit of child process", getpid());
@@ -111,19 +107,20 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 	int			status;
 	t_process	*process_ptr;
 
+	status = -2;
 	process_ptr = add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
-	debug_jobs(g_jobs);
-	status = 0;
-	process_ptr->input_descriptor = -1; // ->
+	//debug_jobs(g_jobs);
+	//process_ptr->input_descriptor = -1; // ->
 	close_child_pipe_fds(pipe_fds);
 	if (!pipe_fds)
 	{
-		waited_pid = wait(&status);
+		waited_pid = waitpid(child_pid, &status, 0);
 		if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
 			(waited_pid == -1 || (waited_pid != child_pid)))
 			return (handle_wait_error(waited_pid, &status, child_pid));
 		status = WEXITSTATUS(status);
-		log_info("Command %s exited w/ status: %d", cmd[1], status);
+		log_info("PID %zu: Command %s exited w/ status: %d", getpid(), \
+			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), status);
 		free_job(g_jobs);
 		g_jobs = NULL;
 	}
@@ -169,8 +166,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
 	if (last_pipe_node || should_fork(cmd))
 	{
-		pipe_fds = (last_pipe_node) ? \
-			(get_pipe_fds(last_pipe_node, node)) : (NULL);
+		pipe_fds = get_pipe_fds(last_pipe_node, node);
 		child_pid = fork();
 		if (child_pid == -1)
 			log_error("Fork() not working");
