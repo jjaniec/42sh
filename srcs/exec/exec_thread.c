@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/25 21:34:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/25 22:32:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 		log_fatal("PID %zu: Forcing exit of child process", getpid());
 		exit(exe->ret);
 	}
+	exit(EXIT_FAILURE);
 }
 
 /*

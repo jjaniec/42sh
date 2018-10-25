@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/25 21:17:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/25 22:35:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ static int		wait_childs(t_job *job)
 	ptr = g_jobs->first_process;
 	debug_jobs(g_jobs);
 	//refresh_job_running_processes(g_jobs);
+	/*
 	while (ptr)
 	{
 		waited_pid = waitpid(ptr->pid, &status, 0);
 		ptr = ptr->next;
-	}
-	/*
+	}*/
+	
 	while ((waited_pid = waitpid(0, &status, 0)) != -1)
 	{
 		if (waited_pid == g_jobs->last_process_pid)
@@ -41,13 +42,9 @@ static int		wait_childs(t_job *job)
 		log_info("PID %zu terminated w/ exitstatus: %d", waited_pid, WEXITSTATUS(status));
 		//remove_task_pid_from_job(g_jobs, waited_pid);
 		//debug_jobs(g_jobs);
-	}*/
+	}
 	//refresh_job_running_processes(g_jobs);
 	return r;
-	/*
-	if (!job || !job->first_process)
-		return (0);
-	return (1);*/
 }
 
 /*
@@ -65,6 +62,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	pid_t	waited_pid = 0;
 	int		r = 0;
 
+/*
 	if ((pipeline_manager_pid = fork()) <= 0)
 	{
 		if (pipeline_manager_pid == -1)
@@ -95,16 +93,14 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	g_jobs->pgid = pipeline_manager_pid;
 	log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
 	errno = 0;
-	{ le_debug(" prefix %s - main b4 waitpit\n", __func__); }
 	waited_pid = waitpid(pipeline_manager_pid, &status, 0);
-	{ le_debug(" prefix %s - main after waitpid\n", __func__); }
 	if (WIFEXITED(status))
-		exe->ret = WEXITSTATUS(status);
+		r = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		exe->ret = WTERMSIG(status);
+		r = WTERMSIG(status);
 	else
 	{
-		exe->ret = -1;
+		r = -1;
 		if (!WIFEXITED(status) && !WIFSIGNALED(status) && \
 			(waited_pid == -1 || (waited_pid != pipeline_manager_pid)))
 			return (handle_wait_error(waited_pid, &status, pipeline_manager_pid));
@@ -112,7 +108,16 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	log_trace("MAIN PROCESS: Pipe manager terminated w/ status: %d - wexitstatus: %d", status, WEXITSTATUS(status));
 	free_job(g_jobs);
 	g_jobs = NULL;
-	return (pipeline_manager_pid);
+	return (r);
+*/
+
+	g_jobs = create_job("PIPE MANAGER");
+	*is_in_pipeline = true;
+	ast_explore(ast, exe);
+	r = wait_childs(g_jobs);
+	free_job(g_jobs);
+	g_jobs = NULL;
+	return r;
 }
 
 /*
@@ -135,9 +140,10 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 			ast, ast->data[0], exe->ready_for_exec, (is_in_pipeline_fork) ? ("true") : ("false"));
 	if (!is_in_pipeline_fork && ast->type_details == TK_PIPE)
 	{
-		handle_new_pipeline(ast, exe, &is_in_pipeline_fork);
-		if (!is_in_pipeline_fork)
-			return (exe);
+		exe->ret = handle_new_pipeline(ast, exe, &is_in_pipeline_fork);
+		/*is_in_pipeline_fork = false;
+		if (!is_in_pipeline_fork)*/
+		return (exe);
 	}
 	pre_exec(ast, exe);
 	ast_explore(ast->left, exe);
