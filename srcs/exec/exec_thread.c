@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 20:32:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 21:42:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 */
 
 static void	child_process(void **cmd, t_exec *exe, \
-				t_ast *node, int *pipe_fds)
+				t_ast *node, int **pipe_fds)
 {
 	int		backup_fds[3];
 
@@ -82,17 +82,25 @@ static void	child_process(void **cmd, t_exec *exe, \
 }
 
 /*
-** Close unessecary pipe inputs
+** Close input/output fds used by current process, and replace pipe data
+** corresponding to closed fd to -1, to be sure it's not double closed
+** free pipe data when it's two fds are set to -1
 */
 
-static void		close_child_pipe_fds(int *pipe_fds)
+static void		close_child_pipe_fds(int **pipe_fds)
 {
 	if (pipe_fds)
 	{
-		if (pipe_fds[0] != -1)
-			log_close(pipe_fds[0]);
-		if (pipe_fds[1] != -1)
-			log_close(pipe_fds[1]);
+		if (pipe_fds[0] && *(pipe_fds[0]) != -1)
+		{
+			log_close(*(pipe_fds[0]));
+			*(pipe_fds[0]) = -1;
+		}
+		if (pipe_fds[1] && *(pipe_fds[1]) != -1)
+		{
+			log_close(*(pipe_fds[1]));
+			*(pipe_fds[1]) = -1;
+		}
 	}
 }
 
@@ -102,7 +110,7 @@ static void		close_child_pipe_fds(int *pipe_fds)
 */
 
 static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
-				int *pipe_fds)
+				int **pipe_fds)
 {
 	pid_t		waited_pid;
 	int			status;
@@ -156,7 +164,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 {
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
-	int		*pipe_fds;
+	int		**pipe_fds;
 
 	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
