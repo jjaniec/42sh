@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/24 21:14:51 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/26 20:25:37 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,6 +138,7 @@ SRC_NAME = 	is_separator.c \
 			exec/refresh_job_running_processes.c \
 			exec/remove_task_pid_from_job.c \
 			exec/get_pipe_fds.c \
+			exec/get_process_return_code.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
