@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 15:18:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 20:10:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	free_job(g_jobs);
 	g_jobs = NULL;
 	*is_in_pipeline = false;
-	return r;
+	return (r);
 }
 
 /*
@@ -134,6 +134,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 {
 	static bool	is_in_pipeline_fork = false;
+	int			tmp;
 
 	if (!ast)
 		return (exe);
@@ -142,7 +143,9 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 			ast, ast->data[0], exe->ready_for_exec, (is_in_pipeline_fork) ? ("true") : ("false"));
 	if (!is_in_pipeline_fork && ast->type_details == TK_PIPE)
 	{
-		exe->ret = handle_new_pipeline(ast, exe, &is_in_pipeline_fork);
+		tmp = handle_new_pipeline(ast, exe, &is_in_pipeline_fork);
+		if (!exe->ready_for_exec)
+			exe->ret = tmp;
 		/*is_in_pipeline_fork = false;
 		if (!is_in_pipeline_fork)*/
 		return (exe);
