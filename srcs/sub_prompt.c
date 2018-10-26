@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 13:13:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:56:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,13 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 	char	*final;
 	char	*eof_word;
 
-	final = (char *)ft_memalloc(sizeof(char));
+	final = (char *)ft_xmemalloc(sizeof(char));
 	if (!final)
 		exit(MALLOC_ERROR);
 	eof_word = ft_strjoin(eof_word_tmp, "\n");
 	while (1)
 	{
-		final_input = (char *)ft_memalloc(sizeof(char));
+		final_input = (char *)ft_xmemalloc(sizeof(char));
 		if (!get_full_line(&final_input))
 		{
 			free(final_input);
