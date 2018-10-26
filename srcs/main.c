@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 19:29:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:08:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 
 static int	open_error_print_msg(char *file)
 {
-	ft_putstr_fd("42sh: ", 2);
+	ft_putstr_fd(SH_NAME": ", 2);
 	ft_putstr_fd(file, 2);
 	ft_putendl_fd(": No such file or directory", 2);
 	return (1);
@@ -119,10 +119,13 @@ static char	*read_file(int fd)
 {
 	char	*line;
 	char	*final;
+	int		ret;
 
 	final = ft_strnew(0);
-	while(get_next_line(fd, &line))
+	while((ret = get_next_line(fd, &line)))
 	{
+		if (ret == -1)
+			exit(1);
 		final = ft_strjoin_free(final, line);
 		final = ft_strjoin_free(final, ft_strdup("\n"));
 	}

@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 14:14:34 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/19 16:10:22 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 12:53:57 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	error_msg_operator(char **argv)
 	 && !ft_strequ(argv[1], "-le")
 	 && !ft_strequ(argv[1], "-lt"))
 	{
-		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[-1], 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(argv[1], 2);
@@ -71,7 +71,7 @@ int		parse_expr_file(char **argv, t_option *opt_list, \
 	ret -= test_expr_file(opt_list, char_opt_index, "S", S_ISSOCK(fstat.st_mode));
 	if (argv[0][0] != '-')
 	{
-		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[-1], 2);
 		ft_putchar_fd(' ', 2);
 		ft_putchar_fd(argv[0][0], 2);
