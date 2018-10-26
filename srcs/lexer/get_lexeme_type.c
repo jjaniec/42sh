@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 16:29:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 11:46:02 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int 	lexeme_type_ctrlopt(char *s, int *pos, \
 
 	if (*s == '&' || *s == '|' || *s == ';' || *s == '\n')
 	{
-		if (*s != ';' && *s == s[1])
+		if (*s != ';' && *s == s[1] && *s != '\n')
 		{
 			if (*s == '&')
 				*type_details = TK_DAND;
