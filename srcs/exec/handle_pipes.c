@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 13:04:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/25 21:25:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 13:57:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			handle_pipes(int *pipe_fds)
 		if (pipe_fds[2] != -1)
 			log_close(pipe_fds[2]);
 //		if (pipe_fds[3] != -1)
-//			log_close(pipe_fds[3]); -> commented cos already closed by parent
+//			log_close(pipe_fds[3]); -> already closed by parent
 		free(pipe_fds);
 	}
 	return (0);
