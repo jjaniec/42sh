@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 20:20:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 20:31:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 20:49:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /*
 ** If process terminated by calling on of the exit() family functions or
 ** by receiving a signal, return return code (re-read this a 2nd time)
-** or signal number 
+** or signal number, otherwise if waited process terminated is different than
+** the one expected
 */
 
 int		get_process_return_code(int *status, \

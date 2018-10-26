@@ -6,11 +6,18 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 20:44:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 21:09:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+** Wait for all childs created for the pipeline,
+** each child will be removed in our g_jobs->processes
+** linked list by the sigchild handler,
+** when this list is empty, we know no more processes are running
+*/
 
 static int		wait_childs(t_job *job)
 {
@@ -20,8 +27,6 @@ static int		wait_childs(t_job *job)
 	t_process	*ptr;
 
 	ptr = g_jobs->first_process;
-	debug_jobs(g_jobs);
-	//refresh_job_running_processes(g_jobs);
 	/*
 	while (ptr)
 	{
@@ -38,12 +43,20 @@ static int		wait_childs(t_job *job)
 		}
 		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d", \
 			waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
-		remove_task_pid_from_job(g_jobs, waited_pid);
-		debug_jobs(g_jobs);
+		//remove_task_pid_from_job(g_jobs, waited_pid); //-> done by sigchild handler
 	}
-	//refresh_job_running_processes(g_jobs);
+	log_debug("End of wait_childs debug_jobs:");
+	debug_jobs(g_jobs);
 	return r;
 }
+
+/*
+** Set process group of our new job for pipeline and
+** continue ast exploration in this fork,
+** when all processes are started and fds piped to each others,
+** wait for all childs before free'ing unnecessary data and
+** exiting w/ last process of the pipeline as return value
+*/
 
 static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 {
@@ -120,7 +133,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 ** fork it to execute the pipeline in its own new process,
 ** this is done to be able to group kill all of the
 ** forked processes in the pipeline
-** without exiting the shell
+** without exiting the shell and easier job control
 */
 
 t_exec	*ast_explore(t_ast *ast, t_exec *exe)
@@ -138,8 +151,6 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 		tmp = handle_new_pipeline(ast, exe, &is_in_pipeline_fork);
 		if (!exe->ready_for_exec)
 			exe->ret = tmp;
-		/*is_in_pipeline_fork = false;
-		if (!is_in_pipeline_fork)*/
 		return (exe);
 	}
 	pre_exec(ast, exe);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/15 19:40:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/18 18:16:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 20:55:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ static void	debug_job_processes(t_process *first_process, int job_count, pid_t g
 
 	process_ptr = first_process;
 	process_count = 0;
+	if (!process_ptr)
+	{
+		log_debug("No processes in job %d", job_count);
+		return ;
+	}
 	while (process_ptr)
 	{
 		log_debug("Job %d - gpid %zu: Running process %d : %s - pid: %zu", \
