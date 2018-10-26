@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 13:39:29 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 14:48:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,12 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 			ft_putstr(COL_ENV_VAR_EXPANSION);
 		else if (*(lexeme_begin) == '\'' || *(lexeme_begin) == '"')
 			ft_putstr(COL_QUOTED_ARG);
+		else if (script_colodyn(lexeme, &item_nb))
+			ft_putstr(COL_SCRIPT);
 		else
 			print_prog_name_arg_col(&elem_stats, \
-				elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
+				elem_path_found(&elem_stats, lexeme->data, env, item_nb) \
+				+ ft_strequ(lexeme->data, "["), item_nb);
 	}
 	if (!lexeme->next)
 		item_nb = -1;
