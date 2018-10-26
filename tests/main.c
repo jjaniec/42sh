@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 20:51:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 22:40:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ int	main(int argc, char **argv, char **envp)
 	close(STDERR_FILENO);
 	dup2(backup_stdout, STDOUT_FILENO);
 	dup2(backup_stderr, STDERR_FILENO);*/
+
+	printf("Some particular tests with pipes cannot be automatized as they require interactive mode,\nbefore pushing to the main branch, please be sure that the following tests have the same behavior on "SH_NAME" and sh:\n\
+		\tcat | ls\n\
+		\tcat | cat -e\n");
 	done_testing();
 	//end = clock();
 

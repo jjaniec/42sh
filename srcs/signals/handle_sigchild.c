@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 20:55:02 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 21:03:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 21:57:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		handle_sigchild(int sig)
 
 	while ((p = waitpid((pid_t)(-1), 0, WNOHANG) > 0))
 	{
-		if (p == 1 && getpid() < g_jobs->pgid)
+		if (p == 1 && getpid() < g_jobs->pgid) // To replace as !(foreach job; if getpid() is in job->process_list) condition type if we're doing job control
 		{
 			free_job(g_jobs);
 			g_jobs = NULL;
@@ -41,17 +41,4 @@ void		handle_sigchild(int sig)
 		remove_task_pid_from_job(g_jobs, p);
 		debug_jobs(g_jobs);
 	}
-
-/*	if (getpid() == g_jobs->pgid)
-		refresh_job_running_processes(g_jobs);
-	if (!(g_jobs->first_process))
-	{
-		if (getpid() == g_jobs->pgid)
-			exit(0);
-		else
-			g_jobs = NULL;
-	}
-	else
-		debug_jobs(g_jobs);*/
-	//raise(sig);
 }
