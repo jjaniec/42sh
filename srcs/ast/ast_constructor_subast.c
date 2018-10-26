@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_constructor_subast.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/13 19:16:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:21:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ static char		**debug_data_node(char *str)
 {
 	char	**tab_;
 
-	tab_ = (char **)malloc(sizeof(char *) * 2);
-	if (!tab_)
-		exit(MALLOC_ERROR);
-	tab_[0] = ft_strdup(str);
+	tab_ = (char **)ft_xmalloc(sizeof(char *) * 2);
+	tab_[0] = ft_xstrdup(str);
 	tab_[1] = NULL;
 	return (tab_);
 }
@@ -30,7 +28,7 @@ static char		**debug_data_node(char *str)
 */
 
 static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
-				const int  next_tokens[],
+				const int next_tokens[],
 				void (*const node_placer)(t_ast *, t_ast *))
 {
 	t_lexeme	*end_lexeme;

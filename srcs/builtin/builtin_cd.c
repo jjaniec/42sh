@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/19 15:59:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 18:46:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,112 +26,120 @@ t_option		g_cd_opts[] = {
 	{{NULL}, NULL, false}
 };
 
+/*
+** Refresh PWD env variable
+*/
 
-static char	*get_back(char *path)
+static void	ft_refresh_cwd_env(t_environ *env)
 {
-	char	*final;
+	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
 
-	if (path[0] == '/' && path[1] == '\0')
-		final = ft_strdup(path);
+	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
+		env->upt_var(env, "PWD", cwd_new_fmt);
 	else
+		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
+}
+
+/*
+** Print cd error according to errno
+*/
+
+static void	ft_print_cd_err(char *path, int errno_err)
+{
+	ft_putstr_fd(SH_NAME": ", 2);
+	ft_putstr_fd(path, 2);
+	if (errno_err == EACCES)
+		ft_putstr_fd(": permission denied\n", 2);
+	else if (errno_err == ENOENT)
+		ft_putstr_fd(": does not exists\n", 2);
+	else if (errno_err == ENOTDIR)
+		ft_putstr_fd(": not a directory\n", 2);
+	else
+		exit(MALLOC_ERROR);
+}
+
+/*
+** Change current directory
+** here we use MAX_ENV_ENTRY_LEN as max path len
+** so we can update properly the PWD and OLDPWD env variables
+*/
+
+static int	ft_change_dir(t_environ *env, char *path, char *cwd)
+{
+	if (path && !chdir(path))
 	{
-		final = ft_strrchr(path, '/');
-		if (final != path)
-		{
-			*final = '\0';
-			final = ft_strdup(path);
-		}
+		if (env->get_var(env, "OLDPWD"))
+			ft_strncpy(env->last_used_elem->val_begin_ptr, cwd, MAX_ENV_ENTRY_LEN - 7);
 		else
-			final = ft_strdup("/");
-	}
-	return (final);
-}
-
-static char	*create_path(char *path, char *home, char *oldpwd, char *str)
-{
-	char	*final;
-
-	final = NULL;
-	if (str && home && str[0] == '~' && str[1])
-		final = new_path(home, str + 1);
-	else if (str && home && str[0] == '~' && !str[1])
-		final = ft_strdup(home);
-	else if (str && path && str[0] == '.' && str[1] == '\0')
-		final = ft_strdup(path);
-	else if (str && path && str[0] == '.' && str[1] == '.' && str[2] == '\0')
-		final = get_back(path);
-	else if (str && str[0] == '/')
-		final = ft_strdup(str);
-	else if (oldpwd && str && str[0] == '-' && str[1] == '\0')
-	{
-		final = ft_strdup(oldpwd);
-		ft_putendl(oldpwd);
-	}
-	else if (path && str)
-		final = new_path(path, str);
-	return (final);
-}
-
-static char	*get_cd_path(char *str, const char **envp)
-{
-	char	*final;
-	char	*path;
-	char	*home;
-	char	*oldpwd;
-
-	home = get_env("HOME", envp);
-	oldpwd = get_env("OLDPWD", envp);
-	path = getcwd(NULL, 0);
-	final = create_path(path, home, oldpwd, str);
-	ft_strdel(&path);
-	return (final);
-}
-
-static int	change_dir(char *path, char **envp, t_exec *exe)
-{
-	//char	*actual_pwd;
-	//char	**new_envp;
-
-	(void)envp;
-	//actual_pwd = getcwd(NULL, 0);
-	if (chdir(path) == -1)
-	{
-		exe->ret = 1;
-		//ft_strdel(&actual_pwd);
+			env->add_var(env, "OLDPWD", cwd);
+		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
 		return (0);
 	}
 	else
 	{
-		//new_envp = inline_setenv("PWD", path, envp);
-		//if (exe->envp)
-		//	ft_free_argv(exe->envp);
-		//exe->envp = inline_setenv("OLDPWD", actual_pwd, new_envp);
-		//if (exe->tmp_envp)
-		//	ft_free_argv(exe->tmp_envp);
-		//exe->tmp_envp = NULL;
-		//ft_free_argv(new_envp);
+		log_error("Failed to change cwd to %s", path);
+		ft_print_cd_err(path, errno);
+		return (1);
 	}
-	//ft_strdel(&actual_pwd);
-	exe->ret = 0;
+}
+
+/*
+** Handle cd -
+*/
+
+static int	builtin_cd_dash(t_environ *env, char *cwd)
+{
+	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
+
+	if (env->get_var(env, "OLDPWD"))
+	{
+		ft_strcpy(old_oldpwd, env->last_used_elem->val_begin_ptr);
+		if (!ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
+			ft_putendl(old_oldpwd);
+		return (0);
+	}
+	ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
 	return (1);
 }
 
-void		builtin_cd(char **argv, char **envp, t_exec *exe)
-{
-	char	*path;
+/*
+** Change current directory and update PWD & OLDPWD env
+** variables
+*/
 
-	if (!argv[1])
-		path = ft_strdup(get_env("HOME", (const char **)envp));
-	else
-		path = get_cd_path(argv[1], (const char **)envp);
-	if (path)
+void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
+{
+	char		cwd[MAX_ENV_ENTRY_LEN];
+	(void)exe;
+
+	exe->ret = 0;
+	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)))
 	{
-		if (!change_dir(path, envp, exe))
+		if (errno == EACCES)
 		{
-			ft_putstr_fd("cd: no such file or directory: ", 2);
-			ft_putstr_fd(argv[1], 2);
-			ft_putchar_fd('\n', 2);
+			exe->ret = 1;
+			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
+		}
+		else
+			exit(MALLOC_ERROR);
+	}
+	if (!exe->ret && !argv[1])
+	{
+		if (env->get_var(env, "HOME"))
+			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+		else
+		{
+			ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
+			exe->ret = 1;
+			return ;
 		}
 	}
-	ft_strdel(&path);
+	else if (!exe->ret && !ft_strcmp(argv[1], "-"))
+	{
+		if ((exe->ret = builtin_cd_dash(env, cwd)))
+			return ;
+	}
+	else if (!exe->ret && argv[1])
+		ft_change_dir(env, argv[1], cwd);
+	ft_refresh_cwd_env(env);
 }

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 16:41:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/25 18:31:52 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/10/18 16:36:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 int		is_builtin(char *cmd, \
-			void (**builtin_fun_ptr)(char **, char **, t_exec *))
+			void (**builtin_fun_ptr)(char **, t_environ *, t_exec *))
 {
 	void		*builtin_ret_ptr;
 
@@ -29,7 +29,7 @@ int		is_builtin(char *cmd, \
 	else if (ft_strequ(cmd, "setenv"))
 		builtin_ret_ptr = &builtin_setenv;
 	else if (ft_strequ(cmd, "unsetenv"))
-		builtin_ret_ptr = &builtin_setenv;
+		builtin_ret_ptr = &builtin_unsetenv;
 	else if (ft_strequ(cmd, "env"))
 		builtin_ret_ptr = &builtin_env;
 	else if (ft_strequ(cmd, "exit"))
@@ -42,6 +42,10 @@ int		is_builtin(char *cmd, \
 		builtin_ret_ptr = &builtin_toggle_syntax_highlighting;
 	else if (ft_strequ(cmd, "[") || ft_strequ(cmd, "test"))
 		builtin_ret_ptr = &builtin_test;
+	else if (ft_strequ(cmd, "alias"))
+		builtin_ret_ptr = &builtin_alias;
+	else if (ft_strequ(cmd, "unalias"))
+		builtin_ret_ptr = &builtin_unalias;
 	if (builtin_fun_ptr)
 		*builtin_fun_ptr = builtin_ret_ptr;
 	return ((builtin_ret_ptr) ? (1) : (0));

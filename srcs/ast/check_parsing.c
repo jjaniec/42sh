@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 11:45:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:21:03 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			check_parsing(t_lexeme *lex, t_lexeme **error)
 			if (is_option_activated("c", g_sh_opts, NULL))
 			{
 				free(lex->next->data);
-				lex->next->data = ft_strdup("");
+				lex->next->data = ft_xstrdup("");
 			}
 			else if (*((char *)lex->next->data) && !subp_heredoc(lex, lex->next->data))
 			{

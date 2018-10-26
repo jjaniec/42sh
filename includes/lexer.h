@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 16:23:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/13 19:54:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@
 */
 
 # define EXPANSIONS_SPECIFIERS	"$~"
+# define EXPANSIONS_END_CHARS	"$\\/=" // + \' \" & IFS
 
 int						lexer(char *line, t_lexeme **lexemes, \
 							char **unmatched_quote_err_ptr);
@@ -145,9 +146,9 @@ int						handle_escape_offset(char *ptr, int in_quote_type);
 
 void					free_lexemes(t_lexeme *ll);
 
-void					handle_dollar_expansion(t_lexeme_clean_data *l, char **env);
+void					handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars);
 
-void					handle_tild_expansion(t_lexeme_clean_data *l, char **env);
+void					handle_tild_expansion(t_lexeme_clean_data *l, t_shell_vars *vars);
 
 char					*get_expansion_end(char *str);
 

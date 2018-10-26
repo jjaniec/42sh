@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_lexeme.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:48:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/08 16:36:57 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:38:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Creates a lexeme struct with type and data
 */
 
-t_lexeme		*create_lexeme(int  type[2], char *data, \
+t_lexeme		*create_lexeme(int type[2], char *data, \
 					int pos, char **lexeme_begin_end_ptrs)
 {
 	t_lexeme	*e;
@@ -24,8 +24,7 @@ t_lexeme		*create_lexeme(int  type[2], char *data, \
 	e = NULL;
 	if (data && *data)
 	{
-		if (!(e = malloc(sizeof(t_lexeme))))
-			exit(MALLOC_ERROR);
+		e = ft_xmalloc(sizeof(t_lexeme));
 		e->type = type[0];
 		e->data = data;
 		e->type_details = type[1];

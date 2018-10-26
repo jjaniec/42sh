@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_lexeme_compete.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 19:15:02 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/08 16:32:50 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:46:41 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@
 ** Find the end_lexeme for all end_token[]
 */
 
-static t_lexeme		**loop_find_tokens(const int  end_token[], \
-					int  size_end_token, t_lexeme *lex)
+static t_lexeme		**loop_find_tokens(const int end_token[], \
+					int size_end_token, t_lexeme *lex)
 {
 	unsigned int	i;
 	t_lexeme		**end;
 
 	i = 0;
-	end = (t_lexeme **)ft_memalloc(sizeof(t_lexeme *) * (size_end_token + 1));
-	if (!end)
-		exit(MALLOC_ERROR);
+	end = (t_lexeme **)ft_xmemalloc(sizeof(t_lexeme *) * (size_end_token + 1));
 	while (end_token[i])
 	{
 		end[i] = find_end_lexeme_solo(lex, end_token[i]);
@@ -38,17 +36,15 @@ static t_lexeme		**loop_find_tokens(const int  end_token[], \
 ** Calculating the path length for all tokens.
 */
 
-static unsigned int	*loop_paths(const int  end_token[], \
-					int  size_end_token, t_lexeme *lex, t_lexeme **end)
+static unsigned int	*loop_paths(const int end_token[], \
+					int size_end_token, t_lexeme *lex, t_lexeme **end)
 {
 	unsigned int	i;
 	t_lexeme		*save;
 	unsigned int	*paths;
 
-	paths = (unsigned int *)ft_memalloc(sizeof(unsigned int) \
+	paths = (unsigned int *)ft_xmemalloc(sizeof(unsigned int) \
 			* (size_end_token + 1));
-	if (!paths)
-		exit(MALLOC_ERROR);
 	i = 0;
 	while (end_token[i])
 	{
@@ -67,13 +63,13 @@ static unsigned int	*loop_paths(const int  end_token[], \
 ** Choose the closest path.
 */
 
-static unsigned int	loop_closest(const int  end_token[], unsigned int *paths)
+static unsigned int	loop_closest(const int end_token[], unsigned int *paths)
 {
 	unsigned int	i;
 	unsigned int	closest;
 
 	i = 0;
-	closest = -1;
+	closest = UINT_MAX;
 	while (end_token[i])
 	{
 		if (paths[i] != 1 && closest > paths[i])
@@ -89,9 +85,9 @@ static unsigned int	loop_closest(const int  end_token[], unsigned int *paths)
 */
 
 t_lexeme			*find_lexeme_compete(t_lexeme *lex, \
-					const int  end_token[])
+					const int end_token[])
 {
-	int 			size_end_token;
+	int			size_end_token;
 	t_lexeme		**end;
 	unsigned int	*paths;
 	unsigned int	closest;

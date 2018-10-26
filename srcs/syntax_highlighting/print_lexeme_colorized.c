@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 14:30:44 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:39:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,37 @@ extern t_option		g_sh_opts[];
 */
 
 static int		elem_path_found(struct stat *elem_stats, \
-					char *lexeme_data, char **env, int item_nb)
+					char *lexeme_data, t_environ *env, int item_nb)
 {
-	char		**paths;
+	char		*path_entry;
 	char		*tmp;
-	int			r;
 
-	r = 0;
 	if (ft_strchr(lexeme_data, '/') || item_nb > 0)
 	{
 		if (lstat(lexeme_data, elem_stats) != -1)
 			return (1);
 		return (0);
 	}
+	else if (is_builtin(lexeme_data, NULL))
+		return (1);
 	else
 	{
-		paths = get_path(get_env("PATH", (const char**)env));
-		if ((tmp = isin_path(paths, lexeme_data)))
+		path_entry = NULL;
+		if (env->get_var(env, "PATH"))
+			path_entry = env->last_used_elem->val_begin_ptr;
+		if (path_entry)
 		{
-			lstat(tmp, elem_stats);
-			r = 1;
+			if ((tmp = isin_path(path_entry, lexeme_data)))
+			{
+				lstat(tmp, elem_stats);
+				ft_strdel(&tmp);
+				return (1);
+			}
+			ft_strdel(&tmp);
 		}
-		else if (!r && is_builtin(lexeme_data, NULL))
-			r = 1;
 		ft_strdel(&tmp);
-		ft_free_argv(paths);
 	}
-	return (r);
+	return (0);
 }
 
 /*
@@ -85,7 +89,7 @@ static void		print_prog_name_arg_col(struct stat *elem_stats, \
 */
 
 static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
-					char **env)
+					t_environ *env)
 {
 	struct stat		elem_stats;
 	static int		item_nb = -1;
@@ -133,9 +137,9 @@ void 			print_to_line_edition(const char *s, int nb)
 
 
 void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, \
-					char *input_ptr, t_lexeme *lexeme, char **envp)
+					char *input_ptr, t_lexeme *lexeme, t_environ *env)
 {
-	put_lexeme_color(lexeme, lexeme_begin, envp);
+	put_lexeme_color(lexeme, lexeme_begin, env);
 	if (is_option_activated("c", g_sh_opts, NULL))
 		write(1, input_ptr, (lexeme_end - input_ptr));
 	else

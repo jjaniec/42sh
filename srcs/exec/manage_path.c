@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/08/25 08:30:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:36:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,9 @@
 ** If *s1 or *s2 is NULL, return NULL
 */
 
-char	*new_path(char *s1, char *s2)
+static char	*new_path(char *s1, char *s2)
 {
-	char	*str;
-
-	if (!s1 || !s2)
-		return (NULL);
-	str = NULL;
-	if (s1[ft_strlen(s1) - 1] == '/' && s2[0] == '/')
-		asprintf(&str, "%s%s", s1, s2 + 1);
-	else if (s1[ft_strlen(s1) - 1] != '/' && s2[0] != '/')
-		asprintf(&str, "%s/%s", s1, s2);
-	else
-		asprintf(&str, "%s%s", s1, s2);
-	if (!str)
-		exit(MALLOC_ERROR);
-	return (str);
-}
-
-/*
-** Cut the environment var PATH in an allocated char**.
-** In case of failure, return NULL
-*/
-
-char	**get_path(char *str)
-{
-	if (!str)
-		return (NULL);
-	return (ft_strsplit(str, ':'));
+	return (ft_strjoin_path(s1, s2));
 }
 
 /*
@@ -59,19 +34,28 @@ char	**get_path(char *str)
 ** If not found, return NULL
 */
 
-char	*isin_path(char **paths, char *cmd)
+char	*isin_path(char *path_entry, char *cmd)
 {
 	int		i;
-	char	*pth;
+	char	*prog_path;
+	char	**paths;
 
+	if (!path_entry)
+		return (NULL);
+	if (!(paths = ft_strsplit(path_entry, ':')))
+		exit(MALLOC_ERROR);
 	i = 0;
-	while (paths && paths[i])
+	while (paths[i])
 	{
-		pth = new_path(paths[i], cmd);
-		if (access(pth, F_OK) == 0 && access(pth, X_OK) == 0)
-			return (pth);
-		ft_strdel(&pth);
+		prog_path = new_path(paths[i], cmd);
+		if (access(prog_path, F_OK) == 0)
+		{
+			ft_free_2d_array(paths);
+			return (prog_path);
+		}
+		ft_strdel(&prog_path);
 		i++;
 	}
+	ft_free_2d_array(paths);
 	return (NULL);
 }

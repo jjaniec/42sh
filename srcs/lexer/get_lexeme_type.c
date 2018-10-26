@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_lexeme_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 11:46:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:17:13 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 ** Makes a substring of our operator to store it in lexeme->data
 */
 
-static int		store_optlexeme(char *s, int data_len, \
+static int	store_optlexeme(char *s, int data_len, \
 				int *pos, char **data, int type)
 {
 	*data = ft_strsub(s, 0, data_len);
+	if (*data == NULL)
+		exit(MALLOC_ERROR);
 	*pos += data_len;
 	return (type);
 }
@@ -28,7 +30,7 @@ static int		store_optlexeme(char *s, int data_len, \
 ** Parse control operators (see lexer.h) and create a substring of it in *data
 */
 
-static int 	lexeme_type_ctrlopt(char *s, int *pos, \
+static int	lexeme_type_ctrlopt(char *s, int *pos, \
 					char **data, int *type_details)
 {
 	int		data_len;
@@ -141,6 +143,8 @@ static int 	is_redir_inputfd(char *s, int *pos, \
 	if (lexeme_type_rediropt(s + i, pos, data, type_details))
 	{
 		new_data = ft_strsub(s + start, 0, ((i + *pos) - 2 * start));
+		if (new_data == NULL)
+			exit(MALLOC_ERROR);
 		free(*data);
 		*data = new_data;
 		*pos = start + ft_strlen(*data);
@@ -155,8 +159,8 @@ static int 	is_redir_inputfd(char *s, int *pos, \
 ** of T_ENV_ASSIGN elements
 */
 
-int 			get_lexeme_type(char *s, int *pos, \
-					char **data, int  *type_details)
+int			get_lexeme_type(char *s, int *pos, \
+					char **data, int *type_details)
 {
 	if (!s)
 		return (0);

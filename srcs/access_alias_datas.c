@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_is_positive_numeric.c                          :+:      :+:    :+:   */
+/*   access_alias_datas.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/06 19:23:15 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/06 19:23:35 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/10/07 15:29:12 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/10/19 16:25:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
+#include <forty_two_sh.h>
 
 /*
-**	Return 'true' if 'str' represents a positive number.
+**	Return a pointer to the first element of the aliases's list
 */
 
-bool	str_is_positive_numeric(const char *str)
+struct s_alias	*access_alias_datas(void)
 {
-	while (*str != '\0')
-	{
-		if (*str < '0' || *str > '9')
-			return (false);
-		++str;
-	}
-	return (true);
+	static struct s_alias	alias = {.key = NULL, .value = NULL, .next = NULL};
+
+	return (&alias);
 }

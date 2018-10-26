@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 19:37:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:31:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ FILE *tty_debug = NULL; // debug
 
 // debug function
 static void		le_debug_infos(void)
-{return ;
+{		return ;
 	struct s_line	*le = access_le_main_datas();
 
 	le_debug("%s", "--------------------------------------\n");
@@ -34,6 +34,7 @@ static void		le_debug_infos(void)
 	le_debug("start pos = %u\n", le->start_pos);
 	le_debug("cursor pos = %u\ncursor line = %u\n", \
 	le->cursor_pos, le->cursor_line);
+	le_debug("term nb lines = %u\n", le->term_nb_lines);
 	le_debug("term line size = %zu\n", le->term_line_size);
 	le_debug("nb lines written = %u\n", le->nb_lines_written);
 	le_debug("nb char on last line = %u\n", \
@@ -59,7 +60,7 @@ static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 		return (INTR_BY_SIGINT);
 	}
 	if (read_ret == -1)
-		le_exit("\nfatal error while reading on stdin\n", "read", errno);
+		exit(EXIT_FAILURE);
 	return (ALL_IS_ALRIGHT);
 }
 
@@ -105,8 +106,8 @@ static struct s_line	*prepare_line_edition(int prompt_type, \
 	struct s_line		*le;
 
 	le = access_le_main_datas();
-	set_term_attr(LE_SET_NEW);
 	init_line_edition_attributes(le, prompt_type);
+	set_term_attr(LE_SET_NEW);
 	g_cmd_status.cmd_running = false;
 	g_cmd_status.sigint_happened = false;
 
@@ -139,7 +140,13 @@ le_debug_infos(); // debug
 
 		// check si un des 2 flags est actif pour retourner la bonne valeur
 		if (g_cmd_status.resize_happened == true || g_cmd_status.sigint_happened == true)
+		{
 			set_term_attr(LE_SET_OLD);
+
+			le_sig.sa_handler = SIG_DFL;
+			sigaction(SIGWINCH, &le_sig, NULL);
+		}
+
 		if (g_cmd_status.resize_happened == true)
 			return (RESIZE_IN_PROGRESS);
 		if (g_cmd_status.sigint_happened == true)
@@ -157,8 +164,7 @@ le_debug_infos(); // debug
 	set_term_attr(LE_SET_OLD);
 	actionk_move_cursor_end(le);
 	reset_history_on_first_elem(le);
-	if ((final_line = ft_strdup(le->cmd)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	final_line = ft_xstrdup(le->cmd);
 	free(le->cmd);
 	le->cmd = NULL;
 	le_sig.sa_handler = SIG_DFL;

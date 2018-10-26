@@ -6,14 +6,15 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 13:08:11 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:52:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false, .sigint_happened = false
+	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, \
+	.sigint_happened = false, .interactive_mode = false
 };
 
 t_option		g_sh_opts[] = {
@@ -24,9 +25,6 @@ t_option		g_sh_opts[] = {
 	{{"-le-debug"}, "Enable line edition debugging in "TTY_DEBUG, false},
 	{{NULL}, NULL, false}
 };
-
-char			**g_envp;
-
 
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
@@ -50,7 +48,7 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 	return (input);
 }
 
-static int		forty_two_sh(char *input, char **envp, \
+static int		forty_two_sh(char *input, t_shell_vars *vars, \
 					t_option *opt_list, t_option **char_opt_index)
 {
 	t_ast		*ast_root;
@@ -66,7 +64,7 @@ static int		forty_two_sh(char *input, char **envp, \
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
 		free(input);
 		free_lexemes(lexemes);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ast_root = ast(&lexemes);
 	free(input);
@@ -74,27 +72,25 @@ static int		forty_two_sh(char *input, char **envp, \
 	if (!ast_root)
 		return (-1);
 	link_ast_data(ast_root);
-	exe = create_exec((const char **)envp);
+	exe = create_exec(vars->env);
 	exe = exec_cmd(ast_root, exe);
 	/*if (exe && exe->tmp_envp)
 		envp = exe->tmp_envp;
 	else if (exe)
 		envp = exe->envp;
 	else
-		exit(1);*/
+		exit(EXIT_FAILURE);*/
 	ast_free(ast_root);
 	free_exec(&exe);
 	return (0);
 }
 
-static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_index)
+static void		loop_body(t_shell_vars *vars, t_option *opt_list, t_option **char_opt_index)
 {
 	t_lexeme	*lex;
 	char		*input;
 
 	errno = 0;
-	if (!VERBOSE_MODE)
-		log_set_quiet(1);
 	while (1)
 	{
 		if (!(input = get_valid_input(&lex, 0)))
@@ -103,7 +99,7 @@ static void		loop_body(char **envp, t_option *opt_list, t_option **char_opt_inde
 			free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		forty_two_sh(input, envp, opt_list, char_opt_index);
+		forty_two_sh(input, vars, opt_list, char_opt_index);
 	}
 }
 
@@ -125,14 +121,14 @@ static char	*read_file(int fd)
 	while((ret = get_next_line(fd, &line)))
 	{
 		if (ret == -1)
-			exit(1);
+			exit(EXIT_FAILURE);
 		final = ft_strjoin_free(final, line);
 		final = ft_strjoin_free(final, ft_strdup("\n"));
 	}
 	return (final);
 }
 
-static int	interpret_file(char **argv, t_option **char_opt_index, char **envp)
+static int	interpret_file(char **argv, t_option **char_opt_index)
 {
 	int		fd;
 
@@ -144,43 +140,82 @@ static int	interpret_file(char **argv, t_option **char_opt_index, char **envp)
 		if ((fd = open(*argv, O_RDONLY)) <= 0)
 			exit(open_error_print_msg(*argv));
 		g_sh_opts[1].opt_status = true;
-		forty_two_sh(read_file(fd), envp, g_sh_opts, char_opt_index);
+		forty_two_sh(read_file(fd), get_shell_vars(), g_sh_opts, char_opt_index);
 		close(fd);
 		return (1);
 	}
 	return (0);
 }
 
+/*
+** Copy environnement and initialize local and internal variables
+** of the shell
+*/
+
+static void		init_shell_vars(char **env, t_shell_vars *vars)
+{
+	static t_environ			env_vars;
+	static t_local_vars			local_vars;
+	static t_internal_vars		internal_vars;
+	char						*ret_itoa;
+
+	vars->env = &env_vars;
+	vars->locals = &local_vars;
+	vars->internals = &internal_vars;
+	init_environ(env, vars->env);
+	init_environ_struct_ptrs(&local_vars);
+	init_environ_struct_ptrs(&internal_vars);
+	if ((ret_itoa = ft_itoa(getpid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "$", ret_itoa);
+	free(ret_itoa);
+	internal_vars.add_var(&internal_vars, "!", "0");
+	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
+	if ((ret_itoa = ft_itoa(getuid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
+	free(ret_itoa);
+	internal_vars.add_var(&internal_vars, "IFS", IFS);
+}
+
 int			main(int ac, char **av, char **envp)
 {
-	t_option	*opt_list;
-	t_option	*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	char		**args;
+	t_option		*opt_list;
+	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
+	char			**args;
 
-	g_envp = cp_envp((const char **)envp);
-	tty_debug = fopen(TTY_DEBUG, "w");
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);
+	init_shell_vars(envp, get_shell_vars());
 	if (is_option_activated("h", opt_list, char_opt_index))
 	{
 		format_help(SH_USAGE, opt_list);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
+	{
+		tty_debug = fopen(TTY_DEBUG, "w");
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
-	if (interpret_file(av, char_opt_index, envp))
+	}
+	if (interpret_file(av, char_opt_index))
 		return (0);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
+	{
+		g_cmd_status.interactive_mode = false;
 		while (ac > 0)
 		{
-			forty_two_sh(ft_strjoin(*args, "\n"), g_envp, opt_list, char_opt_index);
+			forty_two_sh(ft_strjoin(*args, "\n"), get_shell_vars(), opt_list, char_opt_index);
 			args++;
 			ac--;
 		}
+	}
 	else
-		loop_body(g_envp, opt_list, char_opt_index);
-	return (0);
+	{
+		g_cmd_status.interactive_mode = true;
+		loop_body(get_shell_vars(), opt_list, char_opt_index);
+	}
+	return (EXIT_SUCCESS);
 }

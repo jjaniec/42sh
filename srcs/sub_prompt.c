@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/24 16:32:08 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:13:54 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int		prompt_show(const char *prompt)
 {
+	// waiting for the full prompt
+	if (prompt == g_prompts[0])
+		ft_putstr("TACOCAT\n");
+
 	tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
 	ft_putstr(prompt);
 	if (prompt != g_prompts[0])
