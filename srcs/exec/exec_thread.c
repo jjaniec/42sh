@@ -134,7 +134,8 @@ static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		(ptr == &builtin_echo || \
 		ptr == &builtin_return || \
-		ptr == &builtin_test))
+		ptr == &builtin_test || \
+		ptr == &builtin_read))
 		return (1);
 	return (0);
 }

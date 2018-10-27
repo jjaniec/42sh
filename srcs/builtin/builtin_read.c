@@ -19,6 +19,8 @@ static bool	get_activated_options(char **args, struct s_bltread *options)
 	unsigned int	keep_i;
 
 	ft_memset(options, 0, sizeof(struct s_bltread));
+	options->opt_n = true; // ce builtin peut read 8192 char max, deso xd mais sinon flemme et puis osef
+	options->nb_opt_nN = BLTREAD_MAX_CH;
 
 	i = 0;
 	while (args[i] != NULL && ft_strequ(args[i], "--") == false)
@@ -85,7 +87,7 @@ static bool	get_activated_options(char **args, struct s_bltread *options)
 		++i;
 	}
 	i = keep_i;
-	options->words_vars = ft_xmalloc(sizeof(char *) * (nb_words + 1));
+	options->words_vars = ft_xmalloc(sizeof(char *) * (nb_words + 1)); // free
 	options->words_vars[nb_words] = NULL;
 
 	unsigned int	j = 0;
@@ -104,17 +106,32 @@ static bool	get_activated_options(char **args, struct s_bltread *options)
 	return (true);
 }
 
+
 void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 {
 	struct s_bltread	options;
+	unsigned char		*buffer;
 
-	exe->ret = 0;
+	//(void)exe;
+	(void)(env);
+	//exe->ret = 0;
 	if (get_activated_options(argv + 1, &options) == false
 	|| (options.opt_n == true && options.opt_N == true))
 	{
 		ft_putstr_fd(BUILTIN_READ_USAGE, STDERR_FILENO);
-		exe->ret = 1;
-		return ;
+		//exe->ret = 1;
+		exit(1);
+		//return ;
+	}
+	if (options.opt_N == true)
+		options.opt_d = false;
+	if (options.nb_opt_nN > BLTREAD_MAX_CH)
+		options.nb_opt_nN = BLTREAD_MAX_CH;
+	if (options.nb_opt_nN == 0)
+	{
+		// faire les free hein
+		//return ;
+		exit(0);
 	}
 
 	// DEBUG
@@ -138,12 +155,47 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 
 	}
 
-	if (options.opt_d == true) ;
 
+	unsigned char	delim = '\n';
+	unsigned int	nb_ch = 0;
+	ssize_t			ret;
+	buffer = ft_xmalloc(BLTREAD_MAX_CH + 1); // penser a free
+	ft_memset(buffer, '\0', BLTREAD_MAX_CH + 1);
 
+	if (options.opt_d == true)
+		delim = options.delim_opt_d;
 
-	access_le_main_datas()->le_state.le_char_delim = LE_CHAR_DELIM_DEFAULT;
+	struct termios t;
+	tcgetattr(STDIN_FILENO, &t);
+	t.c_lflag &= ~(ICANON);
+	tcsetattr(STDIN_FILENO, TCSANOW, &t);
 
+	while ("read")
+	{
+		ret = read(STDIN_FILENO, buffer + nb_ch, 1);
+		nb_ch += 1;
+
+		if (options.opt_N == false
+		&& ((options.opt_d == true && buffer[nb_ch - 1] == options.delim_opt_d)
+		|| (options.opt_d == false && buffer[nb_ch - 1] == '\n')))
+		{
+			buffer[nb_ch - 1] = '\0';
+			break ;
+		}
+		else if (options.opt_N == true || options.opt_n == true)
+		{
+			if (nb_ch == options.nb_opt_nN)
+				break ;
+		}
+
+	}
+
+	t.c_lflag |= ICANON;
+	tcsetattr(STDIN_FILENO, TCSANOW, &t);
+
+	printf("\nbuffer = |%s|\n", buffer);
+
+	exit(0);
 }
 
 /*
@@ -167,6 +219,10 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 		-N x  ignore the delimiter character, read stops if it has read x characters or encountering EOF
 		-p    prints a prompt before reading
 		-s    pas d'affichage de l'input
+
+	}
+
+	{
 
 	}
 

@@ -39,6 +39,7 @@
 
 # define BUILTIN_READ_USAGE \
 	SH_NAME ": read: usage read [-d 'x'] [[-n | -N] x] -p -s -- VAR1 VAR2 ...\n"
+#define BLTREAD_MAX_CH (10U)
 
 struct s_alias
 {
