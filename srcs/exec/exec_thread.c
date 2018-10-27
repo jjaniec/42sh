@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 18:20:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 20:32:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,9 @@ static void		close_child_pipe_fds(int **pipe_fds)
 
 /*
 ** Parent process function when forking
-** Wait child process to end
+** Wait child process to end if not in a pipeline,
+** if process was killed by a signal and waitpit stopped by it,
+** waitpid on child to prevent zombie process
 */
 
 static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
@@ -114,25 +116,31 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 {
 	pid_t		waited_pid;
 	int			status;
+	int			return_code;
 	t_process	*process_ptr;
 
 	status = -2;
+	return_code = status;
 	process_ptr = add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
-	//debug_jobs(g_jobs);
+	debug_jobs(g_jobs);
 	//process_ptr->input_descriptor = -1; // ->
 	close_child_pipe_fds(pipe_fds);
 	if (!pipe_fds)
 	{
+		g_jobs->pgid = 0;
 		waited_pid = waitpid(child_pid, &status, 0);
-		status = get_process_return_code(&status, waited_pid, child_pid);
-		log_info("PID %zu: Command %s exited w/ status: %d", getpid(), \
-			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), status);
+		return_code = get_process_return_code(&status, waited_pid, child_pid);
+		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
+			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), return_code);
+		if (WIFSIGNALED(status))
+			while (waitpid(0, &status, 0) != -1)
+				;
 		free_job(g_jobs);
 		g_jobs = NULL;
 	}
 	else
 		free(pipe_fds);
-	return (status);
+	return (return_code);
 }
 
 /*

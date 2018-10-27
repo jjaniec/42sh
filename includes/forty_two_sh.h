@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/16 15:14:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 19:20:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	1
 # define OPT_NOT_FOUND_ERROR 1
+# define ENABLE_JOB_CONTROL false // Not done yet
 
 # ifndef VERBOSE_MODE
 #  define VERBOSE_MODE 0

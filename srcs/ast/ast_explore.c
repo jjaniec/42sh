@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 21:09:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 20:32:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int		wait_childs(t_job *job)
 		waited_pid = waitpid(ptr->pid, &status, 0);
 		ptr = ptr->next;
 	}*/
-
 	while ((waited_pid = waitpid(0, &status, 0)) != -1)
 	{
 		if (waited_pid == g_jobs->last_process_pid)
@@ -94,37 +93,41 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	pid_t	waited_pid = 0;
 	int		r = 0;
 
-/*
-	*is_in_pipeline = true;
-	if ((pipeline_manager_pid = fork()) <= 0)
+	if (ENABLE_JOB_CONTROL)
 	{
-		if (pipeline_manager_pid == -1)
-			ft_putstr_fd(SH_NAME": Failed to fork pipeline", 2);
-		else if (pipeline_manager_pid == 0)
-			new_pipeline_job(ast, exe);
+		*is_in_pipeline = true;
+		if ((pipeline_manager_pid = fork()) <= 0)
+		{
+			if (pipeline_manager_pid == -1)
+				ft_putstr_fd(SH_NAME": Failed to fork pipeline", 2);
+			else if (pipeline_manager_pid == 0)
+				new_pipeline_job(ast, exe);
+		}
+		g_jobs = create_job("PIPE MANAGER");
+		g_jobs->pgid = pipeline_manager_pid;
+		log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
+		errno = 0;
+		waited_pid = waitpid(pipeline_manager_pid, &status, 0);
+		r = get_process_return_code(&status, waited_pid, pipeline_manager_pid);
+		log_trace("MAIN PROCESS: Pipe manager terminated w/ return code: %d - status: %d - wexitstatus: %d", \
+			r, status, WEXITSTATUS(status));
+		free_job(g_jobs);
+		g_jobs = NULL;
+		*is_in_pipeline = false;
+		return (r);
 	}
-	g_jobs = create_job("PIPE MANAGER");
-	g_jobs->pgid = pipeline_manager_pid;
-	log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
-	errno = 0;
-	waited_pid = waitpid(pipeline_manager_pid, &status, 0);
-	r = get_process_return_code(&status, waited_pid, pipeline_manager_pid);
-	log_trace("MAIN PROCESS: Pipe manager terminated w/ return code: %d - status: %d - wexitstatus: %d", \
-		r, status, WEXITSTATUS(status));
-	free_job(g_jobs);
-	g_jobs = NULL;
-	*is_in_pipeline = false;
-	return (r);
-*/
-
-	g_jobs = create_job("PIPE MANAGER");
-	*is_in_pipeline = true;
-	ast_explore(ast, exe);
-	r = wait_childs(g_jobs);
-	free_job(g_jobs);
-	g_jobs = NULL;
-	*is_in_pipeline = false;
-	return (r);
+	else
+	{
+		g_jobs = create_job("PIPE");
+		g_jobs->pgid = 0;
+		*is_in_pipeline = true;
+		ast_explore(ast, exe);
+		r = wait_childs(g_jobs);
+		free_job(g_jobs);
+		g_jobs = NULL;
+		*is_in_pipeline = false;
+		return (r);
+	}
 }
 
 /*
