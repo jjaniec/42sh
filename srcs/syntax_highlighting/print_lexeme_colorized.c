@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 12:33:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 17:41:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ static int		elem_path_found(struct stat *elem_stats, \
 				ft_strdel(&tmp);
 				return (1);
 			}
-			ft_strdel(&tmp);
 		}
-		ft_strdel(&tmp);
 	}
 	return (0);
 }
