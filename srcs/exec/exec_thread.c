@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 21:42:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 18:20:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,8 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 
 	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
-		!last_pipe_node->data[1])
+		(!last_pipe_node->data[1] || \
+			(last_pipe_node->data[1][0] == -1 && last_pipe_node->data[1][sizeof(int)] == -1)))
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
 	if (last_pipe_node || should_fork(cmd))
 	{
