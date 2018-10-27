@@ -24,9 +24,10 @@ extern t_option		g_sh_opts[];
 static int		elem_path_found(struct stat *elem_stats, \
 					char *lexeme_data, t_environ *env, int item_nb)
 {
-	char		*path_entry;
-	char		*tmp;
+	t_shell_vars	*vars;
+	char			*tmp;
 
+	(void)env;
 	if (ft_strchr(lexeme_data, '/') || item_nb > 0)
 	{
 		if (lstat(lexeme_data, elem_stats) != -1)
@@ -37,17 +38,21 @@ static int		elem_path_found(struct stat *elem_stats, \
 		return (1);
 	else
 	{
-		path_entry = NULL;
-		if (env->get_var(env, "PATH"))
-			path_entry = env->last_used_elem->val_begin_ptr;
-		if (path_entry)
+		ht_update(env);
+		vars = get_shell_vars();
+		if ((tmp = ht_get_key_value(vars->hashtable, lexeme_data)))
 		{
+<<<<<<< HEAD
 			if ((tmp = isin_path(path_entry, lexeme_data)))
 			{
 				lstat(tmp, elem_stats);
 				ft_strdel(&tmp);
 				return (1);
 			}
+=======
+			lstat(tmp, elem_stats);
+			return (1);
+>>>>>>> a21c7345e735e2d52880e7318adccba667e084b7
 		}
 	}
 	return (0);

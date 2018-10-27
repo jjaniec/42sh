@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2018/10/24 16:15:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:01:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void		free_environ(void)
 
 	if (!(vars = get_shell_vars()))
 		return ;
+	if (vars->hashtable)
+		free_hashtable(vars->hashtable);
 	free_env_entries(vars->env, vars->env->env_entries_list);
 	free_env_entries(vars->locals, vars->locals->env_entries_list);
 	free_env_entries(vars->internals, vars->internals->env_entries_list);

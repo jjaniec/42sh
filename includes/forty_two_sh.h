@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include <curses.h>
 # include <term.h>
+# include <time.h>
 # include <termios.h>
 # include <stdbool.h>
 # include <dirent.h>
@@ -67,6 +68,7 @@
 # include "signals.h"
 # include "script.h"
 # include "autocomplete.h"
+# include "hash_table.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
