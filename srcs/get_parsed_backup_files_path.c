@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 17:14:37 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/07 17:23:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/24 16:12:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_parsed_history_file_path(void)
 	if (!already_done)
 	{
 		already_done = true;
-		parsed_path = ft_strdup(HISTORY_FILE_PATH);
+		parsed_path = ft_xstrdup(HISTORY_FILE_PATH);
   		//  printf("LOL PTDR |%s|\n", parsed_path);
 		handle_quotes_expansions(&parsed_path);
    		// printf("LOL PTDR |%s|\n", parsed_path);
@@ -36,7 +36,7 @@ char	*get_parsed_aliases_file_path(void)
 	if (!already_done)
 	{
 		already_done = true;
-		parsed_path = ft_strdup(ALIASES_FILE_PATH);
+		parsed_path = ft_xstrdup(ALIASES_FILE_PATH);
   		//  printf("LOL PTDR |%s|\n", parsed_path);
 		handle_quotes_expansions(&parsed_path);
    		// printf("LOL PTDR |%s|\n", parsed_path);

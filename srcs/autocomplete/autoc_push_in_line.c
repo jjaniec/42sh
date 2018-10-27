@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 17:02:20 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/10 15:48:16 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/19 17:05:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char		*add_backslash(char *str)
 
 	i = 0;
 	j = 0;
-	res = malloc(sizeof(char) * (ft_strlen(str) + malloc_len(str)));
+	res = ft_xmalloc(sizeof(char) * (ft_strlen(str) + malloc_len(str)));
 	while (str[i])
 	{
 		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' ||
@@ -72,7 +72,7 @@ static char		*get_final_line_s(struct s_line *le, char *res, char *search)
 	{
 		if (res[i + check] != search[i])
 		{
-			tmp = ft_strjoin(le->cmd, &res[i + check]);
+			tmp = ft_xstrjoin(le->cmd, &res[i + check]);
 			free(res);
 			return (tmp);
 		}
@@ -89,7 +89,7 @@ static char		*get_final_line(struct s_line *le, char *str, char *search)
 	res = add_backslash(str);
 	if (!search)
 	{
-		tmp = ft_strjoin(le->cmd, res);
+		tmp = ft_xstrjoin(le->cmd, res);
 		free(res);
 		return (tmp);
 	}

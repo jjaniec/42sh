@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/05 19:35:30 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:36:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,22 @@ char	*isin_path(char *path_entry, char *cmd)
 	char	*prog_path;
 	char	**paths;
 
-	if (!path_entry || !(paths = ft_strsplit(path_entry, ':')))
+	if (!path_entry)
 		return (NULL);
+	if (!(paths = ft_strsplit(path_entry, ':')))
+		exit(MALLOC_ERROR);
 	i = 0;
 	while (paths[i])
 	{
 		prog_path = new_path(paths[i], cmd);
 		if (access(prog_path, F_OK) == 0)
 		{
-			ft_free_argv(paths);
+			ft_free_2d_array(paths);
 			return (prog_path);
 		}
 		ft_strdel(&prog_path);
 		i++;
 	}
-	ft_free_argv(paths);
+	ft_free_2d_array(paths);
 	return (NULL);
 }

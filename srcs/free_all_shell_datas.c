@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_all_shell_data.c                              :+:      :+:    :+:   */
+/*   free_all_shell_datas.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/27 19:31:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/22 17:39:56 by cgaspart         ###   ########.fr       */
+/*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
+/*   Updated: 2018/10/27 15:01:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,41 @@ static void		free_environ(void)
 }
 
 /*
-** Free all shell data before exiting
+**	Just read the function's name you idiot
 */
 
-void			free_all_shell_data(void)
+static void		free_aliases_list(void)
 {
+	struct s_alias	*alias;
+	struct s_alias	*del;
+
+	alias = access_alias_datas();
+	free(alias->key);
+	free(alias->value);
+	alias = alias->next;
+	while (alias != NULL)
+	{
+		del = alias;
+		alias = alias->next;
+		free(del->key);
+		free(del->value);
+		free(del);
+	}
+}
+
+/*
+** Free all shell datas before exiting
+*/
+
+void			free_all_shell_datas(void)
+{
+	t_ast	**ast_ptr;
+
 	free_environ();
-	ast_free(*(access_ast_data()));
+	if ((ast_ptr = access_ast_data()))
+		ast_free(*ast_ptr);
+	le_free_datas();
+	free_aliases_list();
+	if (g_cmd_status.interactive_mode == true)
+		free(get_parsed_aliases_file_path());
 }

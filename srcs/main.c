@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
 /*   Updated: 2018/10/21 20:42:55 by cgaspart         ###   ########.fr       */
@@ -13,7 +13,8 @@
 #include <forty_two_sh.h>
 
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false, .sigint_happened = false
+	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, \
+	.sigint_happened = false, .interactive_mode = false
 };
 
 t_option		g_sh_opts[] = {
@@ -62,7 +63,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	{
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
 		free(input);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ast_root = ast(&lexemes);
 	free(input);
@@ -77,7 +78,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	else if (exe)
 		envp = exe->envp;
 	else
-		exit(1);*/
+		exit(EXIT_FAILURE);*/
 	ast_free(ast_root);
 	free_exec(&exe);
 	return (0);
@@ -109,6 +110,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	static t_environ			env_vars;
 	static t_local_vars			local_vars;
 	static t_internal_vars		internal_vars;
+	char						*ret_itoa;
 
 	vars->env = &env_vars;
 	vars->locals = &local_vars;
@@ -116,10 +118,16 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	init_environ(env, vars->env);
 	init_environ_struct_ptrs(&local_vars);
 	init_environ_struct_ptrs(&internal_vars);
-	internal_vars.add_var(&internal_vars, "$", ft_itoa(getpid()));
+	if ((ret_itoa = ft_itoa(getpid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "$", ret_itoa);
+	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "!", "0");
 	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
-	internal_vars.add_var(&internal_vars, "UID", ft_itoa(getuid()));
+	if ((ret_itoa = ft_itoa(getuid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
+	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
 	vars->hashtable = ht_create(&env_vars);
 }
@@ -139,7 +147,7 @@ int			main(int ac, char **av, char **envp)
 	if (is_option_activated("h", opt_list, char_opt_index))
 	{
 		format_help(SH_USAGE, opt_list);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
@@ -148,13 +156,19 @@ int			main(int ac, char **av, char **envp)
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
 	}
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
+	{
+		g_cmd_status.interactive_mode = false;
 		while (ac > 0)
 		{
 			forty_two_sh(ft_strjoin(*args, "\n"), get_shell_vars(), opt_list, char_opt_index);
 			args++;
 			ac--;
 		}
+	}
 	else
+	{
+		g_cmd_status.interactive_mode = true;
 		loop_body(get_shell_vars(), opt_list, char_opt_index);
-	return (0);
+	}
+	return (EXIT_SUCCESS);
 }

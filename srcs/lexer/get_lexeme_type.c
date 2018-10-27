@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_lexeme_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:59:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:39:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	store_optlexeme(char *s, int data_len, \
 				int *pos, char **data, int type)
 {
 	*data = ft_strsub(s, 0, data_len);
+	if (*data == NULL)
+		exit(MALLOC_ERROR);
 	*pos += data_len;
 	return (type);
 }
@@ -141,6 +143,8 @@ static int 	is_redir_inputfd(char *s, int *pos, \
 	if (lexeme_type_rediropt(s + i, pos, data, type_details))
 	{
 		new_data = ft_strsub(s + start, 0, ((i + *pos) - 2 * start));
+		if (new_data == NULL)
+			exit(MALLOC_ERROR);
 		free(*data);
 		*data = new_data;
 		*pos = start + ft_strlen(*data);

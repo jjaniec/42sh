@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/22 18:10:08 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:07:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ t_exec	*create_exec(t_environ *env)
 {
 	t_exec	*exe;
 
-	if (!(exe = (t_exec *)ft_memalloc(sizeof(t_exec))))
-		exit(MALLOC_ERROR);
+	exe = (t_exec *)ft_xmemalloc(sizeof(t_exec));
 	exe->ret = 0;
 	exe->ready_for_exec = 0;
 	exe->env = env;
@@ -37,22 +36,34 @@ t_exec	*create_exec(t_environ *env)
 
 void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char	*cmd;
+	char			*cmd;
+	struct stat		s_stat;
 
 	cmd = argv[0];
 	if (access(cmd, F_OK) != 0)
 	{
-		ft_putstr_fd("21sh: no such file or directory: ", 2);
+		ft_putstr_fd(SH_NAME ": no such file or directory: ", 2);
 		ft_putendl_fd(cmd, 2);
 	}
 	else if (access(cmd, X_OK) != 0)
 	{
-		ft_putstr_fd("21sh: permission denied: ", 2);
+		ft_putstr_fd(SH_NAME ": permission denied: ", 2);
 		ft_putendl_fd(cmd, 2);
 	}
 	else
-		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
+	{
+		if (stat(cmd, &s_stat) == -1)
+			return ;
+		if (S_ISDIR(s_stat.st_mode))
+		{
+			ft_putstr_fd(SH_NAME ": ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+		}
+		else	
+			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
 			env_struct, exe, node);
+	}
 }
 
 /*
@@ -84,14 +95,26 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
 	char			*prog_path;
 	t_shell_vars	*vars;
+	struct stat		s_stat;
 
 	exe->ret = -2;
 	ht_update(env_struct);
 	vars = get_shell_vars();
 	prog_path = ht_get_key_value(vars->hashtable, argv[0]);
 	if (prog_path)
-		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, prog_path, argv}, \
+	{
+		if (stat(prog_path, &s_stat) == -1)
+			return ;
+		if (S_ISDIR(s_stat.st_mode))
+		{
+			ft_putstr_fd(SH_NAME ": ", 2);
+			ft_putstr_fd(prog_path, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+		}
+		else
+			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, prog_path, argv}, \
 			env_struct, exe, node);
+	}
 	else
 	{
 		ft_putstr_fd(SH_NAME": ", 2);

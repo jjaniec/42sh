@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 17:51:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/19 18:46:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*handle_parameters(char **argv, t_environ *env_struct, \
 	argv = parse_options(NULL, argv, g_env_opts, NULL);
 	if (is_option_activated("i", g_env_opts, NULL))
 	{
-		(*env_struct_to_use) = malloc(sizeof(t_environ));
+		(*env_struct_to_use) = ft_xmalloc(sizeof(t_environ));
 		init_environ_struct_ptrs(*env_struct_to_use);
 	}
 	else

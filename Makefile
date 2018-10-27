@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
 #    Updated: 2018/10/22 01:19:01 by cgaspart         ###   ########.fr        #
@@ -48,7 +48,6 @@ SRC_NAME = 	is_separator.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
 			line_edition/handle_window_resize.c \
-			line_edition/le_exit.c \
 			line_edition/get_le_debug_status.c \
 			line_edition/le_free_datas_and_history.c \
 			autocomplete/autocomplete.c \
@@ -107,7 +106,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/boolean_check/cursor_is_at_end_of_term_line.c \
 			line_edition/actionk/delete_char_into_cmdline_backspace_mode.c \
 			line_edition/actionk/delete_char_into_cmdline_delete_mode.c \
-			line_edition/tools/get_terminal_nb_col.c \
+			line_edition/tools/get_terminal_sizes.c \
 			line_edition/init_le/init_line_edition_attributes.c \
 			line_edition/init_le/init_termcaps_strings.c \
 			line_edition/print/insert_and_print_character_into_cmdline.c \
@@ -142,6 +141,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
+			builtin/builtin_unalias.c \
 			builtin/builtin_unsetenv.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
@@ -164,8 +164,6 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
 			log.c \
-			ft_free_argv.c \
-			ft_atoll.c \
 			sub_prompt.c \
 			init_globals_config.c \
 			parse_options.c \
@@ -182,15 +180,13 @@ SRC_NAME = 	is_separator.c \
 			env/get_env_var.c \
 			env/upd_env_var.c \
 			builtin/is_identifier_invalid.c \
-			free_all_shell_data.c \
+			free_all_shell_datas.c \
 			env/free_env_entries.c \
 			get_next_line.c \
 			get_parsed_backup_files_path.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
 			access_alias_datas.c \
-			str_is_positive_numeric.c \
-			count_elem_2d_array.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
 			main.c

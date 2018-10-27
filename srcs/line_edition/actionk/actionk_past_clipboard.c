@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 18:21:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:39:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static void past_clipboard_into_cmdline(struct s_line *le)
 	char			*part_of_line;
 	size_t			len_part_of_line;
 
-	if ((part_of_line = ft_strdup(le->cmd + le->cursor_index)) == 0)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	part_of_line = ft_xstrdup(le->cmd + le->cursor_index);
 	len_part_of_line = ft_strlen(part_of_line);
 	keep_key_no = le->key_no;
 	keep_opt_colosyn = le->le_state.opt_colosyn;
