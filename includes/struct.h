@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/13 19:55:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/22 15:43:00 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,25 @@ typedef t_environ	t_local_vars;
 
 typedef t_environ	t_internal_vars;
 
+typedef struct			s_entry
+{
+	char				*key;
+	char				*value;
+	struct s_entry		*next;
+}						t_entry;
+
+typedef struct			s_hashtable
+{
+	int					size;
+	char				**path;
+	time_t				*modif_time;
+	t_entry				**table;
+}						t_hashtable;
+
 typedef struct		s_shell_vars
 {
 	t_environ			*env;
+	t_hashtable			*hashtable;
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
 }					t_shell_vars;

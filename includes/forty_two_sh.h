@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/20 16:59:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/22 01:16:10 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include <curses.h>
 # include <term.h>
+# include <time.h>
 # include <termios.h>
 # include <stdbool.h>
 # include <dirent.h>
@@ -68,6 +69,7 @@
 # include "script.h"
 # include "get_next_line.h"
 # include "autocomplete.h"
+# include "hash_table.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/24 16:23:33 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/21 20:42:55 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
 	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
+	vars->hashtable = ht_create(&env_vars);
 }
 
 
