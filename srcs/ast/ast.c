@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 17:35:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 12:51:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_ast	*ast(t_lexeme **old_lex)
 	*old_lex = lex;
 	while (check < 0)
 	{
+		aliases_replace(&lex);
 		if (lex)
 			check = check_parsing(lex, &error);
 		if (check == -1 && error == (t_lexeme *)-1) //Retour du heredoc avec ctrl C

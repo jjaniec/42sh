@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/20 16:59:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/27 14:00:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
 struct s_alias	*access_alias_datas(void);
+void		aliases_replace(t_lexeme **lex);
 
 
 #endif
