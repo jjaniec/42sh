@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 14:48:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 12:33:04 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 		ft_putstr(COL_REDIRS);
 	else if (lexeme->type == T_WORD)
 	{
+		if (ft_strequ(lexeme->data, "!") && lexeme->next && \
+		lexeme->next->type == T_WORD && item_nb == 0)
+			item_nb--;
 		if (*(char *)(lexeme->data) == '-')
 			ft_putstr(COL_PROG_OPT);
 		else if (*(lexeme_begin) == '$')
@@ -115,7 +118,8 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 		else
 			print_prog_name_arg_col(&elem_stats, \
 				elem_path_found(&elem_stats, lexeme->data, env, item_nb) \
-				+ ft_strequ(lexeme->data, "["), item_nb);
+				+ ft_strequ(lexeme->data, "[") + ft_strequ(lexeme->data, "]") \
+				+ ft_strequ(lexeme->data, "!"), item_nb);
 	}
 	if (!lexeme->next)
 		item_nb = -1;

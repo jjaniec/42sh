@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 13:56:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/26 14:52:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		subpp_string(char **s)
 			return (0);
 	}
 	ft_putchar('\n');
-	new = ft_strjoin(*s, input);
+	new = ft_xstrjoin(*s, input);
 	*s = new;
 	return (1);
 }
@@ -53,9 +53,9 @@ static void	multiline_merge(t_lexeme *last, t_lexeme *new)
 
 	if (!last->lexeme_end_ptr[0]  && new->pos == (int)ft_strlen(new->data))
 	{
-		tmp = ft_strdup(last->data);
+		tmp = ft_xstrdup(last->data);
 		free(last->data);
-		last->data = ft_strjoin_free(tmp, new->data);
+		last->data = ft_xstrjoin_free(tmp, new->data);
 		last->next = new->next;
 		free(new);
 	}
@@ -128,13 +128,13 @@ static int	get_full_line(char **final_input)
 		return (0);
 	while (there_is_no_cr(input))
 	{
-		*final_input = ft_strjoin_free(*final_input, input);
+		*final_input = ft_xstrjoin_free(*final_input, input);
 		input = get_valid_input(&lex, NEED_SUBPROMPT_NEWLINE);
 		free_lexemes(lex);
 		if (!input)
 			return (0);
 	}
-	*final_input = ft_strjoin_free(*final_input, input);
+	*final_input = ft_xstrjoin_free(*final_input, input);
 	return (1);
 }
 
@@ -147,7 +147,7 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 	final = (char *)ft_xmemalloc(sizeof(char));
 	if (!final)
 		exit(MALLOC_ERROR);
-	eof_word = ft_strjoin(eof_word_tmp, "\n");
+	eof_word = ft_xstrjoin(eof_word_tmp, "\n");
 	while (1)
 	{
 		final_input = (char *)ft_xmemalloc(sizeof(char));
@@ -160,7 +160,7 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 		}
 		if (ft_strequ(final_input, eof_word))
 			break ;
-		final = ft_strjoin_free(final, final_input);
+		final = ft_xstrjoin_free(final, final_input);
 	}
 	//final[ft_strlen(final) - 1] = '\0';
 	free(final_input);
