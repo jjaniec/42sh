@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:00:45 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 16:37:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 19:20:22 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ static t_lexeme		*need_replace(t_lexeme *lex, const struct s_alias *alias)
 	save = lex;
 	while (lex)
 	{
+		if (lex->type == T_WORD && ft_strequ(lex->data, "alias"))
+			while (lex && lex->type == T_WORD)
+				lex = lex->next;
 		to_remplace = is_an_alias(lex->data, alias);
 		if (to_remplace)
 			remplace(&lex, last, &save, to_remplace->value);
