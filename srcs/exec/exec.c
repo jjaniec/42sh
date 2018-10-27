@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 15:07:13 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/27 17:44:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": is a directory\n", 2);
 		}
-		else	
+		else
 			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
 			env_struct, exe, node);
 	}
@@ -120,11 +120,8 @@ int			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
-		ft_strdel(&prog_path);
-		//ft_free_argv(paths);
 		return (STATEMENT_NOCMD);
 	}
-	ft_strdel(&prog_path);
 	return (1);
 }
 

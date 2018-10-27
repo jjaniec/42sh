@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 17:41:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 17:48:43 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,8 @@ static int		elem_path_found(struct stat *elem_stats, \
 		vars = get_shell_vars();
 		if ((tmp = ht_get_key_value(vars->hashtable, lexeme_data)))
 		{
-<<<<<<< HEAD
-			if ((tmp = isin_path(path_entry, lexeme_data)))
-			{
-				lstat(tmp, elem_stats);
-				ft_strdel(&tmp);
-				return (1);
-			}
-=======
 			lstat(tmp, elem_stats);
 			return (1);
->>>>>>> a21c7345e735e2d52880e7318adccba667e084b7
 		}
 	}
 	return (0);
