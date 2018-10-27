@@ -6,25 +6,27 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:00:45 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 16:26:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 16:27:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static struct s_alias	*is_an_alias(const char *data, const struct s_alias *iterator)
+static struct s_alias	*is_an_alias(const char *data, \
+						const struct s_alias *iterator)
 {
 	while (iterator)
 	{
-		if (iterator->value && iterator->value[0] && ft_strequ(data, iterator->key))
+		if (iterator->value && iterator->value[0] \
+		&& ft_strequ(data, iterator->key))
 			return ((struct s_alias *)iterator);
 		iterator = iterator->next;
 	}
 	return (NULL);
 }
 
-static void		remplace(t_lexeme **lex, t_lexeme *last, t_lexeme **save, \
-				char *value)
+static void			remplace(t_lexeme **lex, t_lexeme *last, t_lexeme **save, \
+					char *value)
 {
 	t_lexeme		*new;
 	t_lexeme		*next;
@@ -43,7 +45,7 @@ static void		remplace(t_lexeme **lex, t_lexeme *last, t_lexeme **save, \
 	new->next = next;
 }
 
-static t_lexeme	*need_replace(t_lexeme *lex, const struct s_alias *alias)
+static t_lexeme		*need_replace(t_lexeme *lex, const struct s_alias *alias)
 {
 	struct s_alias	*to_remplace;
 	t_lexeme		*last;
@@ -62,7 +64,7 @@ static t_lexeme	*need_replace(t_lexeme *lex, const struct s_alias *alias)
 	return (save);
 }
 
-void	aliases_replace(t_lexeme **lex)
+void			aliases_replace(t_lexeme **lex)
 {
 	const struct s_alias *alias;
 
