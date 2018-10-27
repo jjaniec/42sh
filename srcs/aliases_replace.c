@@ -6,13 +6,13 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:00:45 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 16:27:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 16:37:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static struct s_alias	*is_an_alias(const char *data, \
+struct s_alias			*is_an_alias(const char *data, \
 						const struct s_alias *iterator)
 {
 	while (iterator)

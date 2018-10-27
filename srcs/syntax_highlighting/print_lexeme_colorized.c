@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/07 21:02:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 16:42:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 	static int		item_nb = -1;
 
 	item_nb++;
-	if (lexeme->type == T_CTRL_OPT)
+	if (is_an_alias(lexeme->data, access_alias_datas()))
+		ft_putstr(COL_ALIAS);
+	else if (lexeme->type == T_CTRL_OPT)
 	{
 		ft_putstr(COL_OPERATORS);
 		item_nb = -1;
