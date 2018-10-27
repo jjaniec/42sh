@@ -46,6 +46,8 @@ int		is_builtin(char *cmd, \
 		builtin_ret_ptr = &builtin_alias;
 	else if (ft_strequ(cmd, "read"))
 		builtin_ret_ptr = &builtin_read;
+	else if (ft_strequ(cmd, "unalias"))
+		builtin_ret_ptr = &builtin_unalias;
 	if (builtin_fun_ptr)
 		*builtin_fun_ptr = builtin_ret_ptr;
 	return ((builtin_ret_ptr) ? (1) : (0));

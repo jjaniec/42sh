@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:02:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/18 15:03:50 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:45:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	colosyn_print_history_elem(struct s_line *le)
 		if (le->save_tmp_cmd != NULL)
 		{
 			cmd = le->save_tmp_cmd;
-			if ((updated_cmd = ft_strdup(cmd)) == NULL)
-				le_exit("Memory allocation failed\n", "malloc", errno);
+			updated_cmd = ft_xstrdup(cmd);
 			refresh_colosyn(le, updated_cmd);
 			free(le->save_tmp_cmd);
 			le->save_tmp_cmd = NULL;
@@ -37,8 +36,7 @@ void	colosyn_print_history_elem(struct s_line *le)
 	}
 	else
 	{
-		if ((updated_cmd = ft_strdup(cmd)) == NULL)
-			le_exit("Memory allocation failed\n", "malloc", errno);
+		updated_cmd = ft_xstrdup(cmd);
 		refresh_colosyn(le, updated_cmd);
 	}
 	free(updated_cmd);

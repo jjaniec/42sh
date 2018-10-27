@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   good_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sebastien <marvin@42.fr>                   +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 17:30:40 by sebastien         #+#    #+#             */
-/*   Updated: 2018/09/26 11:06:59 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 19:48:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int		good_start(t_lexeme *lex)
 {
-	int		i;
+	unsigned int	i;
 
 	i = 0;
 	while (g_cant_begin_with[i])

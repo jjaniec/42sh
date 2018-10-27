@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 19:23:25 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/10 17:56:31 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/19 17:08:57 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ static t_autoc		*autoc_setup(struct s_line *le)
 {
 	t_autoc	*autoc;
 
-	autoc = (t_autoc*)malloc(sizeof(t_autoc));
-	if (autoc == NULL)
-		return (NULL);
+	autoc = (t_autoc*)ft_xmalloc(sizeof(t_autoc));
 	autoc->le = le;
 	autoc->search = NULL;
 	autoc->menu_selected = -1;

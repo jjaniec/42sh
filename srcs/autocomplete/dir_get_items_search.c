@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 13:38:10 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/05 13:54:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/19 17:09:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ static char		**get_search_result(char **items, char *search, int match_res)
 
 	i = 0;
 	j = 0;
-	res = (char**)malloc(sizeof(char*) * (match_res + 1));
+	res = (char**)ft_xmalloc(sizeof(char*) * (match_res + 1));
 	while (items[i])
 	{
 		if (ft_strnstr(items[i], search, ft_strlen(search)))
 		{
-			res[j] = ft_strdup(items[i]);
+			res[j] = ft_xstrdup(items[i]);
 			j++;
 		}
 		i++;

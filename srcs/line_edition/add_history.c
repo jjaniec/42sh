@@ -6,12 +6,13 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 20:10:04 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/30 17:22:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/21 17:48:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
+#if 0
 // debug, affiche la liste chainee de l'historique
 static void	his_debug(void)
 {
@@ -27,28 +28,40 @@ static void	his_debug(void)
 	}
 	//le_debug("%s","HIS END\n");
 }
+#endif
+
+/*
+**	Cut the command at the first '\n' found (if there is one).
+*/
+
+static void	cut_cmd_at_newline(char *cmd)
+{
+	while (*cmd != '\0')
+	{
+		if (*cmd == '\n')
+		{
+			*cmd = '\0';
+			return ;
+		}
+		++cmd;
+	}
+}
 
 /*
 **	Add a new element at the end of the linked list representing
 **	the history.
 */
 
-void	add_history(const char *input, struct s_line *le)
+void		add_history(const char *input, struct s_line *le)
 {
 	struct s_history	*new;
-	size_t				input_len;
 	struct s_history	*tmp;
 
-	if ((new = malloc(sizeof(struct s_history))) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
-	input_len = ft_strlen(input);
-	if ((new->cmd = ft_strdup(input)) == NULL)
-	{
-		free(new);
-		le_exit("Memory allocation failed\n", "malloc", errno);
-	}
-	if (new->cmd[input_len - 1] == '\n')
-		new->cmd[input_len - 1] = '\0';
+	new = ft_xmalloc(sizeof(struct s_history));
+	new->cmd = ft_xstrdup(input);
+	//if (new->cmd[input_len - 1] == '\n')
+		//new->cmd[input_len - 1] = '\0';
+	cut_cmd_at_newline(new->cmd);
 	tmp = le->history;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
@@ -58,5 +71,5 @@ void	add_history(const char *input, struct s_line *le)
 		tmp->prev->next = new;
 	tmp->prev = new;
 
-	his_debug(); // debug
+//	his_debug(); // debug
 }

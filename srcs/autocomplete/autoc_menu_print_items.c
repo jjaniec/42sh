@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 10:45:08 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/08 11:47:33 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:57:12 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ int				autoc_menu_print_items(t_autoc *autoc, struct s_line *le)
 
 	line = 0;
 	if (ioctl(1, TIOCGWINSZ, &autoc->win) == -1)
-		le_exit("Error while getting window sizes\n", "ioctl", errno);
+	{
+		ft_putstr_fd("Error while getting window sizes\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (get_print_infos(autoc))
 		return (1);
 	menu_new_line(autoc);

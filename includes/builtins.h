@@ -74,5 +74,6 @@ void	builtin_history(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, t_exec *exe);
 void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
 void    builtin_read(char **argv, t_environ *env, t_exec *exe);
+void    builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 #endif

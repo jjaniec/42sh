@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes_expansions.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/04 15:39:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/24 19:56:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int		is_expansion_char(t_lexeme_clean_data *l, int in_quote_type, \
 		*expansion_handler_ptr = handle_dollar_expansion;
 	else if (*ptr == '~' && \
 		in_quote_type == NOT_IN_QUOTES && \
-		(is_separator(*(ptr - 1)) || ptr == l->raw_lexeme_data) && \
+		(ptr == l->raw_lexeme_data || is_separator(*(ptr - 1))) && \
 		(!(*(ptr + 1)) || *(ptr + 1) == '/'))
 		*expansion_handler_ptr = handle_tild_expansion;
 	return ((*expansion_handler_ptr) ? (1) : (0));
@@ -135,7 +135,8 @@ void			handle_quotes_expansions(char **data)
 
 	new_lex_data.raw_lexeme_data = *data;
 	new_lex_data.clean_data_size = ft_strlen(*data) * sizeof(char) + 1;
-	new_lex_data.clean_data = malloc(new_lex_data.clean_data_size);
+	new_lex_data.clean_data = ft_xmalloc(new_lex_data.clean_data_size);
+	ft_memset(new_lex_data.clean_data, '\0', new_lex_data.clean_data_size);
 	new_lex_data.clean_data_write_ptr = new_lex_data.clean_data;
 	fill_new_data_str(&new_lex_data, get_shell_vars());
 	free(*data);

@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_is_positive_numeric.c                          :+:      :+:    :+:   */
+/*   builtin_unalias.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/06 19:23:15 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/06 19:23:35 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/10/18 16:29:12 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/10/19 18:53:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
+#include <forty_two_sh.h>
 
 /*
-**	Return 'true' if 'str' represents a positive number.
+**	$ unalias key1 key2 key3 ...
+**	call builtin alias like  => $ alias -d key
 */
 
-bool	str_is_positive_numeric(const char *str)
+void	builtin_unalias(char **argv, t_environ *env, t_exec *exe)
 {
-	while (*str != '\0')
+	unsigned int	nb_args;
+	unsigned int	index;
+
+	exe->ret = 1;
+	nb_args = ft_count_elem_2d_array(argv + 1);
+	index = 1;
+	while (nb_args > 0)
 	{
-		if (*str < '0' || *str > '9')
-			return (false);
-		++str;
+		builtin_alias( (char *[4]){"alias", "-d", argv[index], NULL}, env, exe);
+		--nb_args;
+		++index;
 	}
-	return (true);
 }

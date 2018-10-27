@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:36:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/17 19:42:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
 	unsigned int	keep_line;
 	bool			foo;
 	
+	if (still_enough_space_for_cmd(le) == false)
+		return ;
 	insert_char_into_array(le, key, le->cursor_index);
 	init_and_update_values(le, &keep_pos, &keep_line);
 	shift_printed_line(le);

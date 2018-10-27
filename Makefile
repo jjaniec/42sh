@@ -48,7 +48,6 @@ SRC_NAME = 	is_separator.c \
 			line_edition/access_le_main_datas.c \
 			line_edition/add_history.c \
 			line_edition/handle_window_resize.c \
-			line_edition/le_exit.c \
 			line_edition/get_le_debug_status.c \
 			line_edition/le_free_datas_and_history.c \
 			autocomplete/autocomplete.c \
@@ -66,6 +65,12 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_check_path.c \
 			autocomplete/autoc_push_in_line.c \
 			autocomplete/autoc_arrow.c \
+			hash_table/ht_setup.c \
+			hash_table/ht_create.c \
+			hash_table/ht_mem_free.c \
+			hash_table/ht_hash.c \
+			hash_table/ht_tab_tools.c \
+			hash_table/ht_update.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -101,7 +106,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/boolean_check/cursor_is_at_end_of_term_line.c \
 			line_edition/actionk/delete_char_into_cmdline_backspace_mode.c \
 			line_edition/actionk/delete_char_into_cmdline_delete_mode.c \
-			line_edition/tools/get_terminal_nb_col.c \
+			line_edition/tools/get_terminal_sizes.c \
 			line_edition/init_le/init_line_edition_attributes.c \
 			line_edition/init_le/init_termcaps_strings.c \
 			line_edition/print/insert_and_print_character_into_cmdline.c \
@@ -137,6 +142,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
+			builtin/builtin_unalias.c \
 			builtin/builtin_unsetenv.c \
 			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
@@ -159,8 +165,6 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
 			log.c \
-			ft_free_argv.c \
-			ft_atoll.c \
 			sub_prompt.c \
 			init_globals_config.c \
 			parse_options.c \
@@ -177,15 +181,13 @@ SRC_NAME = 	is_separator.c \
 			env/get_env_var.c \
 			env/upd_env_var.c \
 			builtin/is_identifier_invalid.c \
-			free_all_shell_data.c \
+			free_all_shell_datas.c \
 			env/free_env_entries.c \
 			get_next_line.c \
 			get_parsed_backup_files_path.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
 			access_alias_datas.c \
-			str_is_positive_numeric.c \
-			count_elem_2d_array.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
 			main.c
@@ -201,7 +203,8 @@ INCLUDES_NAME = ast.h \
 				script.h \
 				signals.h \
 				struct.h \
-				syntax_highlighting.h 
+				syntax_highlighting.h \
+				hash_table.h \
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -227,7 +230,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/ signals/
+			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

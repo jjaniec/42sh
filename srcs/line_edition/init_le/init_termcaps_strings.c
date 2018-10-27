@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 20:00:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/19 17:08:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 18:43:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,33 @@
 struct s_le_termcaps	*init_termcaps_strings(void)
 {
 	static struct s_le_termcaps tc;
+	const char					**index;
+	unsigned int				i;
+	const char					*tcaps_names[] = {
+		"nd", "le", "do", "up", "dc", "cl", "md", "me", "cr", "cd", "dl", "al",
+		"us", "mr", "ue"
+	};
 
+	index = (const char **)(&tc);
+	i = 0;
+	while ((ptrdiff_t)((uintptr_t)index - (uintptr_t)(&tc))
+	< (ptrdiff_t)sizeof(tc))
+	{
+		*index = tgetstr((char *)(tcaps_names[i]), NULL);
+		if (*index == NULL)
+		{
+			ft_putstr_fd(SH_NAME ": Failed to initialize '", 2);
+			ft_putstr_fd(tcaps_names[i], 2);
+			ft_putstr_fd("' termcap\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		index = (const char **)(((uintptr_t)index) + sizeof(const char *));
+		++i;
+	}
+	return (&tc);
+}
+
+/*
 	if ((tc.nd = tgetstr("nd", NULL)) == NULL)
 		le_exit("Failed to initialize \"nd\" termcap\n", "tgetstr", errno);
 	if ((tc.le = tgetstr("le", NULL)) == NULL)
@@ -47,3 +73,4 @@ struct s_le_termcaps	*init_termcaps_strings(void)
 
 	return (&tc);
 }
+*/

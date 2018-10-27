@@ -13,6 +13,8 @@
 #ifndef FORTY_TWO_SH_H
 # define FORTY_TWO_SH_H
 
+# include <stddef.h>
+# include <stdlib.h>
 # include <stdint.h>
 # include <inttypes.h>
 # include <sys/wait.h>
@@ -21,6 +23,7 @@
 # include <unistd.h>
 # include <curses.h>
 # include <term.h>
+# include <time.h>
 # include <termios.h>
 # include <stdbool.h>
 # include <dirent.h>
@@ -41,7 +44,7 @@
 
 # define SH_NAME		"42sh"
 # define IFS			"\t\n "
-# define MALLOC_ERROR 	1
+# define MALLOC_ERROR 	(EXIT_FAILURE)
 # define OPT_NOT_FOUND_ERROR 1
 
 # ifndef VERBOSE_MODE
@@ -67,6 +70,7 @@
 # include "get_next_line.h"
 # include "autocomplete.h"
 # include "builtins.h"
+# include "hash_table.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
@@ -90,8 +94,6 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
 int			subpp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
 int			subp_heredoc(t_lexeme *lex, char *eof_word);
-
-void		ft_free_argv(char **tab_);
 
 void		init_option_list(t_option **opt_tab, ...);
 
@@ -117,7 +119,7 @@ t_environ	*init_environ(char **env, t_environ *env_struct);
 
 void	free_env_entries(t_environ *env_struct, t_env_entry *env_entries);
 
-void	free_all_shell_data(void);
+void	free_all_shell_datas(void);
 
 void		init_environ_struct_ptrs(t_environ *env_struct);
 
@@ -138,16 +140,11 @@ int		is_identifier_invalid(char *str, char *assign_ptr);
 
 t_shell_vars	*get_shell_vars(void);
 
-long long	ft_atoll(const char *str);
 t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
 
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
 struct s_alias	*access_alias_datas(void);
 
-
-
-bool	str_is_positive_numeric(const char *str); // ira dans libft
-unsigned int	count_elem_2d_array(char **array); // ira dans libft
 
 #endif

@@ -35,7 +35,7 @@ int		get_le_debug_status(int mode, int new_value);
 /*
 **	Sizes
 */
-# define LE_DEFAULT_LINE_SIZE 10//(2048U)
+# define LE_DEFAULT_LINE_SIZE (8192U)
 # define LE_KEY_BUFFER_SIZE (9U)
 
 /*
@@ -82,7 +82,6 @@ int		get_le_debug_status(int mode, int new_value);
 # define LE_CHAR_DELIM_DEFAULT (t_kno)'\n'
 # define RESIZE_IN_PROGRESS ((char *)(-1))
 # define LE_DEFAULT_PROMPT (0)
-# define LE_FATAL_ERROR (2) // for le_exit()
 # define LE_IFS (char []){'\t', '\n', ' ', '\0'}
 # define LE_SPECIAL_CASE (42)
 
@@ -139,38 +138,40 @@ struct s_le_state
 };
 
 /*
-**	cl : clear screen
-**	md : begin bold mode
-**	le : cursor moves one step left
 **	nd : cursor moves one step right
+**	le : cursor moves one step left
 **	_do : (because 'do' is a standard keyword) cursor moves one line down
 **	up : cursor moves one line up
 **	dc : delete character under the cursor
+**	cl : clear screen
+**	md : begin bold mode
 **	me : end bold mode
 **	cr : cursor_pos 0
-**	sc : save cursor_pos
-**	rc : restore cursor from last save
 **	cd : clear all after cursor
 **	dl : Delete a line
 **	al : add a line
+**	us : begin underline mode
+**	mr : begin reverse mode
+**	ue : end underline mode
 */
 
 struct s_le_termcaps
 {
-	const char	*cl;
-	const char	*md;
-	const char	*le;
 	const char	*nd;
+	const char	*le;
 	const char	*_do;
 	const char	*up;
 	const char	*dc;
+	const char	*cl;
+	const char	*md;
 	const char	*me;
 	const char	*cr;
-	const char	*sc;
-	const char	*rc;
 	const char	*cd;
 	const char	*dl;
 	const char	*al;
+	const char	*us;
+	const char	*mr;
+	const char	*ue;
 };
 
 /*
@@ -218,6 +219,7 @@ struct s_line
 	unsigned int			start_pos;
 	unsigned int			cursor_pos;
 	unsigned int			cursor_line;
+	unsigned int			term_nb_lines;
 	size_t					term_line_size;
 	unsigned int			nb_lines_written;
 	unsigned int			nb_char_on_last_line;
@@ -348,6 +350,7 @@ unsigned int	print_str_on_term(const char *str,
 void			check_cmd_storage(struct s_line *le, unsigned int nb_char);
 void			check_clipboard_storage(struct s_line *le, unsigned int nb_char);
 void			cursor_crosses_screen(struct s_line *le, t_cross_screen direction);
+unsigned int	get_terminal_nb_lines(void);
 unsigned int	get_terminal_nb_col(void);
 void			insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos);
 void    		reset_history_on_first_elem(struct s_line *le);
@@ -360,7 +363,6 @@ int				write_one_char(int c);
 struct s_line	*access_le_main_datas(void);
 void			add_history(const char *input, struct s_line *le);
 void    		handle_window_resize(struct s_line *le);
-void			le_exit(const char *msg, const char *func_name, int errno_value);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
@@ -369,6 +371,8 @@ void			process_key(struct s_line *le);
 
 
 
+
+bool	still_enough_space_for_cmd(struct s_line *le);
 
 #endif
 
@@ -379,42 +383,13 @@ void			process_key(struct s_line *le);
 	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
 	FAUDRA VERIFIER CA ULTRA IMPORTANT
 
-
-	faudra tester la commande clear quand on aura le full prompt sur deux lignes la,
-	possible que ca ne marche pas on veut, auquel cas on fera un builtin clear personnalisé ;)
-
-
-	quand la ligne de commande est tres grande et qu'on ne voit plus le prompt car il est
-	remonté trop haut, alors ctrl+u a un affichage un peu bugué
-
-
-	penser a faire ctrl + l
-
-
-	PENSER A VERIFIER LES QUOTES DANS LES HEREDOCS
-
-
-	lancer shell, ecrire "ls \" ca lance le subp, ecrire "." : zut le bug
-	(go tester d'autres trucs du genre)
-
-	LA COMMANDE "srcs" est not found, mais "srcs/" CA RALE PAS ??????? GO CORRIGER CA
-
-	./21sh -c "history"   CA SEGFAULT LOL GO REGLER CA
-
-	valgrind ./42sh -c "history --save"
-
-	fleche haut bas pour l'histo quand c multiligne genre vaec des quotes
-
-
-	le resize ne replace pas le cursseur la ou il etait, go le faire
+	TESTER  (echo line1; echo line2) | ./42sh
 
 	BUILTINS BONUS A FAIRE (avec leurs options)
 	{
 		read
 		export
 		unset
-		history
-		!
 	}
 
 

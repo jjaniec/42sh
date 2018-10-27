@@ -137,9 +137,25 @@ typedef t_environ	t_local_vars;
 
 typedef t_environ	t_internal_vars;
 
+typedef struct			s_entry
+{
+	char				*key;
+	char				*value;
+	struct s_entry		*next;
+}						t_entry;
+
+typedef struct			s_hashtable
+{
+	int					size;
+	char				**path;
+	time_t				*modif_time;
+	t_entry				**table;
+}						t_hashtable;
+
 typedef struct		s_shell_vars
 {
 	t_environ			*env;
+	t_hashtable			*hashtable;
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
 }					t_shell_vars;
