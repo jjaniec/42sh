@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 20:20:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 20:49:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 21:44:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int		get_process_return_code(int *status, \
 			(waited_pid == -1 || (waited_pid != expected_waited_pid)))
 			return (handle_wait_error(waited_pid, status, expected_waited_pid));
 	}
+	while (waitpid(0, NULL, 0) != -1)
+		;
 	return (r);
 }

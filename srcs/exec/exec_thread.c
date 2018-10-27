@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 20:32:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 21:27:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,6 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
 		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
 			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), return_code);
-		if (WIFSIGNALED(status))
-			while (waitpid(0, &status, 0) != -1)
-				;
 		free_job(g_jobs);
 		g_jobs = NULL;
 	}

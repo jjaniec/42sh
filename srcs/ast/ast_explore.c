@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 20:32:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 21:42:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ static int		wait_childs(t_job *job)
 			r = get_process_return_code(&status, waited_pid, g_jobs->last_process_pid);
 			log_info("Last process of pipeline terminated: Return code set to %d", r);
 		}
+	//	if (kill(waited_pid, 0) != -1)
 		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d", \
 			waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
 		//remove_task_pid_from_job(g_jobs, waited_pid); //-> done by sigchild handler
 	}
+	while (waitpid(0, NULL, 0) != -1)
+		;
 	log_debug("End of wait_childs debug_jobs:");
 	debug_jobs(g_jobs);
 	return r;
@@ -119,7 +122,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	else
 	{
 		g_jobs = create_job("PIPE");
-		g_jobs->pgid = 0;
+		g_jobs->pgid = getpid();
 		*is_in_pipeline = true;
 		ast_explore(ast, exe);
 		r = wait_childs(g_jobs);

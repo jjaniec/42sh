@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/27 20:34:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 21:31:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,21 @@ void	handle_sigint(int sig)
 //			write(STDERR_FILENO, "\n", 1);
 //		}
 //	}
-/* Demander a gamouche a quoi ca sert
+// Demander a gamouche a quoi ca sert
 	g_cmd_status.sigint_happened = true;
 	le = access_le_main_datas();
-	if (le->le_state.prompt_type == NEED_SUBPROMPT_QUOTES)
-		write(1, "\n", 1);
-	i = 0;
-	while (i++ < le->cursor_pos)
-		tputs(le->tcaps->le, 1, &write_one_char);
-	if (le->tcaps)
+	if (le)
 	{
-		tputs(le->tcaps->_do, 1, &write_one_char);
-		tputs(le->tcaps->cd, 1, &write_one_char);
-		tputs(le->tcaps->up, 1, &write_one_char);
-	}*/
+		if (le->le_state.prompt_type == NEED_SUBPROMPT_QUOTES)
+			write(1, "\n", 1);
+		i = 0;
+		while (i++ < le->cursor_pos)
+			tputs(le->tcaps->le, 1, &write_one_char);
+		if (le->tcaps)
+		{
+			tputs(le->tcaps->_do, 1, &write_one_char);
+			tputs(le->tcaps->cd, 1, &write_one_char);
+			tputs(le->tcaps->up, 1, &write_one_char);
+		}
+	}
 }

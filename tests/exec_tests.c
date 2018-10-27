@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 22:35:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 21:11:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Pipes 9 - AND, OR", "/bin/echo a && /bin/echo b | cat || /bin/echo c", NULL);
 	compare_sh_42sh_outputs("Pipes 10 - AND, OR, redirs", "ls /dev/thisdoesnotexist 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null", NULL);
 	compare_sh_42sh_outputs("Pipes 11 - Long Mixed", "/bin/echo a 2>&1 | cat | cat || /bin/echo b | cat | cat && /bin/echo c 1>/dev/null | cat ; /bin/echo lol | cat", NULL);
-	compare_sh_42sh_outputs("Pipes 12 - misc 1", "if command -v toilet && command -v cowsay; then echo lol | cat | toilet | cowsay; fi", NULL);
-	compare_sh_42sh_outputs("Pipes 13 - Particular cases 1", "if command -v toilet && command -v cowsay; then env | cat | lolcat | cowsay; fi", NULL);
+	compare_sh_42sh_outputs("Pipes 12 - misc 1", "if which toilet && which cowsay; then echo lol | cat | toilet | cowsay | head -c 10; fi", NULL);
+	compare_sh_42sh_outputs("Pipes 13 - Particular cases 1", "if which toilet && which cowsay; then env | cat | lolcat | cowsay | head -c 10; fi", NULL);
 
 	//here we mask the output as base64 /dev/random will never give twice the same string, those tests are to see if head stops base64
 	compare_sh_42sh_outputs("Pipes 14 - Particular cases 2", "base64 /dev/random | head -c 100 | cat | wc -c", NULL);
