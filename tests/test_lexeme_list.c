@@ -6,11 +6,46 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:32:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/01 12:22:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 18:52:28 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
+
+/*
+** Determines if string should be passed to handle_quotes_expansions
+** to remove quotes / backslashes / replace expansion specifiers
+*/
+
+static int	is_clean_needed_expansions(char **data)
+{
+	char	*ptr;
+
+	ptr = EXPANSIONS_SPECIFIERS;
+	while (*ptr)
+		if (ft_strchr(*data, *ptr++))
+			return (1);
+	return (0);
+}
+
+static int	is_clean_needed(char **data)
+{
+	if (*data && (ft_strchr(*data, '\'') || \
+			ft_strchr(*data, '"') || ft_strchr(*data, '\\') || \
+			is_clean_needed_expansions(data)))
+		return (1);
+	return (0);
+}
+
+static void	clean_data(t_lexeme *lex)
+{
+	while (lex)
+	{
+		if (is_clean_needed(&(lex->data)))
+			handle_quotes_expansions(&(lex->data));
+		lex = lex->next;
+	}
+}
 
 void	test_lexeme_list(char *test_name, char *input, ...)
 {
@@ -25,6 +60,7 @@ void	test_lexeme_list(char *test_name, char *input, ...)
 
 	i = 1;
 	lexer(input, &result, NULL);
+	clean_data(result);
 	va_start(va_ptr, input);
 	if (!result)
 	{

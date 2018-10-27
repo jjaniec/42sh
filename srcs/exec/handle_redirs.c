@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/14 15:31:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 19:05:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static void		handle_redir(int prefix_fd, t_ast *node)
 {
 	char	*target;
 
+	handle_quotes_expansions(node->right->data);
 	target = node->right->data[0];
 	if (node->type_details == TK_LESSAND \
 		|| node->type_details == TK_GREATAND)
