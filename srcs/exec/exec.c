@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 13:41:21 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:07:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,14 @@ int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 
 int			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char		*prog_path;
-	char		*path_entry;
-	struct stat	s_stat;
+	char			*prog_path;
+	t_shell_vars	*vars;
+	struct stat		s_stat;
 
-	path_entry = NULL;
-	if (env_struct->get_var(env_struct, "PATH"))
-		path_entry = env_struct->last_used_elem->val_begin_ptr;
 	exe->ret = -2;
-	prog_path = isin_path(path_entry, argv[0]);								//{ le_debug("prog path = |%s|\n", prog_path) }
+	ht_update(env_struct);
+	vars = get_shell_vars();
+	prog_path = ht_get_key_value(vars->hashtable, argv[0]);
 	if (prog_path)
 	{
 		if (stat(prog_path, &s_stat) == -1)

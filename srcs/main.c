@@ -176,6 +176,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
 	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
+	vars->hashtable = ht_create(&env_vars);
 }
 
 int			main(int ac, char **av, char **envp)
