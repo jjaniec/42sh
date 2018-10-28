@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 13:51:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 15:35:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 	r = wait_childs(g_jobs);
 	if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))
 		ast_debug(ast);
-	free_all_shell_data();
+	free_all_shell_datas();
 	log_trace("PIPE MANAGER: All processes terminated: Exiting w/ code: %d", r);
 	exit(r);
 }
