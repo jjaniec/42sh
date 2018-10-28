@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/17 20:33:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 20:08:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,22 @@
 static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 {
 	int		not;
+	void	(*builtin_fun_ptr)(char **, t_environ *, t_exec *);
 
+	builtin_fun_ptr = NULL;
 	not = 0;
 	if (ft_strequ(argv[0], "!") && argv[1])
 	{
 		not = 1;
 		argv++;
 	}
-	if (ft_strchr(argv[0], '/'))
-		exec_local(argv, exe->env, exe, node);
-	else if (!exec_builtin(argv, exe->env, exe, node))
-		exec_binary(argv, exe->env, exe, node);
+	if (is_builtin(argv[0], &builtin_fun_ptr))
+		exec_thread(\
+			(void *[3]){(void *)EXEC_THREAD_BUILTIN, &builtin_fun_ptr, argv}, \
+			NULL, exe, node);
+	else
+		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, argv[0], argv}, \
+			NULL, exe, node);
 	if (not)
 		exe->ret = (exe->ret == 0) ? 1 : 0;
 }
