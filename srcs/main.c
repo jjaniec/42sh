@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/21 20:42:55 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/28 18:13:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 struct s_cmd_status	g_cmd_status = {
 	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, \
-	.sigint_happened = false, .interactive_mode = false
+	.sigint_happened = false, .interactive_mode = false, .builtin_running = false
 };
 
 t_option		g_sh_opts[] = {

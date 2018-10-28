@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/22 19:39:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/28 16:10:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 
 # define BUILTIN_READ_USAGE \
 	SH_NAME ": read: usage read [-d 'x'] [[-n | -N] x] -p -s -- VAR1 VAR2 ...\n"
-#define BLTREAD_MAX_CH (10U)
+#define BLTREAD_MAX_CH (8192U)
 
 struct s_alias
 {

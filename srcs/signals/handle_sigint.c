@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/21 17:49:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/28 17:15:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	handle_sigint(int sig)
 	struct s_line	*le;
 	unsigned int	i;
 
-	if (sig != SIGINT)
+	if (sig != SIGINT || g_cmd_status.builtin_running == true)
 		return ;
 	if (g_cmd_status.cmd_running == true)
 	{
 		if (kill(g_cmd_status.cmd_pid, sig) == -1)
-		{
+		{												{ le_debug("%s\n", "HANDLER SIGINT CMD RUNNING TRUE") }
 			write(STDERR_FILENO, SH_NAME ": Cannot kill pid:", 22);
 			ft_putnbr_fd(g_cmd_status.cmd_pid, STDERR_FILENO);
 			write(STDERR_FILENO, "\n", 1);
@@ -38,7 +38,7 @@ void	handle_sigint(int sig)
 		write(STDOUT_FILENO, "\n", sizeof(char));
 	}
 	else
-	{
+	{													{ le_debug("%s\n", "HANDLER SIGINT CMD RUNNING FALSE") }
 		g_cmd_status.sigint_happened = true;
 		le = access_le_main_datas();
 		if (le->le_state.prompt_type == NEED_SUBPROMPT_QUOTES)
@@ -53,5 +53,5 @@ void	handle_sigint(int sig)
 		tputs(le->tcaps->up, 1, &write_one_char);
 	}
 
-	//{ le_debug("%s - %d\n", "END SIGINT HANDLER", getpid()) }
+	{ le_debug("%s - %d\n", "END SIGINT HANDLER", getpid()) }
 }

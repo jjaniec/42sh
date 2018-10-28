@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 16:22:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/28 16:08:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,8 @@ static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		(ptr == &builtin_echo || \
 		ptr == &builtin_return || \
-		ptr == &builtin_test || \
-		ptr == &builtin_read))
+		ptr == &builtin_test /*|| \
+		ptr == &builtin_read*/))
 		return (1);
 	return (0);
 }

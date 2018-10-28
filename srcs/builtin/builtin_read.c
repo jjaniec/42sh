@@ -6,11 +6,16 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/22 19:32:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/28 18:21:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+static void	get_local_vars_names(struct s_bltread *options, char **args)
+{
+
+}
 
 static bool	get_activated_options(char **args, struct s_bltread *options)
 {
@@ -19,7 +24,7 @@ static bool	get_activated_options(char **args, struct s_bltread *options)
 	unsigned int	keep_i;
 
 	ft_memset(options, 0, sizeof(struct s_bltread));
-	options->opt_n = true; // ce builtin peut read 8192 char max, deso xd mais sinon flemme et puis osef
+	//options->opt_n = true;
 	options->nb_opt_nN = BLTREAD_MAX_CH;
 
 	i = 0;
@@ -87,7 +92,7 @@ static bool	get_activated_options(char **args, struct s_bltread *options)
 		++i;
 	}
 	i = keep_i;
-	options->words_vars = ft_xmalloc(sizeof(char *) * (nb_words + 1)); // free
+	options->words_vars = ft_xmalloc(sizeof(char *) * (nb_words + 1));
 	options->words_vars[nb_words] = NULL;
 
 	unsigned int	j = 0;
@@ -97,12 +102,12 @@ static bool	get_activated_options(char **args, struct s_bltread *options)
 			options->words_vars[j++] = args[i];
 		++i;
 	}
-
+/*
 	{ le_debug("NB WORDS VAR = %u\n", nb_words) }
 	if (nb_words > 0)
 		for (int i = 0 ; options->words_vars[i] != NULL ; ++i)
 			{ le_debug("WORD %d %s\n", i, options->words_vars[i]) }
-
+*/
 	return (true);
 }
 
@@ -112,6 +117,8 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	struct s_bltread	options;
 	unsigned char		*buffer;
 
+	g_cmd_status.builtin_running = true;
+
 	//(void)exe;
 	(void)(env);
 	//exe->ret = 0;
@@ -119,19 +126,23 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	|| (options.opt_n == true && options.opt_N == true))
 	{
 		ft_putstr_fd(BUILTIN_READ_USAGE, STDERR_FILENO);
-		//exe->ret = 1;
-		exit(1);
-		//return ;
+		exe->ret = 1;
+		//exit(1);
+		g_cmd_status.builtin_running = false;
+		free(options.words_vars);
+		return ;
 	}
+	options.opt_n = true;
 	if (options.opt_N == true)
 		options.opt_d = false;
 	if (options.nb_opt_nN > BLTREAD_MAX_CH)
 		options.nb_opt_nN = BLTREAD_MAX_CH;
 	if (options.nb_opt_nN == 0)
 	{
-		// faire les free hein
-		//return ;
-		exit(0);
+		g_cmd_status.builtin_running = false;
+		free(options.words_vars);
+		return ;
+		//exit(0);
 	}
 
 	// DEBUG
@@ -168,11 +179,34 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	struct termios t;
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag &= ~(ICANON);
+	if (options.opt_s)
+		t.c_lflag &= ~(ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &t);
+
+	if (options.opt_p == true)
+		write(STDOUT_FILENO, "> ", 2);
 
 	while ("read")
 	{
 		ret = read(STDIN_FILENO, buffer + nb_ch, 1);
+		if (ret == -1)
+		{
+			if (errno == EINTR)
+			{
+				// faire les free
+				t.c_lflag |= (ICANON | ECHO);
+				tcsetattr(STDIN_FILENO, TCSANOW, &t);
+				g_cmd_status.builtin_running = false;
+				write(STDOUT_FILENO, "\n", sizeof(char));
+				free(options.words_vars);
+				free(buffer);
+				return ;
+			}
+			else
+				exit(EXIT_FAILURE);
+		}
+
+
 		nb_ch += 1;
 
 		if (options.opt_N == false
@@ -190,12 +224,15 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 
 	}
 
-	t.c_lflag |= ICANON;
+	t.c_lflag |= (ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &t);
 
-	printf("\nbuffer = |%s|\n", buffer);
+	//printf("\nbuffer = |%s|\n", buffer);
 
-	exit(0);
+	//exit(0);
+	g_cmd_status.builtin_running = false;
+	free(options.words_vars);
+	free(buffer);
 }
 
 /*
