@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 20:55:02 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 21:57:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:05:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@
 void		handle_sigchild(int sig)
 {
 	pid_t		p;
-	t_process	*process;
 
+	(void)sig;
 	log_debug("PID %zu: Got sigchild!", getpid());
-
 	while ((p = waitpid((pid_t)(-1), 0, WNOHANG) > 0))
 	{
 		if (p == 1 && getpid() < g_jobs->pgid) // To replace as !(foreach job; if getpid() is in job->process_list) condition type if we're doing job control

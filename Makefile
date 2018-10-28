@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/28 20:11:52 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/28 21:04:34 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -139,7 +139,6 @@ SRC_NAME = 	is_separator.c \
 			exec/create_job.c \
 			exec/debug_jobs.c \
 			exec/free_job.c \
-			exec/handle_wait_error.c \
 			exec/refresh_job_running_processes.c \
 			exec/remove_task_pid_from_job.c \
 			exec/get_pipe_fds.c \

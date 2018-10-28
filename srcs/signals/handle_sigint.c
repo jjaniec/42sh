@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/28 13:47:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:04:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	handle_sigint(int sig)
 {
 	struct s_line	*le;
 	unsigned int	i;
-	pid_t			killtarget;
 	pid_t			receiver_pid;
 
 	receiver_pid = getpid();

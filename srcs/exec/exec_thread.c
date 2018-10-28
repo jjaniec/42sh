@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 19:09:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:01:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,7 @@ static void		close_child_pipe_fds(int **pipe_fds)
 ** waitpid on child to prevent zombie process
 */
 
-static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
-				int **pipe_fds)
+static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 {
 	pid_t		waited_pid;
 	int			status;
@@ -193,7 +192,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 			g_cmd_status.cmd_running = true;
 			g_cmd_status.cmd_pid = child_pid;
 			log_trace("Forked process pid: %d for cmd: %s", child_pid, node->data[0]);
-			exe->ret = parent_process((char **)cmd, child_pid, node, pipe_fds);
+			exe->ret = parent_process((char **)cmd, child_pid, pipe_fds);
 		}
 	}
 	else

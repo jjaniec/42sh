@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 13:04:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 21:42:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:02:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 int			handle_pipes(int **pipe_fds)
 {
-	t_ast	*last_pipe_node;
-	t_ast	*ptr;
-
 	if (pipe_fds)
 	{
 		if (pipe_fds[0] && *(pipe_fds[0]) != -1)

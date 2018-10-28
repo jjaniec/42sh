@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 20:22:31 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:04:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
 
 
 // Error Handling
-
-int		handle_wait_error(pid_t waited_pid, int *status, pid_t child_pid);
 
 void			handle_open_error(int errno_code, char *filename);
 void			print_error(char *subject, char *err_str);

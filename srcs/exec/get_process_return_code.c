@@ -6,11 +6,33 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 20:20:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 21:44:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:03:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+** If wait failed, print error and adapt return code
+*/
+
+static int		handle_wait_error(pid_t waited_pid, int *status)
+{
+	if (waited_pid == -1)
+	{
+		if (errno != EINTR)
+		{
+			log_error("Wait returned -1");
+			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+			return (*status);
+		}
+		return (130);
+	}
+	if (waited_pid != -1)
+		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
+	return (0);
+}
+
 
 /*
 ** If process terminated by calling on of the exit() family functions or
@@ -33,7 +55,7 @@ int		get_process_return_code(int *status, \
 		r = -1;
 		if (!WIFEXITED(*status) && !WIFSIGNALED(*status) && \
 			(waited_pid == -1 || (waited_pid != expected_waited_pid)))
-			return (handle_wait_error(waited_pid, status, expected_waited_pid));
+			return (handle_wait_error(waited_pid, status));
 	}
 	while (waitpid(0, NULL, 0) != -1)
 		;
