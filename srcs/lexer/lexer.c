@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/13 19:59:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 13:16:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ static int			make_next_lexeme(char *line, int *pos, \
 	while (line[*pos] && line[*pos] != '\\' && line[*pos] != '\n' && \
 			is_separator(line[*pos]))
 		*pos += 1;
+	if (line[*pos] == '#')
+		while(line[*pos] && line[*pos] != '\n')
+			(*pos)++;
 	if (line[*pos])
 	{
 		lexeme_begin_end_ptrs[0] = &(line[*pos]);
@@ -114,6 +117,5 @@ int					lexer(char *line, t_lexeme **lexemes, \
 				break ;
 		}
 	env_assigns_status(*"resets env_assigns_passed value to 0", 0);
-	script_lexemes(*lexemes);
 	return (r);
 }

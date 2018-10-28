@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/19 16:43:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:21:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ static char		**debug_data_node(char *str)
 	return (tab_);
 }
 
+/*
+** Take t_ast **root such as root[0]->data[0] == "[sub_ast]"
+** Doesnt't change *root, but change root[0]->sub_ast
+*/
+
 static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
 				const int next_tokens[],
 				void (*const node_placer)(t_ast *, t_ast *))
@@ -34,7 +39,8 @@ static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
 	lex = lex->next;
 	if (lex == end_lexeme)
 		log_warn("Find end lexeme: end_lexeme is the same than start.");
-	*root = ast_constructor(&lex, *root, end_lexeme, node_placer);
+	root[0]->sub_ast = ast_constructor(&lex, root[0]->sub_ast, end_lexeme, node_placer);
+	root[0]->sub_ast->top_ast = root[0];
 	return (lex);
 }
 
@@ -59,7 +65,7 @@ t_lexeme		*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
 			put_node(&save, &(root[0]->sub_ast), new, g_node_placer[i]);
 			while (lex && lex->type == T_WORD)
 				lex = lex->next;
-			return (create_sub_ast(lex, &(root[0]->sub_ast), g_next_tokens[i], \
+			return (create_sub_ast(lex, root, g_next_tokens[i], \
 				g_node_placer[i]));
 		}
 		i++;

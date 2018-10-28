@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/22 01:16:10 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:23:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@
 # include "syntax_highlighting.h"
 # include "signals.h"
 # include "script.h"
-# include "get_next_line.h"
 # include "autocomplete.h"
 # include "hash_table.h"
 
@@ -106,6 +105,8 @@ extern const char	*g_prompts[10];
 
 # define BUILTIN_UNSETENV_USAGE \
 	SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n"
+
+int			get_next_line(const int fd, char **line);
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);

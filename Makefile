@@ -156,6 +156,7 @@ SRC_NAME = 	is_separator.c \
 			script/find_end_lexeme_solo.c \
 			script/find_lexeme_compete.c \
 			script/script_in_exec.c \
+			script/script_colodyn.c \
 			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
@@ -195,7 +196,6 @@ INCLUDES_NAME = ast.h \
 				autocomplete.h \
 				exec.h \
 				forty_two_sh.h \
-				get_next_line.h \
 				lexer.h \
 				line_edition.h \
 				script.h \

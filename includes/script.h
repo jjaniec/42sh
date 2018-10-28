@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/13 19:54:46 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 14:40:36 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@
 # define TK_SCRIPT_CONDITION_IF 70
 # define TK_SCRIPT_CONDITION_WHILE 71
 
+# define T_SCRIPT_STATEMENT 8
+
+# define TK_SCRIPT_BREAK 80
+# define TK_SCRIPT_CONTINUE 81
+
 /*
 ** SCRIPT LEXER
 */
@@ -53,6 +58,7 @@ int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
 t_lexeme	*is_script_complete(t_lexeme *lex, t_lexeme *tmp, int next_token);
 int			good_start(t_lexeme *lex);
 
+int		script_colodyn(t_lexeme *lex, int *item_nb);
 
 /*
 ** SCRIPT AST
