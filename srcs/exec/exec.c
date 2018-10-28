@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/14 19:33:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:53:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ t_exec	*create_exec(t_environ *env)
 {
 	t_exec	*exe;
 
-	if (!(exe = (t_exec *)ft_memalloc(sizeof(t_exec))))
-		exit(MALLOC_ERROR);
+	exe = (t_exec *)ft_xmemalloc(sizeof(t_exec));
 	exe->ret = 0;
 	exe->ready_for_exec = 0;
 	exe->env = env;
@@ -37,22 +36,34 @@ t_exec	*create_exec(t_environ *env)
 
 void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char	*cmd;
+	char			*cmd;
+	struct stat		s_stat;
 
 	cmd = argv[0];
 	if (access(cmd, F_OK) != 0)
 	{
-		ft_putstr_fd("21sh: no such file or directory: ", 2);
+		ft_putstr_fd(SH_NAME ": no such file or directory: ", 2);
 		ft_putendl_fd(cmd, 2);
 	}
 	else if (access(cmd, X_OK) != 0)
 	{
-		ft_putstr_fd("21sh: permission denied: ", 2);
+		ft_putstr_fd(SH_NAME ": permission denied: ", 2);
 		ft_putendl_fd(cmd, 2);
 	}
 	else
-		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
+	{
+		if (stat(cmd, &s_stat) == -1)
+			return ;
+		if (S_ISDIR(s_stat.st_mode))
+		{
+			ft_putstr_fd(SH_NAME ": ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+		}
+		else	
+			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
 			env_struct, exe, node);
+	}
 }
 
 /*
@@ -82,24 +93,34 @@ int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 
 void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char		*prog_path;
-	char		*path_entry;
+	char			*prog_path;
+	t_shell_vars	*vars;
+	struct stat		s_stat;
 
-	path_entry = NULL;
-	if (env_struct->get_var(env_struct, "PATH"))
-		path_entry = env_struct->last_used_elem->val_begin_ptr;
 	exe->ret = -2;
-	prog_path = isin_path(path_entry, argv[0]);
+	ht_update(env_struct);
+	vars = get_shell_vars();
+	prog_path = ht_get_key_value(vars->hashtable, argv[0]);
 	if (prog_path)
-		exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, prog_path, argv}, \
+	{
+		if (stat(prog_path, &s_stat) == -1)
+			return ;
+		if (S_ISDIR(s_stat.st_mode))
+		{
+			ft_putstr_fd(SH_NAME ": ", 2);
+			ft_putstr_fd(prog_path, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+		}
+		else
+			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, prog_path, argv}, \
 			env_struct, exe, node);
+	}
 	else
 	{
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
 	}
-	ft_strdel(&prog_path);
 }
 
 /*

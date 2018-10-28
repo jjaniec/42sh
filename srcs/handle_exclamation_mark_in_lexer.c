@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:15:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/10 17:42:33 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 16:32:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end)
 	&& ((char *)lex->data)[1] != '=')
 	{
 		size = lex->lexeme_end_ptr - lex->lexeme_begin_ptr;
-		search_str = (char *)ft_memalloc(sizeof(char) * (size + 1));
-		if (!search_str)
-			exit(MALLOC_ERROR);
+		search_str = ft_xmemalloc(sizeof(char) * (size + 1));
 		ft_strncpy(search_str, lex->lexeme_begin_ptr, size);
 		search_str[size] = '\0';
 		tmp = parse_exclamation_mark_shortcuts(search_str);
@@ -52,7 +50,7 @@ static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end)
 			return (lex_history_input(lex, tmp, end));
 		else
 		{
-			ft_putstr_fd("42sh: ", STDERR_FILENO); // SH_NAME
+			ft_putstr_fd(SH_NAME ": ", STDERR_FILENO);
 			ft_putstr_fd(search_str, STDERR_FILENO);
 			ft_putendl_fd(": event not found", STDERR_FILENO);
 			free(search_str);

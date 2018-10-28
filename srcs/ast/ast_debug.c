@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 18:37:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:50:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void	print_arg(t_ast *node)
 {
-	int		i;
+	unsigned int	i;
 
 	i = 0;
 	while (node->data[i])
@@ -42,7 +42,7 @@ static void	print_arg(t_ast *node)
 
 static void	print_subast(t_ast *node, int *sub_level)
 {
-	int			sl;
+	int		sl;
 
 	sl = 0;
 	(*sub_level)++;

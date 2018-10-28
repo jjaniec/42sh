@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 21:58:10 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 17:48:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:37:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void			actionk_history_down(struct s_line *le)
 	if (le->history == NULL || le->history->next == NULL)
 		return ;
 	if (le->save_tmp_cmd == NULL)
-		if ((le->save_tmp_cmd = ft_strdup(le->cmd)) == NULL)
-			le_exit("Memory allocation failed\n", "malloc", errno);
+		le->save_tmp_cmd = ft_xstrdup(le->cmd);
 	le->history = le->history->next;
 	if (le->le_state.opt_colosyn == true)
 		colosyn_print_history_elem(le);

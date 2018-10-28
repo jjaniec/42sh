@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:09:06 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/18 15:10:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/20 15:44:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ void	colosyn_delete_char(struct s_line *le)
 		return ;
 	keep_cursor_index = le->cursor_index;
 	need_replace_cursor = false;
-	if ((updated_cmd = ft_strdup(le->cmd)) == NULL)
-		le_exit("Memory allocation failed\n", "malloc", errno);
+	updated_cmd = ft_xstrdup(le->cmd);
 	if (le->key_no == LE_BACKSPACE)
 		backspace_deletion_mode(updated_cmd, le, &need_replace_cursor);
 	else if (le->key_no == LE_DELETE)

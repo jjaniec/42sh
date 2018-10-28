@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/27 21:31:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:47:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,6 @@ void	handle_sigint(int sig)
 			debug_jobs(g_jobs);
 		}
 	}
-//	else if (g_jobs && !g_jobs->first_process)
-//	{
-		//ft_printf(SH_NAME": Sending SIGINT to pid %d\n", g_jobs->first_process->pid);
-//		if (kill(g_jobs->first_process->pid, sig) != -1)
-//		{
-//			write(STDERR_FILENO, SH_NAME": Cannot kill pid: ", 22);
-//			ft_putnbr_fd(g_jobs->first_process->pid, STDERR_FILENO);
-//			write(STDERR_FILENO, "\n", 1);
-//		}
-//	}
 // Demander a gamouche a quoi ca sert
 	g_cmd_status.sigint_happened = true;
 	le = access_le_main_datas();
@@ -97,4 +87,5 @@ void	handle_sigint(int sig)
 			tputs(le->tcaps->up, 1, &write_one_char);
 		}
 	}
+	//{ le_debug("%s - %d\n", "END SIGINT HANDLER", getpid()) }
 }

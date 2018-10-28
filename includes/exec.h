@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 21:37:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:52:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	builtin_history(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
 			t_exec *exe);
 void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
+void	builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 char	*get_env(const char *name, const char **envp);
 int		get_env_pos(const char *name, const char **envp);

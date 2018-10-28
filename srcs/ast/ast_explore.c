@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 21:42:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:51:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ static int		wait_childs(t_job *job)
 	pid_t		waited_pid;
 	t_process	*ptr;
 
-	ptr = g_jobs->first_process;
+	if (!(job && job->first_process))
+		return 0;
+	ptr = job->first_process;
 	/*
 	while (ptr)
 	{

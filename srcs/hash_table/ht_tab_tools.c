@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_argv.c                                     :+:      :+:    :+:   */
+/*   ht_tab_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/27 16:35:58 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/02 12:17:04 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/21 23:55:36 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/10/22 01:30:34 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <forty_two_sh.h>
 
-void	ft_free_argv(char **tabb)
+void	ht_free_tab(char **items)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	if (!tabb)
-		return ;
-	while (tabb && tabb[i])
+	while (items && items[i])
 	{
-		free(tabb[i]);
-		tabb[i] = NULL;
+		free(items[i]);
+		items[i] = NULL;
 		i++;
 	}
-	free(tabb);
+	free(items);
+}
+
+int		ht_tab_len(char **items)
+{
+	int i;
+
+	i = 0;
+	while (items && items[i])
+		i++;
+	return (i);
 }

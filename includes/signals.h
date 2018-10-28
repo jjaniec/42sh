@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 12:34:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/22 20:55:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:50:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ struct s_cmd_status
 {
 	bool			cmd_running;
 	pid_t			cmd_pid;
-	struct s_line	*keep_le_main_datas;
+	char			*keep_le_cmd;
 	bool			resize_happened;
 	bool			sigint_happened;
+	bool			interactive_mode;
 };  
 
 extern struct s_cmd_status  g_cmd_status;

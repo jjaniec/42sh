@@ -6,15 +6,16 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 22:40:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 13:39:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "tests.h"
 #include <time.h>
+
 struct s_cmd_status	g_cmd_status = {
-	.cmd_running = false, .keep_le_main_datas = NULL, .resize_happened = false
+	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, .sigint_happened = false
 };
 
 t_job	*g_jobs;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/01 11:55:51 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/14 19:09:25 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ void		ast_free(t_ast *ast)
 	ast_free(ast->sub_ast);
 	ast_free(ast->left);
 	ast_free(ast->right);
+	*access_ast_data() = NULL;
 	free_node(&ast);
 }
