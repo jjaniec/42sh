@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/10 20:03:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:56:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,18 @@
 
 extern t_environ *g_envp;
 
-static void		exec(char *input)
-{
-	t_lexeme	*lex;
-	t_ast		*ast_root;
-	t_exec		*exe;
-
-	lexer(input, &lex, NULL);
-	ast_root = ast(&lex);
-	//exe = create_exec(g_env_lol);
-	if (!ast_root)
-		return ;
-	exe = create_exec(g_envp);
-	exe = exec_cmd(ast_root, exe);
-	ast_free(ast_root);
-	free_lexemes(lex);
-	free(exe);
-}
-
 static void		compare_fds_w_strings(char *test_name, char *str_test, char *expected_stdout, char *expected_stderr)
 {
 	int		backup_stdout_fd;
 	int		backup_stderr_fd;
-	char	*tmp;
+	char	*cmd_sh;
 
 	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd, NULL, NULL);
-	exec((tmp = ft_strjoin(str_test, "\n")));
-	compare_fds_with_strings(test_name, (tmp = ft_strjoin(expected_stdout, "\n")), expected_stderr, backup_stdout_fd, backup_stderr_fd);
+	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", str_test);
+	system(cmd_sh);
+	compare_fds_with_strings(test_name, expected_stdout, expected_stderr, backup_stdout_fd, backup_stderr_fd);
 	remove(redirect_both_fds_STDOUT_FILENAME);
 	remove(redirect_both_fds_STDERR_FILENAME);
-	free(tmp);
 }
 
 void			builtins_tests(t_environ *env)
@@ -107,12 +89,12 @@ void			builtins_tests(t_environ *env)
 	//	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | usort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI'", "export | cut -d ' ' -f 2 | usort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI' | tr -d '\\\"'");
 	compare_fds_w_strings("Builtin setenv 2 - err check 1", "setenv =", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 3 - err check 2", "setenv ==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
-	compare_fds_w_strings("Builtin setenv 4 - err check 3", "setenv $=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
-	compare_fds_w_strings("Builtin setenv 5 - err check 4", "setenv $==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
-	compare_fds_w_strings("Builtin setenv 6 - err check 5", "setenv $\\=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 4 - err check 3", "setenv \\$=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 5 - err check 4", "setenv \\$==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 6 - err check 5", "setenv \\$\\=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 7 - err check 6", "setenv \\=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
-	compare_fds_w_strings("Builtin setenv 8 - err check 7", "setenv $wdwadadaw=", NULL, NULL);
-	compare_fds_w_strings("Builtin setenv 9 - err check 8", "setenv $$wdwadadaw=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
+	compare_fds_w_strings("Builtin setenv 8 - err check 7", "setenv \\$wdwadadaw=", NULL, NULL);
+	compare_fds_w_strings("Builtin setenv 9 - err check 8", "setenv \\$\\$wdwadadaw=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR);
 	compare_fds_w_strings("Builtin setenv 10 - err check 9", "setenv lol", NULL, BUILTIN_SETENV_USAGE);
 	compare_fds_w_strings("Builtin setenv 11 - err check 10 - invalid arg in large list", \
 		"setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a1 a1=b b1=c c1=d d1=e e1=f f1=g g1=h h1=i i1=j j1=k k1=l l1=m m1=n n1=o o1=p p1=q q1=r r1 =s && env | grep -v _", \

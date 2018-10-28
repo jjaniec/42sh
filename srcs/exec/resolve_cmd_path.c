@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 18:46:52 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 20:44:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:37:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int		handle_relpath_err(char *cmd)
 	}
 	else if (access(cmd, X_OK) != 0)
 	{
-		ft_putstr_fd(SH_NAME ": "ERR_NORIGHTS, 2);
+		ft_putstr_fd(SH_NAME": "ERR_NORIGHTS, 2);
 		ft_putendl_fd(cmd, 2);
 		r = 1;
 	}
@@ -60,7 +60,7 @@ static int		handle_relpath_err(char *cmd)
 		{
 			ft_putstr_fd(SH_NAME ": ", 2);
 			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(ERR_ISDIR, 2);
+			ft_putstr_fd(": "ERR_ISDIR, 2);
 			r = 1;
 		}
 	}
