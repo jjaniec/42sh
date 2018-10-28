@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 13:53:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 19:07:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,8 @@ t_exec	*create_exec(t_environ *env)
 
 void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char			*cmd;
-	struct stat		s_stat;
-
-	cmd = argv[0];
-	if (access(cmd, F_OK) != 0)
-	{
-		ft_putstr_fd(SH_NAME ": no such file or directory: ", 2);
-		ft_putendl_fd(cmd, 2);
-	}
-	else if (access(cmd, X_OK) != 0)
-	{
-		ft_putstr_fd(SH_NAME ": permission denied: ", 2);
-		ft_putendl_fd(cmd, 2);
-	}
-	else
-	{
-		if (stat(cmd, &s_stat) == -1)
-			return ;
-		if (S_ISDIR(s_stat.st_mode))
-		{
-			ft_putstr_fd(SH_NAME ": ", 2);
-			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": is a directory\n", 2);
-		}
-		else	
-			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
-			env_struct, exe, node);
-	}
+	exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, argv[0], argv}, \
+		env_struct, exe, node);
 }
 
 /*
@@ -93,11 +67,16 @@ int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 
 void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
+	/*
 	char			*prog_path;
 	t_shell_vars	*vars;
-	struct stat		s_stat;
+	struct stat		s_stat;*/
 
 	exe->ret = -2;
+	exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, argv[0], argv}, \
+		env_struct, exe, node);
+/*
+
 	ht_update(env_struct);
 	vars = get_shell_vars();
 	prog_path = ht_get_key_value(vars->hashtable, argv[0]);
@@ -120,7 +99,7 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
-	}
+	}*/
 }
 
 /*

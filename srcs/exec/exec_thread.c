@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 13:44:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 19:09:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
 	int		backup_fds[3];
+	bool	can_run_cmd;
 
+	can_run_cmd = true;
 	if (!pipe_fds)
 	{
 		backup_fds[0] = dup(STDIN_FILENO);
@@ -47,7 +49,9 @@ static void	child_process(void **cmd, t_exec *exe, \
 	}
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
-	if (cmd)
+	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
+		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
+	if (can_run_cmd)
 	{
 		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
@@ -55,7 +59,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 				(cmd[2], exe->env, exe);
 		else
 		{
-			log_debug("PID %zu -> child process path : cmd[1] : %s", getpid(), cmd[1]);
+			log_debug("PID %zu -> child process cmd[1]: %s", getpid(), cmd[1]);
 			if (execve(cmd[1], cmd[2], exe->env->environ))
 			{
 				log_error("PID %zu - Execve() not working", getpid());
@@ -73,7 +77,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 		log_close(backup_fds[1]);
 		log_close(backup_fds[2]);*/
 	}
-	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
+	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
 		log_fatal("PID %zu: Forcing exit of child process", getpid());
 		exit(exe->ret);
@@ -151,7 +155,7 @@ static int	parent_process(char **cmd, pid_t child_pid, t_ast *node, \
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
+static int	should_fork(void **cmd)
 {
 	void	(*ptr)(char **, t_environ *, t_exec *);
 

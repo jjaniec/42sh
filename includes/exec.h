@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 13:52:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 19:09:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_exec	*post_exec(t_ast *node, t_exec *exe);
 void	exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 int		exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 void	exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
+int		resolve_cmd_path(void **cmd, t_exec *exe);
 int		is_builtin(char *cmd, \
 			void (**builtin_fun_ptr)(char **, t_environ *, t_exec *));
 int		get_process_return_code(int *status, pid_t waited_pid, pid_t expected_waited_pid);
