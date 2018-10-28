@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lexeme_colorized.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 17:48:43 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/28 15:27:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void		print_prog_name_arg_col(struct stat *elem_stats, \
 			ft_putstr(COL_PROG_NAME_FOUND);
 		else
 		{
-			if (S_ISDIR(elem_stats->st_mode))
+			if (elem_stats != NULL && S_ISDIR(elem_stats->st_mode))
 				ft_putstr(COL_PROG_ARG_DIR);
 			else
 				ft_putstr(COL_PROG_ARG_FILE);
@@ -109,11 +109,12 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 			ft_putstr(COL_QUOTED_ARG);
 		else if (script_colodyn(lexeme, &item_nb))
 			ft_putstr(COL_SCRIPT);
+		else if (ft_strequ(lexeme->data, "[") || ft_strequ(lexeme->data, "]") \
+		|| ft_strequ(lexeme->data, "!"))
+			print_prog_name_arg_col(NULL, 1, item_nb);
 		else
 			print_prog_name_arg_col(&elem_stats, \
-				elem_path_found(&elem_stats, lexeme->data, env, item_nb) \
-				+ ft_strequ(lexeme->data, "[") + ft_strequ(lexeme->data, "]") \
-				+ ft_strequ(lexeme->data, "!"), item_nb);
+			elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
 	}
 	if (!lexeme->next)
 		item_nb = -1;

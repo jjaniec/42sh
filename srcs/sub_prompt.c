@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 14:52:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/28 15:43:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		subpp_string(char **s)
 			return (0);
 	}
 	ft_putchar('\n');
-	new = ft_xstrjoin(*s, input);
+	new = ft_xstrjoin_free(*s, input);
 	*s = new;
 	return (1);
 }
@@ -162,6 +162,7 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 			break ;
 		final = ft_xstrjoin_free(final, final_input);
 	}
+	free(eof_word);
 	//final[ft_strlen(final) - 1] = '\0';
 	free(final_input);
 	free(lex->next->data);
