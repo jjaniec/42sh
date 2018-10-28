@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 18:31:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/28 13:45:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 20:46:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_useless_signals(int sig)
 		ft_putnbr_fd(g_jobs->pgid, STDERR_FILENO);
 		write(STDERR_FILENO, "\n", 1);
 	}*/
-	write(2, "GOT SIGNAL\n", ft_strlen("GOT_SIGNAL\n"));
+	//write(2, "GOT SIGNAL\n", ft_strlen("GOT_SIGNAL\n"));
 	log_trace("PID %zu: GOT SIGNAL %d", getpid(), sig);
 	set_term_attr(LE_SET_OLD);
 	restore_default.sa_flags = 0;
