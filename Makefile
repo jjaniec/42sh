@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/22 01:19:01 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/10/29 18:41:59 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,8 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_hash.c \
 			hash_table/ht_tab_tools.c \
 			hash_table/ht_update.c \
+			prompt_details/print_prompt_details.c \
+			prompt_details/prompt_memory_free.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -203,6 +205,7 @@ INCLUDES_NAME = ast.h \
 				struct.h \
 				syntax_highlighting.h \
 				hash_table.h \
+				prompt_details.h\
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -228,7 +231,8 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/
+			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/ \
+			prompt_details/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

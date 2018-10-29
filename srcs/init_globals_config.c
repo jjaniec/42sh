@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   init_globals_config.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:55:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/13 20:01:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/29 14:11:26 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 const char	*g_prompts[] = {
-	"$ ",
+	"❯ ",
 	"AND ",
 	"OR ",
 	"... ",
@@ -104,4 +104,3 @@ const int g_cant_begin_with[7] = {
 	TK_SEMICOLON,
 	0
 };
-

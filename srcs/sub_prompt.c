@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 15:43:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/29 18:59:37 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@ int		prompt_show(const char *prompt)
 {
 	// waiting for the full prompt
 	if (prompt == g_prompts[0])
-		ft_putstr("TACOCAT\n");
-
+	{
+		print_prompt_details();
+		ft_putstr(PROMPT_COLOR);
+	}
 	tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
 	ft_putstr(prompt);
 	if (prompt != g_prompts[0])
+	{
+		ft_putstr(PROMPT_COLOR);
 		ft_putstr(g_prompts[0]);
+	}
+	ft_putstr(COL_DEFAULT);
 	tputs(access_le_main_datas()->tcaps->me, 1, &write_one_char);
 	if (prompt != g_prompts[0])
 		return (ft_strlen(prompt) + ft_strlen(g_prompts[0]));
@@ -70,12 +76,12 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	t_lexeme	*save;
 
 	input = RESIZE_IN_PROGRESS;
-	while (input == RESIZE_IN_PROGRESS)	
-	{	
+	while (input == RESIZE_IN_PROGRESS)
+	{
 		input = get_valid_input(&new, need_subprompt);
 		free_lexemes(new);
  		if (input == NULL)
-			return (NULL);	
+			return (NULL);
  	}
 	lexer(input, &new, NULL);
 	free(input);
