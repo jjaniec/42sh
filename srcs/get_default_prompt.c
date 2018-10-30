@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 11:04:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 11:31:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static char		*get_output_of_cmd(char **cmd, char **env, int fd)
 
 char	*get_default_prompt(char **env)
 {
-	(void)env; /*return NULL;*/
-
 	char		*ret;
 	int			pipe_fds[2];
 	char		*tmp;
@@ -46,7 +44,7 @@ char	*get_default_prompt(char **env)
 	char		*branch_str = NULL;
 	pid_t		p;
 
-	if (env)
+	//if (env)
 	{
 		pipe(pipe_fds);
 	//	backup_std_fds[0] = dup(STDOUT_FILENO);
@@ -58,7 +56,7 @@ char	*get_default_prompt(char **env)
 		{
 			waitpid(-1, NULL, 0);
 			get_next_line(pipe_fds[0], &branch_str);
-			printf("ret: %s", branch_str);
+			//printf("ret: %s", branch_str);
 			return branch_str;
 		}
 		else
@@ -69,7 +67,7 @@ char	*get_default_prompt(char **env)
 	//	exec_binary((char *[6]){"git", "rev-list", "--left-right", "--count", "HEAD...@{u}", NULL}, env, NULL, NULL);
 	//	dup2(backup_std_fds[0], STDOUT_FILENO);
 	//	dup2(backup_std_fds[1], STDERR_FILENO);
-		printf("ret: %s", branch_str);
+		//printf("ret: %s", branch_str);
 	}
 	return branch_str;
 }
