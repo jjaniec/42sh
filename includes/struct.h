@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 13:50:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 16:05:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct			s_ast
 	int				type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
+	struct s_ast	*top_ast;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*parent;
@@ -152,13 +153,13 @@ typedef struct			s_hashtable
 	t_entry				**table;
 }						t_hashtable;
 
-typedef struct		s_shell_vars
+typedef struct			s_shell_vars
 {
 	t_environ			*env;
 	t_hashtable			*hashtable;
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
-}					t_shell_vars;
+}						t_shell_vars;
 
 /*
 ** int	ret: the return value of the last command. Default: 0
@@ -170,6 +171,7 @@ typedef struct			s_exec
 {
 	int					ret;
 	int					ready_for_exec;
+	int					statement;
 	t_environ			*env;
 }						t_exec;
 
@@ -215,5 +217,18 @@ typedef struct 			s_job
   struct termios	tmodes;
   //int stdin, stdout, stderr;  /* standard i/o channels */
 } 						t_job;
+
+/*
+** Struct for GET NEXT LINE
+** Needed for multi fd support
+*/
+
+typedef struct		s_fd_GNL
+{
+	int				ret_read;
+	int				fd;
+	char			*content;
+	struct s_fd_GNL	*next;
+}					t_fd_GNL;
 
 #endif

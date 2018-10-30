@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:39:24 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/28 20:45:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 14:45:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define COL_REDIRS	"\e[2;49;39m"
 
 # define COL_ENV_VAR_EXPANSION "\e[2;49;39m"
+
+# define COL_SCRIPT "\e[1;2m"
 
 void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, char *input_ptr, t_lexeme *lexeme, t_environ *env);
 

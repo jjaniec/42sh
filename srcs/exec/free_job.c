@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/15 19:45:40 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/18 18:26:37 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 15:48:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 static void		free_job_processes(t_process *processes)
 {
-	t_process	*process_ptr;
 	t_process	*prev_ptr;
 
-	process_ptr = processes;
 	while (processes)
 	{
 		if (!(processes->next))

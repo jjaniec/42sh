@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 21:01:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 16:34:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,17 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 	pid_t		waited_pid;
 	int			status;
 	int			return_code;
-	t_process	*process_ptr;
 
 	status = -2;
 	return_code = status;
-	process_ptr = add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
+	add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
 	debug_jobs(g_jobs);
 	//process_ptr->input_descriptor = -1; // ->
 	close_child_pipe_fds(pipe_fds);
 	if (!pipe_fds)
 	{
-		g_jobs->pgid = 0;
+		if (g_jobs)
+			g_jobs->pgid = 0;
 		waited_pid = waitpid(child_pid, &status, 0);
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
 		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \

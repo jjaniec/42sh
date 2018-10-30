@@ -6,11 +6,35 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 20:08:41 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 15:36:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+** In use for return of keyword BREAK and CONTINUE.
+** Check if the code is inside an inner while.
+*/
+
+static int		look_for_loop_node(t_ast *node, int statement)
+{
+	while (node && node->type_details != TK_SCRIPT_WHILE)
+	{
+		if (node && node->top_ast)
+			node = node->top_ast;
+		else
+			node = node->parent;
+	}
+	if (node && node->type_details == TK_SCRIPT_WHILE)
+	{
+		if (statement == TK_SCRIPT_BREAK)
+			return (STATEMENT_BREAK);
+		if (statement == TK_SCRIPT_CONTINUE)
+			return (STATEMENT_CONTINUE);
+	}
+	return (0);
+}
 
 /*
 ** Distribute the **argv to the rigth processing function
@@ -57,8 +81,22 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	if (!node->data)
 		return (exe);
+	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
+	if (node->type == T_SCRIPT_STATEMENT && !exe->ready_for_exec)
+	{
+		exe->statement = look_for_loop_node(node, node->type_details);
+		if (exe->statement)
+			return (exe);
+	}
 	if (node->sub_ast)
+	{
 		script_in_exec(node->sub_ast, exe);
+		if (exe->statement && node->sub_ast->left && \
+		node->sub_ast->left->type_details != TK_SCRIPT_WHILE)
+			return (exe);
+		else
+			exe->statement = 0;
+	}
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)
 		io_manager_in(node, exe);
 	if (((node->type == T_WORD && node->type_details == TK_DEFAULT) || \

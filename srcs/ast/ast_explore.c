@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 15:35:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 16:28:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ static int		wait_childs(t_job *job)
 	int			status;
 	int			r = 0;
 	pid_t		waited_pid;
-	t_process	*ptr;
 
 	if (!(job && job->first_process))
 		return 0;
-	ptr = job->first_process;
 	/*
+	ptr = job->first_process;
 	while (ptr)
 	{
 		waited_pid = waitpid(ptr->pid, &status, 0);
@@ -42,7 +41,6 @@ static int		wait_childs(t_job *job)
 			r = get_process_return_code(&status, waited_pid, g_jobs->last_process_pid);
 			log_info("Last process of pipeline terminated: Return code set to %d", r);
 		}
-	//	if (kill(waited_pid, 0) != -1)
 		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d", \
 			waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
 		//remove_task_pid_from_job(g_jobs, waited_pid); //-> done by sigchild handler
@@ -66,9 +64,8 @@ static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 {
 	int		r;
 
-	setpgrp(); // -> alias to setpgid(0, 0);
-	//if (setpgid(0, 0))
-	//	perror("Setpgid");
+	if (setpgrp()) // -> alias to setpgid(0, 0);
+		perror("Setpgrp");
 	g_jobs = create_job("PIPE MANAGER");
 	if ((g_jobs->pgid = getpgid(getpid())) == -1)
 		perror("Getpgid in pipeline manager");
@@ -146,25 +143,31 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 
 t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 {
-	static bool	is_in_pipeline_fork = false;
+	static bool	is_in_pipeline = false;
 	int			tmp;
 
 	if (!ast)
 		return (exe);
 	if (ast->data)
-		log_debug("Current node: %p (%s) - rdy for exec: %d - is in pipeline fork ?: %s", \
-			ast, ast->data[0], exe->ready_for_exec, (is_in_pipeline_fork) ? ("true") : ("false"));
-	if (!is_in_pipeline_fork && ast->type_details == TK_PIPE)
+		log_debug("Current node: %p (%s) - rdy for exec: %d - is in pipeline ?: %s", \
+			ast, ast->data[0], exe->ready_for_exec, (is_in_pipeline) ? ("true") : ("false"));
+	if (!is_in_pipeline && ast->type_details == TK_PIPE)
 	{
-		tmp = handle_new_pipeline(ast, exe, &is_in_pipeline_fork);
+		tmp = handle_new_pipeline(ast, exe, &is_in_pipeline);
 		if (!exe->ready_for_exec)
 			exe->ret = tmp;
 		return (exe);
 	}
 	pre_exec(ast, exe);
 	ast_explore(ast->left, exe);
+//	if (exe->statement)
+//		return (exe);
 	in_exec(ast, exe);
+//	if (exe->statement)
+//		return (exe);
 	ast_explore(ast->right, exe);
+//	if (exe->statement)
+//		return (exe);
 	post_exec(ast, exe);
 	return (exe);
 }

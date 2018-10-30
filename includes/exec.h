@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/28 21:04:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 15:44:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 
 # define EXEC_THREAD_NOT_BUILTIN	0
 # define EXEC_THREAD_BUILTIN		1
+# define STATEMENT_BREAK			-1
+# define STATEMENT_CONTINUE			-2
+# define STATEMENT_NOCMD			-3
 
 // Binary finding & execution
 

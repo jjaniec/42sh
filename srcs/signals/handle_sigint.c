@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/28 21:04:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 16:27:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void		send_sig_to_job_processes(int sig, t_job *job)
 	while (ptr)
 	{
 		log_debug("Seng sig %d to job process %d", sig, ptr->pid);
-		kill(ptr->pid, SIGKILL);
+		kill(ptr->pid, sig);
 		ptr = ptr->next;
 	}
 }
@@ -79,6 +79,8 @@ void	handle_sigint(int sig)
 		i = 0;
 		while (i++ < le->cursor_pos)
 			tputs(le->tcaps->le, 1, &write_one_char);
+		free(le->cmd);
+		le->cmd = NULL;
 		if (le->tcaps)
 		{
 			tputs(le->tcaps->_do, 1, &write_one_char);

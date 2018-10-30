@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 20:36:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 15:44:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@
 # include "syntax_highlighting.h"
 # include "signals.h"
 # include "script.h"
-# include "get_next_line.h"
 # include "autocomplete.h"
 # include "hash_table.h"
 
@@ -114,6 +113,8 @@ extern t_job		*g_jobs;
 
 # define BUILTIN_UNSETENV_USAGE \
 	SH_NAME": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n"
+
+int			get_next_line(const int fd, char **line);
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);

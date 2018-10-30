@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 18:46:52 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 21:37:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 15:59:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,38 @@ static char		*get_prog_path(char *cmd, t_exec *exe)
 ** otherwise print error message and return 1
 */
 
-static int		handle_relpath_err(char *cmd)
+static int		handle_relpath_err(char **cmd)
 {
 	int			r;
 	struct stat	s_stat;
 
 	r = 0;
-	if (access(cmd, F_OK) != 0)
+	if (access(*cmd, F_OK) != 0)
 	{
 		ft_putstr_fd(SH_NAME": "ERR_NO_ENTRY, 2);
-		ft_putendl_fd(cmd, 2);
+		ft_putendl_fd(*cmd, 2);
 		r = 1;
 	}
-	else if (access(cmd, X_OK) != 0)
+	else if (access(*cmd, X_OK) != 0)
 	{
 		ft_putstr_fd(SH_NAME": "ERR_NORIGHTS, 2);
-		ft_putendl_fd(cmd, 2);
+		ft_putendl_fd(*cmd, 2);
 		r = 1;
 	}
 	else
 	{
-		if (stat(cmd, &s_stat) == -1)
+		if (stat(*cmd, &s_stat) == -1)
 			return (1);
 		if (S_ISDIR(s_stat.st_mode))
 		{
 			ft_putstr_fd(SH_NAME ": ", 2);
-			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(*cmd, 2);
 			ft_putstr_fd(": "ERR_ISDIR, 2);
 			r = 1;
 		}
 	}
+	//if (r)
+	//	free(*cmd);
 	return (r);
 }
 
@@ -104,17 +106,22 @@ int				resolve_cmd_path(void **cmd, t_exec *exe)
 	r = 0;
 	prog_path = NULL;
 	if (ft_strchr(*cmd, '/'))
-		return (handle_relpath_err(*cmd));
+		return (handle_relpath_err((char **)cmd));
 	else if ((prog_path = get_prog_path(*cmd, exe)))
 	{
 		if (!handle_cmd_rights_errs(prog_path))
+		{
+			free(*cmd);
 			*cmd = prog_path;
+			((char **)(cmd[1]))[0] = cmd[0];
+		}
 	}
 	else if (!prog_path)
 	{
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(*cmd, 2);
 		ft_putstr_fd(": "ERR_CMD_NOT_FOUND, 2);
+		//free(*cmd);
 		return (1);
 	}
 	return (r);
