@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/29 14:25:15 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/30 11:34:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,5 @@ t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
 struct s_alias	*access_alias_datas(void);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:23:00 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/29 18:51:39 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/30 17:15:39 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 
 # define PROMPT_PWD "\e[0;36m"
 # define PROMPT_COLOR "\e[35;1m"
+# define PROMPT_BRANCH_COLOR	"\e[2;37m"
+# define PROMPT_FETCH_ARROWS_COLOR "\e[34m"
+
+# define PROMPT_BRANCH_PREFIX " "
+# define PROMPT_BRANCH_SUFFIX "*"
+
+# define COMMIT_HASH_MAX_LEN	7
 
 typedef struct		s_prompt
 {
@@ -26,5 +33,7 @@ typedef struct		s_prompt
 }					t_prompt;
 
 void	print_prompt_details(void);
+
+char	*get_git_info(char **env);
 
 #endif

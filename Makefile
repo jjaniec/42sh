@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/29 18:41:59 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/10/30 11:37:59 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_update.c \
 			prompt_details/print_prompt_details.c \
 			prompt_details/prompt_memory_free.c \
+			prompt_details/get_git_info.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \

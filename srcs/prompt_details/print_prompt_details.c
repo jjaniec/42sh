@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/29 18:57:29 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/30 17:07:39 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,57 @@ static t_prompt	*prompt_setup(void)
 	return (prompt);
 }
 
+static void		print_git_info(char **env)
+{
+	char	*git_branch_str;
+	char	*tmp;
+
+	if (!(git_branch_str = get_git_info(env)))
+		return ;
+	if (ft_strequ(git_branch_str, "HEAD"))
+	{
+		free(git_branch_str);
+		return ;
+	}
+	tmp = ft_strjoin(PROMPT_BRANCH_COLOR""PROMPT_BRANCH_PREFIX, git_branch_str);
+	free(git_branch_str);
+	git_branch_str = ft_strjoin(tmp, COL_DEFAULT);
+	free(tmp);
+	write(1, git_branch_str, ft_strlen(git_branch_str));
+	free(git_branch_str);
+}
+
+/*static int		prompt_len();
+
+int				prompt_show(const char *prompt)
+{
+	// waiting for the full prompt
+	if (prompt == g_prompts[0])
+	{
+		print_prompt_details();
+		ft_putstr(PROMPT_COLOR);
+	}
+	tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
+	ft_putstr(prompt);
+	if (prompt != g_prompts[0])
+	{
+		ft_putstr(PROMPT_COLOR);
+		ft_putstr(g_prompts[0]);
+		return (ft_strlen(prompt) + ft_strlen(g_prompts[0]));
+		ft_putstr(COL_DEFAULT);
+		tputs(access_le_main_datas()->tcaps->me, 1, &write_one_char);
+	}
+	else
+		return (ft_strlen(g_prompts[0]));
+}*/
+
 void			print_prompt_details(void)
 {
 	t_prompt	*prompt;
 	int			i;
 
 	prompt = prompt_setup();
-	ft_putstr(PROMPT_PWD);
+	ft_putstr("\n"PROMPT_PWD);
 	if (!prompt || !prompt->pwd)
 		return ;
 	i = ft_strlen(prompt->home);
@@ -46,6 +90,8 @@ void			print_prompt_details(void)
 	}
 	else
 		ft_putstr(prompt->pwd);
+	free(prompt);
 	ft_putstr(COL_DEFAULT);
+	print_git_info(get_shell_vars()->env->environ);
 	tputs(access_le_main_datas()->tcaps->_do, 1, &write_one_char);
 }
