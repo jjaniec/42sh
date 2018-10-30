@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/30 10:46:21 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/10/30 11:37:59 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_update.c \
 			prompt_details/print_prompt_details.c \
 			prompt_details/prompt_memory_free.c \
+			prompt_details/get_git_info.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -192,7 +193,6 @@ SRC_NAME = 	is_separator.c \
 			access_alias_datas.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
-			get_default_prompt.c \
 			main.c
 
 INCLUDES_NAME = ast.h \

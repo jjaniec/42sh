@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/30 11:30:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 11:42:15 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ static char		*print_git_info(char **env)
 	char	*git_branch_str;
 	char	*tmp;
 
-	if (!(git_branch_str = get_default_prompt(env)))
-		return ;
+	if (!(git_branch_str = get_git_info(env)))
+		return (NULL);
 	tmp = ft_strjoin(PROMPT_BRANCH_COLOR""PROMPT_BRANCH_PREFIX, git_branch_str);
 	free(git_branch_str);
 	git_branch_str = ft_strjoin(tmp, COL_DEFAULT);
 	free(tmp);
 	write(1, git_branch_str, ft_strlen(git_branch_str));
+	//write(1, "\n", 1);
 	return (tmp);
 }
 
@@ -50,7 +51,7 @@ void			print_prompt_details(void)
 	int			i;
 
 	prompt = prompt_setup();
-	ft_putstr(PROMPT_PREFIX""PROMPT_PWD);
+	ft_putstr("\n"PROMPT_PWD);
 	if (!prompt || !prompt->pwd)
 		return ;
 	i = ft_strlen(prompt->home);
