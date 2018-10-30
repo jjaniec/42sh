@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:23:00 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/30 11:40:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 12:43:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define PROMPT_BRANCH_PREFIX " "
 # define PROMPT_BRANCH_SUFFIX "*"
+
+# define COMMIT_HASH_MAX_LEN	7
 
 typedef struct		s_prompt
 {

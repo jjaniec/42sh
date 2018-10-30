@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/30 11:42:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 12:15:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ static char		*print_git_info(char **env)
 
 	if (!(git_branch_str = get_git_info(env)))
 		return (NULL);
+	if (ft_strequ(git_branch_str, "HEAD"))
+	{
+		free(git_branch_str);
+		return (NULL);
+	}
 	tmp = ft_strjoin(PROMPT_BRANCH_COLOR""PROMPT_BRANCH_PREFIX, git_branch_str);
 	free(git_branch_str);
 	git_branch_str = ft_strjoin(tmp, COL_DEFAULT);

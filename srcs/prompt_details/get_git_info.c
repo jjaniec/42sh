@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 11:47:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 12:44:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,21 @@ static void		get_output_of_cmd(char **cmd, char **env, int fd)
 	exit(EXIT_FAILURE);
 }
 
+static void		abbrev_commit_hash(char *hash)
+{
+	size_t	l;
+
+	if ((l = ft_strlen(hash)) <= COMMIT_HASH_MAX_LEN)
+		hash[COMMIT_HASH_MAX_LEN] = '\0';
+}
+
 char	*get_git_info(char **env)
 {
 	int			pipe_fds[2];
 	//int			backup_std_fds[2];
 	char		*branch_str = NULL;
 	pid_t		p;
+
 
 	pipe(pipe_fds);
 	if ((p = fork()) == 0)
@@ -48,7 +57,24 @@ char	*get_git_info(char **env)
 		waitpid(-1, NULL, 0);
 		get_next_line(pipe_fds[0], &branch_str);
 		close(pipe_fds[0]);
+		if (ft_strequ(branch_str, "HEAD"))
+		{
+			free(branch_str);
+			pipe(pipe_fds);
+			if ((p = fork()) == 0)
+				get_output_of_cmd((char *[4]){"/usr/bin/git", "rev-parse", "HEAD", NULL}, env, pipe_fds[1]);
+			else if (p > 0)
+			{
+				close(pipe_fds[1]);
+				waitpid(-1, NULL, 0);
+				get_next_line(pipe_fds[0], &branch_str);
+				close(pipe_fds[0]);
+				if (branch_str && *branch_str)
+					abbrev_commit_hash(branch_str);
+				close(pipe_fds[0]);
+			}
 		return branch_str;
+		}
 	}
 	else
 		printf("Fork failed");
