@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/29 18:59:37 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/30 17:21:51 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ int		prompt_show(const char *prompt)
 	{
 		ft_putstr(PROMPT_COLOR);
 		ft_putstr(g_prompts[0]);
+		ft_putstr(COL_DEFAULT);
 	}
-	ft_putstr(COL_DEFAULT);
 	tputs(access_le_main_datas()->tcaps->me, 1, &write_one_char);
-	if (prompt != g_prompts[0])
-		return (ft_strlen(prompt) + ft_strlen(g_prompts[0]));
-	else
-		return (ft_strlen(g_prompts[0]));
+	return ((prompt != g_prompts[0]) ? (ft_strlen(prompt) + 2) : (2));
 }
 
 int		subpp_string(char **s)
