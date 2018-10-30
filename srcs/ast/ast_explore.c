@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/30 16:28:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 20:14:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int		wait_childs(t_job *job)
 		}
 		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d", \
 			waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
-		//remove_task_pid_from_job(g_jobs, waited_pid); //-> done by sigchild handler
 	}
 	while (waitpid(0, NULL, 0) != -1)
 		;
@@ -160,14 +159,14 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 	}
 	pre_exec(ast, exe);
 	ast_explore(ast->left, exe);
-//	if (exe->statement)
-//		return (exe);
+	if (exe->statement)
+		return (exe);
 	in_exec(ast, exe);
-//	if (exe->statement)
-//		return (exe);
+	if (exe->statement)
+		return (exe);
 	ast_explore(ast->right, exe);
-//	if (exe->statement)
-//		return (exe);
+	if (exe->statement)
+		return (exe);
 	post_exec(ast, exe);
 	return (exe);
 }

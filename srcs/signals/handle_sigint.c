@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/30 16:27:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 20:34:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	handle_sigint(int sig)
 			debug_jobs(g_jobs);
 		}
 	}
-// Demander a gamouche a quoi ca sert
 	g_cmd_status.sigint_happened = true;
 	le = access_le_main_datas();
 	if (le)

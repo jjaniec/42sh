@@ -49,21 +49,16 @@ void	init_signals(void)
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
 		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
-		SIGTSTP, SIGCONT, /*SIGTTIN, SIGTTOU, */SIGIO, SIGXCPU, \
+		SIGTSTP, SIGCONT, SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
-
-	//setpgrp();
-
-	signal(SIGTTIN, SIG_DFL);
-	signal(SIGTTOU, SIG_DFL);
-
+	//signal(SIGTTIN, SIG_DFL);
+	//signal(SIGTTOU, SIG_DFL);
 	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
 	if (g_jobs && g_jobs->pgid == getpid())
 	{
-
-	new.sa_flags |= SA_RESTART;
+		new.sa_flags |= SA_RESTART;
 		new.sa_handler = &(handle_useless_signals);
 		sigaction(SIGINT, &new, NULL);
 	}
@@ -72,15 +67,8 @@ void	init_signals(void)
 		new.sa_handler = &(handle_sigint);
 		sigaction(SIGINT, &new, NULL);
 	}
-	/*
-	new.sa_handler = &(handle_sigchild);
-	new.sa_flags |= SA_RESTART;
-	sigaction(SIGCHLD, &new, NULL);
-*/
-	//signal(SIGCHLD, SIG_IGN);
 	signal(SIGCHLD, SIG_DFL);
 	new.sa_flags = 0;
-
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
 	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))

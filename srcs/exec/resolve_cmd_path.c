@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 18:46:52 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 15:59:22 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 20:20:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static int		handle_relpath_err(char **cmd)
 			r = 1;
 		}
 	}
-	//if (r)
-	//	free(*cmd);
 	return (r);
 }
 
@@ -111,9 +109,8 @@ int				resolve_cmd_path(void **cmd, t_exec *exe)
 	{
 		if (!handle_cmd_rights_errs(prog_path))
 		{
-			free(*cmd);
+			//free(*cmd);
 			*cmd = prog_path;
-			((char **)(cmd[1]))[0] = cmd[0];
 		}
 	}
 	else if (!prog_path)
@@ -121,7 +118,6 @@ int				resolve_cmd_path(void **cmd, t_exec *exe)
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(*cmd, 2);
 		ft_putstr_fd(": "ERR_CMD_NOT_FOUND, 2);
-		//free(*cmd);
 		return (1);
 	}
 	return (r);

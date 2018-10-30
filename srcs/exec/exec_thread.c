@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/30 16:34:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/30 20:13:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 
 	status = -2;
 	return_code = status;
-	add_running_process((char **)cmd[2], child_pid, &g_jobs); //->
+	add_running_process((char **)cmd[2], child_pid, &g_jobs);
 	debug_jobs(g_jobs);
 	//process_ptr->input_descriptor = -1; // ->
 	close_child_pipe_fds(pipe_fds);
