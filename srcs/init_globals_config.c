@@ -6,14 +6,14 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:55:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/29 14:11:26 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/29 19:48:30 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 const char	*g_prompts[] = {
-	"❯ ",
+	"\u276F ",
 	"AND ",
 	"OR ",
 	"... ",

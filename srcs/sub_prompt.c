@@ -14,7 +14,6 @@
 
 int		prompt_show(const char *prompt)
 {
-	// waiting for the full prompt
 	if (prompt == g_prompts[0])
 	{
 		print_prompt_details();
@@ -24,10 +23,10 @@ int		prompt_show(const char *prompt)
 	ft_putstr(prompt);
 	if (prompt != g_prompts[0])
 	{
-		ft_putstr(PROMPT_COLOR);
 		ft_putstr(g_prompts[0]);
 		ft_putstr(COL_DEFAULT);
 	}
+	ft_putstr(COL_DEFAULT);
 	tputs(access_le_main_datas()->tcaps->me, 1, &write_one_char);
 	return ((prompt != g_prompts[0]) ? (ft_strlen(prompt) + 2) : (2));
 }
