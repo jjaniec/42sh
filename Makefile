@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/29 18:41:59 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/10/30 10:46:21 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -192,6 +192,7 @@ SRC_NAME = 	is_separator.c \
 			access_alias_datas.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
+			get_default_prompt.c \
 			main.c
 
 INCLUDES_NAME = ast.h \
