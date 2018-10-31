@@ -6,13 +6,13 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/30 18:42:04 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/31 17:33:33 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static void prompt_setup(t_prompt *prompt)
+static void		prompt_setup(t_prompt *prompt)
 {
 	t_shell_vars	*vars;
 

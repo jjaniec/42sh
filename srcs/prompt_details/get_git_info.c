@@ -6,14 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 12:44:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/31 17:33:01 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-
-# define BUF__ 50000
-
 /*
 ** When starting shell or changing directory:
 ** - Get current branch w/
@@ -40,17 +37,40 @@ static void		abbrev_commit_hash(char *hash)
 		hash[COMMIT_HASH_MAX_LEN] = '\0';
 }
 
-char	*get_git_info(char **env)
+static char		*get_head(char *branch_str, int pipe_fds[2], char **env)
 {
-	int			pipe_fds[2];
-	//int			backup_std_fds[2];
-	char		*branch_str = NULL;
-	pid_t		p;
+	pid_t	p;
 
-
+	free(branch_str);
 	pipe(pipe_fds);
 	if ((p = fork()) == 0)
-		get_output_of_cmd((char *[5]){"/usr/bin/git", "rev-parse", "--abbrev-ref", "HEAD", NULL}, env, pipe_fds[1]);
+		get_output_of_cmd((char *[4])
+		{"/usr/bin/git", "rev-parse", "HEAD", NULL}, env, pipe_fds[1]);
+	else if (p > 0)
+	{
+		close(pipe_fds[1]);
+		waitpid(-1, NULL, 0);
+		get_next_line(pipe_fds[0], &branch_str);
+		close(pipe_fds[0]);
+		if (branch_str && *branch_str)
+			abbrev_commit_hash(branch_str);
+		close(pipe_fds[0]);
+	}
+	return (branch_str);
+}
+
+char			*get_git_info(char **env)
+{
+	int			pipe_fds[2];
+	char		*branch_str;
+	pid_t		p;
+
+	branch_str = NULL;
+	pipe(pipe_fds);
+	if ((p = fork()) == 0)
+		get_output_of_cmd((char *[5])
+		{"/usr/bin/git", "rev-parse", "--abbrev-ref", "HEAD", NULL},
+		env, pipe_fds[1]);
 	else if (p > 0)
 	{
 		close(pipe_fds[1]);
@@ -58,28 +78,9 @@ char	*get_git_info(char **env)
 		get_next_line(pipe_fds[0], &branch_str);
 		close(pipe_fds[0]);
 		if (ft_strequ(branch_str, "HEAD"))
-		{
-			free(branch_str);
-			pipe(pipe_fds);
-			if ((p = fork()) == 0)
-				get_output_of_cmd((char *[4]){"/usr/bin/git", "rev-parse", "HEAD", NULL}, env, pipe_fds[1]);
-			else if (p > 0)
-			{
-				close(pipe_fds[1]);
-				waitpid(-1, NULL, 0);
-				get_next_line(pipe_fds[0], &branch_str);
-				close(pipe_fds[0]);
-				if (branch_str && *branch_str)
-					abbrev_commit_hash(branch_str);
-				close(pipe_fds[0]);
-			}
-		return branch_str;
-		}
+			return (get_head(branch_str, pipe_fds, env));
 	}
 	else
-		printf("Fork failed");
-	//	exec_binary((char *[5]){"git", "rev-parse", "--abbrev-ref", "HEAD", NULL}, env, NULL, NULL);
-	//  exec_binary((char *[5]){"git", "fetch", "origin", "-a", NULL}, env, NULL, NULL);
-	//	exec_binary((char *[6]){"git", "rev-list", "--left-right", "--count", "HEAD...@{u}", NULL}, env, NULL, NULL);
-	return branch_str;
+		ft_putstr("Fork failed");
+	return (branch_str);
 }
