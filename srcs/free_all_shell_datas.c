@@ -3,33 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_all_shell_datas.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2018/10/27 15:01:20 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/01 19:43:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** Free all environnement data
-*/
-
-static void		free_environ(void)
-{
-	t_shell_vars	*vars;
-
-	if (!(vars = get_shell_vars()))
-		return ;
-	if (vars->hashtable)
-		free_hashtable(vars->hashtable);
-	free_env_entries(vars->env, vars->env->env_entries_list);
-	free_env_entries(vars->locals, vars->locals->env_entries_list);
-	free_env_entries(vars->internals, vars->internals->env_entries_list);
-	//free(env_struct);
-	vars = NULL;
-}
 
 /*
 **	Just read the function's name you idiot
@@ -65,7 +47,7 @@ void			free_all_shell_datas(void)
 	free_environ();
 	if ((ast_ptr = access_ast_data()))
 		ast_free(*ast_ptr);
-	le_free_datas();
+	//le_free_datas();
 	free_aliases_list();
 	if (g_cmd_status.interactive_mode == true)
 		free(get_parsed_aliases_file_path());

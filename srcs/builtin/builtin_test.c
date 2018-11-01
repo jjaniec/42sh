@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 12:13:57 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/13 20:08:04 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/01 19:26:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,11 +140,15 @@ void		builtin_test(char **argv, t_environ *env, t_exec *exe)
 	if (!right_format_builtin(argv, &ac))
 	{
 		format_help(BUILTIN_TEST_USAGE, g_tests_opts);
-		exit (return_value(1, flag_not));
+		exe->ret = return_value(1, flag_not);
+		return ;
 	}
 	if (ac == 4 && argv[3] && !argv[4])
-		exit (return_value(parse_expr_comp(argv + 1), flag_not));
+	{
+		exe->ret = return_value(parse_expr_comp(argv + 1), flag_not);
+		return ;
+	}
 	opt_list = g_tests_opts;
 	parse_options(&ac, argv, opt_list, (t_option **)char_opt_index);
-	exit (return_value(test_expression(argv, char_opt_index), flag_not));
+	exe->ret = return_value(test_expression(argv, char_opt_index), flag_not);
 }

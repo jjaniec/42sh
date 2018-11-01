@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/28 21:11:51 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/01 19:15:28 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -191,6 +191,7 @@ SRC_NAME = 	is_separator.c \
 			env/del_env_var.c \
 			env/get_env_var.c \
 			env/upd_env_var.c \
+			env/free_environ.c \
 			builtin/is_identifier_invalid.c \
 			free_all_shell_datas.c \
 			env/free_env_entries.c \
