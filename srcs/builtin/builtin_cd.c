@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/19 18:46:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/01 14:59:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	exe->ret = 0;
 	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)))
 	{
-		if (errno == EACCES)
+		if (errno == EACCES || errno == ENOENT)
 		{
 			exe->ret = 1;
 			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
