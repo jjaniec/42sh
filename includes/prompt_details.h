@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:23:00 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/30 17:15:39 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/02 15:10:43 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ typedef struct		s_prompt
 	char			*home;
 }					t_prompt;
 
-void	print_prompt_details(void);
-
-char	*get_git_info(char **env);
+void				print_prompt_details(void);
+char				*get_git_info(char **env);
 
 #endif

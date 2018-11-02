@@ -6,18 +6,11 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/31 17:33:01 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/02 15:10:00 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-/*
-** When starting shell or changing directory:
-** - Get current branch w/
-**     git rev-parse --abbrev-ref HEAD
-** - Fetch and get local changes diff w/ remote w/
-**     git rev-list --left-right --count HEAD...@'{u}'
-*/
 
 static void		get_output_of_cmd(char **cmd, char **env, int fd)
 {
