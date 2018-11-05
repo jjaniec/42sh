@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/02 15:10:00 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/05 20:19:21 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ static void		get_output_of_cmd(char **cmd, char **env, int fd)
 
 static void		abbrev_commit_hash(char *hash)
 {
-	size_t	l;
-
-	if ((l = ft_strlen(hash)) <= COMMIT_HASH_MAX_LEN)
+	if (ft_strlen(hash) <= COMMIT_HASH_MAX_LEN)
 		hash[COMMIT_HASH_MAX_LEN] = '\0';
 }
 
@@ -37,8 +35,11 @@ static char		*get_head(char *branch_str, int pipe_fds[2], char **env)
 	free(branch_str);
 	pipe(pipe_fds);
 	if ((p = fork()) == 0)
+	{
 		get_output_of_cmd((char *[4])
 		{"/usr/bin/git", "rev-parse", "HEAD", NULL}, env, pipe_fds[1]);
+		return (NULL);
+	}
 	else if (p > 0)
 	{
 		close(pipe_fds[1]);
