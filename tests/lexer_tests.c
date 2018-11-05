@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 19:14:26 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/05 18:31:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void	lexer_tests(t_environ *envp)
 	(void)tmp;
 
 	lexer("", &tmp, NULL);
+	clean_data(&tmp);
 	ok(tmp == NULL, "Empty string");
-	//lexer("''", &tmp, NULL);
-	//ok(tmp == NULL, "Empty string quotes");
+	lexer("''", &tmp, NULL);
+	clean_data(&tmp);
+	ok(tmp == NULL, "Empty string quotes");
 	test_lexeme_list("Basic 1", "ls", "ls", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Basic 2", "ls -la", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Basic 3", "ls-la;ls -la", "ls-la", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
@@ -156,9 +158,9 @@ void	lexer_tests(t_environ *envp)
 	test_lexeme_list("Expansions 14 - Expansion end w/ quote next to nl", "ls $"EXPANSION_TESTS_ENVVAR_NAME"\"\"\n", \
 		"ls", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_lexeme_list("Expansions 15 - Empty expansion element creation skip", "ls $IAMEMPTY", \
-		"ls", T_WORD, TK_DEFAULT, "", T_WORD, TK_DEFAULT);
+		"ls", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Expansions 16 - Empty expansion element creation skip w/ nl", "ls $IAMEMPTY\n", \
-		"ls", T_WORD, TK_DEFAULT, "", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+		"ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_lexeme_list("Expansions 17 - Empty expansion element escaping", "ls \\$IAMEMPTY\n", \
 		"ls", T_WORD, TK_DEFAULT, "$IAMEMPTY", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_lexeme_list("Expansions 18 - Empty expansion element escaping in squotes", "ls '\\$IAMEMPTY'\n", \

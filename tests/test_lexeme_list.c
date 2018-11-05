@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:32:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 18:52:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/05 18:32:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,49 @@ static int	is_clean_needed(char **data)
 	return (0);
 }
 
-static void	clean_data(t_lexeme *lex)
+static t_lexeme	*remove_empty_data(t_lexeme *lex, t_lexeme *save)
 {
+	t_lexeme	*ret;
+
+	ret = lex->next;
+	if (save != lex)
+	{
+		while (save && save->next != lex)
+			save = save->next;
+		save->next = ret;
+	}
+	free(lex->data);
+	free(lex);
+	return (ret);
+}
+
+static t_lexeme	*clean(t_lexeme *lex)
+{
+	int			quoted;
+	t_lexeme	*save;
+
+	quoted = 0;
+	save = lex;
 	while (lex)
 	{
-		if (is_clean_needed(&(lex->data)))
-			handle_quotes_expansions(&(lex->data));
-		lex = lex->next;
+		quoted = ft_strchr(lex->data, '"') || ft_strchr(lex->data, '`') \
+		|| ft_strchr(lex->data, '\'');
+		if (is_clean_needed((char **)&(lex->data)))
+			handle_quotes_expansions((char **)&(lex->data));
+		if (!((char *)lex->data)[0] && !quoted)
+			lex = remove_empty_data(lex, save);
+		else
+			lex = lex->next;
 	}
+	if (lex == NULL)
+		return (NULL);
+	else
+		return (save);
+}
+
+void		clean_data(t_lexeme **lex)
+{
+	*lex = clean(*lex);
 }
 
 void	test_lexeme_list(char *test_name, char *input, ...)
@@ -60,7 +95,7 @@ void	test_lexeme_list(char *test_name, char *input, ...)
 
 	i = 1;
 	lexer(input, &result, NULL);
-	clean_data(result);
+	clean_data(&result);
 	va_start(va_ptr, input);
 	if (!result)
 	{
