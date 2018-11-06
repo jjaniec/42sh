@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 19:47:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/06 20:53:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static void	child_process(void **cmd, t_exec *exe, \
 	int		backup_fds[3];
 	bool	can_run_cmd;
 	int		r;
+	char	**cmd_args;
 	char	**env_;
+	char	*tmp;
+	t_ast	**ast_ptr;
 
 	can_run_cmd = true;
 	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
@@ -61,14 +64,19 @@ static void	child_process(void **cmd, t_exec *exe, \
 				(cmd[2], exe->env, exe);
 		else
 		{
+			cmd_args = ft_dup_2d_array(cmd[2]);
+			//cmd_args = cmd[2];
+			tmp = ft_xstrdup(cmd[1]);
 			log_debug("PID %zu -> child process cmd[1]: %s", getpid(), cmd[1]);
 			cmd[1] = ft_strdup(cmd[1]);
 			t_shell_vars	*vars = get_shell_vars();
 			free_hashtable(vars->hashtable);
 			//free_environ()
+			if ((ast_ptr = access_ast_data()))
+				ast_free(*ast_ptr);
 			env_ = exe->env->environ;
 			free(exe);
-			if (execve(cmd[1], cmd[2], env_))
+			if (execve(tmp, cmd_args, env_))
 			{
 				log_error("PID %zu - Execve() not working", getpid());
 				perror("execve");

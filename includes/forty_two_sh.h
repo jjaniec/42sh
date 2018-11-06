@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/01 19:15:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/06 20:20:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,7 @@ const char      *parse_exclamation_mark_shortcuts(const char *excla);
 struct s_alias	*access_alias_datas(void);
 
 void		log_close(int fd);
+
+char		**ft_dup_2d_array(char **arr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2018/11/01 19:43:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/06 20:00:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			free_all_shell_datas(void)
 	free_environ();
 	if ((ast_ptr = access_ast_data()))
 		ast_free(*ast_ptr);
-	//le_free_datas();
+	le_free_datas();
 	free_aliases_list();
 	if (g_cmd_status.interactive_mode == true)
 		free(get_parsed_aliases_file_path());
