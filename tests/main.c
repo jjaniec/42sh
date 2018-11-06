@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/05 18:28:16 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/06 17:09:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ int	main(int argc, char **argv, char **envp)
 
 	//start = clock();
 	lexer_tests(env);
-	/*ast_tests(env);
+	ast_tests(env);
 	builtins_tests(env);
 	exec_tests(env);
 	syntax_highlighting_tests(env);
 	script_tests(env);
 	builtin_test_tests(env);
-*/
+
 	/*
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);

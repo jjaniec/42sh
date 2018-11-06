@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:32:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/05 18:32:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/06 17:05:27 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,16 @@ static t_lexeme	*clean(t_lexeme *lex)
 		if (is_clean_needed((char **)&(lex->data)))
 			handle_quotes_expansions((char **)&(lex->data));
 		if (!((char *)lex->data)[0] && !quoted)
-			lex = remove_empty_data(lex, save);
+		{
+			if (lex == save)
+				save = remove_empty_data(lex, save);
+			else
+				lex = remove_empty_data(lex, save);
+		}
 		else
 			lex = lex->next;
 	}
-	if (lex == NULL)
-		return (NULL);
-	else
-		return (save);
+	return (save);
 }
 
 void		clean_data(t_lexeme **lex)
@@ -95,13 +97,13 @@ void	test_lexeme_list(char *test_name, char *input, ...)
 
 	i = 1;
 	lexer(input, &result, NULL);
-	clean_data(&result);
 	va_start(va_ptr, input);
 	if (!result)
 	{
 		printf("Oops that's a fail ! - Lexer returned NULL");
 		ok(1 == 0, "Return ERROR");
 	}
+	clean_data(&result);
 	ll_begin = result;
 	while (result)
 	{
