@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 14:59:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 15:40:22 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	(void)exe;
 
 	exe->ret = 0;
-	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)))
+	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)) && errno != ENOENT)
 	{
-		if (errno == EACCES || errno == ENOENT)
+		if (errno == EACCES)
 		{
 			exe->ret = 1;
 			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
