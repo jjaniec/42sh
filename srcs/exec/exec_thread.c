@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/30 20:13:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 16:31:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ static void	child_process(void **cmd, t_exec *exe, \
 {
 	int		backup_fds[3];
 	bool	can_run_cmd;
+	int		r;
+	char	**cmd_args;
+	char	**env_;
+	char	*tmp;
+	t_ast	**ast_ptr;
 
 	can_run_cmd = true;
-	if (!pipe_fds)
+	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
 	{
 		backup_fds[0] = dup(STDIN_FILENO);
 		backup_fds[1] = dup(STDOUT_FILENO);
@@ -59,8 +64,17 @@ static void	child_process(void **cmd, t_exec *exe, \
 				(cmd[2], exe->env, exe);
 		else
 		{
+			cmd_args = ft_dup_2d_array(cmd[2]);
+			tmp = ft_xstrdup(cmd[1]);
 			log_debug("PID %zu -> child process cmd[1]: %s", getpid(), cmd[1]);
-			if (execve(cmd[1], cmd[2], exe->env->environ))
+			//cmd[1] = ft_strdup(cmd[1]);
+			t_shell_vars	*vars = get_shell_vars();
+			free_hashtable(vars->hashtable);
+			if ((ast_ptr = access_ast_data()))
+				ast_free(*ast_ptr);
+			env_ = exe->env->environ;
+			free(exe);
+			if (execve(tmp, cmd_args, env_))
 			{
 				log_error("PID %zu - Execve() not working", getpid());
 				perror("execve");
@@ -68,7 +82,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!pipe_fds)
+	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
 	{
 		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
 		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
@@ -79,8 +93,12 @@ static void	child_process(void **cmd, t_exec *exe, \
 	}
 	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
-		log_fatal("PID %zu: Forcing exit of child process", getpid());
-		exit(exe->ret);
+		log_trace("PID %zu: Forcing exit of child process", getpid());
+		r = exe->ret;
+		free_all_shell_datas();
+		free(exe);
+		free_job(g_jobs);
+		exit(r);
 	}
 	//exit(EXIT_FAILURE);
 }
@@ -160,9 +178,7 @@ static int	should_fork(void **cmd)
 
 	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
-		(ptr == &builtin_echo || \
-		ptr == &builtin_return || \
-		ptr == &builtin_test))
+		ptr == &builtin_test)
 		return (1);
 	return (0);
 }

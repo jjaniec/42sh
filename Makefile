@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/28 21:11:51 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/07 16:17:58 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -202,6 +202,7 @@ SRC_NAME = 	is_separator.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
 			log_close.c \
+			ft_dup_2d_array.c \
 			main.c
 
 INCLUDES_NAME = ast.h \

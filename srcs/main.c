@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 15:29:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/01 19:08:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ int			main(int ac, char **av, char **envp)
 			args++;
 			ac--;
 		}
+		free_all_shell_datas();
 	}
 	else
 	{
