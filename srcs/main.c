@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/01 19:08:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 17:46:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,12 @@ int			main(int ac, char **av, char **envp)
 	}
 	else
 	{
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		{
+			ft_putstr_fd(NOT_A_TTY_STDINOUT_ERR, 2);
+			free_all_shell_datas();
+			exit(EXIT_FAILURE);
+		}
 		g_cmd_status.interactive_mode = true;
 		loop_body(get_shell_vars(), opt_list, char_opt_index);
 	}
