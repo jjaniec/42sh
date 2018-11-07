@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:00:45 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 16:22:04 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 16:52:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void			remplace(t_lexeme **lex, t_lexeme *last, t_lexeme **save, \
 	{
 		if (!last)
 			*save = next;
+		else
+			last->next = next;
 		*lex = next;
 		return ;
 	}
