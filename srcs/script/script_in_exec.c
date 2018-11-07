@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/01 13:00:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/09/26 11:10:09 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/10/19 15:32:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,26 @@ static void	exec_script_if(t_ast *node, t_exec *exe)
 {
 	if (exe->ret == 0)
 		script_in_exec(node->left->left->sub_ast, exe);
-	else if (node->right)
+	else if (node->right && !exe->statement)
 		exec_script(node->right, exe);
 }
 
 static void	exec_script_while(t_ast *node, t_exec *exe)
 {
-	script_in_exec(node->left->left->sub_ast, exe);
-	exec_script(node, exe);
+	exe = ast_explore(node->left->left->sub_ast, exe);
+	if (exe->statement != STATEMENT_BREAK)
+	{
+		exe->statement = 0;
+		exec_script(node, exe);
+	}
 }
 
 t_exec		*exec_script(t_ast *node, t_exec *exe)
 {
 	if (!node->sub_ast)
 		exe = ast_explore(node->left->sub_ast, exe);
+	if (exe->statement)
+		return (exe);
 	if (node->type_details == TK_SCRIPT_IF
 	|| node->type_details == TK_SCRIPT_ELIF)
 		exec_script_if(node, exe);

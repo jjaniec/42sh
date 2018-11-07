@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/13 19:55:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/26 13:25:24 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct			s_ast
 	int				type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
+	struct s_ast	*top_ast;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*parent;
@@ -137,9 +138,25 @@ typedef t_environ	t_local_vars;
 
 typedef t_environ	t_internal_vars;
 
+typedef struct			s_entry
+{
+	char				*key;
+	char				*value;
+	struct s_entry		*next;
+}						t_entry;
+
+typedef struct			s_hashtable
+{
+	int					size;
+	char				**path;
+	time_t				*modif_time;
+	t_entry				**table;
+}						t_hashtable;
+
 typedef struct		s_shell_vars
 {
 	t_environ			*env;
+	t_hashtable			*hashtable;
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
 }					t_shell_vars;
@@ -154,6 +171,7 @@ typedef struct			s_exec
 {
 	int			ret;
 	int			ready_for_exec;
+	int			statement;
 	t_environ	*env;
 }						t_exec;
 
@@ -166,5 +184,18 @@ struct s_alias
 	struct s_alias	*next;
 };
 
+
+/*
+** Struct for GET NEXT LINE
+** Needed for multi fd support
+*/
+
+typedef struct		s_fd_GNL
+{
+	int				ret_read;
+	int				fd;
+	char			*content;
+	struct s_fd_GNL	*next;
+}					t_fd_GNL;
 
 #endif

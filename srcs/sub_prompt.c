@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 12:52:28 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:14:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		subpp_string(char **s)
 			return (0);
 	}
 	ft_putchar('\n');
-	new = ft_strjoin(*s, input);
+	new = ft_xstrjoin_free(*s, input);
 	*s = new;
 	return (1);
 }
@@ -53,9 +53,9 @@ static void	multiline_merge(t_lexeme *last, t_lexeme *new)
 
 	if (!last->lexeme_end_ptr[0]  && new->pos == (int)ft_strlen(new->data))
 	{
-		tmp = ft_strdup(last->data);
+		tmp = ft_xstrdup(last->data);
 		free(last->data);
-		last->data = ft_strjoin_free(tmp, new->data);
+		last->data = ft_xstrjoin_free(tmp, new->data);
 		last->next = new->next;
 		free(new);
 	}
@@ -73,13 +73,13 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	while (input == RESIZE_IN_PROGRESS)	
 	{	
 		input = get_valid_input(&new, need_subprompt);
+		free_lexemes(new);
  		if (input == NULL)
 			return (NULL);	
  	}
-	log_fatal("Input : %s", input);
 	lexer(input, &new, NULL);
-	log_fatal("1st lex type : %zu - td %zu - d %s", new->type, new->type_details, new->data);
 	aliases_replace(&new);
+	free(input);
 	if (!lex)
 		return (new);
 	save = lex;
@@ -118,43 +118,55 @@ static int	there_is_no_cr(char *input)
 	return (0);
 }
 
-int		subp_heredoc(t_lexeme *lex, char *eof_word)
+static int	get_full_line(char **final_input)
 {
-	char	*input;
-	char	*final_input;
-	char	*final;
-	t_lexeme	*lexemes;
+	t_lexeme	*lex;
+	char		*input;
 
-	input = NULL;
-	final = (char *)ft_memalloc(sizeof(char));
-	final_input = (char *)ft_memalloc(sizeof(char));
-	if (!final || !final_input)
-		exit(MALLOC_ERROR);
-	eof_word = ft_strjoin(eof_word, "\n");
-	while (!input)
+	input = get_valid_input(&lex, NEED_SUBPROMPT_HEREDOC);
+	free_lexemes(lex);
+	if (!input)
+		return (0);
+	while (there_is_no_cr(input))
 	{
-		input = get_valid_input(&lexemes, NEED_SUBPROMPT_HEREDOC);
-		free_lexemes(lexemes);
+		*final_input = ft_xstrjoin_free(*final_input, input);
+		input = get_valid_input(&lex, NEED_SUBPROMPT_NEWLINE);
+		free_lexemes(lex);
 		if (!input)
 			return (0);
-		while (there_is_no_cr(input))
+	}
+	*final_input = ft_xstrjoin_free(*final_input, input);
+	return (1);
+}
+
+int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
+{
+	char	*final_input;
+	char	*final;
+	char	*eof_word;
+
+	final = (char *)ft_xmemalloc(sizeof(char));
+	if (!final)
+		exit(MALLOC_ERROR);
+	eof_word = ft_xstrjoin(eof_word_tmp, "\n");
+	while (1)
+	{
+		final_input = (char *)ft_xmemalloc(sizeof(char));
+		if (!get_full_line(&final_input))
 		{
-			final_input = ft_strjoin(final_input, input);
-			input = get_valid_input(&lexemes, NEED_SUBPROMPT_NEWLINE);
-			free_lexemes(lexemes);
-			if (!input)
-				return (0);
-			
+			free(final_input);
+			free(final);
+			free(eof_word);
+			return (0);
 		}
-		final_input = ft_strjoin(final_input, input);
 		if (ft_strequ(final_input, eof_word))
 			break ;
-		final = ft_strjoin(final, final_input);
-		final_input[0] = '\0';
-		free(input);
-		input = NULL;
+		final = ft_xstrjoin_free(final, final_input);
 	}
+	free(eof_word);
 	//final[ft_strlen(final) - 1] = '\0';
+	free(final_input);
+	free(lex->next->data);
 	lex->next->data = final;
 	return(1);
 }

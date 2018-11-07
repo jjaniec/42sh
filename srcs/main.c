@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/24 16:23:33 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/28 15:47:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	{
 		ft_printf("Non-interactive mode: unmatched quote error, exiting\n");
 		free(input);
+		free_lexemes(lexemes);
 		exit(EXIT_FAILURE);
 	}
 	ast_root = ast(&lexemes);
@@ -94,10 +95,56 @@ static void		loop_body(t_shell_vars *vars, t_option *opt_list, t_option **char_o
 	{
 		if (!(input = get_valid_input(&lex, 0)))
 			continue ;
+		else
+			free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
 		forty_two_sh(input, vars, opt_list, char_opt_index);
 	}
+}
+
+static int	open_error_print_msg(char *file)
+{
+	ft_putstr_fd(SH_NAME": ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putendl_fd(": No such file or directory", 2);
+	return (1);
+}
+
+static char	*read_file(int fd)
+{
+	char	*line;
+	char	*final;
+	int		ret;
+
+	final = ft_strnew(0);
+	while((ret = get_next_line(fd, &line)))
+	{
+		if (ret == -1)
+			exit(EXIT_FAILURE);
+		final = ft_strjoin_free(final, line);
+		final = ft_strjoin_free(final, ft_strdup("\n"));
+	}
+	return (final);
+}
+
+static int	interpret_file(char **argv, t_option **char_opt_index)
+{
+	int		fd;
+
+	argv++;
+	while(*argv && **argv == '-')
+		argv++;
+	if (*argv && !is_option_activated("c", g_sh_opts, char_opt_index))
+	{
+		if ((fd = open(*argv, O_RDONLY)) <= 0)
+			exit(open_error_print_msg(*argv));
+		g_sh_opts[1].opt_status = true;
+		forty_two_sh(read_file(fd), get_shell_vars(), g_sh_opts, char_opt_index);
+		close(fd);
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -129,8 +176,8 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
 	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
+	vars->hashtable = ht_create(&env_vars);
 }
-
 
 int			main(int ac, char **av, char **envp)
 {
@@ -154,6 +201,8 @@ int			main(int ac, char **av, char **envp)
 		tty_debug = fopen(TTY_DEBUG, "w");
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
 	}
+	if (interpret_file(av, char_opt_index))
+		return (0);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
 	{
 		g_cmd_status.interactive_mode = false;

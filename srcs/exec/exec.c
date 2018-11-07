@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 16:17:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/27 17:44:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": is a directory\n", 2);
 		}
-		else	
+		else
 			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
 			env_struct, exe, node);
 	}
@@ -91,21 +91,20 @@ int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 ** Then send everything to exec_thread().
 */
 
-void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
+int			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
-	char		*prog_path;
-	char		*path_entry;
-	struct stat	s_stat;
+	char			*prog_path;
+	t_shell_vars	*vars;
+	struct stat		s_stat;
 
-	path_entry = NULL;
-	if (env_struct->get_var(env_struct, "PATH"))
-		path_entry = env_struct->last_used_elem->val_begin_ptr;
 	exe->ret = -2;
-	prog_path = isin_path(path_entry, argv[0]);								//{ le_debug("prog path = |%s|\n", prog_path) }
+	ht_update(env_struct);
+	vars = get_shell_vars();
+	prog_path = ht_get_key_value(vars->hashtable, argv[0]);
 	if (prog_path)
 	{
 		if (stat(prog_path, &s_stat) == -1)
-			return ;
+			return (0);
 		if (S_ISDIR(s_stat.st_mode))
 		{
 			ft_putstr_fd(SH_NAME ": ", 2);
@@ -121,8 +120,9 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
+		return (STATEMENT_NOCMD);
 	}
-	ft_strdel(&prog_path);
+	return (1);
 }
 
 /*
@@ -131,7 +131,7 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 ** char **envp comes directly from the main()
 */
 
-t_exec				*exec_cmd(t_ast *root, t_exec *exe)
+t_exec	*exec_cmd(t_ast *root, t_exec *exe)
 {
 	exe = ast_explore(root, exe);
 	/*if (VERBOSE_MODE)

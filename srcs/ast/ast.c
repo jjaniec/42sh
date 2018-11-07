@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 16:04:29 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:13:23 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_ast	*ast(t_lexeme **old_lex)
 			return (NULL);
 		}
 	}
+	script_lexemes(*old_lex);
 	if (!is_script_complete(lex, lex, 0))
 	{
 		ft_putendl_fd("There is an error in your script.", 1);

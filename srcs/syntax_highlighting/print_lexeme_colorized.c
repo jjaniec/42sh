@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lexeme_colorized.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 16:42:29 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:12:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ extern t_option		g_sh_opts[];
 static int		elem_path_found(struct stat *elem_stats, \
 					char *lexeme_data, t_environ *env, int item_nb)
 {
-	char		*path_entry;
-	char		*tmp;
+	t_shell_vars	*vars;
+	char			*tmp;
 
+	(void)env;
 	if (ft_strchr(lexeme_data, '/') || item_nb > 0)
 	{
 		if (lstat(lexeme_data, elem_stats) != -1)
@@ -37,18 +38,12 @@ static int		elem_path_found(struct stat *elem_stats, \
 		return (1);
 	else
 	{
-		path_entry = NULL;
-		if (env->get_var(env, "PATH"))
-			path_entry = env->last_used_elem->val_begin_ptr;
-		if (path_entry)
+		ht_update(env);
+		vars = get_shell_vars();
+		if ((tmp = ht_get_key_value(vars->hashtable, lexeme_data)))
 		{
-			if ((tmp = isin_path(path_entry, lexeme_data)))
-			{
-				lstat(tmp, elem_stats);
-				ft_strdel(&tmp);
-				return (1);
-			}
-			ft_strdel(&tmp);
+			lstat(tmp, elem_stats);
+			return (1);
 		}
 	}
 	return (0);
@@ -68,7 +63,7 @@ static void		print_prog_name_arg_col(struct stat *elem_stats, \
 			ft_putstr(COL_PROG_NAME_FOUND);
 		else
 		{
-			if (S_ISDIR(elem_stats->st_mode))
+			if (elem_stats != NULL && S_ISDIR(elem_stats->st_mode))
 				ft_putstr(COL_PROG_ARG_DIR);
 			else
 				ft_putstr(COL_PROG_ARG_FILE);
@@ -105,15 +100,23 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 		ft_putstr(COL_REDIRS);
 	else if (lexeme->type == T_WORD)
 	{
+		if (ft_strequ(lexeme->data, "!") && lexeme->next && \
+		lexeme->next->type == T_WORD && item_nb == 0)
+			item_nb--;
 		if (*(char *)(lexeme->data) == '-')
 			ft_putstr(COL_PROG_OPT);
 		else if (*(lexeme_begin) == '$')
 			ft_putstr(COL_ENV_VAR_EXPANSION);
 		else if (*(lexeme_begin) == '\'' || *(lexeme_begin) == '"')
 			ft_putstr(COL_QUOTED_ARG);
+		else if (script_colodyn(lexeme, &item_nb))
+			ft_putstr(COL_SCRIPT);
+		else if (ft_strequ(lexeme->data, "[") || ft_strequ(lexeme->data, "]") \
+		|| ft_strequ(lexeme->data, "!"))
+			print_prog_name_arg_col(NULL, 1, item_nb);
 		else
 			print_prog_name_arg_col(&elem_stats, \
-				elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
+			elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
 	}
 	if (!lexeme->next)
 		item_nb = -1;

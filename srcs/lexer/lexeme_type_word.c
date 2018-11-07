@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 17:14:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:12:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int 		lexeme_type_word(char *s, int *pos, char **data)
 	int		start;
 
 	start = *pos;
-	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]))
+	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]) \
+	&& s[*pos] != '#')
 	{
 		if (s[*pos] == '\\')
 			*pos += handle_escape_offset(s + *pos, NOT_IN_QUOTES);

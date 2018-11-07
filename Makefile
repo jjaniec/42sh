@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/27 14:00:06 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/11/07 17:14:01 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,12 @@ SRC_NAME = 	is_separator.c \
 			autocomplete/autoc_check_path.c \
 			autocomplete/autoc_push_in_line.c \
 			autocomplete/autoc_arrow.c \
+			hash_table/ht_setup.c \
+			hash_table/ht_create.c \
+			hash_table/ht_mem_free.c \
+			hash_table/ht_hash.c \
+			hash_table/ht_tab_tools.c \
+			hash_table/ht_update.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -150,6 +156,7 @@ SRC_NAME = 	is_separator.c \
 			script/find_end_lexeme_solo.c \
 			script/find_lexeme_compete.c \
 			script/script_in_exec.c \
+			script/script_colodyn.c \
 			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
@@ -190,13 +197,13 @@ INCLUDES_NAME = ast.h \
 				autocomplete.h \
 				exec.h \
 				forty_two_sh.h \
-				get_next_line.h \
 				lexer.h \
 				line_edition.h \
 				script.h \
 				signals.h \
 				struct.h \
 				syntax_highlighting.h \
+				hash_table.h \
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -222,7 +229,7 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/ signals/
+			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
