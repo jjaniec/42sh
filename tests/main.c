@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 21:16:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 21:19:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	static t_environ			env_vars;
 	static t_local_vars			local_vars;
 	static t_internal_vars		internal_vars;
+	char						*ret_itoa;
 
 	vars->env = &env_vars;
 	vars->locals = &local_vars;
@@ -42,10 +43,16 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	init_environ(env, vars->env);
 	init_environ_struct_ptrs(&local_vars);
 	init_environ_struct_ptrs(&internal_vars);
-	internal_vars.add_var(&internal_vars, "$", ft_itoa(getpid()));
+	if ((ret_itoa = ft_itoa(getpid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "$", ret_itoa);
+	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "!", "0");
 	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
-	internal_vars.add_var(&internal_vars, "UID", ft_itoa(getuid()));
+	if ((ret_itoa = ft_itoa(getuid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
+	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
 }
 

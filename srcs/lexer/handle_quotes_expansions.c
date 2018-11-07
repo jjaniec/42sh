@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 13:47:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 21:16:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ static void		fill_new_data_str(t_lexeme_clean_data *l, t_shell_vars *vars)
 					ptr += \
 						sizeof(char) * handle_escape_offset(ptr, in_quote_type);
 				(*(l->clean_data_write_ptr++)) = *(ptr++);
+				(*(l->clean_data_write_ptr)) = '\0';
 			}
 			if (*ptr)
 				ptr++;
