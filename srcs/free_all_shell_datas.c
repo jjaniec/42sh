@@ -3,15 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   free_all_shell_datas.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:31:39 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2018/11/06 20:00:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 15:01:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
+/*
+** Free all environnement data
+*/
+
+static void		free_environ(void)
+{
+	t_shell_vars	*vars;
+
+	if (!(vars = get_shell_vars()))
+		return ;
+	if (vars->hashtable)
+		free_hashtable(vars->hashtable);
+	free_env_entries(vars->env, vars->env->env_entries_list);
+	free_env_entries(vars->locals, vars->locals->env_entries_list);
+	free_env_entries(vars->internals, vars->internals->env_entries_list);
+	//free(env_struct);
+	vars = NULL;
+}
 
 /*
 **	Just read the function's name you idiot
