@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/19 16:36:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/07 12:38:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		if (separator_sign_pos != NULL)
 			do_the_copy(separator_sign_pos, &first_elem, &alias, line);
 		free(line);
+		line = NULL;
 	}
+	free(line);
 }
 
 /*
@@ -108,5 +110,7 @@ void		load_history_file(struct s_line *le)
 			break ;
 		add_history(line, le);
 		free(line);
+		line = NULL;
 	}
+	free(line);
 }

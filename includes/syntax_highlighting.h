@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:39:24 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 16:41:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 12:53:16 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define COL_PROG_ARG_FILE "\e[2;49;32m"
 # define COL_PROG_ARG_DIR "\e[2;49;33m"
 
-# define COL_ALIAS "\e[1;36m"
+# define COL_ALIAS "\e[36m"
 
 # define COL_QUOTED_ARG "\e[0;33m"
 
