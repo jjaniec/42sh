@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 15:47:43 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/07 18:04:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	else
 		exit(EXIT_FAILURE);*/
 	ast_free(ast_root);
+	vars->last_cmd_return = exe->ret;
 	free_exec(&exe);
 	return (0);
 }

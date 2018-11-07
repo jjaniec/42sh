@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/30 17:21:51 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:50:03 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int		prompt_show(const char *prompt)
 {
 	if (prompt == g_prompts[0])
-	{
 		print_prompt_details();
-		ft_putstr(PROMPT_COLOR);
-	}
 	tputs(access_le_main_datas()->tcaps->md, 1, &write_one_char);
 	ft_putstr(prompt);
 	if (prompt != g_prompts[0])

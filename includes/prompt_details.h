@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:23:00 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/02 15:10:43 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:52:29 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <forty_two_sh.h>
 
 # define PROMPT_PWD "\e[0;36m"
-# define PROMPT_COLOR "\e[35;1m"
+# define PROMPT_COLOR_TRUE "\e[35;1m"
+# define PROMPT_COLOR_FALSE "\e[31;1m"
 # define PROMPT_BRANCH_COLOR	"\e[2;37m"
 # define PROMPT_FETCH_ARROWS_COLOR "\e[34m"
 

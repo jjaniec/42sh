@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/29 18:01:43 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/07 18:03:56 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 t_exec	*create_exec(t_environ *env)
 {
-	t_exec	*exe;
+	t_exec			*exe;
 
 	exe = (t_exec *)ft_xmemalloc(sizeof(t_exec));
 	exe->ret = 0;

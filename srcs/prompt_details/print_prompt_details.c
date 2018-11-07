@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/31 17:33:33 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/07 18:05:57 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,17 @@ static void		print_git_info(char **env)
 	free(git_branch_str);
 }
 
+static void		set_prompt_color(void)
+{
+	t_shell_vars	*vars;
+
+	vars = get_shell_vars();
+	if (vars->last_cmd_return >= 0)
+		ft_putstr(PROMPT_COLOR_TRUE);
+	else
+		ft_putstr(PROMPT_COLOR_FALSE);
+}
+
 void			print_prompt_details(void)
 {
 	t_prompt	prompt;
@@ -62,7 +73,7 @@ void			print_prompt_details(void)
 	}
 	else
 		ft_putstr(prompt.pwd);
-	ft_putstr(COL_DEFAULT);
 	print_git_info(get_shell_vars()->env->environ);
 	tputs(access_le_main_datas()->tcaps->_do, 1, &write_one_char);
+	set_prompt_color();
 }
