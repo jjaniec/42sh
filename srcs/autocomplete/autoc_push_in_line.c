@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 17:02:20 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/19 17:05:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/07 15:20:19 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char		*add_backslash(char *str)
 
 	i = 0;
 	j = 0;
-	res = ft_xmalloc(sizeof(char) * (ft_strlen(str) + malloc_len(str)));
+	res = ft_xmalloc(sizeof(char) * (ft_strlen(str) + malloc_len(str) + 1));
 	while (str[i])
 	{
 		if (str[i] == ' ' || str[i] == '\n' || str[i] == '$' ||
