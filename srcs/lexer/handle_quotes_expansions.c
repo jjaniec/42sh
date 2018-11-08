@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 21:16:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/08 19:56:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ static int		is_expansion_char(t_lexeme_clean_data *l, int in_quote_type, \
 
 	ptr = *(l->raw_lexeme_read_ptr);
 	*expansion_handler_ptr = NULL;
-	if (*ptr == '$' && \
-		*(ptr + sizeof(char)) && \
-		!(is_separator(*(ptr + sizeof(char)))))
+	if (*ptr == '$')
 		*expansion_handler_ptr = handle_dollar_expansion;
 	else if (*ptr == '~' && \
 		in_quote_type == NOT_IN_QUOTES && \
