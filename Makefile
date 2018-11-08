@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/22 01:19:01 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/08 14:47:51 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,6 +135,7 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			builtin/echo/builtin_echo.c\
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
@@ -143,7 +144,6 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
 			builtin/builtin_unalias.c \
 			builtin/builtin_unsetenv.c \
-			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
 			builtin/builtin_test.c \
@@ -203,6 +203,7 @@ INCLUDES_NAME = ast.h \
 				struct.h \
 				syntax_highlighting.h \
 				hash_table.h \
+				echo.h \
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -225,10 +226,11 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
-			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
-			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo/ line_edition/ \
+			line_edition/actionk/ line_edition/colosyn/ line_edition/init_le \
+			line_edition/boolean_check line_edition/print line_edition/signals \
+			line_edition/tools syntax_highlighting/ script/ autocomplete/ env/ \
+			signals/ hash_table/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
