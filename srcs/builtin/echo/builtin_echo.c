@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/08 19:00:34 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/08 21:36:34 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@
 ** https://www.unix.com/man-page/posix/1posix/echo
 */
 
-static int	n_opt(void)
-{
-	ft_putchar('\n');
-	return (1);
-}
+
 
 static int	other_opt(void)
 {
@@ -30,8 +26,8 @@ static int	other_opt(void)
 static void	init_flag_opt(int (*opt_func[128])(void))
 {
 	char	flags[9] = {'a', 'b', 'c', 'f', 'n', 'r', 'v', 't', '\\'};
-	int		(*func[9])(void) = {&other_opt, &other_opt, &other_opt, &other_opt,
-			&n_opt, &other_opt, &other_opt, &other_opt, &other_opt};
+	int		(*func[9])(void) = {&echo_a_opt, &echo_b_opt, &echo_c_opt, &other_opt,
+			&echo_n_opt, &other_opt, &other_opt, &other_opt, &other_opt};
 	int		i;
 
 	i = -1;
@@ -42,7 +38,7 @@ static void	init_flag_opt(int (*opt_func[128])(void))
 		opt_func[(int)flags[i]] = func[i];
 }
 
-static void	print_option(char *str)
+static int	print_option(char *str)
 {
 	int		(*opt_func[128])(void);
 
@@ -51,16 +47,19 @@ static void	print_option(char *str)
 	{
 		if (*str == '\\')
 		{
+			if (((opt_func)[(int)*(str + 1)])() == -1)
+				return (-1);
 			if (((opt_func)[(int)*(str + 1)])())
 			{
 				str = str + 2;
 				if (!*str)
-					break;
+					return (1);
 			}
 		}
 		ft_putchar(*str);
 		str++;
 	}
+	return (1);
 }
 
 
@@ -71,8 +70,8 @@ void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
 	argv++;
 	while (*argv)
 	{
-		if (ft_strchr(*argv, '\\'))
-			print_option(*argv);
+		if (ft_strchr(*argv, '\\') && (print_option(*argv) == -1))
+			return ;
 		else
 			ft_putstr(*argv);
 		if (argv[1])

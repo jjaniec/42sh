@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/08 18:45:40 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/08 20:52:58 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,7 +135,8 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
-			builtin/echo/builtin_echo.c\
+			builtin/echo/builtin_echo.c \
+			builtin/echo/echo_opt.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
@@ -203,6 +204,7 @@ INCLUDES_NAME = ast.h \
 				struct.h \
 				syntax_highlighting.h \
 				hash_table.h \
+				echo.h \
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
