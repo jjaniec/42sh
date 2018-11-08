@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/08 15:17:25 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/08 19:00:34 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,48 @@
 ** https://www.unix.com/man-page/posix/1posix/echo
 */
 
-static void	n_opt(char *str, int str_i)
+static int	n_opt(void)
 {
 	ft_putchar('\n');
+	return (1);
 }
 
-static void	init_flag_opt(void (*flag_opt[10])(char c))
+static int	other_opt(void)
 {
-	flag_opt[0] = parse_opt
-	flag_opt[4] = &n_opt;
+	return (0);
 }
 
-static int	parse_opt(char c)
+static void	init_flag_opt(int (*opt_func[128])(void))
 {
-	if (c == 'n')
-		return (4);
-	else
-		return (-1);
+	char	flags[9] = {'a', 'b', 'c', 'f', 'n', 'r', 'v', 't', '\\'};
+	int		(*func[9])(void) = {&other_opt, &other_opt, &other_opt, &other_opt,
+			&n_opt, &other_opt, &other_opt, &other_opt, &other_opt};
+	int		i;
+
+	i = -1;
+	while (++i < 128)
+		opt_func[i] = &other_opt;
+	i = -1;
+	while (++i < 9)
+		opt_func[(int)flags[i]] = func[i];
 }
 
 static void	print_option(char *str)
 {
-	int		i;
-	void	(*flag_opt[10])(char c, void (*flag_opt[10]);
+	int		(*opt_func[128])(void);
 
-	init_flag_opt(flag_opt);
+	init_flag_opt(opt_func);
 	while (*str)
 	{
 		if (*str == '\\')
-			if ((i = parse_opt(*(str + 1))) >= 0)
+		{
+			if (((opt_func)[(int)*(str + 1)])())
 			{
-				flag_opt[i](str, i);
 				str = str + 2;
 				if (!*str)
 					break;
 			}
+		}
 		ft_putchar(*str);
 		str++;
 	}

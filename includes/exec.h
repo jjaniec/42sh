@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/08 14:43:18 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/08 18:53:07 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*isin_path(char *path_entry, char *cmd);
 // Builtins
 
 void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
+void	builtin_echo(char **argv, t_environ *env, t_exec *exe);
 void	builtin_env(char **argv, t_environ *env, t_exec *exe);
 void	builtin_setenv(char **argv, t_environ *env, t_exec *exe);
 void	builtin_unsetenv(char **argv, t_environ *env, t_exec *exe);
