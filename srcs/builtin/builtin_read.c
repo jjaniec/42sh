@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/08 18:53:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 19:38:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,14 @@ static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 
 	i = 0;
 	j = 0;
+	if (!(*(options->words_vars)))
+		vars->locals->del_var(vars->locals, "REPLY");
+	else
+	{
+		while (options->words_vars[i])
+			vars->locals->del_var(vars->locals, options->words_vars[i++]);
+	}
+	i = 0;
 	while (split[i])
 	{
 		if (options->words_vars[j])
@@ -302,16 +310,7 @@ static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 		else
 		{
 			if (ft_strequ(var_name, "REPLY") || !(options->words_vars[j + 1]))
-			{/*
-				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, " ", \
-				MAX_ENV_ENTRY_LEN - \
-				ft_strlen(vars->locals->last_used_elem->entry));
-				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, split[i], \
-				MAX_ENV_ENTRY_LEN - \
-				ft_strlen(vars->locals->last_used_elem->entry));
-			*/
-			coco_bichon_lox(vars, split, i);
-			}
+				coco_bichon_lox(vars, split, i);
 			else
 				ft_strncpy(vars->locals->last_used_elem->val_begin_ptr, \
 				split[i], MAX_ENV_ENTRY_LEN);
@@ -326,44 +325,15 @@ static void	store_words_in_shell_variables(unsigned char *buffer,
 										struct s_bltread *options)
 {
 	t_shell_vars	*vars;
-	//unsigned int	i;
-	//unsigned int	j;
 	char			*var_name;
 	char			**split;
 
 	split = split_buffer_with_ifs(buffer);
 	var_name = "REPLY";
 	vars = get_shell_vars();
-	//i = 0;
-	//j = 0;
 	sebateau(split, options, var_name, vars);
-	/*
-	while (split[i])
-	{
-		if (options->words_vars[j])
-			var_name = options->words_vars[j];
-		if (!(vars->locals->get_var(vars->locals, var_name)))
-			vars->locals->add_var(vars->locals, var_name, split[i]);
-		else
-		{
-			if (ft_strequ(var_name, "REPLY") || !(options->words_vars[j + 1]))
-			{
-				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, " ", \
-				MAX_ENV_ENTRY_LEN - \
-				ft_strlen(vars->locals->last_used_elem->entry));
-				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, split[i], \
-				MAX_ENV_ENTRY_LEN - \
-				ft_strlen(vars->locals->last_used_elem->entry));
-			}
-			else
-				ft_strncpy(vars->locals->last_used_elem->val_begin_ptr, \
-				split[i], MAX_ENV_ENTRY_LEN);
-		}
-		i++;
-		if (options->words_vars[j] && options->words_vars[j + 1])
-			j++;
-	}
-	*/
+	ft_free_2d_array(split);
+
 }
 
 
@@ -377,28 +347,6 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	(void)(env);
 	if (prepare_blt_read(argv, &options, exe) == false)
 		return ;
-/*
-	if (get_activated_options(argv + 1, &options) == false
-	|| (options.opt_n == true && options.opt_N == true))
-	{
-		ft_putstr_fd(BUILTIN_READ_USAGE, STDERR_FILENO);
-		exe->ret = 1;
-		g_cmd_status.builtin_running = false;
-		free(options.words_vars);
-		return ;
-	}
-	options.opt_n = true;
-	if (options.opt_N == true)
-		options.opt_d = false;
-	if (options.nb_opt_nN > BLTREAD_MAX_CH)
-		options.nb_opt_nN = BLTREAD_MAX_CH;
-	if (options.nb_opt_nN == 0)
-	{
-		g_cmd_status.builtin_running = false;
-		free(options.words_vars);
-		return ;
-	}
-*/
 
 	// DEBUG
 	{
