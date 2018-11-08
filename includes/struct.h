@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/22 14:08:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 18:56:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct			s_ast
 	int				type_details;
 	char			**data;
 	struct s_ast	*sub_ast;
+	struct s_ast	*top_ast;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*parent;
@@ -170,7 +171,21 @@ typedef struct			s_exec
 {
 	int			ret;
 	int			ready_for_exec;
+	int			statement;
 	t_environ	*env;
 }						t_exec;
+
+/*
+** Struct for GET NEXT LINE
+** Needed for multi fd support
+*/
+
+typedef struct		s_fd_GNL
+{
+	int				ret_read;
+	int				fd;
+	char			*content;
+	struct s_fd_GNL	*next;
+}					t_fd_GNL;
 
 #endif

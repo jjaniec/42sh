@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/19 19:50:31 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:14:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_lexeme		*is_keyword(t_lexeme *lex, int last_lex_lvl)
 {
 	lex = associate_token(lex, "IF", T_SCRIPT_LOGICAL, TK_SCRIPT_IF);
 	lex = associate_token(lex, "ELIF", T_SCRIPT_LOGICAL, TK_SCRIPT_ELIF);
+	lex = associate_token(lex, "CONTINUE", T_SCRIPT_STATEMENT, TK_SCRIPT_CONTINUE);
+	lex = associate_token(lex, "BREAK", T_SCRIPT_STATEMENT, TK_SCRIPT_BREAK);
 	if (last_lex_lvl == 0)
 	{
 		lex = associate_token(lex, "WHILE", T_SCRIPT_LOGICAL, TK_SCRIPT_WHILE);

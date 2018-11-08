@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:25:36 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/19 16:47:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/26 13:21:03 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 
 static int	check_lexeme(t_lexeme *lex1, t_lexeme *lex2)
 {
-	if (lex2 && lex1->type_details == TK_DAND \
+	if (lex1 && lex2 && lex1->type_details == TK_NEWLINE \
+	&& lex2->type_details == TK_NEWLINE)
+		return (1);
+	else if (lex2 && lex1->type_details == TK_DAND \
 	&& lex2->type_details == TK_NEWLINE)
 		return (NEED_SUBPROMPT_DAND);
 	else if (lex2 && lex1->type_details == TK_OR \

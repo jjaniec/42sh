@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/22 14:12:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 18:59:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 
 # define EXEC_THREAD_NOT_BUILTIN	0
 # define EXEC_THREAD_BUILTIN		1
+# define STATEMENT_BREAK			-1
+# define STATEMENT_CONTINUE			-2
+# define STATEMENT_NOCMD			-3
 
 // Binary finding & execution
 
@@ -48,7 +51,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
 void	exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 int		exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
-void	exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
+int		exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
 
 //
 

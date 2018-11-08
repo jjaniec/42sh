@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/22 14:54:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 18:55:55 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@
 # include "syntax_highlighting.h"
 # include "signals.h"
 # include "script.h"
-# include "get_next_line.h"
 # include "autocomplete.h"
 # include "builtins.h"
 # include "hash_table.h"
@@ -87,6 +86,8 @@ extern const char	*g_prompts[10];
 # define SH_USAGE \
 	SH_NAME" [-hcGv] [-c \"command\"]"
 
+
+int			get_next_line(const int fd, char **line);
 
 int			prompt_show(const char *prompt);
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);

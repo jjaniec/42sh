@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/28 17:15:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 18:56:49 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	handle_sigint(int sig)
 		while (i++ < le->cursor_pos)
 			tputs(le->tcaps->le, 1, &write_one_char);
 		free(le->cmd);
+		le->cmd = NULL;
 
 		tputs(le->tcaps->_do, 1, &write_one_char);
 		tputs(le->tcaps->cd, 1, &write_one_char);

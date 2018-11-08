@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:03:53 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 15:07:13 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/10/27 17:44:14 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void			exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": is a directory\n", 2);
 		}
-		else	
+		else
 			exec_thread((void *[3]){EXEC_THREAD_NOT_BUILTIN, cmd, argv}, \
 			env_struct, exe, node);
 	}
@@ -91,7 +91,7 @@ int				exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, \
 ** Then send everything to exec_thread().
 */
 
-void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
+int			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 {
 	char			*prog_path;
 	t_shell_vars	*vars;
@@ -104,7 +104,7 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 	if (prog_path)
 	{
 		if (stat(prog_path, &s_stat) == -1)
-			return ;
+			return (0);
 		if (S_ISDIR(s_stat.st_mode))
 		{
 			ft_putstr_fd(SH_NAME ": ", 2);
@@ -120,7 +120,9 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
+		return (STATEMENT_NOCMD);
 	}
+	return (1);
 }
 
 /*
@@ -129,7 +131,7 @@ void			exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node)
 ** char **envp comes directly from the main()
 */
 
-t_exec				*exec_cmd(t_ast *root, t_exec *exe)
+t_exec	*exec_cmd(t_ast *root, t_exec *exe)
 {
 	exe = ast_explore(root, exe);
 	/*if (VERBOSE_MODE)
