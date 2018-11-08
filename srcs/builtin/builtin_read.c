@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/07 20:30:54 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 18:53:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,110 @@ static bool	prepare_blt_read(char **argv, struct s_bltread *options, t_exec *exe
 	return (true);
 }
 
+static char		**split_buffer_with_ifs(unsigned char *buffer)
+{
+	char	**split;
+
+char	**ft_strsplit_bystr(char const *s, const char *split); // proto en attendant libft
+
+	split = ft_strsplit_bystr((const char *)buffer, LE_IFS);
+	if (split == NULL)
+		exit(MALLOC_ERROR);
+	return (split);
+}
+
+static void	coco_bichon_lox(t_shell_vars *vars, char **split, unsigned int i)
+{
+	ft_strncat(vars->locals->last_used_elem->val_begin_ptr, " ", \
+	MAX_ENV_ENTRY_LEN - \
+	ft_strlen(vars->locals->last_used_elem->entry));
+	ft_strncat(vars->locals->last_used_elem->val_begin_ptr, split[i], \
+	MAX_ENV_ENTRY_LEN - \
+	ft_strlen(vars->locals->last_used_elem->entry));
+}
+
+static void	sebateau(char **split, struct s_bltread *options, char *var_name,
+														t_shell_vars *vars)
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	j = 0;
+	while (split[i])
+	{
+		if (options->words_vars[j])
+			var_name = options->words_vars[j];
+		if (!(vars->locals->get_var(vars->locals, var_name)))
+			vars->locals->add_var(vars->locals, var_name, split[i]);
+		else
+		{
+			if (ft_strequ(var_name, "REPLY") || !(options->words_vars[j + 1]))
+			{/*
+				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, " ", \
+				MAX_ENV_ENTRY_LEN - \
+				ft_strlen(vars->locals->last_used_elem->entry));
+				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, split[i], \
+				MAX_ENV_ENTRY_LEN - \
+				ft_strlen(vars->locals->last_used_elem->entry));
+			*/
+			coco_bichon_lox(vars, split, i);
+			}
+			else
+				ft_strncpy(vars->locals->last_used_elem->val_begin_ptr, \
+				split[i], MAX_ENV_ENTRY_LEN);
+		}
+		i++;
+		if (options->words_vars[j] && options->words_vars[j + 1])
+			j++;
+	}
+}
+
+static void	store_words_in_shell_variables(unsigned char *buffer,
+										struct s_bltread *options)
+{
+	t_shell_vars	*vars;
+	//unsigned int	i;
+	//unsigned int	j;
+	char			*var_name;
+	char			**split;
+
+	split = split_buffer_with_ifs(buffer);
+	var_name = "REPLY";
+	vars = get_shell_vars();
+	//i = 0;
+	//j = 0;
+	sebateau(split, options, var_name, vars);
+	/*
+	while (split[i])
+	{
+		if (options->words_vars[j])
+			var_name = options->words_vars[j];
+		if (!(vars->locals->get_var(vars->locals, var_name)))
+			vars->locals->add_var(vars->locals, var_name, split[i]);
+		else
+		{
+			if (ft_strequ(var_name, "REPLY") || !(options->words_vars[j + 1]))
+			{
+				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, " ", \
+				MAX_ENV_ENTRY_LEN - \
+				ft_strlen(vars->locals->last_used_elem->entry));
+				ft_strncat(vars->locals->last_used_elem->val_begin_ptr, split[i], \
+				MAX_ENV_ENTRY_LEN - \
+				ft_strlen(vars->locals->last_used_elem->entry));
+			}
+			else
+				ft_strncpy(vars->locals->last_used_elem->val_begin_ptr, \
+				split[i], MAX_ENV_ENTRY_LEN);
+		}
+		i++;
+		if (options->words_vars[j] && options->words_vars[j + 1])
+			j++;
+	}
+	*/
+}
+
+
 void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 {
 	struct s_bltread	options;
@@ -319,7 +423,7 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 
 	buffer = read_line(&options);
 	if (buffer != NULL)
-		; // stocker les mots store_words_in_shell_variables(buffer, options);
+		store_words_in_shell_variables(buffer, &options);
 
 
 	g_cmd_status.builtin_running = false;

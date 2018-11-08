@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/22 16:05:14 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/11/08 18:36:19 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -190,7 +190,8 @@ SRC_NAME = 	is_separator.c \
 			access_alias_datas.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
-			main.c
+			main.c \
+			ft_strsplit_by_str.c 
 
 INCLUDES_NAME = ast.h \
 				autocomplete.h \
