@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/06 17:09:48 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:02:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 struct s_cmd_status	g_cmd_status = {
 	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, .sigint_happened = false
 };
+
+t_job	*g_jobs;
 
 t_option		g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
@@ -33,6 +35,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	static t_environ			env_vars;
 	static t_local_vars			local_vars;
 	static t_internal_vars		internal_vars;
+	char						*ret_itoa;
 
 	vars->env = &env_vars;
 	vars->locals = &local_vars;
@@ -40,10 +43,16 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	init_environ(env, vars->env);
 	init_environ_struct_ptrs(&local_vars);
 	init_environ_struct_ptrs(&internal_vars);
-	internal_vars.add_var(&internal_vars, "$", ft_itoa(getpid()));
+	if ((ret_itoa = ft_itoa(getpid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "$", ret_itoa);
+	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "!", "0");
 	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
-	internal_vars.add_var(&internal_vars, "UID", ft_itoa(getuid()));
+	if ((ret_itoa = ft_itoa(getuid())) == NULL)
+		exit(MALLOC_ERROR);
+	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
+	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
 }
 
@@ -99,6 +108,11 @@ int	main(int argc, char **argv, char **envp)
 	close(STDERR_FILENO);
 	dup2(backup_stdout, STDOUT_FILENO);
 	dup2(backup_stderr, STDERR_FILENO);*/
+
+	printf("Some particular tests with pipes cannot be automatized as they require interactive mode,\nbefore pushing to the main branch, please be sure that the following tests have the same behavior on "SH_NAME" and sh:\n\
+		\tcat | ls\n\
+		\tcat | cat -e\n\
+		\tdoesnotexits | cat\n");
 	done_testing();
 	//end = clock();
 

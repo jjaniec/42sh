@@ -6,16 +6,43 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 19:01:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:08:45 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
+extern t_environ *g_envp;
+
+static void		compare_fds_w_strings(char *test_name, char *str_test, char *expected_stdout, char *expected_stderr)
+{
+	int		backup_stdout_fd;
+	int		backup_stderr_fd;
+	char	*cmd_sh;
+
+	redirect_both_fds(&backup_stdout_fd, &backup_stderr_fd, NULL, NULL);
+	asprintf(&cmd_sh, SH_EXEC_CMD_PREFIX"\"%s\"", str_test);
+	system(cmd_sh);
+	compare_fds_with_strings(test_name, expected_stdout, expected_stderr, backup_stdout_fd, backup_stderr_fd);
+	remove(redirect_both_fds_STDOUT_FILENAME);
+	remove(redirect_both_fds_STDERR_FILENAME);
+}
+
 void	exec_tests(t_environ *env)
 {
 	(void)env;
 	int		tk_less_tests_tmp_fd;
+
+	compare_fds_w_strings("Error check tests 1 - dir as command path", "/", "", SH_NAME": /: "ERR_ISDIR);
+	system("ln -s / /tmp/temp_test_symlink_____");
+	compare_fds_w_strings("Error check tests 2 - symlink as command path", "/tmp/temp_test_symlink_____", "", SH_NAME": /tmp/temp_test_symlink_____: "ERR_ISDIR);
+	remove("/tmp/temp_test_symlink_____");
+	system("cp /bin/ls ./temp_exec___ && chmod -x ./temp_exec___");
+	compare_fds_w_strings("Error check tests 3 - Non-executable binary", "./temp_exec___", "", SH_NAME": "ERR_NORIGHTS"./temp_exec___\n");
+	remove("./temp_exec___");
+	compare_fds_w_strings("Error check tests 4 - No such file or dir path", "./___abcdefghijkl___", "", SH_NAME": "ERR_NO_ENTRY"./___abcdefghijkl___\n");
+	compare_fds_w_strings("Error check tests 5 - Command not found", "___abcdefghijkl___", "", SH_NAME": ___abcdefghijkl___: "ERR_CMD_NOT_FOUND);
+	compare_fds_w_strings("Error check tests 6 - error redirection", "/ 2> /dev/null", "", "");
 
 	compare_sh_42sh_outputs("Simple OR", "/bin/echo a || /bin/echo b", NULL);
 	compare_sh_42sh_outputs("Simple AND", "/bin/echo a && /bin/echo b", NULL);
@@ -36,6 +63,14 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Pipes 9 - AND, OR", "/bin/echo a && /bin/echo b | cat || /bin/echo c", NULL);
 	compare_sh_42sh_outputs("Pipes 10 - AND, OR, redirs", "ls /dev/thisdoesnotexist 2>&1 | cat || /bin/echo b | cat && ls 1>/dev/null", NULL);
 	compare_sh_42sh_outputs("Pipes 11 - Long Mixed", "/bin/echo a 2>&1 | cat | cat || /bin/echo b | cat | cat && /bin/echo c 1>/dev/null | cat ; /bin/echo lol | cat", NULL);
+	compare_sh_42sh_outputs("Pipes 12 - misc 1", "if which toilet && which cowsay; then echo lol | cat | toilet | cowsay | head -c 10; fi", NULL);
+	compare_sh_42sh_outputs("Pipes 13 - Particular cases 1", "if which toilet && which cowsay; then env | cat | lolcat | cowsay | head -c 10; fi", NULL);
+	//here we mask the output as base64 /dev/random will never give twice the same string, those tests are to see if head stops base64
+	compare_sh_42sh_outputs("Pipes 14 - Particular cases 2", "base64 /dev/random | head -c 100 | cat | wc -c", NULL);
+	compare_sh_42sh_outputs("Pipes 15 - Particular cases 3", "base64 /dev/random | head -c 100 | cat | echo lol | cat", NULL);
+	compare_sh_42sh_outputs("Pipes 16 - Command not found hang test", "doesnotexists 2> /dev/null | cat", NULL);
+	compare_sh_42sh_outputs("Pipes 17 - Command not found hang test 2", "echo lol | doesnotexists 2> /dev/null | cat", NULL);
+	compare_sh_42sh_outputs("Pipes 18 - Command not found hang test 3", "echo lol | doesnotexists 2> /dev/null", NULL);
 
 	tk_less_tests_tmp_fd = open(TESTS_TMP_FILENAME, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	ft_putstr_fd("Some random text in"TESTS_TMP_FILENAME, tk_less_tests_tmp_fd);
@@ -71,5 +106,4 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("TK_TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat", NULL);
 	compare_sh_42sh_outputs("TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat", NULL);
 	compare_sh_42sh_outputs("TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl", NULL);
-
 }

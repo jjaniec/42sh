@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   free_job.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/15 19:45:40 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/30 15:48:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+static void		free_job_processes(t_process *processes)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
+	t_process	*prev_ptr;
+
+	while (processes)
 	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
+		if (!(processes->next))
+		{
+			free(processes);
+			return ;
+		}
+		prev_ptr = processes;
+		processes = processes->next;
+		free(prev_ptr);
 	}
-	ft_putchar('\n');
-	exe->ret = 0;
+}
+
+void	free_job(t_job *job)
+{
+	if (!job)
+		return ;
+	free_job_processes(job->first_process);
+	job->first_process = NULL;
+	//kill(-job->pgid, SIGTERM);
+	//free(job->command);
+	free(job);
 }

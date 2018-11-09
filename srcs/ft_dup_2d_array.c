@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   ft_dup_2d_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/11/06 20:17:27 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/11/06 20:55:26 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+char		**ft_dup_2d_array(char **arr)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
+	unsigned int		l;
+	char				**ret;
+	unsigned int		i;
+
+	l = ft_count_elem_2d_array(arr);
+	ret = ft_xmemalloc(sizeof(char *) * (l + 1));
+	ret[l] = NULL;
+	i = 0;
+	while (l != i)
 	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
+		ret[i] = ft_xstrdup(arr[i]);
+		i++;
 	}
-	ft_putchar('\n');
-	exe->ret = 0;
+	ret[i] = NULL;
+	return (ret);
 }

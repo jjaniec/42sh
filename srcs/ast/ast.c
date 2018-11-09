@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 17:13:23 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:09:53 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,5 @@ t_ast	*ast(t_lexeme **old_lex)
 	root = ast_constructor(&lex, root, NULL, &node_placer_classic);
 	if (!root)
 		ft_putendl_fd("There is an error in your script.", 1);
-	if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))
-		ast_debug(root);
 	return (root);
 }

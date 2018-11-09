@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 19:05:55 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:09:17 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void		handle_input_redir(int prefix_fd, char *target, \
 			*(&(node->data[1][sizeof(int)])));
 		if (tk_type_details == TK_TLESS)
 			ft_putchar_fd('\n', *(&(node->data[1][sizeof(int)])));
-		close(*(&(node->data[1][sizeof(int)])));
+		log_close(*(&(node->data[1][sizeof(int)])));
 		log_debug("Here-doc: writing %s to pipe input fd: %d", \
 			node->right->data[0], *(&(node->data[1][sizeof(int)])));
 		handle_redir_fd(STDIN_FILENO, *(&(node->data[1][0])));
@@ -87,9 +87,15 @@ static void		handle_redir(int prefix_fd, t_ast *node)
 
 	handle_quotes_expansions(node->right->data);
 	target = node->right->data[0];
-	if (node->type_details == TK_LESSAND \
-		|| node->type_details == TK_GREATAND)
-		handle_redir_fd(prefix_fd, ft_atoi(target));
+	if ((node->type_details == TK_LESSAND \
+		|| node->type_details == TK_GREATAND) && \
+		ft_str_is_positive_numeric(target))
+		{
+			close(prefix_fd);
+			if (node->data[0][2] != '-')
+				dup(ft_atoi(target));
+		//	handle_redir_fd(prefix_fd, ft_atoi(target));
+		}
 	else
 	{
 		if (ft_strchr(node->data[0], '<'))
@@ -118,14 +124,15 @@ void			handle_redirs(t_ast *redir_ast_node)
 	int		prefix_fd;
 
 	node = redir_ast_node->parent;
-	log_trace("Handle redirs of %s(t %zu td %zu)", redir_ast_node->data[0], \
+	log_info("PID %zu: Handle redirs of %s(t %d td %d)", getpid(), redir_ast_node->data[0], \
 			redir_ast_node->type, redir_ast_node->type_details);
-	while (node && node->parent && node->parent->type == T_REDIR_OPT)
-		node = node->parent;
+	while (node && node->parent && node->parent->type == T_REDIR_OPT) //->
+		node = node->parent; //->
 	while (node && node->type == T_REDIR_OPT)
 	{
 		get_prefix_fd(&prefix_fd, node->data[0]);
 		handle_redir(prefix_fd, node);
 		node = node->left;
+		//node = node->parent;
 	}
 }
