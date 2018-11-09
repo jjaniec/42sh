@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 17:03:19 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 18:16:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ void	lexer_tests(t_environ *envp)
 		test_lexeme_list("Expansions 33 - Particular cases 3 - empty expansion", "echo $=;",
 			"echo", T_WORD, TK_DEFAULT, "$=", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Other - Fixed 1 - Empty elem break", "ls \"\"\n", \
-		"ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+		"ls", T_WORD, TK_DEFAULT, "", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_lexeme_list("Other - Fixed 2 - expansions w/ escaped ctrl operator", "echo $"EXPANSION_TESTS_ENVVAR_NAME"\\;$"EXPANSION_TESTS_ENVVAR_NAME"",
 		"echo", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA";"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
 	test_lexeme_list("Other - Fixed 3 - ':' as expansion end char", "echo $"EXPANSION_TESTS_ENVVAR_NAME":$"EXPANSION_TESTS_ENVVAR_NAME"",
