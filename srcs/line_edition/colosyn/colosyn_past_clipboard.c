@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colosyn_past_clipboard.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:06:22 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:45:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/30 15:47:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	colosyn_past_clipboard(struct s_line *le)
 	//if (updated_cmd == NULL)
 		//le_exit("Memory allocation failed\n", "malloc", errno);
 	nb_move_to_replace_cursor = (le->cmd_len) - (le->cursor_index);
-	//tmp_realloc = ft_realloc(updated_cmd, le->cmd_len, \
+	//tmp_realloc = ft_realloc(updated_cmd, le->cmd_len, 
 	//le->cmd_len + le->clipboard_len + 1);
 	//if (tmp_realloc == NULL)
 	//{
@@ -51,7 +51,7 @@ void	colosyn_past_clipboard(struct s_line *le)
 	//	le_exit("Memory allocation failed\n", "malloc", errno);
 	//}
 	//updated_cmd = tmp_realloc;
-	//ft_memset(updated_cmd + le->cmd_len, '\0', \
+	//ft_memset(updated_cmd + le->cmd_len, '\0', 
 	//le->cmd_len + le->clipboard_len + 1 - le->cmd_len);
 	updated_cmd = ft_xmalloc(le->cmd_len + le->clipboard_len + 2);
 

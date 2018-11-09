@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   log_close.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/16 15:12:44 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/22 19:11:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+void		log_close(int fd)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
-	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
-	}
-	ft_putchar('\n');
-	exe->ret = 0;
+	log_trace("PID %zu: closing filedesc %d", getpid(), fd);
+	if (close(fd) == -1)
+		perror("Close error");
 }

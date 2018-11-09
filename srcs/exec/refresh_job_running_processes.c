@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   refresh_job_running_processes.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/22 21:00:22 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/22 22:35:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+void		refresh_job_running_processes(t_job *job)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
+	t_process	*ptr;
+
+	ptr = job->first_process;
+	while (ptr)
 	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
+		if (kill(ptr->pid, 0) == -1)
+		{
+			remove_task_pid_from_job(g_jobs, ptr->pid);
+		}
+		else
+		{
+			{ le_debug(" prefix %s - pipes: a child is running or is a zombie\n", __func__); }
+			log_info("RUNNING : %zu", ptr->pid);
+		}
+		ptr = ptr->next;
 	}
-	ft_putchar('\n');
-	exe->ret = 0;
 }

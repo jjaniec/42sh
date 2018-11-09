@@ -6,54 +6,35 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 13:04:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 16:02:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/28 21:02:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-** Search for last pipe and apply pipe redirections depending on
-** which side is our element compared to the pipe node (right/left)
+** Apply pipe redirects w/ fds stored in pipe_fds
 */
 
-static void	apply_pipes_fds(t_ast *node, t_ast *last_pipe, int *pipe_input_fd)
+int			handle_pipes(int **pipe_fds)
 {
-	t_ast	*ptr;
-
-	ptr = node;
-	while (ptr->parent != last_pipe)
-		ptr = ptr->parent;
-	if (ptr == last_pipe->right)
+	if (pipe_fds)
 	{
-		handle_redir_fd(STDIN_FILENO, *(&(last_pipe->data[1][0])));
-		if (last_pipe->parent && last_pipe->parent->type_details == TK_PIPE)
+		if (pipe_fds[0] && *(pipe_fds[0]) != -1)
 		{
-			handle_redir_fd(STDOUT_FILENO, *(&(last_pipe->parent->data[1][sizeof(int)])));
-			*pipe_input_fd = *(&(last_pipe->data[1][sizeof(int)]));
+			handle_redir_fd(STDIN_FILENO, *(pipe_fds[0]));
+//			log_close(pipe_fds[0]); -> already closed by handle_redir_fd
 		}
+		if (pipe_fds[1] && *(pipe_fds[1]) != -1)
+		{
+			handle_redir_fd(STDOUT_FILENO, *(pipe_fds[1]));
+//			log_close(pipe_fds[1]);
+		}
+		if (pipe_fds[2] && *(pipe_fds[2]) != -1)
+			log_close(*(pipe_fds[2]));
+//		if (pipe_fds[3] && pipe_fds[3] != -1)
+//			log_close(pipe_fds[3]); -> already closed by parent
+		free(pipe_fds);
 	}
-	else if (ptr == last_pipe->left)
-	{
-		handle_redir_fd(STDOUT_FILENO, *(&(last_pipe->data[1][sizeof(int)])));
-		*pipe_input_fd = *(&(last_pipe->data[1][sizeof(int)]));
-	}
-}
-
-/*
-** Search for specified pipes in ast and handle std(in/out) redirections
-** with pipe fds before redirections like 1>file as pipes are
-** prioritized
-*/
-
-int			handle_pipes(t_ast *node)
-{
-	t_ast	*last_pipe_node;
-	int		r;
-
-	r = 0;
-	log_trace("Handle pipes of %s", node->data[0]);
-	if ((last_pipe_node = get_last_pipe_node(node)))
-		apply_pipes_fds(node, last_pipe_node, &r);
-	return (r);
+	return (0);
 }

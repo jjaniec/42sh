@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   create_job.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/15 20:21:41 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/15 20:35:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** https://www.unix.com/man-page/posix/1posix/echo
-*/
-
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+t_job		*create_job(char *command)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
-	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
-	}
-	ft_putchar('\n');
-	exe->ret = 0;
+	t_job		*new;
+
+	new = malloc(sizeof(t_job));
+	new->next = NULL;
+	new->command = command;
+	new->first_process = NULL;
+	new->pgid = 0;
+	//new->tmode = ....
+	return (new);
 }

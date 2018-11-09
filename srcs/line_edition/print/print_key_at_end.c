@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_key_at_end.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:18:10 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 19:23:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/07 21:03:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	print_key_at_end(struct s_line *le, t_kno key)
 
 	print_key(key);
 	check_cmd_storage(le, 2);
+	if (!le->cmd)
+		return ;
 	le->cmd[le->cmd_len] = key;
 	++(le->cmd_len);
 	++(le->cursor_index);
