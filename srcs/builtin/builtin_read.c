@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/08 19:38:43 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 16:01:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,20 @@ static void	coco_bichon_lox(t_shell_vars *vars, char **split, unsigned int i)
 	ft_strlen(vars->locals->last_used_elem->entry));
 }
 
+static void	aux_delices_de_janice(struct s_bltread *options, t_shell_vars *vars)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (!(*(options->words_vars)))
+		vars->locals->del_var(vars->locals, "REPLY");
+	else
+	{
+		while (options->words_vars[i])
+			vars->locals->del_var(vars->locals, options->words_vars[i++]);
+	}
+}
+
 static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 														t_shell_vars *vars)
 {
@@ -293,14 +307,14 @@ static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 
 	i = 0;
 	j = 0;
-	if (!(*(options->words_vars)))
+	aux_delices_de_janice(options, vars);
+	/*if (!(*(options->words_vars)))
 		vars->locals->del_var(vars->locals, "REPLY");
 	else
 	{
 		while (options->words_vars[i])
 			vars->locals->del_var(vars->locals, options->words_vars[i++]);
-	}
-	i = 0;
+	}*/
 	while (split[i])
 	{
 		if (options->words_vars[j])

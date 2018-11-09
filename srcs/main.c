@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/08 18:56:54 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 16:02:54 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	vars->hashtable = ht_create(&env_vars);
 }
 
-int			main(int ac, char **av, char **envp)
+t_acocat		main(int ac, char **av, char **envp)
 {
 	t_option		*opt_list;
 	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
