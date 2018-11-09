@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 17:13:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 10:51:48 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ static void	clean_data(char **data)
 	int		quoted;
 
 	i = 0;
-	quoted = 0;
 	while (data && data[i])
 	{
 		quoted = ft_strchr(data[i], '"') || ft_strchr(data[i], '`') \
@@ -110,8 +109,6 @@ static void	clean_data(char **data)
 			handle_quotes_expansions(data + i);
 		if (!data[i][0] && !quoted)
 			remove_empty_data(data, i);
-		//dprintf(1, "HERE: '%s'\n", data[i]);
-		quoted = 0;
 		i++;
 	}
 }
