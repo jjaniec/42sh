@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/05 20:19:21 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/09 15:36:09 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		abbrev_commit_hash(char *hash)
 		hash[COMMIT_HASH_MAX_LEN] = '\0';
 }
 
-static char		*get_head(char *branch_str, int pipe_fds[2], char **env)
+static char		*get_head(char *branch_str, int pipe_fds[2], char **env, char *git_path)
 {
 	pid_t	p;
 
@@ -37,7 +37,7 @@ static char		*get_head(char *branch_str, int pipe_fds[2], char **env)
 	if ((p = fork()) == 0)
 	{
 		get_output_of_cmd((char *[4])
-		{"/usr/bin/git", "rev-parse", "HEAD", NULL}, env, pipe_fds[1]);
+		{git_path, "rev-parse", "HEAD", NULL}, env, pipe_fds[1]);
 		return (NULL);
 	}
 	else if (p > 0)
@@ -55,15 +55,19 @@ static char		*get_head(char *branch_str, int pipe_fds[2], char **env)
 
 char			*get_git_info(char **env)
 {
-	int			pipe_fds[2];
-	char		*branch_str;
-	pid_t		p;
+	int				pipe_fds[2];
+	char			*branch_str;
+	pid_t			p;
+	char			*git_path;
+	t_shell_vars	*vars;
 
+	if (!(vars = get_shell_vars()) || !(git_path = ht_get_key_value(vars->hashtable, "git")))
+		return (NULL);
 	branch_str = NULL;
 	pipe(pipe_fds);
 	if ((p = fork()) == 0)
 		get_output_of_cmd((char *[5])
-		{"/usr/bin/git", "rev-parse", "--abbrev-ref", "HEAD", NULL},
+		{git_path, "rev-parse", "--abbrev-ref", "HEAD", NULL},
 		env, pipe_fds[1]);
 	else if (p > 0)
 	{
@@ -72,7 +76,7 @@ char			*get_git_info(char **env)
 		get_next_line(pipe_fds[0], &branch_str);
 		close(pipe_fds[0]);
 		if (ft_strequ(branch_str, "HEAD"))
-			return (get_head(branch_str, pipe_fds, env));
+			return (get_head(branch_str, pipe_fds, env, git_path));
 	}
 	else
 		ft_putstr("Fork failed");
