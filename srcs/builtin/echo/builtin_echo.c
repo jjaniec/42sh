@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/08 21:36:34 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/09 15:19:50 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	init_flag_opt(int (*opt_func[128])(void))
 
 static int	print_option(char *str)
 {
+	int		ret;
 	int		(*opt_func[128])(void);
 
 	init_flag_opt(opt_func);
@@ -47,13 +48,14 @@ static int	print_option(char *str)
 	{
 		if (*str == '\\')
 		{
-			if (((opt_func)[(int)*(str + 1)])() == -1)
-				return (-1);
-			if (((opt_func)[(int)*(str + 1)])())
+			ret = opt_func[(int)*(str + 1)]();
+			if (ret == -1)
+				return (ret);
+			if (ret)
 			{
 				str = str + 2;
 				if (!*str)
-					return (1);
+					return (ret);
 			}
 		}
 		ft_putchar(*str);
@@ -70,8 +72,11 @@ void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
 	argv++;
 	while (*argv)
 	{
-		if (ft_strchr(*argv, '\\') && (print_option(*argv) == -1))
-			return ;
+		if (ft_strchr(*argv, '\\'))
+		{
+			if ((print_option(*argv) == -1))
+				return ;
+		}
 		else
 			ft_putstr(*argv);
 		if (argv[1])

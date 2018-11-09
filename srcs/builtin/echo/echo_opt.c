@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 20:20:19 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/08 21:25:06 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/09 15:45:30 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ int		echo_b_opt(void)
 
 int		echo_c_opt(void)
 {
-	ft_putchar('\0');
+	ft_putchar('\n');
 	return (-1);
+}
+
+int		echo_f_opt(void)
+{
+	struct s_line	*line;
+
+	line = access_le_main_datas();
+	tputs(line->tcaps->_do, 1, &write_one_char);
+	return (1);
 }
