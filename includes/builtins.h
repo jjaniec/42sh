@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/28 16:10:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 19:02:56 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,17 @@ void	builtin_return(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, t_exec *exe);
 void	builtin_test(char **argv, t_environ *env, t_exec *exe);
 void	builtin_history(char **argv, t_environ *env, t_exec *exe);
+void	_print_history_with_indexes(void);
+void	_delete_element_number_n(unsigned int n);
+bool	_save_history_in_file(struct s_history *his);
+void	_clear_history(struct s_line *le);
+void	_print_n_last_elem(struct s_line *le, unsigned int n);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, t_exec *exe);
 void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
 void    builtin_read(char **argv, t_environ *env, t_exec *exe);
+bool	_get_activated_options(char **args, struct s_bltread *options, bool fou, int janice);
+void	_store_words_in_shell_variables(unsigned char *buffer,
+									struct s_bltread *options);
 void    builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 #endif

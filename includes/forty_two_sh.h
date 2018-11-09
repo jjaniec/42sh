@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 17:23:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:28:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ extern t_job		*g_jobs;
 
 # define NOT_A_TTY_STDINOUT_ERR \
 	SH_NAME": Input/output redirections are not supported, exiting\n"
+
+typedef int	t_acocat;
 
 int			get_next_line(const int fd, char **line);
 

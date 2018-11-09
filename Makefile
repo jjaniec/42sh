@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/09 17:19:11 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/11/09 19:05:36 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,7 +149,10 @@ SRC_NAME = 	is_separator.c \
 			exec/create_exec.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
+			builtin/builtin_history_2.c \
 			builtin/builtin_read.c \
+			builtin/builtin_read_get_activated_options.c \
+			builtin/builtin_read_store_words.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
