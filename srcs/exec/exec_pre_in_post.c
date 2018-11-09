@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/09 17:09:37 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:56:00 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ static void	clean_data(char **data)
 		if (is_clean_needed(data + i))
 			handle_quotes_expansions(data + i);
 		if (!data[i][0] && !quoted)
+		{
 			remove_empty_data(data, i);
+			i--;
+		}
 		i++;
 	}
 }
