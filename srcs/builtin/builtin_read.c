@@ -6,15 +6,15 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 19:29:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 20:17:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
 
-// DEBUG
+
+void	kk(struct s_bltread options)
 	{
 		le_debug("d = %s\nn = %s\nN = %s\np = %s\ns = %s\n",
 		options.opt_d == true ? "true" : "false",
@@ -32,7 +32,7 @@
 			{ le_debug("nb opt n N = %u\n", options.nb_opt_nN) }
 		}
 	}
-*/
+
 
 static void	prepare_reading_line(struct termios *t, unsigned char **buffer, struct s_bltread *options)
 {
@@ -167,6 +167,7 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	exe->ret = 0;
 	if (prepare_blt_read(argv, &options, exe) == false)
 		return ;
+	kk(options);
 	buffer = read_line(&options, exe);
 	if (buffer != NULL)
 		_store_words_in_shell_variables(buffer, &options);

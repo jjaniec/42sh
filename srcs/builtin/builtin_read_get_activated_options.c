@@ -6,11 +6,16 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:40:33 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 19:17:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 20:31:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+int		a(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		amdr(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		a2(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+bool	norme_lol(int foo, char **args, unsigned int i);
 
 static bool	get_local_vars_names(struct s_bltread *options, char **args, unsigned int i)
 {
@@ -39,63 +44,7 @@ static bool	get_local_vars_names(struct s_bltread *options, char **args, unsigne
     return (true);
 }
 
-static bool	norme_lol(int foo, char **args, unsigned int i)
-{
-	if (foo == 0)
-	{
-
-	}
-	else if (foo == 1)
-	{
-		if (args[i + 1] != NULL && ft_strequ(args[i + 1], "-n") == false
-		&& ft_strequ(args[i + 1], "-N") == false
-		&& ft_strequ(args[i + 1], "-p") == false
-		&& ft_strequ(args[i + 1], "-s") == false
-		&& ft_strequ(args[i + 1], "-d") == false  )
-			return (true);
-		return (false);
-	}
-	else if (foo == 2)
-	{
-		if (args[i + 1] != NULL && ft_strequ(args[i + 1], "-n") == false
-		&& ft_strequ(args[i + 1], "-N") == false
-		&& ft_strequ(args[i + 1], "-p") == false
-		&& ft_strequ(args[i + 1], "-s") == false
-		&& ft_strequ(args[i + 1], "-d") == false  )
-			return (true);
-		return (false);
-	}
-	return (true && false || true ^ false);
-}
-
-static int	norme_lel(int foo, struct s_bltread *options, char **args, unsigned int *i)
-{
-	if (foo == 1)
-	{
-		options->opt_d = true;
-		if (args[*i + 1] != NULL && ft_strlen(args[*i + 1]) == 1U)
-			options->delim_opt_d = args[*i + 1][0];
-		else
-            return (0);
-		*i = *i + 2;
-		if (args[*i] == NULL)
-			return (1);
-		*i = *i - 1;
-		return (2);
-	}
-	options->opt_n = true;
-	if (norme_lol(1, args, *i) == true)
-		options->nb_opt_nN = ft_atoi(args[*i + 1]);
-	else
-		return (0);
-	*i += 2;
-	if (args[*i] == NULL)
-		return (1);
-	*i -= 1;
-	return (2);
-}
-
-static int	norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i)
+int		norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i)
 {
 	if (foo == 1)
 	{
@@ -116,32 +65,31 @@ static int	norme_mdr(int foo, struct s_bltread *options, char **args, unsigned i
 	return (2);
 }
 
-bool	_get_activated_options(char **args, struct s_bltread *options, bool fou, int janice)
+bool	_get_activated_options(char **args, struct s_bltread *options, \
+		bool fou, int janice)
 {
 	unsigned int	i;
-	
+
 	norme_mdr(1, options, args, &i);
 	while (args[i] != NULL && ft_strequ(args[i], "--") == false)
 	{
-		if (ft_strequ(args[i], "-d")
-		&& (((janice = norme_lel(1, options, args, &i)) != 2) || !(fou = true)))
-			return (janice == 0 ? false : true);
-		else if (ft_strequ(args[i], "-n")
-		&& (((janice = norme_lel(2, options, args, &i)) != 2) || !(fou = true)))
-			return (janice == 0 ? false : true);
-		else if (ft_strequ(args[i], "-N")
-		&& (((janice = norme_mdr(2, options, args, &i)) != 2) || !(fou = true)))
-			return (janice == 0 ? false : true);
+		if (ft_strequ(args[i], "-d") \
+		&& (janice = a(options, args, &i, &fou)) != 2)
+			return (janice);
+		else if ((ft_strequ(args[i], "-n")) \
+		&& (janice = a2(options, args, &i, &fou)) != 2)
+			return (janice);
+		else if (ft_strequ(args[i], "-N") \
+		&& (janice = amdr(options, args, &i, &fou)) != 2)
+			return (janice);
 		else if (ft_strequ(args[i], "-p"))
 			options->opt_p = true;
 		else if (ft_strequ(args[i], "-s"))
 			options->opt_s = true;
-		else
-		{
-			if (fou == false)
-				return (false);
-		}
-        i = (fou = true) ? (i + 1) : (i + 1);
+		else if (fou == false)
+			return (false);
+		i++;
+		fou = true;
 	}
 	return (get_local_vars_names(options, args, i));
 }

@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/09 19:05:36 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/11/09 19:56:04 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -210,6 +210,7 @@ SRC_NAME = 	is_separator.c \
 			ft_strsplit_by_str.c \
 			log_close.c \
 			ft_dup_2d_array.c \
+			builtin/a.c \
 			main.c
 
 INCLUDES_NAME = ast.h \
