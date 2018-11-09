@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/28 21:12:01 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/28 21:12:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-** https://www.unix.com/man-page/posix/1posix/echo
+** Main execution function. Assume that *ast exist, is completely correct,
+** and can be just executed.
+** char **envp comes directly from the main()
 */
 
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
-	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
-	}
-	ft_putchar('\n');
-	exe->ret = 0;
+	exe = ast_explore(root, exe);
+	if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))
+		ast_debug(root);
+	return (exe);
 }

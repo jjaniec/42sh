@@ -35,26 +35,45 @@
 **	Initialize some handlers functions for different signals.
 */
 
+void		do_nothing(int sig)
+{
+	(void)sig;
+	return ;
+}
+
 void	init_signals(void)
 {
 	struct sigaction	new;
 	unsigned int		i;
-	const int			sig_array[26] = 
+	const int			sig_array[] =
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
 		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGTERM, SIGURG, \
 		SIGTSTP, SIGCONT, SIGTTIN, SIGTTOU, SIGIO, SIGXCPU, \
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
-
+	//signal(SIGTTIN, SIG_DFL);
+	//signal(SIGTTOU, SIG_DFL);
 	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
-	new.sa_handler = &(handle_sigint);
-	sigaction(SIGINT, &new, NULL);
+	if (g_jobs && g_jobs->pgid == getpid())
+	{
+		new.sa_flags |= SA_RESTART;
+		new.sa_handler = &(handle_useless_signals);
+		sigaction(SIGINT, &new, NULL);
+	}
+	else
+	{
+		new.sa_handler = &(handle_sigint);
+		sigaction(SIGINT, &new, NULL);
+	}
+	signal(SIGCHLD, SIG_DFL);
+	new.sa_flags = 0;
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
 	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
 	{
+		//signal(sig_array[i], SIG_IGN);
 		sigaction(sig_array[i], &new, NULL);
 		++i;
 	}

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 16:02:19 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:23:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	(EXIT_FAILURE)
 # define OPT_NOT_FOUND_ERROR 1
+# define ENABLE_JOB_CONTROL false // Not done yet
 
 # ifndef VERBOSE_MODE
 #  define VERBOSE_MODE 0
@@ -55,7 +56,7 @@
 # define CHAR_OPT_INDEX_SIZE (126)
 
 # define MAX_ENV_ENTRIES	255
-# define MAX_ENV_ENTRY_LEN	1024
+# define MAX_ENV_ENTRY_LEN	2048
 
 # include <ft_printf.h>
 # include "struct.h"
@@ -70,9 +71,15 @@
 # include "autocomplete.h"
 # include "builtins.h"
 # include "hash_table.h"
+# include "prompt_details.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
+
+# define ERR_NO_ENTRY		"no such file or directory: "
+# define ERR_ISDIR			"is a directory\n"
+# define ERR_NORIGHTS		"permission denied: "
+# define ERR_CMD_NOT_FOUND	"command not found\n"
 
 extern t_option		g_sh_opts[];
 extern const int	g_cant_begin_with[];
@@ -83,11 +90,13 @@ extern const int	g_next_tokens[][4];
 extern void			(* const g_node_placer[])(t_ast *, t_ast *);
 extern const char	*g_prompts[10];
 
-typedef int t_acocat;
+extern t_job		*g_jobs;
 
 # define SH_USAGE \
 	SH_NAME" [-hcGv] [-c \"command\"]"
 
+# define NOT_A_TTY_STDINOUT_ERR \
+	SH_NAME": Input/output redirections are not supported, exiting\n"
 
 int			get_next_line(const int fd, char **line);
 
@@ -149,5 +158,8 @@ const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
 struct s_alias	*access_alias_datas(void);
 
+void		log_close(int fd);
+
+char		**ft_dup_2d_array(char **arr);
 
 #endif

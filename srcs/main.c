@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 16:02:54 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:21:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_option		g_sh_opts[] = {
 	{{"-le-debug"}, "Enable line edition debugging in "TTY_DEBUG, false},
 	{{NULL}, NULL, false}
 };
+
+t_job			*g_jobs;
 
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
@@ -74,14 +76,11 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	link_ast_data(ast_root);
 	exe = create_exec(vars->env);
 	exe = exec_cmd(ast_root, exe);
-	/*if (exe && exe->tmp_envp)
-		envp = exe->tmp_envp;
-	else if (exe)
-		envp = exe->envp;
-	else
-		exit(EXIT_FAILURE);*/
 	ast_free(ast_root);
+	vars->last_cmd_return = exe->ret;
 	free_exec(&exe);
+	free_job(g_jobs);
+	g_jobs = NULL;
 	return (0);
 }
 
@@ -179,13 +178,15 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	vars->hashtable = ht_create(&env_vars);
 }
 
-t_acocat		main(int ac, char **av, char **envp)
+int			main(int ac, char **av, char **envp)
 {
 	t_option		*opt_list;
 	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
 	char			**args;
 
 	opt_list = g_sh_opts;
+	g_jobs = NULL;
+	setpgrp();
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);
@@ -212,9 +213,16 @@ t_acocat		main(int ac, char **av, char **envp)
 			args++;
 			ac--;
 		}
+		free_all_shell_datas();
 	}
 	else
 	{
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		{
+			ft_putstr_fd(NOT_A_TTY_STDINOUT_ERR, 2);
+			free_all_shell_datas();
+			exit(EXIT_FAILURE);
+		}
 		g_cmd_status.interactive_mode = true;
 		loop_body(get_shell_vars(), opt_list, char_opt_index);
 	}

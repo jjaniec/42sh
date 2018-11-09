@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/08 18:36:19 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/11/09 17:19:11 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,8 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_hash.c \
 			hash_table/ht_tab_tools.c \
 			hash_table/ht_update.c \
+			prompt_details/print_prompt_details.c \
+			prompt_details/get_git_info.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
 			line_edition/actionk/action_key.c \
@@ -122,7 +124,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/init_le/set_term_attr.c \
 			line_edition/tools/weird_trick_to_erase_char.c \
 			line_edition/tools/write_one_char.c \
-			exec/exec.c \
+			exec/exec_cmd.c \
 			exec/exec_pre_in_post.c \
 			exec/exec_thread.c \
 			exec/io_manager.c \
@@ -135,6 +137,16 @@ SRC_NAME = 	is_separator.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
+			exec/add_running_process.c \
+			exec/create_job.c \
+			exec/debug_jobs.c \
+			exec/free_job.c \
+			exec/refresh_job_running_processes.c \
+			exec/remove_task_pid_from_job.c \
+			exec/get_pipe_fds.c \
+			exec/get_process_return_code.c \
+			exec/resolve_cmd_path.c \
+			exec/create_exec.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_read.c \
@@ -165,6 +177,7 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigint.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
+			signals/handle_sigchild.c \
 			log.c \
 			sub_prompt.c \
 			init_globals_config.c \
@@ -191,8 +204,10 @@ SRC_NAME = 	is_separator.c \
 			access_alias_datas.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
-			main.c \
-			ft_strsplit_by_str.c 
+			ft_strsplit_by_str.c \
+			log_close.c \
+			ft_dup_2d_array.c \
+			main.c
 
 INCLUDES_NAME = ast.h \
 				autocomplete.h \
@@ -206,6 +221,7 @@ INCLUDES_NAME = ast.h \
 				struct.h \
 				syntax_highlighting.h \
 				hash_table.h \
+				prompt_details.h\
 
 
 TESTS_SRC_NAME =	lexer_tests.c \
@@ -231,7 +247,8 @@ OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
 			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
 			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/
+			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/ \
+			prompt_details/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 
@@ -243,7 +260,7 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 
 ###### COMPILATION ######
 CC = gcc
-CFLAGS = -Wall -Wextra  -g -D_GNU_SOURCE -std=c11 # -Werror
+CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror -O3
 
 ### FLAGS ###
 VERBOSE_MODE = 0

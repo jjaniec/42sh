@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/19 17:05:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/10/28 13:50:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,16 @@ static void	print_arg(t_ast *node)
 	i = 0;
 	while (node->data[i])
 	{
-		if (node->data[i + 1])
+		if (node->type_details == TK_PIPE && node->data[1])
+		{
+			ft_printf("\e[1m%s\e[0m - (out: %d - in: %d)\e[2m - %p\e[0m\n", \
+				node->data[0], \
+				node->data[1][0], \
+				node->data[1][sizeof(int)], \
+				node);
+			break ;
+		}
+		else if (node->data[i + 1])
 			ft_printf("\e[1m%s ", node->data[i]);
 		else
 			ft_printf("\e[1m%s\e[0m - \e[2m - %p\e[0m\n", node->data[i], node);

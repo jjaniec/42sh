@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/08 18:59:24 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:13:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,12 @@
 // Binary finding & execution
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
-void	exec_argv(char **argv, t_exec *exe, t_ast *node);
 t_exec	*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, t_ast *node);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
-void	exec_local(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
-int		exec_builtin(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
-int		exec_binary(char **argv, t_environ *env_struct, t_exec *exe, t_ast *node);
-
-//
+int		resolve_cmd_path(void **cmd, t_exec *exe);
+int		get_process_return_code(int *status, pid_t waited_pid, pid_t expected_waited_pid);
 
 void	io_manager_in(t_ast *node, t_exec *exe);
 void	io_manager_pre(t_ast *node, t_exec *exe);
@@ -80,13 +76,28 @@ void	handle_redir_fd(int input_fd, int target_fd);
 
 // Pipes
 
-int		handle_pipes(t_ast *node);
+int		handle_pipes(int **pipe_fds);
 void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
+int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
+
 
 // Error Handling
 
-void	handle_open_error(int errno_code, char *filename);
-void	print_error(char *subject, char *err_str);
+void			handle_open_error(int errno_code, char *filename);
+void			print_error(char *subject, char *err_str);
 
+t_job		*create_job(char *command);
+
+void			debug_jobs(t_job *jobs);
+
+t_process		*add_running_process(char **cmd, pid_t process_pid, t_job **job);
+pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid);
+
+
+void		refresh_job_running_processes(t_job *job);
+
+void			free_job(t_job *job);
+
+void			clear_running_process_list(t_process *process_list);
 #endif
