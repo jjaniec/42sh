@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/07 18:05:57 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/09 15:50:34 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void		set_prompt_color(void)
 	t_shell_vars	*vars;
 
 	vars = get_shell_vars();
-	if (vars->last_cmd_return >= 0)
+	if (vars->last_cmd_return == 0)
 		ft_putstr(PROMPT_COLOR_TRUE);
 	else
 		ft_putstr(PROMPT_COLOR_FALSE);
