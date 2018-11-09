@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   create_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/01 15:27:41 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/28 20:11:34 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/28 20:38:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-** https://www.unix.com/man-page/posix/1posix/echo
+** Malloc for the struct t_exec*
+** In fail, exit the program with MALLOC_ERROR
 */
 
-void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
+t_exec	*create_exec(t_environ *env)
 {
-	(void)exe;
-	(void)env;
-	argv++;
-	while (*argv)
-	{
-		ft_putstr(*argv);
-		if (argv[1])
-			ft_putchar(' ');
-		argv++;
-	}
-	ft_putchar('\n');
+	t_exec	*exe;
+
+	exe = (t_exec *)ft_xmemalloc(sizeof(t_exec));
 	exe->ret = 0;
+	exe->ready_for_exec = 0;
+	exe->env = env;
+	return (exe);
 }

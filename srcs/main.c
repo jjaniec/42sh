@@ -26,6 +26,8 @@ t_option		g_sh_opts[] = {
 	{{NULL}, NULL, false}
 };
 
+t_job			*g_jobs;
+
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
 	char		*input;
@@ -74,15 +76,11 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	link_ast_data(ast_root);
 	exe = create_exec(vars->env);
 	exe = exec_cmd(ast_root, exe);
-	/*if (exe && exe->tmp_envp)
-		envp = exe->tmp_envp;
-	else if (exe)
-		envp = exe->envp;
-	else
-		exit(EXIT_FAILURE);*/
 	ast_free(ast_root);
 	vars->last_cmd_return = exe->ret;
 	free_exec(&exe);
+	free_job(g_jobs);
+	g_jobs = NULL;
 	return (0);
 }
 
@@ -187,6 +185,8 @@ int			main(int ac, char **av, char **envp)
 	char			**args;
 
 	opt_list = g_sh_opts;
+	g_jobs = NULL;
+	setpgrp();
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);
@@ -213,9 +213,16 @@ int			main(int ac, char **av, char **envp)
 			args++;
 			ac--;
 		}
+		free_all_shell_datas();
 	}
 	else
 	{
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		{
+			ft_putstr_fd(NOT_A_TTY_STDINOUT_ERR, 2);
+			free_all_shell_datas();
+			exit(EXIT_FAILURE);
+		}
 		g_cmd_status.interactive_mode = true;
 		loop_body(get_shell_vars(), opt_list, char_opt_index);
 	}

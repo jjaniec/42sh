@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/21 16:22:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/07 16:31:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,89 +32,133 @@
 ** without duplicating code)
 */
 
-static void	child_process(void **cmd, t_environ *env, t_exec *exe, \
-				t_ast *node)
+static void	child_process(void **cmd, t_exec *exe, \
+				t_ast *node, int **pipe_fds)
 {
-	int		backup_stdout;
-	int		pipe_stdout_fd;
+	int		backup_fds[3];
+	bool	can_run_cmd;
+	int		r;
+	char	**cmd_args;
+	char	**env_;
+	char	*tmp;
+	t_ast	**ast_ptr;
 
-	backup_stdout = dup(STDOUT_FILENO);
-	pipe_stdout_fd = handle_pipes(node);
-	handle_redirs(node);
-	if (cmd)
+	can_run_cmd = true;
+	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
 	{
-		log_debug("Exec child process cmd: %p - cmd[0] : %d", cmd, (intptr_t)cmd[0]);
+		backup_fds[0] = dup(STDIN_FILENO);
+		backup_fds[1] = dup(STDOUT_FILENO);
+		backup_fds[2] = dup(STDERR_FILENO);
+		if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
+			log_error("PID %zu: Backup fds duplication failed!", getpid());
+	}
+	handle_pipes(pipe_fds);
+	handle_redirs(node);
+	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
+		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
+	if (can_run_cmd)
+	{
+		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
-				(cmd[2], env, exe);
+				(cmd[2], exe->env, exe);
 		else
 		{
-			log_debug(" -> child process path : cmd[1] : %s", cmd[1]);
-			if (execve(cmd[1], cmd[2], env->environ) == -1)
+			cmd_args = ft_dup_2d_array(cmd[2]);
+			tmp = ft_xstrdup(cmd[1]);
+			log_debug("PID %zu -> child process cmd[1]: %s", getpid(), cmd[1]);
+			//cmd[1] = ft_strdup(cmd[1]);
+			t_shell_vars	*vars = get_shell_vars();
+			free_hashtable(vars->hashtable);
+			if ((ast_ptr = access_ast_data()))
+				ast_free(*ast_ptr);
+			env_ = exe->env->environ;
+			free(exe);
+			if (execve(tmp, cmd_args, env_))
 			{
-				log_error("Execve() not working");
+				log_error("PID %zu - Execve() not working", getpid());
+				perror("execve");
 			}
+			exit(EXIT_FAILURE);
 		}
 	}
-	if (pipe_stdout_fd)
+	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
 	{
-		close(pipe_stdout_fd);
-		handle_redir_fd(STDOUT_FILENO, backup_stdout);
+		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
+		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
+		handle_redir_fd(STDERR_FILENO, backup_fds[2]);
+		/*log_close(backup_fds[0]);
+		log_close(backup_fds[1]);
+		log_close(backup_fds[2]);*/
 	}
-	if (!cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN)
-		exit(EXIT_FAILURE);
+	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
+	{
+		log_trace("PID %zu: Forcing exit of child process", getpid());
+		r = exe->ret;
+		free_all_shell_datas();
+		free(exe);
+		free_job(g_jobs);
+		exit(r);
+	}
+	//exit(EXIT_FAILURE);
 }
 
 /*
-** Close unessecary pipe inputs
+** Close input/output fds used by current process, and replace pipe data
+** corresponding to closed fd to -1, to be sure it's not double closed
+** free pipe data when it's two fds are set to -1
 */
 
-static void	close_child_pipe_fds(t_ast *node, t_ast *last_pipe)
+static void		close_child_pipe_fds(int **pipe_fds)
 {
-	t_ast	*ptr;
-
-	ptr = node;
-	while (ptr->parent != last_pipe)
-		ptr = ptr->parent;
-	if (ptr == last_pipe->right)
+	if (pipe_fds)
 	{
-		close(*(&(last_pipe->data[1][0])));
-		if (last_pipe->parent && last_pipe->parent->type_details == TK_PIPE)
-			close(*(&(last_pipe->parent->data[1][sizeof(int)])));
+		if (pipe_fds[0] && *(pipe_fds[0]) != -1)
+		{
+			log_close(*(pipe_fds[0]));
+			*(pipe_fds[0]) = -1;
+		}
+		if (pipe_fds[1] && *(pipe_fds[1]) != -1)
+		{
+			log_close(*(pipe_fds[1]));
+			*(pipe_fds[1]) = -1;
+		}
 	}
-	else if (ptr == last_pipe->left)
-		close(*(&(last_pipe->data[1][sizeof(int)])));
 }
 
 /*
 ** Parent process function when forking
-** Wait child process to end
+** Wait child process to end if not in a pipeline,
+** if process was killed by a signal and waitpit stopped by it,
+** waitpid on child to prevent zombie process
 */
 
-static int	parent_process(pid_t child_pid, t_ast *node, \
-				t_ast *last_pipe_node)
+static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 {
-	int		status;
-	int		waited_pid;
+	pid_t		waited_pid;
+	int			status;
+	int			return_code;
 
-	if (node && last_pipe_node)
-		close_child_pipe_fds(node, last_pipe_node);
 	status = -2;
-	errno = 0;
-	waited_pid = waitpid(child_pid, &status, 0);
-	if (waited_pid == -1)
+	return_code = status;
+	add_running_process((char **)cmd[2], child_pid, &g_jobs);
+	debug_jobs(g_jobs);
+	//process_ptr->input_descriptor = -1; // ->
+	close_child_pipe_fds(pipe_fds);
+	if (!pipe_fds)
 	{
-		if (errno != EINTR)
-		{
-			log_error("Wait returned -1");
-			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
-			return (status);
-		}
-		return (130);
+		if (g_jobs)
+			g_jobs->pgid = 0;
+		waited_pid = waitpid(child_pid, &status, 0);
+		return_code = get_process_return_code(&status, waited_pid, child_pid);
+		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
+			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), return_code);
+		free_job(g_jobs);
+		g_jobs = NULL;
 	}
-	if (waited_pid != -1 && waited_pid != child_pid)
-		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
-	return (status);
+	else
+		free(pipe_fds);
+	return (return_code);
 }
 
 /*
@@ -128,15 +172,13 @@ static int	parent_process(pid_t child_pid, t_ast *node, \
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd) // devrait s'appeler should_not_fork() lol
+static int	should_fork(void **cmd)
 {
 	void	(*ptr)(char **, t_environ *, t_exec *);
 
 	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
-		(ptr == &builtin_echo || \
-		ptr == &builtin_return || \
-		ptr == &builtin_test))
+		ptr == &builtin_test)
 		return (1);
 	return (0);
 }
@@ -146,28 +188,30 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 {
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
+	int		**pipe_fds;
 
 	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
-		!last_pipe_node->data[1])
+		(!last_pipe_node->data[1] || \
+			(last_pipe_node->data[1][0] == -1 && last_pipe_node->data[1][sizeof(int)] == -1)))
 		init_pipe_data(&(last_pipe_node->data), last_pipe_node);
-	if (should_fork(cmd))
+	if (last_pipe_node || should_fork(cmd))
 	{
+		pipe_fds = get_pipe_fds(last_pipe_node, node);
 		child_pid = fork();
 		if (child_pid == -1)
 			log_error("Fork() not working");
 		else if (child_pid == 0)
-			child_process(cmd, env_struct, exe, node);
+			child_process(cmd, exe, node, pipe_fds);
 		else
 		{
 			g_cmd_status.cmd_running = true;
 			g_cmd_status.cmd_pid = child_pid;
-			log_trace("Forked process pid: %d", child_pid);
-			exe->ret = parent_process(child_pid, node, last_pipe_node);
-			//dprintf(1, "-> %d\n", exe->ret);
+			log_trace("Forked process pid: %d for cmd: %s", child_pid, node->data[0]);
+			exe->ret = parent_process((char **)cmd, child_pid, pipe_fds);
 		}
 	}
 	else
-		child_process(cmd, env_struct, exe, node);
+		child_process(cmd, exe, node, NULL);
 	return (exe);
 }

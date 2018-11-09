@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_char_expansion.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 19:40:50 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/08 19:56:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char		*get_env_var_value(char *ptr, t_shell_vars *vars, int *expansion_na
 	var_value = NULL;
 	exp_end_ptr = get_expansion_end(ptr + 1);
 	if (exp_end_ptr == ptr + 1)
-		return (ptr);
+		return (NULL);
 	exp_end_ptr_char = *(exp_end_ptr);
 	(*exp_end_ptr) = '\0';
 	*expansion_name_len = ft_strlen(ptr + 1);
@@ -76,15 +76,18 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 	char	*env_var_value;
 	int		expansion_name_len;
 
-	if (!(*(l->raw_lexeme_read_ptr)))
-	{
-		*(l->raw_lexeme_read_ptr) += 1;
-		return ;
-	}
+	expansion_name_len = 0;
 	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr), \
 		vars, &expansion_name_len);
+	log_debug("Env var value: %s", env_var_value);
 	if (env_var_value && *env_var_value)
 		concat_expansion_data(l, env_var_value);
+	else if (ft_strchr(IFS"'\""EXPANSIONS_END_CHARS, *(*(l->raw_lexeme_read_ptr) + sizeof(char))))
+	{
+		*(l->clean_data_write_ptr++) = '$';
+		*(l->raw_lexeme_read_ptr) += sizeof(char);
+		return ;
+	}
 	(*(l->raw_lexeme_read_ptr)) += (expansion_name_len + 1) * sizeof(char);
 }
 
