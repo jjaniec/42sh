@@ -70,6 +70,7 @@
 # include "script.h"
 # include "autocomplete.h"
 # include "hash_table.h"
+# include "prompt_details.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/30 16:05:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 18:04:18 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,8 @@ typedef struct			s_shell_vars
 	t_hashtable			*hashtable;
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
-}						t_shell_vars;
+	int					last_cmd_return;
+}					t_shell_vars;
 
 /*
 ** int	ret: the return value of the last command. Default: 0

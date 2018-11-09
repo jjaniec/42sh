@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 17:46:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/07 18:04:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static int		forty_two_sh(char *input, t_shell_vars *vars, \
 	exe = create_exec(vars->env);
 	exe = exec_cmd(ast_root, exe);
 	ast_free(ast_root);
+	vars->last_cmd_return = exe->ret;
 	free_exec(&exe);
 	free_job(g_jobs);
 	g_jobs = NULL;
