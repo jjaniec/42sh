@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:29:55 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 17:36:53 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 20:41:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ void		_delete_element_number_n(unsigned int n)
 
 	if (n == 0 || (his = access_le_main_datas()->history) == NULL)
 		return ;
-	while (his->prev != NULL)
+	while ((index = 1) && his->prev != NULL)
 		his = his->prev;
-	index = 1;
 	while (index < n)
 	{
 		his = his->next;

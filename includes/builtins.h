@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 19:02:56 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 20:31:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ void    builtin_read(char **argv, t_environ *env, t_exec *exe);
 bool	_get_activated_options(char **args, struct s_bltread *options, bool fou, int janice);
 void	_store_words_in_shell_variables(unsigned char *buffer,
 									struct s_bltread *options);
+void	_prepare_reading_line(struct termios *t, unsigned char **buffer,
+											struct s_bltread *options);
+int		_a(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		_amdr(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		_a2(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+bool	_norme_lol(int foo, char **args, unsigned int i);
+int		_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i);
 void    builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 #endif

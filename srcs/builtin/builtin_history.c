@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 17:37:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 20:41:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **	-d n : deletes the element with the index 'n'.
 */
 
-void    builtin_history(char **argv, t_environ *env, t_exec *exe)
+void	builtin_history(char **argv, t_environ *env, t_exec *exe)
 {
 	(void)env;
 	exe->ret = 0;
@@ -33,7 +33,7 @@ void    builtin_history(char **argv, t_environ *env, t_exec *exe)
 		else if (ft_strequ(argv[1], "--save"))
 			exe->ret = _save_history_in_file(access_le_main_datas()->history) \
 			== true ? (0) : (1);
-		else if ( ft_str_is_positive_numeric(argv[1]) == true )
+		else if (ft_str_is_positive_numeric(argv[1]) == true)
 			_print_n_last_elem(access_le_main_datas(), ft_atoi(argv[1]));
 		else
 			ft_putstr_fd(BUILTIN_HISTORY_USAGE, STDERR_FILENO);

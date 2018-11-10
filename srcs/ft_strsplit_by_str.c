@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 15:31:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/08 18:40:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 18:50:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static size_t	get_nb_str(const char *s, const char *split)
 	nb_str = 0;
 	while (*s != '\0')
 	{
-		while (ft_strchr(split, *s) != NULL)
+		while (*s != '\0' && ft_strchr(split, *s) != NULL)
 			++s;
 		if (*s != '\0')
 			++nb_str;
-		while (ft_strchr(split, *s) == NULL && *s != '\0')
+		while (*s != '\0' && ft_strchr(split, *s) == NULL)
 			++s;
 	}
 	return (nb_str);
@@ -40,10 +40,10 @@ static int		alloc_the_str(char **strsplit, const char *s, const char *split)
 	index = 0;
 	while (*s != '\0')
 	{
-		while (ft_strchr(split, *s) != NULL)
+		while (*s != '\0' && ft_strchr(split, *s) != NULL)
 			++s;
 		nb_ch = 0;
-		while (ft_strchr(split, *s) == NULL && *s != '\0')
+		while (*s != '\0' && ft_strchr(split, *s) == NULL)
 		{
 			++s;
 			++nb_ch;
@@ -67,10 +67,10 @@ static void		fill_strsplit(char **strsplit, const char *s, const char *split)
 	i = 0;
 	while (*s != '\0')
 	{
-		while (ft_strchr(split, *s) != NULL)
+		while (*s != '\0' && ft_strchr(split, *s) != NULL)
 			++s;
 		j = 0;
-		while (ft_strchr(split, *s) == NULL && *s != '\0')
+		while (*s != '\0' && ft_strchr(split, *s) == NULL)
 		{
 			strsplit[i][j] = *s;
 			++j;

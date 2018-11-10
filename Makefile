@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/09 19:56:04 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/11/10 20:30:08 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -153,6 +153,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/builtin_read.c \
 			builtin/builtin_read_get_activated_options.c \
 			builtin/builtin_read_store_words.c \
+			builtin/builtin_read_things.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
@@ -210,7 +211,6 @@ SRC_NAME = 	is_separator.c \
 			ft_strsplit_by_str.c \
 			log_close.c \
 			ft_dup_2d_array.c \
-			builtin/a.c \
 			main.c
 
 INCLUDES_NAME = ast.h \

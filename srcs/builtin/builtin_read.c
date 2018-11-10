@@ -6,14 +6,14 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/10 17:41:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 20:45:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 
-
+/*
 void	kk(struct s_bltread *options)
 {
 	le_debug("d = %s\nn = %s\nN = %s\np = %s\ns = %s\n",
@@ -45,28 +45,7 @@ void	kk(struct s_bltread *options)
 	}
 
 }
-
-
-static void	prepare_reading_line(struct termios *t, unsigned char **buffer, struct s_bltread *options)
-{
-	*buffer = ft_xmalloc(BLTREAD_MAX_CH + 1);
-	ft_memset(*buffer, '\0', BLTREAD_MAX_CH + 1);
-	if (tcgetattr(STDIN_FILENO, t) == -1)
-	{
-		ft_putstr_fd("Error while getting terminal attributes\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	t->c_lflag &= ~(ICANON);
-	if (options->opt_s == true)
-		t->c_lflag &= ~(ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1)
-	{
-		ft_putstr_fd("Error while setting terminal attributes\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	if (options->opt_p == true)
-		write(STDOUT_FILENO, "> ", 2);
-}
+*/
 
 static int		read_loop(unsigned char *buffer, struct s_bltread *options)
 {
@@ -84,7 +63,7 @@ static int		read_loop(unsigned char *buffer, struct s_bltread *options)
 		}
 		nb_ch += 1;
 		if (options->opt_N == false
-		&& ((options->opt_d == true && buffer[nb_ch - 1] == options->delim_opt_d)
+		&& ((options->opt_d == 1 && buffer[nb_ch - 1] == options->delim_opt_d)
 		|| (options->opt_d == false && buffer[nb_ch - 1] == '\n')))
 		{
 			buffer[nb_ch - 1] = '\0';
@@ -103,7 +82,7 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 	unsigned char	*buffer;
 	int				ret;
 
-	prepare_reading_line(&t, &buffer, options);
+	_prepare_reading_line(&t, &buffer, options);
 	ret = read_loop(buffer, options);
 	t.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1)
@@ -126,25 +105,24 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 }
 
 static bool	check_order_args(char **args)
-{												{ le_debug("%s\n", "CHECK ORDER ARGS") }
-	unsigned int	i; //return true;
+{
+	unsigned int	i;
 
 	i = 0;
-	
 	while (args[i] != NULL && (ft_strequ(args[i], "-n") == true
 	|| ft_strequ(args[i], "-N") == true
 	|| ft_strequ(args[i], "-p") == true
 	|| ft_strequ(args[i], "-s") == true
-	|| ft_strequ(args[i], "-d") == true) )
+	|| ft_strequ(args[i], "-d") == true))
 	{
 		++i;
 		if (args[i] == NULL)
 			return (true);
-		if ( ft_strequ(args[i - 1], "-n") == true || ft_strequ(args[i - 1], "-N") == true
-		|| ft_strequ(args[i - 1], "-d") == true )
+		if (ft_strequ(args[i - 1], "-n") == true
+		|| ft_strequ(args[i - 1], "-N") == true
+		|| ft_strequ(args[i - 1], "-d") == true)
 			++i;
 	}
-
 	if (args[i] == NULL)
 		return (true);
 	if (ft_strequ(args[i], "--") == false)
@@ -152,14 +130,14 @@ static bool	check_order_args(char **args)
 	return (true);
 }
 
-static bool	prepare_blt_read(char **argv, struct s_bltread *options, t_exec *exe)
+static bool	prepare_blt_read(char **argv, struct s_bltread *options,
+														t_exec *exe)
 {
 	if (_get_activated_options(argv + 1, options, false, 0) == false
 	|| (options->opt_n == true && options->opt_N == true)
 	|| check_order_args(argv + 1) == false)
 	{
-		{ le_debug("check order args returned %s\n", check_order_args(argv + 1) == true ? "true" : "false" ) }
-		ft_putstr_fd("KAKAKAKAKA"BUILTIN_READ_USAGE, STDERR_FILENO);
+		ft_putstr_fd(BUILTIN_READ_USAGE, STDERR_FILENO);
 		exe->ret = 1;
 		g_cmd_status.builtin_running = false;
 		free(options->words_vars);
@@ -210,7 +188,7 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	exe->ret = 0;
 	if (prepare_blt_read(argv, &options, exe) == false)
 		return ;
-kk( & options );
+//kk( & options );
 	buffer = read_line(&options, exe);
 	if (buffer != NULL)
 		_store_words_in_shell_variables(buffer, &options);
