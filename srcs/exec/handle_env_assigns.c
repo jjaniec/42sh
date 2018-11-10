@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/10 18:07:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 19:31:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_environ	*get_env_to_use(t_exec *exe, char ***tmp_env_assigns_begin)
 	{
 		if (!(vars = get_shell_vars()))
 			return (NULL);
-		*tmp_env_assigns_begin = vars->env->last_entry_ptr->ptr_to_pos_in_environ_tab;
+		*tmp_env_assigns_begin = vars->env->last_entry_ptr->ptr_to_pos_in_environ_tab + 1;
 		return (vars->env);
 	}
 	return (r);

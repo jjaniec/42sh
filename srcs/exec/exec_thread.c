@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 18:08:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 19:43:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ static void	remove_tmp_env_assigns(char **env_assign_vars)
 	{
 		env = get_shell_vars()->env;
 		while (*env_assign_vars)
-		{
 			env->del_var(env, *env_assign_vars);
-			env_assign_vars++;
-		}
 	}
 }
 

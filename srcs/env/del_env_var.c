@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:26:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 17:55:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 19:42:51 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ int					del_env_var(struct s_environ *self, char *varname)
 		return (1);
 	}
 	remove_env_entry(self, cur_env_var_struct, cur_env_var_struct->prev);
-	log_debug("Removed %s environnement variable - ->env_entry_list: %p -> last_entry_ptr : %p", varname, self->env_entries_list, self->last_entry_ptr);
 	return (0);
 }
