@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 18:46:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 20:01:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			builtin_env_(char **argv, t_environ *env)
 			free(env_struct_to_use);
 		else
 			while (*tmp_environ_start)
-				*tmp_environ_start++ = NULL;
+				env_struct_to_use->del_var(env_struct_to_use, *tmp_environ_start);
 		return (0);
 	}
 	return (1);

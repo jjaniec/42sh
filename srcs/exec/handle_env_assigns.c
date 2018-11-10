@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/10 19:31:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 20:02:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,14 @@
 
 static t_environ	*get_env_to_use(t_exec *exe, char ***tmp_env_assigns_begin)
 {
-	t_environ		*r;
 	t_shell_vars	*vars;
 
 	*tmp_env_assigns_begin = NULL;
-	if (exe->prog_forked)
-	{
-		r = ft_xmalloc(sizeof(t_environ));
-		init_environ_struct_ptrs(r);
-	}
-	else
-	{
-		if (!(vars = get_shell_vars()))
-			return (NULL);
-		*tmp_env_assigns_begin = vars->env->last_entry_ptr->ptr_to_pos_in_environ_tab + 1;
-		return (vars->env);
-	}
-	return (r);
+	if (!(vars = get_shell_vars()))
+		return (NULL);
+	*tmp_env_assigns_begin = \
+		vars->env->last_entry_ptr->ptr_to_pos_in_environ_tab + 1;
+	return (vars->env);
 }
 
 char		**handle_env_assigns(t_ast *node, t_exec *exe)
