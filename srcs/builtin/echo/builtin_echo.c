@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/09 15:19:50 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/10 16:47:25 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@
 
 
 
-static int	other_opt(void)
+static int	other_opt(int i)
 {
+	(void)i;
 	return (0);
 }
 
-static void	init_flag_opt(int (*opt_func[128])(void))
+static void	init_flag_opt(int (*opt_func[128])(int j))
 {
 	char	flags[9] = {'a', 'b', 'c', 'f', 'n', 'r', 'v', 't', '\\'};
-	int		(*func[9])(void) = {&echo_a_opt, &echo_b_opt, &echo_c_opt, &other_opt,
-			&echo_n_opt, &other_opt, &other_opt, &other_opt, &other_opt};
+	int		(*func[9])(int j) = {&echo_a_opt, &echo_b_opt, &echo_c_opt,
+			&echo_f_opt, &echo_n_opt, &other_opt, &other_opt,
+			&other_opt, &other_opt};
 	int		i;
 
 	i = -1;
@@ -41,25 +43,30 @@ static void	init_flag_opt(int (*opt_func[128])(void))
 static int	print_option(char *str)
 {
 	int		ret;
-	int		(*opt_func[128])(void);
+	int		i;
+	int		p;
+	int		(*opt_func[128])(int j);
 
+	i = 0;
+	p = 0;
 	init_flag_opt(opt_func);
-	while (*str)
+	while (str[i])
 	{
-		if (*str == '\\')
+		if (str[i] == '\\')
 		{
-			ret = opt_func[(int)*(str + 1)]();
-			if (ret == -1)
-				return (ret);
+			ret = opt_func[(int)(str[i + 1])](p);
 			if (ret)
 			{
-				str = str + 2;
-				if (!*str)
+				i = i + 2;
+				if (!str[i])
 					return (ret);
 			}
+			if (ret == -1)
+				return (ret);
 		}
-		ft_putchar(*str);
-		str++;
+		ft_putchar(str[i]);
+		i++;
+		p++;
 	}
 	return (1);
 }
