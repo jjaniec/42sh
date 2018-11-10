@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 15:54:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 18:08:13 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,17 @@
 ** without duplicating code)
 */
 
-static void	backup_origin_fds(int **backup_fds)
+static void	backup_origin_fds(int *backup_fds)
 {
 	int			i;
 
 	i = 0;
 	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
-		*(backup_fds)[i++] = -1;
+		(backup_fds)[i++] = -1;
 	i = 0;
 	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
 	{
-		*(backup_fds)[i] = dup(i);
-		if (*(backup_fds)[i] == -1)
+		if (((backup_fds)[i] = dup(i)))
 			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
 		i += 1;
 	}
@@ -61,6 +60,21 @@ static void	restore_origin_fds(int *backup_fds)
 	}
 }
 
+static void	remove_tmp_env_assigns(char **env_assign_vars)
+{
+	t_environ	*env;
+
+	if (env_assign_vars)
+	{
+		env = get_shell_vars()->env;
+		while (*env_assign_vars)
+		{
+			env->del_var(env, *env_assign_vars);
+			env_assign_vars++;
+		}
+	}
+}
+
 static void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
@@ -71,10 +85,11 @@ static void	child_process(void **cmd, t_exec *exe, \
 	char	**env_;
 	char	*tmp;
 	t_ast	**ast_ptr;
+	char	**env_assign_vars;
 
 	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
-		backup_origin_fds((int **)&backup_fds);
-	handle_env_assigns(node);
+		backup_origin_fds(backup_fds);
+	env_assign_vars = handle_env_assigns(node, exe);
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
 	can_run_cmd = true;
@@ -106,8 +121,10 @@ static void	child_process(void **cmd, t_exec *exe, \
 			exit(EXIT_FAILURE);
 		}
 	}
+	if (!exe->prog_forked)
+		remove_tmp_env_assigns(env_assign_vars);
 	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
-		restore_origin_fds((int *)backup_fds);
+		restore_origin_fds(backup_fds);
 	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
 		log_trace("PID %zu: Forcing exit of child process", getpid());
