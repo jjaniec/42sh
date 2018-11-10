@@ -27,6 +27,8 @@ addons:
     # - clang-5.0
   sonarcloud:
     organization: "jjaniec-github"
+    token:
+      secure: "IQj7r15JgoKqED7ZkK8OKE8OIiIUu1DGAGWZt+LUt4Hxt3nLYHRtcAfAj5WjszUU23hjakOYNw+8NJTHhJE0P9bO75bOLcvFCBbWFvMJtB55M4vG7C3hYdE8HhHEqneHbmfG8Fhy4gJ3eA3Kfjb6cKobGgbEPnUHRZ8VJqvmswkubupwa2/qpi63GIjlioUvVCN8LF0riW8HbeaHsf5Ipv77Sdv0SqccPWMRE3hMYhx9lzALJtDmVhKVqI4Ylz3xOUmhqy+Ub4+AT1TaK+IUWr3j0WrtpER//ed02ybklbYxIH+yXloeuxnR8EcPVssTdWRMFyn5HJl6M8FeZbaadT4uKVdS1AUFfUFUu4rv/8taNSL0tQJe8/LBWBrFvpNlYXuoMCT4CMRLN/FPRrSlMQUzz7cSIcoKqnyBhe7mMaXBYzMdpasoqIin3XIfl46okMtsu31PQ7SbY1LqhPUQgh4poaHkMz/2raW+UQruPMGH/qZ8wkiV9D+6NfVr1bBnnX6R7I1xNubR79QV3eWy2o7knJv89jLFTLM0LoL9TiXB8ISj6no03zbYkaulJqSLf4G/bCDdNYylgoSNPyqaHa6ICZ9zUU8T5cShP9HqerQoelKRFWKhnpLUbSaRGdsx2AgZkDTNAX7yQq07nP5gic266Y2TppU6Oe6RC+o6Boo="
 matrix:
     fast_finish: true
     include:
