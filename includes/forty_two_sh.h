@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 17:28:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 15:03:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,7 @@ struct s_alias	*access_alias_datas(void);
 void		log_close(int fd);
 
 char		**ft_dup_2d_array(char **arr);
+
+void		handle_env_assigns(t_ast *node);
 
 #endif

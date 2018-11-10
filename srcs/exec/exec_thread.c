@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 16:31:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/10 15:54:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,39 @@
 ** without duplicating code)
 */
 
+static void	backup_origin_fds(int **backup_fds)
+{
+	int			i;
+
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+		*(backup_fds)[i++] = -1;
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	{
+		*(backup_fds)[i] = dup(i);
+		if (*(backup_fds)[i] == -1)
+			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
+		i += 1;
+	}
+}
+
+static void	restore_origin_fds(int *backup_fds)
+{
+	int			i;
+
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	{
+		handle_redir_fd(i, backup_fds[i]);
+		i++;
+	}
+}
+
 static void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
-	int		backup_fds[3];
+	int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
 	bool	can_run_cmd;
 	int		r;
 	char	**cmd_args;
@@ -43,17 +72,12 @@ static void	child_process(void **cmd, t_exec *exe, \
 	char	*tmp;
 	t_ast	**ast_ptr;
 
-	can_run_cmd = true;
-	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
-	{
-		backup_fds[0] = dup(STDIN_FILENO);
-		backup_fds[1] = dup(STDOUT_FILENO);
-		backup_fds[2] = dup(STDERR_FILENO);
-		if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
-			log_error("PID %zu: Backup fds duplication failed!", getpid());
-	}
+	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
+		backup_origin_fds((int **)&backup_fds);
+	handle_env_assigns(node);
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
+	can_run_cmd = true;
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
 		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
 	if (can_run_cmd)
@@ -82,15 +106,8 @@ static void	child_process(void **cmd, t_exec *exe, \
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
-	{
-		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
-		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
-		handle_redir_fd(STDERR_FILENO, backup_fds[2]);
-		/*log_close(backup_fds[0]);
-		log_close(backup_fds[1]);
-		log_close(backup_fds[2]);*/
-	}
+	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
+		restore_origin_fds((int *)backup_fds);
 	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
 		log_trace("PID %zu: Forcing exit of child process", getpid());
@@ -172,15 +189,15 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd)
+static bool	should_fork(void **cmd)
 {
 	void	(*ptr)(char **, t_environ *, t_exec *);
 
 	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		ptr == &builtin_test)
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
 t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
@@ -198,6 +215,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	if (last_pipe_node || should_fork(cmd))
 	{
 		pipe_fds = get_pipe_fds(last_pipe_node, node);
+		exe->prog_forked = true;
 		child_pid = fork();
 		if (child_pid == -1)
 			log_error("Fork() not working");
@@ -212,6 +230,9 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 		}
 	}
 	else
+	{
+		exe->prog_forked = false;
 		child_process(cmd, exe, node, NULL);
+	}
 	return (exe);
 }

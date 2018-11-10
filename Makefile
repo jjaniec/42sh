@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/10/30 18:32:09 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/10 15:03:41 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,6 +131,7 @@ SRC_NAME = 	is_separator.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
 			exec/handle_redir_fd.c \
+			exec/handle_env_assigns.c \
 			exec/handle_pipes.c \
 			exec/handle_open_error.c \
 			exec/print_error.c \

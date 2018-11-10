@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_lexeme.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:48:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 19:38:17 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 15:10:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ t_lexeme		*create_lexeme(int type[2], char *data, \
 		e->pos = pos;
 		e->next = NULL;
 		log_info("Created elem w/ data |%s| - type : %d - begin |%5s| - end |%5s|", data, type[0], e->lexeme_begin_ptr, e->lexeme_end_ptr);
+		if (e->type == T_CTRL_OPT /*&& \
+			(e->type_details == TK_DAND || e->type_details == TK_SEMICOLON || \
+			e->type_details == TK_OR || e->type_details == TK_PIPE)*/)
+			env_assigns_status(*"Reset env_assign_status variable", 0);
 	}
 	else
 	{
