@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 16:47:25 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/10 17:28:32 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,4 @@ void		builtin_echo(char **argv, t_environ *env, t_exec *exe)
 			ft_putchar(' ');
 		argv++;
 	}
-	ft_putchar('\n');
-	exit(0);
 }

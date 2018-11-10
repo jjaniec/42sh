@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 13:25:24 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 18:04:18 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,12 +153,13 @@ typedef struct			s_hashtable
 	t_entry				**table;
 }						t_hashtable;
 
-typedef struct		s_shell_vars
+typedef struct			s_shell_vars
 {
 	t_environ			*env;
 	t_hashtable			*hashtable;
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
+	int					last_cmd_return;
 }					t_shell_vars;
 
 /*
@@ -169,21 +170,54 @@ typedef struct		s_shell_vars
 
 typedef struct			s_exec
 {
-	int			ret;
-	int			ready_for_exec;
-	int			statement;
-	t_environ	*env;
+	int					ret;
+	int					ready_for_exec;
+	int					statement;
+	t_environ			*env;
 }						t_exec;
 
+/*
+** Aliases struct
+*/
 
-
-struct s_alias
+struct					s_alias
 {
-	char			*key;
-	char			*value;
-	struct s_alias	*next;
+	char				*key;
+	char				*value;
+	struct s_alias		*next;
 };
 
+/*
+** Running processes linked list:
+** cmd: exec_ve parameters
+** pid: process pid
+** next: next process in pipeline / job
+*/
+
+typedef struct			s_process
+{
+	char				**cmd; // exec_ve parameters
+	pid_t				pid;
+	int					input_descriptor;
+	struct s_process	*next;
+}						t_process;
+
+/*
+** Current jobs linked list
+** https://www.gnu.org/software/libc/manual/html_node/Data-Structures.html#Data-Structures
+*/
+
+typedef struct 			s_job
+{
+  struct s_job		*next;
+  char				*command;
+  t_process			*first_process;
+  pid_t				last_process_pid;
+  pid_t				pgid;
+  //char				notified;
+  struct termios	tmodes;
+  //int stdin, stdout, stderr;  /* standard i/o channels */
+} 						t_job;
 
 /*
 ** Struct for GET NEXT LINE

@@ -65,6 +65,8 @@ inline void	builtin_exit(char **argv, t_environ *env, t_exec *exe)
 	else if (exe)
 		exit_val = exe->ret;
 	free_all_shell_datas();
+	free(exe);
+	free_job(g_jobs);
 	ft_putstr_fd("exit\n", 2);
 	exit(exit_val);
 }

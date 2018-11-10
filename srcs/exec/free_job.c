@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_pipe_node.c                               :+:      :+:    :+:   */
+/*   free_job.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 18:24:16 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/17 15:18:35 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/10/15 19:45:40 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/10/30 15:48:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** Look for pipes in ast before && and || tokens,
-** if found, return pointer to node,
-** otherwise return NULL
-*/
-
-t_ast		*get_last_pipe_node(t_ast *node)
+static void		free_job_processes(t_process *processes)
 {
-	t_ast	*ptr;
+	t_process	*prev_ptr;
 
-	ptr = node;
-	while (ptr && ptr->parent && ptr->type != T_CTRL_OPT)
-		ptr = ptr->parent;
-	if (ptr && ptr->type_details == TK_PIPE)
-		return (ptr);
-	return (NULL);
+	while (processes)
+	{
+		if (!(processes->next))
+		{
+			free(processes);
+			return ;
+		}
+		prev_ptr = processes;
+		processes = processes->next;
+		free(prev_ptr);
+	}
+}
+
+void	free_job(t_job *job)
+{
+	if (!job)
+		return ;
+	free_job_processes(job->first_process);
+	job->first_process = NULL;
+	//kill(-job->pgid, SIGTERM);
+	//free(job->command);
+	free(job);
 }
