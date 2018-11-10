@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 17:28:32 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/10 21:56:19 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,34 @@
 /*
 ** https://www.unix.com/man-page/posix/1posix/echo
 */
-
-
-
-static int	other_opt(int i)
+static int	not_opt(void)
 {
-	(void)i;
 	return (0);
 }
 
-static void	init_flag_opt(int (*opt_func[128])(int j))
+void		init_func_flag(int (*func[9])(void))
 {
-	char	flags[9] = {'a', 'b', 'c', 'f', 'n', 'r', 'v', 't', '\\'};
-	int		(*func[9])(int j) = {&echo_a_opt, &echo_b_opt, &echo_c_opt,
-			&echo_f_opt, &echo_n_opt, &other_opt, &other_opt,
-			&other_opt, &other_opt};
+	func[0] =
+	func[1]
+	func[2]
+	func[3]
+	func[4]
+	func[5]
+	func[6]
+	func[7]
+	func[8]
+}
+
+static void	init_flag_opt(int (*opt_func[128])(void))
+{
+	int 	(*func[9])();
+	char	flags[10];
 	int		i;
 
+	ft_strcpy(flags, "abcfnrtv\\");
 	i = -1;
 	while (++i < 128)
-		opt_func[i] = &other_opt;
+		opt_func[i] = &not_opt;
 	i = -1;
 	while (++i < 9)
 		opt_func[(int)flags[i]] = func[i];
@@ -44,17 +52,15 @@ static int	print_option(char *str)
 {
 	int		ret;
 	int		i;
-	int		p;
-	int		(*opt_func[128])(int j);
+	int		(*opt_func[128])();
 
 	i = 0;
-	p = 0;
 	init_flag_opt(opt_func);
 	while (str[i])
 	{
 		if (str[i] == '\\')
 		{
-			ret = opt_func[(int)(str[i + 1])](p);
+			ret = opt_func[(int)(str[i + 1])]();
 			if (ret)
 			{
 				i = i + 2;
@@ -66,7 +72,6 @@ static int	print_option(char *str)
 		}
 		ft_putchar(str[i]);
 		i++;
-		p++;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:55:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/29 19:48:30 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/10 21:32:06 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ const int	g_next_tokens[][4] = {
 ** opened by the array g_tokens[] and closed by g_next_tokens[].
 */
 
-void	(* const g_node_placer[])(t_ast *, t_ast *) = {
+void	(*const g_node_placer[])(t_ast *, t_ast *) = {
 	&node_placer_if,
 	&node_placer_classic,
 	&node_placer_classic,
