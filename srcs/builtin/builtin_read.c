@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 20:17:49 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/10 17:41:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,37 @@
 
 
 
-void	kk(struct s_bltread options)
-	{
-		le_debug("d = %s\nn = %s\nN = %s\np = %s\ns = %s\n",
-		options.opt_d == true ? "true" : "false",
-		options.opt_n == true ? "true" : "false",
-		options.opt_N == true ? "true" : "false",
-		options.opt_p == true ? "true" : "false",
-		options.opt_s == true ? "true" : "false"      );
+void	kk(struct s_bltread *options)
+{
+	le_debug("d = %s\nn = %s\nN = %s\np = %s\ns = %s\n",
+	options->opt_d == true ? "true" : "false",
+	options->opt_n == true ? "true" : "false",
+	options->opt_N == true ? "true" : "false",
+	options->opt_p == true ? "true" : "false",
+	options->opt_s == true ? "true" : "false"      );
 
-		if (options.opt_d == true)
-		{
-			{ le_debug("delim opt d = '%c'\n", options.delim_opt_d) }
-		}
-		if (options.opt_n == true || options.opt_N == true)
-		{
-			{ le_debug("nb opt n N = %u\n", options.nb_opt_nN) }
-		}
+	if (options->opt_d == true)
+	{
+		{ le_debug("delim opt d = '%c'\n", options->delim_opt_d) }
 	}
+	if (options->opt_n == true || options->opt_N == true)
+	{
+		{ le_debug("nb opt n N = %u\n", options->nb_opt_nN) }
+	}
+
+	if (options->words_vars == NULL)
+	{
+		{ le_debug("%s\n", "PAS DE VARS") }
+		return ;
+	}
+
+	{ le_debug("%s\n", "VARS = ") }
+	for (int i = 0 ; options->words_vars[i] != NULL ; ++i)
+	{
+		{ le_debug("%s\n", options->words_vars[i]) }
+	}
+
+}
 
 
 static void	prepare_reading_line(struct termios *t, unsigned char **buffer, struct s_bltread *options)
@@ -112,12 +125,41 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 	return (buffer);
 }
 
+static bool	check_order_args(char **args)
+{												{ le_debug("%s\n", "CHECK ORDER ARGS") }
+	unsigned int	i; //return true;
+
+	i = 0;
+	
+	while (args[i] != NULL && (ft_strequ(args[i], "-n") == true
+	|| ft_strequ(args[i], "-N") == true
+	|| ft_strequ(args[i], "-p") == true
+	|| ft_strequ(args[i], "-s") == true
+	|| ft_strequ(args[i], "-d") == true) )
+	{
+		++i;
+		if (args[i] == NULL)
+			return (true);
+		if ( ft_strequ(args[i - 1], "-n") == true || ft_strequ(args[i - 1], "-N") == true
+		|| ft_strequ(args[i - 1], "-d") == true )
+			++i;
+	}
+
+	if (args[i] == NULL)
+		return (true);
+	if (ft_strequ(args[i], "--") == false)
+		return (false);
+	return (true);
+}
+
 static bool	prepare_blt_read(char **argv, struct s_bltread *options, t_exec *exe)
 {
 	if (_get_activated_options(argv + 1, options, false, 0) == false
-	|| (options->opt_n == true && options->opt_N == true))
+	|| (options->opt_n == true && options->opt_N == true)
+	|| check_order_args(argv + 1) == false)
 	{
-		ft_putstr_fd(BUILTIN_READ_USAGE, STDERR_FILENO);
+		{ le_debug("check order args returned %s\n", check_order_args(argv + 1) == true ? "true" : "false" ) }
+		ft_putstr_fd("KAKAKAKAKA"BUILTIN_READ_USAGE, STDERR_FILENO);
 		exe->ret = 1;
 		g_cmd_status.builtin_running = false;
 		free(options->words_vars);
@@ -130,6 +172,7 @@ static bool	prepare_blt_read(char **argv, struct s_bltread *options, t_exec *exe
 		options->nb_opt_nN = BLTREAD_MAX_CH;
 	if (options->nb_opt_nN == 0)
 	{
+		exe->ret = 1;
 		g_cmd_status.builtin_running = false;
 		free(options->words_vars);
 		return (false);
@@ -167,7 +210,7 @@ void	builtin_read(char **argv, t_environ *env, t_exec *exe)
 	exe->ret = 0;
 	if (prepare_blt_read(argv, &options, exe) == false)
 		return ;
-	kk(options);
+kk( & options );
 	buffer = read_line(&options, exe);
 	if (buffer != NULL)
 		_store_words_in_shell_variables(buffer, &options);

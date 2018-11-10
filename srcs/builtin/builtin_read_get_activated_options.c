@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:40:33 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 20:31:47 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/10 17:46:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static bool	get_local_vars_names(struct s_bltread *options, char **args, unsigne
 		++i;
 	}
 	i = keep_i;
+	{ le_debug("MALLOC DE %u WORDS\n", nb_words + 1) }
 	options->words_vars = ft_xmalloc(sizeof(char *) * (nb_words + 1));
 	options->words_vars[nb_words] = NULL;
 	j = 0;

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 18:59:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 19:03:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 17:51:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	aux_delices_de_janice(struct s_bltread *options, t_shell_vars *vars)
 	unsigned int	i;
 
 	i = 0;
-	if (!(*(options->words_vars)))
+	if (!options->words_vars || !(*(options->words_vars)))
 		vars->locals->del_var(vars->locals, "REPLY");
 	else
 	{
@@ -47,7 +47,7 @@ static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 	aux_delices_de_janice(options, vars);
 	while (split[i])
 	{
-		if (options->words_vars[j])
+		if (options->words_vars && options->words_vars[j])
 			var_name = options->words_vars[j];
 		if (!(vars->locals->get_var(vars->locals, var_name)))
 			vars->locals->add_var(vars->locals, var_name, split[i]);
@@ -60,7 +60,7 @@ static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 				split[i], MAX_ENV_ENTRY_LEN);
 		}
 		i++;
-		if (options->words_vars[j] && options->words_vars[j + 1])
+		if (options->words_vars && options->words_vars[j] && options->words_vars[j + 1])
 			j++;
 	}
 }
