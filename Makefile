@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/09 17:10:51 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/11/11 16:46:29 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,6 +147,7 @@ SRC_NAME = 	is_separator.c \
 			exec/get_process_return_code.c \
 			exec/resolve_cmd_path.c \
 			exec/create_exec.c \
+			exec/clean_data.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
