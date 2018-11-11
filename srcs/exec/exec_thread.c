@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 19:43:31 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 15:49:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,23 @@ static void	restore_origin_fds(int *backup_fds)
 	}
 }
 
-static void	remove_tmp_env_assigns(char **env_assign_vars)
+static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_vars)
 {
 	t_environ	*env;
 
 	if (env_assign_vars)
 	{
 		env = get_shell_vars()->env;
-		while (*env_assign_vars)
-			env->del_var(env, *env_assign_vars);
+		if (environ_used == env)
+		{
+			while (*env_assign_vars)
+				env->del_var(env, *env_assign_vars);
+		}
+		else
+		{
+			free_env_entries(environ_used, environ_used->env_entries_list);
+			free(environ_used);
+		}
 	}
 }
 
@@ -83,10 +91,16 @@ static void	child_process(void **cmd, t_exec *exe, \
 	char	*tmp;
 	t_ast	**ast_ptr;
 	char	**env_assign_vars;
+	t_environ	*env_assigns_environ;
 
 	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
 		backup_origin_fds(backup_fds);
-	env_assign_vars = handle_env_assigns(node, exe);
+	if (node && node->left && node->left->type == T_ENV_ASSIGN)
+		env_assign_vars = handle_env_assigns(node, exe, &env_assigns_environ);
+	else
+	{
+		env_assigns_environ = exe->env;
+	}
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
 	can_run_cmd = true;
@@ -97,7 +111,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
-				(cmd[2], exe->env, exe);
+				(cmd[2],/* exe->env */env_assigns_environ, exe);
 		else
 		{
 			cmd_args = ft_dup_2d_array(cmd[2]);
@@ -118,8 +132,8 @@ static void	child_process(void **cmd, t_exec *exe, \
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!exe->prog_forked)
-		remove_tmp_env_assigns(env_assign_vars);
+	if (node && node->left && node->left->type == T_ENV_ASSIGN)
+		remove_tmp_env_assigns(env_assigns_environ, env_assign_vars);
 	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
 		restore_origin_fds(backup_fds);
 	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)

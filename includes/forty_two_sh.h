@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/10 18:01:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 15:34:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,6 @@ void		log_close(int fd);
 
 char		**ft_dup_2d_array(char **arr);
 
-char		**handle_env_assigns(t_ast *node, t_exec *exe);
+char		**handle_env_assigns(t_ast *node, t_exec *exe, t_environ **env_used);
 
 #endif
