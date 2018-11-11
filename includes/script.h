@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/26 14:40:36 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 17:59:34 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@
 
 void		script_lexemes(t_lexeme *lexemes);
 t_lexeme	*is_keyword(t_lexeme *lex, int last_lex_lvl);
-//t_lexeme	*is_keyword(t_lexeme *lex);
 
 
 /*
@@ -64,7 +63,6 @@ int		script_colodyn(t_lexeme *lex, int *item_nb);
 ** SCRIPT AST
 */
 
-t_ast		*script_create_node(t_lexeme *lex);
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);
 int			put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 			void(* const node_placer)(t_ast *, t_ast *));

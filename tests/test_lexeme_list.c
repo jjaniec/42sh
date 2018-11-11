@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 17:32:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/06 17:05:27 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 18:01:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static t_lexeme	*clean(t_lexeme *lex)
 	return (save);
 }
 
-void		clean_data(t_lexeme **lex)
+void		test_clean_data(t_lexeme **lex)
 {
 	*lex = clean(*lex);
 }
@@ -103,7 +103,7 @@ void	test_lexeme_list(char *test_name, char *input, ...)
 		printf("Oops that's a fail ! - Lexer returned NULL");
 		ok(1 == 0, "Return ERROR");
 	}
-	clean_data(&result);
+	test_clean_data(&result);
 	ll_begin = result;
 	while (result)
 	{

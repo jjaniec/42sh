@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 18:16:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 18:01:54 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	lexer_tests(t_environ *envp)
 	(void)tmp;
 
 	lexer("", &tmp, NULL);
-	clean_data(&tmp);
+	test_clean_data(&tmp);
 	ok(tmp == NULL, "Empty string");
 	lexer("''", &tmp, NULL);
-	clean_data(&tmp);
+	test_clean_data(&tmp);
 	ok(tmp != NULL, "Empty string quotes");
 	test_lexeme_list("Basic 1", "ls", "ls", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Basic 2", "ls -la", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);

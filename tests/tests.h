@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:50:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/05 18:01:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 18:01:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	compare_fds_with_strings(char *test_name, \
 				char *expected_stdout, char *expected_stderr, \
 				int backup_stdout_fd, int backup_stderr_fd);
 
-void	clean_data(t_lexeme **lex);
+void	test_clean_data(t_lexeme **lex);
 
 void	lexer_tests(t_environ *envp);
 void 	ast_tests(t_environ *env);
