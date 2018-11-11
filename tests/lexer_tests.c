@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/11 18:01:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 19:05:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,4 +248,7 @@ void	lexer_tests(t_environ *envp)
 		"echo", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA";"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
 	test_lexeme_list("Other - Fixed 3 - ':' as expansion end char", "echo $"EXPANSION_TESTS_ENVVAR_NAME":$"EXPANSION_TESTS_ENVVAR_NAME"",
 		"echo", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA":"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+	test_lexeme_list("Comments 1 - Simple", "ls #nope pwd", "ls", T_WORD, TK_DEFAULT);
+	test_lexeme_list("Comments 2 - Simple with \\n", "ls #nope pwd\necho", "ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, "echo", T_WORD, TK_DEFAULT);
+	test_lexeme_list("Comments 3 - Backslash before #", "ls \\#nope #lol \\#nope\necho", "ls", T_WORD, TK_DEFAULT, "#nope", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, "echo", T_WORD, TK_DEFAULT);
 }

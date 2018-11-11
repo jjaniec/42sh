@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:22:08 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/09 17:09:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 19:24:43 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_ast	*ast(t_lexeme **old_lex)
 			return (NULL);
 		else if (check == 0)
 		{
-			ft_putstr_fd("21sh: syntax error near unexpected token '", 2);
+			ft_putstr_fd(SH_NAME": syntax error near unexpected token '", 2);
 			if (((char *)error->data)[0] == '\n')
 				ft_putstr_fd("newline", 2);
 			else
