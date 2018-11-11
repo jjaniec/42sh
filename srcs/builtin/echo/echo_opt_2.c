@@ -1,43 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo_opt.c                                         :+:      :+:    :+:   */
+/*   echo_opt_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/08 20:20:19 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/11 02:16:59 by cgaspart         ###   ########.fr       */
+/*   Created: 2018/11/11 02:17:23 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/11/11 02:17:34 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-int		echo_n_opt(void)
+int		echo_r_opt(void)
 {
-	ft_putchar('\n');
+	ft_putchar('\r');
 	return (1);
 }
 
-int		echo_a_opt(void)
+int		echo_t_opt(void)
 {
-	ft_putchar('\a');
+	ft_putchar('\t');
 	return (1);
 }
 
-int		echo_b_opt(void)
+int		echo_v_opt(void)
 {
-	ft_putchar('\b');
+	ft_putchar('\v');
 	return (1);
 }
 
-int		echo_c_opt(void)
+int		echo_bslash_opt(void)
 {
-	ft_putchar('\0');
-	return (-1);
-}
-
-int		echo_f_opt(void)
-{
-	ft_putchar('\f');
+	ft_putchar('\\');
 	return (1);
 }
