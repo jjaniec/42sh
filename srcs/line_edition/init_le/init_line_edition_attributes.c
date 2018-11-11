@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_line_edition_attributes.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:48:51 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 20:54:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ static void			init_once(struct s_line *le)
 	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
 	le->clipboard_len = 0;
 	le->le_state.opt_colosyn = true;
-
 	load_history_file(le);
-	load_aliases_file(access_alias_datas());
-
 }
 
 /*

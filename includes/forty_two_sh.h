@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 17:10:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 21:10:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@
 # define ERR_ISDIR			"is a directory\n"
 # define ERR_NORIGHTS		"permission denied: "
 # define ERR_CMD_NOT_FOUND	"command not found\n"
+# define ERR_INVALID_ALIAS_NAME "alias: invalid alias name\n"
 
 extern t_option		g_sh_opts[];
 extern const int	g_cant_begin_with[];

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/09 17:08:45 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 21:15:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,12 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("TK_TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat", NULL);
 	compare_sh_42sh_outputs("TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat", NULL);
 	compare_sh_42sh_outputs("TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl", NULL);
+
+	compare_fds_w_strings("Aliases 1 - assignation", "alias rofl 'echo lol'; alias --save", "", NULL);
+	compare_fds_w_strings("Aliases 1 - Simple expansion", "rofl", "lol\n", "");
+	compare_fds_w_strings("Aliases 2 - redefinition", "alias rofl 'echo lal'; alias --save", "", NULL);
+	compare_fds_w_strings("Aliases 2 - Simple expansion", "rofl", "lal\n", "");
+	compare_fds_w_strings("Aliases 3 - deletion", "alias -d rofl; alias --save", "", NULL);
+	compare_fds_w_strings("Aliases 3 - Deleted alias expansion", "rofl", "", SH_NAME": rofl: "ERR_CMD_NOT_FOUND);
+	compare_fds_w_strings("Aliases 4 - Invalid assignation w/ IFS separators", "alias 'ls -la' echo", "", SH_NAME": "ERR_INVALID_ALIAS_NAME);
 }
