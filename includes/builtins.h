@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/10 20:31:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 16:26:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,24 +71,24 @@ void	builtin_return(char **argv, t_environ *env, t_exec *exe);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, t_exec *exe);
 void	builtin_test(char **argv, t_environ *env, t_exec *exe);
 void	builtin_history(char **argv, t_environ *env, t_exec *exe);
-void	_print_history_with_indexes(void);
-void	_delete_element_number_n(unsigned int n);
-bool	_save_history_in_file(struct s_history *his);
-void	_clear_history(struct s_line *le);
-void	_print_n_last_elem(struct s_line *le, unsigned int n);
+void	blthis_print_history_with_indexes(void);
+void	blthis_delete_element_number_n(unsigned int n);
+bool	blthis_save_history_in_file(struct s_history *his);
+void	blthis_clear_history(struct s_line *le);
+void	blthis_print_n_last_elem(struct s_line *le, unsigned int n);
 void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, t_exec *exe);
 void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
 void    builtin_read(char **argv, t_environ *env, t_exec *exe);
-bool	_get_activated_options(char **args, struct s_bltread *options, bool fou, int janice);
-void	_store_words_in_shell_variables(unsigned char *buffer,
+bool	bltread_get_activated_options(char **args, struct s_bltread *options, bool fou, int janice);
+void	bltread_store_words_in_shell_variables(unsigned char *buffer,
 									struct s_bltread *options);
-void	_prepare_reading_line(struct termios *t, unsigned char **buffer,
+void	bltread_prepare_reading_line(struct termios *t, unsigned char **buffer,
 											struct s_bltread *options);
-int		_a(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
-int		_amdr(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
-int		_a2(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
-bool	_norme_lol(int foo, char **args, unsigned int i);
-int		_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i);
+int		issou_a(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		issou_amdr(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		issou_a2(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+bool	issou_norme_lol(int foo, char **args, unsigned int i);
+int		issou_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i);
 void    builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 #endif

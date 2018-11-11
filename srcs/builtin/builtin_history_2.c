@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:29:55 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/10 20:41:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 16:28:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	Print all history's elements with an index.
 */
 
-void	_print_history_with_indexes(void)
+void	blthis_print_history_with_indexes(void)
 {
 	const struct s_history	*his = access_le_main_datas()->history;
 	unsigned int			index;
@@ -48,7 +48,7 @@ void	_print_history_with_indexes(void)
 **	Delete element number 'n' in the history list.
 */
 
-void		_delete_element_number_n(unsigned int n)
+void	blthis_delete_element_number_n(unsigned int n)
 {
 	struct s_history	*his;
 	struct s_history	*del;
@@ -83,7 +83,7 @@ void		_delete_element_number_n(unsigned int n)
 **	Return 'false' if an error occurs.
 */
 
-bool		_save_history_in_file(struct s_history *his)
+bool	blthis_save_history_in_file(struct s_history *his)
 {
 	int		fd;
 
@@ -116,7 +116,7 @@ bool		_save_history_in_file(struct s_history *his)
 **	Empty the history list (not the file).
 */
 
-void	_clear_history(struct s_line *le)
+void	blthis_clear_history(struct s_line *le)
 {
 	struct s_history	*his;
 	struct s_history	*del;
@@ -141,7 +141,7 @@ void	_clear_history(struct s_line *le)
 **	Print the 'n' last elements of the history list.
 */
 
-void		_print_n_last_elem(struct s_line *le, unsigned int n)
+void	blthis_print_n_last_elem(struct s_line *le, unsigned int n)
 {
 	struct s_history	*his;
 	unsigned int		index;

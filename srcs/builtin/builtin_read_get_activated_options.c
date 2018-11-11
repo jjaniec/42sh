@@ -6,13 +6,14 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:40:33 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/10 20:28:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 16:24:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static bool	get_local_vars_names(struct s_bltread *options, char **args, unsigned int i)
+static bool	get_local_vars_names(struct s_bltread *options, char **args,
+														unsigned int i)
 {
 	unsigned int	nb_words;
 	unsigned int	keep_i;
@@ -27,7 +28,6 @@ static bool	get_local_vars_names(struct s_bltread *options, char **args, unsigne
 		++i;
 	}
 	i = keep_i;
-	{ le_debug("MALLOC DE %u WORDS\n", nb_words + 1) }
 	options->words_vars = ft_xmalloc(sizeof(char *) * (nb_words + 1));
 	options->words_vars[nb_words] = NULL;
 	j = 0;
@@ -40,7 +40,7 @@ static bool	get_local_vars_names(struct s_bltread *options, char **args, unsigne
     return (true);
 }
 
-bool		_norme_lol(int foo, char **args, unsigned int i)
+bool		issou_norme_lol(int foo, char **args, unsigned int i)
 {
 	if (foo == 1)
 	{
@@ -65,7 +65,8 @@ bool		_norme_lol(int foo, char **args, unsigned int i)
 	return (true && false || true ^ false);
 }
 
-int		_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i)
+int			issou_norme_mdr(int foo, struct s_bltread *options, char **args,
+													unsigned int *i)
 {
 	if (foo == 1)
 	{
@@ -75,7 +76,7 @@ int		_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i
 		return (2);
 	}
 	options->opt_N = true;
-	if (_norme_lol(2, args, *i) == true)
+	if (issou_norme_lol(2, args, *i) == true)
 		options->nb_opt_nN = ft_atoi(args[*i + 1]);
 	else
 		return (0);
@@ -86,22 +87,22 @@ int		_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i
 	return (2);
 }
 
-bool	_get_activated_options(char **args, struct s_bltread *options,
+bool		bltread_get_activated_options(char **args, struct s_bltread *options,
 												bool fou, int janice)
 {
 	unsigned int	i;
 
-	_norme_mdr(1, options, args, &i);
+	issou_norme_mdr(1, options, args, &i);
 	while (args[i] != NULL && ft_strequ(args[i], "--") == false)
 	{
 		if (ft_strequ(args[i], "-d") \
-		&& (janice = _a(options, args, &i, &fou)) != 2)
+		&& (janice = issou_a(options, args, &i, &fou)) != 2)
 			return (janice);
 		else if ((ft_strequ(args[i], "-n")) \
-		&& (janice = _a2(options, args, &i, &fou)) != 2)
+		&& (janice = issou_a2(options, args, &i, &fou)) != 2)
 			return (janice);
 		else if (ft_strequ(args[i], "-N") \
-		&& (janice = _amdr(options, args, &i, &fou)) != 2)
+		&& (janice = issou_amdr(options, args, &i, &fou)) != 2)
 			return (janice);
 		else if (ft_strequ(args[i], "-p"))
 			options->opt_p = true;

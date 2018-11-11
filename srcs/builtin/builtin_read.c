@@ -6,12 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/10 20:45:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 16:23:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-
 
 /*
 void	kk(struct s_bltread *options)
@@ -82,7 +81,7 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 	unsigned char	*buffer;
 	int				ret;
 
-	_prepare_reading_line(&t, &buffer, options);
+	bltread_prepare_reading_line(&t, &buffer, options);
 	ret = read_loop(buffer, options);
 	t.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1)
@@ -104,7 +103,7 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 	return (buffer);
 }
 
-static bool	check_order_args(char **args)
+static bool		check_order_args(char **args)
 {
 	unsigned int	i;
 
@@ -130,10 +129,10 @@ static bool	check_order_args(char **args)
 	return (true);
 }
 
-static bool	prepare_blt_read(char **argv, struct s_bltread *options,
+static bool		prepare_blt_read(char **argv, struct s_bltread *options,
 														t_exec *exe)
 {
-	if (_get_activated_options(argv + 1, options, false, 0) == false
+	if (bltread_get_activated_options(argv + 1, options, false, 0) == false
 	|| (options->opt_n == true && options->opt_N == true)
 	|| check_order_args(argv + 1) == false)
 	{
@@ -175,23 +174,22 @@ static bool	prepare_blt_read(char **argv, struct s_bltread *options,
 **	option -s : the input is not displayed.
 **	issou
 */
- 
 
-void	builtin_read(char **argv, t_environ *env, t_exec *exe)
+
+void			builtin_read(char **argv, t_environ *env, t_exec *exe)
 {
 	struct s_bltread	options;
 	unsigned char		*buffer;
 
-	g_cmd_status.builtin_running = true;
-
 	(void)(env);
+	g_cmd_status.builtin_running = true;
 	exe->ret = 0;
 	if (prepare_blt_read(argv, &options, exe) == false)
 		return ;
 //kk( & options );
 	buffer = read_line(&options, exe);
 	if (buffer != NULL)
-		_store_words_in_shell_variables(buffer, &options);
+		bltread_store_words_in_shell_variables(buffer, &options);
 	g_cmd_status.builtin_running = false;
 	free(options.words_vars);
 	free(buffer);
