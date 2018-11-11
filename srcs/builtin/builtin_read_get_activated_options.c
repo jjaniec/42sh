@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:40:33 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:24:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 18:44:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	get_local_vars_names(struct s_bltread *options, char **args,
     return (true);
 }
 
-bool		issou_norme_lol(int foo, char **args, unsigned int i)
+bool		bltread_check_options_four(int foo, char **args, unsigned int i)
 {
 	if (foo == 1)
 	{
@@ -65,7 +65,7 @@ bool		issou_norme_lol(int foo, char **args, unsigned int i)
 	return (true && false || true ^ false);
 }
 
-int			issou_norme_mdr(int foo, struct s_bltread *options, char **args,
+int			bltread_check_options_five(int foo, struct s_bltread *options, char **args,
 													unsigned int *i)
 {
 	if (foo == 1)
@@ -76,7 +76,7 @@ int			issou_norme_mdr(int foo, struct s_bltread *options, char **args,
 		return (2);
 	}
 	options->opt_N = true;
-	if (issou_norme_lol(2, args, *i) == true)
+	if (bltread_check_options_four(2, args, *i) == true)
 		options->nb_opt_nN = ft_atoi(args[*i + 1]);
 	else
 		return (0);
@@ -92,17 +92,17 @@ bool		bltread_get_activated_options(char **args, struct s_bltread *options,
 {
 	unsigned int	i;
 
-	issou_norme_mdr(1, options, args, &i);
+	bltread_check_options_five(1, options, args, &i);
 	while (args[i] != NULL && ft_strequ(args[i], "--") == false)
 	{
 		if (ft_strequ(args[i], "-d") \
-		&& (janice = issou_a(options, args, &i, &fou)) != 2)
+		&& (janice = bltread_check_options_one(options, args, &i, &fou)) != 2)
 			return (janice);
 		else if ((ft_strequ(args[i], "-n")) \
-		&& (janice = issou_a2(options, args, &i, &fou)) != 2)
+		&& (janice = bltread_check_options_three(options, args, &i, &fou)) != 2)
 			return (janice);
 		else if (ft_strequ(args[i], "-N") \
-		&& (janice = issou_amdr(options, args, &i, &fou)) != 2)
+		&& (janice = bltread_check_options_two(options, args, &i, &fou)) != 2)
 			return (janice);
 		else if (ft_strequ(args[i], "-p"))
 			options->opt_p = true;

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 20:29:21 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:24:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 18:42:55 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		bltread_prepare_reading_line(struct termios *t,
 		write(STDOUT_FILENO, "> ", 2);
 }
 
-static int	norme_lel(int foo, struct s_bltread *options, char **args,
+static int	bltread_check_options_six(int foo, struct s_bltread *options, char **args,
 													unsigned int *i)
 {
 	if (foo == 1)
@@ -51,7 +51,7 @@ static int	norme_lel(int foo, struct s_bltread *options, char **args,
 		return (2);
 	}
 	options->opt_n = true;
-	if (issou_norme_lol(1, args, *i) == true)
+	if (bltread_check_options_four(1, args, *i) == true)
 		options->nb_opt_nN = ft_atoi(args[*i + 1]);
 	else
 		return (0);
@@ -62,12 +62,12 @@ static int	norme_lel(int foo, struct s_bltread *options, char **args,
 	return (2);
 }
 
-int			issou_amdr(struct s_bltread *options, char **args, unsigned int *i,
+int			bltread_check_options_two(struct s_bltread *options, char **args, unsigned int *i,
 														bool *fou)
 {
 	int janice;
 
-	janice = issou_norme_mdr(2, options, args, i);
+	janice = bltread_check_options_five(2, options, args, i);
 	if (janice == 2)
 		*fou = true;
 	else
@@ -75,12 +75,12 @@ int			issou_amdr(struct s_bltread *options, char **args, unsigned int *i,
 	return (2);
 }
 
-int			issou_a2(struct s_bltread *options, char **args, unsigned int *i,
+int			bltread_check_options_three(struct s_bltread *options, char **args, unsigned int *i,
 																bool *fou)
 {
 	int janice;
 
-	janice = norme_lel(2, options, args, i);
+	janice = bltread_check_options_six(2, options, args, i);
 	if (janice == 2)
 		*fou = true;
 	else
@@ -88,12 +88,12 @@ int			issou_a2(struct s_bltread *options, char **args, unsigned int *i,
 	return (2);
 }
 
-int			issou_a(struct s_bltread *options, char **args, unsigned int *i,
+int			bltread_check_options_one(struct s_bltread *options, char **args, unsigned int *i,
 																bool *fou)
 {
 	int janice;
 
-	janice = norme_lel(1, options, args, i);
+	janice = bltread_check_options_six(1, options, args, i);
 	if (janice == 2)
 		*fou = true;
 	else

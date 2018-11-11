@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:26:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 18:44:45 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
 void    builtin_read(char **argv, t_environ *env, t_exec *exe);
 bool	bltread_get_activated_options(char **args, struct s_bltread *options, bool fou, int janice);
 void	bltread_store_words_in_shell_variables(unsigned char *buffer,
-									struct s_bltread *options);
+										struct s_bltread *options);
 void	bltread_prepare_reading_line(struct termios *t, unsigned char **buffer,
-											struct s_bltread *options);
-int		issou_a(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
-int		issou_amdr(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
-int		issou_a2(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
-bool	issou_norme_lol(int foo, char **args, unsigned int i);
-int		issou_norme_mdr(int foo, struct s_bltread *options, char **args, unsigned int *i);
+												struct s_bltread *options);
+int		bltread_check_options_one(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		bltread_check_options_two(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+int		bltread_check_options_three(struct s_bltread *options, char **args, unsigned int *i, bool *fou);
+bool	bltread_check_options_four(int foo, char **args, unsigned int i);
+int		bltread_check_options_five(int foo, struct s_bltread *options, char **args, unsigned int *i);
 void    builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 #endif
