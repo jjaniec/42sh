@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 15:40:22 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/12 21:12:29 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,18 @@ static void	ft_refresh_cwd_env(t_environ *env)
 	else
 		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
 }
+/*
+void			is_link(char *name, t_buffer *this)
+{
+	char	buf[255];
+	int		cc;
 
+	cc = readlink(name, buf, BUFSIZ);
+	buf[cc] = '\0';
+	ft_rm_b_path(this);
+	ft_addstr_b(this, " -> ");
+	ft_addstr_b(this, buf);
+}*/
 /*
 ** Print cd error according to errno
 */
@@ -139,6 +150,8 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 		if ((exe->ret = builtin_cd_dash(env, cwd)))
 			return ;
 	}
+	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
+		ft_putstr("UI");
 	else if (!exe->ret && argv[1])
 		ft_change_dir(env, argv[1], cwd);
 	ft_refresh_cwd_env(env);
