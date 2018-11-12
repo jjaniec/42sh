@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 21:27:30 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/09 18:11:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/12 18:30:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int			nbr_tab(char *dirname, t_autoc *autoc)
 	struct dirent	*file;
 
 	i = 0;
-	if ((dir = opendir(dirname)))
+	if ((dir = opendir(dirname)) == NULL)
 	{
 		closedir(dir);
 		return (0);

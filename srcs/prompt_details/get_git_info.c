@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 15:36:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/12 18:54:55 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void		abbrev_commit_hash(char *hash)
 		hash[COMMIT_HASH_MAX_LEN] = '\0';
 }
 
-static char		*get_head(char *branch_str, int pipe_fds[2], char **env, char *git_path)
+static char		*get_head(char *branch_str, int pipe_fds[2],
+				char **env, char *git_path)
 {
 	pid_t	p;
 
@@ -61,7 +62,8 @@ char			*get_git_info(char **env)
 	char			*git_path;
 	t_shell_vars	*vars;
 
-	if (!(vars = get_shell_vars()) || !(git_path = ht_get_key_value(vars->hashtable, "git")))
+	if (!(vars = get_shell_vars()) ||
+		!(git_path = ht_get_key_value(vars->hashtable, "git")))
 		return (NULL);
 	branch_str = NULL;
 	pipe(pipe_fds);
