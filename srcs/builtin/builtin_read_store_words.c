@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 18:59:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:17:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/12 17:28:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static void	sebateau(char **split, struct s_bltread *options, char *var_name,
 static char	**split_buffer_with_ifs(unsigned char *buffer)
 {
 	char	**split;
-
-char	**ft_strsplit_bystr(char const *s, const char *split); // proto en attendant libft
 
 	split = ft_strsplit_bystr((const char *)buffer, LE_IFS);
 	if (split == NULL)
