@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:23:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/12 16:46:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 	bltread_prepare_reading_line(&t, &buffer, options);
 	ret = read_loop(buffer, options);
 	t.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1)
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1 \
+	&& tcsetattr(STDOUT_FILENO, TCSANOW, &t) == -1)
 	{
 		ft_putstr_fd("Error while setting terminal attributes\n", 2);
 		exit(EXIT_FAILURE);

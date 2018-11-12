@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 20:29:21 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 18:42:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/12 16:45:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		bltread_prepare_reading_line(struct termios *t,
 {
 	*buffer = ft_xmalloc(BLTREAD_MAX_CH + 1);
 	ft_memset(*buffer, '\0', BLTREAD_MAX_CH + 1);
-	if (tcgetattr(STDIN_FILENO, t) == -1)
+	if (tcgetattr(STDIN_FILENO, t) == -1 && tcgetattr(STDOUT_FILENO, t) == -1)
 	{
 		ft_putstr_fd("Error while getting terminal attributes\n", 2);
 		exit(EXIT_FAILURE);
@@ -25,7 +25,8 @@ void		bltread_prepare_reading_line(struct termios *t,
 	t->c_lflag &= ~(ICANON);
 	if (options->opt_s == true)
 		t->c_lflag &= ~(ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1)
+	if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1 \
+	&& tcsetattr(STDOUT_FILENO, TCSANOW, t) == -1)
 	{
 		ft_putstr_fd("Error while setting terminal attributes\n", 2);
 		exit(EXIT_FAILURE);
