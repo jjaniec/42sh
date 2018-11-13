@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_backup_files.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 10:47:01 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/13 19:00:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void		load_aliases_file(struct s_alias *alias)
 		return ;
 	}
 	copy_file_datas_in_aliases_list(alias, fd);
+	close(fd);
 }
 
 /*
@@ -113,4 +114,5 @@ void		load_history_file(struct s_line *le)
 		ft_strdel(&line);
 	}
 	ft_strdel(&line);
+	close(fd);
 }

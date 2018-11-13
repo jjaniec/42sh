@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 21:11:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/13 18:58:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static bool			save_aliases_in_file(struct s_alias *alias)
 	&& write(2, SH_NAME": error with file ."SH_NAME"_aliases\n", 36))
 		return (false);
 	if (alias->key == NULL)
+	{
+		close(fd);
 		return (true);
+	}
 	while (alias != NULL)
 	{
 		if (ft_strlen(alias->key) > 0U)

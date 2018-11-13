@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/11 15:36:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/13 18:49:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static t_environ	*create_new_tmp_env(t_environ *base_env, char ***tmp_env_assign
 static t_environ	*get_env_to_use(t_exec *exe, char ***tmp_env_assigns_begin)
 {
 	t_shell_vars	*vars;
-	t_environ		*new_tmp_env;
 
 	*tmp_env_assigns_begin = NULL;
 	if (!(vars = get_shell_vars()))
