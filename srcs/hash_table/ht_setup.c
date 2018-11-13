@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 16:58:44 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/24 19:42:52 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/09 18:10:08 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ t_hashtable		*ht_setup(t_environ *env)
 		return (NULL);
 	size = get_table_size(path);
 	if (size < 1)
+	{
+		ht_free_tab(path);
 		return (NULL);
+	}
 	hashtable = (t_hashtable*)ft_xmalloc(sizeof(t_hashtable));
 	hashtable->table = (t_entry**)ft_xmalloc(sizeof(t_entry*) * size);
 	hashtable->path = path;

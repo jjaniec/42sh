@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 21:12:01 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 21:12:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 19:36:02 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ t_exec				*exec_cmd(t_ast *root, t_exec *exe)
 {
 	exe = ast_explore(root, exe);
 	if (VERBOSE_MODE || is_option_activated("v", g_sh_opts, NULL))
-		ast_debug(root);
+		ast_debug(root, 1);
 	return (exe);
 }

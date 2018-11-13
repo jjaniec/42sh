@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 21:18:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 19:05:59 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void	lexer_tests(t_environ *envp)
 	(void)tmp;
 
 	lexer("", &tmp, NULL);
+	test_clean_data(&tmp);
 	ok(tmp == NULL, "Empty string");
 	lexer("''", &tmp, NULL);
-	ok(tmp == NULL, "Empty string quotes");
+	test_clean_data(&tmp);
+	ok(tmp != NULL, "Empty string quotes");
 	test_lexeme_list("Basic 1", "ls", "ls", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Basic 2", "ls -la", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Basic 3", "ls-la;ls -la", "ls-la", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT);
@@ -121,7 +123,7 @@ void	lexer_tests(t_environ *envp)
 		"\n", T_CTRL_OPT, TK_NEWLINE, "&", T_CTRL_OPT, TK_AND, ">>", T_REDIR_OPT, TK_DGREAT, \
 		"\n", T_CTRL_OPT, TK_NEWLINE, ">|", T_REDIR_OPT, TK_CLOBBER, "\n", T_CTRL_OPT, TK_NEWLINE, \
 		"<", T_REDIR_OPT, TK_LESS, "\n", T_CTRL_OPT, TK_NEWLINE, "'", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, \
-		"<<-", T_REDIR_OPT, TK_DLESSDASH);
+		"<<-", T_REDIR_OPT, TK_DLESSDASH, "", T_WORD, TK_DEFAULT);
 
 	// Add EXPANSION_TESTS_ENVVAR_NAME env var in env
 	envp->add_var(envp, EXPANSION_TESTS_ENVVAR_NAME, EXPANSION_TESTS_ENVVAR_DATA);
@@ -241,9 +243,12 @@ void	lexer_tests(t_environ *envp)
 		test_lexeme_list("Expansions 33 - Particular cases 3 - empty expansion", "echo $=;",
 			"echo", T_WORD, TK_DEFAULT, "$=", T_WORD, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "ls", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Other - Fixed 1 - Empty elem break", "ls \"\"\n", \
-		"ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
+		"ls", T_WORD, TK_DEFAULT, "", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE);
 	test_lexeme_list("Other - Fixed 2 - expansions w/ escaped ctrl operator", "echo $"EXPANSION_TESTS_ENVVAR_NAME"\\;$"EXPANSION_TESTS_ENVVAR_NAME"",
 		"echo", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA";"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
 	test_lexeme_list("Other - Fixed 3 - ':' as expansion end char", "echo $"EXPANSION_TESTS_ENVVAR_NAME":$"EXPANSION_TESTS_ENVVAR_NAME"",
 		"echo", T_WORD, TK_DEFAULT, EXPANSION_TESTS_ENVVAR_DATA":"EXPANSION_TESTS_ENVVAR_DATA, T_WORD, TK_DEFAULT);
+	test_lexeme_list("Comments 1 - Simple", "ls #nope pwd", "ls", T_WORD, TK_DEFAULT);
+	test_lexeme_list("Comments 2 - Simple with \\n", "ls #nope pwd\necho", "ls", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, "echo", T_WORD, TK_DEFAULT);
+	test_lexeme_list("Comments 3 - Backslash before #", "ls \\#nope #lol \\#nope\necho", "ls", T_WORD, TK_DEFAULT, "#nope", T_WORD, TK_DEFAULT, "\n", T_CTRL_OPT, TK_NEWLINE, "echo", T_WORD, TK_DEFAULT);
 }
