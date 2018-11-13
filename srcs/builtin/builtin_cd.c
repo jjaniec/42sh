@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/12 21:12:29 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/13 17:19:58 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ static void	ft_refresh_cwd_env(t_environ *env)
 	else
 		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
 }
-/*
-void			is_link(char *name, t_buffer *this)
-{
-	char	buf[255];
-	int		cc;
-
-	cc = readlink(name, buf, BUFSIZ);
-	buf[cc] = '\0';
-	ft_rm_b_path(this);
-	ft_addstr_b(this, " -> ");
-	ft_addstr_b(this, buf);
-}*/
 /*
 ** Print cd error according to errno
 */
@@ -118,6 +106,27 @@ static int	builtin_cd_dash(t_environ *env, char *cwd)
 ** variables
 */
 
+static void	builtin_cd_p(char *argv, t_environ *env, char *cwd)
+{
+	char	buf[MAX_ENV_ENTRY_LEN];
+	int		cc;
+
+	if (!argv)
+	{
+		if (env->get_var(env, "HOME"))
+			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+		else
+			ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
+	}
+	else if (autoc_check_path(argv) == 'l')
+	{
+		cc = readlink(argv, buf, MAX_ENV_ENTRIES);
+		buf[cc] = '\0';
+		ft_putstr_fd("YOooo", 2);
+		ft_change_dir(env, buf, cwd);
+	}
+}
+
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
 	char		cwd[MAX_ENV_ENTRY_LEN];
@@ -151,7 +160,7 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 			return ;
 	}
 	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
-		ft_putstr("UI");
+		builtin_cd_p(argv[2], env, cwd);
 	else if (!exe->ret && argv[1])
 		ft_change_dir(env, argv[1], cwd);
 	ft_refresh_cwd_env(env);
