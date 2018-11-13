@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_alias.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 15:06:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/19 18:51:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/11 21:11:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool			save_aliases_in_file(struct s_alias *alias)
 	if (check_backup_file(aliases_file_path) == false)
 		return (false);
 	if ((fd = open(aliases_file_path, O_WRONLY | O_TRUNC)) == -1
-	&& write(2, "42sh: error with file .42sh_aliases\n", 36))
+	&& write(2, SH_NAME": error with file ."SH_NAME"_aliases\n", 36))
 		return (false);
 	if (alias->key == NULL)
 		return (true);
@@ -32,7 +32,7 @@ static bool			save_aliases_in_file(struct s_alias *alias)
 			|| write(fd, alias->value, ft_strlen(alias->value)) == (ssize_t)(-1)
 			|| write(fd, "\n", sizeof(char)) == (ssize_t)(-1))
 			{
-				ft_putstr_fd(".42sh_aliases: error writing in file\n", 2);
+				ft_putstr_fd("."SH_NAME"_aliases: error writing in file\n", 2);
 				return (close(fd) ? (false) : (false));
 			}
 		alias = alias->next;
@@ -79,7 +79,7 @@ static bool			add_tmp_alias(const char *key, const char *value, \
 	while (key[i] != '\0')
 		if (is_separator(key[i++]) || key[0] == '=')
 		{
-			ft_putstr_fd("42sh: alias: invalid alias name\n", STDERR_FILENO);
+			ft_putstr_fd(SH_NAME": "ERR_INVALID_ALIAS_NAME, STDERR_FILENO);
 			return (false);
 		}
 	new_key = ft_xstrdup(key);

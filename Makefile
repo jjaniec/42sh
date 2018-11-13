@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/10 15:03:41 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/11 18:50:16 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,6 +148,7 @@ SRC_NAME = 	is_separator.c \
 			exec/get_process_return_code.c \
 			exec/resolve_cmd_path.c \
 			exec/create_exec.c \
+			exec/clean_data.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_cd.c \
@@ -164,7 +165,6 @@ SRC_NAME = 	is_separator.c \
 			builtin/is_builtin.c \
 			script/script_lexer.c \
 			script/good_start.c \
-			script/script_ast_construct.c \
 			script/find_end_lexeme.c \
 			script/find_end_lexeme_solo.c \
 			script/find_lexeme_compete.c \
@@ -204,6 +204,7 @@ SRC_NAME = 	is_separator.c \
 			access_alias_datas.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
+			aliases_replace.c \
 			log_close.c \
 			ft_dup_2d_array.c \
 			main.c
@@ -235,7 +236,6 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					compare_fds_with_strings.c \
 					redirect_both_fds.c \
 					main.c
-
 
 ###### FOLDERS ######
 SRC_DIR = ./srcs/

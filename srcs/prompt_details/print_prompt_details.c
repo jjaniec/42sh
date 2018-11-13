@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/09 15:50:34 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/12 20:25:46 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void		prompt_setup(t_prompt *prompt)
 	t_shell_vars	*vars;
 
 	vars = get_shell_vars();
+	prompt->pwd = NULL;
+	prompt->home = NULL;
 	if (vars->env->get_var(vars->env, "PWD"))
 	{
 		prompt->pwd = vars->env->last_used_elem->val_begin_ptr;
@@ -61,11 +63,13 @@ void			print_prompt_details(void)
 	t_prompt	prompt;
 	int			i;
 
+	i = 0;
 	prompt_setup(&prompt);
 	ft_putstr("\n"PROMPT_PWD);
 	if (!prompt.pwd)
 		return ;
-	i = ft_strlen(prompt.home);
+	if (prompt.home)
+		i = ft_strlen(prompt.home);
 	if (i && !ft_strncmp(prompt.home, prompt.pwd, i))
 	{
 		ft_putchar('~');
