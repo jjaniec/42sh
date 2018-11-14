@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 18:46:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/10 20:09:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ static char	*handle_parameters(char **argv, t_environ *env_struct, \
 		if (!((*env_struct_to_use)->entry_count < MAX_ENV_ENTRIES))
 			break ;
 		if ((*env_struct_to_use)->get_var((*env_struct_to_use), *argv))
-		{
 			ft_strncpy((*env_struct_to_use)->last_used_elem->entry, *argv, MAX_ENV_ENTRY_LEN);
-			(*env_struct_to_use)->entry_count += 1;
-		}
 		else
 			(*env_struct_to_use)->add_var((*env_struct_to_use), *argv, NULL);
 		argv += 1;
@@ -84,7 +81,7 @@ int			builtin_env_(char **argv, t_environ *env)
 			free(env_struct_to_use);
 		else
 			while (*tmp_environ_start)
-				*tmp_environ_start++ = NULL;
+				env_struct_to_use->del_var(env_struct_to_use, *tmp_environ_start);
 		return (0);
 	}
 	return (1);

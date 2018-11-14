@@ -186,4 +186,6 @@ void		log_close(int fd);
 
 char		**ft_dup_2d_array(char **arr);
 
+char		**handle_env_assigns(t_ast *node, t_exec *exe, t_environ **env_used);
+
 #endif

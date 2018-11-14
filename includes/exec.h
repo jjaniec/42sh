@@ -31,6 +31,12 @@
 # define DEFAULT_OUTPUT_REDIR_FILE_MODE 0644
 
 /*
+** Default count of filedesc supported for redirects like 4>&-
+*/
+
+# define DEFAULT_SUPPORTED_FDS_COUNT 3
+
+/*
 ** Define to indicate to exec_thread() that passed command is a builtin
 ** and should be executed with a function pointer instead of execve()
 */
