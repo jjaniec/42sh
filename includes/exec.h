@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/30 15:44:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 16:45:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 # define DEFAULT_OUTPUT_REDIR_FILE_MODE 0644
 
 /*
+** Default count of filedesc supported for redirects like 4>&-
+*/
+
+# define DEFAULT_SUPPORTED_FDS_COUNT 3
+
+/*
 ** Define to indicate to exec_thread() that passed command is a builtin
 ** and should be executed with a function pointer instead of execve()
 */
@@ -40,6 +46,8 @@
 # define STATEMENT_BREAK			-1
 # define STATEMENT_CONTINUE			-2
 # define STATEMENT_NOCMD			-3
+
+void		clean_data(char **data);
 
 // Binary finding & execution
 

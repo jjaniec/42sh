@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 18:04:13 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/11 20:55:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
 	vars->hashtable = ht_create(&env_vars);
+	load_aliases_file(access_alias_datas());
 }
 
 int			main(int ac, char **av, char **envp)

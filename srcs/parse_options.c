@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:45:34 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/11 18:01:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 16:29:29 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char			**parse_options(int *ac, char **av, \
 	{
 		if ((*ptr)[1] == '-')
 			toggle_str_opt(opt_list, (*ptr) + 1, char_opt_index);
-		else
+		else if (!ft_isdigit((*ptr)[1]))
 			toggle_char_opts(opt_list, (*ptr) + 1, char_opt_index);
 		ptr = (!ac || *ac != 0) ? (&ptr[1]) : (NULL);
 	}

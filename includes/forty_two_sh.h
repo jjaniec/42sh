@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 17:28:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 21:10:42 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@
 # define ERR_ISDIR			"is a directory\n"
 # define ERR_NORIGHTS		"permission denied: "
 # define ERR_CMD_NOT_FOUND	"command not found\n"
+# define ERR_INVALID_ALIAS_NAME "alias: invalid alias name\n"
 
 extern t_option		g_sh_opts[];
 extern const int	g_cant_begin_with[];
@@ -177,9 +178,14 @@ t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
 struct s_alias	*access_alias_datas(void);
+void		aliases_replace(t_lexeme **lex);
+struct s_alias		*is_an_alias(const char *data, \
+					const struct s_alias *iterator);
 
 void		log_close(int fd);
 
 char		**ft_dup_2d_array(char **arr);
+
+char		**handle_env_assigns(t_ast *node, t_exec *exe, t_environ **env_used);
 
 #endif

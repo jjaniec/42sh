@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 15:40:22 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/11 20:26:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ static int	builtin_cd_dash(t_environ *env, char *cwd)
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
 	char		cwd[MAX_ENV_ENTRY_LEN];
-	(void)exe;
+	t_environ	*origin_env;
 
+	(void)env;
 	exe->ret = 0;
 	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)) && errno != ENOENT)
 	{
@@ -123,6 +124,7 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 		else
 			exit(MALLOC_ERROR);
 	}
+	origin_env = get_shell_vars()->env;
 	if (!exe->ret && !argv[1])
 	{
 		if (env->get_var(env, "HOME"))
@@ -141,5 +143,5 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	}
 	else if (!exe->ret && argv[1])
 		ft_change_dir(env, argv[1], cwd);
-	ft_refresh_cwd_env(env);
+	ft_refresh_cwd_env(origin_env);
 }
