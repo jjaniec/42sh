@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/14 19:30:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/14 20:07:47 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,17 @@ static void		get_specified_fds(int *prefix_fd, char *data, \
 	*target_fd = ft_atoi(target_data);
 }
 
+static int		is_redir_valid(char *node_data)
+{
+	while (*node_data >= '0' && *node_data <= '9')
+		node_data++;
+	if (*node_data == '-')
+		node_data++;
+	if (!(*node_data))
+		return (1);
+	return (0);
+}
+
 /*
 ** Cycle through T_REDIR_OPT nodes,
 ** find prefix file descriptor stored in $data[0]
@@ -131,9 +142,11 @@ void			handle_redirs(t_ast *redir_ast_node)
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
 		if ((node->type_details == TK_LESSAND \
 			|| node->type_details == TK_GREATAND) && \
-			(!target_fd && !(*target_data == '-' || *target_data == '0')))
+			(!target_fd || !is_redir_valid(target_data)))
 		{
-			ft_putstr_fd(SH_NAME": ambiguous redirect\n", 2);
+			ft_putstr_fd(SH_NAME": ", 2);
+			ft_putstr_fd(target_data, 2);
+			ft_putstr_fd("ambiguous redirect\n", 2);
 			return ;
 		}
 		handle_redir(prefix_fd, target_data, target_fd, node);
