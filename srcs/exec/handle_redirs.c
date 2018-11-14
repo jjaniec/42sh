@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/14 18:39:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/14 19:30:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,16 @@ void			handle_redirs(t_ast *redir_ast_node)
 			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->type == T_REDIR_OPT)
 	{
+		handle_quotes_expansions(&(node->right->data[0]));
 		target_data = node->right->data[0];
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
+		if ((node->type_details == TK_LESSAND \
+			|| node->type_details == TK_GREATAND) && \
+			(!target_fd && !(*target_data == '-' || *target_data == '0')))
+		{
+			ft_putstr_fd(SH_NAME": ambiguous redirect\n", 2);
+			return ;
+		}
 		handle_redir(prefix_fd, target_data, target_fd, node);
 		if ((node->type_details == TK_LESSAND \
 			|| node->type_details == TK_GREATAND) && \
