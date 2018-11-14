@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/11 02:18:05 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/14 20:37:28 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,7 +152,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/echo/echo_opt_2.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
-			builtin/builtin_cd.c \
+			builtin/cd/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
@@ -244,7 +244,7 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo  line_edition/ \
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd line_edition/ \
 			line_edition/actionk/ line_edition/colosyn/ line_edition/init_le \
 			line_edition/boolean_check line_edition/print line_edition/signals \
 			line_edition/tools syntax_highlighting/ script/ autocomplete/ \

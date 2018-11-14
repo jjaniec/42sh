@@ -3,45 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/25 17:46:06 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/14 19:14:43 by cgaspart         ###   ########.fr       */
+/*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/11/14 20:53:25 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-
-/*
-** Posix options
-** https://www.unix.com/man-page/posix/1posix/cd/
-*/
-
-t_option		g_cd_opts[] = {
-	{{"h", "-help"}, "Print help and exit", false},
-	{{"P"}, "Handle the operand dot-dot physically; symbolic link \
-		components shall be resolved before dot-dot components are processed", false},
-	{{"L"}, "Handle the operand dot-dot logically; symbolic link \
-		components shall not be resolved before dot-dot components are processed", false},
-	{{NULL}, NULL, false}
-};
-
-/*
-** Refresh PWD env variable
-*/
-
-static void	ft_refresh_cwd_env(t_environ *env)
-{
-	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
-
-	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
-		env->upt_var(env, "PWD", cwd_new_fmt);
-	else
-		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
-}
-/*
-** Print cd error according to errno
-*/
 
 static void	ft_print_cd_err(char *path, int errno_err)
 {
@@ -57,11 +26,31 @@ static void	ft_print_cd_err(char *path, int errno_err)
 		exit(MALLOC_ERROR);
 }
 
-/*
-** Change current directory
-** here we use MAX_ENV_ENTRY_LEN as max path len
-** so we can update properly the PWD and OLDPWD env variables
-*/
+static int		cd_setup(t_exec *exe, char *cwd)
+{
+	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)) && errno != ENOENT)
+	{
+		if (errno == EACCES)
+		{
+			exe->ret = 1;
+			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
+			return (0);
+		}
+		else
+			exit(MALLOC_ERROR);
+	}
+	return (1);
+}
+
+static void	ft_refresh_cwd_env(t_environ *env)
+{
+	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
+
+	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
+		env->upt_var(env, "PWD", cwd_new_fmt);
+	else
+		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
+}
 
 static int	ft_change_dir(t_environ *env, char *path, char *cwd)
 {
@@ -84,10 +73,6 @@ static int	ft_change_dir(t_environ *env, char *path, char *cwd)
 	}
 }
 
-/*
-** Handle cd -
-*/
-
 static int	builtin_cd_dash(t_environ *env, char *cwd)
 {
 	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
@@ -103,23 +88,25 @@ static int	builtin_cd_dash(t_environ *env, char *cwd)
 	return (1);
 }
 
-/*
-** Change current directory and update PWD & OLDPWD env
-** variables
-*/
+static void		cd_home(t_environ *env, t_exec *exe, char *cwd)
+{
+	if (env->get_var(env, "HOME"))
+		ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+	else
+	{
+		ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
+		exe->ret = 1;
+		return ;
+	}
+}
 
-static void	builtin_cd_p(char *argv, t_environ *env, char *cwd)
+static void	builtin_cd_p(t_environ *env, t_exec *exe, char *cwd, char *argv)
 {
 	char	buf[MAX_ENV_ENTRY_LEN];
 	int		cc;
 
 	if (!argv)
-	{
-		if (env->get_var(env, "HOME"))
-			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
-		else
-			ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
-	}
+		cd_home(env, exe, cwd);
 	else if (autoc_check_path(argv) == 'l')
 	{
 		cc = readlink(argv, buf, MAX_ENV_ENTRIES);
@@ -128,40 +115,25 @@ static void	builtin_cd_p(char *argv, t_environ *env, char *cwd)
 	}
 }
 
-void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
+void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
-	char		cwd[MAX_ENV_ENTRY_LEN];
-	(void)exe;
+	char	cwd[MAX_ENV_ENTRY_LEN];
 
 	exe->ret = 0;
-	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)) && errno != ENOENT)
-	{
-		if (errno == EACCES)
-		{
-			exe->ret = 1;
-			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
-		}
-		else
-			exit(MALLOC_ERROR);
-	}
+	if (!cd_setup(exe, cwd))
+		return ;
 	if (!exe->ret && !argv[1])
-	{
-		if (env->get_var(env, "HOME"))
-			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
-		else
-		{
-			ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
-			exe->ret = 1;
-			return ;
-		}
-	}
+		cd_home(env, exe, cwd);
 	else if (!exe->ret && !ft_strcmp(argv[1], "-"))
 	{
 		if ((exe->ret = builtin_cd_dash(env, cwd)))
 			return ;
 	}
 	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
-		builtin_cd_p(argv[2], env, cwd);
+	{
+		builtin_cd_p(env, exe, cwd, argv[2]);
+		return ;
+	}
 	else if (!exe->ret && argv[1])
 		ft_change_dir(env, argv[1], cwd);
 	ft_refresh_cwd_env(env);
