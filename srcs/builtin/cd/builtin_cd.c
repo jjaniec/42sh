@@ -6,11 +6,20 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/14 20:53:25 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/15 17:10:52 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+t_option		g_cd_opts[] = {
+	{{"h", "-help"}, "Print help and exit", false},
+	{{"P"}, "Handle the operand dot-dot physically; symbolic link \
+		components shall be resolved before dot-dot components are processed", false},
+	{{"L"}, "Handle the operand dot-dot logically; symbolic link \
+		components shall not be resolved before dot-dot components are processed", false},
+	{{NULL}, NULL, false}
+};
 
 static void	ft_print_cd_err(char *path, int errno_err)
 {
@@ -42,20 +51,8 @@ static int		cd_setup(t_exec *exe, char *cwd)
 	return (1);
 }
 
-static void	ft_refresh_cwd_env(t_environ *env)
-{
-	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
-
-	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
-		env->upt_var(env, "PWD", cwd_new_fmt);
-	else
-		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
-}
-
 static int	ft_change_dir(t_environ *env, char *path, char *cwd)
 {
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd(" | ", 2);
 	if (path && !chdir(path))
 	{
 		if (env->get_var(env, "OLDPWD"))
@@ -88,10 +85,39 @@ static int	builtin_cd_dash(t_environ *env, char *cwd)
 	return (1);
 }
 
+static char	*clean_last_slash(char *str)
+{
+	char	*res;
+
+	if (str[0] == '/' && ft_strlen(str) == 1)
+		return (ft_xstrdup(str));
+	if (str[(ft_strlen(str) - 1)] == '/')
+	{
+		res = ft_xmalloc(sizeof(char) * (ft_strlen(str)));
+		ft_bzero(res, ft_strlen(str));
+		ft_strncpy(res, str, (ft_strlen(str) - 1));
+		return (res);
+	}
+	return (ft_xstrdup(str));
+}
+
+static void	refresh_cwd_env(t_environ *env)
+{
+	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
+
+	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
+		env->upt_var(env, "PWD", cwd_new_fmt);
+	else
+		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
+}
+
 static void		cd_home(t_environ *env, t_exec *exe, char *cwd)
 {
 	if (env->get_var(env, "HOME"))
+	{
 		ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+		refresh_cwd_env(env);
+	}
 	else
 	{
 		ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
@@ -102,17 +128,43 @@ static void		cd_home(t_environ *env, t_exec *exe, char *cwd)
 
 static void	builtin_cd_p(t_environ *env, t_exec *exe, char *cwd, char *argv)
 {
+	char	*path;
 	char	buf[MAX_ENV_ENTRY_LEN];
 	int		cc;
 
 	if (!argv)
-		cd_home(env, exe, cwd);
-	else if (autoc_check_path(argv) == 'l')
 	{
-		cc = readlink(argv, buf, MAX_ENV_ENTRIES);
+		cd_home(env, exe, cwd);
+		return ;
+	}
+	path = clean_last_slash(argv);
+	if (autoc_check_path(path) == 'l')
+	{
+		cc = readlink(path, buf, MAX_ENV_ENTRIES);
 		buf[cc] = '\0';
 		ft_change_dir(env, buf, cwd);
+		refresh_cwd_env(env);
 	}
+	free(path);
+}
+
+static void		builtin_cd_l(t_environ *env, char *av, char *cwd)
+{
+	char *path;
+	char *tmp;
+
+	path = clean_last_slash(av);
+	ft_putstr_fd(path, 2);
+	if (autoc_check_path(path) == 'l')
+	{
+		tmp = ft_xstrjoin(cwd, path);
+		ft_putstr_fd(tmp, 2);
+		ft_putstr_fd(" | ", 2);
+		free(tmp);
+	}
+	ft_change_dir(env, av, cwd);
+	refresh_cwd_env(env);
+	free(path);
 }
 
 void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
@@ -135,6 +187,5 @@ void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
 		return ;
 	}
 	else if (!exe->ret && argv[1])
-		ft_change_dir(env, argv[1], cwd);
-	ft_refresh_cwd_env(env);
+		builtin_cd_l(env, argv[1], cwd);
 }
