@@ -6,15 +6,20 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/14 20:07:47 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 16:17:59 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
+make && ./42sh -vc "cat <&- < Makefile"
+	"cat <Makefile <&- 1< Makefile "
+	"cat <Makefile <&- < Makefile > /dev/null < Makefile"
+	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&-"
+	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&- > aaa"
 ** Handle input redirections
-** For here-doc redirections, init a temporary pipe w/
+** For TK_TLESS redirections, init a temporary pipe w/
 ** file descs stored in redir node data,
 ** then write content of here document in input, close it and redir
 ** stdin to pipe output
@@ -77,9 +82,10 @@ static void		handle_output_redir(int prefix_fd, \
 ** if operator contains a '&' like ">&"
 */
 
-static void		handle_redir(int prefix_fd, char *target_data, \
+static int		handle_redir(int prefix_fd, char *target_data, \
 					int target_fd, t_ast *node)
 {
+	log_trace("Handle redir prefix_fd: %d - parsed target_fd: %d for target_data string: |%s| - node: %p", prefix_fd, target_fd, target_data, node);
 	if (!((node->type_details == TK_LESSAND \
 		|| node->type_details == TK_GREATAND)))
 	{
@@ -88,12 +94,16 @@ static void		handle_redir(int prefix_fd, char *target_data, \
 		if (ft_strchr(node->data[0], '>'))
 			handle_output_redir(prefix_fd, target_data, node->type_details);
 	}
-	else
+	else if (target_fd != -1 /*&&  prefix_fd != target_fd*/)
 	{
-		log_close(prefix_fd);
-		log_debug("Duplicating fd %d for filedesc redirect", target_fd);
-		dup(target_fd);
+		if (prefix_fd != -1 && !(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF))
+			log_close(prefix_fd);
+		//dup2(prefix_fd, target_fd);
+		//log_close(prefix_fd);
+		log_debug("Duplicating fd %d for filedesc redirect to %d", target_fd, prefix_fd);
+		return (dup(target_fd));
 	}
+	return (-1);
 }
 
 static void		get_specified_fds(int *prefix_fd, char *data, \
@@ -105,18 +115,10 @@ static void		get_specified_fds(int *prefix_fd, char *data, \
 		*prefix_fd = DEFAULT_INPUT_REDIR_FD;
 	else
 		*prefix_fd = ft_atoi(data);
-	*target_fd = ft_atoi(target_data);
-}
-
-static int		is_redir_valid(char *node_data)
-{
-	while (*node_data >= '0' && *node_data <= '9')
-		node_data++;
-	if (*node_data == '-')
-		node_data++;
-	if (!(*node_data))
-		return (1);
-	return (0);
+	if (*target_data == '-')
+		*target_fd = -1;
+	else
+		*target_fd = ft_atoi(target_data);
 }
 
 /*
@@ -131,29 +133,29 @@ void			handle_redirs(t_ast *redir_ast_node)
 	int		prefix_fd;
 	int		target_fd;
 	char	*target_data;
+	int		new_fd;
+	char	*close_fd_symbol_ptr;
 
 	node = redir_ast_node->parent;
 	log_info("PID %zu: Handle redirs of %s(t %d td %d)", getpid(), redir_ast_node->data[0], \
 			redir_ast_node->type, redir_ast_node->type_details);
 	while (node && node->type == T_REDIR_OPT)
 	{
-		handle_quotes_expansions(&(node->right->data[0]));
+		if (check_redir_suffix_validity(node))
+			break ;
 		target_data = node->right->data[0];
+		close_fd_symbol_ptr = ft_strchr(target_data, CLOSE_FD_REDIR_SYMBOL);
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
-		if ((node->type_details == TK_LESSAND \
-			|| node->type_details == TK_GREATAND) && \
-			(!target_fd || !is_redir_valid(target_data)))
-		{
-			ft_putstr_fd(SH_NAME": ", 2);
-			ft_putstr_fd(target_data, 2);
-			ft_putstr_fd("ambiguous redirect\n", 2);
-			return ;
-		}
-		handle_redir(prefix_fd, target_data, target_fd, node);
+		new_fd = handle_redir(prefix_fd, target_data, target_fd, node);
 		if ((node->type_details == TK_LESSAND \
 			|| node->type_details == TK_GREATAND) && \
 			ft_strchr(target_data, '-'))
-			log_close((target_fd) ? (target_fd) :(prefix_fd));
+		{
+			if (target_fd != -1)
+				log_close(target_fd);
+			else if (prefix_fd != -1 && prefix_fd != new_fd)
+				log_close(prefix_fd);
+		}
 		node = node->parent;
 	}
 }

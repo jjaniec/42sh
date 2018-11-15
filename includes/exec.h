@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 16:45:46 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/15 16:19:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,21 @@
 */
 
 # define DEFAULT_OUTPUT_REDIR_FILE_MODE 0644
+
+/*
+** Char signaling filedesc redir close
+*/
+
+# define CLOSE_FD_REDIR_SYMBOL '-'
+
+/*
+** Validity checks for redirections,
+** those defines are used only in check_redir_suffix_validity.c
+*/
+
+# define MODE_CHECK_REDIR_VALID_FILE	1
+# define MODE_CHECK_REDIR_VALID_FD		2
+# define REDIRS_AUTHORIZED_CHARS	"/"
 
 /*
 ** Default count of filedesc supported for redirects like 4>&-
@@ -102,6 +117,7 @@ int		parse_expr_comp(char **argv);
 
 void	handle_redirs(t_ast *redir_ast_node);
 void	handle_redir_fd(int input_fd, int target_fd);
+int		check_redir_suffix_validity(t_ast *redir_ast_node);
 
 // Pipes
 
@@ -109,7 +125,6 @@ int		handle_pipes(int **pipe_fds);
 void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
 t_ast	*get_last_pipe_node(t_ast *node);
 int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
-
 
 // Error Handling
 

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/11 21:10:42 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 15:03:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@
 # define ERR_NORIGHTS		"permission denied: "
 # define ERR_CMD_NOT_FOUND	"command not found\n"
 # define ERR_INVALID_ALIAS_NAME "alias: invalid alias name\n"
+# define ERR_AMBIGUOUS_REDIR	"ambiguous redirect\n"
 
 extern t_option		g_sh_opts[];
 extern const int	g_cant_begin_with[];
