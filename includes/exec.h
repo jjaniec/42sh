@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/15 16:19:53 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 16:57:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 
 # define MODE_CHECK_REDIR_VALID_FILE	1
 # define MODE_CHECK_REDIR_VALID_FD		2
-# define REDIRS_AUTHORIZED_CHARS	"/"
+# define REDIRS_AMBIGUOUS_CHARS	""
 
 /*
 ** Default count of filedesc supported for redirects like 4>&-

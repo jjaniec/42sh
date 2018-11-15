@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 21:15:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 17:27:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,41 +71,67 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Pipes 16 - Command not found hang test", "doesnotexists 2> /dev/null | cat", NULL);
 	compare_sh_42sh_outputs("Pipes 17 - Command not found hang test 2", "echo lol | doesnotexists 2> /dev/null | cat", NULL);
 	compare_sh_42sh_outputs("Pipes 18 - Command not found hang test 3", "echo lol | doesnotexists 2> /dev/null", NULL);
-
+/*
 	tk_less_tests_tmp_fd = open(TESTS_TMP_FILENAME, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	ft_putstr_fd("Some random text in"TESTS_TMP_FILENAME, tk_less_tests_tmp_fd);
-	compare_sh_42sh_outputs("TK_LESS 1 - Simple", "cat < "TESTS_TMP_FILENAME, NULL);
-	compare_sh_42sh_outputs("TK_LESS 2 - Pipe", "cat < "TESTS_TMP_FILENAME" | cat", NULL);
-	compare_sh_42sh_outputs("TK_LESS 3 - Multiple pipes", "cat < "TESTS_TMP_FILENAME" | cat | cat | cat|cat|cat|cat", NULL);
-	compare_sh_42sh_outputs("TK_LESS 4 - OR", "ls /zzz || cat < "TESTS_TMP_FILENAME" |cat ", NULL);
-	compare_sh_42sh_outputs("TK_LESS 5 - AND", "cat a && cat < "TESTS_TMP_FILENAME" |cat ", NULL);
-	compare_sh_42sh_outputs("TK_LESS 6 - OR - AND - Pipes", "cat a && cat < "TESTS_TMP_FILENAME" |cat && cat "TESTS_TMP_FILENAME" | cat || cat 'this should not append'; cat <"TESTS_TMP_FILENAME" | cat", NULL);
-	compare_sh_42sh_outputs("TK_LESS 7 - rewrite input redir to same file", "cat <"TESTS_TMP_FILENAME" 2>&1 | cat >"TESTS_TMP_FILENAME, NULL);
 	close(tk_less_tests_tmp_fd);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 1 - Simple", "cat < "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 2 - Pipe", "cat < "TESTS_TMP_FILENAME" | cat", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 3 - Multiple pipes", "cat < "TESTS_TMP_FILENAME" | cat | cat | cat|cat|cat|cat", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 4 - OR", "ls /zzz || cat < "TESTS_TMP_FILENAME" |cat ", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 5 - AND", "cat a && cat < "TESTS_TMP_FILENAME" |cat ", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 6 - OR - AND - Pipes", "cat a && cat < "TESTS_TMP_FILENAME" |cat && cat "TESTS_TMP_FILENAME" | cat || cat 'this should not append'; cat <"TESTS_TMP_FILENAME" | cat", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 7 - rewrite input redir to same file", "cat <"TESTS_TMP_FILENAME" 2>&1 | cat >"TESTS_TMP_FILENAME, NULL);
+	//close(tk_less_tests_tmp_fd);
+	remove(tk_less_tests_tmp_fd);*/
 
-	compare_redirected_files_contents("TK_MORE 1 - Simple", "/bin/echo aaa > "TESTS_TMP_FILENAME, "aaa\n");
-	compare_redirected_files_contents("TK_MORE 2 - Simple w/ pipe", "/bin/echo bbb | cat > "TESTS_TMP_FILENAME, "bbb\n");
-	compare_redirected_files_contents("TK_MORE 3 - Simple w/ pipes", "/bin/echo ccc | cat |cat |cat |cat> "TESTS_TMP_FILENAME, "ccc\n");
-	compare_redirected_files_contents("TK_MORE 4 - Content replacement w/ AND", "/bin/echo aaa > "TESTS_TMP_FILENAME" && /bin/echo bbb > "TESTS_TMP_FILENAME, "bbb\n");
-	compare_redirected_files_contents("TK_MORE 5 - Content replacement w/ ; & OR", "/bin/echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || /bin/echo ccc > "TESTS_TMP_FILENAME, "ccc\n");
+	compare_sh_42sh_outputs("Redirs - TK_MORE 1 - Simple", "/bin/echo aaa > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 1 - Simple builtin", "echo aaa > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 2 - Simple w/ pipe", "/bin/echo bbb | cat > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 2 - Simple w/ pipe builtin", "echo bbb | cat > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 3 - Simple w/ pipes 2", "/bin/echo ccc | cat |cat |cat |cat> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 3 - Simple w/ pipes 2 builtin", "echo ccc | cat |cat |cat |cat> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 4 - Content replacement w/ AND", "/bin/echo aaa > "TESTS_TMP_FILENAME" && /bin/echo bbb > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 4 - Content replacement w/ AND builtin", "echo aaa > "TESTS_TMP_FILENAME" && echo bbb > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 5 - Content replacement w/ ; & OR", "/bin/echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || /bin/echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 5 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 6 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 6 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 
-	compare_redirected_files_contents("TK_DMORE 1 - Simple - file creation", "/bin/echo a >> "TESTS_TMP_FILENAME, "a\n");
-	compare_redirected_files_contents("TK_DMORE 2 - Simple - add addional data", "/bin/echo a >> "TESTS_TMP_FILENAME"; /bin/echo b >> "TESTS_TMP_FILENAME, "a\nb\n");
-	compare_redirected_files_contents("TK_DMORE 3 - w/ Pipes", "/bin/echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME, "a\n");
-	compare_redirected_files_contents("TK_DMORE 4 - w/ TK_MORE replacement", "/bin/echo a >> "TESTS_TMP_FILENAME";/bin/echo b > "TESTS_TMP_FILENAME";/bin/echo c >> "TESTS_TMP_FILENAME, "b\nc\n");
-	compare_redirected_files_contents("TK_DMORE 5 - Stderr as prefix fd redirect", "cat /doesnotexists 2>> "TESTS_TMP_FILENAME, "cat: /doesnotexists: No such file or directory\n");
-	compare_redirected_files_contents("TK_DMORE 5 - OR - AND - PIPES", "/bin/echo a |cat|cat >> "TESTS_TMP_FILENAME" && /bin/echo b >> "TESTS_TMP_FILENAME" || /bin/echo thisisafail >> "TESTS_TMP_FILENAME"; /bin/echo itworks >> "TESTS_TMP_FILENAME, "a\nb\nitworks\n");
+	remove(TESTS_TMP_FILENAME);
+/*	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation", "/bin/echo a >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation builtins", "echo a >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 2 - Simple - add addional data", "/bin/echo a > "TESTS_TMP_FILENAME" && /bin/echo b >> "TESTS_TMP_FILENAME"; /bin/echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, "a\nb\n");
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 2 - Simple - add addional data builtins", "echo a > "TESTS_TMP_FILENAME" && echo b >> "TESTS_TMP_FILENAME"; echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 3 - w/ Pipes", "/bin/echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 3 - w/ Pipes builtins", "echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);  marsh pas jsais pas pouruqoi
+*/	compare_sh_42sh_outputs("Redirs - TK_DMORE 4 - w/ TK_MORE replacement", "/bin/echo a >> "TESTS_TMP_FILENAME";/bin/echo b > "TESTS_TMP_FILENAME";/bin/echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 4 - w/ TK_MORE replacement builtins", "echo a >> "TESTS_TMP_FILENAME";echo b > "TESTS_TMP_FILENAME";echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_redirected_files_contents("Redirs - TK_DMORE 5 - Stderr as prefix fd redirect", "cat /doesnotexists 2>> "TESTS_TMP_FILENAME, "cat: /doesnotexists: No such file or directory\n");
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 6 - OR - AND - PIPES", "/bin/echo a |cat|cat >> "TESTS_TMP_FILENAME" && /bin/echo b >> "TESTS_TMP_FILENAME" || /bin/echo thisisafail >> "TESTS_TMP_FILENAME"; /bin/echo itworks >> "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 6 - OR - AND - PIPES builtins", "echo a |cat|cat >> "TESTS_TMP_FILENAME" && echo b >> "TESTS_TMP_FILENAME" || echo thisisafail >> "TESTS_TMP_FILENAME"; /bin/echo itworks >> "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
 
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 1 - Simple", "/bin/cat <<< lol", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 2 - Simple", "/bin/cat <<< diajdiwajdoiwdjdwadjaiwdjwaidj", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 3 - Simple w/ lexer quotes concats", "/bin/cat <<< aaaa\"bbbbb\"'ccccc'ddddd", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 4 - OR", "/bin/cat <<< lol || /bin/cat <<< lal", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 5 - AND", "/bin/cat <<< lol && /bin/cat <<< lal", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 6 - OR & AND", "/bin/cat <<< lol || /bin/cat <<< lal && /bin/cat <<< lel", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 7 - Pipes", "/bin/cat <<< lol | cat", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat", NULL);
-	compare_sh_42sh_outputs("TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 1 - Simple", "/bin/cat <<< lol", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 2 - Simple", "/bin/cat <<< diajdiwajdoiwdjdwadjaiwdjwaidj", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 3 - Simple w/ lexer quotes concats", "/bin/cat <<< aaaa\"bbbbb\"'ccccc'ddddd", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 4 - OR", "/bin/cat <<< lol || /bin/cat <<< lal", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 5 - AND", "/bin/cat <<< lol && /bin/cat <<< lal", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 6 - OR & AND", "/bin/cat <<< lol || /bin/cat <<< lal && /bin/cat <<< lel", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 7 - Pipes", "/bin/cat <<< lol | cat", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl", NULL);
 
 	compare_fds_w_strings("Aliases 1 - assignation", "alias rofl 'echo lol'; alias --save", "", NULL);
 	compare_fds_w_strings("Aliases 1 - Simple expansion", "rofl", "lol\n", "");

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 14:57:48 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/15 16:27:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 16:58:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 static bool		is_redir_suffix_valid(char *node_data, int mode, t_ast *node)
 {
 	log_debug("Check validity of: |%s|", node_data);
-	while (*node_data && (ft_isalnum(*node_data) || ft_strchr(REDIRS_AUTHORIZED_CHARS, *node_data)) && \
+	while (*node_data && ft_isprint(*node_data) && \
+		!ft_strchr(REDIRS_AMBIGUOUS_CHARS, *node_data) && \
 		*node_data != CLOSE_FD_REDIR_SYMBOL)
 	{
 		if ((node->type_details == TK_LESSAND || \

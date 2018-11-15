@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/15 16:17:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 17:03:58 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ make && ./42sh -vc "cat <&- < Makefile"
 	"cat <Makefile <&- < Makefile > /dev/null < Makefile"
 	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&-"
 	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&- > aaa"
+	sh -c 'echo lol > md\ r 2>lolo 1>&2'
 ** Handle input redirections
 ** For TK_TLESS redirections, init a temporary pipe w/
 ** file descs stored in redir node data,
