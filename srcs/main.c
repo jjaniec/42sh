@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/11 20:55:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 20:16:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,15 @@ static char	*read_file(int fd)
 	char	*final;
 	int		ret;
 
-	final = ft_strnew(0);
+	final = ft_strnew(0); errno = 0;
 	while((ret = get_next_line(fd, &line)))
 	{
 		if (ret == -1)
+		{
+			if (errno == EISDIR)
+				ft_putstr_fd(SH_NAME": Argument is a directory\n", 2);
 			exit(EXIT_FAILURE);
+		}
 		final = ft_strjoin_free(final, line);
 		final = ft_strjoin_free(final, ft_strdup("\n"));
 	}
@@ -187,7 +191,8 @@ int			main(int ac, char **av, char **envp)
 
 	opt_list = g_sh_opts;
 	g_jobs = NULL;
-	setpgrp();
+	//setpgrp();
+
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);
@@ -197,12 +202,13 @@ int			main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(EXIT_SUCCESS);
 	}
-	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 	{
 		tty_debug = fopen(TTY_DEBUG, "w");
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
+		{ le_debug("MAIN() SE LANCE PID %i  GROUPE %i\n", (int) getpid(), (int) getpgrp()  ) } // debug
 	}
+	init_signals();
 	if (interpret_file(av, char_opt_index))
 		return (0);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))

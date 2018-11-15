@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 15:49:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/15 19:30:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,8 @@ static void		close_child_pipe_fds(int **pipe_fds)
 	}
 }
 
+//static void	handle_foregrounded_child
+
 /*
 ** Parent process function when forking
 ** Wait child process to end if not in a pipeline,
@@ -194,7 +196,23 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 	{
 		if (g_jobs)
 			g_jobs->pgid = 0;
+
+
+		{ le_debug("PID %i JE SUIS AVANT WAITPID\n", (int) getpid() ) }
+
+		if ( setpgid(child_pid, child_pid) != 0 ) { perror("ABCDEFGHIJKLM"); exit(7); }
+
+		int child_pgid = getpgid(child_pid); if (child_pgid == -1) { perror("NNNNNNNNNNNNNNN") ; exit(3); }
+		int shell_pgid = getpgid( getpid() ); if (shell_pgid == -1) { perror("AAANNNNNNNNNNNNNNN") ; exit(5); }
+		int ret = tcsetpgrp(STDIN_FILENO, child_pgid); if (ret != 0) { perror("NOOOOOOOOOOOON"); exit(4); }
+
+		{ le_debug("SHELL PGID %i  CHILD PGID  %i  CHILD PID %i\n", shell_pgid, child_pgid, child_pid) }
+
 		waited_pid = waitpid(child_pid, &status, 0);
+
+		ret = tcsetpgrp(STDIN_FILENO, shell_pgid); if (ret != 0) { perror("AAAAAANOOOOOOOOOOOON"); exit(6); }
+
+
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
 		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
 			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), return_code);
@@ -244,6 +262,14 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	{
 		pipe_fds = get_pipe_fds(last_pipe_node, node);
 		exe->prog_forked = true;
+/*
+		struct sigaction s;
+		s.sa_flags = 0;
+		sigfillset(&(s.sa_mask));
+		s.sa_handler = SIG_IGN;
+		sigaction(SIGINT, &s, NULL);
+*/
+
 		child_pid = fork();
 		if (child_pid == -1)
 			log_error("Fork() not working");
@@ -256,6 +282,9 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 			log_trace("Forked process pid: %d for cmd: %s", child_pid, node->data[0]);
 			exe->ret = parent_process((char **)cmd, child_pid, pipe_fds);
 		}
+/*
+		s.sa_handler = handle_sigint;
+		sigaction(SIGINT, &s, NULL); */
 	}
 	else
 	{

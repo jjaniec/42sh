@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:31:58 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/14 21:39:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void		le_debug_infos(void)
 static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 {
 	ssize_t read_ret;
-
+								{ le_debug("JE SUIS PID %i PRET A READ\n", (int) getpid() ) }
 	errno = 0;
-	read_ret = read(STDIN_FILENO, key, LE_KEY_BUFFER_SIZE - 1);
+	read_ret = read(STDIN_FILENO, key, LE_KEY_BUFFER_SIZE - 1);  { if (errno != 0) { le_debug("JE SUIS PID %i READ FAIL\n", (int) getpid() ) perror("perror read");  }  else { le_debug("READ FINI%c\n", ' ') } }
 	if (errno == EINTR)
 	{
 		if (g_cmd_status.resize_happened == true
@@ -60,7 +60,10 @@ static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 		return (INTR_BY_SIGINT);
 	}
 	if (read_ret == -1)
+	{
+		{ le_debug("READ EXIT FAILURE PID %i\n", (int) getpid()  ) }
 		exit(EXIT_FAILURE);
+	}
 	return (ALL_IS_ALRIGHT);
 }
 
