@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/16 18:51:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 19:42:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void		compare_fds_w_strings(char *test_name, char *str_test, char *expect
 	compare_fds_with_strings(test_name, expected_stdout, expected_stderr, backup_stdout_fd, backup_stderr_fd);
 	remove(redirect_both_fds_STDOUT_FILENAME);
 	remove(redirect_both_fds_STDERR_FILENAME);
+	free(cmd_sh);
 }
 
 void	exec_tests(t_environ *env)
@@ -99,19 +100,20 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - TK_MORE 6 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 
 	remove(TESTS_TMP_FILENAME);
-/*	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation", "/bin/echo a >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation", "/bin/echo a >> "TESTS_TMP_FILENAME\
+		"; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation builtins", "echo a >> "TESTS_TMP_FILENAME\
+		"; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 2 - Simple - add addional data", "/bin/echo a > "TESTS_TMP_FILENAME" && /bin/echo b >> "TESTS_TMP_FILENAME"; /bin/echo c >> "TESTS_TMP_FILENAME\
+		"; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 2 - Simple - add addional data builtins", "echo a > "TESTS_TMP_FILENAME" && echo b >> "TESTS_TMP_FILENAME"; echo c >> "TESTS_TMP_FILENAME\
+		"; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 3 - w/ Pipes", "/bin/echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME\
+		"; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 3 - w/ Pipes builtins", "echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME\
+		"; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation builtins", "echo a >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
-	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - TK_DMORE 2 - Simple - add addional data", "/bin/echo a > "TESTS_TMP_FILENAME" && /bin/echo b >> "TESTS_TMP_FILENAME"; /bin/echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, "a\nb\n");
-	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - TK_DMORE 2 - Simple - add addional data builtins", "echo a > "TESTS_TMP_FILENAME" && echo b >> "TESTS_TMP_FILENAME"; echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
-	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - TK_DMORE 3 - w/ Pipes", "/bin/echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
-	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - TK_DMORE 3 - w/ Pipes builtins", "echo a | cat|cat|cat|cat >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
-	remove(TESTS_TMP_FILENAME);  marsh pas jsais pas pouruqoi
-*/	compare_sh_42sh_outputs("Redirs - TK_DMORE 4 - w/ TK_MORE replacement", "/bin/echo a >> "TESTS_TMP_FILENAME";/bin/echo b > "TESTS_TMP_FILENAME";/bin/echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_DMORE 4 - w/ TK_MORE replacement", "/bin/echo a >> "TESTS_TMP_FILENAME";/bin/echo b > "TESTS_TMP_FILENAME";/bin/echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - TK_DMORE 4 - w/ TK_MORE replacement builtins", "echo a >> "TESTS_TMP_FILENAME";echo b > "TESTS_TMP_FILENAME";echo c >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
@@ -150,9 +152,8 @@ void	exec_tests(t_environ *env)
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Filedesc closes 4", "ls 2<&- > "TESTS_TMP_FILENAME" /thisdoesnotexists; cat "TESTS_TMP_FILENAME, NULL);
 
-
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Mixed 1", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&- <>"TESTS_TMP_FILENAME";cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - Mixed 1", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&- <>"TESTS_TMP_FILENAME";cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Mixed 2", "ls /doesnotexists 2>"TESTS_TMP_FILENAME" 1>&2", NULL);
 	remove(TESTS_TMP_FILENAME);
