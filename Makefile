@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/15 15:14:29 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/16 20:21:53 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -260,6 +260,8 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 ###### COMPILATION ######
 CC = gcc
 CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror -O3
+ADDITIONAL_FLAGS = # Used to know when running on travis-ci
+CFLAGS += $(ADDITIONAL_FLAGS)
 
 ### FLAGS ###
 VERBOSE_MODE = 0
