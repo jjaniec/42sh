@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/16 19:08:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 20:50:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static void		handle_output_redir(int prefix_fd, \
 	int		fd;
 	int		open_mode;
 
-	fd = -1;
 	open_mode = 0;
 	if (tk_type_details == TK_GREAT)
 		open_mode = TK_GREAT_OPEN_ATTR;
@@ -83,7 +82,6 @@ static void		handle_output_redir(int prefix_fd, \
 		{
 			log_debug("File %s opened as fd: %d", target_data, fd);
 			handle_redir_fd(prefix_fd, fd);
-			//log_close(fd);
 		}
 	}
 }
@@ -99,9 +97,11 @@ static void		handle_output_redir(int prefix_fd, \
 static int		handle_redir(int prefix_fd, char *target_data, \
 					int target_fd, t_ast *node)
 {
+	int		r;
+
 	log_trace("Handle redir prefix_fd: %d - parsed target_fd: %d for target_data string: |%s| - node: %p", prefix_fd, target_fd, target_data, node);
-	if (!((node->type_details == TK_LESSAND \
-		|| node->type_details == TK_GREATAND)))
+	if (!(node->type_details == TK_LESSAND \
+		|| node->type_details == TK_GREATAND))
 	{
 		if (ft_strchr(node->data[0], '>'))
 			handle_output_redir(prefix_fd, target_data, node->type_details);
@@ -112,10 +112,10 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 	{
 		if (prefix_fd != -1 && !(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF))
 			log_close(prefix_fd);
-		//dup2(prefix_fd, target_fd);
-		//log_close(prefix_fd);
 		log_debug("Duplicating fd %d for filedesc redirect to %d", target_fd, prefix_fd);
-		return (dup(target_fd));
+		if ((r = dup(target_fd)) == -1)
+			ft_putstr_fd(SH_NAME": Dup() error", 2);
+		return (r);
 	}
 	return (-1);
 }
@@ -148,7 +148,6 @@ void			handle_redirs(t_ast *redir_ast_node)
 	int		target_fd;
 	char	*target_data;
 	int		new_fd;
-	char	*close_fd_symbol_ptr;
 
 	node = redir_ast_node->parent;
 	log_info("PID %zu: Handle redirs of %s(t %d td %d)", getpid(), redir_ast_node->data[0], \
@@ -158,7 +157,6 @@ void			handle_redirs(t_ast *redir_ast_node)
 		if (check_redir_suffix_validity(node))
 			break ;
 		target_data = node->right->data[0];
-		close_fd_symbol_ptr = ft_strchr(target_data, CLOSE_FD_REDIR_SYMBOL);
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
 		new_fd = handle_redir(prefix_fd, target_data, target_fd, node);
 		if ((node->type_details == TK_LESSAND \
