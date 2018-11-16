@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/15 17:03:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 17:48:17 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ make && ./42sh -vc "cat <&- < Makefile"
 	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&-"
 	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&- > aaa"
 	sh -c 'echo lol > md\ r 2>lolo 1>&2'
+	diff >&- >&3-
 ** Handle input redirections
 ** For TK_TLESS redirections, init a temporary pipe w/
 ** file descs stored in redir node data,
@@ -36,7 +37,10 @@ static void		handle_input_redir(int prefix_fd, char *target_data, \
 		if ((fd = open(target_data, O_RDONLY, 0)) == -1)
 			handle_open_error(errno, target_data);
 		else
+		{
+			log_debug("File %s opened as fd: %d", target_data, fd);
 			handle_redir_fd(prefix_fd, fd);
+		}
 	}
 	else if (tk_type_details == TK_DLESS || \
 			tk_type_details == TK_TLESS)
@@ -61,18 +65,26 @@ static void		handle_output_redir(int prefix_fd, \
 					char *target_data, size_t tk_type_details)
 {
 	int		fd;
+	int		open_mode;
 
 	fd = -1;
+	open_mode = 0;
 	if (tk_type_details == TK_GREAT)
-		fd = open(target_data, O_WRONLY | O_CREAT | O_TRUNC, \
-			DEFAULT_OUTPUT_REDIR_FILE_MODE);
+		open_mode = TK_GREAT_OPEN_ATTR;
 	else if (tk_type_details == TK_DGREAT)
-		fd = open(target_data, O_WRONLY | O_CREAT | O_APPEND, \
-			DEFAULT_OUTPUT_REDIR_FILE_MODE);
-	if (fd == -1)
-		handle_open_error(errno, target_data);
-	else
-		handle_redir_fd(prefix_fd, fd);
+		open_mode = TK_DGREAT_OPEN_ATTR;
+	else if (tk_type_details == TK_LESSGREAT)
+		open_mode = TK_LESSGREAT_OPEN_ATTR;
+	if (open_mode)
+	{
+		if ((fd = open(target_data, open_mode, DEFAULT_OUTPUT_REDIR_FILE_MODE)) == -1)
+			handle_open_error(errno, target_data);
+		else
+		{
+			log_debug("File %s opened as fd: %d", target_data, fd);
+			handle_redir_fd(prefix_fd, fd);
+		}
+	}
 }
 
 /*
@@ -90,10 +102,10 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 	if (!((node->type_details == TK_LESSAND \
 		|| node->type_details == TK_GREATAND)))
 	{
-		if (ft_strchr(node->data[0], '<'))
-			handle_input_redir(prefix_fd, target_data, node->type_details, node);
 		if (ft_strchr(node->data[0], '>'))
 			handle_output_redir(prefix_fd, target_data, node->type_details);
+		if (ft_strchr(node->data[0], '<') && node->type_details != TK_LESSGREAT)
+			handle_input_redir(prefix_fd, target_data, node->type_details, node);
 	}
 	else if (target_fd != -1 /*&&  prefix_fd != target_fd*/)
 	{

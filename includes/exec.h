@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/15 16:57:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 17:39:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,16 @@
 # define STATEMENT_BREAK			-1
 # define STATEMENT_CONTINUE			-2
 # define STATEMENT_NOCMD			-3
+
+/*
+** Specify attributes passed to open for each output redirection token
+*/
+
+# define REDIRS_OPEN_BASE_ATTR	O_WRONLY | O_CREAT
+
+# define TK_GREAT_OPEN_ATTR		REDIRS_OPEN_BASE_ATTR | O_TRUNC
+# define TK_DGREAT_OPEN_ATTR 	REDIRS_OPEN_BASE_ATTR | O_APPEND
+# define TK_LESSGREAT_OPEN_ATTR	REDIRS_OPEN_BASE_ATTR | O_DSYNC
 
 void		clean_data(char **data);
 
