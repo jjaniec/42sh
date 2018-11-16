@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/15 17:27:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 18:51:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,34 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat", NULL);
 	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl", NULL);
 
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_LESSGREAT 1 - Check file creation", "/bin/echo lol 3<>"TESTS_TMP_FILENAME"; ls "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESSGREAT 2 - Check write to already created file w/ double redir", "/bin/echo lol 3<>"TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_LESSGREAT 3 - Check file creation & write to created file w/ double redir", "/bin/echo lol 3<>"TESTS_TMP_FILENAME" >&3; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - TK_LESSGREAT 4 - Check file creation & write to created file w/ double redir 2 builtin", "/bin/echo lol 3<>"TESTS_TMP_FILENAME" lal >&3 lel; cat "TESTS_TMP_FILENAME, NULL);
+
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes", "/bin/echo lol 1>&-; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes 2", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&-; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes 3", "cat <&- 2> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes 4", "ls 2<&- > "TESTS_TMP_FILENAME" /thisdoesnotexists; cat "TESTS_TMP_FILENAME, NULL);
+
+
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 1", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&- <>"TESTS_TMP_FILENAME";cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 2", "ls /doesnotexists 2>"TESTS_TMP_FILENAME" 1>&2", NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 3", "/bin/echo lol|cat|cat|cat>&2 2>&1|cat >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 4", "/bin/echo lol|cat|cat|cat>&2 2>&1|cat >> "TESTS_TMP_FILENAME"; /bin/echo lal|cat|cat|cat > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+
+	remove(TESTS_TMP_FILENAME);
 	compare_fds_w_strings("Aliases 1 - assignation", "alias rofl 'echo lol'; alias --save", "", NULL);
 	compare_fds_w_strings("Aliases 1 - Simple expansion", "rofl", "lol\n", "");
 	compare_fds_w_strings("Aliases 2 - redefinition", "alias rofl 'echo lal'; alias --save", "", NULL);

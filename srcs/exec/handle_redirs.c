@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/16 17:48:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 19:08:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static void		handle_output_redir(int prefix_fd, \
 		{
 			log_debug("File %s opened as fd: %d", target_data, fd);
 			handle_redir_fd(prefix_fd, fd);
+			//log_close(fd);
 		}
 	}
 }
@@ -122,10 +123,10 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 static void		get_specified_fds(int *prefix_fd, char *data, \
 					int *target_fd, char *target_data)
 {
-	if (*data == '>')
-		*prefix_fd = DEFAULT_OUTPUT_REDIR_FD;
-	else if (*data == '<')
+	if (*data == '<')
 		*prefix_fd = DEFAULT_INPUT_REDIR_FD;
+	else if (*data == '>')
+		*prefix_fd = DEFAULT_OUTPUT_REDIR_FD;
 	else
 		*prefix_fd = ft_atoi(data);
 	if (*target_data == '-')

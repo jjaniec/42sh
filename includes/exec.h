@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/16 17:39:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 18:55:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
 
 # define TK_GREAT_OPEN_ATTR		REDIRS_OPEN_BASE_ATTR | O_TRUNC
 # define TK_DGREAT_OPEN_ATTR 	REDIRS_OPEN_BASE_ATTR | O_APPEND
-# define TK_LESSGREAT_OPEN_ATTR	REDIRS_OPEN_BASE_ATTR | O_DSYNC
+# define TK_LESSGREAT_OPEN_ATTR	REDIRS_OPEN_BASE_ATTR | O_RDONLY
 
 void		clean_data(char **data);
 
