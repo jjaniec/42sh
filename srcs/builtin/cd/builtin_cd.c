@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/15 17:10:52 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/16 17:11:37 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,14 @@ static void		builtin_cd_l(t_environ *env, char *av, char *cwd)
 		tmp = ft_xstrjoin(cwd, path);
 		ft_putstr_fd(tmp, 2);
 		ft_putstr_fd(" | ", 2);
+		env->upt_var(env, "PWD", tmp);
 		free(tmp);
 	}
-	ft_change_dir(env, av, cwd);
-	refresh_cwd_env(env);
+	else
+	{
+		ft_change_dir(env, av, cwd);
+		refresh_cwd_env(env);
+	}
 	free(path);
 }
 
@@ -182,10 +186,7 @@ void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
 			return ;
 	}
 	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
-	{
 		builtin_cd_p(env, exe, cwd, argv[2]);
-		return ;
-	}
 	else if (!exe->ret && argv[1])
 		builtin_cd_l(env, argv[1], cwd);
 }
