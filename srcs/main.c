@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/15 20:16:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/17 17:24:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,7 @@ static char	*read_file(int fd)
 	while((ret = get_next_line(fd, &line)))
 	{
 		if (ret == -1)
-		{
-			if (errno == EISDIR)
-				ft_putstr_fd(SH_NAME": Argument is a directory\n", 2);
 			exit(EXIT_FAILURE);
-		}
 		final = ft_strjoin_free(final, line);
 		final = ft_strjoin_free(final, ft_strdup("\n"));
 	}
@@ -134,6 +130,7 @@ static char	*read_file(int fd)
 static int	interpret_file(char **argv, t_option **char_opt_index)
 {
 	int		fd;
+	struct stat filestat;
 
 	argv++;
 	while(*argv && **argv == '-')
@@ -142,8 +139,17 @@ static int	interpret_file(char **argv, t_option **char_opt_index)
 	{
 		if ((fd = open(*argv, O_RDONLY)) <= 0)
 			exit(open_error_print_msg(*argv));
-		g_sh_opts[1].opt_status = true;
-		forty_two_sh(read_file(fd), get_shell_vars(), g_sh_opts, char_opt_index);
+		if (fstat(fd, &filestat) == -1)
+			exit(EXIT_FAILURE);
+		if (!(filestat.st_mode & S_IFREG))
+			ft_putstr_fd(SH_NAME": Filetype not supported.\n", 2);
+		else if (!(filestat.st_mode & S_IRUSR))
+			ft_putstr_fd(SH_NAME": No read right.\n", 2);
+		else
+		{
+			g_sh_opts[1].opt_status = true;
+			forty_two_sh(read_file(fd), get_shell_vars(), g_sh_opts, char_opt_index);
+		}
 		close(fd);
 		return (1);
 	}
