@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/15 19:30:44 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/17 16:27:40 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,6 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
 	int		**pipe_fds;
-
 	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		(!last_pipe_node->data[1] || \
