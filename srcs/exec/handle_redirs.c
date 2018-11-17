@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/17 17:15:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/17 18:08:16 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 		errno = 0;
 		log_debug("Duplicating target fd %d for filedesc redirect to prefix fd %d - td: %d", target_fd, prefix_fd, node->type_details);
 		//if (node->type_details == TK_LESSAND)
+		//close(prefix_fd);
 			r = dup2(target_fd, prefix_fd);
 	//	else if (node->type_details == TK_GREATAND)
 //		{
@@ -157,7 +158,7 @@ static void		get_specified_fds(int *prefix_fd, char *data, \
 ** and call handle_redir for each
 */
 
-void			handle_redirs(t_ast *redir_ast_node)
+int				handle_redirs(t_ast *redir_ast_node)
 {
 	t_ast	*node;
 	int		prefix_fd;
@@ -171,11 +172,11 @@ void			handle_redirs(t_ast *redir_ast_node)
 	while (node && node->type == T_REDIR_OPT)
 	{
 		if (check_redir_suffix_validity(node))
-			break ;
+			return (1);
 		target_data = node->right->data[0];
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
 		if (-1 == (new_fd = handle_redir(prefix_fd, target_data, target_fd, node)))
-			break ;
+			return (1);
 		if ((node->type_details == TK_LESSAND \
 			|| node->type_details == TK_GREATAND) && \
 			ft_strchr(target_data, '-'))
@@ -188,4 +189,5 @@ void			handle_redirs(t_ast *redir_ast_node)
 		}
 		node = node->parent;
 	}
+	return (0);
 }

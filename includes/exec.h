@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/16 18:55:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/17 18:08:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int		parse_expr_comp(char **argv);
 
 // Redirects
 
-void	handle_redirs(t_ast *redir_ast_node);
+int		handle_redirs(t_ast *redir_ast_node);
 void	handle_redir_fd(int input_fd, int target_fd);
 int		check_redir_suffix_validity(t_ast *redir_ast_node);
 

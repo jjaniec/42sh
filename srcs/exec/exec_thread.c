@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/17 17:19:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/17 18:22:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,21 @@ static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_va
 	}
 }
 
+static void	forked_process_frees(t_exec *exe)
+{
+	t_shell_vars	*vars;
+	t_ast	**ast_ptr;
+
+	if ((vars = get_shell_vars()))
+	{
+		free_hashtable(vars->hashtable);
+	}
+	if ((ast_ptr = access_ast_data()))
+		ast_free(*ast_ptr);
+	//env_ = exe->env->environ;
+	free_exec(&exe);
+}
+
 static void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
@@ -89,7 +104,6 @@ static void	child_process(void **cmd, t_exec *exe, \
 	char	**cmd_args;
 	char	**env_;
 	char	*tmp;
-	t_ast	**ast_ptr;
 	char	**env_assign_vars;
 	t_environ	*env_assigns_environ;
 
@@ -98,41 +112,37 @@ static void	child_process(void **cmd, t_exec *exe, \
 	if (node && node->left && node->left->type == T_ENV_ASSIGN)
 		env_assign_vars = handle_env_assigns(node, exe, &env_assigns_environ);
 	else
-	{
 		env_assigns_environ = exe->env;
-	}
-	handle_pipes(pipe_fds);
-	handle_redirs(node);
-	can_run_cmd = true;
-	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
-		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
-	if (can_run_cmd)
+	if (!handle_pipes(pipe_fds) && !handle_redirs(node))
 	{
-		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
-	//	sleep(2000); // -> This should be removed before PRing
-		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
-			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
-				(cmd[2],/* exe->env */env_assigns_environ, exe);
-		else
+		can_run_cmd = true;
+		if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
+			can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
+		if (can_run_cmd)
 		{
-			cmd_args = ft_dup_2d_array(cmd[2]);
-			tmp = ft_xstrdup(cmd[1]);
-			log_debug("PID %zu -> child process cmd[1]: %s", getpid(), cmd[1]);
-			//cmd[1] = ft_strdup(cmd[1]);
-			t_shell_vars	*vars = get_shell_vars();
-			free_hashtable(vars->hashtable);
-			if ((ast_ptr = access_ast_data()))
-				ast_free(*ast_ptr);
-			env_ = exe->env->environ;
-			free(exe);
-			if (execve(tmp, cmd_args, env_))
+			log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
+		//	sleep(2000); // -> This should be removed before PRing
+			if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
+				(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
+					(cmd[2], env_assigns_environ, exe);
+			else
 			{
-				log_error("PID %zu - Execve() not working", getpid());
-				perror("execve");
+				cmd_args = ft_dup_2d_array(cmd[2]);
+				tmp = ft_xstrdup(cmd[1]);
+				log_debug("PID %zu -> child process cmd[1]: %s", getpid(), cmd[1]);
+				env_ = exe->env->environ;
+				forked_process_frees(exe);
+				if (execve(tmp, cmd_args, env_))
+				{
+					log_error("PID %zu - Execve() not working", getpid());
+					perror("execve");
+				}
+				exit(EXIT_FAILURE);
 			}
-			exit(EXIT_FAILURE);
 		}
 	}
+	else
+		exit(EXIT_FAILURE);
 	if (node && node->left && node->left->type == T_ENV_ASSIGN)
 		remove_tmp_env_assigns(env_assigns_environ, env_assign_vars);
 	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
