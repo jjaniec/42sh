@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/14 18:38:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/17 17:19:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ static void	child_process(void **cmd, t_exec *exe, \
 		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
 	if (can_run_cmd)
 	{
-		//sleep(200); // -> This should be removed before PRing
 		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
+	//	sleep(2000); // -> This should be removed before PRing
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
 				(cmd[2],/* exe->env */env_assigns_environ, exe);

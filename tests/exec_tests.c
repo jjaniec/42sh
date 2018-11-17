@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/16 19:42:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/17 17:15:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,20 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - TK_LESSGREAT 4 - Check file creation & write to created file w/ double redir 2 builtin", "/bin/echo lol 3<>"TESTS_TMP_FILENAME" lal >&3 lel; cat "TESTS_TMP_FILENAME, NULL);
 
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Filedesc closes", "/bin/echo lol 1>&-; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects", "/bin/echo lol 1>&-; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Filedesc closes 2", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&-; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 2", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&-; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Filedesc closes 3", "cat <&- 2> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 3", "cat <&- 2> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Filedesc closes 4", "ls 2<&- > "TESTS_TMP_FILENAME" /thisdoesnotexists; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 4", "ls 2<&- > "TESTS_TMP_FILENAME" /thisdoesnotexists; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 5", "ls 2<&- >&2 /doesntexists 2> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+
+	remove(TESTS_TMP_FILENAME);
+	compare_fds_w_strings("Redirs - Bad filedesc err check 1", "echo lol 1>&- 2>&1", "", SH_NAME": 1: "ERR_BAD_FILEDESC);
+	remove(TESTS_TMP_FILENAME);
+	compare_fds_w_strings("Redirs - Bad filedesc err check 2", "echo lol > "TESTS_TMP_FILENAME" ; cat < "TESTS_TMP_FILENAME" <&9 9<&0 ; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, "lol\n", SH_NAME": 9: "ERR_BAD_FILEDESC);
 
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Mixed 1", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&- <>"TESTS_TMP_FILENAME";cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
@@ -160,6 +167,12 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - Mixed 3", "/bin/echo lol|cat|cat|cat>&2 2>&1|cat >> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Mixed 4", "/bin/echo lol|cat|cat|cat>&2 2>&1|cat >> "TESTS_TMP_FILENAME"; /bin/echo lal|cat|cat|cat > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 5", "echo def > "TESTS_TMP_FILENAME";cat 9<"TESTS_TMP_FILENAME" 8<&9 7<&8 6<&7 -e 5<&6 4<&5 3<&4 2<&3 1<&2 <&1;cat "TESTS_TMP_FILENAME"; rm -f "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 6", "echo lol > "TESTS_TMP_FILENAME"; cat 4< "TESTS_TMP_FILENAME" 3<&4 2<&3 <&2 | cat -e", NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 8", "echo lol > "TESTS_TMP_FILENAME" ; cat 3< "TESTS_TMP_FILENAME" <&3 ; rm "TESTS_TMP_FILENAME, NULL);
 
 	remove(TESTS_TMP_FILENAME);
 	compare_fds_w_strings("Aliases 1 - assignation", "alias rofl 'echo lol'; alias --save", "", NULL);

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/16 20:50:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/17 17:15:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void		handle_output_redir(int prefix_fd, \
 static int		handle_redir(int prefix_fd, char *target_data, \
 					int target_fd, t_ast *node)
 {
-	int		r;
+	int		r = -2;
 
 	log_trace("Handle redir prefix_fd: %d - parsed target_fd: %d for target_data string: |%s| - node: %p", prefix_fd, target_fd, target_data, node);
 	if (!(node->type_details == TK_LESSAND \
@@ -108,16 +108,32 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 		if (ft_strchr(node->data[0], '<') && node->type_details != TK_LESSGREAT)
 			handle_input_redir(prefix_fd, target_data, node->type_details, node);
 	}
-	else if (target_fd != -1 /*&&  prefix_fd != target_fd*/)
-	{
-		if (prefix_fd != -1 && !(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF))
-			log_close(prefix_fd);
-		log_debug("Duplicating fd %d for filedesc redirect to %d", target_fd, prefix_fd);
-		if ((r = dup(target_fd)) == -1)
-			ft_putstr_fd(SH_NAME": Dup() error", 2);
+	else if (target_fd != -1)
+	{ /* && !(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF)*/
+		errno = 0;
+		log_debug("Duplicating target fd %d for filedesc redirect to prefix fd %d - td: %d", target_fd, prefix_fd, node->type_details);
+		//if (node->type_details == TK_LESSAND)
+			r = dup2(target_fd, prefix_fd);
+	//	else if (node->type_details == TK_GREATAND)
+//		{
+		//	log_close(prefix_fd);
+		//	dup(target_fd);
+		//	sleep(2000);
+		//	r = dup2(prefix_fd, target_fd);
+//		r = dup2(target_fd, prefix_fd);
+//		}
+		if (r == -1)
+		{
+			ft_putstr_fd(SH_NAME": ", 2);
+			if (node->type_details == TK_LESSAND)
+				ft_putnbr_fd(target_fd, 2);
+			else
+				ft_putnbr_fd(target_fd, 2);
+			ft_putstr_fd(": "ERR_BAD_FILEDESC, 2);
+		}
 		return (r);
 	}
-	return (-1);
+	return (r);
 }
 
 static void		get_specified_fds(int *prefix_fd, char *data, \
@@ -158,14 +174,16 @@ void			handle_redirs(t_ast *redir_ast_node)
 			break ;
 		target_data = node->right->data[0];
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
-		new_fd = handle_redir(prefix_fd, target_data, target_fd, node);
+		if (-1 == (new_fd = handle_redir(prefix_fd, target_data, target_fd, node)))
+			break ;
 		if ((node->type_details == TK_LESSAND \
 			|| node->type_details == TK_GREATAND) && \
 			ft_strchr(target_data, '-'))
 		{
-			if (target_fd != -1)
+			log_debug("Handle fd close - target fd %d - prefix fd %d", target_fd, prefix_fd);
+			if (target_fd != -1 && !(fcntl(target_fd, F_GETFL) < 0 && errno == EBADF))
 				log_close(target_fd);
-			else if (prefix_fd != -1 && prefix_fd != new_fd)
+			else if (prefix_fd != -1 && prefix_fd != new_fd && !(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF))
 				log_close(prefix_fd);
 		}
 		node = node->parent;
