@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/08 20:27:29 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/17 12:21:49 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
 # include "script.h"
 # include "autocomplete.h"
 # include "hash_table.h"
-# include "echo.h"
+# include "builtin.h"
 # include "prompt_details.h"
 
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"

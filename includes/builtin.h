@@ -1,0 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/17 12:19:55 by cgaspart          #+#    #+#             */
+/*   Updated: 2018/11/17 12:36:00 by cgaspart         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef BUILTIN_H
+# define BUILTIN_H
+
+# include <forty_two_sh.h>
+
+void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
+void	builtin_env(char **argv, t_environ *env, t_exec *exe);
+void	builtin_setenv(char **argv, t_environ *env, t_exec *exe);
+void	builtin_unsetenv(char **argv, t_environ *env, t_exec *exe);
+void	builtin_return(char **argv, t_environ *env, t_exec *exe);
+void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, \
+			t_exec *exe);
+void	builtin_test(char **argv, t_environ *env, t_exec *exe);
+void	builtin_history(char **argv, t_environ *env, t_exec *exe);
+void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
+			t_exec *exe);
+void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
+void	builtin_unalias(char **argv, t_environ *env, t_exec *exe);
+void	builtin_cd(char **argv, t_environ *env, t_exec *exe);
+int		cd_change_dir(t_environ *env, char *path, char *cwd);
+char	*cd_clean_last_slash(char *str);
+char	*cd_get_last_path(char *path);
+void	builtin_echo(char **argv, t_environ *env, t_exec *exe);
+int		echo_n_opt(void);
+int		echo_a_opt(void);
+int		echo_b_opt(void);
+int		echo_c_opt(void);
+int		echo_f_opt(void);
+int		echo_r_opt(void);
+int		echo_t_opt(void);
+int		echo_v_opt(void);
+int		echo_bslash_opt(void);
+#endif

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/14 20:37:28 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/17 12:26:02 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,9 +150,10 @@ SRC_NAME = 	is_separator.c \
 			builtin/echo/builtin_echo.c \
 			builtin/echo/echo_opt.c \
 			builtin/echo/echo_opt_2.c \
+			builtin/cd/builtin_cd.c \
+			builtin/cd/cd_change_dir.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
-			builtin/cd/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
@@ -221,7 +222,7 @@ INCLUDES_NAME = ast.h \
 				syntax_highlighting.h \
 				hash_table.h \
 				prompt_details.h\
-				echo.h \
+				builtin.h \
 
 
 TESTS_SRC_NAME =	lexer_tests.c \

@@ -63,7 +63,7 @@ static void	ft_print_cd_err(char *path, int errno_err)
 ** so we can update properly the PWD and OLDPWD env variables
 */
 
-static int	ft_change_dir(t_environ *env, char *path, char *cwd)
+static int	cd_change_dir(t_environ *env, char *path, char *cwd)
 {
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(" | ", 2);
@@ -95,7 +95,7 @@ static int	builtin_cd_dash(t_environ *env, char *cwd)
 	if (env->get_var(env, "OLDPWD"))
 	{
 		ft_strcpy(old_oldpwd, env->last_used_elem->val_begin_ptr);
-		if (!ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
+		if (!cd_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
 			ft_putendl(old_oldpwd);
 		return (0);
 	}
@@ -116,7 +116,7 @@ static void	builtin_cd_p(char *argv, t_environ *env, char *cwd)
 	if (!argv)
 	{
 		if (env->get_var(env, "HOME"))
-			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+			cd_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
 		else
 			ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
 	}
@@ -124,7 +124,7 @@ static void	builtin_cd_p(char *argv, t_environ *env, char *cwd)
 	{
 		cc = readlink(argv, buf, MAX_ENV_ENTRIES);
 		buf[cc] = '\0';
-		ft_change_dir(env, buf, cwd);
+		cd_change_dir(env, buf, cwd);
 	}
 }
 
@@ -147,7 +147,7 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	if (!exe->ret && !argv[1])
 	{
 		if (env->get_var(env, "HOME"))
-			ft_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
+			cd_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
 		else
 		{
 			ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
@@ -163,6 +163,6 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
 		builtin_cd_p(argv[2], env, cwd);
 	else if (!exe->ret && argv[1])
-		ft_change_dir(env, argv[1], cwd);
+		cd_change_dir(env, argv[1], cwd);
 	ft_refresh_cwd_env(env);
 }
