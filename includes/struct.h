@@ -173,6 +173,7 @@ typedef struct			s_exec
 	int					ret;
 	int					ready_for_exec;
 	int					statement;
+	bool				prog_forked;
 	t_environ			*env;
 }						t_exec;
 

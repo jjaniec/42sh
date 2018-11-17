@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 15:36:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/12 20:30:14 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void		abbrev_commit_hash(char *hash)
 		hash[COMMIT_HASH_MAX_LEN] = '\0';
 }
 
-static char		*get_head(char *branch_str, int pipe_fds[2], char **env, char *git_path)
+static char		*get_head(char *branch_str, int pipe_fds[2],
+				char **env, char *git_path)
 {
 	pid_t	p;
 
@@ -56,14 +57,18 @@ static char		*get_head(char *branch_str, int pipe_fds[2], char **env, char *git_
 char			*get_git_info(char **env)
 {
 	int				pipe_fds[2];
-	char			*branch_str;
+	int				ret;
+	char			branch_str[256];
 	pid_t			p;
 	char			*git_path;
 	t_shell_vars	*vars;
 
-	if (!(vars = get_shell_vars()) || !(git_path = ht_get_key_value(vars->hashtable, "git")))
+	branch_str[0] = '\0';
+	if (!(vars = get_shell_vars()))
 		return (NULL);
-	branch_str = NULL;
+	ht_update(vars->env);
+	if ((git_path = ht_get_key_value(vars->hashtable, "git")) == NULL)
+		return (NULL);
 	pipe(pipe_fds);
 	if ((p = fork()) == 0)
 		get_output_of_cmd((char *[5])
@@ -73,12 +78,15 @@ char			*get_git_info(char **env)
 	{
 		close(pipe_fds[1]);
 		waitpid(-1, NULL, 0);
-		get_next_line(pipe_fds[0], &branch_str);
+		ret = read(pipe_fds[0], branch_str, 256);
+		if (ret == -1)
+			return (NULL);
+		branch_str[ret - 1] = '\0';
 		close(pipe_fds[0]);
 		if (ft_strequ(branch_str, "HEAD"))
 			return (get_head(branch_str, pipe_fds, env, git_path));
 	}
 	else
 		ft_putstr("Fork failed");
-	return (branch_str);
+	return (ft_strdup(branch_str));
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 21:56:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/11 17:12:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,21 @@ void			builtins_tests(t_environ *env)
 	//compare_sh_42sh_outputs("Builtin env 7 - env -i w/o valid args", "env -i A", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
+
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 1 - Simple", \
+		"TEST1=TEST__ env  TEST2=TEST______ | grep -E 'TEST[12]'", "TEST1=TEST__ env TEST2=TEST______ | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 2 - Simple multiple vars", \
+		"TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 3 - Multiple vars w/ re-assigns", \
+		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 4 - Temporary env test w/ multiple vars & re-assign", \
+		"TEST1=TEST__ env TEST2=TEST______ > /dev/null; env | grep -E 'TEST[12]'", NULL);
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 5 - Temporary env test w/ multiple vars & re-assign 2", \
+		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env > /dev/null ; env | grep -E 'TEST[12]'", NULL);
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 6 - Redefinition of 1st env var", \
+		"$(env | head -n 1 | cut -d '=' -f 1)=TEST env | grep $(env | head -n 1 | cut -d '=' -f 1)", NULL);
+	compare_fds_w_strings("T_ENV_ASSIGNS 7 - Path redefinition & cmd execution", \
+		"PATH=NULL ls", NULL, SH_NAME": ls: "ERR_CMD_NOT_FOUND);
 
 	if (*_OS_ == 'D')
 		compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI' | tr -d '\\\"'");

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/26 13:12:53 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/11 15:39:19 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,12 @@ static void tests(t_environ *env)
 	test_framework("echo ABC; else; echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; while echo DEF", error_msg, "ERROR - Token inside statement");
 	test_framework("echo ABC; while; echo DEF", error_msg, "ERROR - Token inside statement");
+
+	test_framework("if "FT_TRUE"; then echo NOPE; fi | echo nope", error_msg, "ERROR - FI pipe ECHO");
+	test_framework("if "FT_TRUE"; then echo NOPE; pwd; fi | echo nope", error_msg, "ERROR - FI pipe ECHO");
+	test_framework("while "FT_TRUE"; do break; done | echo nope", error_msg, "ERROR - DONE pipe ECHO");
+	test_framework("while "FT_TRUE"; do echo nope; break; done | echo nope", error_msg, "ERROR - DONE pipe ECHO");
+	test_framework("while "FT_TRUE"; do echo nope; pwd; break; done | echo nope", error_msg, "ERROR - DONE pipe ECHO");
 
 	test_framework("if "FT_TRUE"; then echo 'fi'; fi", "fi", "Simple IF with arg like token");
 	test_framework("echo 'if'", "if", "Simple IF with arg like token");

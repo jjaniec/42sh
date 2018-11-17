@@ -32,28 +32,78 @@
 ** without duplicating code)
 */
 
+static void	backup_origin_fds(int *backup_fds)
+{
+	int			i;
+
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+		(backup_fds)[i++] = -1;
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	{
+		if (((backup_fds)[i] = dup(i)))
+			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
+		i += 1;
+	}
+}
+
+static void	restore_origin_fds(int *backup_fds)
+{
+	int			i;
+
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	{
+		handle_redir_fd(i, backup_fds[i]);
+		i++;
+	}
+}
+
+static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_vars)
+{
+	t_environ	*env;
+
+	if (env_assign_vars)
+	{
+		env = get_shell_vars()->env;
+		if (environ_used == env)
+		{
+			while (*env_assign_vars)
+				env->del_var(env, *env_assign_vars);
+		}
+		else
+		{
+			free_env_entries(environ_used, environ_used->env_entries_list);
+			free(environ_used);
+		}
+	}
+}
+
 static void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
-	int		backup_fds[3];
+	int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
 	bool	can_run_cmd;
 	int		r;
 	char	**cmd_args;
 	char	**env_;
 	char	*tmp;
 	t_ast	**ast_ptr;
+	char	**env_assign_vars;
+	t_environ	*env_assigns_environ;
 
-	can_run_cmd = true;
-	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
+	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
+		backup_origin_fds(backup_fds);
+	if (node && node->left && node->left->type == T_ENV_ASSIGN)
+		env_assign_vars = handle_env_assigns(node, exe, &env_assigns_environ);
+	else
 	{
-		backup_fds[0] = dup(STDIN_FILENO);
-		backup_fds[1] = dup(STDOUT_FILENO);
-		backup_fds[2] = dup(STDERR_FILENO);
-		if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
-			log_error("PID %zu: Backup fds duplication failed!", getpid());
+		env_assigns_environ = exe->env;
 	}
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
+	can_run_cmd = true;
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
 		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
 	if (can_run_cmd)
@@ -61,7 +111,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
-				(cmd[2], exe->env, exe);
+				(cmd[2],/* exe->env */env_assigns_environ, exe);
 		else
 		{
 			cmd_args = ft_dup_2d_array(cmd[2]);
@@ -82,15 +132,10 @@ static void	child_process(void **cmd, t_exec *exe, \
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
-	{
-		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
-		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
-		handle_redir_fd(STDERR_FILENO, backup_fds[2]);
-		/*log_close(backup_fds[0]);
-		log_close(backup_fds[1]);
-		log_close(backup_fds[2]);*/
-	}
+	if (node && node->left && node->left->type == T_ENV_ASSIGN)
+		remove_tmp_env_assigns(env_assigns_environ, env_assign_vars);
+	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
+		restore_origin_fds(backup_fds);
 	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
 		log_trace("PID %zu: Forcing exit of child process", getpid());
@@ -172,15 +217,15 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd)
+static bool	should_fork(void **cmd)
 {
 	void	(*ptr)(char **, t_environ *, t_exec *);
 
 	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		ptr == &builtin_test)
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
 t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
@@ -198,6 +243,7 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	if (last_pipe_node || should_fork(cmd))
 	{
 		pipe_fds = get_pipe_fds(last_pipe_node, node);
+		exe->prog_forked = true;
 		child_pid = fork();
 		if (child_pid == -1)
 			log_error("Fork() not working");
@@ -212,6 +258,9 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 		}
 	}
 	else
+	{
+		exe->prog_forked = false;
 		child_process(cmd, exe, node, NULL);
+	}
 	return (exe);
 }

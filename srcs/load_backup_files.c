@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_backup_files.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/19 16:36:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/13 19:00:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 	bool	first_elem;
 
 	first_elem = true;
+	line = NULL;
 	while ("there is still something to read")
 	{
 		ret = get_next_line(fd, &line);
@@ -57,8 +58,9 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		separator_sign_pos = ft_strchr(line, ' ');
 		if (separator_sign_pos != NULL)
 			do_the_copy(separator_sign_pos, &first_elem, &alias, line);
-		free(line);
+		ft_strdel(&line);
 	}
+	ft_strdel(&line);
 }
 
 /*
@@ -77,6 +79,7 @@ void		load_aliases_file(struct s_alias *alias)
 		return ;
 	}
 	copy_file_datas_in_aliases_list(alias, fd);
+	close(fd);
 }
 
 /*
@@ -96,6 +99,7 @@ void		load_history_file(struct s_line *le)
 		ft_putstr_fd("42sh: error while loading .42sh_history\n", 2);
 		return ;
 	}
+	line = NULL;
 	while ("there is still something to read")
 	{
 		ret = get_next_line(fd, &line);
@@ -107,6 +111,8 @@ void		load_history_file(struct s_line *le)
 		else if (ret == 0)
 			break ;
 		add_history(line, le);
-		free(line);
+		ft_strdel(&line);
 	}
+	ft_strdel(&line);
+	close(fd);
 }
