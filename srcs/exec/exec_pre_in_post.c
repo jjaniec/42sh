@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 16:44:26 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/17 16:27:26 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 		return (exe);
 	if (node->type == T_WORD)
 		clean_data(node->data);
+	if (!node->data[0])
+		return (exe);
 	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT && !exe->ready_for_exec)
 	{
