@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/17 12:36:59 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/17 17:10:52 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char		*cd_get_last_path(char *path)
 		i--;
 	if (i == 0)
 		return (ft_xstrdup("/"));
-	ft_putstr_fd(ft_itoa(i), 2);
 	res = ft_xmalloc(sizeof(char) * (i + 2));
 	res = ft_strncpy(res, path, (i + 2));
 	res[i + 1] = '\0';
@@ -61,16 +60,6 @@ char	*cd_clean_last_slash(char *str)
 
 int		cd_change_dir(t_environ *env, char *path, char *cwd)
 {
-	char *tmp;
-
-	tmp = NULL;
-	if (env->get_var(env, "PWD"))
-		tmp = cd_clean_last_slash(env->last_used_elem->val_begin_ptr);
-	if (tmp && autoc_check_path(tmp) == 'l' && !ft_strcmp(path, ".."))
-	{
-		path = cd_get_last_path(path);
-		ft_putstr_fd(path, 2);
-	}
 	if (path && !chdir(path))
 	{
 		if (env->get_var(env, "OLDPWD"))

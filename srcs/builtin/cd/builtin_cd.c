@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/17 12:36:54 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/17 17:32:05 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,54 +31,64 @@ static void	refresh_cwd_env(t_environ *env)
 		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
 }
 
-static int		cd_setup(t_exec *exe, char *cwd)
+static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 {
+	char	cwd[MAX_ENV_ENTRY_LEN];
+	t_cd	*cd_info;
+
 	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)) && errno != ENOENT)
 	{
 		if (errno == EACCES)
 		{
 			exe->ret = 1;
 			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
-			return (0);
+			return (NULL);
 		}
 		else
 			exit(MALLOC_ERROR);
 	}
-	return (1);
+	cd_info = (t_cd*)ft_xmalloc(sizeof(t_cd));
+	cd_info->cwd = ft_xstrdup(cwd);
+	cd_info->link = cd_in_link(env);
+	cd_info->exe = exe;
+	cd_info->env = env;
+	return (cd_info);
 }
 
-static int	builtin_cd_dash(t_environ *env, char *cwd)
+static int	builtin_cd_dash(t_cd *cd_info)
 {
 	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
 
-	if (env->get_var(env, "OLDPWD"))
+	if (cd_info->env->get_var(cd_info->env, "OLDPWD"))
 	{
-		ft_strcpy(old_oldpwd, env->last_used_elem->val_begin_ptr);
-		if (!cd_change_dir(env, env->last_used_elem->val_begin_ptr, cwd))
+		ft_strcpy(old_oldpwd, cd_info->env->last_used_elem->val_begin_ptr);
+		if (!cd_change_dir(cd_info->env,
+			cd_info->env->last_used_elem->val_begin_ptr, cd_info->cwd))
 			ft_putendl(old_oldpwd);
-		refresh_cwd_env(env);
+		refresh_cwd_env(cd_info->env);
 		return (0);
 	}
 	ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
 	return (1);
 }
 
-static void		cd_home(t_environ *env, t_exec *exe, char *cwd)
+static void		cd_home(t_cd *cd_info)
 {
-	if (env->get_var(env, "HOME"))
+	if (cd_info->env->get_var(cd_info->env, "HOME"))
 	{
-		cd_change_dir(env, env->last_used_elem->val_begin_ptr, cwd);
-		refresh_cwd_env(env);
+		cd_change_dir(cd_info->env,
+			cd_info->env->last_used_elem->val_begin_ptr, cd_info->cwd);
+		refresh_cwd_env(cd_info->env);
 	}
 	else
 	{
 		ft_putstr_fd(SH_NAME": cd: HOME not set\n", 2);
-		exe->ret = 1;
+		cd_info->exe->ret = 1;
 		return ;
 	}
 }
 
-static void	builtin_cd_p(t_environ *env, t_exec *exe, char *cwd, char *argv)
+static void	builtin_cd_p(t_cd *cd_info, char *argv)
 {
 	char	*path;
 	char	buf[MAX_ENV_ENTRY_LEN];
@@ -86,7 +96,7 @@ static void	builtin_cd_p(t_environ *env, t_exec *exe, char *cwd, char *argv)
 
 	if (!argv)
 	{
-		cd_home(env, exe, cwd);
+		cd_home(cd_info);
 		return ;
 	}
 	path = cd_clean_last_slash(argv);
@@ -94,53 +104,35 @@ static void	builtin_cd_p(t_environ *env, t_exec *exe, char *cwd, char *argv)
 	{
 		cc = readlink(path, buf, MAX_ENV_ENTRIES);
 		buf[cc] = '\0';
-		cd_change_dir(env, buf, cwd);
-		refresh_cwd_env(env);
+		cd_change_dir(cd_info->env, buf, cd_info->cwd);
+		refresh_cwd_env(cd_info->env);
 	}
 	free(path);
 }
 
-static void		builtin_cd_l(t_environ *env, char *av, char *cwd)
+static void		cd_no_link(t_cd *cd_info, char *av)
 {
-	char *path;
-	char *tmp;
-
-	tmp = NULL;
-	path = cd_clean_last_slash(av);
-	if (autoc_check_path(path) == 'l')
-	{
-		if (path[0] != '/')
-			tmp = ft_xstrjoin(cwd, path);
-		else
-			tmp = ft_xstrdup(av);
-		cd_change_dir(env, tmp, cwd);
-		env->upt_var(env, "PWD", tmp);
-		free(tmp);
-	}
-	else
-	{
-		cd_change_dir(env, av, cwd);
-		refresh_cwd_env(env);
-	}
-	free(path);
+	cd_change_dir(cd_info->env, av, cd_info->cwd);
+	refresh_cwd_env(cd_info->env);
 }
 
 void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
-	char	cwd[MAX_ENV_ENTRY_LEN];
+	t_cd	*cd_info;
 
 	exe->ret = 0;
-	if (!cd_setup(exe, cwd))
+	if (!(cd_info = cd_setup(exe, env)))
 		return ;
 	if (!exe->ret && !argv[1])
-		cd_home(env, exe, cwd);
+		cd_home(cd_info);
 	else if (!exe->ret && !ft_strcmp(argv[1], "-"))
 	{
-		if ((exe->ret = builtin_cd_dash(env, cwd)))
+		if ((exe->ret = builtin_cd_dash(cd_info)))
 			return ;
 	}
 	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
-		builtin_cd_p(env, exe, cwd, argv[2]);
+		builtin_cd_p(cd_info, argv[2]);
 	else if (!exe->ret && argv[1])
-		builtin_cd_l(env, argv[1], cwd);
+		(cd_check_link(cd_info, argv[1])) ?
+		(ft_putstr_fd("link found\n", 2)) : (cd_no_link(cd_info, argv[1]));
 }
