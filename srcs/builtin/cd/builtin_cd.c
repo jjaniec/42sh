@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/17 17:32:05 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/18 14:51:59 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,5 @@ void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
 		builtin_cd_p(cd_info, argv[2]);
 	else if (!exe->ret && argv[1])
 		(cd_check_link(cd_info, argv[1])) ?
-		(ft_putstr_fd("link found\n", 2)) : (cd_no_link(cd_info, argv[1]));
+		(cd_l(cd_info, argv[1])) : (cd_no_link(cd_info, argv[1]));
 }

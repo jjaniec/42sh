@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/17 17:32:43 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/18 14:39:26 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -153,6 +153,7 @@ SRC_NAME = 	is_separator.c \
 			builtin/cd/builtin_cd.c \
 			builtin/cd/cd_change_dir.c \
 			builtin/cd/cd_check_link.c \
+			builtin/cd/cd_l.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_exit.c \
