@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/17 18:08:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/18 15:19:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ make && ./42sh -vc "cat <&- < Makefile"
 ** stdin to pipe output
 */
 
-static void		handle_input_redir(int prefix_fd, char *target_data, \
+static int		handle_input_redir(int prefix_fd, char *target_data, \
 					size_t tk_type_details, t_ast *node)
 {
 	int		fd;
@@ -35,7 +35,7 @@ static void		handle_input_redir(int prefix_fd, char *target_data, \
 	if (tk_type_details == TK_LESS)
 	{
 		if ((fd = open(target_data, O_RDONLY, 0)) == -1)
-			handle_open_error(errno, target_data);
+			return (-handle_open_error(errno, target_data));
 		else
 		{
 			log_debug("File %s opened as fd: %d", target_data, fd);
@@ -55,13 +55,14 @@ static void		handle_input_redir(int prefix_fd, char *target_data, \
 			node->right->data[0], *(&(node->data[1][sizeof(int)])));
 		handle_redir_fd(STDIN_FILENO, *(&(node->data[1][0])));
 	}
+	return (0);
 }
 
 /*
 ** Handle output redirections
 */
 
-static void		handle_output_redir(int prefix_fd, \
+static int		handle_output_redir(int prefix_fd, \
 					char *target_data, size_t tk_type_details)
 {
 	int		fd;
@@ -77,13 +78,14 @@ static void		handle_output_redir(int prefix_fd, \
 	if (open_mode)
 	{
 		if ((fd = open(target_data, open_mode, DEFAULT_OUTPUT_REDIR_FILE_MODE)) == -1)
-			handle_open_error(errno, target_data);
+			return (-handle_open_error(errno, target_data));
 		else
 		{
 			log_debug("File %s opened as fd: %d", target_data, fd);
 			handle_redir_fd(prefix_fd, fd);
 		}
 	}
+	return (0);
 }
 
 /*
@@ -104,25 +106,16 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 		|| node->type_details == TK_GREATAND))
 	{
 		if (ft_strchr(node->data[0], '>'))
-			handle_output_redir(prefix_fd, target_data, node->type_details);
-		if (ft_strchr(node->data[0], '<') && node->type_details != TK_LESSGREAT)
-			handle_input_redir(prefix_fd, target_data, node->type_details, node);
+			r = handle_output_redir(prefix_fd, target_data, node->type_details);
+		if ((!r || r == -2) && ft_strchr(node->data[0], '<') && \
+			node->type_details != TK_LESSGREAT)
+			r = handle_input_redir(prefix_fd, target_data, node->type_details, node);
 	}
 	else if (target_fd != -1)
-	{ /* && !(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF)*/
+	{
 		errno = 0;
 		log_debug("Duplicating target fd %d for filedesc redirect to prefix fd %d - td: %d", target_fd, prefix_fd, node->type_details);
-		//if (node->type_details == TK_LESSAND)
-		//close(prefix_fd);
-			r = dup2(target_fd, prefix_fd);
-	//	else if (node->type_details == TK_GREATAND)
-//		{
-		//	log_close(prefix_fd);
-		//	dup(target_fd);
-		//	sleep(2000);
-		//	r = dup2(prefix_fd, target_fd);
-//		r = dup2(target_fd, prefix_fd);
-//		}
+		r = dup2(target_fd, prefix_fd);
 		if (r == -1)
 		{
 			ft_putstr_fd(SH_NAME": ", 2);

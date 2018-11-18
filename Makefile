@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/16 20:21:53 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/18 15:33:19 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,8 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
 			exec/exec_pre_in_post.c \
-			exec/exec_thread.c \
+			exec/fork_and_exec.c \
+			exec/child_process.c \
 			exec/io_manager.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \

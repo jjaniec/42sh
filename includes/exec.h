@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/17 18:08:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/18 15:30:41 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@
 # define DEFAULT_SUPPORTED_FDS_COUNT 3
 
 /*
-** Define to indicate to exec_thread() that passed command is a builtin
+** Define to indicate to fork_and_exec() that passed command is a builtin
 ** and should be executed with a function pointer instead of execve()
 */
 
-# define EXEC_THREAD_NOT_BUILTIN	0
-# define EXEC_THREAD_BUILTIN		1
+# define PROG_NOT_BUILTIN	0
+# define PROG_BUILTIN		1
 # define STATEMENT_BREAK			-1
 # define STATEMENT_CONTINUE			-2
 # define STATEMENT_NOCMD			-3
@@ -77,7 +77,9 @@ void		clean_data(char **data);
 // Binary finding & execution
 
 t_exec	*exec_cmd(t_ast *root, t_exec *exe);
-t_exec	*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, t_ast *node);
+t_exec	*fork_and_exec(void **cmd, t_exec *exe, t_ast *node);
+void	child_process(void **cmd, t_exec *exe, \
+				t_ast *node, int **pipe_fds);
 t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
@@ -138,7 +140,7 @@ int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
 
 // Error Handling
 
-void			handle_open_error(int errno_code, char *filename);
+int				handle_open_error(int errno_code, char *filename);
 void			print_error(char *subject, char *err_str);
 
 t_job		*create_job(char *command);
