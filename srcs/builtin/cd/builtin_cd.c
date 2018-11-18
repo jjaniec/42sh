@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/18 14:51:59 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/18 22:32:42 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 	cd_info = (t_cd*)ft_xmalloc(sizeof(t_cd));
 	cd_info->cwd = ft_xstrdup(cwd);
 	cd_info->link = cd_in_link(env);
+	if (cd_info->link)
+		ft_putstr_fd("Link detected", 2);
+	else
+		ft_putstr_fd("No link detected", 2);
 	cd_info->exe = exe;
 	cd_info->env = env;
 	return (cd_info);

@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:15:56 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/18 16:00:51 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/18 22:37:43 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	cd_in_link(t_environ *env)
 				ft_strncpy(tmp, env->last_used_elem->val_begin_ptr, i);
 				if (autoc_check_path(tmp) == 'l')
 					return (true);
+				ft_bzero(tmp, MAX_ENV_ENTRY_LEN);
 			}
 			i--;
 		}
