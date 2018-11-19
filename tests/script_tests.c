@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:25:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/19 14:35:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 19:07:27 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ static void tests(t_environ *env)
 		fi; \
 		echo 11;\
 		", "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11", "Ultimate IF-ELIF-ELSE");
-/*	test_framework("\
+	test_framework("\
 		echo 1 && echo 2; \
 		touch a; \
 		while cat a > /dev/null; do \
@@ -353,7 +353,7 @@ static void tests(t_environ *env)
 			fi; \
 		done; \
 		echo 11;\
-		", "1\n2\n0\n3\n4\n5\n6\n7\n8\n9\n10\n11", "Ultimate IF-ELIF-ELSE inside WHILE");*/
+		", "1\n2\n0\n3\n4\n5\n6\n7\n8\n9\n10\n11", "Ultimate IF-ELIF-ELSE inside WHILE");
 	test_framework("\
 		echo 1 && echo 2; \
 		touch a; \
@@ -361,7 +361,7 @@ static void tests(t_environ *env)
 				echo 3;\
 				if "FT_TRUE"; then \
 					echo 4;\
-					while cat a; do \
+					while cat a > /dev/null; do \
 						echo 0 && rm a; \
 						if "FT_TRUE"; then \
 							if "FT_TRUE"; then \
