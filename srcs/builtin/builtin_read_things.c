@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_read_things.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 20:29:21 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/12 16:45:36 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/19 15:41:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,25 @@ void		bltread_prepare_reading_line(struct termios *t,
 {
 	*buffer = ft_xmalloc(BLTREAD_MAX_CH + 1);
 	ft_memset(*buffer, '\0', BLTREAD_MAX_CH + 1);
-	if (tcgetattr(STDIN_FILENO, t) == -1 && tcgetattr(STDOUT_FILENO, t) == -1)
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 	{
-		ft_putstr_fd("Error while getting terminal attributes\n", 2);
-		exit(EXIT_FAILURE);
+		if (tcgetattr(STDIN_FILENO, t) == -1 && tcgetattr(STDOUT_FILENO, t) == -1)
+		{
+			ft_putstr_fd("Error while getting terminal olo attributes\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		t->c_lflag &= ~(ICANON);
+		if (options->opt_s == true)
+			t->c_lflag &= ~(ECHO);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1 \
+		&& tcsetattr(STDOUT_FILENO, TCSANOW, t) == -1)
+		{
+			ft_putstr_fd("Error while setting terminal olo2 attributes\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		if (options->opt_p == true)
+			write(STDOUT_FILENO, "> ", 2);
 	}
-	t->c_lflag &= ~(ICANON);
-	if (options->opt_s == true)
-		t->c_lflag &= ~(ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1 \
-	&& tcsetattr(STDOUT_FILENO, TCSANOW, t) == -1)
-	{
-		ft_putstr_fd("Error while setting terminal attributes\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	if (options->opt_p == true)
-		write(STDOUT_FILENO, "> ", 2);
 }
 
 static int	bltread_check_options_six(int foo, struct s_bltread *options, char **args,

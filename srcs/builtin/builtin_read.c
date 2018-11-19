@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_read.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/12 16:46:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/19 15:41:12 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,15 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 
 	bltread_prepare_reading_line(&t, &buffer, options);
 	ret = read_loop(buffer, options);
-	t.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1 \
-	&& tcsetattr(STDOUT_FILENO, TCSANOW, &t) == -1)
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 	{
-		ft_putstr_fd("Error while setting terminal attributes\n", 2);
-		exit(EXIT_FAILURE);
+		t.c_lflag |= (ICANON | ECHO);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1 \
+		&& tcsetattr(STDOUT_FILENO, TCSANOW, &t) == -1)
+		{
+			ft_putstr_fd("Error while setting terminal attributes\n", 2);
+			exit(EXIT_FAILURE);
+		}
 	}
 	if (ret == 1)
 	{
