@@ -6,20 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/18 15:19:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 16:03:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-make && ./42sh -vc "cat <&- < Makefile"
-	"cat <Makefile <&- 1< Makefile "
-	"cat <Makefile <&- < Makefile > /dev/null < Makefile"
-	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&-"
-	"cat <Makefile <&- < Makefile > /dev/null < Makefile >&- > aaa"
-	sh -c 'echo lol > md\ r 2>lolo 1>&2'
-	diff >&- >&3-
 ** Handle input redirections
 ** For TK_TLESS redirections, init a temporary pipe w/
 ** file descs stored in redir node data,

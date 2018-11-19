@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/19 14:39:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 16:02:30 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - TK_MORE 4 - Content replacement w/ AND", "/bin/echo aaa > "TESTS_TMP_FILENAME" && /bin/echo bbb > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	compare_sh_42sh_outputs("Redirs - TK_MORE 4 - Content replacement w/ AND builtin", "echo aaa > "TESTS_TMP_FILENAME" && echo bbb > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	compare_sh_42sh_outputs("Redirs - TK_MORE 5 - Content replacement w/ ; & OR", "/bin/echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || /bin/echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
-	compare_sh_42sh_outputs("Redirs - TK_MORE 5 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 5 - Content replacement w/ ; & OR builtin", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	compare_sh_42sh_outputs("Redirs - TK_MORE 6 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
-	compare_sh_42sh_outputs("Redirs - TK_MORE 6 - Content replacement w/ ; & OR", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_MORE 6 - Content replacement w/ ; & OR builtin", "echo aaa > "TESTS_TMP_FILENAME";cat /doesnotexists || echo ccc > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - TK_DMORE 1 - Simple - file creation", "/bin/echo a >> "TESTS_TMP_FILENAME\
@@ -155,6 +155,12 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 4", "ls 2<&- > "TESTS_TMP_FILENAME" /thisdoesnotexists; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 5", "ls 2<&- >&2 /doesntexists 2> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 6", "cat 2>&1- "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 7", "cat 2>&- "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 8", "cat >&- "TESTS_TMP_FILENAME, NULL);
 
 	remove(TESTS_TMP_FILENAME);
 	compare_fds_w_strings("Redirs - Bad filedesc err check 1", "echo lol 1>&- 2>&1", "", SH_NAME": 1: "ERR_BAD_FILEDESC);
@@ -174,9 +180,15 @@ void	exec_tests(t_environ *env)
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Mixed 6", "echo lol > "TESTS_TMP_FILENAME"; cat 4< "TESTS_TMP_FILENAME" 3<&4 2<&3 <&2 | cat -e", NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Mixed 8", "echo lol > "TESTS_TMP_FILENAME" ; cat 3< "TESTS_TMP_FILENAME" <&3 ; rm "TESTS_TMP_FILENAME, NULL);
-
+	compare_sh_42sh_outputs("Redirs - Mixed 7", "echo lol > "TESTS_TMP_FILENAME" ; cat 3< "TESTS_TMP_FILENAME" <&3 ; rm "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 8", "cat <Makefile <&- < Makefile > /dev/null < Makefile", NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 9", "cat <Makefile <&- < Makefile > /dev/null < Makefile >&-", NULL);
+	remove(TESTS_TMP_FILENAME);
+	compare_sh_42sh_outputs("Redirs - Mixed 10", "cat <Makefile <&- < Makefile > /dev/null < Makefile >&- > "TESTS_TMP_FILENAME, NULL);
+	remove(TESTS_TMP_FILENAME);
+
 	compare_fds_w_strings("Aliases 1 - assignation", "alias rofl 'echo lol'; alias --save", "", NULL);
 	compare_fds_w_strings("Aliases 1 - Simple expansion", "rofl", "lol\n", "");
 	compare_fds_w_strings("Aliases 2 - redefinition", "alias rofl 'echo lal'; alias --save", "", NULL);
