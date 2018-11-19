@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/17 17:15:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 14:39:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Pipes 16 - Command not found hang test", "doesnotexists 2> /dev/null | cat", NULL);
 	compare_sh_42sh_outputs("Pipes 17 - Command not found hang test 2", "echo lol | doesnotexists 2> /dev/null | cat", NULL);
 	compare_sh_42sh_outputs("Pipes 18 - Command not found hang test 3", "echo lol | doesnotexists 2> /dev/null", NULL);
-/*
+
 	tk_less_tests_tmp_fd = open(TESTS_TMP_FILENAME, O_WRONLY | O_CREAT, DEFAULT_OUTPUT_REDIR_FILE_MODE);
 	ft_putstr_fd("Some random text in"TESTS_TMP_FILENAME, tk_less_tests_tmp_fd);
 	close(tk_less_tests_tmp_fd);
@@ -83,8 +83,9 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - TK_LESS 5 - AND", "cat a && cat < "TESTS_TMP_FILENAME" |cat ", NULL);
 	compare_sh_42sh_outputs("Redirs - TK_LESS 6 - OR - AND - Pipes", "cat a && cat < "TESTS_TMP_FILENAME" |cat && cat "TESTS_TMP_FILENAME" | cat || cat 'this should not append'; cat <"TESTS_TMP_FILENAME" | cat", NULL);
 	compare_sh_42sh_outputs("Redirs - TK_LESS 7 - rewrite input redir to same file", "cat <"TESTS_TMP_FILENAME" 2>&1 | cat >"TESTS_TMP_FILENAME, NULL);
+	compare_sh_42sh_outputs("Redirs - TK_LESS 8 - Simple on closed stdin", "cat <&- < "TESTS_TMP_FILENAME, NULL);
 	//close(tk_less_tests_tmp_fd);
-	remove(tk_less_tests_tmp_fd);*/
+	remove(TESTS_TMP_FILENAME);
 
 	compare_sh_42sh_outputs("Redirs - TK_MORE 1 - Simple", "/bin/echo aaa > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	compare_sh_42sh_outputs("Redirs - TK_MORE 1 - Simple builtin", "echo aaa > "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
@@ -134,6 +135,7 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 8 - Pipes", "/bin/cat <<< lol | cat | cat | cat | cat", NULL);
 	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 9 - Pipes", "/bin/cat <<< lol | cat", NULL);
 	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 10 - Pipes w/ AND & OR", "/bin/cat <<< lol | cat | cat <<< lal | cat <<< lql && /bin/echo lsl | cat <<< lel || /bin/echo lul | cat <<< lzl", NULL);
+	compare_sh_42sh_outputs("Redirs - TK_TLESS Here-documents 11 - Simple on closed stdin", "/bin/cat <&- <<< lol", NULL);
 
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - TK_LESSGREAT 1 - Check file creation", "/bin/echo lol 3<>"TESTS_TMP_FILENAME"; ls "TESTS_TMP_FILENAME, NULL);

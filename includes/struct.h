@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 15:36:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 14:56:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ typedef struct			s_exec
 	int					ready_for_exec;
 	int					statement;
 	bool				prog_forked;
+	t_environ			*env_assigns_environ;
+	char				**env_assigns_vars_start;
 	t_environ			*env;
 }						t_exec;
 
