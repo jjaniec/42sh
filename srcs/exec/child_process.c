@@ -6,47 +6,46 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 15:03:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 18:00:02 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-** Backup original file descriptors to restore these
+** Backup original or restore original file descriptors
 ** after the builtin has been executed
 */
 
-static void	backup_origin_fds(int *backup_fds)
+static void	backup_apply_origin_fds(int mode)
 {
-	int			i;
+	static int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT] = {-1};
+	int				i;
 
 	i = 0;
-	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
-		(backup_fds)[i++] = -1;
-	i = 0;
-	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	if (mode == MODE_BACKUP_ORIGIN_FDS)
 	{
-		if (((backup_fds)[i] = dup(i)))
-			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
-		i += 1;
+		while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+			(backup_fds)[i++] = -1;
+		i = 0;
+		while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+		{
+			if (((backup_fds)[i] = dup(i)) == -1)
+			{
+				log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
+				break ;
+			}
+			log_debug("backupfd[%d] -> %d", i, backup_fds[i]);
+			i += 1;
+		}
 	}
-}
-
-/*
-** Restore original filedesc after builtin execution
-*/
-
-static void	restore_origin_fds(int *backup_fds)
-{
-	int			i;
-
-	i = 0;
-	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
-	{
-		handle_redir_fd(i, backup_fds[i]);
-		i++;
-	}
+	else if (mode == MODE_RESTORE_ORIGIN_FDS)
+		while (i < DEFAULT_SUPPORTED_FDS_COUNT && backup_fds[i] != -1)
+		{
+			log_debug("Restoring backupfd[%d](%d) -> i", i, backup_fds[i], i);
+			handle_redir_fd(i, backup_fds[i]);
+			i++;
+		}
 }
 
 /*
@@ -95,11 +94,11 @@ static void	forked_process_frees(t_exec *exe)
 */
 
 static int	child_process_preexec(t_ast *node, t_exec *exe, \
-				int **pipe_fds, int *backup_fds)
+				int **pipe_fds/*, int *backup_fds*/)
 {
 	if (!(exe->prog_forked) && \
 		(node->parent && node->parent->type == T_REDIR_OPT))
-		backup_origin_fds(backup_fds);
+		backup_apply_origin_fds(MODE_BACKUP_ORIGIN_FDS);
 	if (node && node->left && node->left->type == T_ENV_ASSIGN)
 		exe->env_assigns_vars_start = handle_env_assigns(node, exe, &(exe->env_assigns_environ));
 	else
@@ -109,7 +108,7 @@ static int	child_process_preexec(t_ast *node, t_exec *exe, \
 	}
 	if (!handle_pipes(pipe_fds) && !handle_redirs(node))
 		return (0);
-	return (1);
+	return ((exe->ret = 1));
 }
 
 /*
@@ -119,7 +118,7 @@ static int	child_process_preexec(t_ast *node, t_exec *exe, \
 */
 
 static void child_process_postexec(t_ast *node, \
-				int *backup_fds, t_exec *exe)
+				/*int *backup_fds, */t_exec *exe)
 {
 	int		r;
 
@@ -128,7 +127,7 @@ static void child_process_postexec(t_ast *node, \
 			exe->env_assigns_environ, exe->env_assigns_vars_start);
 	if (!(exe->prog_forked) && \
 		(node->parent && node->parent->type == T_REDIR_OPT))
-		restore_origin_fds(backup_fds);
+		backup_apply_origin_fds(MODE_RESTORE_ORIGIN_FDS);
 	if (exe->prog_forked)
 	{
 		log_trace("PID %zu: Forcing exit of child process", getpid());
@@ -163,12 +162,12 @@ static void child_process_postexec(t_ast *node, \
 void		child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
-	int			backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
+	//int			backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
 	char		**cmd_args;
 	char		*tmp;
 	t_environ	*env_assigns_environ;
 
-	if (!child_process_preexec(node, exe, pipe_fds, backup_fds))
+	if (!child_process_preexec(node, exe, pipe_fds/*, backup_fds*/))
 	{
 		if ((intptr_t)*cmd == PROG_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
@@ -193,5 +192,5 @@ void		child_process(void **cmd, t_exec *exe, \
  	}
 	else if (exe->prog_forked)
 		exit(EXIT_FAILURE);
-	child_process_postexec(node, backup_fds, exe);
+	child_process_postexec(node, /*backup_fds,*/ exe);
 }

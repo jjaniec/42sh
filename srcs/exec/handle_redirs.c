@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 16:03:01 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 17:36:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,7 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 		if (r == -1)
 		{
 			ft_putstr_fd(SH_NAME": ", 2);
-			if (node->type_details == TK_LESSAND)
-				ft_putnbr_fd(target_fd, 2);
-			else
-				ft_putnbr_fd(target_fd, 2);
+			ft_putnbr_fd(target_fd, 2);
 			ft_putstr_fd(": "ERR_BAD_FILEDESC, 2);
 		}
 		return (r);

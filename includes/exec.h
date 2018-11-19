@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/18 15:30:41 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 17:40:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@
 # define TK_GREAT_OPEN_ATTR		REDIRS_OPEN_BASE_ATTR | O_TRUNC
 # define TK_DGREAT_OPEN_ATTR 	REDIRS_OPEN_BASE_ATTR | O_APPEND
 # define TK_LESSGREAT_OPEN_ATTR	REDIRS_OPEN_BASE_ATTR | O_RDONLY
+
+/*
+** Modes used by beckup_apply_origin_fds() in child_process.c
+*/
+
+# define MODE_BACKUP_ORIGIN_FDS		1
+# define MODE_RESTORE_ORIGIN_FDS	2
 
 void		clean_data(char **data);
 

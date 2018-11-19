@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/16 20:29:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/19 17:09:03 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "cd srcs && pwd && cd .. && pwd && cd - && pwd && cd - && pwd;", NULL);
 	//compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec ; pwd ; chmod 000 . ; cd ; pwd ; cd - 2> /dev/null; pwd; rm -rf janiec", NULL);
 	//compare_sh_42sh_outputs("Builtin cd 12 - cd", "cd janiec; pwd; chmod 777 janiec; rm -rf janiec", NULL);
+	//compare_fds_w_strings("Builtin cd 13 - err check cd to a file", "cd Makefile && pwd", "", SH_NAME": Makefile: "ERR_ENOTDIR);
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
 	compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep '^TMP='", NULL);
