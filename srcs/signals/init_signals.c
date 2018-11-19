@@ -77,4 +77,5 @@ void	init_signals(void)
 		sigaction(sig_array[i], &new, NULL);
 		++i;
 	}
+	new.sa_handler = SIG_IGN; sigaction(SIGTTOU, &new, NULL);
 }
