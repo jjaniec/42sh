@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_tests.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 19:01:55 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/19 22:07:07 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,39 +141,29 @@ void			builtins_tests(t_environ *env)
 		"setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unsetenv a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='", \
 		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unset a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='");
 
-	compare_fds_w_strings("Builtin read 1 - Simple", "read -- ; echo \\$REPLY", "A\n", "", "A");
-	compare_fds_w_strings("Builtin read 2 - Simple w/ vars", "read -- REP; echo \\$REP", "A\n", "", "A");
-	compare_fds_w_strings("Builtin read 3 - Simple w/ multiple vars", "read -- REP REP2; echo \\$REP", "A\n", "", "A B C");
-	compare_fds_w_strings("Builtin read 4 - Simple w/ multiple vars 2", "read -- REP REP2; echo \\$REP2", "B C\n", "", "A B C");
-	compare_fds_w_strings("Builtin read 5 - ", "read -d q -- VAR1 ; echo \\$VAR1", "abc\n", "", "abcqwert");
-	compare_fds_w_strings("Builtin read 6 - ", "read -d q -- VAR1 ; echo \\$VAR1", "\n", "", "qabcqwert");
-	compare_fds_w_strings("Builtin read 7 - ", "read -d q -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "\n\n", "", "qabcqwert");
-	compare_fds_w_strings("Builtin read 8 - ", "read -d q -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "a\nbc\n", "", "a bcqwert");
-	compare_fds_w_strings("Builtin read 9 - ", "read -d q -- VAR1 ; echo \\$VAR1", "a bc\n", "", "a bcqwert");
-	compare_fds_w_strings("Builtin read invalid 1 - ", "read -d qq -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "\n\n", BUILTIN_READ_USAGE  , "a bcqwert");
-	compare_fds_w_strings("Builtin read invalid 2 - ", "read -d q - VAR1 VAR2 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE  , "a bcqwert");
-	compare_fds_w_strings("Builtin read invalid 3 - ", "read -d q  VAR1 VAR2 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE  , "a bcqwert");
-	compare_fds_w_strings("Builtin read invalid 4 - ", "read -d q  VAR1 -- VAR2 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE  , "a bcqwert");
-	compare_fds_w_strings("Builtin read n  - ", "read -n 3 -- VAR1 ; echo \\$VAR1", "a b\n", "", "a bcqwert");
-	compare_fds_w_strings("Builtin read invalid n N - ", "read -N -d a 3 -- VAR1 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE, "a bcqwert");
-	compare_fds_w_strings("Builtin read N - ", "read -N 3 -- VAR1 ; echo \\$VAR1", "a b\n", "", "a bcqwert");
-	compare_fds_w_strings("Builtin read N n - ", "read -N 3 -n 4 -- VAR1 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE, "a bcqwert");
-	compare_fds_w_strings("Builtin read N w 2 vars - ", "read -N 3 -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "a\nb\n", "", "a bcqwert");
-	compare_fds_w_strings("Builtin read 10 - ", "read -N 3 -N 5 -- VAR1 ; echo \\$VAR1", "a bcd\n", "", "a bcdefgh");
-	compare_fds_w_strings("Builtin read 11 - ", "read -d q -n 5 -p -s -- VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "a\nbcd\n\n", "", "a bcdefgh");
-	compare_fds_w_strings("Builtin read 11 - ", "read -d q -n 5 -p -s  VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "\n\n\n", BUILTIN_READ_USAGE, "a bcdefgh");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	if (*_OS_ == 'D')
+	{
+		compare_fds_w_strings("Builtin read 1 - Simple", "read -- ; echo \\$REPLY", "A\n", "", "A");
+		compare_fds_w_strings("Builtin read 2 - Simple w/ vars", "read -- REP; echo \\$REP", "A\n", "", "A");
+		compare_fds_w_strings("Builtin read 3 - Simple w/ multiple vars", "read -- REP REP2; echo \\$REP", "A\n", "", "A B C");
+		compare_fds_w_strings("Builtin read 4 - Simple w/ multiple vars 2", "read -- REP REP2; echo \\$REP2", "B C\n", "", "A B C");
+		compare_fds_w_strings("Builtin read 5 - -d", "read -d q -- VAR1 ; echo \\$VAR1", "abc\n", "", "abcqwert");
+		compare_fds_w_strings("Builtin read 6 - -d", "read -d q -- VAR1 ; echo \\$VAR1", "\n", "", "qabcqwert");
+		compare_fds_w_strings("Builtin read 7 - -d", "read -d q -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "\n\n", "", "qabcqwert");
+		compare_fds_w_strings("Builtin read 8 - -d", "read -d q -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "a\nbc\n", "", "a bcqwert");
+		compare_fds_w_strings("Builtin read 9 - -d", "read -d q -- VAR1 ; echo \\$VAR1", "a bc\n", "", "a bcqwert");
+		compare_fds_w_strings("Builtin read 10 - invalid 1", "read -d qq -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "\n\n", BUILTIN_READ_USAGE  , "a bcqwert");
+		compare_fds_w_strings("Builtin read 11 - invalid 2", "read -d q - VAR1 VAR2 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE  , "a bcqwert");
+		compare_fds_w_strings("Builtin read 12 - invalid 3", "read -d q  VAR1 VAR2 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE  , "a bcqwert");
+		compare_fds_w_strings("Builtin read 13 - invalid 4", "read -d q  VAR1 -- VAR2 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE  , "a bcqwert");
+		compare_fds_w_strings("Builtin read 14 - n", "read -n 3 -- VAR1 ; echo \\$VAR1", "a b\n", "", "a bcqwert");
+		compare_fds_w_strings("Builtin read 15 - invalid n N", "read -N -d a 3 -- VAR1 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE, "a bcqwert");
+		compare_fds_w_strings("Builtin read 16 - N", "read -N 3 -- VAR1 ; echo \\$VAR1", "a b\n", "", "a bcqwert");
+		compare_fds_w_strings("Builtin read 17 - N n", "read -N 3 -n 4 -- VAR1 ; echo \\$VAR1", "\n", BUILTIN_READ_USAGE, "a bcqwert");
+		compare_fds_w_strings("Builtin read 18 - N w 2 vars", "read -N 3 -- VAR1 VAR2 ; echo \\$VAR1 ; echo \\$VAR2", "a\nb\n", "", "a bcqwert");
+		compare_fds_w_strings("Builtin read 19", "read -N 3 -N 5 -- VAR1 ; echo \\$VAR1", "a bcd\n", "", "a bcdefgh");
+		compare_fds_w_strings("Builtin read 20", "read -d q -n 5 -p -s -- VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "a\nbcd\n\n", "", "a bcdefgh");
+		compare_fds_w_strings("Builtin read 21", "read -d q -n 5 -p -s  VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "\n\n\n", BUILTIN_READ_USAGE, "a bcdefgh");
+	} // '<<<' Redirects not supported by linux's sh
 }
