@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/10 15:36:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/09 17:14:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,17 +176,6 @@ typedef struct			s_exec
 	bool				prog_forked;
 	t_environ			*env;
 }						t_exec;
-
-/*
-** Aliases struct
-*/
-
-struct					s_alias
-{
-	char				*key;
-	char				*value;
-	struct s_alias		*next;
-};
 
 /*
 ** Running processes linked list:
