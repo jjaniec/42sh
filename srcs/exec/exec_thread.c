@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/17 16:27:40 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/20 19:18:10 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,13 @@ static void	child_process(void **cmd, t_exec *exe, \
 				ast_free(*ast_ptr);
 			env_ = exe->env->environ;
 			free(exe);
+			errno = 0;
 			if (execve(tmp, cmd_args, env_))
 			{
 				log_error("PID %zu - Execve() not working", getpid());
-				perror("execve");
+				perror("PERROR execve");
 			}
+			{ dprintf(2, "EXECVE A FOIRE LOL\n"); perror("PERROR EXECVE 2"); }
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -202,15 +204,15 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 
 		if ( setpgid(child_pid, child_pid) != 0 ) { perror("ABCDEFGHIJKLM"); exit(7); }
 
-		int child_pgid = getpgid(child_pid); if (child_pgid == -1) { perror("NNNNNNNNNNNNNNN") ; exit(3); }
-		int shell_pgid = getpgid( getpid() ); if (shell_pgid == -1) { perror("AAANNNNNNNNNNNNNNN") ; exit(5); }
-		int ret = tcsetpgrp(STDIN_FILENO, child_pgid); if (ret != 0) { perror("NOOOOOOOOOOOON"); exit(4); }
+		int child_pgid = child_pid;   // getpgid(child_pid); if (child_pgid == -1) { perror("perror getpgid parent process 1") ; exit(3); }
+		int shell_pgid = getpgrp(); if (shell_pgid == -1) { perror("perror getpgrp parent process 2") ; exit(5); }
+		int ret = tcsetpgrp(STDIN_FILENO, child_pgid); if (ret != 0) { perror("perror tcsetpgrp parent process 1"); exit(4); }
 
 		{ le_debug("SHELL PGID %i  CHILD PGID  %i  CHILD PID %i\n", shell_pgid, child_pgid, child_pid) }
 
 		waited_pid = waitpid(child_pid, &status, 0);
 
-		ret = tcsetpgrp(STDIN_FILENO, shell_pgid); if (ret != 0) { perror("AAAAAANOOOOOOOOOOOON"); exit(6); }
+		ret = tcsetpgrp(STDIN_FILENO, shell_pgid); if (ret != 0) { perror("perror tcsetpgrp parent process 2"); exit(6); }
 
 
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
