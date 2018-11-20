@@ -48,28 +48,20 @@ void	init_signals(void)
 	const int			sig_array[] =
 	{
 		SIGHUP, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGEMT, SIGFPE, \
-		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, /*SIGTERM,*/ SIGURG, \
-		/*SIGTSTP,*/ SIGCONT, /*SIGTTIN, SIGTTOU,*/ SIGIO, SIGXCPU, \
+		SIGBUS, SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGURG, \
+		SIGCONT, SIGIO, SIGXCPU, \
 		SIGXFSZ, SIGVTALRM, SIGPROF, SIGINFO, SIGUSR1, SIGUSR2
 	};
-	//signal(SIGTTIN, SIG_DFL); // pas actif depuis un moment
-	//signal(SIGTTOU, SIG_IGN);
 	sigfillset(&(new.sa_mask));
 	new.sa_flags = 0;
-
-	{ le_debug("SET HANDLER SIGINT pid = %i\n", (int) getpid() ) }
-
 	new.sa_handler = &(handle_sigint);
 	sigaction(SIGINT, &new, NULL);
-
-	//signal(SIGCHLD, SIG_DFL);
 	new.sa_flags = 0;
 	new.sa_handler = &(handle_useless_signals);
 	i = 0;
 	while (i < (sizeof(sig_array) / sizeof(sig_array[0])))
 	{
-		//signal(sig_array[i], SIG_IGN);
-		//sigaction(sig_array[i], &new, NULL);
+		sigaction(sig_array[i], &new, NULL);
 		++i;
 	}
 	new.sa_handler = SIG_IGN;
