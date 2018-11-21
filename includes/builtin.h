@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:19:55 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/21 12:02:42 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/21 19:50:02 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ void				builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 void				builtin_cd(char **argv, t_environ *env, t_exec *exe);
 bool				cd_in_link(t_environ *env);
 int					cd_check_link(t_cd *cd_info, char *av);
+char				*check_pwd(char *str);
 void				cd_l(t_cd *cd_i, char *av);
 int					cd_change_dir(t_environ *env, char *path, char *cwd);
 char				*cd_clean_last_slash(char *str);
 char				*cd_get_last_path(char *path);
 void				dot_manager(t_cd *cd_i, char *av);
+void				link_env_update(t_cd *cd_i);
+void				cd_free_struct(t_cd *cd_i);
 void				builtin_echo(char **argv, t_environ *env, t_exec *exe);
 int					echo_n_opt(void);
 int					echo_a_opt(void);

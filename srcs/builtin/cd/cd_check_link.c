@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:15:56 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/21 12:25:50 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/21 19:39:22 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,15 @@ int			cd_check_link(t_cd *cd_info, char *av)
 	if (cd_info->link && av[0] != '/')
 	{
 		ft_putstr_fd("In link and stay\n", 2);
+		free(path);
 		return (1);
 	}
 	else if (cd_check_path_link(path) || autoc_check_path(path) == 'l')
 	{
 		ft_putstr_fd("Enter in link\n", 2);
+		free(path);
 		return (1);
 	}
-	else
-		return (0);
+	free(path);
+	return (0);
 }
