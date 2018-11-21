@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/21 13:00:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/21 17:54:14 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,17 @@ void	exec_tests(t_environ *env)
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 5", "ls 2<&- >&2 /doesntexists 2> "TESTS_TMP_FILENAME"; cat "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 6", "cat 2>&1- "TESTS_TMP_FILENAME, NULL);
+	if (*_OS_ == 'D') // linux's sh fd closing operators does not support things like '2>&1-' but only '2>&-'
+		compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 6", "cat 2>&1- "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 7", "cat 2>&- "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 8", "cat >&- "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
-	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 9", "cat 2>/dev/null <&3- && echo lol", NULL);
+	if (*_OS_ == 'D')
+		compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 9", "cat 2>/dev/null <&3- && echo lol", NULL);
+	else
+		compare_fds_w_strings("Redirs - Filedesc closes & redirects 9 - linux", "cat 2>/dev/null <&3- && echo lol", "", "");
 	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&8- 2>/dev/null && echo lol", "", SH_NAME": 8: "ERR_BAD_FILEDESC);
 	compare_fds_w_strings("Redirs - Filedesc closes & redirects 11 - Test filedesc backup & echo write error", "echo lol >&- ; echo lol", "lol\n", SH_NAME": write error: "ERR_BAD_FILEDESC);
 
