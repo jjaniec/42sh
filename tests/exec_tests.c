@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/19 18:06:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/21 13:00:50 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void	exec_tests(t_environ *env)
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 8", "cat >&- "TESTS_TMP_FILENAME, NULL);
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 9", "cat 2>/dev/null <&3- && echo lol", NULL);
-	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&3- 2>/dev/null && echo lol", "", SH_NAME": 3: "ERR_BAD_FILEDESC);
+	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&8- 2>/dev/null && echo lol", "", SH_NAME": 8: "ERR_BAD_FILEDESC);
 	compare_fds_w_strings("Redirs - Filedesc closes & redirects 11 - Test filedesc backup & echo write error", "echo lol >&- ; echo lol", "lol\n", SH_NAME": write error: "ERR_BAD_FILEDESC);
 
 	remove(TESTS_TMP_FILENAME);

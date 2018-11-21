@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
 /*   Updated: 2018/11/19 17:40:14 by jjaniec          ###   ########.fr       */
@@ -91,11 +91,7 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe);
 t_exec	*in_exec(t_ast *node, t_exec *exe);
 t_exec	*post_exec(t_ast *node, t_exec *exe);
 int		resolve_cmd_path(void **cmd, t_exec *exe);
-int		is_builtin(char *cmd, \
-			void (**builtin_fun_ptr)(char **, t_environ *, t_exec *));
 int		get_process_return_code(int *status, pid_t waited_pid, pid_t expected_waited_pid);
-
-//
 
 void	io_manager_in(t_ast *node, t_exec *exe);
 void	io_manager_pre(t_ast *node, t_exec *exe);
@@ -107,23 +103,6 @@ t_exec	*create_exec(t_environ *env);
 
 char	*isin_path(char *path_entry, char *cmd);
 
-// Builtins
-
-void	builtin_exit(char **argv, t_environ *env, t_exec *exe);
-void	builtin_echo(char **argv, t_environ *env, t_exec *exe);
-void	builtin_env(char **argv, t_environ *env, t_exec *exe);
-void	builtin_setenv(char **argv, t_environ *env, t_exec *exe);
-void	builtin_unsetenv(char **argv, t_environ *env, t_exec *exe);
-void	builtin_cd(char **argv, t_environ *env, t_exec *exe);
-void	builtin_return(char **argv, t_environ *env, t_exec *exe);
-void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env, \
-			t_exec *exe);
-void	builtin_test(char **argv, t_environ *env, t_exec *exe);
-void	builtin_history(char **argv, t_environ *env, t_exec *exe);
-void	builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
-			t_exec *exe);
-void	builtin_alias(char **argv, t_environ *env, t_exec *exe);
-void	builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 
 char	*get_env(const char *name, const char **envp);
 int		get_env_pos(const char *name, const char **envp);

@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/18 15:33:19 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/21 12:48:17 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -153,6 +153,11 @@ SRC_NAME = 	is_separator.c \
 			exec/clean_data.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
+			builtin/builtin_history_2.c \
+			builtin/builtin_read.c \
+			builtin/builtin_read_get_activated_options.c \
+			builtin/builtin_read_store_words.c \
+			builtin/builtin_read_things.c \
 			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
@@ -213,6 +218,7 @@ SRC_NAME = 	is_separator.c \
 
 INCLUDES_NAME = ast.h \
 				autocomplete.h \
+				builtins.h \
 				exec.h \
 				forty_two_sh.h \
 				lexer.h \
