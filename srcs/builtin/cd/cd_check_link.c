@@ -6,13 +6,13 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:15:56 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/18 22:37:43 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/21 12:25:50 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-bool	cd_in_link(t_environ *env)
+bool		cd_in_link(t_environ *env)
 {
 	char	tmp[MAX_ENV_ENTRY_LEN];
 	int		i;
@@ -36,8 +36,29 @@ bool	cd_in_link(t_environ *env)
 	return (false);
 }
 
+static bool	cd_check_path_link(char *path)
+{
+	char	tmp[MAX_ENV_ENTRY_LEN];
+	int		i;
 
-int		cd_check_link(t_cd *cd_info, char *av)
+	ft_bzero(tmp, MAX_ENV_ENTRY_LEN);
+	i = ft_strlen(path);
+	while (i)
+	{
+		if (path[i] == '/')
+		{
+			ft_strncpy(tmp, path, i);
+			if (autoc_check_path(tmp) == 'l')
+				return (true);
+			ft_bzero(tmp, MAX_ENV_ENTRY_LEN);
+		}
+		i--;
+	}
+	return (false);
+}
+
+
+int			cd_check_link(t_cd *cd_info, char *av)
 {
 	char	*path;
 
@@ -47,7 +68,7 @@ int		cd_check_link(t_cd *cd_info, char *av)
 		ft_putstr_fd("In link and stay\n", 2);
 		return (1);
 	}
-	else if (autoc_check_path(path) == 'l')
+	else if (cd_check_path_link(path) || autoc_check_path(path) == 'l')
 	{
 		ft_putstr_fd("Enter in link\n", 2);
 		return (1);
