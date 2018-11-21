@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/21 16:04:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/21 18:18:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ char		**handle_env_assigns(t_ast *node, t_exec *exe, \
 	t_environ	*env_to_use;
 
 	if (!(node && node->left && node->left->type == T_ENV_ASSIGN) && \
-		!(node->type != T_WORD && !exe))
+		!(node->type == T_ENV_ASSIGN && !exe))
 		return (NULL);
 	tmp_env_assigns = NULL;
-	while (node->left || (!exe && node->right))
-		node = (!exe && node->right) ? (node->right) : (node->left);
+	while (node->left) // || (!exe && node->right && node->right->type == T_ENV_ASSIGN))
+		node = /*(!exe && node->right && node->right->type == T_ENV_ASSIGN) ? (node->right) :*/ (node->left);
 	log_info("PID %zu: Handle env assigns of %s(t %d td %d)", getpid(), node->data[0], \
 		node->type, node->type_details);
 	env_to_use = get_env_to_use(exe, &tmp_env_assigns);

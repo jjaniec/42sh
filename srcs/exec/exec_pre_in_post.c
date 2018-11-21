@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/21 16:05:13 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/21 18:18:46 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 		io_manager_in(node, exe);
 	if (node->type == T_ENV_ASSIGN && \
 		!(node->parent->type == T_WORD || node->parent->type == T_ENV_ASSIGN))
-		handle_env_assigns(node->parent, NULL, NULL);
+		handle_env_assigns(node, NULL, NULL);
 	if (((node->type == T_WORD && node->type_details == TK_DEFAULT) || \
 		node->type_details == TK_SCRIPT_CONDITION_IF || \
 		node->type_details == TK_SCRIPT_CONDITION_WHILE) && \
