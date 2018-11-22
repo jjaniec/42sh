@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 14:30:40 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/21 20:37:15 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/22 22:05:59 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		cd_l(t_cd *cd_i, char *av)
 	tmp = NULL;
 	if (av[0] == '/')
 	{
-		cd_i->cwd_link = ft_xstrdup(av);
+		cd_i->cwd_link = cd_add_slash(av);
 		if (!cd_change_dir(cd_i->env, av, cd_i->cwd))
 			link_env_update(cd_i);
 	}

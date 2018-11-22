@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:15:56 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/21 19:39:22 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/22 20:25:54 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static bool	cd_check_path_link(char *path)
 	}
 	return (false);
 }
-
 
 int			cd_check_link(t_cd *cd_info, char *av)
 {
