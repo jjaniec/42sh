@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/12 17:29:03 by sbrubruu         ###   ########.fr        #
+#    Updated: 2018/11/21 12:48:17 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,10 +126,12 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
 			exec/exec_pre_in_post.c \
-			exec/exec_thread.c \
+			exec/fork_and_exec.c \
+			exec/child_process.c \
 			exec/io_manager.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
+			exec/check_redir_suffix_validity.c \
 			exec/handle_redir_fd.c \
 			exec/handle_env_assigns.c \
 			exec/handle_pipes.c \
@@ -265,6 +267,8 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 ###### COMPILATION ######
 CC = gcc
 CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror -O3
+ADDITIONAL_FLAGS = # Used to know when running on travis-ci
+CFLAGS += $(ADDITIONAL_FLAGS)
 
 ### FLAGS ###
 VERBOSE_MODE = 0

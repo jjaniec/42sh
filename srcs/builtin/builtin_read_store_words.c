@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_read_store_words.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 18:59:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/12 17:28:24 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/21 13:00:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,6 @@ void		bltread_store_words_in_shell_variables(unsigned char *buffer,
 	char			**split;
 
 	split = split_buffer_with_ifs(buffer);
-/*
-	{
-		{ le_debug("BUFFER = |%s|\n", buffer) }
-		{ le_debug("%s\n", "SPLIT = ") }
-		for (int i = 0 ; split[i] != NULL ; ++i)
-		{
-			{ le_debug("|%s| ", split[i]) }
-		}
-		{ le_debug("%s", "\n") }
-	}
-*/
 	var_name = "REPLY";
 	vars = get_shell_vars();
 	sebateau(split, options, var_name, vars);

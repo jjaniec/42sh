@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 22:07:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/21 12:49:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void		compare_fds_w_strings(char *test_name, char *str_test, char *expect
 	compare_fds_with_strings(test_name, expected_stdout, expected_stderr, backup_stdout_fd, backup_stderr_fd);
 	remove(redirect_both_fds_STDOUT_FILENAME);
 	remove(redirect_both_fds_STDERR_FILENAME);
+	free(cmd_sh);
 }
 
 void			builtins_tests(t_environ *env)
@@ -70,15 +71,17 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin cd 10 - cd -", "cd srcs && pwd && cd .. && pwd && cd - && pwd && cd - && pwd;", NULL);
 	//compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec ; pwd ; chmod 000 . ; cd ; pwd ; cd - 2> /dev/null; pwd; rm -rf janiec", NULL);
 	//compare_sh_42sh_outputs("Builtin cd 12 - cd", "cd janiec; pwd; chmod 777 janiec; rm -rf janiec", NULL);
+	//compare_fds_w_strings("Builtin cd 13 - err check cd to a file", "cd Makefile && pwd", "", SH_NAME": Makefile: "ERR_ENOTDIR);
 
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
-	//compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep TMP", NULL); // 15/09: Not implemented yet
+	compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep '^TMP='", NULL);
 	compare_sh_42sh_outputs("Builtin env 3 - env w/ valid args & pipe", \
 		"env TEST1=TEST__ TEST2=TEST______ | grep -E 'TEST[12]'", "env TEST1=TEST__ TEST2=TEST______ | grep -E 'TEST[12]'");
 	compare_sh_42sh_outputs("Builtin env 4 - env -i w/ valid args", "env -i A=B TEST1=TEST__ TEST2=TEST______", "env -i A=B TEST1=TEST__ TEST2=TEST______");
 	compare_sh_42sh_outputs("Builtin env 5 - env -i w/ valid args & pipe", "env -i A=B TEST1=TEST__ TEST2=TEST______", NULL);
 	compare_sh_42sh_outputs("Builtin env 6 - env -i w/o args w/ pipe", "env -i", NULL);
 	compare_sh_42sh_outputs("Builtin env 7 - env -i empty assignations", "env -i LS=     AAAA=   ", NULL);
+	compare_sh_42sh_outputs("Builtin env 8 - env w/ T_ENV_ASSIGN", "TMP=test env -i A=B", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i invalid assignations", "env -i LS=     AAAA  AAAAAA  LOL=   | grep -v _", NULL); -> should say command not found -> exec not yet handled
 	// test env execution ex: env A=B ls - not yet implemented
 	//compare_sh_42sh_outputs("Builtin env 6 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ ls", NULL);
@@ -101,10 +104,9 @@ void			builtins_tests(t_environ *env)
 	compare_fds_w_strings("T_ENV_ASSIGNS 7 - Path redefinition & cmd execution", \
 		"PATH=NULL ls", NULL, SH_NAME": ls: "ERR_CMD_NOT_FOUND, NULL);
 
-	if (*_OS_ == 'D')
-		compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI' | tr -d '\\\"'");
-	//else
-	//	compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | usort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI'", "export | cut -d ' ' -f 2 | usort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI' | tr -d '\\\"'");
+	// Travis has some weird env vars
+	if (*MODE != 'L' && !CI_TEST)
+		compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI|^BASH|^}'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI|^BASH' | tr -d '\\\"'");
 	compare_fds_w_strings("Builtin setenv 2 - err check 1", "setenv =", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR, NULL);
 	compare_fds_w_strings("Builtin setenv 3 - err check 2", "setenv ==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR, NULL);
 	compare_fds_w_strings("Builtin setenv 4 - err check 3", "setenv \\$=", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR, NULL);

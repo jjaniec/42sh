@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/09 17:14:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/21 12:52:20 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ typedef struct			s_exec
 	int					ready_for_exec;
 	int					statement;
 	bool				prog_forked;
+	t_environ			*env_assigns_environ;
+	char				**env_assigns_vars_start;
 	t_environ			*env;
 }						t_exec;
 

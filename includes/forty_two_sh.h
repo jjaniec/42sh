@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/09 17:28:01 by jjjanice         ###   ########.fr       */
+/*   Updated: 2018/11/21 12:52:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@
 # define ERR_NORIGHTS		"permission denied: "
 # define ERR_CMD_NOT_FOUND	"command not found\n"
 # define ERR_INVALID_ALIAS_NAME "alias: invalid alias name\n"
+# define ERR_AMBIGUOUS_REDIR	"ambiguous redirect\n"
+# define ERR_BAD_FILEDESC		"Bad file descriptor\n"
+# define ERR_ENOTDIR			"not a directory\n"
+# define ERR_EACCESS			"permission denied\n"
 
 extern t_option		g_sh_opts[];
 extern const int	g_cant_begin_with[];
