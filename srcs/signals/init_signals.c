@@ -70,4 +70,5 @@ void	init_signals(void)
 	sigaction(SIGTSTP, &new, NULL);
 	new.sa_handler = SIG_DFL;
 	sigaction(SIGCHLD, &new, NULL);
+	//new.sa_handler = SIG_IGN; sigaction(SIGTTOU, &new, NULL);
 }
