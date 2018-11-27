@@ -6,13 +6,41 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 11:57:23 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/27 16:29:52 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:42:30 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-void	dot_parser(t_cd *cd_i, char *av)
+static void	hidden_cd(t_cd *cd_i, char *av)
+{
+	char *tmp;
+
+	if (cd_i->env->get_var(cd_i->env, "PWD"))
+	{
+		tmp = cd_add_slash(cd_i->env->last_used_elem->val_begin_ptr);
+		cd_i->cwd_link = ft_xstrjoin(tmp, av);
+		free(tmp);
+		if (!cd_change_dir(cd_i->env, av, cd_i->cwd))
+			link_env_update(cd_i);
+	}
+}
+
+static void	cd_back(t_cd *cd_i)
+{
+	char *tmp;
+
+	if (cd_i->env->get_var(cd_i->env, "PWD"))
+	{
+		tmp = cd_clean_last_slash(cd_i->env->last_used_elem->val_begin_ptr);
+		cd_i->cwd_link = cd_get_last_path(tmp);
+		free(tmp);
+		if (!cd_change_dir(cd_i->env, cd_i->cwd_link, cd_i->cwd))
+			link_env_update(cd_i);
+	}
+}
+
+static void	dot_parser(t_cd *cd_i, char *av)
 {
 	char	**tmp;
 	int		i;
@@ -29,7 +57,7 @@ void	dot_parser(t_cd *cd_i, char *av)
 	autoc_free_items(tmp);
 }
 
-void	dot_manager(t_cd *cd_i, char *av)
+void		dot_manager(t_cd *cd_i, char *av)
 {
 	char *tmp;
 
@@ -37,28 +65,12 @@ void	dot_manager(t_cd *cd_i, char *av)
 		return ;
 	if (!ft_strcmp(av, ".."))
 	{
-		if (cd_i->env->get_var(cd_i->env, "PWD"))
-		{
-			tmp = cd_clean_last_slash(cd_i->env->last_used_elem->val_begin_ptr);
-			cd_i->cwd_link = cd_get_last_path(tmp);
-			free(tmp);
-			if (!cd_change_dir(cd_i->env, cd_i->cwd_link, cd_i->cwd))
-				link_env_update(cd_i);
-		}
+		cd_back(cd_i);
 		return ;
 	}
 	tmp = cd_clean_last_slash(av);
 	if (!ft_strchr(tmp, '/'))
-	{
-		if (cd_i->env->get_var(cd_i->env, "PWD"))
-		{
-			free(tmp);
-			tmp = cd_add_slash(cd_i->env->last_used_elem->val_begin_ptr);
-			cd_i->cwd_link = ft_xstrjoin(tmp, av);
-			if (!cd_change_dir(cd_i->env, av, cd_i->cwd))
-				link_env_update(cd_i);
-		}
-	}
+		hidden_cd(cd_i, av);
 	else
 		dot_parser(cd_i, av);
 	free(tmp);

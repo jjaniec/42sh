@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/17 17:10:52 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:40:42 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char		*cd_get_last_path(char *path)
 	return (res);
 }
 
-char	*cd_clean_last_slash(char *str)
+char		*cd_clean_last_slash(char *str)
 {
 	char	*res;
 
@@ -58,14 +58,20 @@ char	*cd_clean_last_slash(char *str)
 	return (ft_xstrdup(str));
 }
 
-int		cd_change_dir(t_environ *env, char *path, char *cwd)
+int			cd_change_dir(t_environ *env, char *path, char *cwd)
 {
+	char *tmp;
+
+	(void)cwd;
 	if (path && !chdir(path))
 	{
+		if (env->get_var(env, "PWD"))
+			tmp = env->last_used_elem->val_begin_ptr;
 		if (env->get_var(env, "OLDPWD"))
-			ft_strncpy(env->last_used_elem->val_begin_ptr, cwd, MAX_ENV_ENTRY_LEN - 7);
+			ft_strncpy(env->last_used_elem->val_begin_ptr,
+			tmp, MAX_ENV_ENTRY_LEN - 7);
 		else
-			env->add_var(env, "OLDPWD", cwd);
+			env->add_var(env, "OLDPWD", tmp);
 		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
 		return (0);
 	}

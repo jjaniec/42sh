@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/21 20:33:40 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:51:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,13 @@
 t_option		g_cd_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
 	{{"P"}, "Handle the operand dot-dot physically; symbolic link \
-		components shall be resolved before dot-dot components are processed", false},
+	components shall be resolved before dot-dot components are \
+		processed", false},
 	{{"L"}, "Handle the operand dot-dot logically; symbolic link \
-		components shall not be resolved before dot-dot components are processed", false},
+	components shall not be resolved before dot-dot components are \
+		processed", false},
 	{{NULL}, NULL, false}
 };
-
-static void	refresh_cwd_env(t_environ *env)
-{
-	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
-
-	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
-		env->upt_var(env, "PWD", cwd_new_fmt);
-	else
-		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
-}
 
 static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 {
@@ -51,16 +43,12 @@ static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 	cd_info->cwd = ft_xstrdup(cwd);
 	cd_info->cwd_link = NULL;
 	cd_info->link = cd_in_link(env);
-	if (cd_info->link)
-		ft_putstr_fd("Link detected", 2);
-	else
-		ft_putstr_fd("No link detected", 2);
 	cd_info->exe = exe;
 	cd_info->env = env;
 	return (cd_info);
 }
 
-static int	builtin_cd_dash(t_cd *cd_info)
+static int		builtin_cd_dash(t_cd *cd_info)
 {
 	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
 
@@ -70,14 +58,20 @@ static int	builtin_cd_dash(t_cd *cd_info)
 		if (!cd_change_dir(cd_info->env,
 			cd_info->env->last_used_elem->val_begin_ptr, cd_info->cwd))
 			ft_putendl(old_oldpwd);
-		refresh_cwd_env(cd_info->env);
+		if (cd_check_link(cd_info, old_oldpwd))
+		{
+			cd_info->cwd_link = ft_xstrdup(old_oldpwd);
+			link_env_update(cd_info);
+		}
+		else
+			refresh_cwd_env(cd_info->env);
 		return (0);
 	}
 	ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
 	return (1);
 }
 
-static void		cd_home(t_cd *cd_info)
+void			cd_home(t_cd *cd_info)
 {
 	if (cd_info->env->get_var(cd_info->env, "HOME"))
 	{
@@ -91,28 +85,6 @@ static void		cd_home(t_cd *cd_info)
 		cd_info->exe->ret = 1;
 		return ;
 	}
-}
-
-static void	builtin_cd_p(t_cd *cd_info, char *argv)
-{
-	char	*path;
-	char	buf[MAX_ENV_ENTRY_LEN];
-	int		cc;
-
-	if (!argv)
-	{
-		cd_home(cd_info);
-		return ;
-	}
-	path = cd_clean_last_slash(argv);
-	if (autoc_check_path(path) == 'l')
-	{
-		cc = readlink(path, buf, MAX_ENV_ENTRIES);
-		buf[cc] = '\0';
-		cd_change_dir(cd_info->env, buf, cd_info->cwd);
-		refresh_cwd_env(cd_info->env);
-	}
-	free(path);
 }
 
 static void		cd_no_link(t_cd *cd_info, char *av)

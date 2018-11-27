@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_l.c                                             :+:      :+:    :+:   */
+/*   cd_opt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 14:30:40 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/22 22:05:59 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:47:42 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,44 @@ void		link_env_update(t_cd *cd_i)
 	cd_i->env->upt_var(cd_i->env, "PWD", cd_i->cwd_link);
 }
 
+void		refresh_cwd_env(t_environ *env)
+{
+	char	cwd_new_fmt[MAX_ENV_ENTRY_LEN];
+
+	if (getcwd(cwd_new_fmt, sizeof(cwd_new_fmt)))
+		env->upt_var(env, "PWD", cwd_new_fmt);
+	else
+		ft_putstr_fd(SH_NAME": .: Cannot get current working directory !\n", 2);
+}
+
 char		*cd_add_slash(char *str)
 {
 	if (str[ft_strlen(str) - 1] != '/')
 		return (ft_xstrjoin(str, "/"));
 	else
 		return (ft_xstrdup(str));
+}
+
+void		builtin_cd_p(t_cd *cd_info, char *argv)
+{
+	char	*path;
+	char	buf[MAX_ENV_ENTRY_LEN];
+	int		cc;
+
+	if (!argv)
+	{
+		cd_home(cd_info);
+		return ;
+	}
+	path = cd_clean_last_slash(argv);
+	if (autoc_check_path(path) == 'l')
+	{
+		cc = readlink(path, buf, MAX_ENV_ENTRIES);
+		buf[cc] = '\0';
+		cd_change_dir(cd_info->env, buf, cd_info->cwd);
+		refresh_cwd_env(cd_info->env);
+	}
+	free(path);
 }
 
 void		cd_l(t_cd *cd_i, char *av)
