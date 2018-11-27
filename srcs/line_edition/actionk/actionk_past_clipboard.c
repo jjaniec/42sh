@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 17:04:59 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/20 15:39:33 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:52:53 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 **	Past the shell's clipboard at the end of the command line.
 */
 
-static void past_clipboard_at_end(struct s_line *le)
+static void	past_clipboard_at_end(struct s_line *le)
 {
-	unsigned int    index;
+	unsigned int	index;
 
 	index = 0;
 	while (le->clipboard[index] != '\0')
@@ -32,7 +32,7 @@ static void past_clipboard_at_end(struct s_line *le)
 **	Past the shell's clipboard into the command line
 */
 
-static void past_clipboard_into_cmdline(struct s_line *le)
+static void	past_clipboard_into_cmdline(struct s_line *le)
 {
 	t_kno			keep_key_no;
 	bool			keep_opt_colosyn;
@@ -58,13 +58,13 @@ static void past_clipboard_into_cmdline(struct s_line *le)
 	free(part_of_line - len_part_of_line);
 	while ((len_part_of_line)-- > 0)
 		actionk_cursor_move_left(le);
-}   
+}
 
 /*
 **	Past the shell's clipboard in the command line, at the cursor's position.
 */
 
-void        actionk_past_clipboard(struct s_line *le)
+void		actionk_past_clipboard(struct s_line *le)
 {
 	if (le->le_state.opt_colosyn == true)
 	{

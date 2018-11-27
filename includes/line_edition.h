@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 16:24:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 17:23:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,8 @@ struct s_action_key
 	t_kno	key_no;
 	void	(*func_ptr)(struct s_line *);
 };
+
+typedef struct s_action_key	t_actionk;
 
 /*
 **	Informations to help rewriting and replacing the cursor.

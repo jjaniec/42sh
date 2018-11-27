@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:00:43 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:51:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ static unsigned int	find_nb_moves_needed(const char *line, unsigned int index)
 **	Moves the cursor at the begining of the previous word in the command line.
 */
 
-void    actionk_move_cursor_by_word_left(struct s_line *le)
+void				actionk_move_cursor_by_word_left(struct s_line *le)
 {
 	unsigned int	nb_moves_needed;
 
 	nb_moves_needed = find_nb_moves_needed(le->cmd, le->cursor_index);
-	//fprintf(tty_debug, "nb moves needed = %u\n", nb_moves_needed );
 	while (nb_moves_needed > 0)
 	{
 		actionk_cursor_move_left(le);
