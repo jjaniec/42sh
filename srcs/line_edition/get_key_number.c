@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_le_debug_status.c                              :+:      :+:    :+:   */
+/*   get_key_number.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/17 19:41:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 15:52:04 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/11/27 16:23:03 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/11/27 16:40:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
 /*
-**	debug tool
+** 	Convert the array representig the pressed key, into an unique number.
+**	This is to handle the processing of the key more easily.
 */
 
-int		get_le_debug_status(int mode, int new_value)
+t_kno	get_key_number(const char *key)
 {
-	static int	le_debug_status = 0;
+	t_kno	key_no;
+	t_kno	i;
 
-	if (mode == LE_DEBUG_STATUS_SET)
-		le_debug_status = new_value;
-	return (le_debug_status);
+	key_no = 0;
+	i = 0;
+	while (i < LE_KEY_BUFFER_SIZE)
+	{
+		key_no += ((t_kno)key[i]) << i;
+		++i;
+	}
+	return (key_no);
 }
