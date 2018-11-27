@@ -92,4 +92,5 @@ void			builtin_echo(char **argv, t_environ *env, t_exec *exe)
 			ft_putchar(' ');
 		argv++;
 	}
+	ft_putchar('\n');
 }
