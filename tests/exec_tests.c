@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/21 13:00:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 16:07:11 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,4 +212,36 @@ void	exec_tests(t_environ *env)
 	compare_fds_w_strings("Aliases 3 - deletion", "alias -d rofl; alias --save", "", NULL);
 	compare_fds_w_strings("Aliases 3 - Deleted alias expansion", "rofl", "", SH_NAME": rofl: "ERR_CMD_NOT_FOUND);
 	compare_fds_w_strings("Aliases 4 - Invalid assignation w/ IFS separators", "alias 'ls -la' echo", "", SH_NAME": "ERR_INVALID_ALIAS_NAME);
+
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 1 - Simple", \
+		"TEST1=TEST__ env  TEST2=TEST______ | grep -E 'TEST[12]'", "TEST1=TEST__ env TEST2=TEST______ | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 2 - Simple multiple vars", \
+		"TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 3 - Multiple vars w/ re-assigns", \
+		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 4 - Temporary env test w/ multiple vars & re-assign", \
+		"TEST1=TEST__ env TEST2=TEST______ > /dev/null; env | grep -E 'TEST[12]'", NULL);
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 5 - Temporary env test w/ multiple vars & re-assign 2", \
+		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env > /dev/null ; env | grep -E 'TEST[12]'", NULL);
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 6 - Redefinition of 1st env var", \
+		"$(env | head -n 1 | cut -d '=' -f 1)=TEST env | grep $(env | head -n 1 | cut -d '=' -f 1)", NULL);
+	compare_fds_w_strings("T_ENV_ASSIGNS 7 - Path redefinition & cmd execution", \
+		"PATH=NULL ls", NULL, SH_NAME": ls: "ERR_CMD_NOT_FOUND);
+
+	compare_fds_w_strings("Local vars 1 - Basic", \
+		"lol=mdr; echo \\$lol", "mdr\n", NULL);
+	compare_fds_w_strings("Local vars 2 - Basic", \
+		"lol==; echo \\$lol", "=\n", NULL);
+	compare_fds_w_strings("Local vars 3 - Basic", \
+		"lol=-=-; echo \\$lol", "-=-\n", NULL);
+	compare_fds_w_strings("Local vars 4 - Basic Err w/ separator as value", \
+		"lol=;; echo \\$lol", "", SH_NAME": syntax error near unexpected token ';'\n");
+	compare_fds_w_strings("Local vars 5 - Basic w/ quotes", \
+		"lol='aa'\"lol\"; echo \\$lol", "aalol\n", NULL);
+	compare_fds_w_strings("Local vars 6 - Basic redefinition", \
+		"lol=a; lol=b; lol=c; echo \\$lol; lol=abc; echo \\$lol", "c\nabc\n", NULL);
+	compare_fds_w_strings("Local vars 7 - Multi assigns", \
+		"lol=a lol2=b lol3=c; echo \\$lol\\$lol2\\$lol3", "abc\n", NULL);
+	compare_fds_w_strings("Local vars 8 - Multi assigns w/ Basic redefinition", \
+		"lol=a lol=b lol=c; echo \\$lol; lol=abc; echo \\$lol", "c\nabc\n", NULL);
 }

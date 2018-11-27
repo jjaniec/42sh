@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/21 18:18:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 16:06:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,17 @@ char		**handle_env_assigns(t_ast *node, t_exec *exe, \
 		!(node->type == T_ENV_ASSIGN && !exe))
 		return (NULL);
 	tmp_env_assigns = NULL;
-	while (node->left) // || (!exe && node->right && node->right->type == T_ENV_ASSIGN))
-		node = /*(!exe && node->right && node->right->type == T_ENV_ASSIGN) ? (node->right) :*/ (node->left);
-	log_info("PID %zu: Handle env assigns of %s(t %d td %d)", getpid(), node->data[0], \
-		node->type, node->type_details);
 	env_to_use = get_env_to_use(exe, &tmp_env_assigns);
 	if (env_used)
 		*env_used = env_to_use;
+	log_info("PID %zu: Handle env assigns of %s(t %d td %d)", getpid(), node->data[0], \
+		node->type, node->type_details);
+	handle_quotes_expansions(&(node->data[0]));
+	while (node->left) // || (!exe && node->right && node->right->type == T_ENV_ASSIGN))
+	{
+		node = /*(!exe && node->right && node->right->type == T_ENV_ASSIGN) ? (node->right) :*/ (node->left);
+		handle_quotes_expansions(&(node->data[0]));
+	}
 	while (node->type == T_ENV_ASSIGN)
 	{
 		if (!(env_to_use->get_var(env_to_use, node->data[0])))
