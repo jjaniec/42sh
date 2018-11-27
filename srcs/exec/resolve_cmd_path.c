@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 18:46:52 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 20:20:26 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:37:21 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,7 @@ int				resolve_cmd_path(void **cmd, t_exec *exe)
 	else if ((prog_path = get_prog_path(*cmd, exe)))
 	{
 		if (!handle_cmd_rights_errs(prog_path))
-		{
-			//free(*cmd);
 			*cmd = prog_path;
-		}
 	}
 	else if (!prog_path)
 	{

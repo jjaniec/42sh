@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 17:36:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:32:35 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int		handle_output_redir(int prefix_fd, \
 		open_mode = TK_LESSGREAT_OPEN_ATTR;
 	if (open_mode)
 	{
-		if ((fd = open(target_data, open_mode, DEFAULT_OUTPUT_REDIR_FILE_MODE)) == -1)
+		if ((fd = open(target_data, open_mode, \
+			DEFAULT_OUTPUT_REDIR_FILE_MODE)) == -1)
 			return (-handle_open_error(errno, target_data));
 		else
 		{
@@ -92,8 +93,9 @@ static int		handle_output_redir(int prefix_fd, \
 static int		handle_redir(int prefix_fd, char *target_data, \
 					int target_fd, t_ast *node)
 {
-	int		r = -2;
+	int		r;
 
+	r = -2;
 	log_trace("Handle redir prefix_fd: %d - parsed target_fd: %d for target_data string: |%s| - node: %p", prefix_fd, target_fd, target_data, node);
 	if (!(node->type_details == TK_LESSAND \
 		|| node->type_details == TK_GREATAND))
@@ -102,12 +104,12 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 			r = handle_output_redir(prefix_fd, target_data, node->type_details);
 		if ((!r || r == -2) && ft_strchr(node->data[0], '<') && \
 			node->type_details != TK_LESSGREAT)
-			r = handle_input_redir(prefix_fd, target_data, node->type_details, node);
+			r = handle_input_redir(prefix_fd, target_data, \
+				node->type_details, node);
 	}
 	else if (target_fd != -1)
 	{
 		errno = 0;
-		log_debug("Duplicating target fd %d for filedesc redirect to prefix fd %d - td: %d", target_fd, prefix_fd, node->type_details);
 		r = dup2(target_fd, prefix_fd);
 		if (r == -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 18:00:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:12:06 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** after the builtin has been executed
 */
 
-static void	backup_apply_origin_fds(int mode)
+static void		backup_apply_origin_fds(int mode)
 {
 	static int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT] = {-1};
 	int				i;
@@ -52,7 +52,8 @@ static void	backup_apply_origin_fds(int mode)
 ** Remove temporary env variables specified before program name
 */
 
-static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_vars)
+static void		remove_tmp_env_assigns(t_environ *environ_used, \
+					char **env_assign_vars)
 {
 	t_environ	*env;
 
@@ -76,10 +77,10 @@ static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_va
 ** Free unnecessary data before program execution when program is not a builtin
 */
 
-static void	forked_process_frees(t_exec *exe)
+static void		forked_process_frees(t_exec *exe)
 {
 	t_shell_vars	*vars;
-	t_ast	**ast_ptr;
+	t_ast			**ast_ptr;
 
 	if ((vars = get_shell_vars()))
 		free_hashtable(vars->hashtable);
@@ -93,14 +94,14 @@ static void	forked_process_frees(t_exec *exe)
 ** variables specified before program name
 */
 
-static int	child_process_preexec(t_ast *node, t_exec *exe, \
-				int **pipe_fds/*, int *backup_fds*/)
+static int		child_process_preexec(t_ast *node, t_exec *exe, int **pipe_fds)
 {
 	if (!(exe->prog_forked) && \
 		(node->parent && node->parent->type == T_REDIR_OPT))
 		backup_apply_origin_fds(MODE_BACKUP_ORIGIN_FDS);
 	if (node && node->left && node->left->type == T_ENV_ASSIGN)
-		exe->env_assigns_vars_start = handle_env_assigns(node, exe, &(exe->env_assigns_environ));
+		exe->env_assigns_vars_start = \
+			handle_env_assigns(node, exe, &(exe->env_assigns_environ));
 	else
 	{
 		exe->env_assigns_vars_start = NULL;
@@ -117,8 +118,8 @@ static int	child_process_preexec(t_ast *node, t_exec *exe, \
 ** free & quit when forked program is a builtin
 */
 
-static void child_process_postexec(t_ast *node, \
-				/*int *backup_fds, */t_exec *exe)
+static void 	child_process_postexec(t_ast *node, \
+					t_exec *exe)
 {
 	int		r;
 
@@ -159,15 +160,14 @@ static void child_process_postexec(t_ast *node, \
 ** without duplicating code)
 */
 
-void		child_process(void **cmd, t_exec *exe, \
-				t_ast *node, int **pipe_fds)
+void			child_process(void **cmd, t_exec *exe, \
+					t_ast *node, int **pipe_fds)
 {
-	//int			backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
 	char		**cmd_args;
 	char		*tmp;
 	t_environ	*env_assigns_environ;
 
-	if (!child_process_preexec(node, exe, pipe_fds/*, backup_fds*/))
+	if (!child_process_preexec(node, exe, pipe_fds))
 	{
 		if ((intptr_t)*cmd == PROG_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
@@ -192,5 +192,5 @@ void		child_process(void **cmd, t_exec *exe, \
  	}
 	else if (exe->prog_forked)
 		exit(EXIT_FAILURE);
-	child_process_postexec(node, /*backup_fds,*/ exe);
+	child_process_postexec(node, exe);
 }

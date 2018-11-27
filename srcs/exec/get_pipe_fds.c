@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/24 20:58:15 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 21:45:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:44:22 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void		get_pipe_fds_right(t_ast *last_pipe_node, \
 	}
 }
 
-int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node)
+int				**get_pipe_fds(t_ast *last_pipe_node, t_ast *node)
 {
 	t_ast	*ptr;
 	int		**ret;

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 14:57:48 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/15 16:58:18 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:45:54 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int				check_redir_suffix_validity(t_ast *redir_ast_node)
 	if (!is_redir_suffix_valid(redir_ast_node->right->data[0], \
 		(redir_ast_node->type_details == TK_LESSAND || \
 		redir_ast_node->type_details == TK_GREATAND) ? \
-		(MODE_CHECK_REDIR_VALID_FD) : (MODE_CHECK_REDIR_VALID_FILE), redir_ast_node))
+		(MODE_CHECK_REDIR_VALID_FD) : (MODE_CHECK_REDIR_VALID_FILE), \
+		redir_ast_node))
 	{
 		ft_putstr_fd(SH_NAME": ", 2);
 		ft_putstr_fd(redir_ast_node->right->data[0], 2);

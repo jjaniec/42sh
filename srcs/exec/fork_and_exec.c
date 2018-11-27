@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 16:45:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:36:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ static bool	should_fork(void **cmd)
 	void	(*ptr)(char **, t_environ *, t_exec *);
 
 	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
-	if ((intptr_t)*cmd == PROG_NOT_BUILTIN || \
-		ptr == &builtin_test)
+	if ((intptr_t)*cmd == PROG_NOT_BUILTIN || ptr == &builtin_test)
 		return (true);
 	return (false);
 }
