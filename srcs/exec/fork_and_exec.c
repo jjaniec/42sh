@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/18 15:32:22 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 16:45:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,27 @@ static void		close_child_pipe_fds(int **pipe_fds)
 ** waitpid on child to prevent zombie process
 */
 
+static void	wait_child(pid_t child_pid, int *status, pid_t *waited_pid)
+{
+	pid_t	shell_pgid;
+
+	if (g_jobs)
+		g_jobs->pgid = 0;
+	if (setpgid(child_pid, child_pid) != 0)
+		exit(EXIT_FAILURE);
+	shell_pgid = getpgrp();
+	if (tcsetpgrp(STDIN_FILENO, child_pid) != 0)
+		exit(EXIT_FAILURE);
+	*waited_pid = waitpid(child_pid, status, 0);
+	if (tcsetpgrp(STDIN_FILENO, shell_pgid) != 0)
+		exit(EXIT_FAILURE);
+}
+
 static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 {
-	pid_t		waited_pid;
 	int			status;
 	int			return_code;
+	pid_t		waited_pid;
 
 	status = -2;
 	return_code = status;
@@ -56,9 +72,7 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 	close_child_pipe_fds(pipe_fds);
 	if (!pipe_fds)
 	{
-		if (g_jobs)
-			g_jobs->pgid = 0;
-		waited_pid = waitpid(child_pid, &status, 0);
+		wait_child(child_pid, &status, &waited_pid);
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
 		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
 			((intptr_t)*cmd != PROG_BUILTIN) ? (cmd[1]) : ("-builtin-"), return_code);

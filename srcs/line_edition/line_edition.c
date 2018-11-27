@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/22 16:00:31 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 14:48:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ static enum e_read_key		get_user_input(char key[LE_KEY_BUFFER_SIZE])
 		return (INTR_BY_SIGINT);
 	}
 	if (read_ret == -1)
+	{
+		//{ le_debug("READ EXIT FAILURE PID %i\n", (int) getpid()  ) }
 		exit(EXIT_FAILURE);
+	}
 	return (ALL_IS_ALRIGHT);
 }
 

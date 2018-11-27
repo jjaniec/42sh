@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/11/09 17:18:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 14:48:40 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void	handle_sigint(int sig)
 	unsigned int	i;
 	pid_t			receiver_pid;
 
+	//{ le_debug("START HANDLER SIGINT PID %i PPID %i\n", (int) getpid(), (int) getppid() ) } // debug
+	if (false && g_jobs && !(tcgetpgrp(STDIN_FILENO) == g_jobs->pgid)) // FALSE
+	{
+		le_debug( "%s", "LOL JE KIT PASKE JSUI PAS CONCERNE\n");
+		return ;
+	}
+
 	receiver_pid = getpid();
 	if (sig != SIGINT || g_cmd_status.builtin_running == true)
 		return ;
@@ -48,7 +55,9 @@ void	handle_sigint(int sig)
 	{
 		if (!g_jobs->pgid)
 		{
-			kill(g_jobs->first_process->pid, sig);
+			//{ le_debug("JE SUIS PID %i ET JE KILL PID %i\n", (int) getpid(), (int) g_jobs->first_process->pid ) } // debug
+			if (kill(g_jobs->first_process->pid, sig) == -1)
+				perror("perror kill()");
 			log_debug("Sending signal (SIGINT) to pid: %d\n", g_jobs->first_process->pid);
 		}
 		else // A pgroup is defined, we're killing a pipeline

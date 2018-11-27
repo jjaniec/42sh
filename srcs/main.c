@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/11 20:55:16 by saxiao           ###   ########.fr       */
+/*   Updated: 2018/11/27 14:48:58 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static char	*read_file(int fd)
 	char	*final;
 	int		ret;
 
-	final = ft_strnew(0);
+	final = ft_strnew(0); errno = 0;
 	while((ret = get_next_line(fd, &line)))
 	{
 		if (ret == -1)
@@ -130,6 +130,7 @@ static char	*read_file(int fd)
 static int	interpret_file(char **argv, t_option **char_opt_index)
 {
 	int		fd;
+	struct stat filestat;
 
 	argv++;
 	while(*argv && **argv == '-')
@@ -138,8 +139,17 @@ static int	interpret_file(char **argv, t_option **char_opt_index)
 	{
 		if ((fd = open(*argv, O_RDONLY)) <= 0)
 			exit(open_error_print_msg(*argv));
-		g_sh_opts[1].opt_status = true;
-		forty_two_sh(read_file(fd), get_shell_vars(), g_sh_opts, char_opt_index);
+		if (fstat(fd, &filestat) == -1)
+			exit(EXIT_FAILURE);
+		if (!(filestat.st_mode & S_IFREG))
+			ft_putstr_fd(SH_NAME": Filetype not supported.\n", 2);
+		else if (!(filestat.st_mode & S_IRUSR))
+			ft_putstr_fd(SH_NAME": No read right.\n", 2);
+		else
+		{
+			g_sh_opts[1].opt_status = true;
+			forty_two_sh(read_file(fd), get_shell_vars(), g_sh_opts, char_opt_index);
+		}
 		close(fd);
 		return (1);
 	}
@@ -187,7 +197,6 @@ int		main(int ac, char **av, char **envp)
 
 	opt_list = g_sh_opts;
 	g_jobs = NULL;
-	setpgrp();
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
 	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
 		log_set_quiet(1);
@@ -197,12 +206,13 @@ int		main(int ac, char **av, char **envp)
 		format_help(SH_USAGE, opt_list);
 		exit(EXIT_SUCCESS);
 	}
-	init_signals();
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 	{
 		tty_debug = fopen(TTY_DEBUG, "w");
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
+		{ le_debug("MAIN() SE LANCE PID %i  GROUPE %i\n", (int) getpid(), (int) getpgrp()  ) } // debug
 	}
+	init_signals();
 	if (interpret_file(av, char_opt_index))
 		return (0);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
