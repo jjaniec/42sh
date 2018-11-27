@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/27 16:14:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 18:54:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 {
 	if (!node->data)
 		return (exe);
-	if (node->type == T_WORD)
+	if (node->type == T_WORD || node->type == T_SCRIPT_CONDITION)
 		clean_data(node->data);
 	if (!node->data[0])
 		return (exe);
