@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:55:55 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/10 17:06:15 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/16 19:52:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,28 +73,38 @@ void ast_check(void)
 	"ls ;", 1);
 }
 
-/*static void	ast_tree_diff(int test_nbr, char *str)
+
+static void	ast_tree_diff(int test_nbr, char *str)
 {
 	char	*cmd;
 	int		ret;
 	int		save_stdout;
 	t_ast	*root;
+	char	*a_mort_brubru_qui_free_jamais;
+	t_lexeme	*tmp;
 
 	asprintf(&cmd, "diff tests/ast_tree/A.txt tests/ast_tree/%d.txt", test_nbr);
 	save_stdout = dup(1);
 	close(1);
 	open("tests/ast_tree/A.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	root = ast(lexer(ft_strdup(str)));
-	ast_debug(root);
+	root = NULL;
+	if (lexer((a_mort_brubru_qui_free_jamais = ft_xstrjoin(str, "\n")), &tmp, NULL))
+	{
+		root = ast(&tmp);
+		ast_debug(root, 0);
+	}
 	close(1);
 	dup2(save_stdout, 1);
 	close(save_stdout);
 	ret = system(cmd);
 	ok(!ret, "AST tree construction");
-	free (cmd);
-}*/
+	free(cmd);
+	ast_free(root);
+	free_lexemes(tmp);
+	free(a_mort_brubru_qui_free_jamais);
+}
 
-/*void	ast_tree(void)
+void	ast_tree(void)
 {
 	ast_tree_diff(1, "1 ; 2 | 3 && 4 || 5 > 6 > 7 < 8 ;");
 	ast_tree_diff(2, "1 ; 2 ; 3 > 4 > 5 | 6 || 7");
@@ -105,11 +115,11 @@ void ast_check(void)
 	ast_tree_diff(7, "1 ; 2 ; 3 >> 4 > 5 | 6 && 7 | 8 > 9 ; 10 < 11 ; 12");
 	ast_tree_diff(8, "A=b ls 2>&- 1> a.txt && pwd");
 	system("rm tests/ast_tree/A.txt");
-}*/
+}
 
 void ast_tests(t_environ *env)
 {
 	(void)env;
 	ast_check();
-	//ast_tree();
+	ast_tree();
 }

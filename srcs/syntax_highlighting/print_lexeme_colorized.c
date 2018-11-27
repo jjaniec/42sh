@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 15:27:33 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:12:31 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 	static int		item_nb = -1;
 
 	item_nb++;
-	if (lexeme->type == T_CTRL_OPT)
+	if (is_an_alias(lexeme->data, access_alias_datas()))
+		ft_putstr(COL_ALIAS);
+	else if (lexeme->type == T_CTRL_OPT)
 	{
 		ft_putstr(COL_OPERATORS);
 		item_nb = -1;

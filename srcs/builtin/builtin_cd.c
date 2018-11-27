@@ -48,11 +48,11 @@ static void	ft_print_cd_err(char *path, int errno_err)
 	ft_putstr_fd(SH_NAME": ", 2);
 	ft_putstr_fd(path, 2);
 	if (errno_err == EACCES)
-		ft_putstr_fd(": permission denied\n", 2);
+		ft_putstr_fd(": "ERR_EACCESS, 2);
 	else if (errno_err == ENOENT)
 		ft_putstr_fd(": does not exists\n", 2);
 	else if (errno_err == ENOTDIR)
-		ft_putstr_fd(": not a directory\n", 2);
+		ft_putstr_fd(": "ERR_ENOTDIR, 2);
 	else
 		exit(MALLOC_ERROR);
 }
@@ -131,8 +131,9 @@ static void	builtin_cd_p(char *argv, t_environ *env, char *cwd)
 void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 {
 	char		cwd[MAX_ENV_ENTRY_LEN];
-	(void)exe;
+	t_environ	*origin_env;
 
+	(void)env;
 	exe->ret = 0;
 	if (!(getcwd(cwd, MAX_ENV_ENTRY_LEN)) && errno != ENOENT)
 	{
@@ -144,6 +145,7 @@ void		builtin_cd(char **argv, t_environ *env, t_exec *exe)
 		else
 			exit(MALLOC_ERROR);
 	}
+	origin_env = get_shell_vars()->env;
 	if (!exe->ret && !argv[1])
 	{
 		if (env->get_var(env, "HOME"))

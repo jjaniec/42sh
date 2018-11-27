@@ -27,6 +27,8 @@ addons:
     # - clang-5.0
   sonarcloud:
     organization: "jjaniec-github"
+    token:
+      secure: "uqXQvrn2QWEiPTnErDdmtbllU/9RxI8wHyfIpcqwy5hp1dagR4ld8I4uHu4LKu+U3/Mt6OZdaU7cmiCLBb7M1GxZVtSXTa2KDiVp7D5PJe1kGHHRHm/AguPn4/LDTA2QfDZywsuqbGgN4rHtQhw5rEtdGjjT/7Pid2H8xwWsiAwCyrjFtiJXyaEB6Hzw5kacJ9z1n30HN2RjS7ezXQSQ3bb3v0oVzbUKwsizcMZm5pM0+wvjtp33idwIjxpLxKQC7lY7OZSK+H5pG+SJXvPtDBfUH7g7pUrXrvMM+H5xmRxcmc7N3P+iO9nLl/hrmR9jU1AV9DJJmyGBbD3d+yqIfvfAg3YAG7pCfP1duzb6YBSZCQE3oh9W9hY6DICYQ+uJkWE+Crrd1cPqAGiRm2X0qYmmIyOaynAQLmVuhAnWyFevBTB9JLBhh/qWNzFtrOygsDKYZiMoud0spBB9RXn2AFeBe3FHQLCuZp20CREfpa7+AeDcex1Yqsu/XVvXEWAPuRAWUjEv3H6ei/1HvcUKjq+k1LRRvBUz8E/gMGVQkXs3ruB7KpbUlI7g2Woe6hEeC9QE6WYrX1doFNRU+/kCN85/r/1z4SU1B/WT4uUgxFngezt2wl3Tod8mQAuqzeqjgOLUeU3toM/FgheLiaVDnuzYBwAbNkgdK3dkVYVS6xI="
 matrix:
     fast_finish: true
     include:
@@ -109,8 +111,8 @@ matrix:
         #   env: CXX=clang-5.0
 script: >
   if [ $TRAVIS_OS_NAME == linux ];
-  then ./build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output make CC=$CXX tests;
-  else ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make CC=$CXX tests;
+  then ./build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output make CC=$CXX ADDITIONAL_FLAGS="-DCI_TEST=1" tests;
+  else ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make CC=$CXX ADDITIONAL_FLAGS="-DCI_TEST=1" tests;
   fi;
   if [ $TRAVIS_OS_NAME == osx ];
   then ./42sh_tests;

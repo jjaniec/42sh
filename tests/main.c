@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 21:19:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/21 16:36:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		log_set_quiet(1);
 	init_shell_vars(envp, get_shell_vars());
 	t_environ	*env = get_shell_vars()->env;
+	init_signals();
 	//builtin_env((char *[2]){"env", NULL}, env, NULL);
 	g_sh_opts[1].opt_status = true;
 	/*backup_stdout = dup(STDOUT_FILENO);

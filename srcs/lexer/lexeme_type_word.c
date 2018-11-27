@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/26 13:16:54 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:12:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,6 @@ static int	skip_quotes_substring(char *s, int *pos)
 	return (0);
 }
 
-/*
-** Determines if string should be passed to handle_quotes_expansions
-** to remove quotes / backslashes / replace expansion specifiers
-*/
-
-static int	is_clean_needed_expansions(char **data)
-{
-	char	*ptr;
-
-	ptr = EXPANSIONS_SPECIFIERS;
-	while (*ptr)
-		if (ft_strchr(*data, *ptr++))
-			return (1);
-	return (0);
-}
-
-static int	is_clean_needed(char **data)
-{
-	if (*data && (ft_strchr(*data, '\'') || \
-			ft_strchr(*data, '"') || ft_strchr(*data, '\\') || \
-			is_clean_needed_expansions(data)))
-		return (1);
-	return (0);
-}
 /*
 ** Parse word operators (default type),
 ** if string $s do not contains quotes,
@@ -84,8 +60,6 @@ int 		lexeme_type_word(char *s, int *pos, char **data)
 		*data = ft_strsub(s, start, *pos - start);
 		if (*data == NULL)
 			exit(MALLOC_ERROR);
-		if (is_clean_needed(data))
-			handle_quotes_expansions(data);
 	}
 	else
 		*data = NULL;

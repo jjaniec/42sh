@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 17:50:03 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/09 17:08:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 			return (NULL);
  	}
 	lexer(input, &new, NULL);
+	aliases_replace(&new);
 	free(input);
 	if (!lex)
 		return (new);

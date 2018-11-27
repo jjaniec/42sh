@@ -19,7 +19,11 @@ static int			nbr_tab(char *dirname, t_autoc *autoc)
 	struct dirent	*file;
 
 	i = 0;
-	dir = opendir(dirname);
+	if ((dir = opendir(dirname)) == NULL)
+	{
+		closedir(dir);
+		return (0);
+	}
 	while ((file = readdir(dir)))
 	{
 		if (autoc->dot)

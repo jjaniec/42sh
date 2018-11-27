@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:16:01 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/07 16:31:50 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 14:48:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,78 @@
 ** without duplicating code)
 */
 
+static void	backup_origin_fds(int *backup_fds)
+{
+	int			i;
+
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+		(backup_fds)[i++] = -1;
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	{
+		if (((backup_fds)[i] = dup(i)))
+			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
+		i += 1;
+	}
+}
+
+static void	restore_origin_fds(int *backup_fds)
+{
+	int			i;
+
+	i = 0;
+	while (i < DEFAULT_SUPPORTED_FDS_COUNT)
+	{
+		handle_redir_fd(i, backup_fds[i]);
+		i++;
+	}
+}
+
+static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_vars)
+{
+	t_environ	*env;
+
+	if (env_assign_vars)
+	{
+		env = get_shell_vars()->env;
+		if (environ_used == env)
+		{
+			while (*env_assign_vars)
+				env->del_var(env, *env_assign_vars);
+		}
+		else
+		{
+			free_env_entries(environ_used, environ_used->env_entries_list);
+			free(environ_used);
+		}
+	}
+}
+
 static void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds)
 {
-	int		backup_fds[3];
+	int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
 	bool	can_run_cmd;
 	int		r;
 	char	**cmd_args;
 	char	**env_;
 	char	*tmp;
 	t_ast	**ast_ptr;
+	char	**env_assign_vars;
+	t_environ	*env_assigns_environ;
 
-	can_run_cmd = true;
-	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
+	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
+		backup_origin_fds(backup_fds);
+	if (node && node->left && node->left->type == T_ENV_ASSIGN)
+		env_assign_vars = handle_env_assigns(node, exe, &env_assigns_environ);
+	else
 	{
-		backup_fds[0] = dup(STDIN_FILENO);
-		backup_fds[1] = dup(STDOUT_FILENO);
-		backup_fds[2] = dup(STDERR_FILENO);
-		if (backup_fds[0] == -1 || backup_fds[1] == -1 || backup_fds[2] == -1)
-			log_error("PID %zu: Backup fds duplication failed!", getpid());
+		env_assigns_environ = exe->env;
 	}
 	handle_pipes(pipe_fds);
 	handle_redirs(node);
+	can_run_cmd = true;
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN)
 		can_run_cmd = !(resolve_cmd_path(&(cmd[1]), exe));
 	if (can_run_cmd)
@@ -61,7 +111,7 @@ static void	child_process(void **cmd, t_exec *exe, \
 		log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
 		if ((intptr_t)*cmd == EXEC_THREAD_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
-				(cmd[2], exe->env, exe);
+				(cmd[2],/* exe->env */env_assigns_environ, exe);
 		else
 		{
 			cmd_args = ft_dup_2d_array(cmd[2]);
@@ -74,23 +124,19 @@ static void	child_process(void **cmd, t_exec *exe, \
 				ast_free(*ast_ptr);
 			env_ = exe->env->environ;
 			free(exe);
+			errno = 0;
 			if (execve(tmp, cmd_args, env_))
 			{
 				log_error("PID %zu - Execve() not working", getpid());
-				perror("execve");
+				perror("PERROR execve");
 			}
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!pipe_fds && (node->parent && node->parent->type == T_REDIR_OPT))
-	{
-		handle_redir_fd(STDIN_FILENO, backup_fds[0]);
-		handle_redir_fd(STDOUT_FILENO, backup_fds[1]);
-		handle_redir_fd(STDERR_FILENO, backup_fds[2]);
-		/*log_close(backup_fds[0]);
-		log_close(backup_fds[1]);
-		log_close(backup_fds[2]);*/
-	}
+	if (node && node->left && node->left->type == T_ENV_ASSIGN)
+		remove_tmp_env_assigns(env_assigns_environ, env_assign_vars);
+	if (!(exe->prog_forked) && (node->parent && node->parent->type == T_REDIR_OPT))
+		restore_origin_fds(backup_fds);
 	if (!can_run_cmd || (intptr_t)*cmd != EXEC_THREAD_BUILTIN || pipe_fds)
 	{
 		log_trace("PID %zu: Forcing exit of child process", getpid());
@@ -126,6 +172,8 @@ static void		close_child_pipe_fds(int **pipe_fds)
 	}
 }
 
+//static void	handle_foregrounded_child
+
 /*
 ** Parent process function when forking
 ** Wait child process to end if not in a pipeline,
@@ -138,6 +186,7 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 	pid_t		waited_pid;
 	int			status;
 	int			return_code;
+	int			shell_pgid;
 
 	status = -2;
 	return_code = status;
@@ -149,7 +198,14 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 	{
 		if (g_jobs)
 			g_jobs->pgid = 0;
+		if (setpgid(child_pid, child_pid) != 0)
+			exit(EXIT_FAILURE);
+		shell_pgid = getpgrp();
+		if (tcsetpgrp(STDIN_FILENO, child_pid) != 0) 
+			exit(EXIT_FAILURE);
 		waited_pid = waitpid(child_pid, &status, 0);
+		if (tcsetpgrp(STDIN_FILENO, shell_pgid) != 0)
+			exit(EXIT_FAILURE);
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
 		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
 			((intptr_t)*cmd != EXEC_THREAD_BUILTIN) ? (cmd[1]) : ("-builtin-"), return_code);
@@ -172,15 +228,15 @@ static int	parent_process(char **cmd, pid_t child_pid,	int **pipe_fds)
 ** More explanation of $cmd in commentary of the child_process() function
 */
 
-static int	should_fork(void **cmd)
+static bool	should_fork(void **cmd)
 {
 	void	(*ptr)(char **, t_environ *, t_exec *);
 
 	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
 	if ((intptr_t)*cmd == EXEC_THREAD_NOT_BUILTIN || \
 		ptr == &builtin_test)
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
 t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
@@ -189,7 +245,6 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	pid_t	child_pid;
 	t_ast	*last_pipe_node;
 	int		**pipe_fds;
-
 	(void)env_struct;
 	if ((last_pipe_node = get_last_pipe_node(node)) && \
 		(!last_pipe_node->data[1] || \
@@ -198,6 +253,15 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 	if (last_pipe_node || should_fork(cmd))
 	{
 		pipe_fds = get_pipe_fds(last_pipe_node, node);
+		exe->prog_forked = true;
+/*
+		struct sigaction s;
+		s.sa_flags = 0;
+		sigfillset(&(s.sa_mask));
+		s.sa_handler = SIG_IGN;
+		sigaction(SIGINT, &s, NULL);
+*/
+
 		child_pid = fork();
 		if (child_pid == -1)
 			log_error("Fork() not working");
@@ -210,8 +274,14 @@ t_exec		*exec_thread(void **cmd, t_environ *env_struct, t_exec *exe, \
 			log_trace("Forked process pid: %d for cmd: %s", child_pid, node->data[0]);
 			exe->ret = parent_process((char **)cmd, child_pid, pipe_fds);
 		}
+/*
+		s.sa_handler = handle_sigint;
+		sigaction(SIGINT, &s, NULL); */
 	}
 	else
+	{
+		exe->prog_forked = false;
 		child_process(cmd, exe, node, NULL);
+	}
 	return (exe);
 }

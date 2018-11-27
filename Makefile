@@ -126,11 +126,14 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
 			exec/exec_pre_in_post.c \
-			exec/exec_thread.c \
+			exec/fork_and_exec.c \
+			exec/child_process.c \
 			exec/io_manager.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
+			exec/check_redir_suffix_validity.c \
 			exec/handle_redir_fd.c \
+			exec/handle_env_assigns.c \
 			exec/handle_pipes.c \
 			exec/handle_open_error.c \
 			exec/print_error.c \
@@ -147,6 +150,7 @@ SRC_NAME = 	is_separator.c \
 			exec/get_process_return_code.c \
 			exec/resolve_cmd_path.c \
 			exec/create_exec.c \
+			exec/clean_data.c \
 			builtin/echo/builtin_echo.c \
 			builtin/echo/echo_opt.c \
 			builtin/echo/echo_opt_2.c \
@@ -158,6 +162,11 @@ SRC_NAME = 	is_separator.c \
 			builtin/cd/cd_free_struct.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
+			builtin/builtin_history_2.c \
+			builtin/builtin_read.c \
+			builtin/builtin_read_get_activated_options.c \
+			builtin/builtin_read_store_words.c \
+			builtin/builtin_read_things.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
@@ -170,7 +179,6 @@ SRC_NAME = 	is_separator.c \
 			builtin/is_builtin.c \
 			script/script_lexer.c \
 			script/good_start.c \
-			script/script_ast_construct.c \
 			script/find_end_lexeme.c \
 			script/find_end_lexeme_solo.c \
 			script/find_lexeme_compete.c \
@@ -210,12 +218,14 @@ SRC_NAME = 	is_separator.c \
 			access_alias_datas.c \
 			ft_strjoin_path.c \
 			get_shell_vars.c \
+			aliases_replace.c \
 			log_close.c \
 			ft_dup_2d_array.c \
 			main.c
 
 INCLUDES_NAME = ast.h \
 				autocomplete.h \
+				builtins.h \
 				exec.h \
 				forty_two_sh.h \
 				lexer.h \
@@ -243,7 +253,6 @@ TESTS_SRC_NAME =	lexer_tests.c \
 					redirect_both_fds.c \
 					main.c
 
-
 ###### FOLDERS ######
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
@@ -266,6 +275,8 @@ TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $
 ###### COMPILATION ######
 CC = gcc
 CFLAGS = -Wall -Wextra -g -D_GNU_SOURCE -std=c11 # -Werror -O3
+ADDITIONAL_FLAGS = # Used to know when running on travis-ci
+CFLAGS += $(ADDITIONAL_FLAGS)
 
 ### FLAGS ###
 VERBOSE_MODE = 0
