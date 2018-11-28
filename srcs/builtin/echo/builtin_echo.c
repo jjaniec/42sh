@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 02:15:50 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/28 17:57:50 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void		init_flag_opt(int (*opt_func[128])(void))
 		opt_func[(int)flags[i]] = func[i];
 }
 
-static int		print_option(char *str)
+static int		print_option(t_exec *exe, char *str)
 {
 	int		ret;
 	int		i;
@@ -65,10 +65,18 @@ static int		print_option(char *str)
 				if (!str[i])
 					return (ret);
 			}
-			if (ret == -1)
+			else if (ret == -1)
 				return (ret);
+			else if (!ret)
+				exe->ret = 1;
 		}
-		ft_putchar(str[i]);
+		if (write(STDOUT_FILENO, &str[i], 1) == -1)
+		{
+			if (errno == EBADF)
+				ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			exe->ret = 1;
+			return (-1);
+		}
 		i++;
 	}
 	return (1);
@@ -83,11 +91,16 @@ void			builtin_echo(char **argv, t_environ *env, t_exec *exe)
 	{
 		if (ft_strchr(*argv, '\\'))
 		{
-			if ((print_option(*argv) == -1))
+			if ((print_option(exe, *argv) == -1))
 				return ;
 		}
-		else
-			ft_putstr(*argv);
+		else if (write(STDOUT_FILENO, *argv, ft_strlen(*argv)) == -1)
+		{
+			if (errno == EBADF)
+				ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			exe->ret = 1;
+			return ;
+		}
 		if (argv[1])
 			ft_putchar(' ');
 		argv++;
