@@ -6,11 +6,16 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/11 02:17:23 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/28 17:53:49 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/28 19:30:17 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+int		not_opt(void)
+{
+	return (0);
+}
 
 int		echo_r_opt(void)
 {
@@ -18,7 +23,7 @@ int		echo_r_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }
@@ -29,7 +34,7 @@ int		echo_t_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }
@@ -40,7 +45,7 @@ int		echo_v_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }
@@ -51,7 +56,7 @@ int		echo_bslash_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }

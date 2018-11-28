@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:19:55 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/27 19:52:27 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/28 18:32:37 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ int					echo_f_opt(void);
 int					echo_r_opt(void);
 int					echo_t_opt(void);
 int					echo_v_opt(void);
+int					not_opt(void);
 int					echo_bslash_opt(void);
 #endif

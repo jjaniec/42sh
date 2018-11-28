@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 20:20:19 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/28 17:54:31 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/28 19:30:02 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		echo_n_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }
@@ -29,7 +29,7 @@ int		echo_a_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }
@@ -40,7 +40,7 @@ int		echo_b_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }
@@ -51,7 +51,7 @@ int		echo_c_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (-1);
 }
@@ -62,7 +62,7 @@ int		echo_f_opt(void)
 	{
 		if (errno == EBADF)
 			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-		return (0);
+		return (-2);
 	}
 	return (1);
 }

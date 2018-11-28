@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/27 19:45:57 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/11/28 19:38:55 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -236,8 +236,6 @@ INCLUDES_NAME = ast.h \
 				syntax_highlighting.h \
 				hash_table.h \
 				prompt_details.h\
-				builtin.h \
-
 
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \

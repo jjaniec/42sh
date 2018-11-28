@@ -6,16 +6,11 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/28 17:57:50 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/28 19:30:56 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-
-static int		not_opt(void)
-{
-	return (0);
-}
 
 static void		init_func_flag(int (*func[9])(void))
 {
@@ -46,6 +41,18 @@ static void		init_flag_opt(int (*opt_func[128])(void))
 		opt_func[(int)flags[i]] = func[i];
 }
 
+static int		echo_write(char c, t_exec *exe)
+{
+	if (write(STDOUT_FILENO, &c, 1) == -1)
+	{
+		if (errno == EBADF)
+			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+		exe->ret = 1;
+		return (0);
+	}
+	return (1);
+}
+
 static int		print_option(t_exec *exe, char *str)
 {
 	int		ret;
@@ -59,24 +66,16 @@ static int		print_option(t_exec *exe, char *str)
 		if (str[i] == '\\')
 		{
 			ret = opt_func[(int)(str[i + 1])]();
-			if (ret)
+			if (ret == -2)
 			{
-				i = i + 2;
-				if (!str[i])
-					return (ret);
-			}
-			else if (ret == -1)
-				return (ret);
-			else if (!ret)
 				exe->ret = 1;
+				return (-1);
+			}
+			else if (ret)
+				i = i + 2;
 		}
-		if (write(STDOUT_FILENO, &str[i], 1) == -1)
-		{
-			if (errno == EBADF)
-				ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
-			exe->ret = 1;
+		if (ret == -1 || !echo_write(str[i], exe))
 			return (-1);
-		}
 		i++;
 	}
 	return (1);
