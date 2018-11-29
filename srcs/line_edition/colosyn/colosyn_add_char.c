@@ -31,7 +31,7 @@ void	colosyn_add_char(struct s_line *le, t_kno key)
 	updated_cmd = ft_xmalloc(le->cmd_len + 2);
 	ft_strcpy(updated_cmd, le->cmd);
 	if (cursor_is_at_end_of_cmd(le) == true)
-		ft_strcpy(updated_cmd + le->cmd_len, (char [2]){key, '\0'}  );
+		ft_strcpy(updated_cmd + le->cmd_len, (char [2]){key, '\0'});
 	else
 	{
 		ft_memmove(updated_cmd + le->cursor_index + 1, \
@@ -42,8 +42,7 @@ void	colosyn_add_char(struct s_line *le, t_kno key)
 		need_replace_cursor = true;
 	}
 	refresh_colosyn(le, updated_cmd);
-	if (need_replace_cursor == true)
-		while (le->cursor_index > keep_cursor_index + 1)
-			actionk_cursor_move_left(le);
+	while (need_replace_cursor && le->cursor_index > keep_cursor_index + 1)
+		actionk_cursor_move_left(le);
 	free(updated_cmd);
 }

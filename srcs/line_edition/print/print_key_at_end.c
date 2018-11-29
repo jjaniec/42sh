@@ -17,10 +17,8 @@ bool	still_enough_space_for_cmd(struct s_line *le)
 {
 	if (le->nb_lines_written == le->term_nb_lines - 1)
 		return (false);
-
 	return (true);
 }
-
 
 /*
 **	Return 'true' if the cursor needs to go down on the next line,
@@ -42,7 +40,6 @@ void	print_key_at_end(struct s_line *le, t_kno key)
 {
 	if (still_enough_space_for_cmd(le) == false)
 		return ;
-
 	print_key(key);
 	check_cmd_storage(le, 2);
 	if (!le->cmd)

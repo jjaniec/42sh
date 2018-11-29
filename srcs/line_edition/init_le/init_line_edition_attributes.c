@@ -16,7 +16,7 @@
 **	Initialize the termcaps library for the terminal.
 */
 
-static void		init_termcaps(void)
+static void	init_termcaps(void)
 {
 	const char	*term;
 
@@ -35,10 +35,9 @@ static void		init_termcaps(void)
 **	feature.
 */
 
-static void			init_once(struct s_line *le)
+static void	init_once(struct s_line *le)
 {
 	init_termcaps();
-
 	le->tcaps = init_termcaps_strings();
 	le->history = ft_xmalloc(sizeof(struct s_history));
 	le->history->prev = NULL;
@@ -58,7 +57,7 @@ static void			init_once(struct s_line *le)
 **	Initialize some datas for the main datas structure to their default values.
 */
 
-void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
+void		init_line_edition_attributes(struct s_line *le, int prompt_type)
 {
 	static bool already_init = false;
 

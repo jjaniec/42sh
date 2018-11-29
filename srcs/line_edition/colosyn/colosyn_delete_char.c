@@ -38,7 +38,6 @@ static void		backspace_deletion_mode(char *updated_cmd, struct s_line *le,
 static void	delete_deletion_mode(char *updated_cmd, struct s_line *le,
 	bool *need_replace_cursor, unsigned int *keep_cursor_index_for_line)
 {
-	//if (cursor_is_at_end_of_term_line(le->cursor_index, le))
 	if (le->cursor_index == le->cmd_len - 1)
 		updated_cmd[le->cmd_len - 1] = '\0';
 	else

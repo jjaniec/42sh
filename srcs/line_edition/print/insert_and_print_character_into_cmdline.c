@@ -79,7 +79,8 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 **	the cursor is replaced where it needs to be for the user.
 */
 
-void		insert_and_print_character_into_cmdline(struct s_line *le, t_kno key)
+void		insert_and_print_character_into_cmdline(struct s_line *le, \
+															t_kno key)
 {
 	unsigned int	keep_pos;
 	unsigned int	keep_line;
