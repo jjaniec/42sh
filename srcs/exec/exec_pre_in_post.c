@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/27 18:54:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 17:31:10 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** Check if the code is inside an inner while.
 */
 
-static int		look_for_loop_node(t_ast *node, int statement)
+static int	look_for_loop_node(t_ast *node, int statement)
 {
 	while (node && node->type_details != TK_SCRIPT_WHILE)
 	{
@@ -52,7 +52,7 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 		not = 1;
 		argv++;
 	}
-	if (is_builtin(argv[0], &builtin_fun_ptr))
+	if (/*unlikely(*/is_builtin(argv[0], &builtin_fun_ptr))/*)*/
 		fork_and_exec(\
 			(void *[3]){(void *)PROG_BUILTIN, &builtin_fun_ptr, argv}, \
 			exe, node);
@@ -68,7 +68,7 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 ** Is executed at the first passage of a node in the AST
 */
 
-t_exec	*pre_exec(t_ast *node, t_exec *exe)
+t_exec		*pre_exec(t_ast *node, t_exec *exe)
 {
 	(void)node;
 	return (exe);
@@ -78,7 +78,7 @@ t_exec	*pre_exec(t_ast *node, t_exec *exe)
 ** Is executed at the second passage of a node in the AST
 */
 
-t_exec	*in_exec(t_ast *node, t_exec *exe)
+t_exec		*in_exec(t_ast *node, t_exec *exe)
 {
 	if (!node->data)
 		return (exe);
@@ -120,7 +120,7 @@ t_exec	*in_exec(t_ast *node, t_exec *exe)
 ** Is executed at the third and last passage of a node in the AST
 */
 
-t_exec	*post_exec(t_ast *node, t_exec *exe)
+t_exec		*post_exec(t_ast *node, t_exec *exe)
 {
 	(void)node;
 	return (exe);

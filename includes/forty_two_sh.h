@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/21 12:52:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 17:53:24 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,23 @@
 # define HISTORY_FILE_PATH "$HOME/.42sh_history"
 # define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
 
-# define ERR_NO_ENTRY		"no such file or directory: "
+# define ERR_NO_ENTRY		"no such file or directory"
 # define ERR_ISDIR			"is a directory\n"
-# define ERR_NORIGHTS		"permission denied: "
+# define ERR_NORIGHTS		"permission denied"
 # define ERR_CMD_NOT_FOUND	"command not found\n"
 # define ERR_INVALID_ALIAS_NAME "alias: invalid alias name\n"
 # define ERR_AMBIGUOUS_REDIR	"ambiguous redirect\n"
-# define ERR_BAD_FILEDESC		"Bad file descriptor\n"
+# define ERR_BAD_FILEDESC		"Bad file descriptor"
 # define ERR_ENOTDIR			"not a directory\n"
 # define ERR_EACCESS			"permission denied\n"
+
+/*
+** Defines used by print_error()
+*/
+
+# define SUBJECT_AT_END		1
+# define SUBJECT_AT_BEGIN	2
+# define FREE_SUBJECT		4
 
 extern t_option		g_sh_opts[];
 extern const int	g_cant_begin_with[];
@@ -173,5 +181,7 @@ void		log_close(int fd);
 char		**ft_dup_2d_array(char **arr);
 
 char		**handle_env_assigns(t_ast *node, t_exec *exe, t_environ **env_used);
+
+int		print_error(char *subject, char *err_str, int mode);
 
 #endif

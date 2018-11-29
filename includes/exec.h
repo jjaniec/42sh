@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/19 17:40:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 16:47:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
 // Error Handling
 
 int				handle_open_error(int errno_code, char *filename);
-void			print_error(char *subject, char *err_str);
 
 t_job		*create_job(char *command);
 

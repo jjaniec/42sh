@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/24 20:58:15 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 20:00:51 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 16:36:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int				**get_pipe_fds(t_ast *last_pipe_node, t_ast *node)
 	if (ptr == last_pipe_node->left)
 		get_pipe_fds_left(last_pipe_node, &out_fd, &fd_to_close_in_chld1);
 	else if (ptr == last_pipe_node->right)
-		get_pipe_fds_right(last_pipe_node, (int **[4]){&in_fd, &out_fd, &fd_to_close_in_chld1, &fd_to_close_in_chld2});
-	return (return_fds_ptr_tab((int *[4]){in_fd, out_fd, fd_to_close_in_chld1, fd_to_close_in_chld2}, node));
+		get_pipe_fds_right(last_pipe_node, (int **[4]) \
+			{&in_fd, &out_fd, &fd_to_close_in_chld1, &fd_to_close_in_chld2});
+	return (return_fds_ptr_tab((int *[4]) \
+		{in_fd, out_fd, fd_to_close_in_chld1, fd_to_close_in_chld2}, node));
 }

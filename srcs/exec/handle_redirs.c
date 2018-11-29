@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 17:32:35 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 17:50:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,14 @@ static int		handle_input_redir(int prefix_fd, char *target_data, \
 		if (tk_type_details == TK_TLESS)
 			ft_putchar_fd('\n', *(&(node->data[1][sizeof(int)])));
 		log_close(*(&(node->data[1][sizeof(int)])));
-		log_debug("Here-doc: writing %s to pipe input fd: %d", \
-			node->right->data[0], *(&(node->data[1][sizeof(int)])));
 		handle_redir_fd(STDIN_FILENO, *(&(node->data[1][0])));
 	}
 	return (0);
 }
 
 /*
-** Handle output redirections
+** Handle output redirections, open file w/ O_CREAT & redirect
+** stdout to file
 */
 
 static int		handle_output_redir(int prefix_fd, \
@@ -112,11 +111,8 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 		errno = 0;
 		r = dup2(target_fd, prefix_fd);
 		if (r == -1)
-		{
-			ft_putstr_fd(SH_NAME": ", 2);
-			ft_putnbr_fd(target_fd, 2);
-			ft_putstr_fd(": "ERR_BAD_FILEDESC, 2);
-		}
+			print_error(ft_itoa(target_fd), ERR_BAD_FILEDESC, \
+				SUBJECT_AT_BEGIN | FREE_SUBJECT);
 		return (r);
 	}
 	return (r);

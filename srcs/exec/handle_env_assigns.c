@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 14:06:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 16:35:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ static void			apply_env_assign_nodes(t_ast *node, t_environ *env_to_use)
 		else
 		{
 			tmp = ft_strchr(node->data[0], '=');
-			ft_strncpy(env_to_use->last_used_elem->val_begin_ptr, tmp + sizeof(char), \
+			ft_strncpy(env_to_use->last_used_elem->val_begin_ptr, \
+				tmp + sizeof(char), \
 				MAX_ENV_ENTRY_LEN - ((tmp - node->data[0]) * sizeof(char)));
 		}
 		node = node->parent;
@@ -112,8 +113,8 @@ char				**handle_env_assigns(t_ast *node, \
 	env_to_use = get_env_to_use(exe, &tmp_env_assigns);
 	if (env_used)
 		*env_used = env_to_use;
-	log_info("PID %zu: Handle env assigns of %s(t %d td %d)", getpid(), node->data[0], \
-		node->type, node->type_details);
+	log_info("PID %zu: Handle env assigns of %s(t %d td %d)", \
+		getpid(), node->data[0], node->type, node->type_details);
 	node = expanse_env_assign_nodes(node);
 	apply_env_assign_nodes(node, env_to_use);
 	return (tmp_env_assigns);
