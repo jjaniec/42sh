@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 17:12:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 14:44:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ static int		child_process_preexec(t_ast *node, t_exec *exe, int **pipe_fds)
 		exe->env_assigns_vars_start = NULL;
 		exe->env_assigns_environ = exe->env;
 	}
-	if (!handle_pipes(pipe_fds) && !handle_redirs(node))
+	if (!handle_pipes(pipe_fds) && \
+		(!(node && node->parent && node->parent->type == T_REDIR_OPT) || \
+		!handle_redirs(node)))
 		return (0);
 	return ((exe->ret = 1));
 }

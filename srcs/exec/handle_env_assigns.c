@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:02:19 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 19:56:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 14:06:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char				**handle_env_assigns(t_ast *node, \
 	t_environ	*env_to_use;
 
 	if (!(node && node->left && node->left->type == T_ENV_ASSIGN) && \
-		!(node->type == T_ENV_ASSIGN && !exe))
+		!(node && node->type == T_ENV_ASSIGN && !exe))
 		return (NULL);
 	tmp_env_assigns = NULL;
 	env_to_use = get_env_to_use(exe, &tmp_env_assigns);
