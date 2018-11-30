@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:29:52 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/17 19:42:20 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:15:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	shift_printed_line(struct s_line *le)
 **	Replace the cursor where it needs to be for the user.
 */
 
-static void	move_cursor_back_to_right_place(struct s_line *le, 
+static void	move_cursor_back_to_right_place(struct s_line *le,
 							unsigned int keep_pos, bool foo)
 {
 	bool	foo2;
@@ -71,21 +71,21 @@ static void	move_cursor_back_to_right_place(struct s_line *le,
 }
 
 /*
-**	Insert a character into the command line (to put a character at the end of 
+**	Insert a character into the command line (to put a character at the end of
 **	the command line, there is print_key_at_end()).
-**	
+**
 **	Internal behavior : The values of the main datas structure are updated, then
 **	the part of the command line that needs to be reprinted is reprinted, then
 **	the cursor is replaced where it needs to be for the user.
 */
 
-void		insert_and_print_character_into_cmdline(struct s_line *le, \
-															t_kno key)
+void		insert_and_print_character_into_cmdline(struct s_line *le,
+													t_kno key)
 {
 	unsigned int	keep_pos;
 	unsigned int	keep_line;
 	bool			foo;
-	
+
 	if (still_enough_space_for_cmd(le) == false)
 		return ;
 	insert_char_into_array(le, key, le->cursor_index);
@@ -94,7 +94,7 @@ void		insert_and_print_character_into_cmdline(struct s_line *le, \
 	if (keep_pos == le->term_line_size - 1)
 		keep_line += 1;
 	while (le->cursor_line > keep_line)
-	{	
+	{
 		tputs(le->tcaps->up, 1, &write_one_char);
 		--(le->cursor_line);
 		le->cursor_index -= le->term_line_size;

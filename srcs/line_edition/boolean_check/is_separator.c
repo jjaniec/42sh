@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/15 14:48:21 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 13:33:25 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:12:03 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 **	otherwise returns 'false'
 */
 
-bool    le_is_separator(char c)
+bool	le_is_separator(char c)
 {
 	if (ft_strchr(LE_IFS, c) != NULL)
 		return (true);

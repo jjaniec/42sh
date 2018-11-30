@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 21:18:37 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/20 15:53:31 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:18:04 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 */
 
 unsigned int	print_str_on_term(const char *str,
-								  unsigned int tmp_cursor_pos,
-								  struct s_line *le, int foo)
+					unsigned int tmp_cursor_pos,
+					struct s_line *le, int foo)
 {
-	bool foofoo; 
-	
+	bool	foofoo;
+
 	foofoo = (foo == LE_SPECIAL_CASE) ? (true) : (false);
 	foo = (foo == LE_SPECIAL_CASE) ? (2) : (foo);
 	while (*str != '\0')

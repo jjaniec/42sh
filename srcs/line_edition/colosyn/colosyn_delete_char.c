@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:09:06 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:44:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:17:49 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	just read the function's name bro
 */
 
-static void		backspace_deletion_mode(char *updated_cmd, struct s_line *le,
+static void	backspace_deletion_mode(char *updated_cmd, struct s_line *le,
 												bool *need_replace_cursor)
 {
 	if (cursor_is_at_end_of_cmd(le) == true)
@@ -57,7 +57,7 @@ static void	delete_deletion_mode(char *updated_cmd, struct s_line *le,
 **	the syntax highlighting feature.
 */
 
-void	colosyn_delete_char(struct s_line *le)
+void		colosyn_delete_char(struct s_line *le)
 {
 	char			*updated_cmd;
 	unsigned int	keep_cursor_index;
