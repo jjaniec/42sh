@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 19:17:51 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/09/11 19:19:43 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 14:35:53 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_option	*get_opt_elem(t_option *opt_list, char *opt_str)
 	{
 		i = 0;
 		cur_elem_identifier = cur_elem->opt_name;
-		while (cur_elem_identifier && *cur_elem_identifier && i < MAX_OPT_NAMES)
+		while (i < MAX_OPT_NAMES && cur_elem_identifier && *cur_elem_identifier)
 		{
 			if (!(ft_strcmp(opt_str, *cur_elem_identifier)))
 				return (cur_elem);

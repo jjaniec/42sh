@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 17:34:23 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 14:33:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void		backup_apply_origin_fds(int mode)
 		while (i < DEFAULT_SUPPORTED_FDS_COUNT && \
 			((backup_fds)[i] = dup(i)) != -1)
 			i += 1;
-		if (((backup_fds)[i] = dup(i)) == -1)
+		if (i != DEFAULT_SUPPORTED_FDS_COUNT && backup_fds[i] == -1)
 			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
 	}
 	else if (mode == MODE_RESTORE_ORIGIN_FDS)
