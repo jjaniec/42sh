@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/29 16:47:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 17:18:55 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ t_exec	*exec_cmd(t_ast *root, t_exec *exe);
 t_exec	*fork_and_exec(void **cmd, t_exec *exe, t_ast *node);
 void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds);
-t_exec	*pre_exec(t_ast *node, t_exec *exe);
-t_exec	*in_exec(t_ast *node, t_exec *exe);
-t_exec	*post_exec(t_ast *node, t_exec *exe);
+t_exec	*handle_node(t_ast *node, t_exec *exe);
 int		resolve_cmd_path(void **cmd, t_exec *exe);
 int		get_process_return_code(int *status, pid_t waited_pid, pid_t expected_waited_pid);
 
@@ -113,7 +111,7 @@ int		parse_expr_comp(char **argv);
 
 // Redirects
 
-int		handle_redirs(t_ast *redir_ast_node);
+int		handle_redirs(t_ast *node);
 void	handle_redir_fd(int input_fd, int target_fd);
 int		check_redir_suffix_validity(t_ast *redir_ast_node);
 

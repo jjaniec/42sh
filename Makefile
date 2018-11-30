@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/29 17:17:57 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/30 17:19:26 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/weird_trick_to_erase_char.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
-			exec/exec_pre_in_post.c \
+			exec/handle_node.c \
 			exec/fork_and_exec.c \
 			exec/child_process.c \
 			exec/io_manager.c \

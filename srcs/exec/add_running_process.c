@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 19:02:35 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 17:43:11 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 17:20:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static t_process	*create_new_process(char **cmd, \
 ** and command
 */
 
-t_process		*add_running_process(char **cmd, pid_t process_pid, t_job **job)
+t_process			*add_running_process(char **cmd, \
+						pid_t process_pid, t_job **job)
 {
 	t_process	*ptr;
 

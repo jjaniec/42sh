@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/29 17:31:10 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 17:18:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,43 +65,41 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 }
 
 /*
-** Is executed at the first passage of a node in the AST
-*/
-
-t_exec		*pre_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
-	return (exe);
-}
-
-/*
 ** Is executed at the second passage of a node in the AST
 */
 
-t_exec		*in_exec(t_ast *node, t_exec *exe)
+static bool	should_exec_current_node(t_ast *node, t_exec *exe)
 {
 	if (!node->data)
-		return (exe);
+		return (false);
 	if (node->type == T_WORD || node->type == T_SCRIPT_CONDITION)
 		clean_data(node->data);
 	if (!node->data[0])
-		return (exe);
-	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
+		return (false);
+	log_debug("Current node IN : %s ready for exec %d", \
+		node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT && !exe->ready_for_exec)
 	{
 		exe->statement = look_for_loop_node(node, node->type_details);
 		if (exe->statement)
-			return (exe);
+			return (false);
 	}
 	if (node->sub_ast)
 	{
 		script_in_exec(node->sub_ast, exe);
 		if (exe->statement && node->sub_ast->left && \
 		node->sub_ast->left->type_details != TK_SCRIPT_WHILE)
-			return (exe);
+			return (false);
 		else
 			exe->statement = 0;
 	}
+	return (true);
+}
+
+t_exec		*handle_node(t_ast *node, t_exec *exe)
+{
+	if (!should_exec_current_node(node, exe))
+		return (exe);
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)
 		io_manager_in(node, exe);
 	if (node->type == T_ENV_ASSIGN && \
@@ -113,15 +111,5 @@ t_exec		*in_exec(t_ast *node, t_exec *exe)
 		!exe->ready_for_exec && \
 		!(node->parent->type == T_REDIR_OPT && node == node->parent->right))
 		exec_node(node->data, exe, node);
-	return (exe);
-}
-
-/*
-** Is executed at the third and last passage of a node in the AST
-*/
-
-t_exec		*post_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
 	return (exe);
 }
