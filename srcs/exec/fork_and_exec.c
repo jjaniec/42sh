@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 17:29:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 17:47:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_exec		*fork_and_exec(void **cmd, t_exec *exe, \
 	t_ast	*last_pipe_node;
 	int		**pipe_fds;
 
-	if (/*likely(*/should_fork(cmd, &last_pipe_node, node))/*)*/
+	if (__builtin_expect(should_fork(cmd, &last_pipe_node, node), true))
 	{
 		pipe_fds = get_pipe_fds(last_pipe_node, node);
 		exe->prog_forked = true;

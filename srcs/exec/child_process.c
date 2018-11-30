@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 14:33:56 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 18:00:08 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ static void		start_program(void **cmd, t_exec *exe)
 	prog_name = ft_xstrdup(cmd[1]);
 	prog_env = exe->env_assigns_environ->environ;
 	forked_process_frees(exe);
-	if (/*unlikely(*/execve(prog_name, prog_argv, prog_env))/*)*/
+	if (__builtin_expect(execve(prog_name, prog_argv, prog_env), 0))
 	{
 		log_error("PID %zu - Execve() not working", getpid());
 		print_error(prog_name, "Execve() failed for program", SUBJECT_AT_END);
@@ -191,7 +191,7 @@ void			child_process(void **cmd, t_exec *exe, \
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (exe->prog_forked)
+	else if (__builtin_expect(exe->prog_forked, false))
 		exit(EXIT_FAILURE);
 	child_process_postexec(node, exe);
 }

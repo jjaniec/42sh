@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pre_in_post.c                                 :+:      :+:    :+:   */
+/*   handle_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/30 17:18:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 17:56:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 		not = 1;
 		argv++;
 	}
-	if (/*unlikely(*/is_builtin(argv[0], &builtin_fun_ptr))/*)*/
+	if (__builtin_expect(is_builtin(argv[0], &builtin_fun_ptr), false))
 		fork_and_exec(\
 			(void *[3]){(void *)PROG_BUILTIN, &builtin_fun_ptr, argv}, \
 			exe, node);
