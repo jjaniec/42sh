@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_options.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 21:45:34 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/27 16:29:29 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/30 18:27:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void		toggle_str_opt(t_option *opt_list, char *str_opt, \
 
 	if ((elem_ptr = get_opt_elem(opt_list, str_opt)))
 	{
-		//log_info("Toggled %s option", str_opt);
 		elem_ptr->opt_status = true;
 		if (char_opt_index && *str_opt != '-' && \
 			ft_isprint(*str_opt) && *str_opt < CHAR_OPT_INDEX_SIZE)
@@ -86,7 +85,8 @@ char			**parse_options(int *ac, char **av, \
 	if (char_opt_index && !(i = 0))
 		while (i != CHAR_OPT_INDEX_SIZE)
 			char_opt_index[i++] = NULL;
-	while ((!ac || (*ac)-- > 1) && *ptr && **ptr == '-' && ft_strcmp(*ptr, "--"))
+	while ((!ac || (*ac)-- > 1) && *ptr && **ptr == '-'
+	&& ft_strcmp(*ptr, "--"))
 	{
 		if ((*ptr)[1] == '-')
 			toggle_str_opt(opt_list, (*ptr) + 1, char_opt_index);

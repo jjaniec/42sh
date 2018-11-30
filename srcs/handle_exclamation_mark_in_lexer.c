@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:15:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/19 16:32:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 18:35:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ static t_lexeme	*lex_history_input(t_lexeme *old, const char *input, \
 	return (save);
 }
 
-static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end)
+static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end, ptrdiff_t size)
 {
 	char		*search_str;
 	const char	*tmp;
-	int			size;
 
 	if (((char *)lex->data)[0] == '!' && !is_separator(((char *)lex->data)[1]) \
 	&& lex->lexeme_begin_ptr[0] == '!' && ((char *)lex->data)[1] \
@@ -61,7 +60,7 @@ static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end)
 	return (lex);
 }
 
-t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex)
+t_lexeme		*handle_exclamation_mark_in_lexer(t_lexeme *lex)
 {
 	t_lexeme	*last;
 	t_lexeme	*save;
@@ -75,7 +74,7 @@ t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex)
 	{
 		end = NULL;
 		next = lex->next;
-		tmp = loop_body(lex, &end);
+		tmp = loop_body(lex, &end, 0);
 		if (!tmp)
 			return (save);
 		else if (last)
@@ -94,11 +93,8 @@ t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex)
 		}
 		while (end && lex != end)
 			lex = lex->next;
-		if (lex)
-		{
-			last = lex;
+		if (lex && (last = lex))
 			lex = lex->next;
-		}
 	}
 	return (save);
 }

@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   load_backup_files.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/18 16:48:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 18:24:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static void	do_the_copy(const char *separator_sign_pos, bool *first_elem, \
+static void	do_the_copy(const char *separator_sign_pos, bool *first_elem,
 								struct s_alias **alias, const char *line)
 {
-	const char	*check_equal = line;
+	const char	*check_equal;
+
+	check_equal = line;
 	while (*check_equal && is_separator(*check_equal))
 		++check_equal;
 	if (*check_equal == '=')
@@ -70,8 +72,9 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 void		load_aliases_file(struct s_alias *alias)
 {
 	int			fd;
-	const char	*alias_file_path = get_parsed_aliases_file_path();
-	
+	const char	*alias_file_path;
+
+	alias_file_path = get_parsed_aliases_file_path();
 	if (alias_file_path == NULL || check_backup_file(alias_file_path) == false
 	|| (fd = open(alias_file_path, O_RDONLY)) == -1)
 	{
@@ -80,8 +83,6 @@ void		load_aliases_file(struct s_alias *alias)
 	}
 	copy_file_datas_in_aliases_list(alias, fd);
 	close(fd);
-//	free((char *)alias_file_path);
-//	alias_file_path = NULL;
 }
 
 /*
@@ -101,11 +102,9 @@ void		load_history_file(struct s_line *le)
 		ft_putstr_fd("42sh: error while loading .42sh_history\n", 2);
 		return ;
 	}
-	line = NULL;
 	while ("there is still something to read")
 	{
-		ret = get_next_line(fd, &line);
-		if (ret == -1)
+		if ((ret = get_next_line(fd, &line)) == -1)
 		{
 			ft_putstr_fd("42sh: error while loading .42sh_history\n", 2);
 			exit(MALLOC_ERROR);
