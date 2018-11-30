@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_git_info.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/12 20:30:14 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/11/30 17:37:05 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,28 @@ static char		*get_head(char *branch_str, int pipe_fds[2],
 	return (branch_str);
 }
 
-char			*get_git_info(char **env)
+static char		*father(int *pipe_fds, char *branch_str, char **env,
+													char *git_path)
+{
+	ssize_t	ret;
+
+	close(pipe_fds[1]);
+	waitpid(-1, NULL, 0);
+	ret = read(pipe_fds[0], branch_str, 256);
+	if (ret == -1)
+		return (NULL);
+	branch_str[ret - 1] = '\0';
+	close(pipe_fds[0]);
+	if (ft_strequ(branch_str, "HEAD"))
+		return (get_head(branch_str, pipe_fds, env, git_path));
+	return ((char *)-1);
+}
+
+char			*get_git_info(char **env, pid_t p)
 {
 	int				pipe_fds[2];
-	int				ret;
+	char			*ret_father;
 	char			branch_str[256];
-	pid_t			p;
 	char			*git_path;
 	t_shell_vars	*vars;
 
@@ -71,22 +87,15 @@ char			*get_git_info(char **env)
 		return (NULL);
 	pipe(pipe_fds);
 	if ((p = fork()) == 0)
-		get_output_of_cmd((char *[5])
-		{git_path, "rev-parse", "--abbrev-ref", "HEAD", NULL},
-		env, pipe_fds[1]);
+		get_output_of_cmd((char *[5]) {git_path, \
+		"rev-parse", "--abbrev-ref", "HEAD", NULL}, env, pipe_fds[1]);
 	else if (p > 0)
 	{
-		close(pipe_fds[1]);
-		waitpid(-1, NULL, 0);
-		ret = read(pipe_fds[0], branch_str, 256);
-		if (ret == -1)
-			return (NULL);
-		branch_str[ret - 1] = '\0';
-		close(pipe_fds[0]);
-		if (ft_strequ(branch_str, "HEAD"))
-			return (get_head(branch_str, pipe_fds, env, git_path));
+		if ((ret_father = father(pipe_fds, branch_str, env, git_path)) \
+		!= (char *)-1)
+			return (ret_father);
 	}
 	else
-		ft_putstr("Fork failed");
+		exit(EXIT_FAILURE);
 	return (ft_strdup(branch_str));
 }
