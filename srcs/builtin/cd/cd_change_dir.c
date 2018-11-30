@@ -63,11 +63,12 @@ int			cd_change_dir(t_environ *env, char *path, char *cwd)
 	char *tmp;
 
 	(void)cwd;
+	tmp = NULL;
 	if (path && !chdir(path))
 	{
 		if (env->get_var(env, "PWD"))
 			tmp = env->last_used_elem->val_begin_ptr;
-		if (env->get_var(env, "OLDPWD"))
+		if (tmp && env->get_var(env, "OLDPWD"))
 			ft_strncpy(env->last_used_elem->val_begin_ptr,
 			tmp, MAX_ENV_ENTRY_LEN - 7);
 		else

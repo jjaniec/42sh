@@ -59,21 +59,11 @@ static bool	cd_check_path_link(char *path)
 
 int			cd_check_link(t_cd *cd_info, char *av)
 {
+	int		ret;
 	char	*path;
 
 	path = cd_clean_last_slash(av);
-	if (cd_info->link && av[0] != '/')
-	{
-		ft_putstr_fd("In link and stay\n", 2);
-		free(path);
-		return (1);
-	}
-	else if (cd_check_path_link(path) || autoc_check_path(path) == 'l')
-	{
-		ft_putstr_fd("Enter in link\n", 2);
-		free(path);
-		return (1);
-	}
-	free(path);
-	return (0);
+	((cd_info->link && av[0] != '/') || (cd_check_path_link(path) ||
+	autoc_check_path(path) == 'l')) ? (ret = 1) : (ret = 0);
+	return (ret);
 }
