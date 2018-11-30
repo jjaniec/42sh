@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 18:31:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/19 15:08:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 17:03:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ void	handle_useless_signals(int sig)
 {
 	struct sigaction	restore_default;
 
-//	{ dprintf(1, "HANDLER USELESS SIGNALS FOR SIG %d\n", sig); }
-
-	//write(2, "GOT SIGNAL\n", ft_strlen("GOT_SIGNAL\n"));
 	log_trace("PID %zu: GOT SIGNAL %d", getpid(), sig);
 	set_term_attr(LE_SET_OLD);
 	restore_default.sa_flags = 0;
