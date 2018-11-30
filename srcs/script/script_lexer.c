@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/26 13:14:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/30 17:59:52 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static t_lexeme	*associate_token(t_lexeme *lex, const char *original, \
 				lex->type = T_SCRIPT_LOGICAL;
 				lex->type_details = TK_SCRIPT_FI;
 			}
-			log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
 		}
 		if (type_details == TK_SCRIPT_IF || type_details == TK_SCRIPT_ELIF)
 			lex = next_lex_condition(lex, TK_SCRIPT_CONDITION_IF);
@@ -77,7 +76,8 @@ t_lexeme		*is_keyword(t_lexeme *lex, int last_lex_lvl)
 {
 	lex = associate_token(lex, "IF", T_SCRIPT_LOGICAL, TK_SCRIPT_IF);
 	lex = associate_token(lex, "ELIF", T_SCRIPT_LOGICAL, TK_SCRIPT_ELIF);
-	lex = associate_token(lex, "CONTINUE", T_SCRIPT_STATEMENT, TK_SCRIPT_CONTINUE);
+	lex = associate_token(lex, "CONTINUE", T_SCRIPT_STATEMENT, \
+	TK_SCRIPT_CONTINUE);
 	lex = associate_token(lex, "BREAK", T_SCRIPT_STATEMENT, TK_SCRIPT_BREAK);
 	if (last_lex_lvl == 0)
 	{
@@ -109,8 +109,8 @@ void			script_lexemes(t_lexeme *lexemes)
 			first = 1;
 			lexemes = is_keyword(lexemes, last_lex_lvl);
 			if (lexemes->type >= 5)
-				log_info("Update elem w/ data |%s| - type : %zu - last_lex_lvl %d", \
-				lexemes->data, lexemes->type, last_lex_lvl);
+				log_info("Update elem w/ data |%s| - type : %zu - last_lex_lvl \
+				%d", lexemes->data, lexemes->type, last_lex_lvl);
 		}
 		if (lexemes->type != T_WORD)
 			first = 0;
