@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 18:00:08 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/02 13:08:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ static void		start_program(void **cmd, t_exec *exe)
 void			child_process(void **cmd, t_exec *exe, \
 					t_ast *node, int **pipe_fds)
 {
+	char	*prog_path;
+
 	if (!child_process_preexec(node, exe, pipe_fds))
 	{
 		if ((intptr_t)*cmd == PROG_BUILTIN)
@@ -186,8 +188,11 @@ void			child_process(void **cmd, t_exec *exe, \
 				(cmd[2], exe->env_assigns_environ, exe);
 		else
 		{
-			if (!(resolve_cmd_path(&(cmd[1]), exe)))
+			if ((prog_path = resolve_cmd_path(cmd[1], exe)))
+			{
+				cmd[1] = prog_path;
 				start_program(cmd, exe);
+			}
 			exit(EXIT_FAILURE);
 		}
 	}

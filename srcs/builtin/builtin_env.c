@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/10 20:09:41 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/02 14:41:32 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int		print_env_content(char **environ)
 	return (0);
 }
 
-static char	*handle_parameters(char **argv, t_environ *env_struct, \
+static char	**handle_parameters(char **argv, t_environ *env_struct, \
 				t_environ **env_struct_to_use, char ***tmp_environ_start)
 {
 	if (!(argv && *argv))
@@ -60,25 +60,55 @@ static char	*handle_parameters(char **argv, t_environ *env_struct, \
 		argv += 1;
 	}
 	(*env_struct_to_use)->environ[(*env_struct_to_use)->entry_count] = NULL;
-	return (*argv);
+	return (argv);
 }
 
+int			exec_command_passed_in_last_parameters(char **command_begin_ptr, \
+				char **child_env)
+{
+	char	*prog_path;
+	pid_t	child_pid;
+	int		status;
+	pid_t	waited_pid;
 
+	if (!(command_begin_ptr && *command_begin_ptr && \
+		(prog_path = resolve_cmd_path(*command_begin_ptr, NULL))))
+		return (1);
+	if ((child_pid = fork()) == -1)
+		ft_putstr_fd("env"": Fork returned an error\n", 2);
+	else if (!child_pid)
+	{
+		log_debug("Start %s params: %s env %p", prog_path, *command_begin_ptr, child_env);
+		execve(prog_path, command_begin_ptr, child_env);
+		exit(EXIT_FAILURE);
+	}
+	else if (child_pid)
+	{
+		waited_pid = waitpid(child_pid, &status, 0);
+		return (get_process_return_code(&status, waited_pid, child_pid));
+	}
+	return (EXIT_FAILURE);
+}
 
 int			builtin_env_(char **argv, t_environ *env)
 {
 	t_environ		*env_struct_to_use;
-	char			*command_begin_ptr;
+	char			**command_begin_ptr;
 	char			**tmp_environ_start;
 
 	if (env)
 	{
-		if (!((command_begin_ptr = handle_parameters(argv, env, &env_struct_to_use, &tmp_environ_start))))
+		command_begin_ptr = handle_parameters(argv, env, &env_struct_to_use, &tmp_environ_start);
+		if (!(command_begin_ptr && *command_begin_ptr))
 			print_env_content(env_struct_to_use->environ);
-		//else
-		//	exec_command_passed_in_last_parameters(command_begin_ptr);
+		else
+			exec_command_passed_in_last_parameters(command_begin_ptr, \
+				(env_struct_to_use != env) ? (tmp_environ_start) : (env_struct_to_use->environ));
 		if (env_struct_to_use != env)
+		{
+			free_env_entries(env_struct_to_use, env_struct_to_use->env_entries_list);
 			free(env_struct_to_use);
+		}
 		else
 			while (*tmp_environ_start)
 				env_struct_to_use->del_var(env_struct_to_use, *tmp_environ_start);
@@ -90,12 +120,19 @@ int			builtin_env_(char **argv, t_environ *env)
 void			builtin_env(char **argv, t_environ *env, t_exec *exe)
 {
 	(void)argv;
-	(void)exe;
 
 	if (argv[1])
-		builtin_env_(argv, env);
-	else
-		print_env_content(env->environ);
+	{
+		if (exe)
+			exe->ret = builtin_env_(argv, env);
+		else
+		{
+			exe->ret = 0;
+			builtin_env_(argv, env);
+		}
+		return ;
+	}
+	print_env_content(env->environ);
 	if (exe)
 		exe->ret = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 15:46:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/02 15:00:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,12 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin env 8 - env w/ T_ENV_ASSIGN", "TMP=test env -i A=B", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i invalid assignations", "env -i LS=     AAAA  AAAAAA  LOL=   | grep -v _", NULL); -> should say command not found -> exec not yet handled
 	// test env execution ex: env A=B ls - not yet implemented
-	//compare_sh_42sh_outputs("Builtin env 6 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ ls", NULL);
+	compare_sh_42sh_outputs("Builtin env 9 - execution 1 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
+	compare_sh_42sh_outputs("Builtin env 10 - execution 2 - t_env_assigns & execution", "aaa=bbb env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
+	compare_sh_42sh_outputs("Builtin env 11 - execution 3 - t_env_assigns & execution", "aaa=bbb env -i A=B aaa=TEST__ TEST2=TEST______ env", NULL);
+	//compare_sh_42sh_outputs("Builtin env 12 - execution 4 - env -i w/ valid args & unkonwn command", "env -i A=B TEST1=TEST__ TEST2=TEST______ aaaa", NULL);
+			// todo same without rights
+
 	//compare_sh_42sh_outputs("Builtin env 7 - env -i w/o valid args", "env -i A", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);

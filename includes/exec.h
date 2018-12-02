@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/30 17:18:55 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/02 13:04:39 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_exec	*fork_and_exec(void **cmd, t_exec *exe, t_ast *node);
 void	child_process(void **cmd, t_exec *exe, \
 				t_ast *node, int **pipe_fds);
 t_exec	*handle_node(t_ast *node, t_exec *exe);
-int		resolve_cmd_path(void **cmd, t_exec *exe);
+char	*resolve_cmd_path(char *cmd, t_exec *exe);
 int		get_process_return_code(int *status, pid_t waited_pid, pid_t expected_waited_pid);
 
 void	io_manager_in(t_ast *node, t_exec *exe);
