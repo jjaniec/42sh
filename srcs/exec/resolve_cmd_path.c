@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 18:46:52 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/02 14:47:00 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 16:49:56 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ char			*resolve_cmd_path(char *cmd, t_exec *exe)
 	{
 		if (!handle_relpath_err(cmd))
 			return (cmd);
-		//return (cmd);
 	}
 	else if (!(prog_path = get_prog_path(cmd, exe)))
 	{
