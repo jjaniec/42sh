@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/21 12:49:25 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/02 15:00:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,25 +84,15 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin env 8 - env w/ T_ENV_ASSIGN", "TMP=test env -i A=B", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i invalid assignations", "env -i LS=     AAAA  AAAAAA  LOL=   | grep -v _", NULL); -> should say command not found -> exec not yet handled
 	// test env execution ex: env A=B ls - not yet implemented
-	//compare_sh_42sh_outputs("Builtin env 6 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ ls", NULL);
+	compare_sh_42sh_outputs("Builtin env 9 - execution 1 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
+	compare_sh_42sh_outputs("Builtin env 10 - execution 2 - t_env_assigns & execution", "aaa=bbb env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
+	compare_sh_42sh_outputs("Builtin env 11 - execution 3 - t_env_assigns & execution", "aaa=bbb env -i A=B aaa=TEST__ TEST2=TEST______ env", NULL);
+	//compare_sh_42sh_outputs("Builtin env 12 - execution 4 - env -i w/ valid args & unkonwn command", "env -i A=B TEST1=TEST__ TEST2=TEST______ aaaa", NULL);
+			// todo same without rights
+
 	//compare_sh_42sh_outputs("Builtin env 7 - env -i w/o valid args", "env -i A", NULL);
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i w/o valid args", "env -i ls", NULL);
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
-
-	compare_sh_42sh_outputs("T_ENV_ASSIGNS 1 - Simple", \
-		"TEST1=TEST__ env  TEST2=TEST______ | grep -E 'TEST[12]'", "TEST1=TEST__ env TEST2=TEST______ | grep -E 'TEST[12]'");
-	compare_sh_42sh_outputs("T_ENV_ASSIGNS 2 - Simple multiple vars", \
-		"TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'");
-	compare_sh_42sh_outputs("T_ENV_ASSIGNS 3 - Multiple vars w/ re-assigns", \
-		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'");
-	compare_sh_42sh_outputs("T_ENV_ASSIGNS 4 - Temporary env test w/ multiple vars & re-assign", \
-		"TEST1=TEST__ env TEST2=TEST______ > /dev/null; env | grep -E 'TEST[12]'", NULL);
-	compare_sh_42sh_outputs("T_ENV_ASSIGNS 5 - Temporary env test w/ multiple vars & re-assign 2", \
-		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env > /dev/null ; env | grep -E 'TEST[12]'", NULL);
-	compare_sh_42sh_outputs("T_ENV_ASSIGNS 6 - Redefinition of 1st env var", \
-		"$(env | head -n 1 | cut -d '=' -f 1)=TEST env | grep $(env | head -n 1 | cut -d '=' -f 1)", NULL);
-	compare_fds_w_strings("T_ENV_ASSIGNS 7 - Path redefinition & cmd execution", \
-		"PATH=NULL ls", NULL, SH_NAME": ls: "ERR_CMD_NOT_FOUND, NULL);
 
 	// Travis has some weird env vars
 	if (*MODE != 'L' && !CI_TEST)
@@ -142,7 +132,6 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin unsetenv 4 - basic unset w/ many vars", \
 		"setenv a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unsetenv a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='", \
 		"export a=b c=d e=f g=h i=j k=l m=n o=p q=r s=t u=v x=y z=a a=b b=c c=d d=e e=f f=g g=h h=i i=j j=k k=l l=m m=n n=o o=p p=q q=r && unset a b c d e f g h i j k l m n o p q && env | grep -E '^[a-q]='");
-
 
 	if (*_OS_ == 'D')
 	{

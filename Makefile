@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/21 12:48:17 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/11/30 17:19:26 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/weird_trick_to_erase_char.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
-			exec/exec_pre_in_post.c \
+			exec/handle_node.c \
 			exec/fork_and_exec.c \
 			exec/child_process.c \
 			exec/io_manager.c \
@@ -136,7 +136,6 @@ SRC_NAME = 	is_separator.c \
 			exec/handle_env_assigns.c \
 			exec/handle_pipes.c \
 			exec/handle_open_error.c \
-			exec/print_error.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
@@ -206,6 +205,7 @@ SRC_NAME = 	is_separator.c \
 			env/free_env_entries.c \
 			get_next_line.c \
 			get_parsed_backup_files_path.c \
+			print_error.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
 			access_alias_datas.c \

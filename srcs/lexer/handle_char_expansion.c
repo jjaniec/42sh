@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/14 19:43:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 14:39:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 	int		expansion_name_len;
 
 	expansion_name_len = 0;
+	if (!(l && l->raw_lexeme_read_ptr && *(l->raw_lexeme_read_ptr)))
+		return ;
 	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr), \
 		vars, &expansion_name_len);
 	log_debug("Env var value: %s", env_var_value);
