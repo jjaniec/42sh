@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 16:55:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 17:27:05 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,21 +164,21 @@ int				handle_redirs(t_ast *node)
 	int		new_fd;
 
 	log_trace("PID %zu: Handle redirs of %s(t %d td %d)", \
-		getpid(), node->data[0], \
-			node->type, node->type_details);
+		getpid(), node->data[0], node->type, node->type_details);
 	node = node->parent;
 	while (node && node->type == T_REDIR_OPT)
 	{
-		if (check_redir_suffix_validity(node))
+		if (node->type_details == TK_DLESS || node->type_details == TK_TLESS)
+			handle_quotes_expansions(&(node->right->data[0]));
+		else if (check_redir_suffix_validity(node))
 			return (1);
 		target_data = node->right->data[0];
 		get_specified_fds(&prefix_fd, node->data[0], &target_fd, target_data);
 		if (-1 == \
 			(new_fd = handle_redir(prefix_fd, target_data, target_fd, node)))
 			return (1);
-		if ((node->type_details == TK_LESSAND \
-			|| node->type_details == TK_GREATAND) && \
-			ft_strchr(target_data, '-'))
+		if ((node->type_details == TK_LESSAND || node->type_details == \
+			TK_GREATAND) && ft_strchr(target_data, '-'))
 			close_and_redir_fd(prefix_fd, target_fd, new_fd);
 		node = node->parent;
 	}
