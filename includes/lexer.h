@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 19:23:21 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 16:31:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_lexeme				*create_lexeme(int type[2], char *data, \
 int						get_lexeme_type(char *s, int *pos, \
 							char **data, int *type_details);
 
-int						lexeme_type_word(char *s, int *pos, char **data);
+int						lexeme_type_word(char *s, int *pos, char **data, int start);
 
 void					handle_quotes_expansions(char **data);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_char_expansion.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/14 19:43:29 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 16:35:42 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 ** Return environnement variable value of expansion beginning at $ptr
 */
 
-static char		*get_env_var_value(char *ptr, t_shell_vars *vars, int *expansion_name_len)
+static char	*get_env_var_value(char *ptr, t_shell_vars *vars,
+										int *expansion_name_len)
 {
 	char	*exp_end_ptr;
 	char	exp_end_ptr_char;
@@ -39,7 +40,8 @@ static char		*get_env_var_value(char *ptr, t_shell_vars *vars, int *expansion_na
 		var_value = vars->internals->last_used_elem->val_begin_ptr;
 	else if (vars->locals->get_var(vars->locals, ptr + 1))
 		var_value = vars->locals->last_used_elem->val_begin_ptr;
-	log_trace("Got env var value of |%s| for %s env variable expansion", var_value, ptr + 1);
+	log_trace("Got env var value of |%s| for %s env variable expansion", \
+	var_value, ptr + 1);
 	*(exp_end_ptr) = exp_end_ptr_char;
 	return (var_value);
 }
@@ -49,7 +51,8 @@ static char		*get_env_var_value(char *ptr, t_shell_vars *vars, int *expansion_na
 ** in the new string that will substitute l->new_data
 */
 
-static void		concat_expansion_data(t_lexeme_clean_data *l, char *expansion_value)
+static void	concat_expansion_data(t_lexeme_clean_data *l,
+									char *expansion_value)
 {
 	size_t	expansion_value_len;
 	char	*new_data_str;
@@ -73,7 +76,8 @@ static void		concat_expansion_data(t_lexeme_clean_data *l, char *expansion_value
 ** w/ substitute_data()
 */
 
-void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
+void		handle_dollar_expansion(t_lexeme_clean_data *l,
+											t_shell_vars *vars)
 {
 	char	*env_var_value;
 	int		expansion_name_len;
@@ -84,7 +88,8 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 	log_debug("Env var value: %s", env_var_value);
 	if (env_var_value && *env_var_value)
 		concat_expansion_data(l, env_var_value);
-	else if (ft_strchr(IFS"'\""EXPANSIONS_END_CHARS, *(*(l->raw_lexeme_read_ptr) + sizeof(char))))
+	else if (ft_strchr(IFS"'\""EXPANSIONS_END_CHARS, \
+	*(*(l->raw_lexeme_read_ptr) + sizeof(char))))
 	{
 		*(l->clean_data_write_ptr++) = '$';
 		*(l->clean_data_write_ptr) = '\0';
@@ -94,14 +99,15 @@ void			handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 	(*(l->raw_lexeme_read_ptr)) += (expansion_name_len + 1) * sizeof(char);
 }
 
-void			handle_tild_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
+void		handle_tild_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 {
 	char	*home_path;
 
 	home_path = NULL;
 	if (vars->env->get_var(vars->env, "HOME"))
 		home_path = vars->env->last_used_elem->val_begin_ptr;
-	log_trace("Got env var value of |%s| for HOME env variable expansion", home_path);
+	log_trace("Got env var value of |%s| for HOME env variable expansion", \
+	home_path);
 	if (home_path && *home_path)
 		concat_expansion_data(l, home_path);
 	else

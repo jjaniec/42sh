@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/15 20:12:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 16:45:18 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 
 static int		get_lexeme(char *str, int *pos, \
-						char **evaluated_str, int *type_details)
+				char **evaluated_str, int *type_details)
 {
 	int	r;
 
@@ -33,8 +33,8 @@ static int		get_lexeme(char *str, int *pos, \
 ** or init linked list with created elem if $ll == NULL
 */
 
-static t_lexeme		*add_lexeme_to_list(t_lexeme *e, \
-						t_lexeme **ll, t_lexeme **last_elem)
+static t_lexeme	*add_lexeme_to_list(t_lexeme *e, \
+				t_lexeme **ll, t_lexeme **last_elem)
 {
 	if (!(*ll))
 	{
@@ -67,16 +67,16 @@ static int			make_next_lexeme(char *line, int *pos, \
 			is_separator(line[*pos]))
 		*pos += 1;
 	if (line[*pos] == '#')
-		while(line[*pos] && line[*pos] != '\n')
+		while (line[*pos] && line[*pos] != '\n')
 			(*pos)++;
-	if (line[*pos])
+	if (line[*pos] && (lexeme_begin_end_ptrs[0] = &(line[*pos])))
 	{
-		lexeme_begin_end_ptrs[0] = &(line[*pos]);
 		type = get_lexeme(line, pos, &data, &(type_details));
 		if ((int)type == UNMATCHED_QUOTE_ERR)
 			return (UNMATCHED_QUOTE_ERR);
 		lexeme_begin_end_ptrs[1] = &(line[*pos]);
-		if ((e = create_lexeme((int [2]){type, type_details}, data, *pos, lexeme_begin_end_ptrs)))
+		if ((e = create_lexeme((int [2]){type, type_details}, \
+		data, *pos, lexeme_begin_end_ptrs)))
 			add_lexeme_to_list(e, lexemes, cur_lexeme);
 		return (1);
 	}
@@ -107,10 +107,7 @@ int					lexer(char *line, t_lexeme **lexemes, \
 			if (r == UNMATCHED_QUOTE_ERR)
 			{
 				if (unmatched_quote_err_ptr)
-				{
 					*unmatched_quote_err_ptr = &(line[i]);
-					log_fatal("Unmatched_quote_err_ptr: |%s|", *unmatched_quote_err_ptr);
-				}
 				break ;
 			}
 			else if (r == 0)

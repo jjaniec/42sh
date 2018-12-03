@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_explore.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 19:35:41 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/03 18:28:00 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,17 @@ static int		wait_childs(t_job *job)
 
 	if (!(job && job->first_process))
 		return 0;
-	/*
-	ptr = job->first_process;
-	while (ptr)
-	{
-		waited_pid = waitpid(ptr->pid, &status, 0);
-		ptr = ptr->next;
-	}*/
 	while ((waited_pid = waitpid(0, &status, 0)) != -1)
 	{
 		if (waited_pid == g_jobs->last_process_pid)
 		{
-			r = get_process_return_code(&status, waited_pid, g_jobs->last_process_pid);
-			log_info("Last process of pipeline terminated: Return code set to %d", r);
+			r = get_process_return_code(&status, waited_pid, \
+			g_jobs->last_process_pid);
+			log_info("Last process of pipeline terminated: \
+			Return code set to %d", r);
 		}
-		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d", \
-			waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
+		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d",\
+		waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
 	}
 	while (waitpid(0, NULL, 0) != -1)
 		;
@@ -63,7 +58,7 @@ static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 {
 	int		r;
 
-	if (setpgrp()) // -> alias to setpgid(0, 0);
+	if (setpgrp())
 		perror("Setpgrp");
 	g_jobs = create_job("PIPE MANAGER");
 	if ((g_jobs->pgid = getpgid(getpid())) == -1)
@@ -90,10 +85,13 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 					bool *is_in_pipeline)
 {
 	pid_t	pipeline_manager_pid;
-	int		status = 0;
-	pid_t	waited_pid = 0;
-	int		r = 0;
+	int		status ;
+	pid_t	waited_pid;
+	int		r;
 
+	status = 0;
+	waited_pid = 0;
+	r = 0;
 	if (ENABLE_JOB_CONTROL)
 	{
 		*is_in_pipeline = true;
@@ -107,7 +105,6 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 		g_jobs = create_job("PIPE MANAGER");
 		g_jobs->pgid = pipeline_manager_pid;
 		log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
-		errno = 0;
 		waited_pid = waitpid(pipeline_manager_pid, &status, 0);
 		r = get_process_return_code(&status, waited_pid, pipeline_manager_pid);
 		log_trace("MAIN PROCESS: Pipe manager terminated w/ return code: %d - status: %d - wexitstatus: %d", \
@@ -148,8 +145,9 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 	if (!ast)
 		return (exe);
 	if (ast->data)
-		log_debug("Current node: %p (%s) - rdy for exec: %d - is in pipeline ?: %s", \
-			ast, ast->data[0], exe->ready_for_exec, (is_in_pipeline) ? ("true") : ("false"));
+		log_debug("Current node: %p (%s) - rdy for exec: %d - is in pipeline ?"\
+		": %s", ast, ast->data[0], exe->ready_for_exec, \
+		(is_in_pipeline) ? ("true") : ("false"));
 	if (!is_in_pipeline && ast->type_details == TK_PIPE)
 	{
 		tmp = handle_new_pipeline(ast, exe, &is_in_pipeline);
