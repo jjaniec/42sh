@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 16:51:37 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 17:43:48 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 20:45:29 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int		echo_print_opt(t_exec *exe, char *str)
 	int		ret;
 	int		(*opt_func[128])();
 
-	ret = 0;
 	init_flag_opt(opt_func);
 	str++;
 	ret = opt_func[(int)(*str)]();
