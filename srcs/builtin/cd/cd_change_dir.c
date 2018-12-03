@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 18:56:40 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:33:56 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,15 @@ int			cd_change_dir(t_environ *env, char *path, char *cwd)
 	{
 		if (env->get_var(env, "PWD"))
 			tmp = env->last_used_elem->val_begin_ptr;
-		if (tmp && env->get_var(env, "OLDPWD"))
-			ft_strncpy(env->last_used_elem->val_begin_ptr,
-			tmp, MAX_ENV_ENTRY_LEN - 7);
+		else if (env->get_var(env, "OLDPWD"))
+		{
+			if (!tmp)
+				ft_strncpy(env->last_used_elem->val_begin_ptr,
+				cwd, MAX_ENV_ENTRY_LEN - 7);
+			else
+				ft_strncpy(env->last_used_elem->val_begin_ptr,
+				tmp, MAX_ENV_ENTRY_LEN - 7);
+		}
 		else
 			env->add_var(env, "OLDPWD", cwd);
 		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
