@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 20:16:18 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 20:37:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 		{
 			if (env->get_var(env, "PWD"))
 				ft_strcpy(cwd, env->last_used_elem->val_begin_ptr);
+			else
+				ft_strcpy(cwd, "\0");
 		}
 		else
 			exit(MALLOC_ERROR);
@@ -51,7 +53,8 @@ static int		builtin_cd_dash(t_cd *cd_info)
 {
 	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
 
-	if (cd_info->env->get_var(cd_info->env, "OLDPWD"))
+	if (cd_info->env->get_var(cd_info->env, "OLDPWD") &&
+	ft_strlen(cd_info->env->last_used_elem->val_begin_ptr) > 0)
 	{
 		ft_strcpy(old_oldpwd, cd_info->env->last_used_elem->val_begin_ptr);
 		if (!cd_change_dir(cd_info->env,
@@ -104,7 +107,10 @@ void			builtin_cd(char **argv, t_environ *env, t_exec *exe)
 	else if (!exe->ret && !ft_strcmp(argv[1], "-"))
 	{
 		if ((exe->ret = builtin_cd_dash(cd_info)))
+		{
+			cd_free_struct(cd_info);
 			return ;
+		}
 	}
 	else if (!exe->ret && !ft_strcmp(argv[1], "-P"))
 		builtin_cd_p(cd_info, argv[2]);

@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 19:42:01 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 20:35:25 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,32 @@ char		*cd_clean_last_slash(char *str)
 	return (ft_xstrdup(str));
 }
 
-int			cd_change_dir(t_environ *env, char *path, char *cwd)
+static void	set_var_after_cd(t_environ *env, char *cwd)
 {
 	char *tmp;
 
-	(void)cwd;
 	tmp = NULL;
+	if (env->get_var(env, "PWD"))
+		tmp = env->last_used_elem->val_begin_ptr;
+	else if (env->get_var(env, "OLDPWD"))
+	{
+		if (!tmp)
+			ft_strncpy(env->last_used_elem->val_begin_ptr,
+			cwd, MAX_ENV_ENTRY_LEN - 7);
+		else
+			ft_strncpy(env->last_used_elem->val_begin_ptr,
+			tmp, MAX_ENV_ENTRY_LEN - 7);
+	}
+	else
+		env->add_var(env, "OLDPWD", cwd);
+	log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
+}
+
+int			cd_change_dir(t_environ *env, char *path, char *cwd)
+{
 	if (path && !chdir(path))
 	{
-		if (env->get_var(env, "PWD"))
-			tmp = env->last_used_elem->val_begin_ptr;
-		else if (env->get_var(env, "OLDPWD"))
-		{
-			if (!tmp)
-				ft_strncpy(env->last_used_elem->val_begin_ptr,
-				cwd, MAX_ENV_ENTRY_LEN - 7);
-			else
-				ft_strncpy(env->last_used_elem->val_begin_ptr,
-				tmp, MAX_ENV_ENTRY_LEN - 7);
-		}
-		else
-			env->add_var(env, "OLDPWD", cwd);
-		log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
+		set_var_after_cd(env, cwd);
 		return (0);
 	}
 	else
