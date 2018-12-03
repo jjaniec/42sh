@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/16 20:52:58 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 14:38:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ void	lexer_tests(t_environ *envp)
 	test_lexeme_list("Env assignements 2", "A=b C=d E=f 1 > 2 && 3", "A=b", T_ENV_ASSIGN, TK_DEFAULT, "C=d", T_ENV_ASSIGN, TK_DEFAULT, \
 		"E=f", T_ENV_ASSIGN, TK_DEFAULT, "1", T_WORD, TK_DEFAULT, ">", T_REDIR_OPT, TK_GREAT, "2", T_WORD, TK_DEFAULT, \
 		"&&", T_CTRL_OPT, TK_DAND, "3", T_WORD, TK_DEFAULT);
+	test_lexeme_list("T_ENV_ASSIGNS 1", "lol=lol", "lol=lol", T_ENV_ASSIGN, TK_DEFAULT);
+	test_lexeme_list("T_ENV_ASSIGNS 2", "lol=lol; lol2=lol2; lol3=lol3", "lol=lol", T_ENV_ASSIGN, TK_DEFAULT, \
+		";", T_CTRL_OPT, TK_SEMICOLON, "lol2=lol2", T_ENV_ASSIGN, TK_DEFAULT, ";", T_CTRL_OPT, TK_SEMICOLON, "lol3=lol3", T_ENV_ASSIGN, TK_DEFAULT);
+	test_lexeme_list("T_ENV_ASSIGNS 3 - error cases 1", "lol\\$lol=lol", "lol$lol=lol", T_WORD, TK_DEFAULT);
+	test_lexeme_list("T_ENV_ASSIGNS 4 - error cases 2", "lol=lol; aaa\\$lol=lol", "lol=lol", T_ENV_ASSIGN, TK_DEFAULT, \
+		";", T_CTRL_OPT, TK_SEMICOLON, "aaa$lol=lol", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Quotes 1", "ls -la '\\ $PATH'", "ls", T_WORD, TK_DEFAULT, "-la", T_WORD, TK_DEFAULT, "\\ $PATH", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Quotes 2", "ls'aaaa$$'", "lsaaaa$$", T_WORD, TK_DEFAULT);
 	test_lexeme_list("Quotes 3", "ls>|ls '>'", "ls", T_WORD, TK_DEFAULT, ">|", T_REDIR_OPT, TK_CLOBBER, "ls", T_WORD, TK_DEFAULT, ">", T_WORD, TK_DEFAULT);

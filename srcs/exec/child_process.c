@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 18:00:02 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/02 13:08:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** after the builtin has been executed
 */
 
-static void	backup_apply_origin_fds(int mode)
+static void		backup_apply_origin_fds(int mode)
 {
 	static int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT] = {-1};
 	int				i;
@@ -28,16 +28,11 @@ static void	backup_apply_origin_fds(int mode)
 		while (i < DEFAULT_SUPPORTED_FDS_COUNT)
 			(backup_fds)[i++] = -1;
 		i = 0;
-		while (i < DEFAULT_SUPPORTED_FDS_COUNT)
-		{
-			if (((backup_fds)[i] = dup(i)) == -1)
-			{
-				log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
-				break ;
-			}
-			log_debug("backupfd[%d] -> %d", i, backup_fds[i]);
+		while (i < DEFAULT_SUPPORTED_FDS_COUNT && \
+			((backup_fds)[i] = dup(i)) != -1)
 			i += 1;
-		}
+		if (i != DEFAULT_SUPPORTED_FDS_COUNT && backup_fds[i] == -1)
+			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
 	}
 	else if (mode == MODE_RESTORE_ORIGIN_FDS)
 		while (i < DEFAULT_SUPPORTED_FDS_COUNT && backup_fds[i] != -1)
@@ -52,7 +47,8 @@ static void	backup_apply_origin_fds(int mode)
 ** Remove temporary env variables specified before program name
 */
 
-static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_vars)
+static void		remove_tmp_env_assigns(t_environ *environ_used, \
+					char **env_assign_vars)
 {
 	t_environ	*env;
 
@@ -76,10 +72,10 @@ static void	remove_tmp_env_assigns(t_environ *environ_used, char **env_assign_va
 ** Free unnecessary data before program execution when program is not a builtin
 */
 
-static void	forked_process_frees(t_exec *exe)
+static void		forked_process_frees(t_exec *exe)
 {
 	t_shell_vars	*vars;
-	t_ast	**ast_ptr;
+	t_ast			**ast_ptr;
 
 	if ((vars = get_shell_vars()))
 		free_hashtable(vars->hashtable);
@@ -93,20 +89,22 @@ static void	forked_process_frees(t_exec *exe)
 ** variables specified before program name
 */
 
-static int	child_process_preexec(t_ast *node, t_exec *exe, \
-				int **pipe_fds/*, int *backup_fds*/)
+static int		child_process_preexec(t_ast *node, t_exec *exe, int **pipe_fds)
 {
 	if (!(exe->prog_forked) && \
 		(node->parent && node->parent->type == T_REDIR_OPT))
 		backup_apply_origin_fds(MODE_BACKUP_ORIGIN_FDS);
 	if (node && node->left && node->left->type == T_ENV_ASSIGN)
-		exe->env_assigns_vars_start = handle_env_assigns(node, exe, &(exe->env_assigns_environ));
+		exe->env_assigns_vars_start = \
+			handle_env_assigns(node, exe, &(exe->env_assigns_environ));
 	else
 	{
 		exe->env_assigns_vars_start = NULL;
 		exe->env_assigns_environ = exe->env;
 	}
-	if (!handle_pipes(pipe_fds) && !handle_redirs(node))
+	if (!handle_pipes(pipe_fds) && \
+		(!(node && node->parent && node->parent->type == T_REDIR_OPT) || \
+		!handle_redirs(node)))
 		return (0);
 	return ((exe->ret = 1));
 }
@@ -117,8 +115,8 @@ static int	child_process_preexec(t_ast *node, t_exec *exe, \
 ** free & quit when forked program is a builtin
 */
 
-static void child_process_postexec(t_ast *node, \
-				/*int *backup_fds, */t_exec *exe)
+static void		child_process_postexec(t_ast *node, \
+					t_exec *exe)
 {
 	int		r;
 
@@ -159,38 +157,46 @@ static void child_process_postexec(t_ast *node, \
 ** without duplicating code)
 */
 
-void		child_process(void **cmd, t_exec *exe, \
-				t_ast *node, int **pipe_fds)
+static void		start_program(void **cmd, t_exec *exe)
 {
-	//int			backup_fds[DEFAULT_SUPPORTED_FDS_COUNT];
-	char		**cmd_args;
-	char		*tmp;
-	t_environ	*env_assigns_environ;
+	char		*prog_name;
+	char		**prog_argv;
+	char		**prog_env;
 
-	if (!child_process_preexec(node, exe, pipe_fds/*, backup_fds*/))
+	log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", \
+		getpid(), cmd, (intptr_t)cmd[0]);
+	prog_argv = ft_dup_2d_array(cmd[2]);
+	prog_name = ft_xstrdup(cmd[1]);
+	prog_env = exe->env_assigns_environ->environ;
+	forked_process_frees(exe);
+	if (__builtin_expect(execve(prog_name, prog_argv, prog_env), 0))
+	{
+		log_error("PID %zu - Execve() not working", getpid());
+		print_error(prog_name, "Execve() failed for program", SUBJECT_AT_END);
+	}
+}
+
+void			child_process(void **cmd, t_exec *exe, \
+					t_ast *node, int **pipe_fds)
+{
+	char	*prog_path;
+
+	if (!child_process_preexec(node, exe, pipe_fds))
 	{
 		if ((intptr_t)*cmd == PROG_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
 				(cmd[2], exe->env_assigns_environ, exe);
 		else
 		{
-			if (!(resolve_cmd_path(&(cmd[1]), exe)))
+			if ((prog_path = resolve_cmd_path(cmd[1], exe)))
 			{
-				log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", getpid(), cmd, (intptr_t)cmd[0]);
-				cmd_args = ft_dup_2d_array(cmd[2]);
-				tmp = ft_xstrdup(cmd[1]);
-				env_assigns_environ = exe->env_assigns_environ;
-				forked_process_frees(exe);
-				if (execve(tmp, cmd_args, env_assigns_environ->environ))
-				{
-					log_error("PID %zu - Execve() not working", getpid());
-					perror("execve");
-				}
+				cmd[1] = prog_path;
+				start_program(cmd, exe);
 			}
 			exit(EXIT_FAILURE);
 		}
- 	}
-	else if (exe->prog_forked)
+	}
+	else if (__builtin_expect(exe->prog_forked, false))
 		exit(EXIT_FAILURE);
-	child_process_postexec(node, /*backup_fds,*/ exe);
+	child_process_postexec(node, exe);
 }

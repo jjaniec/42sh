@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:08:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/19 19:36:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 17:39:04 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*new_path(char *s1, char *s2)
 ** If not found, return NULL
 */
 
-char	*isin_path(char *path_entry, char *cmd)
+char		*isin_path(char *path_entry, char *cmd)
 {
 	int		i;
 	char	*prog_path;
