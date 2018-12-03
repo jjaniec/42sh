@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:15:56 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/27 19:22:56 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:11 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int			cd_check_link(t_cd *cd_info, char *av)
 
 	path = cd_clean_last_slash(av);
 	((cd_info->link && av[0] != '/') || (cd_check_path_link(path) ||
-	autoc_check_path(path) == 'l')) ? (ret = 1) : (ret = 0);
+	autoc_check_path(path) == 'l')) ? (ret = 1) :
+	(ret = 0);
+	free(path);
 	return (ret);
 }
