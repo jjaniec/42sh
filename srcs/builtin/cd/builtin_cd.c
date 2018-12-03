@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/27 19:51:13 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 20:16:18 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 	{
 		if (errno == EACCES)
 		{
-			exe->ret = 1;
-			ft_putstr_fd(SH_NAME ": cd: permission denied\n", 2);
-			return (NULL);
+			if (env->get_var(env, "PWD"))
+				ft_strcpy(cwd, env->last_used_elem->val_begin_ptr);
 		}
 		else
 			exit(MALLOC_ERROR);
