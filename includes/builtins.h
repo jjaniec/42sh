@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/28 19:37:32 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 16:57:16 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void				link_env_update(t_cd *cd_i);
 void				refresh_cwd_env(t_environ *env);
 void				cd_free_struct(t_cd *cd_i);
 void				builtin_echo(char **argv, t_environ *env, t_exec *exe);
+int					echo_print_opt(t_exec *exe, char *str);
+void				init_flag_opt(int (*opt_func[128])(void));
 int					echo_n_opt(void);
 int					echo_a_opt(void);
 int					echo_b_opt(void);

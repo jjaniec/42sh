@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/27 19:40:42 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 15:08:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char		*cd_clean_last_slash(char *str)
 
 	if (str[0] == '/' && ft_strlen(str) == 1)
 		return (ft_xstrdup(str));
-	if (str[(ft_strlen(str) - 1)] == '/')
+	if (str[ft_strlen(str) - 1] == '/')
 	{
 		res = ft_xmalloc(sizeof(char) * (ft_strlen(str)));
 		ft_bzero(res, ft_strlen(str));

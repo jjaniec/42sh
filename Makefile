@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/28 19:38:55 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/12/03 16:52:43 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,6 +152,7 @@ SRC_NAME = 	is_separator.c \
 			exec/create_exec.c \
 			exec/clean_data.c \
 			builtin/echo/builtin_echo.c \
+			builtin/echo/echo_print_opt.c \
 			builtin/echo/echo_opt.c \
 			builtin/echo/echo_opt_2.c \
 			builtin/cd/builtin_cd.c \

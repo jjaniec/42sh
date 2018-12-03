@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/28 19:30:56 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/03 17:43:48 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		init_func_flag(int (*func[9])(void))
 	func[8] = &echo_bslash_opt;
 }
 
-static void		init_flag_opt(int (*opt_func[128])(void))
+void			init_flag_opt(int (*opt_func[128])(void))
 {
 	int		(*func[9])();
 	char	flags[10];
@@ -53,30 +53,25 @@ static int		echo_write(char c, t_exec *exe)
 	return (1);
 }
 
-static int		print_option(t_exec *exe, char *str)
+static int		echo_with_opt(t_exec *exe, char *str)
 {
-	int		ret;
 	int		i;
-	int		(*opt_func[128])();
 
 	i = 0;
-	init_flag_opt(opt_func);
 	while (str[i])
 	{
 		if (str[i] == '\\')
 		{
-			ret = opt_func[(int)(str[i + 1])]();
-			if (ret == -2)
-			{
-				exe->ret = 1;
+			if (echo_print_opt(exe, &str[i]) == -1)
 				return (-1);
-			}
-			else if (ret)
+			else
 				i = i + 2;
 		}
-		if (ret == -1 || !echo_write(str[i], exe))
-			return (-1);
-		i++;
+		else
+		{
+			echo_write(str[i], exe);
+			i++;
+		}
 	}
 	return (1);
 }
@@ -90,7 +85,7 @@ void			builtin_echo(char **argv, t_environ *env, t_exec *exe)
 	{
 		if (ft_strchr(*argv, '\\'))
 		{
-			if ((print_option(exe, *argv) == -1))
+			if (echo_with_opt(exe, *argv) == -1)
 				return ;
 		}
 		else if (write(STDOUT_FILENO, *argv, ft_strlen(*argv)) == -1)
