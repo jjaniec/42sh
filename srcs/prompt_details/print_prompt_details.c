@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_prompt_details.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/30 17:37:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:46:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void		print_git_info(char **env)
 	char	*git_branch_str;
 	char	*tmp;
 
-	if (!(git_branch_str = get_git_info(env, 0)))
+	if (!(git_branch_str = get_git_info(env)))
 		return ;
 	if (ft_strequ(git_branch_str, "HEAD"))
 	{

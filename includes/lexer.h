@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 16:31:14 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:43:57 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@
 */
 
 # define EXPANSIONS_SPECIFIERS	"$~"
-# define EXPANSIONS_END_CHARS	"$\\/=:-+*" // + \' \" & IFS
+# define EXPANSIONS_END_CHARS	"$\\/=:-+*.," // + \' \" & IFS
 
 int						lexer(char *line, t_lexeme **lexemes, \
 							char **unmatched_quote_err_ptr);

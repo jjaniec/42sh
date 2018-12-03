@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_lexeme_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 16:52:16 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static int 	lexeme_type_rediropt(char *s, int *pos, \
 */
 
 static int 	is_redir_inputfd(char *s, int *pos, \
-					char **data, int  *type_details)
+					char **data, int *type_details)
 {
 	int		i;
 	int		start;

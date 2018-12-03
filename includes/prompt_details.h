@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_details.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:23:00 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/30 17:37:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:45:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ typedef struct		s_prompt
 }					t_prompt;
 
 void				print_prompt_details(void);
-char				*get_git_info(char **env, pid_t p);
+char				*get_git_info(char **env);
 
 #endif

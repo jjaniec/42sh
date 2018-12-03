@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexeme_type_word.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 16:37:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ static int	skip_quotes_substring(char *s, int *pos)
 		return (UNMATCHED_QUOTE_ERR);
 	*pos = ((quote_pos - s) / sizeof(char));
 	return (0);
+}
+
+/*
+** Check if current lexeme could be defined as an assignement
+** by checking characters before the assignement character (default '=')
+*/
+
+static int	is_str_assignement(char *s)
+{
+	char	*assign_char_ptr;
+
+	if (!(env_assigns_status(0, 0)) && \
+		(assign_char_ptr = ft_strchr(s, '=')) && \
+		!is_identifier_invalid(s, assign_char_ptr))
+		return (T_ENV_ASSIGN);
+	env_assigns_status(1, 1);
+	return (T_WORD);
 }
 
 /*
@@ -59,8 +76,5 @@ int			lexeme_type_word(char *s, int *pos, char **data, int start)
 	}
 	else
 		*data = NULL;
-	if (!(env_assigns_status(0, 0)) && ft_strchr(*data, '='))
-		return (T_ENV_ASSIGN);
-	env_assigns_status(1, 1);
-	return (T_WORD);
+	return (is_str_assignement(*data));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_char_expansion.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 16:35:42 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void		handle_dollar_expansion(t_lexeme_clean_data *l,
 	int		expansion_name_len;
 
 	expansion_name_len = 0;
+	if (!(l && l->raw_lexeme_read_ptr && *(l->raw_lexeme_read_ptr)))
+		return ;
 	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr), \
 		vars, &expansion_name_len);
 	log_debug("Env var value: %s", env_var_value);

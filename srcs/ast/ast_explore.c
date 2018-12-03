@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_explore.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/03 18:28:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:43:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,28 @@
 static int		wait_childs(t_job *job)
 {
 	int			status;
-	int			r = 0;
+	int			r;
 	pid_t		waited_pid;
 
 	if (!(job && job->first_process))
-		return 0;
+		return (0);
+	r = 0;
 	while ((waited_pid = waitpid(0, &status, 0)) != -1)
 	{
 		if (waited_pid == g_jobs->last_process_pid)
 		{
 			r = get_process_return_code(&status, waited_pid, \
-			g_jobs->last_process_pid);
-			log_info("Last process of pipeline terminated: \
-			Return code set to %d", r);
+				g_jobs->last_process_pid);
+			log_info("Last process of pipeline terminated: Return code: %d", r);
 		}
-		log_info("PID %zu terminated w/ exitstatus: %d - last_process_pid: %d",\
-		waited_pid, WEXITSTATUS(status), g_jobs->last_process_pid);
+		log_info("PID %zu terminated w/ exitstatus: %d", \
+			waited_pid, WEXITSTATUS(status));
 	}
 	while (waitpid(0, NULL, 0) != -1)
 		;
 	log_debug("End of wait_childs debug_jobs:");
 	debug_jobs(g_jobs);
-	return r;
+	return (r);
 }
 
 /*
@@ -52,6 +52,8 @@ static int		wait_childs(t_job *job)
 ** when all processes are started and fds piped to each others,
 ** wait for all childs before free'ing unnecessary data and
 ** exiting w/ last process of the pipeline as return value
+**
+** note: setpgrp: same as 'setpgid(0, 0)'
 */
 
 static int		new_pipeline_job(t_ast *ast, t_exec *exe)
@@ -85,7 +87,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 					bool *is_in_pipeline)
 {
 	pid_t	pipeline_manager_pid;
-	int		status ;
+	int		status;
 	pid_t	waited_pid;
 	int		r;
 
@@ -137,7 +139,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 ** without exiting the shell and easier job control
 */
 
-t_exec	*ast_explore(t_ast *ast, t_exec *exe)
+t_exec		*ast_explore(t_ast *ast, t_exec *exe)
 {
 	static bool	is_in_pipeline = false;
 	int			tmp;
@@ -155,16 +157,12 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 			exe->ret = tmp;
 		return (exe);
 	}
-	pre_exec(ast, exe);
 	ast_explore(ast->left, exe);
 	if (exe->statement)
 		return (exe);
-	in_exec(ast, exe);
+	handle_node(ast, exe);
 	if (exe->statement)
 		return (exe);
 	ast_explore(ast->right, exe);
-	if (exe->statement)
-		return (exe);
-	post_exec(ast, exe);
 	return (exe);
 }
