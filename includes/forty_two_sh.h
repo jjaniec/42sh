@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 17:28:01 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 17:55:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,5 +185,7 @@ char		**handle_env_assigns(t_ast *node, t_exec *exe, t_environ **env_used);
 int		print_error(char *subject, char *err_str, int mode);
 
 void	fatal_fork_fail(void);
+
+int		ft_free(void *ptr);
 
 #endif
