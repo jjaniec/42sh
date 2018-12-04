@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_tests.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 20:15:49 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 22:27:28 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 13 - echo_opt \\r", "echo \\\"lol\\rxd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 14 - echo_opt \\t", "echo \\\"lol\\txd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 15 - echo_opt \\v", "echo \\\"lol\\vxd\\\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \\\"lol\\\\xd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \\\"lol\\\\les copains\\\"", NULL);
 
 	compare_sh_42sh_outputs("Builtin cd 1 - cd", "cd / && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 2 - cd", "cd / && cd dev && pwd", NULL);
