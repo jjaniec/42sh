@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 17:34:18 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 18:44:15 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,20 @@ static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 
 static int		builtin_cd_dash(t_cd *cd_info)
 {
-	char	old_oldpwd[MAX_ENV_ENTRY_LEN];
+	char	*old_oldpwd;
 
 	if (cd_info->env->get_var(cd_info->env, "OLDPWD") &&
 	ft_strlen(cd_info->env->last_used_elem->val_begin_ptr) > 0)
 	{
-		ft_strcpy(old_oldpwd, cd_info->env->last_used_elem->val_begin_ptr);
+		old_oldpwd = cd_clean_last_slash(
+		cd_info->env->last_used_elem->val_begin_ptr);
 		if (!cd_change_dir(cd_info->env,
 			cd_info->env->last_used_elem->val_begin_ptr, cd_info->cwd))
 			ft_putendl(old_oldpwd);
 		if (cd_check_link(cd_info, old_oldpwd))
 		{
-			cd_info->cwd_link = ft_xstrdup(old_oldpwd);
+			//cd_info->cwd_link = ft_xstrdup(old_oldpwd);
+			cd_info->cwd_link = old_oldpwd;
 			link_env_update(cd_info);
 		}
 		else
