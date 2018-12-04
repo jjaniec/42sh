@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forty_two_sh.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 17:53:24 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/04 17:28:01 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,7 @@ char		**ft_dup_2d_array(char **arr);
 char		**handle_env_assigns(t_ast *node, t_exec *exe, t_environ **env_used);
 
 int		print_error(char *subject, char *err_str, int mode);
+
+void	fatal_fork_fail(void);
 
 #endif

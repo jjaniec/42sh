@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/04 17:07:23 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 17:28:57 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,8 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	pid_t	waited_pid;
 	int		r;
 
-	if ((!(status = 0)) && ENABLE_JOB_CONTROL)
+	if ((*is_in_pipeline = true) && ENABLE_JOB_CONTROL)
 	{
-		*is_in_pipeline = true;
 		if ((pipeline_manager_pid = fork()) <= 0)
 		{
 			if (pipeline_manager_pid == -1)
@@ -144,7 +143,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 ** without exiting the shell and easier job control
 */
 
-t_exec		*ast_explore(t_ast *ast, t_exec *exe)
+t_exec			*ast_explore(t_ast *ast, t_exec *exe)
 {
 	static bool	is_in_pipeline = false;
 	int			tmp;

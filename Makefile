@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/03 19:44:12 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/12/04 17:25:16 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 ###### FILES ######
 SRC_NAME = 	is_separator.c \
+			fatal_fork_fail.c \
 			lexer/lexer.c \
 			lexer/get_lexeme_type.c \
 			lexer/create_lexeme.c \
