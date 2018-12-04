@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 15:44:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 16:25:30 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ int	main(int argc, char **argv, char **envp)
 	backup_stderr = dup(STDERR_FILENO);*/
 
 	//start = clock();
-	//lexer_tests(env);
-	//ast_tests(env);
+	lexer_tests(env);
+	ast_tests(env);
 	builtins_tests(env);
 	exec_tests(env);
-	//syntax_highlighting_tests(env);
-	//script_tests(env);
-	//builtin_test_tests(env);
+	syntax_highlighting_tests(env);
+	script_tests(env);
+	builtin_test_tests(env);
 
 	/*
 	close(STDOUT_FILENO);

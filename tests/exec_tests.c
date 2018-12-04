@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/04 15:51:57 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 16:25:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_tests(t_environ *env)
 {
 	(void)env;
 	int		tk_less_tests_tmp_fd;
-/*
+
 	compare_fds_w_strings("Error check tests 1 - dir as command path", "/", "", SH_NAME": /: "ERR_ISDIR);
 	system("ln -s / /tmp/temp_test_symlink_____");
 	compare_fds_w_strings("Error check tests 2 - symlink as command path", "/tmp/temp_test_symlink_____", "", SH_NAME": /tmp/temp_test_symlink_____: "ERR_ISDIR);
@@ -167,8 +167,8 @@ void	exec_tests(t_environ *env)
 		compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 9", "cat 2>/dev/null <&3- && echo lol", NULL);
 	else
 		compare_fds_w_strings("Redirs - Filedesc closes & redirects 9 - linux", "cat 2>/dev/null <&3- && echo lol", "", "");
-*/	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&8- 2>/dev/null && echo lol", "", SH_NAME": 8: "ERR_BAD_FILEDESC"\n");
-/*	compare_fds_w_strings("Redirs - Filedesc closes & redirects 11 - Test filedesc backup & echo write error", "echo lol >&- ; echo lol", "lol\n", SH_NAME": write error: "ERR_BAD_FILEDESC"\n");
+	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&8- 2>/dev/null && echo lol", "", SH_NAME": 8: "ERR_BAD_FILEDESC"\n");
+	compare_fds_w_strings("Redirs - Filedesc closes & redirects 11 - Test filedesc backup & echo write error", "echo lol >&- ; echo lol", "lol\n", SH_NAME": write error: "ERR_BAD_FILEDESC"\n");
 
 	remove(TESTS_TMP_FILENAME);
 	compare_fds_w_strings("Redirs - Bad filedesc err check 1", "echo lol 1>&- 2>&1", "", SH_NAME": 1: "ERR_BAD_FILEDESC"\n");
@@ -250,5 +250,5 @@ void	exec_tests(t_environ *env)
 		"lol=a lol2=b lol3=c; echo \\$lol\\$lol2\\$lol3", "abc\n", NULL);
 	compare_fds_w_strings("Local vars 9 - Multi assigns w/ Basic redefinition", \
 		"lol=a lol=b lol=c; echo \\$lol; lol=abc; echo \\$lol", "c\nabc\n", NULL);
-*/
+
 }

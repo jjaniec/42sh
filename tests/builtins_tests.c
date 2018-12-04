@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 15:49:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 16:25:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void			builtins_tests(t_environ *env)
 	ret = system(SH_EXEC_CMD_PREFIX"\"exit 42w 45 12\"");
 	ok((ret / 256 == 255), "Builtin exit 5 - arg not numeric w/ too many args");
 
-/*	compare_sh_42sh_outputs("Builtin echo 1 - echo", "echo ls", NULL);
+	compare_sh_42sh_outputs("Builtin echo 1 - echo", "echo ls", NULL);
 	compare_sh_42sh_outputs("Builtin echo 2 - echo multi args", "echo ls ls ls ls ls ls", NULL);
 	compare_sh_42sh_outputs("Builtin echo 3 - echo no args", "echo", NULL);
 	compare_sh_42sh_outputs("Builtin echo 4 - Pipes (w/ echo)", "echo ls | cat", NULL);
@@ -64,7 +64,7 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 11 - echo_opt \\c", "echo \"lol\cxd\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 12 - echo_opt \\f", "echo \"lol\fxd\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 13 - echo_opt \\r", "echo \"lol\rxd\"", NULL);
-*/
+
 	compare_sh_42sh_outputs("Builtin echo 14 - echo_opt \\t", "echo \"lol\txd\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 15 - echo_opt \\v", "echo \"lol\vxd\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \"lol\\\xd\"", NULL);
@@ -82,7 +82,7 @@ void			builtins_tests(t_environ *env)
 	//compare_sh_42sh_outputs("Builtin cd 11 - cd - ", "mkdir janiec; cd janiec ; pwd ; chmod 000 . ; cd ; pwd ; cd - 2> /dev/null; pwd; rm -rf janiec", NULL);
 	//compare_sh_42sh_outputs("Builtin cd 12 - cd", "cd janiec; pwd; chmod 777 janiec; rm -rf janiec", NULL);
 	//compare_fds_w_strings("Builtin cd 13 - err check cd to a file", "cd Makefile && pwd", "", SH_NAME": Makefile: "ERR_ENOTDIR);
-/*
+
 	compare_sh_42sh_outputs("Builtin env 1 - env w/o args w/ pipe", "env | grep -v", NULL);
 	compare_sh_42sh_outputs("Builtin env 2 - env w/ T_ENV_ASSIGN", "TMP=test env | grep '^TMP='", NULL);
 	compare_sh_42sh_outputs("Builtin env 3 - env w/ valid args & pipe", \
@@ -92,13 +92,13 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin env 6 - env -i w/o args w/ pipe", "env -i", NULL);
 	compare_sh_42sh_outputs("Builtin env 7 - env -i empty assignations", "env -i LS=     AAAA=   ", NULL);
 	compare_sh_42sh_outputs("Builtin env 8 - env w/ T_ENV_ASSIGN", "TMP=test env -i A=B", NULL);
-*/
+
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i invalid assignations", "env -i LS=     AAAA  AAAAAA  LOL=   | grep -v _", NULL); -> should say command not found -> exec not yet handled
 	// test env execution ex: env A=B ls - not yet implemented
-/*	compare_sh_42sh_outputs("Builtin env 9 - execution 1 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
+	compare_sh_42sh_outputs("Builtin env 9 - execution 1 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
 	compare_sh_42sh_outputs("Builtin env 10 - execution 2 - t_env_assigns & execution", "aaa=bbb env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
 	compare_sh_42sh_outputs("Builtin env 11 - execution 3 - t_env_assigns & execution", "aaa=bbb env -i A=B aaa=TEST__ TEST2=TEST______ env", NULL);
-*/	//compare_sh_42sh_outputs("Builtin env 12 - execution 4 - env -i w/ valid args & unkonwn command", "env -i A=B TEST1=TEST__ TEST2=TEST______ aaaa", NULL);
+	//compare_sh_42sh_outputs("Builtin env 12 - execution 4 - env -i w/ valid args & unkonwn command", "env -i A=B TEST1=TEST__ TEST2=TEST______ aaaa", NULL);
 			// todo same without rights
 
 	//compare_sh_42sh_outputs("Builtin env 7 - env -i w/o valid args", "env -i A", NULL);
@@ -106,7 +106,7 @@ void			builtins_tests(t_environ *env)
 	//compare_sh_42sh_outputs("Builtin env 9 - env -i w/ assign & execution", "env -i HOME=idontexist ls $HOME", NULL);
 
 	// Travis has some weird env vars
-/*	if (*MODE != 'L' && !CI_TEST)
+	if (*MODE != 'L' && !CI_TEST)
 		compare_sh_42sh_outputs("Builtin setenv 1 - w/o args", "setenv | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI|^BASH|^}'", "export | cut -d ' ' -f 2 | sort | grep -vE '^_=|^SHELL|^OLDPWD|^TRAVIS|^SONARQUBE|^rvm|^ANSI|^BASH' | tr -d '\\\"'");
 	compare_fds_w_strings("Builtin setenv 2 - err check 1", "setenv =", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR, NULL);
 	compare_fds_w_strings("Builtin setenv 3 - err check 2", "setenv ==", NULL, SETENV_INVALID_IDENTIFIERS_STR_ERR, NULL);
@@ -168,5 +168,5 @@ void			builtins_tests(t_environ *env)
 		compare_fds_w_strings("Builtin read 20", "read -d q -n 5 -p -s -- VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "a\nbcd\n\n", "", "a bcdefgh");
 		compare_fds_w_strings("Builtin read 21", "read -d q -n 5 -p -s  VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "\n\n\n", BUILTIN_READ_USAGE, "a bcdefgh");
 	} // '<<<' Redirects not supported by linux's sh
-*/
+
 }
