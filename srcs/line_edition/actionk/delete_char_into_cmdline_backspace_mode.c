@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:45:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 15:40:23 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:53:46 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ static void	update_values(struct s_line *le)
 /*
 **	Delete the character that is right before the cursor, and moves the cursor
 **	one step back.
-**	
+**
 **	Internal behavior : values of 'le' are updated, then the part of the command
-**	line that needs to be reprinted is reprinted. At the end the cursor is replaced
-**	where it needs to be.
+**	line that needs to be reprinted is reprinted.
+**	At the end the cursor is replaced where it needs to be.
 */
 
 void		delete_char_into_cmdline_backspace_mode(struct s_line *le)

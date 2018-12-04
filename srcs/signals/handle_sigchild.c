@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   handle_sigchild.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 20:55:02 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/30 20:35:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 16:51:59 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+/*
+**	[rappel d'une ligne avec un commentaire potentiellement interessant]
+**	if (p == 1 && getpid() < g_jobs->pgid) // To replace as !(foreach job; \
+**	if getpid() is in job->process_list) condition type if we're doing \
+**	job control
+*/
 
 /*
 ** When process who received the sig isn't the main process,
@@ -24,13 +31,13 @@
 
 void		handle_sigchild(int sig)
 {
-	pid_t		p;
+	pid_t	p;
 
 	(void)sig;
 	log_debug("PID %zu: Got sigchild!", getpid());
 	while ((p = waitpid((pid_t)(-1), 0, WNOHANG)) > 0)
 	{
-		if (p == 1 && getpid() < g_jobs->pgid) // To replace as !(foreach job; if getpid() is in job->process_list) condition type if we're doing job control
+		if (p == 1 && getpid() < g_jobs->pgid)
 		{
 			free_job(g_jobs);
 			g_jobs = NULL;

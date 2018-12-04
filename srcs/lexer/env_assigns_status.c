@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 20:29:09 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/12 17:30:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 16:24:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 t_acocat	env_assigns_status(int mode_set, int new_value)
 {
-	static int		env_assigns_passed = (t_acocat)0;
+	static int	env_assigns_passed = (t_acocat)0;
 
 	if (mode_set)
 		env_assigns_passed = new_value;

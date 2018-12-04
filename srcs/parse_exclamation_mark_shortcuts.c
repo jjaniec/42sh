@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:18:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/16 19:42:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 18:26:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static const char	*get_last_cmd(struct s_history *his)
 	return (NULL);
 }
 
-static const char	*get_cmd_at_index_n(struct s_history *his, unsigned int index)
+static const char	*get_cmd_at_index_n(struct s_history *his,
+											unsigned int index)
 {
 	unsigned int	i;
 
@@ -40,7 +41,8 @@ static const char	*get_cmd_at_index_n(struct s_history *his, unsigned int index)
 	return (his->cmd);
 }
 
-static const char	*get_cmd_at_index_n_reverse(struct s_history *his, unsigned int index)
+static const char	*get_cmd_at_index_n_reverse(struct s_history *his,
+												unsigned int index)
 {
 	unsigned int	i;
 
@@ -62,18 +64,19 @@ static const char	*get_cmd_at_index_n_reverse(struct s_history *his, unsigned in
 	return (his->cmd);
 }
 
-static const char	*get_last_cmd_beggining_with_str(struct s_history *his, const char *str)
+static const char	*get_last_cmd_beggining_with_str(struct s_history *his,
+														const char *str)
 {
 	size_t	str_len;
 
 	str_len = ft_strlen(str);
 	while (his->next != NULL)
-			his = his->next;
+		his = his->next;
 	if (his->prev == NULL)
-			return (NULL);
+		return (NULL);
 	his = his->prev;
 	if (his->prev == NULL)
-			return (NULL);
+		return (NULL);
 	his = his->prev;
 	while (his != NULL)
 	{
@@ -91,15 +94,16 @@ const char			*parse_exclamation_mark_shortcuts(const char *excla)
 
 	ret = NULL;
 	le = access_le_main_datas();
-	if (excla == NULL || excla[0] != '!' || le->history == NULL || excla[1] == '\0')
-			return (NULL);
+	if (excla == NULL || excla[0] != '!' || le->history == NULL
+	|| excla[1] == '\0')
+		return (NULL);
 	if (ft_strequ(excla, "!!") || ft_strequ(excla, "!-1"))
-			ret = get_last_cmd(le->history);
-	else if (ft_str_is_positive_numeric(excla + 1)) // !n
-			ret = get_cmd_at_index_n(le->history, ft_atoi(excla + 1));
-	else if (excla[1] == '-' && ft_str_is_positive_numeric(excla + 2)) // !-n
-			ret = get_cmd_at_index_n_reverse(le->history, ft_atoi(excla + 2));
-	else // !str
+		ret = get_last_cmd(le->history);
+	else if (ft_str_is_positive_numeric(excla + 1))
+		ret = get_cmd_at_index_n(le->history, ft_atoi(excla + 1));
+	else if (excla[1] == '-' && ft_str_is_positive_numeric(excla + 2))
+		ret = get_cmd_at_index_n_reverse(le->history, ft_atoi(excla + 2));
+	else
 		ret = get_last_cmd_beggining_with_str(le->history, excla + 1);
 	return (ret);
 }

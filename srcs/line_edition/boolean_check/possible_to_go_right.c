@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 15:46:41 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:10:02 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 **	otherwise returns 'false'.
 */
 
-bool possible_to_go_right(struct s_line *le)
+bool	possible_to_go_right(struct s_line *le)
 {
 	if (le->cursor_index == le->cmd_len)
 		return (false);

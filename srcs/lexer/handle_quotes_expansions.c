@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes_expansions.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/19 20:17:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/03 16:36:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static void		fill_new_data_str(t_lexeme_clean_data *l, t_shell_vars *vars)
 	in_quote_type = NOT_IN_QUOTES;
 	while (ptr && *ptr)
 	{
-		//dprintf(1, "ptr = `%s`\n", ptr);
 		if (is_expansion_char(l, in_quote_type, &expansion_handler))
 			(*(void (*)(t_lexeme_clean_data *, t_shell_vars *))(expansion_handler))\
 				(l, vars);
@@ -141,5 +140,6 @@ void			handle_quotes_expansions(char **data)
 	fill_new_data_str(&new_lex_data, get_shell_vars());
 	free(*data);
 	*data = new_lex_data.clean_data;
-	log_trace("Replaced old data w/ after quotes & expansions handling |%s|", *data);
+	log_trace("Replaced old data w/ after quotes & \
+	expansions handling |%s|", *data);
 }

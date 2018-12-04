@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:42:45 by sebastien         #+#    #+#             */
-/*   Updated: 2018/11/19 19:01:32 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/03 18:19:20 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static t_lexeme	*create_sub_ast(t_lexeme *lex, t_ast **root, \
 			lex = lex->next;
 	else
 		lex = lex->next;
-	root[0]->sub_ast = ast_constructor(&lex, root[0]->sub_ast, end_lexeme, node_placer);
+	root[0]->sub_ast = ast_constructor(&lex, root[0]->sub_ast, end_lexeme, \
+	node_placer);
 	root[0]->sub_ast->top_ast = root[0];
 	return (lex);
 }

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 19:15:02 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/19 19:46:41 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 17:56:16 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static unsigned int	loop_closest(const int end_token[], unsigned int *paths)
 t_lexeme			*find_lexeme_compete(t_lexeme *lex, \
 					const int end_token[])
 {
-	int			size_end_token;
+	int				size_end_token;
 	t_lexeme		**end;
 	unsigned int	*paths;
 	unsigned int	closest;

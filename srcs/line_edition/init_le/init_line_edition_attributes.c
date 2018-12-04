@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_line_edition_attributes.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/22 16:02:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:12:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	Initialize the termcaps library for the terminal.
 */
 
-static void		init_termcaps(void)
+static void	init_termcaps(void)
 {
 	const char	*term;
 
@@ -31,14 +31,13 @@ static void		init_termcaps(void)
 
 /*
 **	Initialize some datas for the main datas structure, but only one time.
-**	This function is only called on the first initialization of the line edition 
+**	This function is only called on the first initialization of the line edition
 **	feature.
 */
 
-static void			init_once(struct s_line *le)
+static void	init_once(struct s_line *le)
 {
 	init_termcaps();
-
 	le->tcaps = init_termcaps_strings();
 	le->history = ft_xmalloc(sizeof(struct s_history));
 	le->history->prev = NULL;
@@ -58,7 +57,7 @@ static void			init_once(struct s_line *le)
 **	Initialize some datas for the main datas structure to their default values.
 */
 
-void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
+void		init_line_edition_attributes(struct s_line *le, int prompt_type)
 {
 	static bool already_init = false;
 
@@ -73,8 +72,8 @@ void    			init_line_edition_attributes(struct s_line *le, int prompt_type)
 	ft_memset(le->cmd, '\0', le->cmd_size);
 	le->cmd_len = 0;
 	le->cursor_index = 0;
-    le->start_pos = prompt_show(g_prompts[-prompt_type]);
-    le->cursor_pos = le->start_pos;
+	le->start_pos = prompt_show(g_prompts[-prompt_type]);
+	le->cursor_pos = le->start_pos;
 	le->cursor_line = 0;
 	le->term_nb_lines = get_terminal_nb_lines();
 	le->term_line_size = get_terminal_nb_col();

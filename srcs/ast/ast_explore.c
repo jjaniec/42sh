@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/30 17:18:49 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 19:43:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,13 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 					bool *is_in_pipeline)
 {
 	pid_t	pipeline_manager_pid;
-	int		status = 0;
-	pid_t	waited_pid = 0;
-	int		r = 0;
+	int		status;
+	pid_t	waited_pid;
+	int		r;
 
+	status = 0;
+	waited_pid = 0;
+	r = 0;
 	if (ENABLE_JOB_CONTROL)
 	{
 		*is_in_pipeline = true;
@@ -104,7 +107,6 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 		g_jobs = create_job("PIPE MANAGER");
 		g_jobs->pgid = pipeline_manager_pid;
 		log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
-		errno = 0;
 		waited_pid = waitpid(pipeline_manager_pid, &status, 0);
 		r = get_process_return_code(&status, waited_pid, pipeline_manager_pid);
 		log_trace("MAIN PROCESS: Pipe manager terminated w/ return code: %d - status: %d - wexitstatus: %d", \
@@ -137,7 +139,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 ** without exiting the shell and easier job control
 */
 
-t_exec	*ast_explore(t_ast *ast, t_exec *exe)
+t_exec		*ast_explore(t_ast *ast, t_exec *exe)
 {
 	static bool	is_in_pipeline = false;
 	int			tmp;
@@ -145,8 +147,9 @@ t_exec	*ast_explore(t_ast *ast, t_exec *exe)
 	if (!ast)
 		return (exe);
 	if (ast->data)
-		log_debug("Current node: %p (%s) - rdy for exec: %d - is in pipeline ?: %s", \
-			ast, ast->data[0], exe->ready_for_exec, (is_in_pipeline) ? ("true") : ("false"));
+		log_debug("Current node: %p (%s) - rdy for exec: %d - is in pipeline ?"\
+		": %s", ast, ast->data[0], exe->ready_for_exec, \
+		(is_in_pipeline) ? ("true") : ("false"));
 	if (!is_in_pipeline && ast->type_details == TK_PIPE)
 	{
 		tmp = handle_new_pipeline(ast, exe, &is_in_pipeline);
