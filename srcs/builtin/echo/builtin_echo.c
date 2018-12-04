@@ -46,7 +46,7 @@ static int		echo_write(char c, t_exec *exe)
 	if (write(STDOUT_FILENO, &c, 1) == -1)
 	{
 		if (errno == EBADF)
-			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 		exe->ret = 1;
 		return (0);
 	}
@@ -91,7 +91,7 @@ void			builtin_echo(char **argv, t_environ *env, t_exec *exe)
 		else if (write(STDOUT_FILENO, *argv, ft_strlen(*argv)) == -1)
 		{
 			if (errno == EBADF)
-				ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+				print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 			exe->ret = 1;
 			return ;
 		}

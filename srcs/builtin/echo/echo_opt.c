@@ -17,7 +17,7 @@ int		echo_n_opt(void)
 	if (write(STDOUT_FILENO, "\n", 1) == -1)
 	{
 		if (errno == EBADF)
-			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 		return (-2);
 	}
 	return (1);
@@ -28,7 +28,7 @@ int		echo_a_opt(void)
 	if (write(STDOUT_FILENO, "\a", 1) == -1)
 	{
 		if (errno == EBADF)
-			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 		return (-2);
 	}
 	return (1);
@@ -39,7 +39,7 @@ int		echo_b_opt(void)
 	if (write(STDOUT_FILENO, "\b", 1) == -1)
 	{
 		if (errno == EBADF)
-			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 		return (-2);
 	}
 	return (1);
@@ -50,7 +50,7 @@ int		echo_c_opt(void)
 	if (write(STDOUT_FILENO, "\0", 1) == -1)
 	{
 		if (errno == EBADF)
-			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 		return (-2);
 	}
 	return (-1);
@@ -61,7 +61,7 @@ int		echo_f_opt(void)
 	if (write(STDOUT_FILENO, "\f", 1) == -1)
 	{
 		if (errno == EBADF)
-			ft_putstr_fd(SH_NAME": write error: "ERR_BAD_FILEDESC, 2);
+			print_error("write error", ERR_BAD_FILEDESC, SUBJECT_AT_BEGIN);
 		return (-2);
 	}
 	return (1);

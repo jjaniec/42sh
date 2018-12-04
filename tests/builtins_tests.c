@@ -58,16 +58,16 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 5 - Redirs (w/ echo)", "echo ls > /tmp/a && cat < /tmp/a", NULL);
 	compare_sh_42sh_outputs("Builtin echo 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a", NULL);
 	compare_sh_42sh_outputs("Builtin echo 7 - Particular cases 1", "echo $", NULL);
-	compare_sh_42sh_outputs("Builtin echo 8 - echo_opt \\n", "echo \"lol\nxd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 9 - echo_opt \\a", "echo \"lol\axd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 10 - echo_opt \\b", "echo \"lol\bxd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 11 - echo_opt \\c", "echo \"lol\cxd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 12 - echo_opt \\f", "echo \"lol\fxd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 13 - echo_opt \\r", "echo \"lol\rxd\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 8 - echo_opt \\n", "echo \\\"lol\\nxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 9 - echo_opt \\a", "echo \\\"lol\\axd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 10 - echo_opt \\b", "echo \\\"lol\\bxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 11 - echo_opt \\c", "echo \\\"lol\\cxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 12 - echo_opt \\f", "echo \\\"lol\\fxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 13 - echo_opt \\r", "echo \\\"lol\\rxd\\\"", NULL);
 
-	compare_sh_42sh_outputs("Builtin echo 14 - echo_opt \\t", "echo \"lol\txd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 15 - echo_opt \\v", "echo \"lol\vxd\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \"lol\\\xd\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 14 - echo_opt \\t", "echo \\\"lol\\txd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 15 - echo_opt \\v", "echo \\\"lol\\vxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \\\"lol\\\\xd\\\"", NULL);
 
 	compare_sh_42sh_outputs("Builtin cd 1 - cd", "cd / && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 2 - cd", "cd / && cd dev && pwd", NULL);
