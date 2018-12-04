@@ -6,11 +6,33 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 20:00:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/20 18:43:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:42:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
+
+static void				init_tcaps_names(const char *tcaps_names[15])
+{
+	unsigned int	i;
+
+	i = 0;
+	tcaps_names[i++] = "nd";
+	tcaps_names[i++] = "le";
+	tcaps_names[i++] = "do";
+	tcaps_names[i++] = "up";
+	tcaps_names[i++] = "dc";
+	tcaps_names[i++] = "cl";
+	tcaps_names[i++] = "md";
+	tcaps_names[i++] = "me";
+	tcaps_names[i++] = "cr";
+	tcaps_names[i++] = "cd";
+	tcaps_names[i++] = "dl";
+	tcaps_names[i++] = "al";
+	tcaps_names[i++] = "us";
+	tcaps_names[i++] = "mr";
+	tcaps_names[i++] = "ue";
+}
 
 /*
 **	Initialize some termcaps that will be used for the shell internal behavior.
@@ -21,15 +43,14 @@ struct s_le_termcaps	*init_termcaps_strings(void)
 	static struct s_le_termcaps tc;
 	const char					**index;
 	unsigned int				i;
-	const char					*tcaps_names[] = {
-		"nd", "le", "do", "up", "dc", "cl", "md", "me", "cr", "cd", "dl", "al",
-		"us", "mr", "ue"
-	};
+	const char					*tcaps_names[15];
+	ptrdiff_t					sizeof_tc;
 
+	sizeof_tc = sizeof(tc);
+	init_tcaps_names(tcaps_names);
 	index = (const char **)(&tc);
 	i = 0;
-	while ((ptrdiff_t)((uintptr_t)index - (uintptr_t)(&tc))
-	< (ptrdiff_t)sizeof(tc))
+	while ((ptrdiff_t)((uintptr_t)index - (uintptr_t)(&tc)) < sizeof_tc)
 	{
 		*index = tgetstr((char *)(tcaps_names[i]), NULL);
 		if (*index == NULL)
@@ -44,33 +65,3 @@ struct s_le_termcaps	*init_termcaps_strings(void)
 	}
 	return (&tc);
 }
-
-/*
-	if ((tc.nd = tgetstr("nd", NULL)) == NULL)
-		le_exit("Failed to initialize \"nd\" termcap\n", "tgetstr", errno);
-	if ((tc.le = tgetstr("le", NULL)) == NULL)
-		le_exit("Failed to initialize \"le\" termcap\n", "tgetstr", errno);
-	if ((tc._do = tgetstr("do", NULL)) == NULL)
-		le_exit("Failed to initialize \"do\" termcap\n", "tgetstr", errno);
-	if ((tc.up = tgetstr("up", NULL)) == NULL)
-		le_exit("Failed to initialize \"up\" termcap\n", "tgetstr", errno);
-	if ((tc.dc = tgetstr("dc", NULL)) == NULL)
-		le_exit("Failed to initialize \"dc\" termcap\n", "tgetstr", errno);
-	if ((tc.cl = tgetstr("cl", NULL)) == NULL)
-		le_exit("Failed to initialize \"cl\" termcap\n", "tgetstr", errno);
-	if ((tc.md = tgetstr("md", NULL)) == NULL)
-		le_exit("Failed to initialize \"md\" termcap\n", "tgetstr", errno);
-	if ((tc.me = tgetstr("me", NULL)) == NULL)
-		le_exit("Failed to initialize \"me\" termcap\n", "tgetstr", errno);
-	if ((tc.cr = tgetstr("cr", NULL)) == NULL)
-		le_exit("Failed to initialize \"me\" termcap\n", "tgetstr", errno);
-	if ((tc.cd = tgetstr("cd", NULL)) == NULL)
-		le_exit("Failed to initialize \"me\" termcap\n", "tgetstr", errno);
-	if ((tc.dl = tgetstr("dl", NULL)) == NULL)
-		le_exit("Failed to initialize \"me\" termcap\n", "tgetstr", errno);
-	if ((tc.al = tgetstr("al", NULL)) == NULL)
-		le_exit("Failed to initialize \"me\" termcap\n", "tgetstr", errno);
-
-	return (&tc);
-}
-*/

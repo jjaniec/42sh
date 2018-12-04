@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_script_complete.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/11/11 15:40:35 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/30 17:47:23 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
 		if (lex->type_details == TK_SCRIPT_IF \
 		|| lex->type_details == TK_SCRIPT_WHILE)
 		{
-			tmp = is_start_of_new_script(lex);
-			if (!tmp)
+			if (!(tmp = is_start_of_new_script(lex)))
 				return (return_error(lex));
 			lex = tmp;
 		}

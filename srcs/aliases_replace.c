@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   aliases_replace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:00:45 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/21 12:52:16 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/30 18:07:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-struct s_alias			*is_an_alias(const char *data, \
-						const struct s_alias *iterator)
+struct s_alias		*is_an_alias(const char *data,
+					const struct s_alias *iterator)
 {
 	while (iterator)
 	{
@@ -54,6 +54,14 @@ static void			remplace(t_lexeme **lex, t_lexeme *last, t_lexeme **save, \
 	*lex = new;
 }
 
+static void			init_vars(t_lexeme **last, t_lexeme **save, int *first_word,
+																t_lexeme *lex)
+{
+	*last = NULL;
+	*save = lex;
+	*first_word = 0;
+}
+
 static t_lexeme		*need_replace(t_lexeme *lex, const struct s_alias *alias)
 {
 	struct s_alias	*to_remplace;
@@ -62,9 +70,7 @@ static t_lexeme		*need_replace(t_lexeme *lex, const struct s_alias *alias)
 	t_lexeme		*next;
 	int				first_word;
 
-	last = NULL;
-	save = lex;
-	first_word = 0;
+	init_vars(&last, &save, &first_word, lex);
 	while (lex)
 	{
 		while (first_word && lex && lex->next && lex->type == T_WORD)
@@ -77,18 +83,15 @@ static t_lexeme		*need_replace(t_lexeme *lex, const struct s_alias *alias)
 		to_remplace = is_an_alias(lex->data, alias);
 		if (to_remplace)
 			remplace(&lex, last, &save, to_remplace->value);
-		if (lex == next)
-		{
-			first_word = 0;
+		if (lex == next && (!(first_word = 0)))
 			continue ;
-		}
 		last = lex;
 		lex = lex->next;
 	}
 	return (save);
 }
 
-void			aliases_replace(t_lexeme **lex)
+void				aliases_replace(t_lexeme **lex)
 {
 	const struct s_alias *alias;
 

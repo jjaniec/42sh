@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 17:23:59 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/14 19:09:25 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/03 18:16:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ static void	free_argv(char **argv)
 	}
 }
 
-void	free_node(t_ast **ast)
+void		free_node(t_ast **ast)
 {
-	/*if (ast[0]->data)
-		dprintf(1, "Node free: %s\n", ast[0]->data[0]);
-	else
-		dprintf(1, "Node free: NULL\n");*/
 	free_argv(ast[0]->data);
 	free(ast[0]->data);
 	ast[0]->data = NULL;

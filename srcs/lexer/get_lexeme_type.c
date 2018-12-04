@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 14:22:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:45 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,16 @@ static int	lexeme_type_ctrlopt(char *s, int *pos, \
 
 	if (*s == '&' || *s == '|' || *s == ';' || *s == '\n')
 	{
-		if (*s != ';' && *s == s[1] && *s != '\n')
+		if (*s != ';' && *s == s[1] && *s != '\n' && (data_len = 2))
 		{
 			if (*s == '&')
 				*type_details = TK_DAND;
 			else if (*s == '|')
 				*type_details = TK_OR;
-			data_len = 2;
 		}
 		else
 		{
-			if (*s == '&')
+			if ((data_len = 1) && *s == '&')
 				*type_details = TK_AND;
 			else if (*s == '|')
 				*type_details = TK_PIPE;
@@ -55,7 +54,6 @@ static int	lexeme_type_ctrlopt(char *s, int *pos, \
 				*type_details = TK_SEMICOLON;
 			else if (*s == '\n')
 				*type_details = TK_NEWLINE;
-			data_len = 1;
 		}
 		return (store_optlexeme(s, data_len, pos, data, T_CTRL_OPT));
 	}
@@ -177,5 +175,5 @@ int			get_lexeme_type(char *s, int *pos, \
 		else if (lexeme_type_rediropt(s + *pos, pos, data, type_details))
 			return (T_REDIR_OPT);
 	}
-	return (lexeme_type_word(s, pos, data));
+	return (lexeme_type_word(s, pos, data, *pos));
 }

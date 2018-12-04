@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 15:34:28 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:40:47 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	actionk_move_cursor_start(struct s_line *le)
 
 	start_i = le->cursor_index;
 	stop_i = 0;
-
 	while (start_i > stop_i)
 	{
 		actionk_cursor_move_left(le);

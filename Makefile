@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/30 17:19:26 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/12/03 19:44:12 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,6 @@ SRC_NAME = 	is_separator.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
 			ast/access_ast_data.c \
-			line_edition/access_le_main_datas.c \
-			line_edition/add_history.c \
-			line_edition/handle_window_resize.c \
-			line_edition/get_le_debug_status.c \
-			line_edition/le_free_datas_and_history.c \
 			autocomplete/autocomplete.c \
 			autocomplete/str_effect.c \
 			autocomplete/autoc_dir.c \
@@ -73,8 +68,15 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_update.c \
 			prompt_details/print_prompt_details.c \
 			prompt_details/get_git_info.c \
+			line_edition/access_le_main_datas.c \
+			line_edition/add_history.c \
+			line_edition/get_key_number.c \
+			line_edition/handle_window_resize.c \
+			line_edition/get_le_debug_status.c \
+			line_edition/le_free_datas_and_history.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
+			line_edition/read_key.c \
 			line_edition/actionk/action_key.c \
 			line_edition/actionk/actionk_clear_screen.c \
 			line_edition/actionk/actionk_copy_all.c \

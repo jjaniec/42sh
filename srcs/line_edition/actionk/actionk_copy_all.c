@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 16:50:52 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 17:32:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:45:19 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@
 
 void	actionk_copy_all(struct s_line *le)
 {
-    le->clipboard_len = 0;
-
- 	check_clipboard_storage(le, le->cmd_len);
-
-    ft_strcpy(le->clipboard, le->cmd);
-    le->clipboard_len = le->cmd_len;
-	//fprintf(tty_debug, "CLIPBOARD = |%s|\n", le->clipboard);
+	le->clipboard_len = 0;
+	check_clipboard_storage(le, le->cmd_len);
+	ft_strcpy(le->clipboard, le->cmd);
+	le->clipboard_len = le->cmd_len;
 }

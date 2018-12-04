@@ -19,8 +19,9 @@
 
 void	print_history_cmd(struct s_line *le)
 {
-	const char	*cmd = le->history->cmd;
+	const char	*cmd;
 
+	cmd = le->history->cmd;
 	if (cmd == NULL)
 	{
 		if (le->save_tmp_cmd != NULL)

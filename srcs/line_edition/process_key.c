@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/22 16:00:38 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 16:51:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ static bool	key_is_printable(t_kno key)
 /*
 **	This function handles the behavior of the 'key' entered by the user.
 **	The 'key' can be printable, so it will be added to the command line,
-**	the 'key' can also be '\n' meaning the user typed the 'enter' key to finish
-**	his command line, and the 'key' might corresponds to an action (like moving
+**	the 'key' can also be the line delimiter meaning the user typed the
+**	delimiter key to finish his command line,
+**	and the 'key' might corresponds to an action (like moving
 **	the cursor, delete a character, etc ...)
 */
 
-void			process_key(struct s_line *le)
+void		process_key(struct s_line *le)
 {
 	if (key_is_printable(le->key_no) == true)
 	{

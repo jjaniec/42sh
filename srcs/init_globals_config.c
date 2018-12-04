@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   init_globals_config.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:55:00 by sbrucker          #+#    #+#             */
 /*   Updated: 2018/11/10 21:32:06 by cgaspart         ###   ########.fr       */

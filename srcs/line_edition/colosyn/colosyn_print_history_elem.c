@@ -19,9 +19,10 @@
 
 void	colosyn_print_history_elem(struct s_line *le)
 {
-	const char	*cmd = le->history->cmd;
+	const char	*cmd;
 	char		*updated_cmd;
 
+	cmd = le->history->cmd;
 	updated_cmd = NULL;
 	if (cmd == NULL)
 	{

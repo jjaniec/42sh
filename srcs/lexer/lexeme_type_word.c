@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 14:35:27 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,8 @@ static int	is_str_assignement(char *s)
 ** to skip $IFS separators until corresponding quote
 */
 
-int			lexeme_type_word(char *s, int *pos, char **data)
+int			lexeme_type_word(char *s, int *pos, char **data, int start)
 {
-	int		start;
-
-	start = *pos;
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]) \
 	&& s[*pos] != '#')
 	{
@@ -74,8 +71,7 @@ int			lexeme_type_word(char *s, int *pos, char **data)
 	}
 	if (start != *pos)
 	{
-		*data = ft_strsub(s, start, *pos - start);
-		if (*data == NULL)
+		if ((*data = ft_strsub(s, start, *pos - start)) == NULL)
 			exit(MALLOC_ERROR);
 	}
 	else
