@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 19:15:16 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/30 18:35:08 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 20:19:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,36 +60,50 @@ static t_lexeme	*loop_body(t_lexeme *lex, t_lexeme **end, ptrdiff_t size)
 	return (lex);
 }
 
-t_lexeme		*handle_exclamation_mark_in_lexer(t_lexeme *lex)
+static t_lexeme	*call_loop_body(t_lexeme **end, t_lexeme **next, t_lexeme *lex,
+																t_lexeme **tmp)
 {
-	t_lexeme	*last;
-	t_lexeme	*save;
+	*end = NULL;
+	*next = lex->next;
+	return ((*tmp = loop_body(lex, end, 0)));
+}
+
+static void		assignations_norme(int foo, t_lexeme **last, t_lexeme *tmp,
+															t_lexeme **lex)
+{
+	if (foo == 1)
+	{
+		(*last)->next = tmp;
+		*lex = tmp;
+	}
+	else if (foo == 2)
+	{
+		*lex = tmp;
+		*last = tmp;
+	}
+}
+
+t_lexeme		*handle_exclamation_mark_in_lexer(t_lexeme *lex,
+				t_lexeme *last, t_lexeme *save, t_lexeme *end)
+{
 	t_lexeme	*tmp;
-	t_lexeme	*end;
 	t_lexeme	*next;
 
-	last = NULL;
-	save = lex;
 	while (lex != NULL)
 	{
-		end = NULL;
-		next = lex->next;
-		tmp = loop_body(lex, &end, 0);
-		if (!tmp)
+		if (call_loop_body(&end, &next, lex, &tmp) == NULL)
 			return (save);
 		else if (last)
 		{
 			if (end)
 				end->next = next;
-			last->next = tmp;
-			lex = tmp;
+			assignations_norme(1, &last, tmp, &lex);
 		}
 		else
 		{
 			if (end)
 				end->next = next;
-			lex = tmp;
-			save = tmp;
+			assignations_norme(2, &save, tmp, &lex);
 		}
 		while (end && lex != end)
 			lex = lex->next;

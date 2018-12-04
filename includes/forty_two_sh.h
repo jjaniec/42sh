@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 17:55:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 19:00:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,8 @@ int		is_identifier_invalid(char *str, char *assign_ptr);
 
 t_shell_vars	*get_shell_vars(void);
 
-t_lexeme	*handle_exclamation_mark_in_lexer(t_lexeme *lex);
+t_lexeme		*handle_exclamation_mark_in_lexer(t_lexeme *lex,
+				t_lexeme *last, t_lexeme *save, t_lexeme *end);
 
 const char      *parse_exclamation_mark_shortcuts(const char *excla);
 
