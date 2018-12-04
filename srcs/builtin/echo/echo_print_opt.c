@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 16:51:37 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 20:45:29 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 21:15:14 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ int		echo_print_opt(t_exec *exe, char *str)
 	}
 	else if (ret == -1)
 		return (-1);
-	return (1);
+	return (ret);
 }

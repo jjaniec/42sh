@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 18:44:15 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 21:18:14 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int		builtin_cd_dash(t_cd *cd_info)
 			ft_putendl(old_oldpwd);
 		if (cd_check_link(cd_info, old_oldpwd))
 		{
-			//cd_info->cwd_link = ft_xstrdup(old_oldpwd);
 			cd_info->cwd_link = old_oldpwd;
 			link_env_update(cd_info);
 		}

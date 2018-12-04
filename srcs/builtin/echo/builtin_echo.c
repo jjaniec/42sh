@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/03 17:43:48 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 21:14:18 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,19 @@ static int		echo_write(char c, t_exec *exe)
 static int		echo_with_opt(t_exec *exe, char *str)
 {
 	int		i;
+	int		ret;
 
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '\\')
 		{
-			if (echo_print_opt(exe, &str[i]) == -1)
+			if ((ret = echo_print_opt(exe, &str[i])) == -1)
 				return (-1);
-			else
+			else if (ret)
 				i = i + 2;
+			else
+				i++;
 		}
 		else
 		{

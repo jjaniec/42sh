@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 16:25:02 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/04 20:15:49 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 8 - echo_opt \\n", "echo \\\"lol\\nxd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 9 - echo_opt \\a", "echo \\\"lol\\axd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 10 - echo_opt \\b", "echo \\\"lol\\bxd\\\"", NULL);
-	compare_sh_42sh_outputs("Builtin echo 11 - echo_opt \\c", "echo \\\"lol\\cxd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 12 - echo_opt \\f", "echo \\\"lol\\fxd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 13 - echo_opt \\r", "echo \\\"lol\\rxd\\\"", NULL);
-
 	compare_sh_42sh_outputs("Builtin echo 14 - echo_opt \\t", "echo \\\"lol\\txd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 15 - echo_opt \\v", "echo \\\"lol\\vxd\\\"", NULL);
 	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \\\"lol\\\\xd\\\"", NULL);
