@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 20:35:25 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 17:35:33 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	set_var_after_cd(t_environ *env, char *cwd)
 	tmp = NULL;
 	if (env->get_var(env, "PWD"))
 		tmp = env->last_used_elem->val_begin_ptr;
-	else if (env->get_var(env, "OLDPWD"))
+	if (env->get_var(env, "OLDPWD"))
 	{
 		if (!tmp)
 			ft_strncpy(env->last_used_elem->val_begin_ptr,
