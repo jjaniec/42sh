@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 17:35:33 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/04 18:53:26 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ char		*cd_get_last_path(char *path)
 {
 	int		i;
 	char	*res;
+	char	*tmp;
 
-	i = ft_strlen(path);
-	while (i != 0 && path[i] != '/')
+	tmp = cd_clean_last_slash(path);
+	i = ft_strlen(tmp);
+	while (i != 0 && tmp[i] != '/')
 		i--;
 	if (i == 0)
 		return (ft_xstrdup("/"));
 	res = ft_xmalloc(sizeof(char) * (i + 2));
-	res = ft_strncpy(res, path, (i + 2));
+	res = ft_strncpy(res, tmp, (i + 2));
 	res[i + 1] = '\0';
 	return (res);
 }
