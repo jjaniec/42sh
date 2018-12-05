@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 13:28:48 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/10 19:43:06 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/05 17:57:28 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /*
 ** Return pointer to t_env_entry struct w/ corresponding name in self->environ
-** if varname contains a '=', temporary mask env value by replacing it with a '\0'
+** if varname contains a '=',
+** temporary mask env value by replacing it with a '\0'
 */
 
 t_env_entry		*get_env_var(t_environ *self, char *varname)
