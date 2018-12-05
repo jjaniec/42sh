@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 20:50:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/05 19:46:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/05 20:42:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@ void	free_env_entries(t_environ *env_struct, t_env_entry *env_entries)
 
 	if (!(env_entries))
 		return ;
-	prev = env_entries;
 	env_struct->last_entry_ptr = env_entries->prev;
 	if (env_entries->prev)
 		env_entries->prev->next = NULL;
 	while (env_entries)
 	{
-		if (prev == env_entries)
-			*(prev->ptr_to_pos_in_environ_tab) = NULL;
 		prev = env_entries;
+		*(env_entries->ptr_to_pos_in_environ_tab) = NULL;
 		env_entries = env_entries->next;
 		free(prev);
 		env_struct->entry_count -= 1;

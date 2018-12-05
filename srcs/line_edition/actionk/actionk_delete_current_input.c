@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actionk_delete_current_input.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 18:51:17 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 19:49:57 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/05 20:20:00 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	actionk_delete_current_input(struct s_line *le)
 	unsigned int	keep_nb_lines_written;
 
 	keep_opt_colosyn = le->le_state.opt_colosyn;
-	if (le->cmd[0] == '\0')
+	if (le->cmd && le->cmd[0] == '\0')
 		return ;
 	keep_key = le->key_no;
 	keep_nb_lines_written = le->nb_lines_written;
