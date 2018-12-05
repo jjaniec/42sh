@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:06:00 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 19:35:12 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/05 19:20:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	free_node(t_ast **ast);
 
 void	ast_debug(t_ast *root, int mode);
 void	print_ast_tree(t_ast *node, int level);
+void	print_ast_tree_ugly(t_ast *node, int level);
+
 
 void	node_placer_if(t_ast *root, t_ast *new);
 void	node_placer_classic(t_ast *root, t_ast *new);

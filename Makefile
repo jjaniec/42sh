@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/04 17:55:10 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/05 19:28:10 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			ast/print_ast_debug.c \
 			ast/ast_free.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \

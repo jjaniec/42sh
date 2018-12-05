@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/11/30 17:47:23 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/05 20:13:27 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ static t_lexeme	*next_token_then(t_lexeme *lex)
 		return (is_script_complete(lex->next, lex->next, TK_SCRIPT_FI));
 	if (lex->type_details == TK_SCRIPT_FI)
 		return (lex->next);
-	return (NULL);
-}
-
-static t_lexeme	*return_error(t_lexeme *lex)
-{
-	log_error("There is an error here: %s", lex->data);
 	return (NULL);
 }
 
@@ -68,7 +62,39 @@ static t_lexeme	*is_start_of_new_script(t_lexeme *lex)
 }
 
 /*
+** -1 for continuing the loop
+*/
+
+static t_lexeme	*inside_loop(t_lexeme **lex, t_lexeme *tmp, \
+				t_lexeme **ret, int next_token)
+{
+	*ret = NULL;
+	if (lex[0]->type_details == TK_SCRIPT_IF \
+	|| lex[0]->type_details == TK_SCRIPT_WHILE)
+	{
+		if (!(tmp = is_start_of_new_script(*lex)))
+			return (NULL);
+		*lex = tmp;
+		return ((t_lexeme *)-1);
+	}
+	else if (next_token == TK_SCRIPT_ELIF && \
+	(lex[0]->type_details == TK_SCRIPT_ELSE \
+	|| lex[0]->type_details == TK_SCRIPT_ELIF\
+	|| lex[0]->type_details == TK_SCRIPT_FI))
+		return (next_token_then(*lex));
+	else if (lex[0]->type_details > TK_SCRIPT \
+	&& lex[0]->type != T_SCRIPT_STATEMENT && \
+	((lex[0]->type_details != next_token \
+	&& next_token != 0) || next_token == 0))
+		return (NULL);
+	else
+		return ((t_lexeme *)-1);
+}
+
+/*
 ** Check if a script got all of his tokens needed.
+** Recursive function
+** next_token is set to 0 at start
 */
 
 t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
@@ -83,27 +109,19 @@ t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
 		if (lex->next && ((lex->next->type == T_SCRIPT_LOGICAL \
 		&& (lex->type_details == TK_PIPE || lex->type == T_REDIR_OPT)) \
 		|| (lex->type == T_SCRIPT_CONTAINER \
-		&& (lex->next->type_details == TK_PIPE || lex->next->type == T_REDIR_OPT))))
-			return (return_error(lex));
-		if (lex->type_details == TK_SCRIPT_IF \
-		|| lex->type_details == TK_SCRIPT_WHILE)
-		{
-			if (!(tmp = is_start_of_new_script(lex)))
-				return (return_error(lex));
-			lex = tmp;
-		}
-		else if (next_token == TK_SCRIPT_ELIF && \
-	(lex->type_details == TK_SCRIPT_ELSE || lex->type_details == TK_SCRIPT_ELIF\
-	|| lex->type_details == TK_SCRIPT_FI))
-			return (next_token_then(lex));
-		else if (lex->type_details > TK_SCRIPT && lex->type != T_SCRIPT_STATEMENT && \
-	((lex->type_details != next_token && next_token != 0) || next_token == 0))
-			return (return_error(lex));
+		&& (lex->next->type_details == TK_PIPE \
+		|| lex->next->type == T_REDIR_OPT))))
+			return (NULL);
+		if ((tmp = inside_loop(&lex, tmp, &tmp, next_token)) && (int)tmp != -1)
+			return (tmp);
+		else if (!tmp)
+			return (NULL);
 		if (lex->next && ((lex->next->type == T_SCRIPT_LOGICAL \
 		&& (lex->type_details == TK_PIPE || lex->type == T_REDIR_OPT)) \
 		|| (lex->type == T_SCRIPT_CONTAINER \
-		&& (lex->next->type_details == TK_PIPE || lex->next->type == T_REDIR_OPT))))
-			return (return_error(lex));
+		&& (lex->next->type_details == TK_PIPE \
+		|| lex->next->type == T_REDIR_OPT))))
+			return (NULL);
 		lex = lex->next;
 	}
 	return (end_of_loop(lex, tmp, next_token));
