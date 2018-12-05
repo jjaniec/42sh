@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_git_info.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 18:33:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 19:39:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/04 17:09:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static char		*get_commit_hash(char *branch_str, int pipe_fds[2],
 			abbrev_commit_hash(branch_str);
 		close(pipe_fds[0]);
 	}
+	else if (p < 0)
+		fatal_fork_fail();
 	return (branch_str);
 }
 
@@ -98,7 +100,7 @@ static char		*get_branch_name(char *branch_str, char *git_path, char **env)
 			return (get_commit_hash(branch_str, pipe_fds, env, git_path));
 	}
 	else
-		ft_putstr_fd("fork() error", 2);
+		fatal_fork_fail();
 	return (NULL);
 }
 

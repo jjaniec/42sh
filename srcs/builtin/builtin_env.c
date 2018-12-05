@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/05 17:47:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/05 20:00:33 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	exec_command_passed_in_last_parameters(char **command_begin_ptr, \
 		(prog_path = resolve_cmd_path(*command_begin_ptr, NULL))))
 		return (1);
 	if ((child_pid = fork()) == -1)
-		ft_putstr_fd("env: Fork returned an error\n", 2);
+		fatal_fork_fail();
 	else if (!child_pid)
 	{
 		log_debug("Start %s params: %s env %p", prog_path, \

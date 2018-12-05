@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_and_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 17:47:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/04 17:08:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_exec		*fork_and_exec(void **cmd, t_exec *exe, \
 		exe->prog_forked = true;
 		child_pid = fork();
 		if (child_pid == -1)
-			ft_putstr_fd(SH_NAME": Fork returned an error\n", 2);
+			fatal_fork_fail();
 		else if (child_pid == 0)
 			child_process(cmd, exe, node, pipe_fds);
 		else
