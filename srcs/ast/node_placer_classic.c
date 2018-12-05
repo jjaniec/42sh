@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:39:26 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 15:44:59 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/05 21:07:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int		lvl_node(t_ast *ast)
 		lvl = 2;
 	else if (is_nodeop2(ast))
 		lvl = 3;
-	else if (is_nodeop3(ast))
-		lvl = 4;
+	/*else if (is_nodeop3(ast))
+		lvl = 4;*/
 	return (lvl);
 }
 

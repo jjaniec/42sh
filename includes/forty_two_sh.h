@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 19:00:26 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/05 21:19:06 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ extern const char	*g_prompts[10];
 extern t_job		*g_jobs;
 
 # define SH_USAGE \
-	SH_NAME" [-hcGv] [-c \"command\"]"
+	SH_NAME" [-hcGv] [-c \"command\"] file"
 
 # define NOT_A_TTY_STDINOUT_ERR \
 	SH_NAME": Input/output redirections are not supported, exiting\n"

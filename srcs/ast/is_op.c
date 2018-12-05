@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 15:09:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/22 16:34:00 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/12/05 21:03:51 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ inline int	is_op1_5(t_lexeme *lex)
 inline int	is_op2(t_lexeme *lex)
 {
 	return (lex->type_details != TK_PIPE
-	&& (lex->type == T_REDIR_OPT
-		&& lex->type_details != TK_DLESS
-		&& lex->type_details != TK_DLESSDASH));
+	&& (lex->type == T_REDIR_OPT));
 }
 
 inline int	is_op3(t_lexeme *lex)
