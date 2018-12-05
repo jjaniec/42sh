@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 19:33:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/05 17:47:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ t_option		g_env_opts[] = {
 	{{NULL}, NULL, false}
 };
 
+/*
+** Print passed environnement content
+*/
+
 static int	print_env_content(char **environ)
 {
 	while (environ && *environ)
@@ -34,19 +38,22 @@ static int	print_env_content(char **environ)
 	return (0);
 }
 
+/*
+** Prepare temporary environnement, depending on options,
+** and assing new environnement vars passed as parameters
+*/
+
 static char	**handle_parameters(char **argv, t_environ *env_struct, \
-				t_environ **env_struct_to_use, char ***tmp_environ_start)
+				t_environ **env_struct_to_use)
 {
 	if (!(argv && *argv))
 		return (NULL);
 	argv = parse_options(NULL, argv, g_env_opts, NULL);
-	if (is_option_activated("i", g_env_opts, NULL))
-		init_environ_struct_ptrs(\
-			(*env_struct_to_use = ft_xmalloc(sizeof(t_environ))));
+	*env_struct_to_use = ft_xmalloc(sizeof(t_environ));
+	if (!is_option_activated("i", g_env_opts, NULL))
+		init_environ(env_struct->environ, *env_struct_to_use);
 	else
-		(*env_struct_to_use) = env_struct;
-	*tmp_environ_start = \
-		&((*env_struct_to_use)->environ[(*env_struct_to_use)->entry_count]);
+		init_environ_struct_ptrs(*env_struct_to_use);
 	while (*argv && ft_strchr(*argv, '='))
 	{
 		if (!((*env_struct_to_use)->entry_count < MAX_ENV_ENTRIES))
@@ -58,12 +65,14 @@ static char	**handle_parameters(char **argv, t_environ *env_struct, \
 			(*env_struct_to_use)->add_var((*env_struct_to_use), *argv, NULL);
 		argv += 1;
 	}
-	(*env_struct_to_use)->environ[(*env_struct_to_use)->entry_count] = NULL;
-	(g_env_opts[1]).opt_status = false;
 	return (argv);
 }
 
-int			exec_command_passed_in_last_parameters(char **command_begin_ptr, \
+/*
+** Resolve command path, fork, and wait/exec program
+*/
+
+static int	exec_command_passed_in_last_parameters(char **command_begin_ptr, \
 				char **child_env)
 {
 	char	*prog_path;
@@ -91,47 +100,54 @@ int			exec_command_passed_in_last_parameters(char **command_begin_ptr, \
 	return (EXIT_FAILURE);
 }
 
-int			builtin_env_(char **argv, t_environ *env)
-{
-	t_environ		*env_struct_to_use;
-	char			**command_begin_ptr;
-	char			**tmp_envbegin;
+/*
+** exec command passed in last parameters or just print temporary environnement
+** when no commands are specified
+*/
 
-	if (env)
-	{
-		command_begin_ptr = handle_parameters(argv, env, \
-			&env_struct_to_use, &tmp_envbegin);
-		if (!(command_begin_ptr && *command_begin_ptr))
-			print_env_content(env_struct_to_use->environ);
-		else
-			exec_command_passed_in_last_parameters(command_begin_ptr, \
-				(env_struct_to_use != env) ? \
-				(tmp_envbegin) : (env_struct_to_use->environ));
-		if (env_struct_to_use != env)
-		{
-			free_env_entries(env_struct_to_use, \
-				env_struct_to_use->env_entries_list);
-			free(env_struct_to_use);
-		}
-		else
-			while (*tmp_envbegin)
-				env_struct_to_use->del_var(env_struct_to_use, *tmp_envbegin);
-	}
-	return ((env) ? (0) : (1));
+static int	builtin_env_(char **argv, t_environ *env)
+{
+	int				r;
+
+	r = 0;
+	if (!(argv && *argv))
+		print_env_content(env->environ);
+	else
+		r = exec_command_passed_in_last_parameters(\
+			argv, env->environ);
+	return (r);
 }
+
+/*
+** Prepare temporary environnement and pass it to builtin_env
+** or just print current environnement if no arguments are passed
+*/
 
 void		builtin_env(char **argv, t_environ *env, t_exec *exe)
 {
-	(void)argv;
-	if (argv[1])
+	t_environ	*temp_env;
+	char		**command_begin_ptr;
+
+	temp_env = NULL;
+	if (argv[1] && \
+		(command_begin_ptr = handle_parameters(argv, env, &temp_env)))
 	{
 		if (exe)
-			exe->ret = builtin_env_(argv, env);
+			exe->ret = builtin_env_(command_begin_ptr, temp_env);
 		else
-			builtin_env_(argv, env);
-		return ;
+			builtin_env_(command_begin_ptr, temp_env);
+		(g_env_opts[1]).opt_status = false;
 	}
-	print_env_content(env->environ);
-	if (exe)
-		exe->ret = 0;
+	else
+	{
+		if (exe)
+			exe->ret = 0;
+		print_env_content(env->environ);
+	}
+	if (temp_env)
+	{
+		free_env_entries(temp_env, \
+			temp_env->env_entries_list);
+		free(temp_env);
+	}
 }

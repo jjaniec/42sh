@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 18:59:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/05 17:42:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 {
 	self->last_used_elem = new_entry_struct;
 	self->environ[self->entry_count] = new_entry_struct->entry;
+	self->environ[self->entry_count + 1] = NULL;
 	new_entry_struct->ptr_to_pos_in_environ_tab = \
 		&(self->environ[self->entry_count]);
 	self->environ[self->entry_count] = new_entry_struct->entry;
