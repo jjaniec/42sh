@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/05 19:28:10 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/06 20:10:49 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,12 @@ NAME = 42sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 ###### FILES ######
-SRC_NAME = 	is_separator.c \
+SRC_NAME = 	forty_two_sh.c \
+			init_shell_vars.c \
+			is_separator.c \
+			get_valid_input.c \
+			exit_because_not_valid_tty.c \
+			interpret_file.c \
 			fatal_fork_fail.c \
 			ft_free.c \
 			lexer/lexer.c \

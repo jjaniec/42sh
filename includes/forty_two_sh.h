@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/05 21:19:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/06 20:09:48 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,15 @@ extern t_job		*g_jobs;
 
 typedef int	t_acocat;
 
+
+
+
+int		forty_two_sh(char *input, t_shell_vars *vars);
+
+void		init_shell_vars(char **env, t_shell_vars *vars);
+
+void	exit_because_not_valid_tty(void);
+
 int			get_next_line(const int fd, char **line);
 
 int			prompt_show(const char *prompt);
@@ -127,6 +136,7 @@ void		init_option_list(t_option **opt_tab, ...);
 char		**parse_options(int *ac, char **av, \
 				t_option *opt_list, t_option **char_opt_index);
 
+void		format_help_and_exit(char *usage_str, t_option *opts);
 void		format_help(char *usage_str, t_option *opts);
 
 t_option	*get_opt_elem(t_option *opt_list, char *opt_str);
@@ -188,5 +198,8 @@ int		print_error(char *subject, char *err_str, int mode);
 void	fatal_fork_fail(void);
 
 int		ft_free(void *ptr);
+
+int	interpret_file(char **argv, t_option **char_opt_index);
+
 
 #endif

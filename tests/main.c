@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 13:51:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/21 16:36:24 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/06 20:13:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_option		g_sh_opts[] = {
 };
 
 t_environ		*g_envp;
-
+/*
 static void		init_shell_vars(char **env, t_shell_vars *vars)
 {
 	static t_environ			env_vars;
@@ -54,8 +54,8 @@ static void		init_shell_vars(char **env, t_shell_vars *vars)
 	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
 	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "IFS", IFS);
-}
-
+} */
+/*
 char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 {
 	char		*input;
@@ -76,7 +76,7 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompt)
 	}
 	*lexemes = lexemes_ret;
 	return (input);
-}
+} */
 
 int	main(int argc, char **argv, char **envp)
 {
