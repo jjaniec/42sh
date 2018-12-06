@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 18:59:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/05 19:56:52 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 {
 	self->last_used_elem = new_entry_struct;
 	self->environ[self->entry_count] = new_entry_struct->entry;
+	self->environ[self->entry_count + 1] = NULL;
 	new_entry_struct->ptr_to_pos_in_environ_tab = \
 		&(self->environ[self->entry_count]);
 	self->environ[self->entry_count] = new_entry_struct->entry;
@@ -30,6 +31,24 @@ static void	upd_self_ptrs(t_environ *self, t_env_entry *new_entry_struct)
 	new_entry_struct->next = NULL;
 	if (!(self->env_entries_list))
 		self->env_entries_list = new_entry_struct;
+}
+
+/*
+** Copy name & entry value in new entry struct data string
+*/
+
+static void	cp_new_entry_data(t_env_entry *new_entry_struct, char *name, \
+				char *entry_value)
+{
+	int				entry_name_len;
+
+	entry_name_len = ft_strlen(name);
+	ft_strncpy(new_entry_struct->entry, name, MAX_ENV_ENTRY_LEN);
+	new_entry_struct->entry[entry_name_len] = '=';
+	new_entry_struct->val_begin_ptr = \
+		new_entry_struct->entry + sizeof(char) * (entry_name_len + 1);
+	ft_strncpy(new_entry_struct->entry + entry_name_len + 1, entry_value, \
+		MAX_ENV_ENTRY_LEN - (entry_name_len + 1));
 }
 
 /*
@@ -46,7 +65,6 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 {
 	char			*assign_char_ptr;
 	t_env_entry		*new_entry_struct;
-	int				entry_name_len;
 
 	if (self->entry_count == MAX_ENV_ENTRIES || !name)
 		return (NULL);
@@ -60,15 +78,7 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 			(assign_char_ptr - name + sizeof(char)) + new_entry_struct->entry;
 	}
 	else if (entry_value && *entry_value)
-	{
-		entry_name_len = ft_strlen(name);
-		ft_strncpy(new_entry_struct->entry, name, MAX_ENV_ENTRY_LEN);
-		new_entry_struct->entry[entry_name_len] = '=';
-		new_entry_struct->val_begin_ptr = \
-			new_entry_struct->entry + sizeof(char) * (entry_name_len + 1);
-		ft_strncpy(new_entry_struct->entry + entry_name_len + 1, entry_value, \
-			MAX_ENV_ENTRY_LEN - (entry_name_len + 1));
-	}
+		cp_new_entry_data(new_entry_struct, name, entry_value);
 	new_entry_struct->entry[MAX_ENV_ENTRY_LEN] = '\0';
 	upd_self_ptrs(self, new_entry_struct);
 	log_debug("New environnement var created ->entry: |%s| - ->entry_count: %d / ptr pos in env tab: %s - ->env[entry_count]: |%s| - ->val_begin_ptr |%s|", \
