@@ -6,12 +6,13 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/11/11 17:59:34 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/06 19:02:51 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCRIPT_H
 # define SCRIPT_H
+
 # include <forty_two_sh.h>
 
 # define T_SCRIPT_LOGICAL 5
@@ -22,14 +23,12 @@
 # define TK_SCRIPT_ELSE 53
 # define TK_SCRIPT_WHILE 54
 
-
 # define T_SCRIPT_CONTAINER 6
 
 # define TK_SCRIPT_THEN 60
 # define TK_SCRIPT_FI 61
 # define TK_SCRIPT_DO 62
 # define TK_SCRIPT_DONE 63
-
 
 # define T_SCRIPT_CONDITION 7
 
@@ -48,7 +47,6 @@
 void		script_lexemes(t_lexeme *lexemes);
 t_lexeme	*is_keyword(t_lexeme *lex, int last_lex_lvl);
 
-
 /*
 ** SCRIPT VALIDATION
 */
@@ -57,7 +55,7 @@ int			script_check_parsing(t_lexeme *lex1, t_lexeme *lex2);
 t_lexeme	*is_script_complete(t_lexeme *lex, t_lexeme *tmp, int next_token);
 int			good_start(t_lexeme *lex);
 
-int		script_colodyn(t_lexeme *lex, int *item_nb);
+int			script_colodyn(t_lexeme *lex, int *item_nb);
 
 /*
 ** SCRIPT AST
@@ -65,14 +63,13 @@ int		script_colodyn(t_lexeme *lex, int *item_nb);
 
 t_lexeme	*script_put_node_ast(t_lexeme *lex, t_ast *root);
 int			put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
-			void(* const node_placer)(t_ast *, t_ast *));
+			void(*const node_placer)(t_ast *, t_ast *));
 t_lexeme	*need_subast(t_lexeme *lex, t_ast **root, t_ast *new, \
-			void (* const node_placer)(t_ast *, t_ast *));
+			void (*const node_placer)(t_ast *, t_ast *));
 
 t_lexeme	*find_end_lexeme(t_lexeme *start, const int end_token[]);
 t_lexeme	*find_lexeme_compete(t_lexeme *lex, const int end_token[]);
 t_lexeme	*find_end_lexeme_solo(t_lexeme *start, const int end_token);
-
 
 /*
 ** SCRIPT EXEC

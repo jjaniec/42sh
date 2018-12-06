@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/06 20:09:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/06 20:26:41 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ char		*get_valid_input(t_lexeme **lexemes, int sub_prompts);
 int			subpp_string(char **s);
 t_lexeme	*subp_lexeme(t_lexeme *lex, int need_sub_prompt);
 int			subp_heredoc(t_lexeme *lex, char *eof_word);
+t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt);
 
 void		init_option_list(t_option **opt_tab, ...);
 

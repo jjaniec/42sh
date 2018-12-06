@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/06 20:10:49 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/06 20:26:05 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -189,6 +189,7 @@ SRC_NAME = 	forty_two_sh.c \
 			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
+			syntax_highlighting/print_to_line_edition.c \
 			signals/init_signals.c \
 			signals/handle_sigint.c \
 			signals/handle_sigwinch.c \
@@ -196,6 +197,7 @@ SRC_NAME = 	forty_two_sh.c \
 			signals/handle_sigchild.c \
 			log.c \
 			sub_prompt.c \
+			subp_lexeme.c \
 			init_globals_config.c \
 			parse_options.c \
 			format_help.c \

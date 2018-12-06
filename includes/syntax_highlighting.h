@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 17:39:24 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 17:13:34 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/06 19:03:39 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 # define COL_QUOTED_ARG "\e[0;33m"
 
-# define COL_OPERATORS "\e[0;96m" // 97
+# define COL_OPERATORS "\e[0;96m"
 
 # define COL_REDIRS	"\e[2;49;39m"
 
@@ -43,10 +43,15 @@
 
 # define COL_SCRIPT "\e[1;2m"
 
-void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, char *input_ptr, t_lexeme *lexeme, t_environ *env);
+void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, \
+				char *input_ptr, t_lexeme *lexeme);
 
-void			print_colorized_input(char *input_str, t_lexeme *lexemes, char *unmatched_quote_err_ptr);
+void			print_colorized_input(char *input_str, t_lexeme *lexemes, \
+				char *unmatched_quote_err_ptr);
 
-void			print_input_string_end(char *ptr, char *unmatched_quote_err_ptr);
+void			print_input_string_end(char *ptr, \
+				char *unmatched_quote_err_ptr);
+
+void			print_to_line_edition(const char *s, int nb);
 
 #endif

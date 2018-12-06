@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 07:13:38 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 17:12:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/06 20:30:13 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,27 @@ static void		print_prog_name_arg_col(struct stat *elem_stats, \
 	}
 }
 
+static void		put_lexeme_word_color(t_lexeme *lexeme, char *lexeme_begin, \
+					t_environ *env, int item_nb)
+{
+	struct stat		elem_stats;
+
+	if (*(char *)(lexeme->data) == '-')
+		ft_putstr(COL_PROG_OPT);
+	else if (*(lexeme_begin) == '$')
+		ft_putstr(COL_ENV_VAR_EXPANSION);
+	else if (*(lexeme_begin) == '\'' || *(lexeme_begin) == '"')
+		ft_putstr(COL_QUOTED_ARG);
+	else if (script_colodyn(lexeme, &item_nb))
+		ft_putstr(COL_SCRIPT);
+	else if (ft_strequ(lexeme->data, "[") || ft_strequ(lexeme->data, "]") \
+	|| ft_strequ(lexeme->data, "!"))
+		print_prog_name_arg_col(NULL, 1, item_nb);
+	else
+		print_prog_name_arg_col(&elem_stats, \
+		elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
+}
+
 /*
 ** Prints color associated w/ type of current element
 */
@@ -85,7 +106,6 @@ static void		print_prog_name_arg_col(struct stat *elem_stats, \
 static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 					t_environ *env)
 {
-	struct stat		elem_stats;
 	static int		item_nb = -1;
 
 	item_nb++;
@@ -103,20 +123,7 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 		if (ft_strequ(lexeme->data, "!") && lexeme->next && \
 		lexeme->next->type == T_WORD && item_nb == 0)
 			item_nb--;
-		if (*(char *)(lexeme->data) == '-')
-			ft_putstr(COL_PROG_OPT);
-		else if (*(lexeme_begin) == '$')
-			ft_putstr(COL_ENV_VAR_EXPANSION);
-		else if (*(lexeme_begin) == '\'' || *(lexeme_begin) == '"')
-			ft_putstr(COL_QUOTED_ARG);
-		else if (script_colodyn(lexeme, &item_nb))
-			ft_putstr(COL_SCRIPT);
-		else if (ft_strequ(lexeme->data, "[") || ft_strequ(lexeme->data, "]") \
-		|| ft_strequ(lexeme->data, "!"))
-			print_prog_name_arg_col(NULL, 1, item_nb);
-		else
-			print_prog_name_arg_col(&elem_stats, \
-			elem_path_found(&elem_stats, lexeme->data, env, item_nb), item_nb);
+		put_lexeme_word_color(lexeme, lexeme_begin, env, item_nb);
 	}
 	if (!lexeme->next)
 		item_nb = -1;
@@ -127,22 +134,12 @@ static void		put_lexeme_color(t_lexeme *lexeme, char *lexeme_begin, \
 ** and reset colors to COL_DEFAULT
 */
 
-void 			print_to_line_edition(const char *s, int nb)
-{
-	struct s_line *le;
-
-	le = access_le_main_datas();
-	while (nb > 0)
-	{
-		print_key_at_end(le, *s++);
-		--nb;
-	}
-}
-
-
 void			print_lexeme_colorized(char *lexeme_begin, char *lexeme_end, \
-					char *input_ptr, t_lexeme *lexeme, t_environ *env)
+					char *input_ptr, t_lexeme *lexeme)
 {
+	t_environ	*env;
+
+	env = get_shell_vars()->env;
 	put_lexeme_color(lexeme, lexeme_begin, env);
 	if (is_option_activated("c", g_sh_opts, NULL))
 		write(1, input_ptr, (lexeme_end - input_ptr));
