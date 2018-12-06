@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/06 18:41:18 by sbrucker         ###   ########.fr        #
+#    Updated: 2018/12/06 18:51:24 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -192,6 +192,7 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigchild.c \
 			log.c \
 			sub_prompt.c \
+			subp_lexeme.c \
 			init_globals_config.c \
 			parse_options.c \
 			format_help.c \
