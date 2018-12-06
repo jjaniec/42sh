@@ -6,21 +6,21 @@
 /*   By: sebrucke <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 09:43:08 by sebrucke          #+#    #+#             */
-/*   Updated: 2018/10/18 17:57:31 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:58:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-static t_fd_GNL	*get_struct(t_fd_GNL *head, int fd)
+static t_fd_gnl	*get_struct(t_fd_gnl *head, int fd)
 {
-	t_fd_GNL*lst;
+	t_fd_gnl*lst;
 
 	if (head->fd == fd)
 		return (head);
 	if (head->next == NULL)
 	{
-		if (!(lst = (t_fd_GNL *)malloc(sizeof(t_fd_GNL))))
+		if (!(lst = (t_fd_gnl *)malloc(sizeof(t_fd_gnl))))
 			return (NULL);
 		lst->fd = fd;
 		lst->content = ft_strnew(BUFF_SIZE);
@@ -36,7 +36,7 @@ static t_fd_GNL	*get_struct(t_fd_GNL *head, int fd)
 	return (lst);
 }
 
-static int		free_lst(t_fd_GNL *head, t_fd_GNL *lst)
+static int		free_lst(t_fd_gnl *head, t_fd_gnl *lst)
 {
 	if (head->next != lst)
 		free_lst(head->next, lst);
@@ -62,11 +62,11 @@ static char		*ft_strdup_free(char *s1, char **s2)
 	return (str);
 }
 
-static t_fd_GNL	*while_read(t_fd_GNL *head, int fd)
+static t_fd_gnl	*while_read(t_fd_gnl *head, int fd)
 {
 	char		*tmp;
 	char		buff[BUFF_SIZE + 1];
-	t_fd_GNL	*lst;
+	t_fd_gnl	*lst;
 
 	lst = get_struct(head, fd);
 	if (!lst)
@@ -88,8 +88,8 @@ static t_fd_GNL	*while_read(t_fd_GNL *head, int fd)
 
 int				get_next_line(const int fd, char **line)
 {
-	static t_fd_GNL	head;
-	t_fd_GNL		*lst;
+	static t_fd_gnl	head;
+	t_fd_gnl		*lst;
 	char			*aft_nb;
 
 	head.fd = -1;

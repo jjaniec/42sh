@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/21 12:52:20 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/06 19:00:33 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ typedef struct			s_lexeme
 ** to clean a lexeme string of quotes / backslashes,
 ** and apply expansions.
 ** raw_lexeme_data: raw lexeme data (before cleaning it)
-** new_data: new lexeme data, free of unnecessary quotes/backslashes, w/ expansions
+** new_data: new lexeme data, free of unnecessary \
+**           quotes/backslashes, w/ expansions
 ** new_data_size: size of new_data pointer, required for knowing size of
 **   new data string size when realloc'ing to store an expansion data
 */
@@ -56,14 +57,14 @@ typedef struct			s_lexeme_clean_data
 
 typedef struct			s_ast
 {
-	int				type;
-	int				type_details;
-	char			**data;
-	struct s_ast	*sub_ast;
-	struct s_ast	*top_ast;
-	struct s_ast	*left;
-	struct s_ast	*right;
-	struct s_ast	*parent;
+	int					type;
+	int					type_details;
+	char				**data;
+	struct s_ast		*sub_ast;
+	struct s_ast		*top_ast;
+	struct s_ast		*left;
+	struct s_ast		*right;
+	struct s_ast		*parent;
 }						t_ast;
 
 /*
@@ -76,9 +77,9 @@ typedef struct			s_ast
 
 typedef struct			s_option
 {
-	char	*opt_name[MAX_OPT_NAMES];
-	char	*opt_desc;
-	bool	opt_status;
+	char				*opt_name[MAX_OPT_NAMES];
+	char				*opt_desc;
+	bool				opt_status;
 }						t_option;
 
 /*
@@ -96,14 +97,14 @@ typedef struct			s_option
 **   when we want to delete the entry
 */
 
-typedef struct		s_env_entry
+typedef struct			s_env_entry
 {
 	char				entry[MAX_ENV_ENTRY_LEN + 1];
 	char				*val_begin_ptr;
 	char				**ptr_to_pos_in_environ_tab;
 	struct s_env_entry	*prev;
 	struct s_env_entry	*next;
-}					t_env_entry;
+}						t_env_entry;
 
 /*
 ** Environnement struct
@@ -121,22 +122,22 @@ typedef struct		s_env_entry
 **  add/upt/del/get_var: functions to use to control the linked list
 */
 
-typedef struct		s_environ
+typedef struct			s_environ
 {
-	char			*environ[MAX_ENV_ENTRIES + 1];
-	t_env_entry		*last_used_elem;
-	t_env_entry		*last_entry_ptr;
-	t_env_entry		*env_entries_list;
-	int				entry_count;
-	char			*(*add_var)(struct s_environ *, char *, char *);
-	char			*(*upt_var)(struct s_environ *, char *, char *);
-	int				(*del_var)(struct s_environ *, char *);
-	t_env_entry		*(*get_var)(struct s_environ *, char *);
-}					t_environ;
+	char				*environ[MAX_ENV_ENTRIES + 1];
+	t_env_entry			*last_used_elem;
+	t_env_entry			*last_entry_ptr;
+	t_env_entry			*env_entries_list;
+	int					entry_count;
+	char				*(*add_var)(struct s_environ *, char *, char *);
+	char				*(*upt_var)(struct s_environ *, char *, char *);
+	int					(*del_var)(struct s_environ *, char *);
+	t_env_entry			*(*get_var)(struct s_environ *, char *);
+}						t_environ;
 
-typedef t_environ	t_local_vars;
+typedef t_environ		t_local_vars;
 
-typedef t_environ	t_internal_vars;
+typedef t_environ		t_internal_vars;
 
 typedef struct			s_entry
 {
@@ -160,7 +161,7 @@ typedef struct			s_shell_vars
 	t_local_vars		*locals;
 	t_internal_vars		*internals;
 	int					last_cmd_return;
-}					t_shell_vars;
+}						t_shell_vars;
 
 /*
 ** int	ret: the return value of the last command. Default: 0
@@ -188,7 +189,7 @@ typedef struct			s_exec
 
 typedef struct			s_process
 {
-	char				**cmd; // exec_ve parameters
+	char				**cmd;
 	pid_t				pid;
 	int					input_descriptor;
 	struct s_process	*next;
@@ -196,32 +197,31 @@ typedef struct			s_process
 
 /*
 ** Current jobs linked list
-** https://www.gnu.org/software/libc/manual/html_node/Data-Structures.html#Data-Structures
+** https://www.gnu.org/software/libc/manual/html_node/
+**                                    Data-Structures.html#Data-Structures
 */
 
-typedef struct 			s_job
+typedef struct			s_job
 {
-  struct s_job		*next;
-  char				*command;
-  t_process			*first_process;
-  pid_t				last_process_pid;
-  pid_t				pgid;
-  //char				notified;
-  struct termios	tmodes;
-  //int stdin, stdout, stderr;  /* standard i/o channels */
-} 						t_job;
+	struct s_job		*next;
+	char				*command;
+	t_process			*first_process;
+	pid_t				last_process_pid;
+	pid_t				pgid;
+	struct termios		tmodes;
+}						t_job;
 
 /*
 ** Struct for GET NEXT LINE
 ** Needed for multi fd support
 */
 
-typedef struct		s_fd_GNL
+typedef struct			s_fd_gnl
 {
-	int				ret_read;
-	int				fd;
-	char			*content;
-	struct s_fd_GNL	*next;
-}					t_fd_GNL;
+	int					ret_read;
+	int					fd;
+	char				*content;
+	struct s_fd_gnl		*next;
+}						t_fd_gnl;
 
 #endif
