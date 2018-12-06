@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:33:25 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/04 21:14:18 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/06 17:29:45 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ void			builtin_echo(char **argv, t_environ *env, t_exec *exe)
 	(void)exe;
 	(void)env;
 	argv++;
+	int i = 0;
+	while (argv[i])
+	{
+		ft_putstr_fd(argv[i], 2);
+		i++;
+	}
 	while (*argv)
 	{
 		if (ft_strchr(*argv, '\\'))

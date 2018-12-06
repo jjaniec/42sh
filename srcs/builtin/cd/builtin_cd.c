@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 21:18:14 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/06 19:18:57 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ static int		builtin_cd_dash(t_cd *cd_info)
 			link_env_update(cd_info);
 		}
 		else
+		{
 			refresh_cwd_env(cd_info->env);
+			free(old_oldpwd);
+		}
 		return (0);
 	}
 	ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
