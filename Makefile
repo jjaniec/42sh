@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/05 19:28:10 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/06 18:41:18 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -184,6 +184,7 @@ SRC_NAME = 	is_separator.c \
 			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
+			syntax_highlighting/print_to_line_edition.c \
 			signals/init_signals.c \
 			signals/handle_sigint.c \
 			signals/handle_sigwinch.c \
