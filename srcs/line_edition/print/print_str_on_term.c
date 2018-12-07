@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 21:18:37 by cfermier          #+#    #+#             */
-/*   Updated: 2018/11/30 14:18:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ unsigned int	print_str_on_term(const char *str,
 		++tmp_cursor_pos;
 		if (tmp_cursor_pos - foo == le->term_line_size - 1)
 		{
-			tputs(le->tcaps->_do, 1, &write_one_char);
+			tputs(le->tcaps->do_, 1, &write_one_char);
 			cursor_crosses_screen(le, CROSS_TO_LEFT);
 			tmp_cursor_pos = 0;
 			if (foofoo == true)

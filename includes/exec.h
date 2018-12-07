@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 13:04:09 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/02 13:04:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/08 16:20:32 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@
 ** and should be executed with a function pointer instead of execve()
 */
 
-# define PROG_NOT_BUILTIN	0
-# define PROG_BUILTIN		1
+# define PROG_NOT_BUILTIN			0
+# define PROG_BUILTIN				1
 # define STATEMENT_BREAK			-1
 # define STATEMENT_CONTINUE			-2
 # define STATEMENT_NOCMD			-3
@@ -81,62 +81,55 @@
 
 void		clean_data(char **data);
 
-// Binary finding & execution
+t_exec		*exec_cmd(t_ast *root, t_exec *exe);
+t_exec		*fork_and_exec(void **cmd, t_exec *exe, t_ast *node);
+void		child_process(void **cmd, t_exec *exe,
+					t_ast *node, int **pipe_fds);
+t_exec		*handle_node(t_ast *node, t_exec *exe);
+char		*resolve_cmd_path(char *cmd, t_exec *exe);
+int			get_process_return_code(int *status, pid_t waited_pid,
+									pid_t expected_waited_pid);
+void		backup_apply_origin_fds(int mode);
 
-t_exec	*exec_cmd(t_ast *root, t_exec *exe);
-t_exec	*fork_and_exec(void **cmd, t_exec *exe, t_ast *node);
-void	child_process(void **cmd, t_exec *exe, \
-				t_ast *node, int **pipe_fds);
-t_exec	*handle_node(t_ast *node, t_exec *exe);
-char	*resolve_cmd_path(char *cmd, t_exec *exe);
-int		get_process_return_code(int *status, pid_t waited_pid, pid_t expected_waited_pid);
+void		io_manager_in(t_ast *node, t_exec *exe);
+void		io_manager_pre(t_ast *node, t_exec *exe);
 
-void	io_manager_in(t_ast *node, t_exec *exe);
-void	io_manager_pre(t_ast *node, t_exec *exe);
+void		free_exec(t_exec **exe);
+t_exec		*create_exec(t_environ *env);
 
-void	free_exec(t_exec **exe);
-t_exec	*create_exec(t_environ *env);
+char		*isin_path(char *path_entry, char *cmd);
 
-// Path parsing
+char		*get_env(const char *name, const char **envp);
+int			get_env_pos(const char *name, const char **envp);
 
-char	*isin_path(char *path_entry, char *cmd);
+int			parse_expr_file(char **argv, t_option *opt_list, \
+			t_option *char_opt_index[CHAR_OPT_INDEX_SIZE]);
+int			parse_expr_comp(char **argv);
 
+int			handle_redirs(t_ast *node);
+void		handle_redir_fd(int input_fd, int target_fd);
+int			check_redir_suffix_validity(t_ast *redir_ast_node);
+void		close_and_redir_fd(int prefix_fd, int target_fd, int new_fd);
 
-char	*get_env(const char *name, const char **envp);
-int		get_env_pos(const char *name, const char **envp);
+int			handle_pipes(int **pipe_fds);
+void		init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
+t_ast		*get_last_pipe_node(t_ast *node);
+int			**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
 
-int		parse_expr_file(char **argv, t_option *opt_list, \
-		t_option *char_opt_index[CHAR_OPT_INDEX_SIZE]);
-int		parse_expr_comp(char **argv);
-
-// Redirects
-
-int		handle_redirs(t_ast *node);
-void	handle_redir_fd(int input_fd, int target_fd);
-int		check_redir_suffix_validity(t_ast *redir_ast_node);
-
-// Pipes
-
-int		handle_pipes(int **pipe_fds);
-void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr);
-t_ast	*get_last_pipe_node(t_ast *node);
-int		**get_pipe_fds(t_ast *last_pipe_node, t_ast *node);
-
-// Error Handling
-
-int				handle_open_error(int errno_code, char *filename);
+int			handle_open_error(int errno_code, char *filename);
 
 t_job		*create_job(char *command);
 
-void			debug_jobs(t_job *jobs);
+void		debug_jobs(t_job *jobs);
 
-t_process		*add_running_process(char **cmd, pid_t process_pid, t_job **job);
+t_process	*add_running_process(char **cmd, pid_t process_pid, t_job **job);
+
 pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid);
-
 
 void		refresh_job_running_processes(t_job *job);
 
-void			free_job(t_job *job);
+void		free_job(t_job *job);
 
-void			clear_running_process_list(t_process *process_list);
+void		clear_running_process_list(t_process *process_list);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 17:23:07 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:54:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,7 @@
 
 # define LINE_EDITION_H
 
-//////////////////////////////////////////////////////// debug
-
-# include <stdio.h>
-# define TTY_DEBUG "/dev/ttys000"
-
-# ifndef FOOLOL
-	extern FILE *tty_debug;
-# endif
-
-# define LE_DEBUG_STATUS_SET	1
-
-int		get_le_debug_status(int mode, int new_value);
-# define le_debug(str, ...) if (get_le_debug_status(0, 0)) {fprintf(tty_debug, str, __VA_ARGS__); }
-
-////////////////////////////////////////////////////////
-
+# include "le_debug.h"
 # include <forty_two_sh.h>
 
 /*
@@ -50,8 +35,13 @@ int		get_le_debug_status(int mode, int new_value);
 # define LE_HOME ((27) + (91 << 1) + (72 << 2))
 # define LE_CTRL_E (5)
 # define LE_END ((27) + (91 << 1) + (70 << 2))
-# define LE_CTRL_UP ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (65 << 5))
-# define LE_CTRL_DOWN ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (53 << 4) + (66 << 5))
+
+# define LE_CTRL_UP_ ((53 << 4) + (65 << 5))
+# define LE_CTRL_UP ((27) + (91 << 1) + (49 << 2) + (59 << 3) + (LE_CTRL_UP_))
+
+# define LE_CTRL_DOWN_ ((59 << 3) + (53 << 4) + (66 << 5))
+# define LE_CTRL_DOWN ((27) + (91 << 1) + (49 << 2) + (LE_CTRL_DOWN_))
+
 # define LE_ALT_RIGHT ((27) + (27 << 1) + (91 << 2) + (67 << 3))
 # define LE_ALT_LEFT  ((27) + (27 << 1) + (91 << 2) + (68 << 3))
 # define LE_BACKSPACE (127)
@@ -69,14 +59,6 @@ int		get_le_debug_status(int mode, int new_value);
 # define LE_CTRL_L (12)
 
 /*
-	Heredoc
-	AND
-	OR
-	Backslash
-	Quotes simples, doubles et back quotes
-*/
-
-/*
 **	Things
 */
 # define LE_CHAR_DELIM_DEFAULT (t_kno)'\n'
@@ -88,12 +70,12 @@ int		get_le_debug_status(int mode, int new_value);
 /*
 **	Data type representing a key number
 */
-typedef uint64_t t_kno;
+typedef uint64_t			t_kno;
 
 /*
 **	For read_key() function
 */
-enum e_read_key
+enum						e_read_key
 {
 	INTR_BY_SIGINT = 0,
 	ALL_IS_ALRIGHT = 1,
@@ -103,23 +85,22 @@ enum e_read_key
 /*
 **	For set_term_attr() function
 */
-enum e_set_term
+enum						e_set_term
 {
 	LE_SET_NEW,
 	LE_SET_OLD
 };
-typedef enum e_set_term t_set_term;
-
+typedef enum e_set_term		t_set_term;
 
 /*
 **	For cursor_crosses_screen() function
 */
-enum e_cross_screen
+enum						e_cross_screen
 {
 	CROSS_TO_LEFT,
 	CROSS_TO_RIGHT
 };
-typedef enum e_cross_screen t_cross_screen;
+typedef enum e_cross_screen	t_cross_screen;
 
 /*
 **	opt_colosyn : true if the syntax highlighting feature is active.
@@ -129,7 +110,7 @@ typedef enum e_cross_screen t_cross_screen;
 **				  and to handle EOF behavior depending of the prompt type.
 */
 
-struct s_le_state
+struct						s_le_state
 {
 	t_kno	le_char_delim;
 	bool	opt_colosyn;
@@ -140,7 +121,7 @@ struct s_le_state
 /*
 **	nd : cursor moves one step right
 **	le : cursor moves one step left
-**	_do : (because 'do' is a standard keyword) cursor moves one line down
+**	do_ : (because 'do' is a standard keyword) cursor moves one line down
 **	up : cursor moves one line up
 **	dc : delete character under the cursor
 **	cl : clear screen
@@ -155,11 +136,11 @@ struct s_le_state
 **	ue : end underline mode
 */
 
-struct s_le_termcaps
+struct						s_le_termcaps
 {
 	const char	*nd;
 	const char	*le;
-	const char	*_do;
+	const char	*do_;
 	const char	*up;
 	const char	*dc;
 	const char	*cl;
@@ -205,7 +186,7 @@ struct s_le_termcaps
 **				   into the shell's history.
 */
 
-struct s_line
+struct						s_line
 {
 	struct s_le_state		le_state;
 
@@ -242,9 +223,9 @@ struct s_line
 **	the most 'prev' element is the oldest.
 */
 
-struct s_history
+struct						s_history
 {
-	char 				*cmd;
+	char				*cmd;
 	struct s_history	*next;
 	struct s_history	*prev;
 };
@@ -256,7 +237,7 @@ struct s_history
 **			   corresponding to 'key_no'.
 */
 
-struct s_action_key
+struct						s_action_key
 {
 	t_kno	key_no;
 	void	(*func_ptr)(struct s_line *);
@@ -271,195 +252,114 @@ typedef struct s_action_key	t_actionk;
 **	is optimized, it's not so useful anymore ...
 */
 
-struct s_infos_for_rewriting
+struct						s_infos_for_rewriting
 {
 	unsigned int	nb_line_to_go_up;
 	unsigned int	pos_end_rewriting;
 };
 
-
 /*
 **	actionk
 */
-void	action_key(t_kno key, struct s_line *le_lettr);
-void	actionk_clear_screen(struct s_line *le);
-void    actionk_copy_all(struct s_line *le);
-void    actionk_copy_to_end(struct s_line *le);
-void    actionk_copy_to_start(struct s_line *le);
-void	actionk_cursor_move_left(struct s_line *le);
-void	actionk_cursor_move_right(struct s_line *le);
-void	actionk_cut_all(struct s_line *le);
-void	actionk_cut_to_end(struct s_line *le);
-void	actionk_cut_to_start(struct s_line *le);
-void	actionk_delete_character(struct s_line *le);
-void	actionk_delete_current_input(struct s_line *le);
-void	actionk_eof(struct s_line *le);
-void    actionk_history_down(struct s_line *le);
-void    actionk_history_up(struct s_line *le);
-void    actionk_move_cursor_by_word_left(struct s_line *le);
-void    actionk_move_cursor_by_word_right(struct s_line *le);
-void	actionk_move_cursor_end(struct s_line *le);
-void    actionk_move_cursor_line_down(struct s_line *le);
-void    actionk_move_cursor_line_up(struct s_line *le);
-void	actionk_move_cursor_start(struct s_line *le);
-void	actionk_past_clipboard(struct s_line *le);
-void	delete_char_into_cmdline_backspace_mode(struct s_line *le);
-void	delete_char_into_cmdline_delete_mode(struct s_line *le);
+void						action_key(t_kno key, struct s_line *le_lettr);
+void						actionk_clear_screen(struct s_line *le);
+void						actionk_copy_all(struct s_line *le);
+void						actionk_copy_to_end(struct s_line *le);
+void						actionk_copy_to_start(struct s_line *le);
+void						actionk_cursor_move_left(struct s_line *le);
+void						actionk_cursor_move_right(struct s_line *le);
+void						actionk_cut_all(struct s_line *le);
+void						actionk_cut_to_end(struct s_line *le);
+void						actionk_cut_to_start(struct s_line *le);
+void						actionk_delete_character(struct s_line *le);
+void						actionk_delete_current_input(struct s_line *le);
+void						actionk_eof(struct s_line *le);
+void						actionk_history_down(struct s_line *le);
+void						actionk_history_up(struct s_line *le);
+void						actionk_move_cursor_by_word_left(struct s_line *le);
+void						actionk_move_cursor_by_word_right(struct s_line *l);
+void						actionk_move_cursor_end(struct s_line *le);
+void						actionk_move_cursor_line_down(struct s_line *le);
+void						actionk_move_cursor_line_up(struct s_line *le);
+void						actionk_move_cursor_start(struct s_line *le);
+void						actionk_past_clipboard(struct s_line *le);
+void						delete_char_into_cmdline_backspace_mode(
+												struct s_line *le);
+void						delete_char_into_cmdline_delete_mode(
+											struct s_line *le);
 
 /*
 **	boolean_check
 */
-bool	cursor_is_at_end_of_cmd(struct s_line *le);
-bool	cursor_is_at_end_of_term_line(unsigned int cursorpos,
-									  struct s_line *le);
-bool    le_is_separator(char c);
-bool 	possible_to_go_right(struct s_line *le);
+bool						cursor_is_at_end_of_cmd(struct s_line *le);
+bool						cursor_is_at_end_of_term_line(unsigned int cursrpos,
+														struct s_line *le);
+bool						le_is_separator(char c);
+bool						possible_to_go_right(struct s_line *le);
 
 /*
 **	colosyn
 */
-void	colosyn_add_char(struct s_line *le, t_kno key);
-void	colosyn_cut_to_start(struct s_line *le);
-void	colosyn_cut_to_end(struct s_line *le);
-void	colosyn_delete_char(struct s_line *le);
-void	colosyn_past_clipboard(struct s_line *le);
-void	colosyn_print_history_elem(struct s_line *le);
-void	refresh_colosyn(struct s_line *le, char *cmd);
+void						colosyn_add_char(struct s_line *le, t_kno key);
+void						colosyn_cut_to_start(struct s_line *le);
+void						colosyn_cut_to_end(struct s_line *le);
+void						colosyn_delete_char(struct s_line *le);
+void						colosyn_past_clipboard(struct s_line *le);
+void						colosyn_print_history_elem(struct s_line *le);
+void						refresh_colosyn(struct s_line *le, char *cmd);
 
 /*
 **	init_le
 */
-void					init_line_edition_attributes(struct s_line *le,
-													 int prompt_type);
-struct s_le_termcaps	*init_termcaps_strings(void);
-void					set_term_attr(t_set_term mode);
+void						init_line_edition_attributes(struct s_line *le,
+													int prompt_type);
+struct s_le_termcaps		*init_termcaps_strings(void);
+void						set_term_attr(t_set_term mode);
 
 /*
 **	print
 */
-void			insert_and_print_character_into_cmdline(struct s_line *le, t_kno key);
-void			print_history_cmd(struct s_line *le);
-void			print_key_at_end(struct s_line *le, t_kno key);
-void    		print_key(t_kno key);
-unsigned int	print_str_on_term(const char *str,
-								  unsigned int tmp_current_cursor_pos,
-								  struct s_line *le, int foo);
-
+void						insert_and_print_character_into_cmdline(
+										struct s_line *le, t_kno key);
+void						print_history_cmd(struct s_line *le);
+void						print_key_at_end(struct s_line *le, t_kno key);
+void						print_key(t_kno key);
+unsigned int				print_str_on_term(const char *str,
+								unsigned int tmp_current_cursor_pos,
+								struct s_line *le, int foo);
 
 /*
 **	tools
 */
-void			check_cmd_storage(struct s_line *le, unsigned int nb_char);
-void			check_clipboard_storage(struct s_line *le, unsigned int nb_char);
-void			cursor_crosses_screen(struct s_line *le, t_cross_screen direction);
-unsigned int	get_terminal_nb_lines(void);
-unsigned int	get_terminal_nb_col(void);
-void			insert_char_into_array(struct s_line *le, t_kno key, unsigned int pos);
-void    		reset_history_on_first_elem(struct s_line *le);
-void			weird_trick_to_erase_char(struct s_line *le);
-int				write_one_char(int c);
+void						check_cmd_storage(struct s_line *le,
+											unsigned int nb_char);
+void						check_clipboard_storage(struct s_line *le,
+												unsigned int nb_char);
+void						cursor_crosses_screen(struct s_line *le,
+										t_cross_screen direction);
+unsigned int				get_terminal_nb_lines(void);
+unsigned int				get_terminal_nb_col(void);
+void						insert_char_into_array(struct s_line *le, t_kno key,
+															unsigned int pos);
+void						reset_history_on_first_elem(struct s_line *le);
+void						weird_trick_to_erase_char(struct s_line *le);
+int							write_one_char(int c);
 
 /*
 **	SDF (sans dossier fixe)
 */
-struct s_line	*access_le_main_datas(void);
-void			add_history(const char *input, struct s_line *le);
-t_kno			get_key_number(const char *key);
-void    		handle_window_resize(struct s_line *le);
-void			le_free_datas(void);
-void			le_free_history(struct s_line *le);
-char			*line_edition(int prompt_type);
-t_kno			get_key_number(const char *key);
-void			process_key(struct s_line *le);
-char			*read_key(char key[LE_KEY_BUFFER_SIZE], struct sigaction *le_sig);
+struct s_line				*access_le_main_datas(void);
+void						add_history(const char *input, struct s_line *le);
+t_kno						get_key_number(const char *key);
+void						handle_window_resize(struct s_line *le);
+void						le_free_datas(void);
+void						le_free_history(struct s_line *le);
+char						*line_edition(int prompt_type);
+t_kno						get_key_number(const char *key);
+void						process_key(struct s_line *le);
+char						*read_key(char key[LE_KEY_BUFFER_SIZE],
+							struct sigaction *le_sig);
 
-
-
-
-bool	still_enough_space_for_cmd(struct s_line *le);
+bool						still_enough_space_for_cmd(struct s_line *le);
 
 #endif
-
-
-
-/*
-	mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
-	CETTE COMMANDE NE MARCHE PAS, ELLE PEUT MEME SEGFAULT ...
-	FAUDRA VERIFIER CA ULTRA IMPORTANT
-
-	TESTER  (echo line1; echo line2) | ./42sh
-
-	BUILTINS BONUS A FAIRE (avec leurs options)
-	{
-		read
-		export
-		unset
-	}
-
-
-*/
-
-
-
-/*
-
-MINIMUM REQUIS
-
-IL FAUDRA QUE JE CHECK MOI MEME SI LES BUILTINS ONT LES BONNES OPTIONS
-ET LES BONS COMPORTEMENTS
-
-cd
-{
-	options -p -L et - (dash tout court)
-	http://pubs.opengroup.org/onlinepubs/9699919799/utilities/cd.html
-	https://www.unix.com/man-page/posix/1posix/cd/
-}
-
-echo
-{
-	https://www.unix.com/man-page/posix/1posix/echo
-	(oui le -n n'est pas obligatoire mais go le faire c'est facile et pratique non ?)
-}
-
-exit
-{
-	https://www.unix.com/man-page/posix/1posix/exit
-}
-
-env
-{
-	http://pubs.opengroup.org/onlinepubs/9699919799/utilities/env.html
-	https://www.unix.com/man-page/posix/1posix/env
-}
-
-setenv
-{
-	pas posix ce bultin mdr, pas d'option donc go faire la meme syntaxe
-	que csh qui a "invente" setenv : $ setenv variable value
-	(le nombre de blancs entre variable et value peut etre plus que 1)
-
-	si il y a 3 arguments ou plus, setenv: Too many arguments.
-	si il y a un seul argument, sa valeur est une chaine vide
-	exemple :
-	$ setenv lol
-	$ env
-	var=value
-	var=value
-	...
-	lol=
-
-
-}
-
-unsetenv
-{
-	si ya aucun argument, Too few arguments.
-	tous les arguments sont a traiter, on peut unsetenv autant d'arguments au'on veut
-}
-
-history
-{
-	https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html
-}
-
-*/

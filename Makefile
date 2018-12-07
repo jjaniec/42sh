@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/06 20:26:05 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/08 16:19:18 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,9 +135,11 @@ SRC_NAME = 	forty_two_sh.c \
 			line_edition/tools/weird_trick_to_erase_char.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
+			exec/close_and_redir_fd.c \
 			exec/handle_node.c \
 			exec/fork_and_exec.c \
 			exec/child_process.c \
+			exec/backup_apply_origin_fds.c \
 			exec/io_manager.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \

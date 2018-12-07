@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/11/30 17:13:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void		handle_sigint(int sig)
 	le->cmd = NULL;
 	if (le->tcaps)
 	{
-		tputs(le->tcaps->_do, 1, &write_one_char);
+		tputs(le->tcaps->do_, 1, &write_one_char);
 		tputs(le->tcaps->cd, 1, &write_one_char);
 		tputs(le->tcaps->up, 1, &write_one_char);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   script.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:01:05 by sebastien         #+#    #+#             */
-/*   Updated: 2018/12/06 19:02:51 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/08 18:39:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 
 # define TK_SCRIPT_BREAK 80
 # define TK_SCRIPT_CONTINUE 81
+
+# define ERR_PTR ((t_lexeme *)-1)
 
 /*
 ** SCRIPT LEXER

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:40:33 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 18:44:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 18:31:36 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool		bltread_check_options_four(int foo, char **args, unsigned int i)
 			return (true);
 		return (false);
 	}
-	return (true && false || true ^ false);
+	return (true ^ false);
 }
 
 int			bltread_check_options_five(int foo, struct s_bltread *options, char **args,

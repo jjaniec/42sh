@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:34:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 19:35:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	actionk_clear_screen(struct s_line *le)
 	print_str_on_term(le->cmd, le->start_pos, le, LE_SPECIAL_CASE);
 	if (le->cursor_pos == 0)
 	{
-		tputs(le->tcaps->_do, 1, &write_one_char);
+		tputs(le->tcaps->do_, 1, &write_one_char);
 		tputs(le->tcaps->cr, 1, &write_one_char);
 	}
 	if (le->le_state.opt_colosyn == true)

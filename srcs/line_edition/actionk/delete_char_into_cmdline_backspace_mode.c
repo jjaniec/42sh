@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 15:45:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 19:53:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	reprint_part_of_line(struct s_line *le,
 	}
 	if (cursor_is_at_end_of_term_line(tmp_cursor_pos, le) == true)
 	{
-		tputs(le->tcaps->_do, 1, &write_one_char);
+		tputs(le->tcaps->do_, 1, &write_one_char);
 		++(infos_rewriting->nb_line_to_go_up);
 		cursor_crosses_screen(le, CROSS_TO_LEFT);
 		tmp_cursor_pos = 0;

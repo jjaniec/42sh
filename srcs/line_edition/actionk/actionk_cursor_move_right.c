@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:56:44 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 19:45:39 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		actionk_cursor_move_right(struct s_line *le)
 	{
 		le->cursor_pos = 0;
 		++(le->cursor_line);
-		tputs(le->tcaps->_do, 1, &write_one_char);
+		tputs(le->tcaps->do_, 1, &write_one_char);
 		cursor_crosses_screen(le, CROSS_TO_LEFT);
 	}
 	else

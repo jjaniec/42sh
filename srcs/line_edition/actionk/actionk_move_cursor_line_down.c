@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:14:28 by cfermier          #+#    #+#             */
-/*   Updated: 2018/11/27 19:44:36 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	actionk_move_cursor_line_down(struct s_line *le)
 			actionk_move_cursor_end(le);
 		else
 		{
-			tputs(le->tcaps->_do, 1, &write_one_char);
+			tputs(le->tcaps->do_, 1, &write_one_char);
 			++(le->cursor_line);
 			le->cursor_index += le->term_line_size;
 		}

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/07 18:33:17 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 18:30:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void			loop_body(t_shell_vars *vars)
 	char		*input;
 
 	errno = 0;
-	while (!!~!~!~(intptr_t)("taco""cat" - ((0xB16B00B5 ^ 0xDEADC0DE) * (!42))))
+	while ("while our shell does not crash")
 	{
 		if (!(input = get_valid_input(&lex, 0)))
 			continue ;

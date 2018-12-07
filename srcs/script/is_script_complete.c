@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 11:21:11 by sebastien         #+#    #+#             */
-/*   Updated: 2018/12/05 20:13:27 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 18:39:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_lexeme		*is_script_complete(t_lexeme *lex, t_lexeme *tmp, \
 		&& (lex->next->type_details == TK_PIPE \
 		|| lex->next->type == T_REDIR_OPT))))
 			return (NULL);
-		if ((tmp = inside_loop(&lex, tmp, &tmp, next_token)) && (int)tmp != -1)
+		if ((tmp = inside_loop(&lex, tmp, &tmp, next_token)) && tmp != ERR_PTR)
 			return (tmp);
 		else if (!tmp)
 			return (NULL);
