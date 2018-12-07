@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/06 20:10:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/07 18:33:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ struct s_cmd_status	g_cmd_status = {
 	.builtin_running = false
 };
 
-t_option		g_sh_opts[] = {
+t_option			g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
 	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
 	{{"G"}, "Disable syntax highlighting", false},
@@ -27,9 +27,9 @@ t_option		g_sh_opts[] = {
 	{{NULL}, NULL, false}
 };
 
-t_job			*g_jobs;
+t_job				*g_jobs = NULL;
 
-static void		loop_body(t_shell_vars *vars)
+static void			loop_body(t_shell_vars *vars)
 {
 	t_lexeme	*lex;
 	char		*input;
@@ -47,39 +47,47 @@ static void		loop_body(t_shell_vars *vars)
 	}
 }
 
-int		main(int ac, char **av, char **envp)
+static void			check_options(t_option *opt_list, t_option **char_opt_index)
 {
-	t_option		*opt_list;
-	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
-	char			**args;
-
-	opt_list = g_sh_opts;
-	g_jobs = NULL;
-	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
-	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
-		log_set_quiet(1);
-	init_shell_vars(envp, get_shell_vars());
 	if (is_option_activated("h", opt_list, char_opt_index))
 		format_help_and_exit(SH_USAGE, opt_list);
 	if (is_option_activated("-le-debug", opt_list, char_opt_index))
 	{
 		tty_debug = fopen(TTY_DEBUG, "w");
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
+		le_debug("%s\n", "le_debug ACTIVE");
 	}
+}
+
+static void			handle_cmd_as_arguments(int ac, char **args)
+{
+	g_cmd_status.interactive_mode = false;
+	while (ac > 0)
+	{
+		forty_two_sh(ft_strjoin(*args, "\n"), get_shell_vars());
+		args++;
+		ac--;
+	}
+	free_all_shell_datas();
+}
+
+int					main(int ac, char **av, char **envp)
+{
+	t_option		*opt_list;
+	t_option		*char_opt_index[CHAR_OPT_INDEX_SIZE];
+	char			**args;
+
+	opt_list = g_sh_opts;
+	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
+	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
+		log_set_quiet(1);
+	check_options(opt_list, char_opt_index);
+	init_shell_vars(envp, get_shell_vars());
 	init_signals();
 	if (interpret_file(av, char_opt_index))
 		return (0);
 	if (ac >= 0 && is_option_activated("c", opt_list, char_opt_index))
-	{
-		g_cmd_status.interactive_mode = false;
-		while (ac > 0)
-		{
-			forty_two_sh(ft_strjoin(*args, "\n"), get_shell_vars());
-			args++;
-			ac--;
-		}
-		free_all_shell_datas();
-	}
+		handle_cmd_as_arguments(ac, args);
 	else
 	{
 		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
