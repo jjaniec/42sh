@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pre_in_post.c                                 :+:      :+:    :+:   */
+/*   handle_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/27 14:48:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/30 17:56:36 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** Check if the code is inside an inner while.
 */
 
-static int		look_for_loop_node(t_ast *node, int statement)
+static int	look_for_loop_node(t_ast *node, int statement)
 {
 	while (node && node->type_details != TK_SCRIPT_WHILE)
 	{
@@ -52,7 +52,7 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 		not = 1;
 		argv++;
 	}
-	if (is_builtin(argv[0], &builtin_fun_ptr))
+	if (__builtin_expect(is_builtin(argv[0], &builtin_fun_ptr), false))
 		fork_and_exec(\
 			(void *[3]){(void *)PROG_BUILTIN, &builtin_fun_ptr, argv}, \
 			exe, node);
@@ -65,60 +65,51 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 }
 
 /*
-** Is executed at the first passage of a node in the AST
-*/
-
-t_exec	*pre_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
-	return (exe);
-}
-
-/*
 ** Is executed at the second passage of a node in the AST
 */
 
-t_exec	*in_exec(t_ast *node, t_exec *exe)
+static bool	should_exec_current_node(t_ast *node, t_exec *exe)
 {
 	if (!node->data)
-		return (exe);
-	if (node->type == T_WORD)
+		return (false);
+	if (node->type == T_WORD || node->type == T_SCRIPT_CONDITION)
 		clean_data(node->data);
 	if (!node->data[0])
-		return (exe);
-	log_debug("Current node IN : %s ready for exec %d", node->data[0], exe->ready_for_exec);
+		return (false);
+	log_debug("Current node IN : %s ready for exec %d", \
+		node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT && !exe->ready_for_exec)
 	{
 		exe->statement = look_for_loop_node(node, node->type_details);
 		if (exe->statement)
-			return (exe);
+			return (false);
 	}
 	if (node->sub_ast)
 	{
 		script_in_exec(node->sub_ast, exe);
 		if (exe->statement && node->sub_ast->left && \
 		node->sub_ast->left->type_details != TK_SCRIPT_WHILE)
-			return (exe);
+			return (false);
 		else
 			exe->statement = 0;
 	}
+	return (true);
+}
+
+t_exec		*handle_node(t_ast *node, t_exec *exe)
+{
+	if (!should_exec_current_node(node, exe))
+		return (exe);
 	if (node->type == T_CTRL_OPT && node->type_details != TK_PIPE)
 		io_manager_in(node, exe);
+	if (node->type == T_ENV_ASSIGN && \
+		!(node->parent->type == T_WORD || node->parent->type == T_ENV_ASSIGN))
+		handle_env_assigns(node, NULL, NULL);
 	if (((node->type == T_WORD && node->type_details == TK_DEFAULT) || \
 		node->type_details == TK_SCRIPT_CONDITION_IF || \
 		node->type_details == TK_SCRIPT_CONDITION_WHILE) && \
 		!exe->ready_for_exec && \
 		!(node->parent->type == T_REDIR_OPT && node == node->parent->right))
 		exec_node(node->data, exe, node);
-	return (exe);
-}
-
-/*
-** Is executed at the third and last passage of a node in the AST
-*/
-
-t_exec	*post_exec(t_ast *node, t_exec *exe)
-{
-	(void)node;
 	return (exe);
 }

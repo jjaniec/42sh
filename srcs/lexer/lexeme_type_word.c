@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexeme_type_word.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:44:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/07 17:12:56 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:41:29 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,23 @@ static int	skip_quotes_substring(char *s, int *pos)
 }
 
 /*
+** Check if current lexeme could be defined as an assignement
+** by checking characters before the assignement character (default '=')
+*/
+
+static int	is_str_assignement(char *s)
+{
+	char	*assign_char_ptr;
+
+	if (!(env_assigns_status(0, 0)) && \
+		(assign_char_ptr = ft_strchr(s, '=')) && \
+		!is_identifier_invalid(s, assign_char_ptr))
+		return (T_ENV_ASSIGN);
+	env_assigns_status(1, 1);
+	return (T_WORD);
+}
+
+/*
 ** Parse word operators (default type),
 ** if string $s do not contains quotes,
 ** a substring will be made to the next $IFS separator,
@@ -37,11 +54,8 @@ static int	skip_quotes_substring(char *s, int *pos)
 ** to skip $IFS separators until corresponding quote
 */
 
-int 		lexeme_type_word(char *s, int *pos, char **data)
+int			lexeme_type_word(char *s, int *pos, char **data, int start)
 {
-	int		start;
-
-	start = *pos;
 	while (s[*pos] && !is_separator(s[*pos]) && !is_operator(s[*pos]) \
 	&& s[*pos] != '#')
 	{
@@ -57,14 +71,10 @@ int 		lexeme_type_word(char *s, int *pos, char **data)
 	}
 	if (start != *pos)
 	{
-		*data = ft_strsub(s, start, *pos - start);
-		if (*data == NULL)
+		if ((*data = ft_strsub(s, start, *pos - start)) == NULL)
 			exit(MALLOC_ERROR);
 	}
 	else
 		*data = NULL;
-	if (!(env_assigns_status(0, 0)) && ft_strchr(*data, '='))
-		return (T_ENV_ASSIGN);
-	env_assigns_status(1, 1);
-	return (T_WORD);
+	return (is_str_assignement(*data));
 }

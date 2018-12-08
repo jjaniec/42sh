@@ -210,7 +210,6 @@ int		main(int ac, char **av, char **envp)
 	{
 		tty_debug = fopen(TTY_DEBUG, "w");
 		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
-		{ le_debug("MAIN() SE LANCE PID %i  GROUPE %i\n", (int) getpid(), (int) getpgrp()  ) } // debug
 	}
 	init_signals();
 	if (interpret_file(av, char_opt_index))

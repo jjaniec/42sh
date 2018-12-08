@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 19:38:32 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 19:45:18 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/03 18:18:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ static void	print_arg_ugly(t_ast *node)
 		i++;
 	}
 }
+
 void		print_ast_tree_ugly(t_ast *node, int level)
 {
 	int			l;
@@ -122,7 +123,6 @@ void		print_ast_tree_ugly(t_ast *node, int level)
 		print_subast(node, &sub_level);
 	print_ast_tree_ugly(node->left, level + 1);
 }
-
 
 /*
 ** Main function for printing and showing the tree from the root

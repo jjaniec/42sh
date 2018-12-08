@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/21 17:54:14 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/29 18:00:38 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	exec_tests(t_environ *env)
 	compare_fds_w_strings("Error check tests 2 - symlink as command path", "/tmp/temp_test_symlink_____", "", SH_NAME": /tmp/temp_test_symlink_____: "ERR_ISDIR);
 	remove("/tmp/temp_test_symlink_____");
 	system("cp /bin/ls ./temp_exec___ && chmod -x ./temp_exec___");
-	compare_fds_w_strings("Error check tests 3 - Non-executable binary", "./temp_exec___", "", SH_NAME": "ERR_NORIGHTS"./temp_exec___\n");
+	compare_fds_w_strings("Error check tests 3 - Non-executable binary", "./temp_exec___", "", SH_NAME": "ERR_NORIGHTS": ./temp_exec___\n");
 	remove("./temp_exec___");
-	compare_fds_w_strings("Error check tests 4 - No such file or dir path", "./___abcdefghijkl___", "", SH_NAME": "ERR_NO_ENTRY"./___abcdefghijkl___\n");
+	compare_fds_w_strings("Error check tests 4 - No such file or dir path", "./___abcdefghijkl___", "", SH_NAME": "ERR_NO_ENTRY": ./___abcdefghijkl___\n");
 	compare_fds_w_strings("Error check tests 5 - Command not found", "___abcdefghijkl___", "", SH_NAME": ___abcdefghijkl___: "ERR_CMD_NOT_FOUND);
 	compare_fds_w_strings("Error check tests 6 - error redirection", "/ 2> /dev/null", "", "");
 
@@ -167,25 +167,25 @@ void	exec_tests(t_environ *env)
 		compare_sh_42sh_outputs("Redirs - Filedesc closes & redirects 9", "cat 2>/dev/null <&3- && echo lol", NULL);
 	else
 		compare_fds_w_strings("Redirs - Filedesc closes & redirects 9 - linux", "cat 2>/dev/null <&3- && echo lol", "", "");
-	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&8- 2>/dev/null && echo lol", "", SH_NAME": 8: "ERR_BAD_FILEDESC);
-	compare_fds_w_strings("Redirs - Filedesc closes & redirects 11 - Test filedesc backup & echo write error", "echo lol >&- ; echo lol", "lol\n", SH_NAME": write error: "ERR_BAD_FILEDESC);
+	compare_fds_w_strings("Redirs - Filedesc closes & redirects 10", "cat <&8- 2>/dev/null && echo lol", "", SH_NAME": 8: "ERR_BAD_FILEDESC"\n");
+	compare_fds_w_strings("Redirs - Filedesc closes & redirects 11 - Test filedesc backup & echo write error", "echo lol >&- ; echo lol", "lol\n", SH_NAME": write error: "ERR_BAD_FILEDESC"\n");
 
 	remove(TESTS_TMP_FILENAME);
-	compare_fds_w_strings("Redirs - Bad filedesc err check 1", "echo lol 1>&- 2>&1", "", SH_NAME": 1: "ERR_BAD_FILEDESC);
+	compare_fds_w_strings("Redirs - Bad filedesc err check 1", "echo lol 1>&- 2>&1", "", SH_NAME": 1: "ERR_BAD_FILEDESC"\n");
 	remove(TESTS_TMP_FILENAME);
-	compare_fds_w_strings("Redirs - Bad filedesc err check 2", "echo lol > "TESTS_TMP_FILENAME" ; cat < "TESTS_TMP_FILENAME" <&9 9<&0 ; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, "lol\n", SH_NAME": 9: "ERR_BAD_FILEDESC);
+	compare_fds_w_strings("Redirs - Bad filedesc err check 2", "echo lol > "TESTS_TMP_FILENAME" ; cat < "TESTS_TMP_FILENAME" <&9 9<&0 ; cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, "lol\n", SH_NAME": 9: "ERR_BAD_FILEDESC"\n");
 	remove(TESTS_TMP_FILENAME);
-	compare_fds_w_strings("Redirs - TK_LESS non-existant file err check", "echo lol < /aaaa", "", SH_NAME": "ERR_NO_ENTRY"/aaaa\n");
+	compare_fds_w_strings("Redirs - TK_LESS non-existant file err check", "echo lol < /aaaa", "", SH_NAME": "ERR_NO_ENTRY": /aaaa\n");
 	remove(TESTS_TMP_FILENAME);
-	compare_fds_w_strings("Redirs - TK_LESS file w/o rights err check", "echo lol > "TESTS_TMP_FILENAME"; chmod 000 "TESTS_TMP_FILENAME"; cat < "TESTS_TMP_FILENAME"; chmod 777 "TESTS_TMP_FILENAME, "", SH_NAME": "ERR_NORIGHTS""TESTS_TMP_FILENAME"\n");
+	compare_fds_w_strings("Redirs - TK_LESS file w/o rights err check", "echo lol > "TESTS_TMP_FILENAME"; chmod 000 "TESTS_TMP_FILENAME"; cat < "TESTS_TMP_FILENAME"; chmod 777 "TESTS_TMP_FILENAME, "", SH_NAME": "ERR_NORIGHTS": "TESTS_TMP_FILENAME"\n");
 	remove(TESTS_TMP_FILENAME);
 	compare_fds_w_strings("Redirs - TK_MORE in a dir w/o rights err check", "mkdir "TESTS_TMP_FILENAME"; chmod 000 "TESTS_TMP_FILENAME"; echo lol > "TESTS_TMP_FILENAME"/test; chmod 777 "TESTS_TMP_FILENAME, \
-		"", SH_NAME": "ERR_NORIGHTS""TESTS_TMP_FILENAME"/test\n");
+		"", SH_NAME": "ERR_NORIGHTS": "TESTS_TMP_FILENAME"/test\n");
 	remove(TESTS_TMP_FILENAME);
-	compare_fds_w_strings("Redirs - TK_MORE in a non-existant dir err check", "echo lol > /test", "", SH_NAME": "ERR_NORIGHTS"/test\n");
-	compare_fds_w_strings("Redirs - TK_MORE in a non-existant dir err check 2", "echo lol > /test/test", "", SH_NAME": "ERR_NO_ENTRY"/test/test\n");
-	compare_fds_w_strings("Redirs - Failed redir return code check 1", "echo lol > /test/test && echo lol", "", SH_NAME": "ERR_NO_ENTRY"/test/test\n");
-	compare_fds_w_strings("Redirs - Failed redir return code check 2", "echo lol > /test/test || echo lol", "lol\n", SH_NAME": "ERR_NO_ENTRY"/test/test\n");
+	compare_fds_w_strings("Redirs - TK_MORE in a non-existant dir err check", "echo lol > /test", "", SH_NAME": "ERR_NORIGHTS": /test\n");
+	compare_fds_w_strings("Redirs - TK_MORE in a non-existant dir err check 2", "echo lol > /test/test", "", SH_NAME": "ERR_NO_ENTRY": /test/test\n");
+	compare_fds_w_strings("Redirs - Failed redir return code check 1", "echo lol > /test/test && echo lol", "", SH_NAME": "ERR_NO_ENTRY": /test/test\n");
+	compare_fds_w_strings("Redirs - Failed redir return code check 2", "echo lol > /test/test || echo lol", "lol\n", SH_NAME": "ERR_NO_ENTRY": /test/test\n");
 
 	remove(TESTS_TMP_FILENAME);
 	compare_sh_42sh_outputs("Redirs - Mixed 1", "/bin/echo > "TESTS_TMP_FILENAME" lol 1>&- <>"TESTS_TMP_FILENAME";cat "TESTS_TMP_FILENAME"; rm "TESTS_TMP_FILENAME, NULL);
@@ -216,4 +216,38 @@ void	exec_tests(t_environ *env)
 	compare_fds_w_strings("Aliases 3 - deletion", "alias -d rofl; alias --save", "", NULL);
 	compare_fds_w_strings("Aliases 3 - Deleted alias expansion", "rofl", "", SH_NAME": rofl: "ERR_CMD_NOT_FOUND);
 	compare_fds_w_strings("Aliases 4 - Invalid assignation w/ IFS separators", "alias 'ls -la' echo", "", SH_NAME": "ERR_INVALID_ALIAS_NAME);
+
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 1 - Simple", \
+		"TEST1=TEST__ env  TEST2=TEST______ | grep -E 'TEST[12]'", "TEST1=TEST__ env TEST2=TEST______ | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 2 - Simple multiple vars", \
+		"TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ env | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 3 - Multiple vars w/ re-assigns", \
+		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'", "TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env | grep -E 'TEST[12]'");
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 4 - Temporary env test w/ multiple vars & re-assign", \
+		"TEST1=TEST__ env TEST2=TEST______ > /dev/null; env | grep -E 'TEST[12]'", NULL);
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 5 - Temporary env test w/ multiple vars & re-assign 2", \
+		"TEST1=TEST__ TEST2=TEST______ TEST2=TEST______42 env > /dev/null ; env | grep -E 'TEST[12]'", NULL);
+	compare_sh_42sh_outputs("T_ENV_ASSIGNS 6 - Redefinition of 1st env var", \
+		"$(env | head -n 1 | cut -d '=' -f 1)=TEST env | grep $(env | head -n 1 | cut -d '=' -f 1)", NULL);
+	compare_fds_w_strings("T_ENV_ASSIGNS 7 - Path redefinition & cmd execution", \
+		"PATH=NULL ls", NULL, SH_NAME": ls: "ERR_CMD_NOT_FOUND);
+
+	compare_fds_w_strings("Local vars 1 - Basic", \
+		"lol=mdr; echo \\$lol", "mdr\n", NULL);
+	compare_fds_w_strings("Local vars 2 - Basic", \
+		"lol==; echo \\$lol", "=\n", NULL);
+	compare_fds_w_strings("Local vars 3 - Basic", \
+		"lol=-=-; echo \\$lol", "-=-\n", NULL);
+	compare_fds_w_strings("Local vars 4 - Basic Err w/ separator as value", \
+		"lol=;; echo \\$lol", "", SH_NAME": syntax error near unexpected token ';'\n");
+	compare_fds_w_strings("Local vars 5 - Basic w/ quotes", \
+		"lol='aa'\"lol\"; echo \\$lol", "aalol\n", NULL);
+	compare_fds_w_strings("Local vars 6 - Basic redefinition", \
+		"lol=a; lol=b; lol=c; echo \\$lol; lol=abc; echo \\$lol", "c\nabc\n", NULL);
+	compare_fds_w_strings("Local vars 7 - Basic redefinition 2", \
+		"lol=\"ROFL\" lol='ROFL2'; echo \\$lol; lol=aaaa; echo \\$lol", "ROFL2\naaaa\n", NULL);
+	compare_fds_w_strings("Local vars 8 - Multi assigns", \
+		"lol=a lol2=b lol3=c; echo \\$lol\\$lol2\\$lol3", "abc\n", NULL);
+	compare_fds_w_strings("Local vars 9 - Multi assigns w/ Basic redefinition", \
+		"lol=a lol=b lol=c; echo \\$lol; lol=abc; echo \\$lol", "c\nabc\n", NULL);
 }

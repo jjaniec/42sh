@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 20:20:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/28 21:03:48 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:40:19 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int		handle_wait_error(pid_t waited_pid, int *status)
 	return (0);
 }
 
-
 /*
 ** If process terminated by calling on of the exit() family functions or
 ** by receiving a signal, return return code (re-read this a 2nd time)
@@ -41,8 +40,8 @@ static int		handle_wait_error(pid_t waited_pid, int *status)
 ** the one expected
 */
 
-int		get_process_return_code(int *status, \
-			pid_t waited_pid, pid_t expected_waited_pid)
+int				get_process_return_code(int *status, \
+					pid_t waited_pid, pid_t expected_waited_pid)
 {
 	int		r;
 

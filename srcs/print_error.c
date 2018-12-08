@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_pipes.c                                     :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/20 13:04:45 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 17:10:00 by jjaniec          ###   ########.fr       */
+/*   Created: 2018/08/14 17:20:41 by jjaniec           #+#    #+#             */
+/*   Updated: 2018/11/29 17:50:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-/*
-** Apply pipe redirects w/ fds stored in pipe_fds
-*/
-
-int			handle_pipes(int **pipe_fds)
+int		print_error(char *subject, char *err_str, int mode)
 {
-	if (pipe_fds)
+	ft_putstr_fd(SH_NAME ": ", 2);
+	if (mode & SUBJECT_AT_END)
 	{
-		if (pipe_fds[0] && *(pipe_fds[0]) != -1)
-			handle_redir_fd(STDIN_FILENO, *(pipe_fds[0]));
-		if (pipe_fds[1] && *(pipe_fds[1]) != -1)
-			handle_redir_fd(STDOUT_FILENO, *(pipe_fds[1]));
-		if (pipe_fds[2] && *(pipe_fds[2]) != -1)
-			log_close(*(pipe_fds[2]));
-		free(pipe_fds);
+		ft_putstr_fd(err_str, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(subject, 2);
 	}
-	return (0);
+	else if (mode & SUBJECT_AT_BEGIN)
+	{
+		ft_putstr_fd(subject, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(err_str, 2);
+	}
+	if (mode & FREE_SUBJECT)
+		free(subject);
+	ft_putchar_fd('\n', 2);
+	return (1);
 }

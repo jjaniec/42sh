@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 21:58:10 by cfermier          #+#    #+#             */
-/*   Updated: 2018/10/20 15:37:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:50:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 **	If the history's pointer is not on the most recent history's element,
-**	it deletes the command line then prints the next most 
+**	it deletes the command line then prints the next most
 **	recent history's element. The history's pointer is set on the printed
 **	element.
 **

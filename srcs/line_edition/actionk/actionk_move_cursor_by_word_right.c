@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 16:00:54 by cfermier          #+#    #+#             */
-/*   Updated: 2018/09/17 17:34:06 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:54:43 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static unsigned int	find_nb_moves_needed(const char *line, unsigned int index)
 	nb_moves_needed = 0;
 	if (line[index] == '\0')
 		return (0);
-    while ( le_is_separator(line[index]) == false )
+	while (le_is_separator(line[index]) == false)
 	{
 		if (line[index] == '\0')
 			return (nb_moves_needed + 1);
 		++index;
 		++nb_moves_needed;
 	}
-	while ( le_is_separator(line[index]) == true )
+	while (le_is_separator(line[index]) == true)
 	{
 		if (line[index] == '\0')
 			return (nb_moves_needed + 1);
@@ -46,12 +46,11 @@ static unsigned int	find_nb_moves_needed(const char *line, unsigned int index)
 **	or at the end of the command line if there is no next word.
 */
 
-void    actionk_move_cursor_by_word_right(struct s_line *le)
+void				actionk_move_cursor_by_word_right(struct s_line *le)
 {
-    unsigned int	nb_moves_needed;
+	unsigned int	nb_moves_needed;
 
 	nb_moves_needed = find_nb_moves_needed(le->cmd, le->cursor_index);
-	//fprintf(tty_debug, "nb moves needed = %u\n", nb_moves_needed );
 	while (nb_moves_needed > 0)
 	{
 		actionk_cursor_move_right(le);

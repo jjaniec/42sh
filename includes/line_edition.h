@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/09 17:13:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 17:23:07 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,8 @@ struct s_action_key
 	void	(*func_ptr)(struct s_line *);
 };
 
+typedef struct s_action_key	t_actionk;
+
 /*
 **	Informations to help rewriting and replacing the cursor.
 **	Use only in delete_char_into_cmdline_backspace_mode().
@@ -362,12 +364,14 @@ int				write_one_char(int c);
 */
 struct s_line	*access_le_main_datas(void);
 void			add_history(const char *input, struct s_line *le);
+t_kno			get_key_number(const char *key);
 void    		handle_window_resize(struct s_line *le);
 void			le_free_datas(void);
 void			le_free_history(struct s_line *le);
 char			*line_edition(int prompt_type);
 t_kno			get_key_number(const char *key);
 void			process_key(struct s_line *le);
+char			*read_key(char key[LE_KEY_BUFFER_SIZE], struct sigaction *le_sig);
 
 
 

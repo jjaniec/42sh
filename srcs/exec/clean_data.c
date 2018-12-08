@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/11 16:44:40 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/11 16:45:03 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/27 17:39:43 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** to remove quotes / backslashes / replace expansion specifiers
 */
 
-static int	is_clean_needed_expansions(char **data)
+static int		is_clean_needed_expansions(char **data)
 {
 	char	*ptr;
 
@@ -28,8 +28,7 @@ static int	is_clean_needed_expansions(char **data)
 	return (0);
 }
 
-
-static int	is_clean_needed(char **data)
+static int		is_clean_needed(char **data)
 {
 	if (*data && (ft_strchr(*data, '\'') || \
 			ft_strchr(*data, '"') || ft_strchr(*data, '\\') || \
@@ -38,7 +37,7 @@ static int	is_clean_needed(char **data)
 	return (0);
 }
 
-static void	remove_empty_data(char **data, int i)
+static void		remove_empty_data(char **data, int i)
 {
 	free(data[i]);
 	while (data[i])
@@ -48,7 +47,7 @@ static void	remove_empty_data(char **data, int i)
 	}
 }
 
-void		clean_data(char **data)
+void			clean_data(char **data)
 {
 	int		i;
 	int		quoted;

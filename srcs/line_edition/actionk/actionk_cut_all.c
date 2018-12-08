@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 18:19:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/09/17 17:30:47 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:38:23 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	actionk_cut_all(struct s_line *le)
 {
 	if (le->cmd[0] == '\0')
 		return ;
-
 	actionk_copy_all(le);
 	actionk_delete_current_input(le);
 }

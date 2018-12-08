@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   get_key_number.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/14 17:20:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 19:37:54 by cyfermie         ###   ########.fr       */
+/*   Created: 2018/11/27 16:23:03 by cyfermie          #+#    #+#             */
+/*   Updated: 2018/11/27 16:40:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
 
-void	print_error(char *subject, char *err_str)
+/*
+** 	Convert the array representig the pressed key, into an unique number.
+**	This is to handle the processing of the key more easily.
+*/
+
+t_kno	get_key_number(const char *key)
 {
-	ft_putstr_fd(SH_NAME ": ", 2);
-	ft_putstr_fd(err_str, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(subject, 2);
-	ft_putstr_fd("\n", 2);
+	t_kno	key_no;
+	t_kno	i;
+
+	key_no = 0;
+	i = 0;
+	while (i < LE_KEY_BUFFER_SIZE)
+	{
+		key_no += ((t_kno)key[i]) << i;
+		++i;
+	}
+	return (key_no);
 }

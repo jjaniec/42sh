@@ -6,7 +6,7 @@
 #    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/11/21 12:48:17 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/12/03 19:44:12 by jjaniec          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,6 @@ SRC_NAME = 	is_separator.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
 			ast/access_ast_data.c \
-			line_edition/access_le_main_datas.c \
-			line_edition/add_history.c \
-			line_edition/handle_window_resize.c \
-			line_edition/get_le_debug_status.c \
-			line_edition/le_free_datas_and_history.c \
 			autocomplete/autocomplete.c \
 			autocomplete/str_effect.c \
 			autocomplete/autoc_dir.c \
@@ -73,8 +68,15 @@ SRC_NAME = 	is_separator.c \
 			hash_table/ht_update.c \
 			prompt_details/print_prompt_details.c \
 			prompt_details/get_git_info.c \
+			line_edition/access_le_main_datas.c \
+			line_edition/add_history.c \
+			line_edition/get_key_number.c \
+			line_edition/handle_window_resize.c \
+			line_edition/get_le_debug_status.c \
+			line_edition/le_free_datas_and_history.c \
 			line_edition/line_edition.c \
 			line_edition/process_key.c \
+			line_edition/read_key.c \
 			line_edition/actionk/action_key.c \
 			line_edition/actionk/actionk_clear_screen.c \
 			line_edition/actionk/actionk_copy_all.c \
@@ -125,7 +127,7 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/weird_trick_to_erase_char.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
-			exec/exec_pre_in_post.c \
+			exec/handle_node.c \
 			exec/fork_and_exec.c \
 			exec/child_process.c \
 			exec/io_manager.c \
@@ -136,7 +138,6 @@ SRC_NAME = 	is_separator.c \
 			exec/handle_env_assigns.c \
 			exec/handle_pipes.c \
 			exec/handle_open_error.c \
-			exec/print_error.c \
 			exec/init_pipe_data.c \
 			exec/get_last_pipe_node.c \
 			exec/free_exec.c \
@@ -206,6 +207,7 @@ SRC_NAME = 	is_separator.c \
 			env/free_env_entries.c \
 			get_next_line.c \
 			get_parsed_backup_files_path.c \
+			print_error.c \
 			handle_exclamation_mark_in_lexer.c \
 			parse_exclamation_mark_shortcuts.c \
 			access_alias_datas.c \

@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/15 20:21:41 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/15 20:35:32 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/11/27 17:33:27 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ t_job		*create_job(char *command)
 	new->command = command;
 	new->first_process = NULL;
 	new->pgid = 0;
-	//new->tmode = ....
 	return (new);
 }

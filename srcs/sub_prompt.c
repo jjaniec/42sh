@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:59:17 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/09 17:08:55 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/11/30 18:30:08 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	multiline_merge(t_lexeme *last, t_lexeme *new)
 {
 	char	*tmp;
 
-	if (!last->lexeme_end_ptr[0]  && new->pos == (int)ft_strlen(new->data))
+	if (!last->lexeme_end_ptr[0] && new->pos == (int)ft_strlen(new->data))
 	{
 		tmp = ft_xstrdup(last->data);
 		free(last->data);
@@ -73,9 +73,9 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	{
 		input = get_valid_input(&new, need_subprompt);
 		free_lexemes(new);
- 		if (input == NULL)
+		if (input == NULL)
 			return (NULL);
- 	}
+	}
 	lexer(input, &new, NULL);
 	aliases_replace(&new);
 	free(input);
@@ -92,12 +92,14 @@ t_lexeme	*subp_lexeme(t_lexeme *lex, int need_subprompt)
 	}
 	else if (lex->next && lex->next->type_details != TK_NEWLINE)
 		lex->next->next = new;
-	else if (lex->next && !lex->next->next && lex->next->type == T_WORD && new->type == T_WORD)
+	else if (lex->next && !lex->next->next && lex->next->type == T_WORD
+	&& new->type == T_WORD)
 	{
 		lex->next->data = ft_strjoin(lex->next->data, new->data);
 		lex->next->next = new->next;
 	}
-	else if (lex && !lex->next && lex->type == T_WORD && new && new->type == T_WORD)
+	else if (lex && !lex->next && lex->type == T_WORD && new
+	&& new->type == T_WORD)
 		multiline_merge(lex, new);
 	else if (lex)
 		lex->next = new;
@@ -109,7 +111,8 @@ static int	there_is_no_cr(char *input)
 	size_t	input_len;
 
 	input_len = ft_strlen(input);
-	if (input_len >= 2 && input[input_len - 1] == '\n' && input[input_len - 2] == '\\')
+	if (input_len >= 2 && input[input_len - 1] == '\n'
+	&& input[input_len - 2] == '\\')
 	{
 		input[ft_strlen(input) - 2] = '\0';
 		return (1);
@@ -144,9 +147,7 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 	char	*final;
 	char	*eof_word;
 
-	final = (char *)ft_xmemalloc(sizeof(char));
-	if (!final)
-		exit(MALLOC_ERROR);
+	final = ft_xmemalloc(sizeof(char));
 	eof_word = ft_xstrjoin(eof_word_tmp, "\n");
 	while (1)
 	{
@@ -163,11 +164,8 @@ int		subp_heredoc(t_lexeme *lex, char *eof_word_tmp)
 		final = ft_xstrjoin_free(final, final_input);
 	}
 	free(eof_word);
-	//final[ft_strlen(final) - 1] = '\0';
 	free(final_input);
 	free(lex->next->data);
 	lex->next->data = final;
-	return(1);
+	return (1);
 }
-
-// { le_debug("%s", "\n") }
