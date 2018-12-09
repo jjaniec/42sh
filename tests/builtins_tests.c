@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/02 15:00:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/04 22:27:28 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin echo 5 - Redirs (w/ echo)", "echo ls > /tmp/a && cat < /tmp/a", NULL);
 	compare_sh_42sh_outputs("Builtin echo 6 - Pipes & redirs (w/ echo)", "echo ls / /abc 2> /tmp/a; cat < /tmp/a", NULL);
 	compare_sh_42sh_outputs("Builtin echo 7 - Particular cases 1", "echo $", NULL);
+	compare_sh_42sh_outputs("Builtin echo 8 - echo_opt \\n", "echo \\\"lol\\nxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 9 - echo_opt \\a", "echo \\\"lol\\axd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 10 - echo_opt \\b", "echo \\\"lol\\bxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 12 - echo_opt \\f", "echo \\\"lol\\fxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 13 - echo_opt \\r", "echo \\\"lol\\rxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 14 - echo_opt \\t", "echo \\\"lol\\txd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 15 - echo_opt \\v", "echo \\\"lol\\vxd\\\"", NULL);
+	compare_sh_42sh_outputs("Builtin echo 16 - echo_opt \\", "echo \\\"lol\\\\les copains\\\"", NULL);
 
 	compare_sh_42sh_outputs("Builtin cd 1 - cd", "cd / && pwd", NULL);
 	compare_sh_42sh_outputs("Builtin cd 2 - cd", "cd / && cd dev && pwd", NULL);
@@ -82,6 +90,7 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin env 6 - env -i w/o args w/ pipe", "env -i", NULL);
 	compare_sh_42sh_outputs("Builtin env 7 - env -i empty assignations", "env -i LS=     AAAA=   ", NULL);
 	compare_sh_42sh_outputs("Builtin env 8 - env w/ T_ENV_ASSIGN", "TMP=test env -i A=B", NULL);
+
 	//compare_sh_42sh_outputs("Builtin env 8 - env -i invalid assignations", "env -i LS=     AAAA  AAAAAA  LOL=   | grep -v _", NULL); -> should say command not found -> exec not yet handled
 	// test env execution ex: env A=B ls - not yet implemented
 	compare_sh_42sh_outputs("Builtin env 9 - execution 1 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
@@ -157,4 +166,5 @@ void			builtins_tests(t_environ *env)
 		compare_fds_w_strings("Builtin read 20", "read -d q -n 5 -p -s -- VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "a\nbcd\n\n", "", "a bcdefgh");
 		compare_fds_w_strings("Builtin read 21", "read -d q -n 5 -p -s  VAR1 VAR2 VAR3; echo \\$VAR1 ; echo \\$VAR2 ; echo \\$VAR3", "\n\n\n", BUILTIN_READ_USAGE, "a bcdefgh");
 	} // '<<<' Redirects not supported by linux's sh
+
 }

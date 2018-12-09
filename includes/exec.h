@@ -100,8 +100,6 @@ t_exec	*create_exec(t_environ *env);
 // Path parsing
 
 char	*isin_path(char *path_entry, char *cmd);
-
-
 char	*get_env(const char *name, const char **envp);
 int		get_env_pos(const char *name, const char **envp);
 
