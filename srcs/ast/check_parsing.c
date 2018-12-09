@@ -65,7 +65,7 @@ int			check_parsing(t_lexeme *lex, t_lexeme **error)
 		return (need_subpropmt);
 	while (lex)
 	{
-		if (lvl_lex(lex) == 4 && !ft_strchr(lex->next->data, '\n'))
+		if (lex->type_details == TK_DLESS && !ft_strchr(lex->next->data, '\n'))
 		{
 			if (is_option_activated("c", g_sh_opts, NULL)
 			&& ft_free(lex->next->data))
