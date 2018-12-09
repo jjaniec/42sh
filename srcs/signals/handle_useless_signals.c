@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 18:31:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/30 17:03:30 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/09 16:27:28 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ void	handle_useless_signals(int sig)
 	sigfillset(&(restore_default.sa_mask));
 	restore_default.sa_handler = SIG_DFL;
 	sigaction(sig, &restore_default, NULL);
-	raise(sig);
+	kill(getpid(), sig);
 }

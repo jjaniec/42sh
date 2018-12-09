@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/09 16:23:50 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	fissou(int sig)
 	if (!g_jobs->pgid)
 	{
 		if (kill(g_jobs->first_process->pid, sig) == -1)
-			perror("perror kill()");
+			exit(EXIT_FAILURE);
 		log_debug("Sending signal (SIGINT) to pid: %d\n", \
 		g_jobs->first_process->pid);
 	}

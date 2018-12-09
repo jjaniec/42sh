@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/04 17:28:57 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/09 16:23:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 	int		r;
 
 	if (setpgrp())
-		perror("Setpgrp");
+		exit(EXIT_FAILURE);
 	g_jobs = create_job("PIPE MANAGER");
 	if ((g_jobs->pgid = getpgid(getpid())) == -1)
-		perror("Getpgid in pipeline manager");
+		exit(EXIT_FAILURE);
 	ast_explore(ast, exe);
 	debug_jobs(g_jobs);
 	log_trace("Pipe Manager: Waiting pipeline processes");
