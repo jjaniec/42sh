@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 17:02:20 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/11/07 15:20:19 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/09 23:27:38 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static char		*get_final_line_s(struct s_line *le, char *res, char *search)
 		}
 		i++;
 	}
+	free(res);
 	return (NULL);
 }
 
