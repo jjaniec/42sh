@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 17:12:54 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:53:14 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,11 @@ int						is_expansion_char(t_lexeme_clean_data *l,
 
 int						is_quote_removable(char *s, char **jump_ptr,
 							int *quote_type);
+
+int 					lexeme_type_rediropt(char *s, int *pos, char **data,
+														int *type_details);
+
+int						store_optlexeme(char *s, int integer[2], int *pos,
+															char **data);
 
 #endif
