@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 18:53:26 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:44:57 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	set_var_after_cd(t_environ *env, char *cwd)
 	}
 	else
 		env->add_var(env, "OLDPWD", cwd);
-	log_debug("OLDPWD set to |%s|", env->last_used_elem->val_begin_ptr);
 }
 
 int			cd_change_dir(t_environ *env, char *path, char *cwd)
@@ -90,7 +89,6 @@ int			cd_change_dir(t_environ *env, char *path, char *cwd)
 	}
 	else
 	{
-		log_error("Failed to change cwd to %s", path);
 		ft_print_cd_err(path, errno);
 		return (1);
 	}

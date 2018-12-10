@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 19:02:35 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 17:36:54 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:52:49 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 static t_process	*create_new_process(char **cmd, \
-						pid_t process_pid, pid_t pgroup)
+						pid_t process_pid)
 {
 	t_process	*new;
 
@@ -25,8 +25,6 @@ static t_process	*create_new_process(char **cmd, \
 	new->next = NULL;
 	new->pid = process_pid;
 	new->cmd = cmd;
-	log_info("New process created w/ pid: %zu to process group %zu", \
-		process_pid, pgroup);
 	return (new);
 }
 
@@ -44,13 +42,13 @@ t_process			*add_running_process(char **cmd, \
 		*job = create_job(NULL);
 	if (!(ptr = (*job)->first_process))
 		return (((*job)->first_process = \
-			create_new_process(cmd, process_pid, (*job)->pgid)));
+			create_new_process(cmd, process_pid)));
 	else
 	{
 		while (ptr && ptr->next)
 			ptr = ptr->next;
 	}
-	ptr->next = create_new_process(cmd, process_pid, (*job)->pgid);
+	ptr->next = create_new_process(cmd, process_pid);
 	(*job)->last_process_pid = process_pid;
 	return (ptr->next);
 }

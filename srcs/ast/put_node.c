@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 16:36:10 by sebastien         #+#    #+#             */
-/*   Updated: 2018/10/06 15:51:13 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:34:06 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,9 @@ int			put_node(t_lexeme **lex, t_ast **root, t_ast *new, \
 	flag_heredoc_eof = manage_heredoc(*lex);
 	if (!is_bypass_token(new))
 	{
-		log_trace("Put_node: %s", new->data[0]);
 		node_placer(*root, new);
 		*root = new;
 	}
-	else
-		log_trace("BYPASS Put_node: %s", new->data[0]);
 	if (lex[0]->type == T_WORD && !is_bypass_token(new))
 		while (*lex && lex[0]->type == T_WORD)
 			*lex = lex[0]->next;

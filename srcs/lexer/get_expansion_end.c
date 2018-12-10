@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:45:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/09 13:20:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:42:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ char		*get_expansion_end(char *str)
 	r = str;
 	while (*r && !is_expansion_end_char(*r))
 		r++;
-	log_fatal("expansion end |%s| of str %s", r, str);
 	return (r);
 }

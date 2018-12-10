@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 16:38:44 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 19:41:40 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:51:32 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static char	*get_env_var_value(char *ptr, t_shell_vars *vars,
 		var_value = vars->internals->last_used_elem->val_begin_ptr;
 	else if (vars->locals->get_var(vars->locals, ptr + 1))
 		var_value = vars->locals->last_used_elem->val_begin_ptr;
-	log_trace("Got env var value of |%s| for %s env variable expansion", \
-	var_value, ptr + 1);
 	*(exp_end_ptr) = exp_end_ptr_char;
 	return (var_value);
 }
@@ -87,7 +85,6 @@ void		handle_dollar_expansion(t_lexeme_clean_data *l,
 		return ;
 	env_var_value = get_env_var_value(*(l->raw_lexeme_read_ptr), \
 		vars, &expansion_name_len);
-	log_debug("Env var value: %s", env_var_value);
 	if (env_var_value && *env_var_value)
 		concat_expansion_data(l, env_var_value);
 	else if (ft_strchr(IFS"'\""EXPANSIONS_END_CHARS, \
@@ -108,8 +105,6 @@ void		handle_tild_expansion(t_lexeme_clean_data *l, t_shell_vars *vars)
 	home_path = NULL;
 	if (vars->env->get_var(vars->env, "HOME"))
 		home_path = vars->env->last_used_elem->val_begin_ptr;
-	log_trace("Got env var value of |%s| for HOME env variable expansion", \
-	home_path);
 	if (home_path && *home_path)
 		concat_expansion_data(l, home_path);
 	else

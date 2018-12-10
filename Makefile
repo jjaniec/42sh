@@ -208,7 +208,6 @@ SRC_NAME =  twenty_one_sh.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
 			signals/handle_sigchild.c \
-			log.c \
 			sub_prompt.c \
 			subp_lexeme.c \
 			init_globals_config.c \

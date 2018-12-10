@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 15:45:45 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/08 15:54:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 20:11:12 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 # define LINE_EDITION_H
 
-# include "le_debug.h"
 # include <twenty_one_sh.h>
 
 /*

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:19:06 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/08 18:30:17 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:30:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_option			g_sh_opts[] = {
 	{{"h", "-help"}, "Print help and exit", false},
 	{{"c"}, "Non-interactive mode: Execute command line parameters", false},
 	{{"G"}, "Disable syntax highlighting", false},
-	{{"v", "-verbose"}, "Enable verbose mode", false},
-	{{"-le-debug"}, "Enable line edition debugging in "TTY_DEBUG, false},
 	{{NULL}, NULL, false}
 };
 
@@ -51,12 +49,6 @@ static void			check_options(t_option *opt_list, t_option **char_opt_index)
 {
 	if (is_option_activated("h", opt_list, char_opt_index))
 		format_help_and_exit(SH_USAGE, opt_list);
-	if (is_option_activated("-le-debug", opt_list, char_opt_index))
-	{
-		tty_debug = fopen(TTY_DEBUG, "w");
-		get_le_debug_status(LE_DEBUG_STATUS_SET, 1);
-		le_debug("%s\n", "le_debug ACTIVE");
-	}
 }
 
 static void			handle_cmd_as_arguments(int ac, char **args)
@@ -79,8 +71,6 @@ int					main(int ac, char **av, char **envp)
 
 	opt_list = g_sh_opts;
 	args = parse_options(&ac, av, opt_list, (t_option **)char_opt_index);
-	if (!(VERBOSE_MODE || is_option_activated("v", opt_list, char_opt_index)))
-		log_set_quiet(1);
 	check_options(opt_list, char_opt_index);
 	init_shell_vars(envp, get_shell_vars());
 	init_signals();

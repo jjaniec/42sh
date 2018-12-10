@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/30 17:56:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:39:13 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ static bool	should_exec_current_node(t_ast *node, t_exec *exe)
 		clean_data(node->data);
 	if (!node->data[0])
 		return (false);
-	log_debug("Current node IN : %s ready for exec %d", \
-		node->data[0], exe->ready_for_exec);
 	if (node->type == T_SCRIPT_STATEMENT && !exe->ready_for_exec)
 	{
 		exe->statement = look_for_loop_node(node, node->type_details);

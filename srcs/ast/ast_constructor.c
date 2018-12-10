@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 09:59:44 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/06 15:51:23 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:31:09 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_ast		*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 	int			flag_heredoc_eof;
 	t_ast		*save_root;
 
-	log_info("Construction of new AST.");
 	flag_heredoc_eof = 0;
 	save_root = root;
 	while (save_root->parent)
@@ -38,6 +37,5 @@ t_ast		*ast_constructor(t_lexeme **lex, t_ast *root, t_lexeme *end, \
 	}
 	while (root->parent)
 		root = root->parent;
-	log_info("End of constructing this AST.");
 	return (root);
 }

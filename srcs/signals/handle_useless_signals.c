@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 18:31:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/09 16:27:28 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:44:15 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	handle_useless_signals(int sig)
 {
 	struct sigaction	restore_default;
 
-	log_trace("PID %zu: GOT SIGNAL %d", getpid(), sig);
 	set_term_attr(LE_SET_OLD);
 	restore_default.sa_flags = 0;
 	sigfillset(&(restore_default.sa_mask));

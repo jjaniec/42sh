@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 15:15:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 14:34:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:41:41 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid)
 
 	if (!(ptr = job->first_process))
 		return (0);
-	log_debug("PID %zu: Remove job pid: %zu - first process pid: %zu", \
-		getpid(), (size_t)process_pid, (size_t)job->first_process->pid);
 	if ((size_t)process_pid == (size_t)job->first_process->pid)
 	{
 		tmp = job->first_process->next;
@@ -43,6 +41,5 @@ pid_t		remove_task_pid_from_job(t_job *job, pid_t process_pid)
 		free(ptr->next);
 		return (process_pid);
 	}
-	log_error("Did not find pid %zu in job", (size_t)process_pid);
 	return (-1);
 }

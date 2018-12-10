@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:26:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/05 17:57:17 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:35:11 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,7 @@ int					del_env_var(struct s_environ *self, char *varname)
 	t_env_entry	*cur_env_var_struct;
 
 	if (!(cur_env_var_struct = self->get_var(self, varname)))
-	{
-		log_error("%s environnement variable not found !", varname);
 		return (1);
-	}
-	log_debug("Deleting environnement variable: %s - var->prev: %p", \
-		varname, cur_env_var_struct->prev);
 	remove_env_entry(self, cur_env_var_struct, cur_env_var_struct->prev);
 	return (0);
 }
