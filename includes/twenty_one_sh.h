@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 21:58:27 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 22:07:47 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@
 # include <ft_printf.h>
 # include "struct.h"
 # include "lexer.h"
-# include "log.h"
 # include "ast.h"
 # include "line_edition.h"
 # include "exec.h"

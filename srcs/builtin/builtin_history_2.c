@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:29:55 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/10 22:03:35 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 22:10:03 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ bool	blthis_save_history_in_file(struct s_history *his)
 		his = his->prev;
 	if ((fd = open(get_parsed_history_file_path(), O_WRONLY | O_TRUNC)) == -1)
 	{
-		ft_putstr_fd(SH_NAME ": error with file .
+		ft_putstr_fd(SH_NAME ": error with file . \
 		"SH_NAME"_history\n", STDERR_FILENO);
 		return (false);
 	}
