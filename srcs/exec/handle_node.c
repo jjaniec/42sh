@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 10:30:52 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/10 19:39:13 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/10 22:44:44 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	exec_node(char **argv, t_exec *exe, t_ast *node)
 		not = 1;
 		argv++;
 	}
-	if (__builtin_expect(is_builtin(argv[0], &builtin_fun_ptr), false))
+	if (is_builtin(argv[0], &builtin_fun_ptr))
 		fork_and_exec(\
 			(void *[3]){(void *)PROG_BUILTIN, &builtin_fun_ptr, argv}, \
 			exe, node);

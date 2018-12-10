@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 19:38:24 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/10 22:40:34 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ t_exec		*fork_and_exec(void **cmd, t_exec *exe, \
 	t_ast	*last_pipe_node;
 	int		**pipe_fds;
 
-	if (__builtin_expect(should_fork(cmd, &last_pipe_node, node), true))
+	last_pipe_node = NULL;
+	if (should_fork(cmd, &last_pipe_node, node))
 	{
 		pipe_fds = get_pipe_fds(last_pipe_node, node);
 		exe->prog_forked = true;
