@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/08 16:19:18 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/10 17:17:08 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -172,7 +172,8 @@ SRC_NAME = 	forty_two_sh.c \
 			builtin/cd/cd_opt.c \
 			builtin/cd/cd_l_dot_manager.c \
 			builtin/cd/cd_free_struct.c \
-			builtin/builtin_alias.c \
+			builtin/alias/builtin_alias.c \
+			builtin/alias/manage_aliases.c \
 			builtin/builtin_history.c \
 			builtin/builtin_history_2.c \
 			builtin/builtin_read.c \
@@ -271,11 +272,11 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd line_edition/ \
-			line_edition/actionk/ line_edition/colosyn/ line_edition/init_le \
-			line_edition/boolean_check line_edition/print line_edition/signals \
-			line_edition/tools syntax_highlighting/ script/ autocomplete/ \
-			env/ signals/ hash_table/ prompt_details/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd builtin/alias \
+			line_edition/ line_edition/actionk/ line_edition/colosyn/ \
+			line_edition/init_le line_edition/boolean_check line_edition/print \
+			line_edition/signals line_edition/tools syntax_highlighting/ \
+			script/ autocomplete/ env/ signals/ hash_table/ prompt_details/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

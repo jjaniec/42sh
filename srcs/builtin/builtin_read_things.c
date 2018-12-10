@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 20:29:21 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/19 15:41:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 16:34:31 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void		bltread_prepare_reading_line(struct termios *t,
 	ft_memset(*buffer, '\0', BLTREAD_MAX_CH + 1);
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 	{
-		if (tcgetattr(STDIN_FILENO, t) == -1 && tcgetattr(STDOUT_FILENO, t) == -1)
+		if (tcgetattr(STDIN_FILENO, t) == -1 &&
+		tcgetattr(STDOUT_FILENO, t) == -1)
 		{
 			ft_putstr_fd("Error while getting terminal olo attributes\n", 2);
 			exit(EXIT_FAILURE);
@@ -38,8 +39,8 @@ void		bltread_prepare_reading_line(struct termios *t,
 	}
 }
 
-static int	bltread_check_options_six(int foo, struct s_bltread *options, char **args,
-													unsigned int *i)
+static int	bltread_check_options_six(int foo, struct s_bltread *options,
+											char **args, unsigned int *i)
 {
 	if (foo == 1)
 	{
@@ -66,8 +67,8 @@ static int	bltread_check_options_six(int foo, struct s_bltread *options, char **
 	return (2);
 }
 
-int			bltread_check_options_two(struct s_bltread *options, char **args, unsigned int *i,
-														bool *fou)
+int			bltread_check_options_two(struct s_bltread *options, char **args,
+												unsigned int *i, bool *fou)
 {
 	int janice;
 
@@ -79,8 +80,8 @@ int			bltread_check_options_two(struct s_bltread *options, char **args, unsigned
 	return (2);
 }
 
-int			bltread_check_options_three(struct s_bltread *options, char **args, unsigned int *i,
-																bool *fou)
+int			bltread_check_options_three(struct s_bltread *options, char **args,
+													unsigned int *i, bool *fou)
 {
 	int janice;
 
@@ -92,8 +93,8 @@ int			bltread_check_options_three(struct s_bltread *options, char **args, unsign
 	return (2);
 }
 
-int			bltread_check_options_one(struct s_bltread *options, char **args, unsigned int *i,
-																bool *fou)
+int			bltread_check_options_one(struct s_bltread *options, char **args,
+												unsigned int *i, bool *fou)
 {
 	int janice;
 

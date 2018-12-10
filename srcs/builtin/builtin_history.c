@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:08:07 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:27:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:48:20 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	builtin_history(char **argv, t_environ *env, t_exec *exe)
 		if (ft_strequ(argv[1], "--clear"))
 			blthis_clear_history(access_le_main_datas());
 		else if (ft_strequ(argv[1], "--save"))
-			exe->ret = blthis_save_history_in_file(access_le_main_datas()->history) \
-			== true ? (0) : (1);
+			exe->ret = blthis_save_history_in_file(
+			access_le_main_datas()->history) == true ? (0) : (1);
 		else if (ft_str_is_positive_numeric(argv[1]) == true)
 			blthis_print_n_last_elem(access_le_main_datas(), ft_atoi(argv[1]));
 		else

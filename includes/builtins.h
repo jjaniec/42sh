@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/10 16:22:07 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:13:22 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void				builtin_history(char **argv, t_environ *env, t_exec *exe);
 void				builtin_toggle_syntax_highlighting(char **argv,
 					t_environ *env, t_exec *exe);
 void				builtin_alias(char **argv, t_environ *env, t_exec *exe);
+void				manage_aliases(char **argv, struct s_alias *alias,
+									t_exec *exe, unsigned int nb_args);
 void				builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 void				builtin_cd(char **argv, t_environ *env, t_exec *exe);
 bool				cd_in_link(t_environ *env);
