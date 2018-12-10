@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/10 17:17:08 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/12/10 18:12:43 by cyfermie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRC_NAME = 	forty_two_sh.c \
 			fatal_fork_fail.c \
 			ft_free.c \
 			lexer/lexer.c \
+			lexer/fill_new_data_str.c \
+			lexer/lexeme_type_rediropt.c \
 			lexer/get_lexeme_type.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \

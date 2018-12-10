@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_lexeme_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:35:59 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 19:41:45 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 17:58:26 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 ** Makes a substring of our operator to store it in lexeme->data
 */
 
-static int	store_optlexeme(char *s, int data_len, \
-				int *pos, char **data, int type)
+int			store_optlexeme(char *s, int integer[2], int *pos, char **data)
 {
+	int	data_len;
+	int	type;
+
+	data_len = integer[0];
+	type = integer[1];
 	*data = ft_strsub(s, 0, data_len);
 	if (*data == NULL)
 		exit(MALLOC_ERROR);
@@ -55,66 +59,7 @@ static int	lexeme_type_ctrlopt(char *s, int *pos, \
 			else if (*s == '\n')
 				*type_details = TK_NEWLINE;
 		}
-		return (store_optlexeme(s, data_len, pos, data, T_CTRL_OPT));
-	}
-	return (0);
-}
-
-/*
-** Parse redirection operators (see lexer.h)
-** and create a substring of it in *data
-*/
-
-static int 	lexeme_type_rediropt(char *s, int *pos, \
-					char **data, int  *type_details)
-{
-	int		data_len;
-
-	if (*s == '<' || *s == '>')
-	{
-		if (s[1] == '&' || s[1] == '>' || \
-			(*s == '>' && s[1] == '|') || (s[1] == *s))
-		{
-			if (*s == '<' && s[1] == *s && (s[2] == *s || s[2] == '-'))
-			{
-				if (s[2] == '-')
-					*type_details = TK_DLESSDASH;
-				else if (s[2] == *s)
-					*type_details = TK_TLESS;
-				data_len = 3;
-			}
-			else
-			{
-				if (s[1] == '&')
-				{
-					if (*s == '<')
-						*type_details = TK_LESSAND;
-					else if (*s == '>')
-						*type_details = TK_GREATAND;
-				}
-				else if (s[1] == '>')
-				{
-					if (*s == '>')
-						*type_details = TK_DGREAT;
-					else if (*s == '<')
-						*type_details = TK_LESSGREAT;
-				}
-				else if (s[1] == '<')
-					*type_details = TK_DLESS;
-				else if (s[1] == '|' && *s == '>')
-					*type_details = TK_CLOBBER;
-				data_len = 2;
-			}
-		}
-		else
-		{
-			if (*s == '<')
-				*type_details = TK_LESS;
-			else if (*s == '>')
-				*type_details = TK_GREAT;
-			data_len = 1;
-		}
-		return (store_optlexeme(s, data_len, pos, data, T_REDIR_OPT));
+		return (store_optlexeme(s, (int[2]){data_len, T_CTRL_OPT}, pos, data));
 	}
 	return (0);
 }
@@ -126,7 +71,7 @@ static int 	lexeme_type_rediropt(char *s, int *pos, \
 ** remake data string and *pos offset
 */
 
-static int 	is_redir_inputfd(char *s, int *pos, \
+static int	is_redir_inputfd(char *s, int *pos, \
 					char **data, int *type_details)
 {
 	int		i;
