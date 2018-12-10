@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tests.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 17:24:03 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/29 18:00:38 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/04 16:25:17 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,4 +250,5 @@ void	exec_tests(t_environ *env)
 		"lol=a lol2=b lol3=c; echo \\$lol\\$lol2\\$lol3", "abc\n", NULL);
 	compare_fds_w_strings("Local vars 9 - Multi assigns w/ Basic redefinition", \
 		"lol=a lol=b lol=c; echo \\$lol; lol=abc; echo \\$lol", "c\nabc\n", NULL);
+
 }

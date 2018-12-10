@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dir_get_items_search.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 13:38:10 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/19 17:09:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/11/21 11:44:13 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char			**dir_get_items_search(char *in, t_autoc *autoc)
 		else
 			return (res);
 	}
+	else
+		autoc_free_items(items);
 	autoc_free_items(res);
 	return (NULL);
 }

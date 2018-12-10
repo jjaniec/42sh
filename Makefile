@@ -162,6 +162,16 @@ SRC_NAME = 	forty_two_sh.c \
 			exec/resolve_cmd_path.c \
 			exec/create_exec.c \
 			exec/clean_data.c \
+			builtin/echo/builtin_echo.c \
+			builtin/echo/echo_print_opt.c \
+			builtin/echo/echo_opt.c \
+			builtin/echo/echo_opt_2.c \
+			builtin/cd/builtin_cd.c \
+			builtin/cd/cd_change_dir.c \
+			builtin/cd/cd_check_link.c \
+			builtin/cd/cd_opt.c \
+			builtin/cd/cd_l_dot_manager.c \
+			builtin/cd/cd_free_struct.c \
 			builtin/builtin_alias.c \
 			builtin/builtin_history.c \
 			builtin/builtin_history_2.c \
@@ -169,13 +179,11 @@ SRC_NAME = 	forty_two_sh.c \
 			builtin/builtin_read_get_activated_options.c \
 			builtin/builtin_read_store_words.c \
 			builtin/builtin_read_things.c \
-			builtin/builtin_cd.c \
 			builtin/builtin_exit.c \
 			builtin/builtin_setenv.c \
 			builtin/builtin_toggle_syntax_highlighting.c \
 			builtin/builtin_unalias.c \
 			builtin/builtin_unsetenv.c \
-			builtin/builtin_echo.c \
 			builtin/builtin_env.c \
 			builtin/builtin_return.c \
 			builtin/builtin_test.c \
@@ -244,7 +252,6 @@ INCLUDES_NAME = ast.h \
 				hash_table.h \
 				prompt_details.h\
 
-
 TESTS_SRC_NAME =	lexer_tests.c \
 					syntax_highlighting_tests.c \
 					ast_tests.c \
@@ -264,11 +271,11 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ line_edition/ line_edition/actionk/ \
-			line_edition/colosyn/ line_edition/init_le line_edition/boolean_check \
-			line_edition/print line_edition/signals line_edition/tools \
-			syntax_highlighting/ script/ autocomplete/ env/ signals/ hash_table/ \
-			prompt_details/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd line_edition/ \
+			line_edition/actionk/ line_edition/colosyn/ line_edition/init_le \
+			line_edition/boolean_check line_edition/print line_edition/signals \
+			line_edition/tools syntax_highlighting/ script/ autocomplete/ \
+			env/ signals/ hash_table/ prompt_details/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

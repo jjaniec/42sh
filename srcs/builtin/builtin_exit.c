@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/11/06 20:10:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/10/27 17:31:44 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	str_is_num(char *str)
 ** otherwise exit with 0 by default
 */
 
-inline void	builtin_exit(char **argv,t_environ *env, t_exec *exe)
+inline void	builtin_exit(char **argv, t_environ *env, t_exec *exe)
 {
 	int		exit_val;
 	int		first_arg_is_num;
