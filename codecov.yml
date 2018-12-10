@@ -1,4 +1,0 @@
-ignore:
-  - "srcs/main.c"
-  - "srcs/log.c"
-  - "tests/*.c"
