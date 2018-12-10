@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 20:20:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 19:38:52 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/10 20:23:44 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int		handle_wait_error(pid_t waited_pid, int *status)
 	{
 		if (errno != EINTR)
 		{
-			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
+			ft_putstr_fd(SH_NAME ": err: Could not wait child process\n", 2);
 			return (*status);
 		}
 		return (130);
 	}
 	if (waited_pid != -1)
-		ft_putstr_fd("21sh: err: Wait terminated for wrong process\n", 2);
+		ft_putstr_fd(SH_NAME ": err: Wait terminated for wrong process\n", 2);
 	return (0);
 }
 
