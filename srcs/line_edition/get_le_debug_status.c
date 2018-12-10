@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 19:41:31 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 15:52:04 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 20:12:08 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		get_le_debug_status(int mode, int new_value)
 {
 	static int	le_debug_status = 0;
 
-	if (mode == LE_DEBUG_STATUS_SET)
+	if (mode == 963)
 		le_debug_status = new_value;
 	return (le_debug_status);
 }
