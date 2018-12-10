@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/10 21:26:04 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 22:01:18 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 		{
-			ft_putstr_fd(SH_NAME ": error while loading ."SH_NAME"_aliases\n", 2);
+			ft_putstr_fd(SH_NAME ": error while loading .
+			"SH_NAME"_aliases\n", 2);
 			exit(MALLOC_ERROR);
 		}
 		else if (ret == 0)
@@ -105,7 +106,8 @@ void		load_history_file(struct s_line *le, char *line)
 	{
 		if ((ret = get_next_line(fd, &line)) == -1)
 		{
-			ft_putstr_fd(SH_NAME ": error while loading ."SH_NAME"_history\n", 2);
+			ft_putstr_fd(SH_NAME ": error while loading \
+			."SH_NAME"_history\n", 2);
 			exit(MALLOC_ERROR);
 		}
 		else if (ret == 0)

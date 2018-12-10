@@ -6,12 +6,12 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 21:27:10 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:58:27 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef twenty_one_sh_H
-# define twenty_one_sh_H
+#ifndef TWENTY_ONE_SH_H
+# define TWENTY_ONE_SH_H
 
 # include <stddef.h>
 # include <stdlib.h>
