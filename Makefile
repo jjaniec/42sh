@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/10 18:12:43 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/10 19:39:40 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -331,16 +331,6 @@ ifeq ($(UNAME_S),Darwin)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LFLAGS)
 endif
 
-$(TESTS_EXEC): $(LIBFTPRINTF) $(OBJ) $(TESTS_OBJ)
-	@$(CC) -c $(IFLAGS) $(addprefix $(LIBTAP_DIR),"/tap.c") -o $(addprefix $(LIBTAP_DIR),"/tap.o")
-	@$(CC) $(CFLAGS) $(TESTS_SRCS_OBJS_NAME) $(LIBFTPRINTF) -o $(TESTS_EXEC) $(LFLAGS)
-
-tests: CFLAGS += $(COVERAGE_CFLAGS)
-tests: all $(LIBTAP_DIR) $(TESTS_EXEC)
-
-coverage: tests
-	gcov $(subst ./objs/log.o,,$(TESTS_SRCS_OBJS_NAME))
-
 re: fclean all
 
 
@@ -349,32 +339,16 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(addprefix $(INCLUDES_DIR), $(INCLUDES_NAME))
 	@mkdir -p $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ_SUBDIRS))
 	@$(CC) $(CFLAGS) -c $(IFLAGS) $< -o $@ && $(call ui_line, $@, $(NAME))
 
-$(TESTS_DIR)%.o: $(TESTS_DIR)%.c $(addprefix $(TESTS_DIR),/tests.h)
-	$(CC) $(CFLAGS) -c $(IFLAGS) $< -o $@
-
-
 ###### LIB RULES ######
-$(FT_PRINTF_DIR):
-	git clone https://github.com/jjaniec/ft_printf $(FT_PRINTF_DIR) || true
-
-$(LIBFTPRINTF): $(FT_PRINTF_DIR)
+$(LIBFTPRINTF):
 	@make -C $(FT_PRINTF_DIR)
-
-$(LIBTAP_DIR):
-	git clone https://github.com/zorgnax/libtap.git $(LIBTAP_DIR) || true
 
 
 ###### CLEAN RULES ######
 clean:
 	-rm -rf $(OBJ_DIR)
-	-rm -rf $(addprefix $(TESTS_DIR),*.o)
-	-rm -rf *.gcov tests/*.{gcda,gcno} *.dSYM
 	-make clean -C $(FT_PRINTF_DIR)
 
 fclean: clean
 	-rm -f $(NAME)
 	-make fclean -C $(FT_PRINTF_DIR)
-
-ffclean: fclean
-	-rm -rf $(FT_PRINTF_DIR)
-	-rm -rf $(LIBTAP_DIR)
