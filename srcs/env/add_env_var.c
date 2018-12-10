@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:57:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/06 18:21:10 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:34:50 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ char		*add_env_var(t_environ *self, char *name, char *entry_value)
 		cp_new_entry_data(new_entry_struct, name, entry_value);
 	new_entry_struct->entry[MAX_ENV_ENTRY_LEN] = '\0';
 	upd_self_ptrs(self, new_entry_struct);
-	log_debug("New env var created ->entry: |%s| - ->entry_count: %d", \
-	new_entry_struct->entry, self->entry_count - 1);
 	self->entry_count += 1;
 	return (new_entry_struct->entry);
 }

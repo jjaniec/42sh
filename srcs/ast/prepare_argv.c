@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 15:52:17 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/19 16:55:46 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:33:56 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ char			**prepare_argv(t_lexeme *lexemes, int flag_heredoc_eof)
 
 	if (lexemes->type == T_SCRIPT_CONDITION)
 	{
-		log_info("This is a condition !");
 		lexemes->type = T_WORD;
 		argv = ft_xmalloc(sizeof(char *) * (count_argv(lexemes) + 1));
 		return (fill_argv_tab(&argv, lexemes));

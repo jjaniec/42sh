@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 19:40:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/05 20:00:33 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:35:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ static int	exec_command_passed_in_last_parameters(char **command_begin_ptr, \
 		fatal_fork_fail();
 	else if (!child_pid)
 	{
-		log_debug("Start %s params: %s env %p", prog_path, \
-			*command_begin_ptr, child_env);
 		execve(prog_path, command_begin_ptr, child_env);
 		exit(EXIT_FAILURE);
 	}

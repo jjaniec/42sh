@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 20:20:36 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 17:40:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:38:52 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static int		handle_wait_error(pid_t waited_pid, int *status)
 	{
 		if (errno != EINTR)
 		{
-			log_error("Wait returned -1");
 			ft_putstr_fd("21sh: err: Could not wait child process\n", 2);
 			return (*status);
 		}

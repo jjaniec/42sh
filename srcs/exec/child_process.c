@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/08 16:16:00 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:37:02 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void		child_process_postexec(t_ast *node, \
 		backup_apply_origin_fds(MODE_RESTORE_ORIGIN_FDS);
 	if (exe->prog_forked)
 	{
-		log_trace("PID %zu: Forcing exit of child process", getpid());
 		r = exe->ret;
 		free_all_shell_datas();
 		free_exec(&exe);
@@ -118,8 +117,6 @@ static void		start_program(void **cmd, t_exec *exe)
 	t_shell_vars	*vars;
 	t_ast			**ast_ptr;
 
-	log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", \
-		getpid(), cmd, (intptr_t)cmd[0]);
 	prog_argv = ft_dup_2d_array(cmd[2]);
 	prog_name = ft_xstrdup(cmd[1]);
 	prog_env = exe->env_assigns_environ->environ;
@@ -129,10 +126,7 @@ static void		start_program(void **cmd, t_exec *exe)
 		ast_free(*ast_ptr);
 	free_exec(&exe);
 	if (__builtin_expect(execve(prog_name, prog_argv, prog_env), 0))
-	{
-		log_error("PID %zu - Execve() not working", getpid());
 		print_error(prog_name, "Execve() failed for program", SUBJECT_AT_END);
-	}
 }
 
 void			child_process(void **cmd, t_exec *exe, \

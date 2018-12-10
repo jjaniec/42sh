@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/08 16:20:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:41:30 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static int		handle_input_redir(int prefix_fd, char *target_data, \
 		if ((fd = open(target_data, O_RDONLY, 0)) == -1)
 			return (-handle_open_error(errno, target_data));
 		else
-		{
-			log_trace("File %s opened as fd: %d", target_data, fd);
 			handle_redir_fd(prefix_fd, fd);
-		}
 	}
 	else if (tk_type_details == TK_DLESS || \
 			tk_type_details == TK_TLESS)
@@ -73,10 +70,7 @@ static int		handle_output_redir(int prefix_fd, \
 			DEFAULT_OUTPUT_REDIR_FILE_MODE)) == -1)
 			return (-handle_open_error(errno, target_data));
 		else
-		{
-			log_trace("File %s opened as fd: %d", target_data, fd);
 			handle_redir_fd(prefix_fd, fd);
-		}
 	}
 	return (0);
 }
@@ -95,8 +89,6 @@ static int		handle_redir(int prefix_fd, char *target_data, \
 	int		r;
 
 	r = -2;
-	log_debug("Handle redir prefix_fd: %d - target_fd: %d for target_data \
-		string: |%s| - node: %p", prefix_fd, target_fd, target_data, node);
 	if (!(node->type_details == TK_LESSAND \
 		|| node->type_details == TK_GREATAND))
 	{
@@ -147,8 +139,6 @@ int				handle_redirs(t_ast *node)
 	char	*target_data;
 	int		new_fd;
 
-	log_trace("PID %zu: Handle redirs of %s(t %d td %d)", \
-		getpid(), node->data[0], node->type, node->type_details);
 	node = node->parent;
 	while (node && node->type == T_REDIR_OPT)
 	{

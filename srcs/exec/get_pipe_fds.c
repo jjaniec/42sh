@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/24 20:58:15 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/29 16:36:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:38:47 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ static int		**return_fds_ptr_tab(int **fd_ptr_tab, t_ast *node)
 	ret[1] = fd_ptr_tab[1];
 	ret[2] = fd_ptr_tab[2];
 	ret[3] = fd_ptr_tab[3];
-	log_debug("Found pipe fds stdin redir: %d & stdout redir: %d\
-		- fds to close in child: %d & %d - for %s: node %p", \
-		ret[0], ret[1], ret[2], ret[3], node->data[1], node);
 	return (ret);
 }
 

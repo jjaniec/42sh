@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 17:08:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:38:24 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	parent_process(char **cmd, pid_t child_pid, int **pipe_fds)
 
 	g_cmd_status.cmd_running = true;
 	g_cmd_status.cmd_pid = child_pid;
-	log_trace("New forked process pid: %d", child_pid);
 	status = -2;
 	return_code = status;
 	add_running_process((char **)cmd[2], child_pid, &g_jobs);
@@ -83,9 +82,6 @@ static int	parent_process(char **cmd, pid_t child_pid, int **pipe_fds)
 	{
 		wait_child(child_pid, &status, &waited_pid);
 		return_code = get_process_return_code(&status, waited_pid, child_pid);
-		log_info("PID %zu: Command %s exited w/ return_code: %d", getpid(), \
-			((intptr_t) * cmd != PROG_BUILTIN) ? (cmd[1]) : ("-builtin-"), \
-			return_code);
 		free_job(g_jobs);
 		g_jobs = NULL;
 	}

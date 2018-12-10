@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 17:07:29 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:42:46 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int				is_quote_removable(char *s, char **jump_ptr,
 	{
 		if (jump_ptr)
 			*jump_ptr = tmp;
-		log_debug("Found removable quote @ : |%s|", tmp);
 		if (c == '"')
 			*quote_type = IN_DQUOTES;
 		else if (c == '\'')
@@ -86,6 +85,4 @@ void			handle_quotes_expansions(char **data)
 	fill_new_data_str(&new_lex_data, get_shell_vars());
 	free(*data);
 	*data = new_lex_data.clean_data;
-	log_trace("Replaced old data w/ after quotes & \
-	expansions handling |%s|", *data);
 }

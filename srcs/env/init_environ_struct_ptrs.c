@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 17:59:37 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/10/03 18:17:09 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:35:37 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,4 @@ void		init_environ_struct_ptrs(t_environ *env_struct)
 		env_struct->upt_var = upd_env_var;
 		env_struct->del_var = del_env_var;
 	}
-	else
-		log_error("Trying to init NULL environ struct");
 }

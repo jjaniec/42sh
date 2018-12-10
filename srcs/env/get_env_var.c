@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 13:28:48 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/05 17:57:28 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:35:20 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,7 @@ t_env_entry		*get_env_var(t_environ *self, char *varname)
 		*(ptr->ptr_to_pos_in_environ_tab) != varname)
 		ptr = ptr->next;
 	if (ptr)
-	{
-		log_debug("Found %s env var w/ data %s", varname, ptr->entry);
 		self->last_used_elem = ptr;
-	}
-	else
-		log_error("%s environnement variable not found !", varname);
 	if (equal_sign_ptr)
 		*equal_sign_ptr = '=';
 	return (ptr);

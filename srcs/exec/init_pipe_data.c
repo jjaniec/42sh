@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:19:20 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/27 17:32:07 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:40:01 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	init_pipe_data(char ***node_data, t_ast *pipe_node_ptr)
 	(*node_data)[1] = (char *)(pipe_fds);
 	(*node_data)[2] = NULL;
 	pipe(pipe_fds);
-	log_info("Created pipe w/ fds: %d (out) %d (in)", \
-		pipe_fds[0], pipe_fds[1]);
 	next_pipe_node = \
 		(pipe_node_ptr && pipe_node_ptr->parent && \
 		pipe_node_ptr->parent->type_details == TK_PIPE) ? \

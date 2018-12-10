@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 16:02:08 by cfermier          #+#    #+#             */
-/*   Updated: 2018/12/09 16:23:50 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:53:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	send_sig_to_job_processes(int sig, t_job *job)
 	ft_printf("\n"SH_NAME": Sending signal (SIGINT) to pipeline\n");
 	while (ptr)
 	{
-		log_debug("Seng sig %d to job process %d", sig, ptr->pid);
 		kill(ptr->pid, sig);
 		ptr = ptr->next;
 	}
@@ -40,8 +39,6 @@ static bool	fissou(int sig)
 	{
 		if (kill(g_jobs->first_process->pid, sig) == -1)
 			exit(EXIT_FAILURE);
-		log_debug("Sending signal (SIGINT) to pid: %d\n", \
-		g_jobs->first_process->pid);
 	}
 	else
 	{
@@ -72,7 +69,6 @@ void		handle_sigint(int sig)
 	receiver_pid = getpid();
 	if (sig != SIGINT || g_cmd_status.builtin_running == true)
 		return ;
-	log_debug("PID %d: Got sig SIGINT", receiver_pid);
 	if (g_jobs && g_jobs->first_process && !fissou(sig))
 		return (send_sig_to_job_processes(sig, g_jobs));
 	g_cmd_status.sigint_happened = true;

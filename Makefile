@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/10 19:39:40 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/12/10 20:02:53 by sbrucker         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -208,7 +208,6 @@ SRC_NAME = 	forty_two_sh.c \
 			signals/handle_sigwinch.c \
 			signals/handle_useless_signals.c \
 			signals/handle_sigchild.c \
-			log.c \
 			sub_prompt.c \
 			subp_lexeme.c \
 			init_globals_config.c \

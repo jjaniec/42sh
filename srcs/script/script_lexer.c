@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 21:07:42 by sebastien         #+#    #+#             */
-/*   Updated: 2018/11/30 17:59:52 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:43:21 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static t_lexeme	*next_lex_condition(t_lexeme *lex, int token)
 	{
 		lex->next->type = T_SCRIPT_CONDITION;
 		lex->next->type_details = token;
-		log_info("Update elem w/ data |%s| - type : %zu", lex->data, lex->type);
 	}
 	else if (!is_op0(lex->next))
 		lex->next->type_details = TK_SCRIPT_FI;
@@ -108,9 +107,6 @@ void			script_lexemes(t_lexeme *lexemes)
 		{
 			first = 1;
 			lexemes = is_keyword(lexemes, last_lex_lvl);
-			if (lexemes->type >= 5)
-				log_info("Update elem w/ data |%s| - type : %zu - last_lex_lvl \
-				%d", lexemes->data, lexemes->type, last_lex_lvl);
 		}
 		if (lexemes->type != T_WORD)
 			first = 0;
