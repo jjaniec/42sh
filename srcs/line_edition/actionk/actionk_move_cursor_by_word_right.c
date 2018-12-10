@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 /*
 **	Find the number of moves needed by the cursor, to go on the begining

@@ -13,7 +13,7 @@
 #ifndef PROMPT_DETAILS_H
 # define PROMPT_DETAILS_H
 
-# include <forty_two_sh.h>
+# include <twenty_one_sh.h>
 
 # define PROMPT_PWD "\e[0;36m"
 # define PROMPT_COLOR_TRUE "\e[35;1m"

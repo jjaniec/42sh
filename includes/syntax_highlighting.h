@@ -13,7 +13,7 @@
 #ifndef SYNTAX_HIGHLIGHTING_H
 # define SYNTAX_HIGHLIGHTING_H
 
-# include <forty_two_sh.h>
+# include <twenty_one_sh.h>
 
 /*
 ** 8/16 colors sequences,

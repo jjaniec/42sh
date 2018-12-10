@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 struct s_cmd_status	g_cmd_status = {
 	.cmd_running = false, .keep_le_cmd = NULL, .resize_happened = false, \
@@ -43,7 +43,7 @@ static void			loop_body(t_shell_vars *vars)
 			free_lexemes(lex);
 		if (input != NULL && input[0] != '\0' && input[0] != '\n')
 			add_history(input, access_le_main_datas());
-		forty_two_sh(input, vars);
+		twenty_one_sh(input, vars);
 	}
 }
 
@@ -64,7 +64,7 @@ static void			handle_cmd_as_arguments(int ac, char **args)
 	g_cmd_status.interactive_mode = false;
 	while (ac > 0)
 	{
-		forty_two_sh(ft_strjoin(*args, "\n"), get_shell_vars());
+		twenty_one_sh(ft_strjoin(*args, "\n"), get_shell_vars());
 		args++;
 		ac--;
 	}

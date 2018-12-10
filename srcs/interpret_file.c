@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 static char		*read_file(int fd)
 {
@@ -59,7 +59,7 @@ int				interpret_file(char **argv, t_option **char_opt_index)
 		else
 		{
 			g_sh_opts[1].opt_status = true;
-			forty_two_sh(read_file(fd), get_shell_vars());
+			twenty_one_sh(read_file(fd), get_shell_vars());
 		}
 		close(fd);
 		return (1);

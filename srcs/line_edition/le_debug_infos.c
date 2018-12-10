@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 16:00:49 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 16:40:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:26:52 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		le_debug_infos(void)
 
 	le = access_le_main_datas();
 	le_debug("%s", "--------------------------------------\n");
-	le_debug("PID du 42sh = %i\n", (int)getpid());
+	le_debug("PID du "SH_NAME" = %i\n", (int)getpid());
 	le_debug("key number = %llu\n", (unsigned long long)(le->key_no));
 	le_debug("cmd = |%s|\n", le->cmd);
 	le_debug("cmd size = %zu\n", le->cmd_size);

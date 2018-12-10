@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:29:55 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 16:28:35 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:27:28 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 /*
 **	Print all history's elements with an index.
@@ -95,7 +95,7 @@ bool	blthis_save_history_in_file(struct s_history *his)
 		his = his->prev;
 	if ((fd = open(get_parsed_history_file_path(), O_WRONLY | O_TRUNC)) == -1)
 	{
-		ft_putstr_fd("42sh: error with file .42sh_history\n", STDERR_FILENO);
+		ft_putstr_fd(SH_NAME ": error with file ."SH_NAME"_history\n", STDERR_FILENO);
 		return (false);
 	}
 	while (his->cmd != NULL)
@@ -103,7 +103,7 @@ bool	blthis_save_history_in_file(struct s_history *his)
 		if (write(fd, his->cmd, ft_strlen(his->cmd)) == (ssize_t)(-1)
 		|| write(fd, "\n", sizeof(char)) == (ssize_t)(-1))
 		{
-			ft_putstr_fd(".42sh_history: error writing in file\n", 2);
+			ft_putstr_fd("."SH_NAME"_history: error writing in file\n", 2);
 			return (close(fd) ? (false) : (false));
 		}
 		his = his->next;

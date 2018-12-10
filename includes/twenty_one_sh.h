@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.h                                     :+:      :+:    :+:   */
+/*   twenty_one_sh.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 18:17:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:27:10 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORTY_TWO_SH_H
-# define FORTY_TWO_SH_H
+#ifndef twenty_one_sh_H
+# define twenty_one_sh_H
 
 # include <stddef.h>
 # include <stdlib.h>
@@ -42,7 +42,7 @@
 #  define _OS_ "?"
 # endif
 
-# define SH_NAME		"42sh"
+# define SH_NAME		"21sh"
 # define IFS			"\t\n "
 # define MALLOC_ERROR 	(EXIT_FAILURE)
 # define OPT_NOT_FOUND_ERROR 1
@@ -73,8 +73,8 @@
 # include "hash_table.h"
 # include "prompt_details.h"
 
-# define HISTORY_FILE_PATH "$HOME/.42sh_history"
-# define ALIASES_FILE_PATH "$HOME/.42sh_aliases"
+# define HISTORY_FILE_PATH "$HOME/."SH_NAME"_history"
+# define ALIASES_FILE_PATH "$HOME/."SH_NAME"_aliases"
 
 # define ERR_NO_ENTRY		"no such file or directory"
 # define ERR_ISDIR			"is a directory\n"
@@ -111,7 +111,7 @@ extern t_job		*g_jobs;
 
 typedef int		t_acocat;
 
-int				forty_two_sh(char *input, t_shell_vars *vars);
+int				twenty_one_sh(char *input, t_shell_vars *vars);
 
 void			init_shell_vars(char **env, t_shell_vars *vars);
 

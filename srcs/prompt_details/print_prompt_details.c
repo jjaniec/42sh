@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 static void		prompt_setup(t_prompt *prompt)
 {

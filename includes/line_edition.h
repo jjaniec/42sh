@@ -15,7 +15,7 @@
 # define LINE_EDITION_H
 
 # include "le_debug.h"
-# include <forty_two_sh.h>
+# include <twenty_one_sh.h>
 
 /*
 **	Sizes

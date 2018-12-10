@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/10 19:39:40 by cgaspart         ###   ########.fr        #
+#    Updated: 2018/12/10 21:20:40 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ###### EXEC ######
-NAME = 42sh
+NAME = 21sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 ###### FILES ######
-SRC_NAME = 	forty_two_sh.c \
+SRC_NAME =  twenty_one_sh.c \
 			init_shell_vars.c \
 			is_separator.c \
 			get_valid_input.c \
@@ -245,7 +245,7 @@ INCLUDES_NAME = ast.h \
 				autocomplete.h \
 				builtins.h \
 				exec.h \
-				forty_two_sh.h \
+				twenty_one_sh.h \
 				lexer.h \
 				line_edition.h \
 				script.h \
@@ -255,24 +255,9 @@ INCLUDES_NAME = ast.h \
 				hash_table.h \
 				prompt_details.h\
 
-TESTS_SRC_NAME =	lexer_tests.c \
-					syntax_highlighting_tests.c \
-					ast_tests.c \
-					exec_tests.c \
-					builtins_tests.c \
-					script_tests.c \
-					builtin_test_tests.c \
-					test_lexeme_list.c \
-					compare_sh_42sh_outputs.c \
-					compare_redirected_files_contents.c \
-					compare_fds_with_strings.c \
-					redirect_both_fds.c \
-					main.c
-
 ###### FOLDERS ######
 SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
-TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
 OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd builtin/alias \
 			line_edition/ line_edition/actionk/ line_edition/colosyn/ \
@@ -280,13 +265,10 @@ OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd builtin/alias \
 			line_edition/signals line_edition/tools syntax_highlighting/ \
 			script/ autocomplete/ env/ signals/ hash_table/ prompt_details/
 FT_PRINTF_DIR = ./ft_printf/
-LIBTAP_DIR = ./libtap/
 
 ###### SRC / OBJ ######
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_NAME:.c=.o))
-TESTS_OBJ = $(addprefix $(TESTS_DIR),$(TESTS_SRC_NAME:.c=.o))
-TESTS_SRCS_OBJS_NAME = $(subst ./objs/main.o,,$(OBJ)) $(TESTS_OBJ) $(addprefix $(LIBTAP_DIR),"/tap.o")
 
 ###### COMPILATION ######
 CC = gcc
@@ -299,15 +281,12 @@ VERBOSE_MODE = 0
 VERBOSE_MODE_FLAGS = -DVERBOSE_MODE=$(VERBOSE_MODE) -DLOG_USE_COLOR
 #DEV_FLAGS = -fsanitize=address -fno-omit-frame-pointer
 CFLAGS += $(DEV_FLAGS)
-COVERAGE_CFLAGS = -coverage -O0
 IFLAGS = -I$(FT_PRINTF_DIR)/includes -I$(INCLUDES_DIR)
 
 ### LIB ###
 LFLAGS = -L$(FT_PRINTF_DIR) -lftprintf -lncurses
-LIBTAP_FLAGS = -I$(LIBTAP_DIR) -L$(LIBTAP_DIR) -ltap
 LIBFTPRINTF = $(addprefix $(FT_PRINTF_DIR),libftprintf.a)
-### VERBOSE - COVERAGE ###
-CFLAGS += $(VERBOSE_MODE_FLAGS)
+
 ### CROSS-COMPIL ###
 UNAME_S := $(shell uname -s)
 MAKEFILE_STATUS = $(addprefix $(addprefix $(FT_PRINTF_DIR),"libft/"),".makefile_status.sh")
@@ -319,9 +298,6 @@ endef
 ###### RULES ######
 .PHONY: fclean re all verbose
 all : $(NAME)
-
-verbose: VERBOSE_MODE=1
-verbose: $(NAME)
 
 $(NAME) : $(LIBFTPRINTF) $(OBJ)
 ifeq ($(UNAME_S),Linux)

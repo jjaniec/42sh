@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/10 18:17:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:26:04 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 static void	do_the_copy(const char *separator_sign_pos, bool *first_elem,
 								struct s_alias **alias, const char *line)
@@ -52,7 +52,7 @@ static void	copy_file_datas_in_aliases_list(struct s_alias *alias, int fd)
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 		{
-			ft_putstr_fd("42sh: error while loading .42sh_aliases\n", 2);
+			ft_putstr_fd(SH_NAME ": error while loading ."SH_NAME"_aliases\n", 2);
 			exit(MALLOC_ERROR);
 		}
 		else if (ret == 0)
@@ -78,7 +78,7 @@ void		load_aliases_file(struct s_alias *alias)
 	if (alias_file_path == NULL || check_backup_file(alias_file_path) == false
 	|| (fd = open(alias_file_path, O_RDONLY)) == -1)
 	{
-		ft_putstr_fd("42sh: error while loading .42sh_aliases\n", 2);
+		ft_putstr_fd(SH_NAME ": error while loading ."SH_NAME"_aliases\n", 2);
 		return ;
 	}
 	copy_file_datas_in_aliases_list(alias, fd);
@@ -98,14 +98,14 @@ void		load_history_file(struct s_line *le, char *line)
 	if (his_file_path == NULL || check_backup_file(his_file_path) == false
 	|| (fd = open(his_file_path, O_RDONLY)) == -1 || le->history == NULL)
 	{
-		ft_putstr_fd("42sh: error while loading .42sh_history\n", 2);
+		ft_putstr_fd(SH_NAME ": error while loading ."SH_NAME"_history\n", 2);
 		return ;
 	}
 	while ("there is still something to read")
 	{
 		if ((ret = get_next_line(fd, &line)) == -1)
 		{
-			ft_putstr_fd("42sh: error while loading .42sh_history\n", 2);
+			ft_putstr_fd(SH_NAME ": error while loading ."SH_NAME"_history\n", 2);
 			exit(MALLOC_ERROR);
 		}
 		else if (ret == 0)

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forty_two_sh.c                                     :+:      :+:    :+:   */
+/*   twenty_one_sh.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 18:55:19 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/06 18:56:09 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:14:44 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
-int		forty_two_sh(char *input, t_shell_vars *vars)
+int		twenty_one_sh(char *input, t_shell_vars *vars)
 {
 	t_ast		*ast_root;
 	t_exec		*exe;

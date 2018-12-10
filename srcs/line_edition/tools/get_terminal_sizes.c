@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <sys/ioctl.h>
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 /*
 **	Get the number of columns/lines for the current terminal window.

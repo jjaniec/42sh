@@ -6,11 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 19:00:51 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/06 19:02:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 21:26:41 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <forty_two_sh.h>
+#include <twenty_one_sh.h>
 
 /*
 ** Copy environnement and initialize local and internal variables
@@ -35,7 +35,7 @@ void		init_shell_vars(char **env, t_shell_vars *vars)
 	internal_vars.add_var(&internal_vars, "$", ret_itoa);
 	free(ret_itoa);
 	internal_vars.add_var(&internal_vars, "!", "0");
-	internal_vars.add_var(&internal_vars, "42SH_VERSION", "0.0.42");
+	internal_vars.add_var(&internal_vars, SH_NAME "_VERSION", "0.0.42");
 	if ((ret_itoa = ft_itoa(getuid())) == NULL)
 		exit(MALLOC_ERROR);
 	internal_vars.add_var(&internal_vars, "UID", ret_itoa);
