@@ -1,0 +1,67 @@
+language: c
+sudo: true
+before_install:
+    - brew update || sudo apt-get update -yqq
+    - if [ "$TRAVIS_OS_NAME" = linux ]; then sudo apt-get install -yqq valgrind libbsd-dev libncurses5-dev; fi;
+    - git clone https://github.com/alelievr/libft-unit-test.git
+    - sed -i.bak "s#\.\.\/libft\$#\.\.\/\.#" libft-unit-test/Makefile
+git:
+  depth: 3
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-8
+    - gcc-7
+    - gcc-4.8
+    - valgrind
+    - libncurses-dev
+    # - clang-6.0
+    # - clang-5.0
+matrix:
+    include:
+        - os: osx
+          compiler: gcc
+          osx_image: xcode9.4
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode9.4
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode9.2
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode9.2
+          env: CXX=clang
+        - os: osx
+          compiler: gcc
+          osx_image: xcode8
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          osx_image: xcode8
+          env: CXX=clang
+        - os: linux
+          compiler: gcc-8
+          env: CXX=gcc-8
+        - os: linux
+          compiler: gcc-7
+          env: CXX=gcc-7
+        - os: linux
+          compiler: gcc-4.8
+          env: CXX=gcc-4.8
+        - os: linux
+          compiler: clang
+          env: CXX=clang
+    allow_failures:
+        - os: linux
+          compiler: gcc-4.8
+          env: CXX=gcc-4.8
+        - os: linux
+          compiler: clang
+          env: CXX=clang
+script: if [ "$TRAVIS_OS_NAME" = "linux" ]; then make CC=$CXX so; fi; make -C libft-unit-test; cd libft-unit-test; cp ../libft.* .; if [ "$TRAVIS_OS_NAME" = linux ]; then valgrind ./run_test; else ./run_test; fi;

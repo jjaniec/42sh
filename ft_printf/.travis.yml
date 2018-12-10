@@ -1,0 +1,42 @@
+language: c
+sudo: true
+before_install:
+    - brew update || sudo apt-get update -yqq
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -yqq valgrind; fi;
+    - git clone https://github.com/jjaniec/libft.git
+    - git clone https://github.com/yyang42/moulitest.git
+    - cat moulitest/config.ini.template | tr '\n' '^' | sed "s#/absolute/path/to/project#$TRAVIS_BUILD_DIR#3" | tr '^' '\n' > moulitest/config.ini
+    - curl http://ix.io/FDo > basic_tests.c || true
+    - curl http://ix.io/FDI > leaks_tests.c || true
+matrix:
+    include:
+        - os: osx
+          compiler: gcc
+          env: CXX=gcc
+        - os: osx
+          compiler: clang
+          env: CXX=clang
+        - os: linux
+          compiler: gcc
+          env: CXX=gcc
+        - os: linux
+          compiler: clang
+          env: CXX=clang
+    allow_failures:
+        - os: linux
+          compiler: gcc
+          env: CXX=gcc
+        - os: linux
+          compiler: clang
+          env: CXX=clang
+script: >
+  make CC=$CXX re;
+  gcc basic_tests.c libftprintf.a;
+  ./a.out;
+  if [ $TRAVIS_OS_NAME == linux ];
+  then make re CC=$CXX C_FLAGS=-g;
+  gcc leaks_tests.c libftprintf.a;
+  valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./a.out;
+  fi;
+  make -C moulitest ft_printf;
+  make CC=gcc curqui_test;
