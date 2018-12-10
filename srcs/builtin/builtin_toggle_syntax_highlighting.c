@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_toggle_syntax_highlighting.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:30:18 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/01 11:22:59 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:01:38 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static int			check_args(char **args)
 	return (0);
 }
 
-void				builtin_toggle_syntax_highlighting(char **argv, t_environ *env,
-																	t_exec *exe)
+void				builtin_toggle_syntax_highlighting(char **argv,
+										t_environ *env, t_exec *exe)
 {
 	(void)env;
 	(void)exe;

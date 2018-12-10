@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 16:29:12 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/10/19 18:53:34 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:02:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	builtin_unalias(char **argv, t_environ *env, t_exec *exe)
 	index = 1;
 	while (nb_args > 0)
 	{
-		builtin_alias( (char *[4]){"alias", "-d", argv[index], NULL}, env, exe);
+		builtin_alias((char *[4]){"alias", "-d", argv[index], NULL}, env, exe);
 		--nb_args;
 		++index;
 	}
