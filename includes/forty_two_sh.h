@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 16:15:27 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/07 18:47:57 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:17:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ char			autoc_check_path(char *dirname);
 
 bool			check_backup_file(const char *file_path);
 
-void			load_history_file(struct s_line *le);
+void			load_history_file(struct s_line *le, char *line);
 void			load_aliases_file(struct s_alias *alias);
 
 char			*get_parsed_aliases_file_path(void);
