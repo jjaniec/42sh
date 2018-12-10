@@ -71,13 +71,13 @@ int			bltread_check_options_five(int foo, struct s_bltread *options, char **args
 	if (foo == 1)
 	{
 		ft_memset(options, 0, sizeof(struct s_bltread));
-		options->nb_opt_nN = BLTREAD_MAX_CH;
+		options->nb_opt_n_n2 = BLTREAD_MAX_CH;
 		*i = 0;
 		return (2);
 	}
-	options->opt_N = true;
+	options->opt_n2 = true;
 	if (bltread_check_options_four(2, args, *i) == true)
-		options->nb_opt_nN = ft_atoi(args[*i + 1]);
+		options->nb_opt_n_n2 = ft_atoi(args[*i + 1]);
 	else
 		return (0);
 	*i += 2;

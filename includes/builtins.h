@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/03 16:57:16 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:22:07 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,37 @@
 
 # include <forty_two_sh.h>
 
-# define BUILTIN_ENV_USAGE \
-	SH_NAME ": env [-i][name=value]...	[utility [argument...]]"
+# define BUILTIN_ENV_USAGE_P1 SH_NAME ": env [i][name=value]..."
+# define BUILTIN_ENV_USAGE BUILTIN_ENV_USAGE_P1 "	[utility [argument...]]"
+# define BUILTIN_CD_USAGE SH_NAME ": cd [-L | -P] [-] [directory]"
+# define B_TEST_USG_P1 SH_NAME ": test, [ --\n\t\ttest expression"
+# define B_TEST_USG_P2 B_TEST_USG_P1 "\n\t\t[ expression ]\n\t\t! expression"
+# define BUILTIN_TEST_USAGE B_TEST_USG_P2
+# define B_HISTORY_USG_P1 SH_NAME ": Usage : history [n | -d n | --clear |"
+# define BUILTIN_HISTORY_USAGE B_HISTORY_USG_P1 " --save]\n"
+# define BUILTIN_ALIAS_USAGE SH_NAME ": usage: alias [-d] key value | --save\n"
+# define B_SETENV_USG_P1 SH_NAME ": setenv: usage setenv VAR1=VALUE1"
+# define BUILTIN_SETENV_USAGE B_SETENV_USG_P1 " VAR2=VALUE2 ...\n"
+# define B_UNSETENV_USG_P1 SH_NAME ": unsetenv: usage unsetenv VAR1NAME"
+# define BUILTIN_UNSETENV_USAGE B_UNSETENV_USG_P1 " VAR2NAME ...\n"
+# define B_READ_USG_P1 SH_NAME ": read: usage read [-d 'x'] [[-n | -N] x]"
+# define BUILTIN_READ_USAGE B_READ_USG_P1 " -p -s -- VAR1 VAR2 ...\n"
+# define BLTREAD_MAX_CH (8192U)
 
-# define BUILTIN_CD_USAGE \
-	SH_NAME ": cd [-L | -P] [-] [directory]"
-
-# define BUILTIN_TEST_USAGE \
-	SH_NAME ": test, [ --\n\t\ttest expression\n\t\t[ expression ]\n\t\t! expression"
-
-# define BUILTIN_HISTORY_USAGE \
-	SH_NAME ": Usage : history [n | -d n | --clear | --save]\n"
-
-# define BUILTIN_ALIAS_USAGE \
-	SH_NAME ": usage: alias [-d] key value | --save\n"
-
-# define BUILTIN_SETENV_USAGE \
-	SH_NAME ": setenv: usage setenv VAR1=VALUE1 VAR2=VALUE2 ...\n"
-
-# define BUILTIN_UNSETENV_USAGE \
-	SH_NAME ": unsetenv: usage unsetenv VAR1NAME VAR2NAME ...\n"
-
-# define BUILTIN_READ_USAGE \
-	SH_NAME ": read: usage read [-d 'x'] [[-n | -N] x] -p -s -- VAR1 VAR2 ...\n"
-
-#define BLTREAD_MAX_CH (8192U)
-
-struct s_alias
+struct				s_alias
 {
 	char			*key;
 	char			*value;
 	struct s_alias	*next;
 };
 
-struct s_bltread
+struct				s_bltread
 {
 	bool			opt_d;
 	unsigned int	delim_opt_d;
 	bool			opt_n;
-	bool			opt_N;
-	unsigned int	nb_opt_nN;
+	bool			opt_n2;
+	unsigned int	nb_opt_n_n2;
 	bool			opt_p;
 	bool			opt_s;
 	char			**words_vars;
@@ -147,5 +138,5 @@ bool				bltread_check_options_four(int foo, char **args,
 					unsigned int i);
 int					bltread_check_options_five(int foo,
 					struct s_bltread *options, char **args, unsigned int *i);
-void    			builtin_unalias(char **argv, t_environ *env, t_exec *exe);
+void				builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 #endif

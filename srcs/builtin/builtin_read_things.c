@@ -56,7 +56,7 @@ static int	bltread_check_options_six(int foo, struct s_bltread *options, char **
 	}
 	options->opt_n = true;
 	if (bltread_check_options_four(1, args, *i) == true)
-		options->nb_opt_nN = ft_atoi(args[*i + 1]);
+		options->nb_opt_n_n2 = ft_atoi(args[*i + 1]);
 	else
 		return (0);
 	*i += 2;
