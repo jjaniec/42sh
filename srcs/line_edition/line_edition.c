@@ -6,28 +6,11 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 20:07:58 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
- #include <stdio.h> // debug
- FILE *tty_debug = NULL; // debug
- #define FOOLOL // debug
-
-
 #include <forty_two_sh.h>
-
-
- #undef FOOLOL // debug
-
-
-/*
-**	pour debuguer l'edition de ligne :
-**	remplacer ce bloc de commentaire par la fonction le_debug_infos
-**	qui se situe dans le fichier du meme nom
-*/
-
 
 /*
 **	Initialize line edition's datas_structures,

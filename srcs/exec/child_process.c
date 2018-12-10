@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/10 19:37:02 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/10 20:08:55 by sbrucker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void			child_process(void **cmd, t_exec *exe, \
 
 	if (!child_process_preexec(node, exe, pipe_fds))
 	{
-		if ((intptr_t)*cmd == PROG_BUILTIN)
+		if ((intptr_t) * cmd == PROG_BUILTIN)
 			(*(void (**)(char **, t_environ *, t_exec *))(cmd[1]))\
 				(cmd[2], exe->env_assigns_environ, exe);
 		else
