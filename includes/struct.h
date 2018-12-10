@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 10:31:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/06 19:00:33 by sbrucker         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:31:33 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,17 @@ typedef struct			s_fd_gnl
 	char				*content;
 	struct s_fd_gnl		*next;
 }						t_fd_gnl;
+
+/*
+** la norme
+*/
+
+struct					s_fill_new_data_str_func
+{
+	char	*ptr;
+	int		in_quote_type;
+	char	*jump_ptr;
+	void	*expansion_handler;
+};
 
 #endif

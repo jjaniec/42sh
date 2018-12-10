@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 15:18:07 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 16:36:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:07:29 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **            != NULL
 */
 
-static int		is_quote_removable(char *s, char **jump_ptr,
+int				is_quote_removable(char *s, char **jump_ptr,
 				int *quote_type)
 {
 	char	*tmp;
@@ -50,7 +50,7 @@ static int		is_quote_removable(char *s, char **jump_ptr,
 ** otherwise return 0
 */
 
-static int		is_expansion_char(t_lexeme_clean_data *l, int in_quote_type, \
+int				is_expansion_char(t_lexeme_clean_data *l, int in_quote_type, \
 					void **expansion_handler_ptr)
 {
 	char	*ptr;
@@ -65,60 +65,6 @@ static int		is_expansion_char(t_lexeme_clean_data *l, int in_quote_type, \
 		(!(*(ptr + 1)) || *(ptr + 1) == '/'))
 		*expansion_handler_ptr = handle_tild_expansion;
 	return ((*expansion_handler_ptr) ? (1) : (0));
-}
-
-/*
-** Fills new created data string
-** $s: old data string
-** $new_data: ptr to new data string
-*/
-
-static void		fill_new_data_str(t_lexeme_clean_data *l, t_shell_vars *vars)
-{
-	char	*ptr;
-	int		in_quote_type;
-	char	*jump_ptr;
-	void	*expansion_handler;
-
-	ptr = l->raw_lexeme_data;
-	l->raw_lexeme_read_ptr = &ptr;
-	jump_ptr = ptr;
-	in_quote_type = NOT_IN_QUOTES;
-	while (ptr && *ptr)
-	{
-		if (is_expansion_char(l, in_quote_type, &expansion_handler))
-			(*(void (*)(t_lexeme_clean_data *, t_shell_vars *))(expansion_handler))\
-				(l, vars);
-		else if (*ptr == '\\')
-		{
-			if (*(ptr += sizeof(char) * handle_escape_offset(ptr, NOT_IN_QUOTES)))
-				(*(l->clean_data_write_ptr++)) = *(ptr++);
-		}
-		else if ((*ptr == '\'' || *ptr == '"') && \
-			is_quote_removable(ptr, &jump_ptr, &in_quote_type))
-		{
-			ptr++;
-			while (*ptr && ptr != jump_ptr)
-			{
-				if (in_quote_type == IN_DQUOTES && is_expansion_char(l, in_quote_type, &expansion_handler))
-				{
-					(*(void (*)(t_lexeme_clean_data *, t_shell_vars *))(expansion_handler))\
-						(l, vars);
-					continue ;
-				}
-				else if (*ptr == '\\')
-					ptr += \
-						sizeof(char) * handle_escape_offset(ptr, in_quote_type);
-				(*(l->clean_data_write_ptr++)) = *(ptr++);
-				(*(l->clean_data_write_ptr)) = '\0';
-			}
-			if (*ptr)
-				ptr++;
-		}
-		else
-			(*(l->clean_data_write_ptr++)) = *(ptr++);
-	}
-	*(l->clean_data_write_ptr) = '\0';
 }
 
 /*
