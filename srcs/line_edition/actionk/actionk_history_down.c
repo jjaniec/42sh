@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/11 21:58:10 by cfermier          #+#    #+#             */
-/*   Updated: 2018/11/27 19:50:11 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:34:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			actionk_history_down(struct s_line *le)
 {
 	if (le->history == NULL || le->history->next == NULL)
 		return ;
-	if (le->save_tmp_cmd == NULL)
+	if (le->save_tmp_cmd == NULL && le->cmd)
 		le->save_tmp_cmd = ft_xstrdup(le->cmd);
 	le->history = le->history->next;
 	if (le->le_state.opt_colosyn == true)

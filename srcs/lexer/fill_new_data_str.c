@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 16:57:00 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/11 17:19:44 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/11 18:04:25 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void			fill_new_data_str(t_lexeme_clean_data *l, t_shell_vars *vars)
 			if (*(s.ptr))
 				s.ptr++;
 		}
-		else if (*(s.ptr))
+		else if (s.ptr && *(s.ptr))
 			(*(l->clean_data_write_ptr++)) = *(s.ptr++);
 	}
 	*(l->clean_data_write_ptr) = '\0';

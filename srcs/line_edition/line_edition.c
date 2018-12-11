@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:38:34 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,14 @@ static void				end_line_edition(struct s_line *le, char **final_line,
 {
 	actionk_move_cursor_end(le);
 	reset_history_on_first_elem(le);
-	*final_line = ft_xstrdup(le->cmd);
-	free(le->cmd);
-	le->cmd = NULL;
+	if (le->cmd)
+	{
+		*final_line = ft_xstrdup(le->cmd);
+		free(le->cmd);
+		le->cmd = NULL;
+	}
+	else
+		*final_line = NULL;
 	reset_old_term_and_dfl_sigwinch(le_sig);
 }
 
