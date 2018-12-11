@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 16:57:00 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/10 17:04:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:19:44 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ static void		gros_while(struct s_fill_new_data_str_func *s,
 			continue ;
 		}
 		else if (*(s->ptr) == '\\')
-			s->ptr += 1 * handle_escape_offset(s->ptr, s->in_quote_type);
-		(*((*l)->clean_data_write_ptr++)) = *(s->ptr++);
+			s->ptr += sizeof(char) * \
+				handle_escape_offset(s->ptr, s->in_quote_type);
+		if (*(s->ptr))
+			(*((*l)->clean_data_write_ptr++)) = *(s->ptr++);
 		(*((*l)->clean_data_write_ptr)) = '\0';
 	}
 }
@@ -67,7 +69,7 @@ void			fill_new_data_str(t_lexeme_clean_data *l, t_shell_vars *vars)
 			if (*(s.ptr))
 				s.ptr++;
 		}
-		else
+		else if (*(s.ptr))
 			(*(l->clean_data_write_ptr++)) = *(s.ptr++);
 	}
 	*(l->clean_data_write_ptr) = '\0';
