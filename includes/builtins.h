@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/10 17:13:22 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/14 21:52:01 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char				*cd_add_slash(char *str);
 void				cd_l(t_cd *cd_i, char *av);
 void				builtin_cd_p(t_cd *cd_info, char *argv);
 void				cd_home(t_cd *cd_info);
+int					builtin_cd_dash(t_cd *cd_info);
 int					cd_change_dir(t_environ *env, char *path, char *cwd);
 char				*cd_clean_last_slash(char *str);
 char				*cd_get_last_path(char *path);

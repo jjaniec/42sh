@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 11:57:23 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 21:17:49 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/14 21:43:35 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void		dot_manager(t_cd *cd_i, char *av)
 {
 	char *tmp;
 
-	if (!ft_strcmp(av, "."))
+	if (!ft_strcmp(av, ".") || !ft_strcmp(av, "./"))
 		return ;
-	if (!ft_strcmp(av, ".."))
+	if (!ft_strcmp(av, "..") || !ft_strcmp(av, "../"))
 	{
 		cd_back(cd_i);
 		return ;

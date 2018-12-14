@@ -6,7 +6,7 @@
 #    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/10 18:12:43 by cyfermie         ###   ########.fr        #
+#    Updated: 2018/12/14 21:55:16 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,6 +169,7 @@ SRC_NAME = 	forty_two_sh.c \
 			builtin/echo/echo_opt.c \
 			builtin/echo/echo_opt_2.c \
 			builtin/cd/builtin_cd.c \
+			builtin/cd/cd_dash.c \
 			builtin/cd/cd_change_dir.c \
 			builtin/cd/cd_check_link.c \
 			builtin/cd/cd_opt.c \
