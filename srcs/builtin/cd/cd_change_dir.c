@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 12:12:54 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/04 18:53:26 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/14 17:51:54 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ char		*cd_get_last_path(char *path)
 	while (i != 0 && tmp[i] != '/')
 		i--;
 	if (i == 0)
+	{
 		return (ft_xstrdup("/"));
+		free(tmp);
+	}
 	res = ft_xmalloc(sizeof(char) * (i + 2));
 	res = ft_strncpy(res, tmp, (i + 2));
 	res[i + 1] = '\0';
+	free(tmp);
 	return (res);
 }
 
