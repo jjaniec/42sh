@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ht_mem_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 17:05:31 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/22 15:22:57 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/15 15:53:40 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void		free_hashtable(t_hashtable *hashtable)
 {
 	int i;
 
+	if (!hashtable)
+		return ;
 	i = 0;
 	if (hashtable->modif_time)
 		free(hashtable->modif_time);

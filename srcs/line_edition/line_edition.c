@@ -3,31 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/11 17:38:34 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/15 16:03:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+** debug
+*/
 
- #include <stdio.h> // debug
- FILE *tty_debug = NULL; // debug
- #define FOOLOL // debug
-
-
-#include <forty_two_sh.h>
-
-
- #undef FOOLOL // debug
-
+#include <stdio.h>
+FILE *tty_debug = NULL;
+#define FOOLOL
+# include <forty_two_sh.h>
+#undef FOOLOL
 
 /*
 **	pour debuguer l'edition de ligne :
 **	remplacer ce bloc de commentaire par la fonction le_debug_infos
 **	qui se situe dans le fichier du meme nom
 */
-
 
 /*
 **	Initialize line edition's datas_structures,
