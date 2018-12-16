@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 11:57:23 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/15 13:28:47 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/16 16:20:51 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static void	cd_back(t_cd *cd_i)
 	if (cd_i->env->get_var(cd_i->env, "PWD"))
 	{
 		tmp = cd_get_last_path(cd_i->env->last_used_elem->val_begin_ptr);
-		cd_i->cwd_link = cd_clean_last_slash(tmp);
-		free(tmp);
+		cd_i->cwd_link = tmp;
 		if (!cd_change_dir(cd_i->env, cd_i->cwd_link, cd_i->cwd))
 			link_env_update(cd_i);
 	}
