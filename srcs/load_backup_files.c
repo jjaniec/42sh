@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:19:04 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/30 18:24:32 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:17:11 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ void		load_aliases_file(struct s_alias *alias)
 **	Load the history file into a linked list used by the shell.
 */
 
-void		load_history_file(struct s_line *le)
+void		load_history_file(struct s_line *le, char *line)
 {
 	int			fd;
 	int			ret;
-	char		*line;
 	const char	*his_file_path = get_parsed_history_file_path();
 
 	if (his_file_path == NULL || check_backup_file(his_file_path) == false

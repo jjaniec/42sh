@@ -3,45 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:27:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/02 13:08:52 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/08 16:16:00 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-
-/*
-** Backup original or restore original file descriptors
-** after the builtin has been executed
-*/
-
-static void		backup_apply_origin_fds(int mode)
-{
-	static int		backup_fds[DEFAULT_SUPPORTED_FDS_COUNT] = {-1};
-	int				i;
-
-	i = 0;
-	if (mode == MODE_BACKUP_ORIGIN_FDS)
-	{
-		while (i < DEFAULT_SUPPORTED_FDS_COUNT)
-			(backup_fds)[i++] = -1;
-		i = 0;
-		while (i < DEFAULT_SUPPORTED_FDS_COUNT && \
-			((backup_fds)[i] = dup(i)) != -1)
-			i += 1;
-		if (i != DEFAULT_SUPPORTED_FDS_COUNT && backup_fds[i] == -1)
-			log_error("PID %zu: Fd %d duplication failed!", getpid(), i);
-	}
-	else if (mode == MODE_RESTORE_ORIGIN_FDS)
-		while (i < DEFAULT_SUPPORTED_FDS_COUNT && backup_fds[i] != -1)
-		{
-			log_debug("Restoring backupfd[%d](%d) -> i", i, backup_fds[i], i);
-			handle_redir_fd(i, backup_fds[i]);
-			i++;
-		}
-}
 
 /*
 ** Remove temporary env variables specified before program name
@@ -66,22 +35,6 @@ static void		remove_tmp_env_assigns(t_environ *environ_used, \
 			free(environ_used);
 		}
 	}
-}
-
-/*
-** Free unnecessary data before program execution when program is not a builtin
-*/
-
-static void		forked_process_frees(t_exec *exe)
-{
-	t_shell_vars	*vars;
-	t_ast			**ast_ptr;
-
-	if ((vars = get_shell_vars()))
-		free_hashtable(vars->hashtable);
-	if ((ast_ptr = access_ast_data()))
-		ast_free(*ast_ptr);
-	free_exec(&exe);
 }
 
 /*
@@ -159,16 +112,22 @@ static void		child_process_postexec(t_ast *node, \
 
 static void		start_program(void **cmd, t_exec *exe)
 {
-	char		*prog_name;
-	char		**prog_argv;
-	char		**prog_env;
+	char			*prog_name;
+	char			**prog_argv;
+	char			**prog_env;
+	t_shell_vars	*vars;
+	t_ast			**ast_ptr;
 
 	log_debug("PID %zu: Exec child process cmd: %p - cmd[0] : %d", \
 		getpid(), cmd, (intptr_t)cmd[0]);
 	prog_argv = ft_dup_2d_array(cmd[2]);
 	prog_name = ft_xstrdup(cmd[1]);
 	prog_env = exe->env_assigns_environ->environ;
-	forked_process_frees(exe);
+	if ((vars = get_shell_vars()))
+		free_hashtable(vars->hashtable);
+	if ((ast_ptr = access_ast_data()))
+		ast_free(*ast_ptr);
+	free_exec(&exe);
 	if (__builtin_expect(execve(prog_name, prog_argv, prog_env), 0))
 	{
 		log_error("PID %zu - Execve() not working", getpid());

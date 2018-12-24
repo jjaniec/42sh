@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:30:50 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 17:27:05 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/08 16:20:35 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,22 +132,6 @@ static void		get_specified_fds(int *prefix_fd, char *data, \
 		*target_fd = -1;
 	else
 		*target_fd = ft_atoi(target_data);
-}
-
-/*
-** Close fd specified for fd closing redirects:
-** if redirect is of type '2>&-', close 2, otherwise
-** for a redirect like '2>&1-', close 1
-*/
-
-static void		close_and_redir_fd(int prefix_fd, int target_fd, int new_fd)
-{
-	if (target_fd != -1 && \
-		!(fcntl(target_fd, F_GETFL) < 0 && errno == EBADF))
-		log_close(target_fd);
-	else if (prefix_fd != -1 && prefix_fd != new_fd && \
-		!(fcntl(prefix_fd, F_GETFL) < 0 && errno == EBADF))
-		log_close(prefix_fd);
 }
 
 /*

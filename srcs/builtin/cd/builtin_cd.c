@@ -6,7 +6,7 @@
 /*   By: cgaspart <cgaspart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 19:20:17 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/06 19:18:57 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/15 13:04:42 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,6 @@ static t_cd		*cd_setup(t_exec *exe, t_environ *env)
 	cd_info->exe = exe;
 	cd_info->env = env;
 	return (cd_info);
-}
-
-static int		builtin_cd_dash(t_cd *cd_info)
-{
-	char	*old_oldpwd;
-
-	if (cd_info->env->get_var(cd_info->env, "OLDPWD") &&
-	ft_strlen(cd_info->env->last_used_elem->val_begin_ptr) > 0)
-	{
-		old_oldpwd = cd_clean_last_slash(
-		cd_info->env->last_used_elem->val_begin_ptr);
-		if (!cd_change_dir(cd_info->env,
-			cd_info->env->last_used_elem->val_begin_ptr, cd_info->cwd))
-			ft_putendl(old_oldpwd);
-		if (cd_check_link(cd_info, old_oldpwd))
-		{
-			cd_info->cwd_link = old_oldpwd;
-			link_env_update(cd_info);
-		}
-		else
-		{
-			refresh_cwd_env(cd_info->env);
-			free(old_oldpwd);
-		}
-		return (0);
-	}
-	ft_putstr_fd(SH_NAME": cd: OLDPWD not set\n", 2);
-	return (1);
 }
 
 void			cd_home(t_cd *cd_info)

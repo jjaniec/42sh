@@ -6,7 +6,7 @@
 /*   By: sbrucker <sbrucker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 17:21:10 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/10/27 17:31:44 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:45:05 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	str_is_num(char *str)
 ** otherwise exit with 0 by default
 */
 
-inline void	builtin_exit(char **argv, t_environ *env, t_exec *exe)
+void		builtin_exit(char **argv, t_environ *env, t_exec *exe)
 {
 	int		exit_val;
 	int		first_arg_is_num;
@@ -50,15 +50,11 @@ inline void	builtin_exit(char **argv, t_environ *env, t_exec *exe)
 	{
 		if ((first_arg_is_num = str_is_num(argv[1])))
 			exit_val = ft_atoi(argv[1]);
-		if (!first_arg_is_num)
-		{
+		if (!first_arg_is_num && (exit_val = 255))
 			ft_putstr_fd(SH_NAME": exit: numeric argument required\n", 2);
-			exit_val = 255;
-		}
-		else if (argv[2])
+		else if (argv[2] && (exe->ret = 1))
 		{
 			ft_putstr_fd(SH_NAME": exit: too many arguments\n", 2);
-			exe->ret = 1;
 			return ;
 		}
 	}

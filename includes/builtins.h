@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 14:10:32 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/12/03 16:57:16 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:04:18 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,22 @@
 # define BUILTIN_READ_USAGE \
 	SH_NAME ": read: usage read [-d 'x'] [[-n | -N] x] -p -s -- VAR1 VAR2 ...\n"
 
-#define BLTREAD_MAX_CH (8192U)
+# define BLTREAD_MAX_CH (8192U)
 
-struct s_alias
+struct				s_alias
 {
 	char			*key;
 	char			*value;
 	struct s_alias	*next;
 };
 
-struct s_bltread
+struct				s_bltread
 {
 	bool			opt_d;
 	unsigned int	delim_opt_d;
 	bool			opt_n;
-	bool			opt_N;
-	unsigned int	nb_opt_nN;
+	bool			opt_n2;
+	unsigned int	nb_opt_n_n2;
 	bool			opt_p;
 	bool			opt_s;
 	char			**words_vars;
@@ -81,6 +81,8 @@ void				builtin_history(char **argv, t_environ *env, t_exec *exe);
 void				builtin_toggle_syntax_highlighting(char **argv,
 					t_environ *env, t_exec *exe);
 void				builtin_alias(char **argv, t_environ *env, t_exec *exe);
+void				manage_aliases(char **argv, struct s_alias *alias,
+									t_exec *exe, unsigned int nb_args);
 void				builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 void				builtin_cd(char **argv, t_environ *env, t_exec *exe);
 bool				cd_in_link(t_environ *env);
@@ -89,6 +91,7 @@ char				*cd_add_slash(char *str);
 void				cd_l(t_cd *cd_i, char *av);
 void				builtin_cd_p(t_cd *cd_info, char *argv);
 void				cd_home(t_cd *cd_info);
+int					builtin_cd_dash(t_cd *cd_info);
 int					cd_change_dir(t_environ *env, char *path, char *cwd);
 char				*cd_clean_last_slash(char *str);
 char				*cd_get_last_path(char *path);
@@ -147,5 +150,5 @@ bool				bltread_check_options_four(int foo, char **args,
 					unsigned int i);
 int					bltread_check_options_five(int foo,
 					struct s_bltread *options, char **args, unsigned int *i);
-void    			builtin_unalias(char **argv, t_environ *env, t_exec *exe);
+void				builtin_unalias(char **argv, t_environ *env, t_exec *exe);
 #endif

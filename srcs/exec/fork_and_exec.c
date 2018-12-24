@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 15:32:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/11/30 17:47:39 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/15 15:59:48 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,16 @@ static int	parent_process(char **cmd, pid_t child_pid, int **pipe_fds)
 static bool	should_fork(void **cmd, t_ast **last_pipe_node_ret, \
 				t_ast *node)
 {
-	void	(*ptr)(char **, t_environ *, t_exec *);
+	void	*ptr;
 
+	ptr = NULL;
 	if ((*last_pipe_node_ret = get_last_pipe_node(node)) && \
 		(!(*last_pipe_node_ret)->data[1] || \
 			((*last_pipe_node_ret)->data[1][0] == -1 && \
 			(*last_pipe_node_ret)->data[1][sizeof(int)] == -1)))
 		init_pipe_data(&((*last_pipe_node_ret)->data), *last_pipe_node_ret);
-	ptr = *((void (**)(char **, t_environ *, t_exec *))(cmd[1]));
+	if ((intptr_t) * cmd == PROG_BUILTIN)
+		ptr = *(void **)(cmd[1]);
 	if (*last_pipe_node_ret || \
 		(intptr_t) * cmd == PROG_NOT_BUILTIN || ptr == &builtin_test)
 		return (true);
@@ -137,7 +139,7 @@ t_exec		*fork_and_exec(void **cmd, t_exec *exe, \
 		exe->prog_forked = true;
 		child_pid = fork();
 		if (child_pid == -1)
-			ft_putstr_fd(SH_NAME": Fork returned an error\n", 2);
+			fatal_fork_fail();
 		else if (child_pid == 0)
 			child_process(cmd, exe, node, pipe_fds);
 		else

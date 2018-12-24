@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:19:12 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 16:45:18 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 16:59:37 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static t_lexeme	*add_lexeme_to_list(t_lexeme *e, \
 ** Returns created lexeme or NULL if no lexeme are found
 */
 
-static int			make_next_lexeme(char *line, int *pos, \
-						t_lexeme **lexemes, t_lexeme **cur_lexeme)
+static int		make_next_lexeme(char *line, int *pos, \
+				t_lexeme **lexemes, t_lexeme **cur_lexeme)
 {
 	int			type;
 	int			type_details;
@@ -75,7 +75,7 @@ static int			make_next_lexeme(char *line, int *pos, \
 		if ((int)type == UNMATCHED_QUOTE_ERR)
 			return (UNMATCHED_QUOTE_ERR);
 		lexeme_begin_end_ptrs[1] = &(line[*pos]);
-		if ((e = create_lexeme((int [2]){type, type_details}, \
+		if ((e = create_lexeme((int[2]){type, type_details}, \
 		data, *pos, lexeme_begin_end_ptrs)))
 			add_lexeme_to_list(e, lexemes, cur_lexeme);
 		return (1);
@@ -88,8 +88,8 @@ static int			make_next_lexeme(char *line, int *pos, \
 ** line: input received from user
 */
 
-int					lexer(char *line, t_lexeme **lexemes, \
-						char **unmatched_quote_err_ptr)
+int				lexer(char *line, t_lexeme **lexemes, \
+				char **unmatched_quote_err_ptr)
 {
 	t_lexeme	*cur_elem;
 	int			i;

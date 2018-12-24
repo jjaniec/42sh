@@ -6,7 +6,7 @@
 /*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 20:38:39 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/04 22:27:28 by cgaspart         ###   ########.fr       */
+/*   Updated: 2018/12/05 16:32:01 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void			builtins_tests(t_environ *env)
 	compare_sh_42sh_outputs("Builtin env 9 - execution 1 - env -i w/ valid args & execution", "env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
 	compare_sh_42sh_outputs("Builtin env 10 - execution 2 - t_env_assigns & execution", "aaa=bbb env -i A=B TEST1=TEST__ TEST2=TEST______ /usr/bin/env", NULL);
 	compare_sh_42sh_outputs("Builtin env 11 - execution 3 - t_env_assigns & execution", "aaa=bbb env -i A=B aaa=TEST__ TEST2=TEST______ env", NULL);
+	compare_fds_w_strings("Builtin env 12 - execution 4 - temporary env isolation", "setenv PATH=lol; echo \\$PATH; env PATH=mdr ./42sh -c exit; echo \\$PATH", "lol\nlol\n", "exit\n", NULL);
 	//compare_sh_42sh_outputs("Builtin env 12 - execution 4 - env -i w/ valid args & unkonwn command", "env -i A=B TEST1=TEST__ TEST2=TEST______ aaaa", NULL);
 			// todo same without rights
 

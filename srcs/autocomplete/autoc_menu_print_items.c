@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 10:45:08 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/10/20 15:57:12 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void		cursor_back(t_autoc *autoc, struct s_line *le)
 
 static void		menu_new_line(t_autoc *autoc)
 {
-	tputs(autoc->le->tcaps->_do, 1, &write_one_char);
+	tputs(autoc->le->tcaps->do_, 1, &write_one_char);
 	tputs(autoc->le->tcaps->cr, 1, &write_one_char);
 	tputs(autoc->le->tcaps->cd, 1, &write_one_char);
 	autoc->menu_line++;

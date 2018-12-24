@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:14:05 by jjaniec           #+#    #+#             */
-/*   Updated: 2018/12/03 19:43:57 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 18:14:41 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,12 @@
 */
 
 # define EXPANSIONS_SPECIFIERS	"$~"
-# define EXPANSIONS_END_CHARS	"$\\/=:-+*.," // + \' \" & IFS
+
+/*
+**	EXPANSIONS_END_CHARS :  + \' \" & IFS
+*/
+
+# define EXPANSIONS_END_CHARS	"$\\/=:-+*.,"
 
 int						lexer(char *line, t_lexeme **lexemes, \
 							char **unmatched_quote_err_ptr);
@@ -134,7 +139,8 @@ t_lexeme				*create_lexeme(int type[2], char *data, \
 int						get_lexeme_type(char *s, int *pos, \
 							char **data, int *type_details);
 
-int						lexeme_type_word(char *s, int *pos, char **data, int start);
+int						lexeme_type_word(char *s, int *pos, char **data,
+															int start);
 
 void					handle_quotes_expansions(char **data);
 
@@ -146,10 +152,27 @@ int						handle_escape_offset(char *ptr, int in_quote_type);
 
 void					free_lexemes(t_lexeme *ll);
 
-void					handle_dollar_expansion(t_lexeme_clean_data *l, t_shell_vars *vars);
+void					handle_dollar_expansion(t_lexeme_clean_data *l,
+												t_shell_vars *vars);
 
-void					handle_tild_expansion(t_lexeme_clean_data *l, t_shell_vars *vars);
+void					handle_tild_expansion(t_lexeme_clean_data *l,
+												t_shell_vars *vars);
 
 char					*get_expansion_end(char *str);
+
+void					fill_new_data_str(t_lexeme_clean_data *l,
+											t_shell_vars *vars);
+
+int						is_expansion_char(t_lexeme_clean_data *l,
+							int in_quote_type, void **expansion_handler_ptr);
+
+int						is_quote_removable(char *s, char **jump_ptr,
+							int *quote_type);
+
+int						lexeme_type_rediropt(char *s, int *pos, char **data,
+														int *type_details);
+
+int						store_optlexeme(char *s, int integer[2], int *pos,
+															char **data);
 
 #endif

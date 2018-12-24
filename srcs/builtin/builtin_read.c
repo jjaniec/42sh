@@ -3,48 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_read.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 13:18:30 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/19 15:41:12 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/10 19:00:09 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <forty_two_sh.h>
-
-/*
-void	kk(struct s_bltread *options)
-{
-	le_debug("d = %s\nn = %s\nN = %s\np = %s\ns = %s\n",
-	options->opt_d == true ? "true" : "false",
-	options->opt_n == true ? "true" : "false",
-	options->opt_N == true ? "true" : "false",
-	options->opt_p == true ? "true" : "false",
-	options->opt_s == true ? "true" : "false"      );
-
-	if (options->opt_d == true)
-	{
-		{ le_debug("delim opt d = '%c'\n", options->delim_opt_d) }
-	}
-	if (options->opt_n == true || options->opt_N == true)
-	{
-		{ le_debug("nb opt n N = %u\n", options->nb_opt_nN) }
-	}
-
-	if (options->words_vars == NULL)
-	{
-		{ le_debug("%s\n", "PAS DE VARS") }
-		return ;
-	}
-
-	{ le_debug("%s\n", "VARS = ") }
-	for (int i = 0 ; options->words_vars[i] != NULL ; ++i)
-	{
-		{ le_debug("%s\n", options->words_vars[i]) }
-	}
-
-}
-*/
 
 static int		read_loop(unsigned char *buffer, struct s_bltread *options)
 {
@@ -61,15 +27,15 @@ static int		read_loop(unsigned char *buffer, struct s_bltread *options)
 				exit(EXIT_FAILURE);
 		}
 		nb_ch += 1;
-		if (options->opt_N == false
+		if (options->opt_n2 == false
 		&& ((options->opt_d == 1 && buffer[nb_ch - 1] == options->delim_opt_d)
 		|| (options->opt_d == false && buffer[nb_ch - 1] == '\n')))
 		{
 			buffer[nb_ch - 1] = '\0';
 			break ;
 		}
-		else if (options->opt_N == true || options->opt_n == true)
-			if (nb_ch == options->nb_opt_nN)
+		else if (options->opt_n2 == true || options->opt_n == true)
+			if (nb_ch == options->nb_opt_n_n2)
 				break ;
 	}
 	return (0);
@@ -87,21 +53,17 @@ unsigned char	*read_line(struct s_bltread *options, t_exec *exe)
 	{
 		t.c_lflag |= (ICANON | ECHO);
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &t) == -1 \
-		&& tcsetattr(STDOUT_FILENO, TCSANOW, &t) == -1)
-		{
-			ft_putstr_fd("Error while setting terminal attributes\n", 2);
+		&& tcsetattr(STDOUT_FILENO, TCSANOW, &t) == -1
+		&& write(2, "Error while setting terminal attributes\n", 40))
 			exit(EXIT_FAILURE);
-		}
 	}
-	if (ret == 1)
+	if (ret == 1 && (exe->ret = 1))
 	{
-		exe->ret = 1;
 		g_cmd_status.builtin_running = false;
 		write(STDOUT_FILENO, "\n", sizeof(char));
 		free(options->words_vars);
 		options->words_vars = NULL;
-		free(buffer);
-		buffer = NULL;
+		ft_strdel((char **)&buffer);
 		return (NULL);
 	}
 	return (buffer);
@@ -137,7 +99,7 @@ static bool		prepare_blt_read(char **argv, struct s_bltread *options,
 														t_exec *exe)
 {
 	if (bltread_get_activated_options(argv + 1, options, false, 0) == false
-	|| (options->opt_n == true && options->opt_N == true)
+	|| (options->opt_n == true && options->opt_n2 == true)
 	|| check_order_args(argv + 1) == false)
 	{
 		ft_putstr_fd(BUILTIN_READ_USAGE, STDERR_FILENO);
@@ -147,11 +109,11 @@ static bool		prepare_blt_read(char **argv, struct s_bltread *options,
 		return (false);
 	}
 	options->opt_n = true;
-	if (options->opt_N == true)
+	if (options->opt_n2 == true)
 		options->opt_d = false;
-	if (options->nb_opt_nN > BLTREAD_MAX_CH)
-		options->nb_opt_nN = BLTREAD_MAX_CH;
-	if (options->nb_opt_nN == 0)
+	if (options->nb_opt_n_n2 > BLTREAD_MAX_CH)
+		options->nb_opt_n_n2 = BLTREAD_MAX_CH;
+	if (options->nb_opt_n_n2 == 0)
 	{
 		exe->ret = 1;
 		g_cmd_status.builtin_running = false;
@@ -179,7 +141,6 @@ static bool		prepare_blt_read(char **argv, struct s_bltread *options,
 **	issou
 */
 
-
 void			builtin_read(char **argv, t_environ *env, t_exec *exe)
 {
 	struct s_bltread	options;
@@ -190,7 +151,6 @@ void			builtin_read(char **argv, t_environ *env, t_exec *exe)
 	exe->ret = 0;
 	if (prepare_blt_read(argv, &options, exe) == false)
 		return ;
-//kk( & options );
 	buffer = read_line(&options, exe);
 	if (buffer != NULL)
 		bltread_store_words_in_shell_variables(buffer, &options);

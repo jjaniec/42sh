@@ -3,31 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:29:25 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 16:50:37 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/15 16:03:31 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+** debug
+*/
 
- #include <stdio.h> // debug
- FILE *tty_debug = NULL; // debug
- #define FOOLOL // debug
-
-
-#include <forty_two_sh.h>
-
-
- #undef FOOLOL // debug
-
+#include <stdio.h>
+FILE *tty_debug = NULL;
+#define FOOLOL
+# include <forty_two_sh.h>
+#undef FOOLOL
 
 /*
 **	pour debuguer l'edition de ligne :
 **	remplacer ce bloc de commentaire par la fonction le_debug_infos
 **	qui se situe dans le fichier du meme nom
 */
-
 
 /*
 **	Initialize line edition's datas_structures,
@@ -76,9 +73,14 @@ static void				end_line_edition(struct s_line *le, char **final_line,
 {
 	actionk_move_cursor_end(le);
 	reset_history_on_first_elem(le);
-	*final_line = ft_xstrdup(le->cmd);
-	free(le->cmd);
-	le->cmd = NULL;
+	if (le->cmd)
+	{
+		*final_line = ft_xstrdup(le->cmd);
+		free(le->cmd);
+		le->cmd = NULL;
+	}
+	else
+		*final_line = NULL;
 	reset_old_term_and_dfl_sigwinch(le_sig);
 }
 
@@ -88,7 +90,7 @@ static void				end_line_edition(struct s_line *le, char **final_line,
 
 static void				clear_term_after_line_editing(struct s_line *le)
 {
-	tputs(le->tcaps->_do, 1, &write_one_char);
+	tputs(le->tcaps->do_, 1, &write_one_char);
 	tputs(le->tcaps->cr, 1, &write_one_char);
 	tputs(le->tcaps->cd, 1, &write_one_char);
 	tputs(le->tcaps->up, 1, &write_one_char);

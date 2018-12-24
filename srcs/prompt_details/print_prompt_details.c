@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_prompt_details.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 14:02:16 by cgaspart          #+#    #+#             */
-/*   Updated: 2018/12/03 19:46:19 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ void			print_prompt_details(void)
 	else
 		ft_putstr(prompt.pwd);
 	print_git_info(get_shell_vars()->env->environ);
-	tputs(access_le_main_datas()->tcaps->_do, 1, &write_one_char);
+	tputs(access_le_main_datas()->tcaps->do_, 1, &write_one_char);
 	set_prompt_color();
 }

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 19:44:09 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/30 14:12:51 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:17:24 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	init_once(struct s_line *le)
 	le->clipboard_size = LE_DEFAULT_LINE_SIZE;
 	le->clipboard_len = 0;
 	le->le_state.opt_colosyn = true;
-	load_history_file(le);
+	load_history_file(le, NULL);
 	le->le_state.le_char_delim = LE_CHAR_DELIM_DEFAULT;
 }
 

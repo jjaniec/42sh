@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+         #
+#    By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 21:53:56 by jjaniec           #+#    #+#              #
-#    Updated: 2018/12/03 19:44:12 by jjaniec          ###   ########.fr        #
+#    Updated: 2018/12/14 21:55:16 by cgaspart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,17 @@ NAME = 42sh
 TESTS_EXEC = $(addprefix $(NAME),_tests)
 
 ###### FILES ######
-SRC_NAME = 	is_separator.c \
+SRC_NAME = 	forty_two_sh.c \
+			init_shell_vars.c \
+			is_separator.c \
+			get_valid_input.c \
+			exit_because_not_valid_tty.c \
+			interpret_file.c \
+			fatal_fork_fail.c \
+			ft_free.c \
 			lexer/lexer.c \
+			lexer/fill_new_data_str.c \
+			lexer/lexeme_type_rediropt.c \
 			lexer/get_lexeme_type.c \
 			lexer/create_lexeme.c \
 			lexer/is_operator.c \
@@ -41,6 +50,7 @@ SRC_NAME = 	is_separator.c \
 			ast/is_op.c \
 			ast/ast_utils_node.c \
 			ast/ast_debug.c \
+			ast/print_ast_debug.c \
 			ast/ast_free.c \
 			ast/prepare_argv.c \
 			ast/create_node.c \
@@ -127,9 +137,11 @@ SRC_NAME = 	is_separator.c \
 			line_edition/tools/weird_trick_to_erase_char.c \
 			line_edition/tools/write_one_char.c \
 			exec/exec_cmd.c \
+			exec/close_and_redir_fd.c \
 			exec/handle_node.c \
 			exec/fork_and_exec.c \
 			exec/child_process.c \
+			exec/backup_apply_origin_fds.c \
 			exec/io_manager.c \
 			exec/manage_path.c \
 			exec/handle_redirs.c \
@@ -157,12 +169,14 @@ SRC_NAME = 	is_separator.c \
 			builtin/echo/echo_opt.c \
 			builtin/echo/echo_opt_2.c \
 			builtin/cd/builtin_cd.c \
+			builtin/cd/cd_dash.c \
 			builtin/cd/cd_change_dir.c \
 			builtin/cd/cd_check_link.c \
 			builtin/cd/cd_opt.c \
 			builtin/cd/cd_l_dot_manager.c \
 			builtin/cd/cd_free_struct.c \
-			builtin/builtin_alias.c \
+			builtin/alias/builtin_alias.c \
+			builtin/alias/manage_aliases.c \
 			builtin/builtin_history.c \
 			builtin/builtin_history_2.c \
 			builtin/builtin_read.c \
@@ -189,6 +203,7 @@ SRC_NAME = 	is_separator.c \
 			script/is_script_complete.c \
 			syntax_highlighting/print_colorized_input.c \
 			syntax_highlighting/print_lexeme_colorized.c \
+			syntax_highlighting/print_to_line_edition.c \
 			signals/init_signals.c \
 			signals/handle_sigint.c \
 			signals/handle_sigwinch.c \
@@ -196,6 +211,7 @@ SRC_NAME = 	is_separator.c \
 			signals/handle_sigchild.c \
 			log.c \
 			sub_prompt.c \
+			subp_lexeme.c \
 			init_globals_config.c \
 			parse_options.c \
 			format_help.c \
@@ -259,11 +275,11 @@ SRC_DIR = ./srcs/
 INCLUDES_DIR = ./includes/
 TESTS_DIR = ./tests/
 OBJ_DIR = ./objs/
-OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd line_edition/ \
-			line_edition/actionk/ line_edition/colosyn/ line_edition/init_le \
-			line_edition/boolean_check line_edition/print line_edition/signals \
-			line_edition/tools syntax_highlighting/ script/ autocomplete/ \
-			env/ signals/ hash_table/ prompt_details/
+OBJ_SUBDIRS = lexer/ ast/ exec/ builtin/ builtin/echo builtin/cd builtin/alias \
+			line_edition/ line_edition/actionk/ line_edition/colosyn/ \
+			line_edition/init_le line_edition/boolean_check line_edition/print \
+			line_edition/signals line_edition/tools syntax_highlighting/ \
+			script/ autocomplete/ env/ signals/ hash_table/ prompt_details/
 FT_PRINTF_DIR = ./ft_printf/
 LIBTAP_DIR = ./libtap/
 

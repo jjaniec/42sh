@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:18:10 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/30 14:17:03 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/08 15:44:15 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		print_key_at_end(struct s_line *le, t_kno key)
 	++(le->cursor_index);
 	if (need_to_go_to_next_line(le) == true)
 	{
-		tputs(le->tcaps->_do, 1, &write_one_char);
+		tputs(le->tcaps->do_, 1, &write_one_char);
 		cursor_crosses_screen(le, CROSS_TO_LEFT);
 		le->cursor_pos = 0;
 		++(le->cursor_line);

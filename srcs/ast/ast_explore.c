@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_explore.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjaniec <jjaniec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/23 12:41:13 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/12/03 19:43:36 by jjaniec          ###   ########.fr       */
+/*   Updated: 2018/12/09 16:23:39 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 	int		r;
 
 	if (setpgrp())
-		perror("Setpgrp");
+		exit(EXIT_FAILURE);
 	g_jobs = create_job("PIPE MANAGER");
 	if ((g_jobs->pgid = getpgid(getpid())) == -1)
-		perror("Getpgid in pipeline manager");
+		exit(EXIT_FAILURE);
 	ast_explore(ast, exe);
 	debug_jobs(g_jobs);
 	log_trace("Pipe Manager: Waiting pipeline processes");
@@ -74,6 +74,22 @@ static int		new_pipeline_job(t_ast *ast, t_exec *exe)
 	free_all_shell_datas();
 	log_trace("PIPE MANAGER: All processes terminated: Exiting w/ code: %d", r);
 	exit(r);
+}
+
+static int		no_job_control(bool *is_in_pipeline, t_ast *ast, t_exec *exe)
+{
+	int	r;
+
+	r = 0;
+	g_jobs = create_job("PIPE");
+	g_jobs->pgid = getpid();
+	*is_in_pipeline = true;
+	ast_explore(ast, exe);
+	r = wait_childs(g_jobs);
+	free_job(g_jobs);
+	g_jobs = NULL;
+	*is_in_pipeline = false;
+	return (r);
 }
 
 /*
@@ -91,43 +107,31 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 	pid_t	waited_pid;
 	int		r;
 
-	status = 0;
-	waited_pid = 0;
-	r = 0;
-	if (ENABLE_JOB_CONTROL)
+	if ((*is_in_pipeline = true) && ENABLE_JOB_CONTROL)
 	{
-		*is_in_pipeline = true;
 		if ((pipeline_manager_pid = fork()) <= 0)
 		{
 			if (pipeline_manager_pid == -1)
-				ft_putstr_fd(SH_NAME": Failed to fork pipeline", 2);
+				fatal_fork_fail();
 			else if (pipeline_manager_pid == 0)
 				new_pipeline_job(ast, exe);
 		}
 		g_jobs = create_job("PIPE MANAGER");
 		g_jobs->pgid = pipeline_manager_pid;
-		log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", getpid(), pipeline_manager_pid);
+		log_trace("MAIN PROCESS (PID %d): waiting pipe manager pid %d", \
+		getpid(), pipeline_manager_pid);
 		waited_pid = waitpid(pipeline_manager_pid, &status, 0);
 		r = get_process_return_code(&status, waited_pid, pipeline_manager_pid);
-		log_trace("MAIN PROCESS: Pipe manager terminated w/ return code: %d - status: %d - wexitstatus: %d", \
-			r, status, WEXITSTATUS(status));
+		log_trace("MAIN PROCESS: Pipe manager terminated w/ return code: %d - \
+		status: %d - wexitstatus: %d", \
+		r, status, WEXITSTATUS(status));
 		free_job(g_jobs);
 		g_jobs = NULL;
 		*is_in_pipeline = false;
 		return (r);
 	}
 	else
-	{
-		g_jobs = create_job("PIPE");
-		g_jobs->pgid = getpid();
-		*is_in_pipeline = true;
-		ast_explore(ast, exe);
-		r = wait_childs(g_jobs);
-		free_job(g_jobs);
-		g_jobs = NULL;
-		*is_in_pipeline = false;
-		return (r);
-	}
+		return (no_job_control(is_in_pipeline, ast, exe));
 }
 
 /*
@@ -139,7 +143,7 @@ static int		handle_new_pipeline(t_ast *ast, t_exec *exe, \
 ** without exiting the shell and easier job control
 */
 
-t_exec		*ast_explore(t_ast *ast, t_exec *exe)
+t_exec			*ast_explore(t_ast *ast, t_exec *exe)
 {
 	static bool	is_in_pipeline = false;
 	int			tmp;

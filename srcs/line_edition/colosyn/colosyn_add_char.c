@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 14:56:58 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/30 14:10:49 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:43:23 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	colosyn_add_char(struct s_line *le, t_kno key)
 	bool			need_replace_cursor;
 	unsigned int	keep_cursor_index;
 
-	if (still_enough_space_for_cmd(le) == false)
+	if (still_enough_space_for_cmd(le) == false || !le->cmd)
 		return ;
 	need_replace_cursor = false;
 	keep_cursor_index = le->cursor_index;

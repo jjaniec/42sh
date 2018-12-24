@@ -6,7 +6,7 @@
 /*   By: sbrucker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/22 11:52:07 by sbrucker          #+#    #+#             */
-/*   Updated: 2018/07/22 16:31:54 by sebastien        ###   ########.fr       */
+/*   Updated: 2018/12/05 21:07:50 by cyfermie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,5 @@ inline int	is_nodeop1_5(t_ast *ast)
 inline int	is_nodeop2(t_ast *ast)
 {
 	return (ast->type_details != TK_PIPE
-	&& (ast->type == T_REDIR_OPT
-		&& ast->type_details != TK_DLESS
-		&& ast->type_details != TK_DLESSDASH));
-}
-
-inline int	is_nodeop3(t_ast *ast)
-{
-	return (ast->type_details == TK_DLESS
-	|| ast->type_details == TK_DLESSDASH);
+	&& ast->type == T_REDIR_OPT);
 }

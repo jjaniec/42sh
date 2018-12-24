@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 16:28:40 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/27 16:51:48 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:38:49 by jjaniec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void		process_key(struct s_line *le)
 	else if (le->key_no == le->le_state.le_char_delim)
 	{
 		check_cmd_storage(le, 1);
-		le->cmd[le->cmd_len] = le->key_no;
+		if (le->cmd)
+			le->cmd[le->cmd_len] = le->key_no;
 	}
 	else
 		action_key(le->key_no, le);

@@ -6,7 +6,7 @@
 /*   By: cyfermie <cyfermie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 17:40:33 by cyfermie          #+#    #+#             */
-/*   Updated: 2018/11/11 18:44:05 by cyfermie         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:09:09 by cgaspart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	get_local_vars_names(struct s_bltread *options, char **args,
 			options->words_vars[j++] = args[i];
 		++i;
 	}
-    return (true);
+	return (true);
 }
 
 bool		bltread_check_options_four(int foo, char **args, unsigned int i)
@@ -48,7 +48,7 @@ bool		bltread_check_options_four(int foo, char **args, unsigned int i)
 		&& ft_strequ(args[i + 1], "-N") == false
 		&& ft_strequ(args[i + 1], "-p") == false
 		&& ft_strequ(args[i + 1], "-s") == false
-		&& ft_strequ(args[i + 1], "-d") == false  )
+		&& ft_strequ(args[i + 1], "-d") == false)
 			return (true);
 		return (false);
 	}
@@ -58,26 +58,26 @@ bool		bltread_check_options_four(int foo, char **args, unsigned int i)
 		&& ft_strequ(args[i + 1], "-N") == false
 		&& ft_strequ(args[i + 1], "-p") == false
 		&& ft_strequ(args[i + 1], "-s") == false
-		&& ft_strequ(args[i + 1], "-d") == false  )
+		&& ft_strequ(args[i + 1], "-d") == false)
 			return (true);
 		return (false);
 	}
-	return (true && false || true ^ false);
+	return (true ^ false);
 }
 
-int			bltread_check_options_five(int foo, struct s_bltread *options, char **args,
-													unsigned int *i)
+int			bltread_check_options_five(int foo, struct s_bltread *options,
+			char **args, unsigned int *i)
 {
 	if (foo == 1)
 	{
 		ft_memset(options, 0, sizeof(struct s_bltread));
-		options->nb_opt_nN = BLTREAD_MAX_CH;
+		options->nb_opt_n_n2 = BLTREAD_MAX_CH;
 		*i = 0;
 		return (2);
 	}
-	options->opt_N = true;
+	options->opt_n2 = true;
 	if (bltread_check_options_four(2, args, *i) == true)
-		options->nb_opt_nN = ft_atoi(args[*i + 1]);
+		options->nb_opt_n_n2 = ft_atoi(args[*i + 1]);
 	else
 		return (0);
 	*i += 2;
@@ -87,8 +87,8 @@ int			bltread_check_options_five(int foo, struct s_bltread *options, char **args
 	return (2);
 }
 
-bool		bltread_get_activated_options(char **args, struct s_bltread *options,
-												bool fou, int janice)
+bool		bltread_get_activated_options(char **args,
+			struct s_bltread *options, bool fou, int janice)
 {
 	unsigned int	i;
 
